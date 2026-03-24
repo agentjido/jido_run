@@ -7,9 +7,15 @@
   "id": "jido-bod.2.4",
   "labels": [],
   "parent": "jido-bod.2",
+  "comments": [
+    {
+      "text": "Normalized priv/pages/docs/learn/ai-agent-with-tools.livemd to the shared beginner Livebook format. Added runnable livebook metadata, non-crashing credential setup, default-runtime startup with Jido.start() + Jido.start_agent(Jido.default_instance(), ...), success-first ask/follow-up cells, and a snapshot inspection step for status.snapshot.details.tool_calls. Verified with INCLUDE_FLAKY_TESTS=true mix test test/agent_jido/pages_test.exs:224, INCLUDE_FLAKY_TESTS=true mix test test/agent_jido_web/live/page_live_test.exs:289, and a mix run page-registry check for /docs/learn/ai-agent-with-tools.",
+      "timestamp": "2026-03-24T16:06:15Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "Convert AI agent with tools Livebook to the canonical beginner format",
   "type": "task",
-  "updated_at": "2026-03-24T16:04:28Z"
+  "updated_at": "2026-03-24T16:06:15Z"
 }
