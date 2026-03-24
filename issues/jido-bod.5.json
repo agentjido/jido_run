@@ -1,0 +1,15 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-03-24T15:50:24Z",
+  "description": "Audit all docs Livebooks for consistent livebook metadata such as runnable flag, required env vars, and network expectations. Add missing tests under test/livebooks/docs for runnable notebooks, including the currently uncovered files: first-agent, first-llm-agent, building-a-weather-agent, debugging-and-troubleshooting, error-handling-and-recovery, persistence-and-checkpoints, ai-agent-with-tools, ai-chat-agent, first-workflow, memory-and-retrieval-augmented-agents, multi-agent-orchestration, parent-child-agent-hierarchies, reasoning-strategies-compared, sensors-and-real-time-events, state-machines-with-fsm, task-planning-and-execution, and any others promoted to runnable status.",
+  "id": "jido-bod.5",
+  "labels": [],
+  "parent": "jido-bod",
+  "priority": 1,
+  "status": "open",
+  "title": "Backfill Livebook metadata and runnable drift tests for docs notebooks",
+  "type": "task",
+  "updated_at": "2026-03-24T15:50:24Z"
+}
