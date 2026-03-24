@@ -4,6 +4,7 @@
     "jido-bod.1"
   ],
   "blocks": [],
+  "closed_at": "2026-03-24T17:17:37Z",
   "created": "2026-03-24T15:50:24Z",
   "description": "Apply the canonical structure to advanced notebooks while preserving advanced content in later sections: priv/pages/docs/learn/first-workflow.livemd, priv/pages/docs/learn/memory-and-retrieval-augmented-agents.livemd, priv/pages/docs/learn/multi-agent-orchestration.livemd, priv/pages/docs/learn/parent-child-agent-hierarchies.livemd, priv/pages/docs/learn/plugins-and-composable-agents.livemd, priv/pages/docs/learn/reasoning-strategies-compared.livemd, priv/pages/docs/learn/sensors-and-real-time-events.livemd, priv/pages/docs/learn/state-machines-with-fsm.livemd, and priv/pages/docs/learn/task-planning-and-execution.livemd.",
   "id": "jido-bod.4",
@@ -16,8 +17,8 @@
     }
   ],
   "priority": 2,
-  "status": "in_progress",
+  "status": "closed",
   "title": "Normalize advanced learn Livebooks without losing depth",
   "type": "task",
-  "updated_at": "2026-03-24T16:46:01Z"
+  "updated_at": "2026-03-24T17:17:37Z"
 }
