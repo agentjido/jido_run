@@ -2,14 +2,15 @@
   "assignee": "",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-03-24T17:17:41Z",
   "created": "2026-03-24T15:57:32Z",
   "description": "Normalize priv/pages/docs/learn/task-planning-and-execution.livemd to the advanced Livebook pattern and keep planning examples runnable without hidden app setup.",
   "id": "jido-bod.4.8",
   "labels": [],
   "parent": "jido-bod.4",
   "priority": 2,
-  "status": "open",
+  "status": "closed",
   "title": "Convert task-planning guide to the advanced Livebook standard",
   "type": "task",
-  "updated_at": "2026-03-24T15:57:32Z"
+  "updated_at": "2026-03-24T17:17:41Z"
 }
