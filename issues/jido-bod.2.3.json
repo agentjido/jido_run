@@ -1,5 +1,5 @@
 {
-  "assignee": "",
+  "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
   "created": "2026-03-24T15:57:31Z",
@@ -8,8 +8,8 @@
   "labels": [],
   "parent": "jido-bod.2",
   "priority": 1,
-  "status": "open",
+  "status": "in_progress",
   "title": "Rewrite AI chat agent Livebook around the simple one-pid chat flow",
   "type": "task",
-  "updated_at": "2026-03-24T15:57:31Z"
+  "updated_at": "2026-03-24T15:58:33Z"
 }
