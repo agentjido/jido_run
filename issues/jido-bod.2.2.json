@@ -1,0 +1,15 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-03-24T15:57:31Z",
+  "description": "Update priv/pages/docs/getting-started/first-llm-agent.livemd to follow the Livebook Authoring Standards and remove any runtime or setup footguns that make the notebook harder than necessary for beginners.",
+  "id": "jido-bod.2.2",
+  "labels": [],
+  "parent": "jido-bod.2",
+  "priority": 1,
+  "status": "open",
+  "title": "Convert first-llm-agent Livebook to the canonical beginner format",
+  "type": "task",
+  "updated_at": "2026-03-24T15:57:31Z"
+}
