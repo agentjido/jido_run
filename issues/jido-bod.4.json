@@ -9,9 +9,15 @@
   "id": "jido-bod.4",
   "labels": [],
   "parent": "jido-bod",
+  "comments": [
+    {
+      "text": "Normalized the already-runnable advanced notebooks around the shared advanced Livebook shape. first-workflow, sensors, parent-child hierarchies, plugins, memory/retrieval, and FSM now declare explicit local-only metadata, use quiet setup cells, and the memory guide no longer redefines KnowledgeAgent in the executable path.",
+      "timestamp": "2026-03-24T16:46:01Z"
+    }
+  ],
   "priority": 2,
   "status": "in_progress",
   "title": "Normalize advanced learn Livebooks without losing depth",
   "type": "task",
-  "updated_at": "2026-03-24T16:44:02Z"
+  "updated_at": "2026-03-24T16:46:01Z"
 }
