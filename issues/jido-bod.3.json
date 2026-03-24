@@ -9,9 +9,15 @@
   "id": "jido-bod.3",
   "labels": [],
   "parent": "jido-bod",
+  "comments": [
+    {
+      "text": "Normalized the runnable guide/cookbook notebooks around the canonical Livebook pattern. Chat Response now reads as the smallest useful chat recipe; debugging, error-handling, persistence, and testing now declare explicit local-only metadata and use quiet setup cells; building-a-weather-agent was fully rewritten around notebook-local weather Actions and restored to the runnable/tested set.",
+      "timestamp": "2026-03-24T16:43:51Z"
+    }
+  ],
   "priority": 2,
   "status": "in_progress",
   "title": "Normalize guides and cookbook Livebooks to the canonical format",
   "type": "task",
-  "updated_at": "2026-03-24T16:35:16Z"
+  "updated_at": "2026-03-24T16:43:51Z"
 }
