@@ -7,9 +7,15 @@
   "id": "jido-bod.2.1",
   "labels": [],
   "parent": "jido-bod.2",
+  "comments": [
+    {
+      "text": "Normalized priv/pages/docs/getting-started/first-agent.livemd into the canonical runnable notebook shape. Converted it to explicit frontmatter with livebook metadata, made the setup section self-contained, removed the prerequisite-style framing from the body, and clarified that the first agent example runs directly against agent data without starting a runtime. Verified with INCLUDE_FLAKY_TESTS=true mix test test/agent_jido/pages_test.exs:183 and a mix run page-registry check for /docs/getting-started/first-agent.",
+      "timestamp": "2026-03-24T16:06:09Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "Convert first-agent Livebook to the canonical beginner format",
   "type": "task",
-  "updated_at": "2026-03-24T16:03:20Z"
+  "updated_at": "2026-03-24T16:06:09Z"
 }
