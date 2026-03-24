@@ -1,6 +1,8 @@
 {
   "assignee": "",
-  "blocked_by": [],
+  "blocked_by": [
+    "jido-bod.1"
+  ],
   "blocks": [],
   "created": "2026-03-24T15:50:24Z",
   "description": "Apply the same structure to guide-style notebooks: priv/pages/docs/guides/building-a-weather-agent.livemd, priv/pages/docs/guides/cookbook/chat-response.livemd, priv/pages/docs/guides/debugging-and-troubleshooting.livemd, priv/pages/docs/guides/error-handling-and-recovery.livemd, priv/pages/docs/guides/persistence-and-checkpoints.livemd, and priv/pages/docs/guides/testing-agents-and-actions.livemd.",
@@ -11,5 +13,5 @@
   "status": "open",
   "title": "Normalize guides and cookbook Livebooks to the canonical format",
   "type": "task",
-  "updated_at": "2026-03-24T15:50:24Z"
+  "updated_at": "2026-03-24T15:50:31Z"
 }
