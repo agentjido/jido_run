@@ -2,6 +2,8 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-03-24T16:06:11Z",
+  "close_reason": "done",
   "created": "2026-03-24T15:57:31Z",
   "description": "Update priv/pages/docs/getting-started/first-agent.livemd to follow the Livebook Authoring Standards: self-contained setup, explicit credential cell, Jido.start() + Jido.start_agent(Jido.default_instance(), ...), success path before inspection, and runnable metadata.",
   "id": "jido-bod.2.1",
@@ -14,8 +16,8 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "Convert first-agent Livebook to the canonical beginner format",
   "type": "task",
-  "updated_at": "2026-03-24T16:06:09Z"
+  "updated_at": "2026-03-24T16:06:11Z"
 }
