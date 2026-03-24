@@ -17,11 +17,15 @@
     {
       "text": "Proposed canonical beginner Livebook pattern:\n\n1. The notebook must be self-contained. Do not require readers to complete another guide before they can run it.\n2. Start with Mix.install, provider key setup, and Logger.configure(level: :warning).\n3. Use Jido.start() for the default runtime in Livebook and start agents with Jido.start_agent(Jido.default_instance(), ...).\n4. Use stable public APIs only in the main path: ask/3, await/2, ask_sync/3, and Jido.AgentServer.status/1 for inspection.\n5. Show one success path first, then one inspection/debugging path.\n6. Keep lifecycle hooks, strategy command atoms, request transformers, LiveView wiring, and other internals out of the critical path; move them to advanced sections or separate docs.\n7. Runnable notebooks should include consistent livebook metadata and a matching drift test under test/livebooks/docs.\n\nApplied to AI chat specifically: the main path should be one agent pid, two turns on that same pid, and an inspection of status.snapshot.details.conversation to prove multi-turn context works before showing any customization hooks.",
       "timestamp": "2026-03-24T15:50:42Z"
+    },
+    {
+      "text": "Implemented the contributor-facing Livebook standard in the repo. Added priv/pages/docs/contributors/livebook-authoring-standards.md and matching content-plan page, linked it from the contributors hub and contributing guide, and updated contributor sidebar expectations in tests. Verified the new scope with INCLUDE_FLAKY_TESTS=true mix test test/agent_jido/pages_test.exs:90 and INCLUDE_FLAKY_TESTS=true mix test test/agent_jido_web/live/page_live_test.exs:215 test/agent_jido_web/live/page_live_test.exs:230.",
+      "timestamp": "2026-03-24T15:56:54Z"
     }
   ],
   "priority": 1,
   "status": "open",
   "title": "Define the canonical Livebook tutorial pattern and author checklist",
   "type": "task",
-  "updated_at": "2026-03-24T15:50:42Z"
+  "updated_at": "2026-03-24T15:56:54Z"
 }
