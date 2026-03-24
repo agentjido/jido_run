@@ -2,14 +2,15 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-03-24T17:17:31Z",
   "created": "2026-03-24T15:57:32Z",
   "description": "Normalize priv/pages/docs/learn/reasoning-strategies-compared.livemd to the advanced Livebook pattern with explicit setup, metadata, and a clear progression from runnable example to comparison details.",
   "id": "jido-bod.4.2",
   "labels": [],
   "parent": "jido-bod.4",
   "priority": 2,
-  "status": "in_progress",
+  "status": "closed",
   "title": "Convert reasoning strategies guide to the advanced Livebook standard",
   "type": "task",
-  "updated_at": "2026-03-24T17:01:26Z"
+  "updated_at": "2026-03-24T17:17:31Z"
 }
