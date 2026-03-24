@@ -1,0 +1,15 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-03-24T15:57:32Z",
+  "description": "Confirm which docs Livebooks are runnable, which need explicit non-runnable labeling, and backfill consistent livebook metadata across the runnable set.",
+  "id": "jido-bod.5.1",
+  "labels": [],
+  "parent": "jido-bod.5",
+  "priority": 1,
+  "status": "open",
+  "title": "Audit Livebook metadata coverage across docs notebooks",
+  "type": "task",
+  "updated_at": "2026-03-24T15:57:32Z"
+}
