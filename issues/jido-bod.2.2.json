@@ -7,9 +7,15 @@
   "id": "jido-bod.2.2",
   "labels": [],
   "parent": "jido-bod.2",
+  "comments": [
+    {
+      "text": "Rewrote priv/pages/docs/getting-started/first-llm-agent.livemd around the canonical Livebook beginner flow. Added runnable livebook metadata, self-contained setup and credential cells, switched the main path to Jido.start() + Jido.start_agent(Jido.default_instance(), ...), added a success-first inspection step with Jido.AgentServer.status/1, and simplified the Mix-project follow-on guidance. Verified with mix test test/agent_jido/release_catalog_test.exs:62, INCLUDE_FLAKY_TESTS=true mix test test/agent_jido/pages_test.exs:183, and a mix run page-registry check for /docs/getting-started/first-llm-agent.",
+      "timestamp": "2026-03-24T16:02:52Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "Convert first-llm-agent Livebook to the canonical beginner format",
   "type": "task",
-  "updated_at": "2026-03-24T16:02:48Z"
+  "updated_at": "2026-03-24T16:02:52Z"
 }
