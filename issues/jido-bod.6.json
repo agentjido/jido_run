@@ -9,9 +9,15 @@
   "id": "jido-bod.6",
   "labels": [],
   "parent": "jido-bod",
+  "comments": [
+    {
+      "text": "Adopted the explicit reference-only policy: non-runnable docs Livebooks should set livebook.runnable to false, stay in the reference-only coverage list, and not get drift tests until promoted.",
+      "timestamp": "2026-03-24T16:46:01Z"
+    }
+  ],
   "priority": 3,
   "status": "open",
   "title": "Decide how non-runnable reference Livebooks should be labeled or excluded",
   "type": "task",
-  "updated_at": "2026-03-24T15:50:31Z"
+  "updated_at": "2026-03-24T16:46:01Z"
 }
