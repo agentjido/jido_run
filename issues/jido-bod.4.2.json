@@ -1,5 +1,5 @@
 {
-  "assignee": "",
+  "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
   "created": "2026-03-24T15:57:32Z",
@@ -8,8 +8,8 @@
   "labels": [],
   "parent": "jido-bod.4",
   "priority": 2,
-  "status": "open",
+  "status": "in_progress",
   "title": "Convert reasoning strategies guide to the advanced Livebook standard",
   "type": "task",
-  "updated_at": "2026-03-24T15:57:32Z"
+  "updated_at": "2026-03-24T17:01:26Z"
 }
