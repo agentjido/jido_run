@@ -9,9 +9,15 @@
   "id": "jido-bod.2",
   "labels": [],
   "parent": "jido-bod",
+  "comments": [
+    {
+      "text": "Completed jido-bod.2.2 and jido-bod.2.3. The first-llm-agent and ai-chat-agent notebooks now follow the canonical Livebook beginner pattern with explicit runnable metadata, Jido.start() + Jido.start_agent(Jido.default_instance(), ...) in the main path, and success-first inspection. Remaining P1 scope under this parent: jido-bod.2.1 (first-agent) and jido-bod.2.4 (ai-agent-with-tools).",
+      "timestamp": "2026-03-24T16:03:03Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "Normalize getting-started and core AI tutorials to the canonical Livebook pattern",
   "type": "task",
-  "updated_at": "2026-03-24T15:56:57Z"
+  "updated_at": "2026-03-24T16:03:03Z"
 }
