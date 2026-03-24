@@ -8,6 +8,8 @@
     "jido-bod.5",
     "jido-bod.6"
   ],
+  "closed_at": "2026-03-24T15:56:56Z",
+  "close_reason": "done",
   "created": "2026-03-24T15:50:24Z",
   "description": "Write the standard for beginner-friendly Livebook docs. Include: self-contained Mix.install setup, credential cell, Logger.configure(level: :warning), Jido.start() + Jido.start_agent(Jido.default_instance(), ...), stable public APIs only in the main path, one success path first, inspection second, advanced internals moved out of the critical path, and expectations for livebook metadata plus drift tests.",
   "id": "jido-bod.1",
@@ -24,8 +26,8 @@
     }
   ],
   "priority": 1,
-  "status": "open",
+  "status": "closed",
   "title": "Define the canonical Livebook tutorial pattern and author checklist",
   "type": "task",
-  "updated_at": "2026-03-24T15:56:54Z"
+  "updated_at": "2026-03-24T15:56:56Z"
 }
