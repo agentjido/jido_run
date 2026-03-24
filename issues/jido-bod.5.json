@@ -9,9 +9,15 @@
   "id": "jido-bod.5",
   "labels": [],
   "parent": "jido-bod",
+  "comments": [
+    {
+      "text": "Added runnable metadata coverage for docs Livebooks, replaced stale drift tests with coverage that matches the current docs set, fixed the Livebook runner Mix.install stripping bug, and audited the runnable set against actual execution. Downgraded these notebooks from runnable/tested to reference-only until they are rewritten around valid executable examples: building-a-weather-agent, ai-agent-with-tools, task-planning-and-execution, multi-agent-orchestration, reasoning-strategies-compared.",
+      "timestamp": "2026-03-24T16:29:12Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "Backfill Livebook metadata and runnable drift tests for docs notebooks",
   "type": "task",
-  "updated_at": "2026-03-24T16:08:39Z"
+  "updated_at": "2026-03-24T16:29:12Z"
 }
