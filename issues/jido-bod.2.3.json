@@ -7,9 +7,15 @@
   "id": "jido-bod.2.3",
   "labels": [],
   "parent": "jido-bod.2",
+  "comments": [
+    {
+      "text": "Rewrote priv/pages/docs/learn/ai-chat-agent.livemd around the beginner one-pid chat flow. Added runnable livebook metadata, self-contained setup and credential cells, removed lifecycle-hook-based history management from the main path, switched runtime startup to Jido.start() + Jido.start_agent(Jido.default_instance(), ...), added conversation inspection via Jido.AgentServer.status(pid).snapshot.details.conversation, kept runtime system-prompt updates with Jido.AI.set_system_prompt/3, and changed the streaming example to read status.snapshot.details.streaming_text. Verified with INCLUDE_FLAKY_TESTS=true mix test test/agent_jido/pages_test.exs:183, INCLUDE_FLAKY_TESTS=true mix test test/agent_jido_web/live/page_live_test.exs:278, and a mix run page-registry check for /docs/learn/ai-chat-agent.",
+      "timestamp": "2026-03-24T16:02:57Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "Rewrite AI chat agent Livebook around the simple one-pid chat flow",
   "type": "task",
-  "updated_at": "2026-03-24T15:58:33Z"
+  "updated_at": "2026-03-24T16:02:57Z"
 }
