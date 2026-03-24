@@ -2,14 +2,16 @@
   "assignee": "",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-03-24T16:43:51Z",
+  "close_reason": "completed",
   "created": "2026-03-24T15:57:32Z",
   "description": "Normalize priv/pages/docs/guides/cookbook/chat-response.livemd to the shared runnable Livebook structure and make sure the cookbook remains the smallest useful chat example.",
   "id": "jido-bod.3.2",
   "labels": [],
   "parent": "jido-bod.3",
   "priority": 2,
-  "status": "open",
+  "status": "closed",
   "title": "Convert chat-response cookbook to the canonical Livebook format",
   "type": "task",
-  "updated_at": "2026-03-24T15:57:32Z"
+  "updated_at": "2026-03-24T16:43:51Z"
 }
