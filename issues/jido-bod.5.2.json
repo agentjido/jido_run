@@ -2,14 +2,16 @@
   "assignee": "",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-03-24T16:29:12Z",
+  "close_reason": "completed",
   "created": "2026-03-24T15:57:32Z",
   "description": "Add or normalize test/livebooks/docs coverage for getting-started and learn notebooks so the canonical format and runnable metadata do not drift.",
   "id": "jido-bod.5.2",
   "labels": [],
   "parent": "jido-bod.5",
   "priority": 1,
-  "status": "open",
+  "status": "closed",
   "title": "Add drift tests for getting-started and learn Livebooks",
   "type": "task",
-  "updated_at": "2026-03-24T15:57:32Z"
+  "updated_at": "2026-03-24T16:29:12Z"
 }
