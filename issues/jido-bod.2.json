@@ -1,0 +1,15 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-03-24T15:50:24Z",
+  "description": "Update the highest-traffic beginner notebooks first: priv/pages/docs/getting-started/first-agent.livemd, priv/pages/docs/getting-started/first-llm-agent.livemd, priv/pages/docs/learn/ai-agent-with-tools.livemd, and priv/pages/docs/learn/ai-chat-agent.livemd. Make them self-contained and runnable in Livebook with the standard runtime pattern.",
+  "id": "jido-bod.2",
+  "labels": [],
+  "parent": "jido-bod",
+  "priority": 1,
+  "status": "open",
+  "title": "Normalize getting-started and core AI tutorials to the canonical Livebook pattern",
+  "type": "task",
+  "updated_at": "2026-03-24T15:50:24Z"
+}
