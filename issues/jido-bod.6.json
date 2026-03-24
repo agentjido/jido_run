@@ -1,6 +1,8 @@
 {
   "assignee": "",
-  "blocked_by": [],
+  "blocked_by": [
+    "jido-bod.1"
+  ],
   "blocks": [],
   "created": "2026-03-24T15:50:24Z",
   "description": "Clarify the policy for docs livebooks that are explanatory rather than runnable, such as priv/pages/docs/reference/why-not-just-a-genserver.livemd. Either convert them to runnable notebooks, mark them clearly as non-runnable, or remove Livebook-oriented affordances and test expectations.",
@@ -11,5 +13,5 @@
   "status": "open",
   "title": "Decide how non-runnable reference Livebooks should be labeled or excluded",
   "type": "task",
-  "updated_at": "2026-03-24T15:50:24Z"
+  "updated_at": "2026-03-24T15:50:31Z"
 }
