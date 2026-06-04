@@ -13,7 +13,6 @@ defmodule AgentJido.Analytics do
   @default_days 7
   @default_limit 10
   @default_feedback_limit 30
-  @default_prune_days 180
   @failure_statuses ["no_results", "error", "challenge"]
   @feedback_surfaces ["content_assistant", "docs_page"]
 
@@ -228,28 +227,6 @@ defmodule AgentJido.Analytics do
   end
 
   def latest_feedback_for_identity(_visitor_id, _session_id, _path, _opts), do: nil
-
-  @doc """
-  Prunes raw analytics and query-log records older than the retention window.
-  """
-  @spec prune_older_than(pos_integer()) :: %{
-          cutoff: NaiveDateTime.t(),
-          deleted_events: non_neg_integer(),
-          deleted_query_logs: non_neg_integer()
-        }
-  def prune_older_than(days \\ @default_prune_days) when is_integer(days) and days > 0 do
-    cutoff = since_naive(days)
-
-    {deleted_events, _} =
-      from(e in AnalyticsEvent, where: e.inserted_at < ^cutoff)
-      |> Repo.delete_all()
-
-    {deleted_query_logs, _} =
-      from(q in QueryLog, where: q.inserted_at < ^cutoff)
-      |> Repo.delete_all()
-
-    %{cutoff: cutoff, deleted_events: deleted_events, deleted_query_logs: deleted_query_logs}
-  end
 
   defp summary(days) do
     since = since_naive(days)

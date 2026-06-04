@@ -30,13 +30,6 @@ defmodule AgentJido.Analytics.Composite do
           %{feedback_value: String.t() | nil, feedback_note: String.t() | nil} | nil
   defdelegate latest_feedback_for_identity(visitor_id, session_id, path, opts \\ []), to: Analytics
 
-  @spec prune_older_than(pos_integer()) :: %{
-          cutoff: NaiveDateTime.t(),
-          deleted_events: non_neg_integer(),
-          deleted_query_logs: non_neg_integer()
-        }
-  defdelegate prune_older_than(days \\ 180), to: Analytics
-
   @spec track_event(term(), map() | keyword()) ::
           {:ok, AnalyticsEvent.t() | :excluded_admin} | {:error, term()}
   def track_event(current_scope, attrs) do

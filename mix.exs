@@ -105,7 +105,7 @@ defmodule AgentJido.MixProject do
       {:image, "~> 0.54"},
 
       # Schema validation
-      {:zoi, "~> 0.17"},
+      {:zoi, "~> 0.18"},
 
       # Config / Env
       {:dotenvy, "~> 1.0"},
