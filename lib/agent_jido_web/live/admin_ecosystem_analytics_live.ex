@@ -44,7 +44,7 @@ defmodule AgentJidoWeb.AdminEcosystemAnalyticsLive do
             <p class="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Admin Control Plane</p>
             <h1 class="text-3xl font-semibold text-foreground">Ecosystem Analytics</h1>
             <p class="max-w-3xl text-sm text-muted-foreground">
-              Demand, adoption, and collector health across the Jido site, repos, packages, and search footprint.
+              Collector-backed demand and adoption signals across the Jido site, repos, packages, and search footprint.
             </p>
           </div>
 
@@ -80,65 +80,32 @@ defmodule AgentJidoWeb.AdminEcosystemAnalyticsLive do
 
         <section class="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
           <.metric_card
-            label="Search demand"
+            label="Search visibility"
             value={format_count(@ecosystem_snapshot.totals.search_console.impressions)}
             subvalue={"#{format_count(@ecosystem_snapshot.totals.search_console.clicks)} clicks"}
             meta={"CTR #{format_percent(@ecosystem_snapshot.totals.search_console.ctr)}"}
           />
           <.metric_card
-            label="Site traffic"
+            label="Site engagement"
             value={format_count(@ecosystem_snapshot.totals.plausible.visitors)}
             subvalue={"#{format_count(@ecosystem_snapshot.totals.plausible.pageviews)} pageviews"}
             meta={"#{format_duration(@ecosystem_snapshot.totals.plausible.visit_duration)} avg visit"}
           />
           <.metric_card
-            label="Repo interest"
+            label="Repository traffic"
             value={format_count(@ecosystem_snapshot.totals.github.views_count)}
             subvalue={"#{format_count(@ecosystem_snapshot.totals.github.clones_count)} clones"}
             meta={"#{format_count(@ecosystem_snapshot.totals.github.views_uniques)} unique viewers"}
           />
           <.metric_card
-            label="Package adoption"
+            label="Package downloads"
             value={format_count(@ecosystem_snapshot.totals.hex.downloads_recent)}
             subvalue={"#{format_count(@ecosystem_snapshot.totals.hex.downloads_week)} this week"}
             meta={"#{@ecosystem_snapshot.totals.hex.packages_count} published packages"}
           />
         </section>
 
-        <section class="rounded-lg border border-border bg-card p-5">
-          <div class="flex flex-wrap items-center justify-between gap-3">
-            <h2 class="text-lg font-semibold text-foreground">Action Queue</h2>
-            <span class="text-xs text-muted-foreground">Window starts {format_date(@ecosystem_snapshot.since_date)}</span>
-          </div>
-
-          <div class="mt-4 overflow-x-auto rounded-md border border-border bg-background">
-            <table class="min-w-full text-left text-xs">
-              <thead class="bg-elevated text-muted-foreground">
-                <tr>
-                  <th class="px-3 py-2 font-semibold">Priority</th>
-                  <th class="px-3 py-2 font-semibold">Source</th>
-                  <th class="px-3 py-2 font-semibold">Next action</th>
-                  <th class="px-3 py-2 font-semibold">Evidence</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr :for={item <- @ecosystem_snapshot.action_items} class="border-t border-border/70">
-                  <td class="whitespace-nowrap px-3 py-2">
-                    <span class={priority_badge_class(item.priority)}>{item.priority}</span>
-                  </td>
-                  <td class="whitespace-nowrap px-3 py-2 font-semibold text-foreground">{item.source}</td>
-                  <td class="max-w-[380px] px-3 py-2 text-foreground">{item.title}</td>
-                  <td class="max-w-[420px] px-3 py-2 text-muted-foreground">{item.evidence}</td>
-                </tr>
-                <tr :if={@ecosystem_snapshot.action_items == []}>
-                  <td colspan="4" class="px-3 py-3 text-muted-foreground">No action items for this window.</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </section>
-
-        <section class="grid gap-6 xl:grid-cols-[minmax(0,1fr)_minmax(360px,0.72fr)]">
+        <section class="grid gap-6 xl:grid-cols-[minmax(0,1fr)_minmax(460px,0.82fr)]">
           <article class="rounded-lg border border-border bg-card p-5">
             <div class="flex flex-wrap items-center justify-between gap-3">
               <h2 class="text-lg font-semibold text-foreground">Acquisition Sources</h2>
@@ -169,39 +136,61 @@ defmodule AgentJidoWeb.AdminEcosystemAnalyticsLive do
           </article>
 
           <article class="rounded-lg border border-border bg-card p-5">
-            <h2 class="text-lg font-semibold text-foreground">Collector Health</h2>
-            <div class="mt-4 space-y-2">
-              <div
-                :for={source <- @ecosystem_snapshot.collection.sources}
-                class="flex items-center justify-between gap-3 rounded-md border border-border bg-background px-3 py-2"
-              >
-                <div class="min-w-0">
-                  <p class="truncate text-sm font-semibold text-foreground">{source.label}</p>
-                  <p class="text-xs text-muted-foreground">
-                    {source.tracked_count} tracked, latest data {format_date(source.latest_day)}
-                  </p>
-                </div>
-                <span class={run_status_class(get_in(source, [:latest_run, :status]))}>
-                  {run_status_label(get_in(source, [:latest_run, :status]))}
-                </span>
-              </div>
-              <p :if={@ecosystem_snapshot.collection.sources == []} class="text-sm text-muted-foreground">
-                No collector runs yet.
-              </p>
+            <div class="flex flex-wrap items-center justify-between gap-3">
+              <h2 class="text-lg font-semibold text-foreground">Collection Coverage</h2>
+              <span class="text-xs text-muted-foreground">Window starts {format_date(@ecosystem_snapshot.since_date)}</span>
+            </div>
+
+            <div class="mt-4 overflow-x-auto rounded-md border border-border bg-background">
+              <table class="min-w-full text-left text-xs">
+                <thead class="bg-elevated text-muted-foreground">
+                  <tr>
+                    <th class="px-3 py-2 font-semibold">Source</th>
+                    <th class="px-3 py-2 font-semibold">Config</th>
+                    <th class="px-3 py-2 font-semibold">Run</th>
+                    <th class="px-3 py-2 text-right font-semibold">Tracked</th>
+                    <th class="px-3 py-2 text-right font-semibold">Rows</th>
+                    <th class="px-3 py-2 font-semibold">Latest Data</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr :for={source <- @ecosystem_snapshot.collection.sources} class="border-t border-border/70">
+                    <td class="whitespace-nowrap px-3 py-2 font-semibold text-foreground">
+                      {source.label}
+                    </td>
+                    <td class="whitespace-nowrap px-3 py-2">
+                      <span class={config_status_class(source.configured?)}>
+                        {config_status_label(source.configured?)}
+                      </span>
+                    </td>
+                    <td class="whitespace-nowrap px-3 py-2">
+                      <span class={run_status_class(get_in(source, [:latest_run, :status]))}>
+                        {run_status_label(get_in(source, [:latest_run, :status]))}
+                      </span>
+                    </td>
+                    <td class="px-3 py-2 text-right text-muted-foreground">{format_count(source.tracked_count)}</td>
+                    <td class="px-3 py-2 text-right text-muted-foreground">{format_count(source.rows_count)}</td>
+                    <td class="whitespace-nowrap px-3 py-2 text-muted-foreground">{format_date(source.latest_day)}</td>
+                  </tr>
+                  <tr :if={@ecosystem_snapshot.collection.sources == []}>
+                    <td colspan="6" class="px-3 py-3 text-muted-foreground">No collector runs yet.</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </article>
         </section>
 
         <section class="grid gap-6 xl:grid-cols-2">
-          <.data_table title="SEO Opportunities" rows={@ecosystem_snapshot.seo_opportunities} empty="No SEO opportunities in this window.">
+          <.data_table title="Search Queries" rows={@ecosystem_snapshot.search_queries} empty="No Search Console query data yet.">
             <:col :let={row} label="Query">{truncate(row.value, 58)}</:col>
+            <:col :let={row} label="Clicks">{format_count(row.clicks)}</:col>
             <:col :let={row} label="Impr.">{format_count(row.impressions)}</:col>
-            <:col :let={row} label="CTR">{format_percent(row.ctr)}</:col>
             <:col :let={row} label="Pos.">{format_float(row.position)}</:col>
           </.data_table>
 
-          <.data_table title="Search Queries" rows={@ecosystem_snapshot.search_queries} empty="No Search Console query data yet.">
-            <:col :let={row} label="Query">{truncate(row.value, 58)}</:col>
+          <.data_table title="Search Landing Pages" rows={@ecosystem_snapshot.search_pages} empty="No Search Console page data yet.">
+            <:col :let={row} label="Page">{truncate(row.value, 58)}</:col>
             <:col :let={row} label="Clicks">{format_count(row.clicks)}</:col>
             <:col :let={row} label="Impr.">{format_count(row.impressions)}</:col>
             <:col :let={row} label="Pos.">{format_float(row.position)}</:col>
@@ -346,14 +335,12 @@ defmodule AgentJidoWeb.AdminEcosystemAnalyticsLive do
       site_pages: [],
       search_queries: [],
       search_pages: [],
-      seo_opportunities: [],
       repo_interest: [],
       github_paths: [],
       github_referrers: [],
       package_adoption: [],
       release_adoption: [],
-      content_gaps: [],
-      action_items: []
+      content_gaps: []
     }
   end
 
@@ -367,22 +354,21 @@ defmodule AgentJidoWeb.AdminEcosystemAnalyticsLive do
     end
   end
 
-  defp priority_badge_class("Fix") do
-    "inline-flex rounded-full border border-accent-red/30 bg-accent-red/10 px-2 py-0.5 text-[11px] font-semibold text-accent-red"
-  end
-
-  defp priority_badge_class("Improve") do
-    "inline-flex rounded-full border border-accent-yellow/30 bg-accent-yellow/10 px-2 py-0.5 text-[11px] font-semibold text-accent-yellow"
-  end
-
-  defp priority_badge_class(_priority) do
-    "inline-flex rounded-full border border-accent-cyan/30 bg-accent-cyan/10 px-2 py-0.5 text-[11px] font-semibold text-accent-cyan"
-  end
-
   defp run_status_label("completed"), do: "Completed"
   defp run_status_label("running"), do: "Running"
   defp run_status_label("failed"), do: "Failed"
   defp run_status_label(_status), do: "No runs"
+
+  defp config_status_label(true), do: "Configured"
+  defp config_status_label(_configured?), do: "Missing"
+
+  defp config_status_class(true) do
+    "inline-flex shrink-0 rounded-full border border-accent-green/30 bg-accent-green/10 px-2 py-0.5 text-[11px] font-semibold text-accent-green"
+  end
+
+  defp config_status_class(_configured?) do
+    "inline-flex shrink-0 rounded-full border border-accent-yellow/30 bg-accent-yellow/10 px-2 py-0.5 text-[11px] font-semibold text-accent-yellow"
+  end
 
   defp run_status_class("completed") do
     "inline-flex shrink-0 rounded-full border border-accent-green/30 bg-accent-green/10 px-2 py-0.5 text-[11px] font-semibold text-accent-green"

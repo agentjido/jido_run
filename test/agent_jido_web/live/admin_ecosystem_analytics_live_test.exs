@@ -45,10 +45,9 @@ defmodule AgentJidoWeb.AdminEcosystemAnalyticsLiveTest do
            )
 
     assert html =~ "Ecosystem Analytics"
-    assert html =~ "Action Queue"
     assert html =~ "Acquisition Sources"
-    assert html =~ "Collector Health"
-    assert html =~ "SEO Opportunities"
+    assert html =~ "Collection Coverage"
+    assert html =~ "Search Landing Pages"
     assert html =~ "Repo Interest"
     assert html =~ "Package Adoption"
     assert html =~ "GitHub Paths"
@@ -58,7 +57,6 @@ defmodule AgentJidoWeb.AdminEcosystemAnalyticsLiveTest do
     assert html =~ "jido_ai"
     assert html =~ "/docs"
     assert html =~ "Google"
-    assert html =~ "Improve search result CTR"
 
     html = render_click(view, "set_window", %{"days" => "7"})
     assert html =~ "7d"

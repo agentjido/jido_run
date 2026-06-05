@@ -184,7 +184,7 @@ defmodule AgentJido.Analytics do
       limit = Keyword.get(opts, :limit, @default_ecosystem_limit)
       since_date = since_date(days)
 
-      snapshot = %{
+      %{
         days: days,
         since_date: since_date,
         unavailable?: false,
@@ -195,7 +195,6 @@ defmodule AgentJido.Analytics do
         site_pages: plausible_page_rows(since_date, limit),
         search_queries: search_console_query_rows(since_date, limit),
         search_pages: search_console_page_rows(since_date, limit),
-        seo_opportunities: search_console_opportunity_rows(since_date, limit),
         repo_interest: github_repo_interest_rows(since_date, limit),
         github_paths: github_path_rows(limit),
         github_referrers: github_referrer_rows(limit),
@@ -203,8 +202,6 @@ defmodule AgentJido.Analytics do
         release_adoption: hex_release_rows(limit),
         content_gaps: content_gap_report(current_scope, days, limit: limit)
       }
-
-      Map.put(snapshot, :action_items, ecosystem_action_items(snapshot, limit))
     else
       empty_ecosystem_snapshot(days, authorized?: false)
     end
@@ -755,15 +752,6 @@ defmodule AgentJido.Analytics do
     |> Enum.map(&put_ctr/1)
   end
 
-  defp search_console_opportunity_rows(since_date, limit) do
-    search_console_grouped_rows(:query, "date+query", since_date, limit * 8)
-    |> Enum.filter(fn row ->
-      row.impressions >= 10 and number_between?(row.position, 4.0, 20.0) and row.ctr <= 0.08
-    end)
-    |> Enum.sort_by(fn row -> {-row.impressions, row.position || 999.0, row.value || ""} end)
-    |> Enum.take(limit)
-  end
-
   defp github_repo_interest_rows(since_date, limit) do
     from(row in GitHubRepoDaily,
       join: repository in assoc(row, :tracked_repository),
@@ -877,100 +865,6 @@ defmodule AgentJido.Analytics do
     end
   end
 
-  defp ecosystem_action_items(snapshot, limit) do
-    []
-    |> maybe_add_failed_collector_action(snapshot)
-    |> maybe_add_seo_action(snapshot)
-    |> maybe_add_content_gap_action(snapshot)
-    |> maybe_add_repo_action(snapshot)
-    |> maybe_add_hex_action(snapshot)
-    |> Enum.take(limit)
-  end
-
-  defp maybe_add_failed_collector_action(actions, %{collection: %{sources: sources}}) do
-    failed =
-      Enum.filter(sources, fn source ->
-        get_in(source, [:latest_run, :status]) == "failed"
-      end)
-
-    case failed do
-      [] ->
-        actions
-
-      failed_sources ->
-        labels = failed_sources |> Enum.map(& &1.label) |> Enum.join(", ")
-
-        [
-          %{
-            source: "Collectors",
-            priority: "Fix",
-            title: "Repair failed analytics collection",
-            evidence: labels
-          }
-          | actions
-        ]
-    end
-  end
-
-  defp maybe_add_failed_collector_action(actions, _snapshot), do: actions
-
-  defp maybe_add_seo_action(actions, %{seo_opportunities: [row | _rows]}) do
-    [
-      %{
-        source: "Search Console",
-        priority: "Improve",
-        title: "Improve search result CTR for #{row.value}",
-        evidence: "#{row.impressions} impressions, #{format_internal_percent(row.ctr)} CTR, avg position #{format_internal_float(row.position)}"
-      }
-      | actions
-    ]
-  end
-
-  defp maybe_add_seo_action(actions, _snapshot), do: actions
-
-  defp maybe_add_content_gap_action(actions, %{content_gaps: [%{failure_count: failure_count} = row | _rows]})
-       when failure_count > 0 do
-    [
-      %{
-        source: "Local search",
-        priority: "Backfill",
-        title: "Improve answer coverage for #{row.query}",
-        evidence: "#{row.failure_count} failed searches in #{row.demand_count} attempts"
-      }
-      | actions
-    ]
-  end
-
-  defp maybe_add_content_gap_action(actions, _snapshot), do: actions
-
-  defp maybe_add_repo_action(actions, %{repo_interest: [row | _rows]}) do
-    [
-      %{
-        source: "GitHub",
-        priority: "Watch",
-        title: "Track developer interest in #{row.repository}",
-        evidence: "#{row.views_count} views and #{row.clones_count} clones"
-      }
-      | actions
-    ]
-  end
-
-  defp maybe_add_repo_action(actions, _snapshot), do: actions
-
-  defp maybe_add_hex_action(actions, %{package_adoption: [row | _rows]}) do
-    [
-      %{
-        source: "Hex",
-        priority: "Watch",
-        title: "Monitor package adoption for #{row.package_name}",
-        evidence: "#{row.downloads_recent} recent downloads, #{row.downloads_week} this week"
-      }
-      | actions
-    ]
-  end
-
-  defp maybe_add_hex_action(actions, _snapshot), do: actions
-
   defp latest_hex_package_day do
     from(row in HexPackageDaily, select: max(row.day))
     |> Repo.one()
@@ -1007,16 +901,6 @@ defmodule AgentJido.Analytics do
   defp safe_rate(_numerator, denominator) when denominator in [nil, 0], do: 0.0
   defp safe_rate(numerator, denominator) when is_number(numerator) and is_number(denominator), do: numerator / denominator
   defp safe_rate(_numerator, _denominator), do: 0.0
-
-  defp number_between?(value, min, max) when is_number(value), do: value >= min and value <= max
-  defp number_between?(_value, _min, _max), do: false
-
-  defp format_internal_percent(value) when is_number(value), do: "#{Float.round(value * 100, 1)}%"
-  defp format_internal_percent(_value), do: "0.0%"
-
-  defp format_internal_float(value) when is_float(value), do: value |> Float.round(1) |> :erlang.float_to_binary(decimals: 1)
-  defp format_internal_float(value) when is_integer(value), do: Integer.to_string(value)
-  defp format_internal_float(_value), do: "-"
 
   defp configured_site_count(key) do
     if Ingestion.config(key) |> present?(), do: 1, else: 0
@@ -1378,14 +1262,12 @@ defmodule AgentJido.Analytics do
       site_pages: [],
       search_queries: [],
       search_pages: [],
-      seo_opportunities: [],
       repo_interest: [],
       github_paths: [],
       github_referrers: [],
       package_adoption: [],
       release_adoption: [],
-      content_gaps: [],
-      action_items: []
+      content_gaps: []
     }
   end
 
