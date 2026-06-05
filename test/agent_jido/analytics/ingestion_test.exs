@@ -53,6 +53,19 @@ defmodule AgentJido.Analytics.IngestionTest do
       assert "agentjido/jido" in names
     end
 
+    test "keeps external ecosystem repositories inactive for traffic collection" do
+      assert %{errors: []} = Ingestion.sync_repositories_from_ecosystem()
+
+      active_by_name =
+        TrackedRepository
+        |> select([r], {r.full_name, r.active})
+        |> Repo.all()
+        |> Map.new()
+
+      assert active_by_name["agentjido/jido"] == true
+      assert active_by_name["www-zaq-ai/jido_chat_mattermost"] == false
+    end
+
     test "upserts tracked Hex packages by package name" do
       assert {:ok, %TrackedHexPackage{} = package} =
                Ingestion.upsert_tracked_hex_package(%{

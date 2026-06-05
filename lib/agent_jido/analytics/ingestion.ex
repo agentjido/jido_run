@@ -256,12 +256,18 @@ defmodule AgentJido.Analytics.Ingestion do
           owner = normalize_text(Map.get(package, :github_org)),
           name = normalize_text(Map.get(package, :github_repo)),
           present?(owner) and present?(name) do
+        active? = github_traffic_accessible_by_default?(owner)
+
         %{
           owner: owner,
           name: name,
           label: Map.get(package, :title) || Map.get(package, :name) || name,
           source: "ecosystem",
-          metadata: %{"package_id" => Map.get(package, :id)}
+          active: active?,
+          metadata: %{
+            "package_id" => Map.get(package, :id),
+            "traffic_access" => if(active?, do: "github_app_installation", else: "external_owner")
+          }
         }
       end
 
@@ -779,6 +785,12 @@ defmodule AgentJido.Analytics.Ingestion do
   defp normalize_text(value) when is_atom(value), do: value |> Atom.to_string() |> normalize_text()
   defp normalize_text(value) when is_number(value), do: value |> to_string() |> normalize_text()
   defp normalize_text(_value), do: nil
+
+  defp github_traffic_accessible_by_default?(owner) when is_binary(owner) do
+    String.downcase(owner) == "agentjido"
+  end
+
+  defp github_traffic_accessible_by_default?(_owner), do: false
 
   defp normalize_date!(value) do
     normalize_date(value) || raise ArgumentError, "invalid date: #{inspect(value)}"
