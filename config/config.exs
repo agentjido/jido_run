@@ -128,6 +128,12 @@ config :agent_jido, AgentJido.GithubStarsTracker,
     "req_llm" => :timer.hours(24)
   }
 
+config :agent_jido, AgentJido.Analytics.GitHub.Collector,
+  client: AgentJido.Analytics.GitHub.Collector.DefaultClient,
+  request_timeout_ms: 10_000,
+  user_agent: "AgentJido-GitHubTrafficCollector",
+  github_token: nil
+
 config :agent_jido, AgentJido.ContentIngest.EcosystemDocs.Crawler,
   enabled: true,
   refresh_interval_ms: :timer.hours(24),
