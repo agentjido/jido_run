@@ -167,6 +167,23 @@ defmodule AgentJido.Analytics.IngestionTest do
       assert %PlausibleDimensionDaily{dimension: "event:page", value: "/docs", visitors: 50} = Repo.one!(PlausibleDimensionDaily)
     end
 
+    test "scrubs null bytes from provider text before inserting dimension rows" do
+      assert 1 =
+               Ingestion.upsert_plausible_dimension_daily("jido.run", [
+                 %{
+                   day: ~D[2026-06-01],
+                   dimension: "visit:source",
+                   value: "bad\0source",
+                   visitors: 10,
+                   visits: 12,
+                   metadata: %{"raw" => "bad\0source"}
+                 }
+               ])
+
+      assert %PlausibleDimensionDaily{value: "badsource", metadata: %{"raw" => "badsource"}} =
+               Repo.one!(PlausibleDimensionDaily)
+    end
+
     test "upserts Search Console rows by dimension key" do
       assert 1 =
                Ingestion.upsert_search_console_daily("sc-domain:jido.run", [

@@ -39,6 +39,11 @@ defmodule AgentJido.Analytics.Ingestion.GitHubTrafficClient do
     encoded_owner = URI.encode(owner)
     encoded_name = URI.encode(name)
     url = "https://api.github.com/repos/#{encoded_owner}/#{encoded_name}/#{path}"
+
+    get_json_url(url, token, opts, 1)
+  end
+
+  defp get_json_url(url, token, opts, redirects_left) do
     timeout = Keyword.get(opts, :request_timeout_ms, Ingestion.config(:request_timeout_ms, 15_000))
 
     headers = [
@@ -53,6 +58,12 @@ defmodule AgentJido.Analytics.Ingestion.GitHubTrafficClient do
     case Finch.request(request, AgentJido.Finch, receive_timeout: timeout) do
       {:ok, %Finch.Response{status: status, body: body}} when status in 200..299 ->
         Jason.decode(body)
+
+      {:ok, %Finch.Response{status: status, body: body}} when status in [301, 302] and redirects_left > 0 ->
+        case redirect_url(body) do
+          nil -> {:error, {:github_http_error, status, body}}
+          url -> get_json_url(url, token, opts, redirects_left - 1)
+        end
 
       {:ok, %Finch.Response{status: 403, body: body}} ->
         {:error, {:github_forbidden, body}}
@@ -70,6 +81,16 @@ defmodule AgentJido.Analytics.Ingestion.GitHubTrafficClient do
         {:error, reason}
     end
   end
+
+  defp redirect_url(body) when is_binary(body) do
+    with {:ok, %{"url" => url}} when is_binary(url) <- Jason.decode(body) do
+      url
+    else
+      _value -> nil
+    end
+  end
+
+  defp redirect_url(_body), do: nil
 
   defp merge_daily_series(views, clones) do
     view_days = Map.new(views, &{day_key(&1), &1})

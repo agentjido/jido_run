@@ -767,7 +767,10 @@ defmodule AgentJido.Analytics.Ingestion do
   defp field(row, key) when is_map(row) and is_atom(key), do: Map.get(row, key) || Map.get(row, Atom.to_string(key))
 
   defp normalize_text(value) when is_binary(value) do
-    case String.trim(value) do
+    value
+    |> String.replace(<<0>>, "")
+    |> String.trim()
+    |> case do
       "" -> nil
       trimmed -> trimmed
     end
@@ -840,8 +843,16 @@ defmodule AgentJido.Analytics.Ingestion do
   defp boolean_or_nil(value) when is_boolean(value), do: value
   defp boolean_or_nil(_value), do: nil
 
-  defp map_value(value) when is_map(value), do: value
+  defp map_value(value) when is_map(value), do: sanitize_metadata(value)
   defp map_value(_value), do: %{}
+
+  defp sanitize_metadata(value) when is_map(value) do
+    Map.new(value, fn {key, value} -> {sanitize_metadata(key), sanitize_metadata(value)} end)
+  end
+
+  defp sanitize_metadata(value) when is_list(value), do: Enum.map(value, &sanitize_metadata/1)
+  defp sanitize_metadata(value) when is_binary(value), do: String.replace(value, <<0>>, "")
+  defp sanitize_metadata(value), do: value
 
   defp hash(value) when is_binary(value) do
     :sha256

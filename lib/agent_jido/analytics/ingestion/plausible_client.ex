@@ -7,6 +7,7 @@ defmodule AgentJido.Analytics.Ingestion.PlausibleClient do
 
   @aggregate_metrics ["visitors", "visits", "pageviews", "bounce_rate", "visit_duration", "events"]
   @dimension_metrics ["visitors", "visits", "pageviews", "events"]
+  @session_dimension_metrics ["visitors", "visits", "bounce_rate", "visit_duration"]
   @default_dimensions [
     "event:page",
     "visit:source",
@@ -44,10 +45,10 @@ defmodule AgentJido.Analytics.Ingestion.PlausibleClient do
     }
   end
 
-  defp dimension_query(site_id, dimension, opts) do
+  defp dimension_query(site_id, dimension, opts, metrics \\ @dimension_metrics) do
     %{
       "site_id" => site_id,
-      "metrics" => @dimension_metrics,
+      "metrics" => metrics,
       "date_range" => date_range(opts),
       "dimensions" => ["time:day", dimension],
       "pagination" => %{"limit" => Ingestion.config(:plausible_dimension_limit, 500)}
@@ -56,11 +57,32 @@ defmodule AgentJido.Analytics.Ingestion.PlausibleClient do
 
   defp fetch_dimensions(api_key, site_id, opts) do
     Enum.reduce_while(plausible_dimensions(), {:ok, []}, fn dimension, {:ok, acc} ->
-      case query(api_key, dimension_query(site_id, dimension, opts), opts) do
+      case fetch_dimension(api_key, site_id, dimension, opts) do
         {:ok, rows} -> {:cont, {:ok, acc ++ rows}}
         {:error, reason} -> {:halt, {:error, reason}}
       end
     end)
+  end
+
+  defp fetch_dimension(api_key, site_id, dimension, opts) do
+    case query(api_key, dimension_query(site_id, dimension, opts), opts) do
+      {:ok, rows} ->
+        {:ok, rows}
+
+      {:error, {:plausible_http_error, 400, body}} when is_binary(body) ->
+        maybe_retry_session_dimension(api_key, site_id, dimension, opts, body)
+
+      {:error, reason} ->
+        {:error, reason}
+    end
+  end
+
+  defp maybe_retry_session_dimension(api_key, site_id, dimension, opts, body) do
+    if String.contains?(body, "cannot be queried along with session dimension") do
+      query(api_key, dimension_query(site_id, dimension, opts, @session_dimension_metrics), opts)
+    else
+      {:error, {:plausible_http_error, 400, body}}
+    end
   end
 
   defp plausible_dimensions do
@@ -137,6 +159,8 @@ defmodule AgentJido.Analytics.Ingestion.PlausibleClient do
       visitors: metric_map["visitors"],
       visits: metric_map["visits"],
       pageviews: metric_map["pageviews"],
+      bounce_rate: metric_map["bounce_rate"],
+      visit_duration: metric_map["visit_duration"],
       events: metric_map["events"]
     }
   end
