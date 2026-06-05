@@ -56,14 +56,20 @@ defmodule AgentJido.Analytics.IngestionTest do
     test "keeps external ecosystem repositories inactive for traffic collection" do
       assert %{errors: []} = Ingestion.sync_repositories_from_ecosystem()
 
-      active_by_name =
+      repos_by_name =
         TrackedRepository
-        |> select([r], {r.full_name, r.active})
+        |> select([r], {r.full_name, r.active, r.metadata})
         |> Repo.all()
-        |> Map.new()
+        |> Map.new(fn {full_name, active, metadata} ->
+          {full_name, %{active: active, metadata: metadata}}
+        end)
 
-      assert active_by_name["agentjido/jido"] == true
-      assert active_by_name["www-zaq-ai/jido_chat_mattermost"] == false
+      assert repos_by_name["agentjido/jido"].active == true
+      assert repos_by_name["www-zaq-ai/jido_chat_mattermost"].active == false
+      assert repos_by_name["www-zaq-ai/jido_chat_mattermost"].metadata["traffic_access"] == "excluded"
+
+      assert repos_by_name["www-zaq-ai/jido_chat_mattermost"].metadata["traffic_exclusion_reason"] ==
+               "github_app_not_installed"
     end
 
     test "upserts tracked Hex packages by package name" do

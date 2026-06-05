@@ -31,6 +31,9 @@ defmodule AgentJido.Analytics.Ingestion do
     %{owner: "agentjido", name: "jido_run", label: "Jido Run", source: "site"},
     %{owner: "agentjido", name: "agentjido_xyz", label: "Jido docs", source: "site"}
   ]
+  @excluded_github_traffic_repositories [
+    {"www-zaq-ai", "jido_chat_mattermost"}
+  ]
   @github_daily_replace [
     :views_count,
     :views_uniques,
@@ -256,7 +259,7 @@ defmodule AgentJido.Analytics.Ingestion do
           owner = normalize_text(Map.get(package, :github_org)),
           name = normalize_text(Map.get(package, :github_repo)),
           present?(owner) and present?(name) do
-        active? = github_traffic_accessible_by_default?(owner)
+        {active?, traffic_metadata} = github_traffic_tracking_defaults(owner, name)
 
         %{
           owner: owner,
@@ -264,10 +267,7 @@ defmodule AgentJido.Analytics.Ingestion do
           label: Map.get(package, :title) || Map.get(package, :name) || name,
           source: "ecosystem",
           active: active?,
-          metadata: %{
-            "package_id" => Map.get(package, :id),
-            "traffic_access" => if(active?, do: "github_app_installation", else: "external_owner")
-          }
+          metadata: Map.put(traffic_metadata, "package_id", Map.get(package, :id))
         }
       end
 
@@ -791,6 +791,33 @@ defmodule AgentJido.Analytics.Ingestion do
   end
 
   defp github_traffic_accessible_by_default?(_owner), do: false
+
+  defp github_traffic_tracking_defaults(owner, name) do
+    cond do
+      excluded_github_traffic_repository?(owner, name) ->
+        {false,
+         %{
+           "traffic_access" => "excluded",
+           "traffic_exclusion_reason" => "github_app_not_installed"
+         }}
+
+      github_traffic_accessible_by_default?(owner) ->
+        {true, %{"traffic_access" => "github_app_installation"}}
+
+      true ->
+        {false, %{"traffic_access" => "external_owner"}}
+    end
+  end
+
+  defp excluded_github_traffic_repository?(owner, name) when is_binary(owner) and is_binary(name) do
+    normalized_repository = {String.downcase(owner), String.downcase(name)}
+
+    Enum.any?(@excluded_github_traffic_repositories, fn {excluded_owner, excluded_name} ->
+      normalized_repository == {String.downcase(excluded_owner), String.downcase(excluded_name)}
+    end)
+  end
+
+  defp excluded_github_traffic_repository?(_owner, _name), do: false
 
   defp normalize_date!(value) do
     normalize_date(value) || raise ArgumentError, "invalid date: #{inspect(value)}"
