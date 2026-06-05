@@ -407,12 +407,14 @@ defmodule AgentJidoWeb.AdminEcosystemAnalyticsLive do
   end
 
   defp bar_width(value, max_value) when is_number(value) and is_number(max_value) and max_value > 0 do
-    value
-    |> Kernel./(max_value)
-    |> Kernel.*(100)
-    |> min(100)
-    |> max(4)
-    |> Float.round(1)
+    width =
+      value
+      |> Kernel./(max_value)
+      |> Kernel.*(100.0)
+      |> min(100.0)
+      |> max(4.0)
+
+    Float.round(width, 1)
   end
 
   defp bar_width(_value, _max_value), do: 0
@@ -433,10 +435,10 @@ defmodule AgentJidoWeb.AdminEcosystemAnalyticsLive do
 
   defp format_count(_value), do: "0"
 
-  defp format_percent(value) when is_number(value), do: "#{Float.round(value * 100, 1)}%"
+  defp format_percent(value) when is_number(value), do: "#{value |> Kernel.*(100.0) |> Float.round(1)}%"
   defp format_percent(_value), do: "0.0%"
 
-  defp format_percent_from_100(value) when is_number(value), do: "#{Float.round(value, 1)}%"
+  defp format_percent_from_100(value) when is_number(value), do: "#{value |> Kernel.*(1.0) |> Float.round(1)}%"
   defp format_percent_from_100(_value), do: "-"
 
   defp format_float(value) when is_float(value), do: value |> Float.round(1) |> :erlang.float_to_binary(decimals: 1)
