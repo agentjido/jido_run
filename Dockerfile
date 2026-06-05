@@ -21,7 +21,7 @@ ARG RUNNER_IMAGE="debian:${DEBIAN_VERSION}"
 FROM ${BUILDER_IMAGE} AS builder
 
 # install build dependencies
-RUN apt-get update -y && apt-get install -y build-essential git nodejs npm curl wget openssh-client \
+RUN apt-get update -y && apt-get install -y build-essential git nodejs npm curl wget openssh-client libopenblas0 \
   && apt-get clean && rm -f /var/lib/apt/lists/*_*
 
 # prepare build dir
@@ -70,7 +70,7 @@ FROM ${RUNNER_IMAGE}
 ARG COMMIT
 ENV APP_REVISION=$COMMIT
 
-RUN apt-get update -y && apt-get install -y libstdc++6 openssl libncurses5 locales ca-certificates \
+RUN apt-get update -y && apt-get install -y libstdc++6 openssl libncurses5 locales ca-certificates libopenblas0 \
   nodejs npm vim curl wget xz-utils libvips42 libvips-tools librsvg2-2 fontconfig fonts-dejavu-core \
   && apt-get clean && rm -f /var/lib/apt/lists/*_*
 
