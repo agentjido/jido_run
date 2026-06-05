@@ -5,6 +5,14 @@ defmodule AgentJido.Analytics do
   import Ecto.Query, warn: false
 
   alias AgentJido.Analytics.AnalyticsEvent
+  alias AgentJido.Analytics.Ingestion
+  alias AgentJido.Analytics.Ingestion.GitHubRepoDaily
+  alias AgentJido.Analytics.Ingestion.HexPackageDaily
+  alias AgentJido.Analytics.Ingestion.IngestionRun
+  alias AgentJido.Analytics.Ingestion.PlausibleSiteDaily
+  alias AgentJido.Analytics.Ingestion.SearchConsoleDaily
+  alias AgentJido.Analytics.Ingestion.TrackedHexPackage
+  alias AgentJido.Analytics.Ingestion.TrackedRepository
   alias AgentJido.Analytics.RateLimiter
   alias AgentJido.Analytics.Redactor
   alias AgentJido.QueryLogs.QueryLog
@@ -13,6 +21,7 @@ defmodule AgentJido.Analytics do
   @default_days 7
   @default_limit 10
   @default_feedback_limit 30
+  @default_search_message_limit 30
   @failure_statuses ["no_results", "error", "challenge"]
   @feedback_surfaces ["content_assistant", "docs_page"]
 
@@ -27,7 +36,9 @@ defmodule AgentJido.Analytics do
           reformulations: [map()],
           feedback_breakdown: [map()],
           recent_feedback: [map()],
-          recent_negative_feedback: [AnalyticsEvent.t()]
+          recent_negative_feedback: [AnalyticsEvent.t()],
+          local_search: map(),
+          ingestion: map()
         }
 
   @doc """
@@ -101,6 +112,7 @@ defmodule AgentJido.Analytics do
       gap_limit = Keyword.get(opts, :gap_limit, @default_limit)
       reform_limit = Keyword.get(opts, :reform_limit, @default_limit)
       feedback_limit = Keyword.get(opts, :feedback_limit, @default_feedback_limit)
+      search_message_limit = Keyword.get(opts, :search_message_limit, @default_search_message_limit)
       since = since_naive(days)
 
       %{
@@ -114,7 +126,9 @@ defmodule AgentJido.Analytics do
         reformulations: reformulation_leaderboard(days, reform_limit),
         feedback_breakdown: feedback_breakdown(days, feedback_limit),
         recent_feedback: recent_feedback(days, feedback_limit),
-        recent_negative_feedback: recent_negative_feedback(days, feedback_limit)
+        recent_negative_feedback: recent_negative_feedback(days, feedback_limit),
+        local_search: local_search_snapshot(days, search_message_limit),
+        ingestion: ingestion_snapshot(days)
       }
     else
       unauthorized_snapshot(days)
@@ -123,6 +137,37 @@ defmodule AgentJido.Analytics do
     _ -> unavailable_snapshot(days)
   catch
     _, _ -> unavailable_snapshot(days)
+  end
+
+  @doc """
+  Returns local first-party search activity from the query log and analytics-event tables.
+  """
+  @spec search_activity_snapshot(term(), pos_integer(), keyword()) :: map()
+  def search_activity_snapshot(current_scope, days \\ @default_days, opts \\ [])
+      when is_integer(days) and days > 0 do
+    if admin_scope?(current_scope) do
+      limit = Keyword.get(opts, :limit, @default_search_message_limit)
+      local_search_snapshot(days, limit)
+    else
+      empty_local_search()
+    end
+  rescue
+    _ -> empty_local_search()
+  catch
+    _, _ -> empty_local_search()
+  end
+
+  @doc """
+  Returns external analytics collector health and coverage for admin reporting.
+  """
+  @spec external_collection_snapshot(term(), pos_integer()) :: map()
+  def external_collection_snapshot(current_scope, days \\ @default_days)
+      when is_integer(days) and days > 0 do
+    if admin_scope?(current_scope), do: ingestion_snapshot(days), else: empty_ingestion_snapshot()
+  rescue
+    _ -> empty_ingestion_snapshot()
+  catch
+    _, _ -> empty_ingestion_snapshot()
   end
 
   @doc """
@@ -358,6 +403,184 @@ defmodule AgentJido.Analytics do
         query_log_id: event.query_log_id
       }
     end)
+  end
+
+  defp local_search_snapshot(days, limit) do
+    limit = normalize_limit(limit, @default_search_message_limit)
+    since = since_naive(days)
+    query_base = from(q in QueryLog, where: q.inserted_at >= ^since)
+
+    %{
+      summary: %{
+        total_messages: Repo.aggregate(query_base, :count, :id),
+        submitted_messages: count_queries(query_base, status: "submitted"),
+        successful_messages: count_queries(query_base, status: "success"),
+        no_result_messages: count_queries(query_base, status: "no_results"),
+        failed_messages: count_queries(query_base, status_in: ["error", "challenge"])
+      },
+      outcome_breakdown: search_outcome_breakdown(days),
+      channel_breakdown: search_channel_breakdown(days),
+      recent_messages: recent_search_messages(days, limit)
+    }
+  end
+
+  defp search_outcome_breakdown(days) do
+    since = since_naive(days)
+
+    from(q in QueryLog,
+      where: q.inserted_at >= ^since,
+      group_by: q.status,
+      select: %{status: q.status, count: count(q.id)},
+      order_by: [desc: count(q.id), asc: q.status]
+    )
+    |> Repo.all()
+  end
+
+  defp search_channel_breakdown(days) do
+    since = since_naive(days)
+
+    from(q in QueryLog,
+      where: q.inserted_at >= ^since,
+      group_by: q.channel,
+      select: %{
+        channel: q.channel,
+        total_count: count(q.id),
+        success_count: filter(count(q.id), q.status == "success"),
+        no_result_count: filter(count(q.id), q.status == "no_results"),
+        failure_count: filter(count(q.id), q.status in ["error", "challenge"])
+      },
+      order_by: [desc: count(q.id), asc: q.channel]
+    )
+    |> Repo.all()
+  end
+
+  defp recent_search_messages(days, limit) do
+    since = since_naive(days)
+
+    from(q in QueryLog,
+      where: q.inserted_at >= ^since,
+      order_by: [desc: q.inserted_at, desc: q.id],
+      limit: ^limit,
+      select: %{
+        id: q.id,
+        query: q.query,
+        source: q.source,
+        channel: q.channel,
+        status: q.status,
+        path: q.path,
+        results_count: q.results_count,
+        latency_ms: q.latency_ms,
+        inserted_at: q.inserted_at
+      }
+    )
+    |> Repo.all()
+  end
+
+  defp ingestion_snapshot(days) do
+    since_date = since_date(days)
+
+    sources = [
+      source_snapshot(
+        "github_traffic",
+        "GitHub traffic",
+        Ingestion.github_auth_configured?(),
+        active_tracked_repository_count(),
+        GitHubRepoDaily,
+        since_date
+      ),
+      source_snapshot(
+        "plausible",
+        "Plausible",
+        Ingestion.plausible_configured?(),
+        configured_site_count(:plausible_site_id),
+        PlausibleSiteDaily,
+        since_date
+      ),
+      source_snapshot(
+        "search_console",
+        "Search Console",
+        Ingestion.search_console_configured?(),
+        configured_site_count(:search_console_site_url),
+        SearchConsoleDaily,
+        since_date
+      ),
+      source_snapshot("hex", "Hex", true, active_tracked_hex_package_count(), HexPackageDaily, since_date)
+    ]
+
+    %{
+      sources: sources,
+      recent_runs: recent_ingestion_runs(20)
+    }
+  end
+
+  defp source_snapshot(source, label, configured?, tracked_count, schema, since_date) do
+    %{
+      source: source,
+      label: label,
+      configured?: configured?,
+      tracked_count: tracked_count,
+      latest_day: latest_collection_day(schema),
+      rows_count: collection_rows_since(schema, since_date),
+      latest_run: latest_ingestion_run(source)
+    }
+  end
+
+  defp latest_ingestion_run(source) do
+    IngestionRun
+    |> where([run], run.source == ^source)
+    |> order_by([run], desc: run.started_at, desc: run.id)
+    |> limit(1)
+    |> Repo.one()
+    |> run_summary()
+  end
+
+  defp recent_ingestion_runs(limit) do
+    IngestionRun
+    |> order_by([run], desc: run.started_at, desc: run.id)
+    |> limit(^limit)
+    |> Repo.all()
+    |> Enum.map(&run_summary/1)
+  end
+
+  defp run_summary(nil), do: nil
+
+  defp run_summary(%IngestionRun{} = run) do
+    %{
+      source: run.source,
+      status: run.status,
+      started_at: run.started_at,
+      finished_at: run.finished_at,
+      date_from: run.date_from,
+      date_to: run.date_to,
+      rows_count: run.rows_count,
+      error: run.error
+    }
+  end
+
+  defp latest_collection_day(schema) do
+    from(row in schema, select: max(row.day))
+    |> Repo.one()
+  end
+
+  defp collection_rows_since(schema, since_date) do
+    from(row in schema, where: row.day >= ^since_date)
+    |> Repo.aggregate(:count, :id)
+  end
+
+  defp active_tracked_repository_count do
+    TrackedRepository
+    |> where([repository], repository.active == true and repository.provider == "github")
+    |> Repo.aggregate(:count, :id)
+  end
+
+  defp active_tracked_hex_package_count do
+    TrackedHexPackage
+    |> where([package], package.active == true)
+    |> Repo.aggregate(:count, :id)
+  end
+
+  defp configured_site_count(key) do
+    if Ingestion.config(key) |> present?(), do: 1, else: 0
   end
 
   defp count_queries(base_query, [{:status, status}]) do
@@ -623,6 +846,11 @@ defmodule AgentJido.Analytics do
     |> NaiveDateTime.add(-days * 86_400, :second)
   end
 
+  defp since_date(days) do
+    Date.utc_today()
+    |> Date.add(-days + 1)
+  end
+
   defp unauthorized_snapshot(days) do
     %{
       days: days,
@@ -635,7 +863,9 @@ defmodule AgentJido.Analytics do
       reformulations: [],
       feedback_breakdown: [],
       recent_feedback: [],
-      recent_negative_feedback: []
+      recent_negative_feedback: [],
+      local_search: empty_local_search(),
+      ingestion: empty_ingestion_snapshot()
     }
   end
 
@@ -651,7 +881,9 @@ defmodule AgentJido.Analytics do
       reformulations: [],
       feedback_breakdown: [],
       recent_feedback: [],
-      recent_negative_feedback: []
+      recent_negative_feedback: [],
+      local_search: empty_local_search(),
+      ingestion: empty_ingestion_snapshot()
     }
   end
 
@@ -667,4 +899,32 @@ defmodule AgentJido.Analytics do
       not_helpful_feedback: 0
     }
   end
+
+  defp empty_local_search do
+    %{
+      summary: %{
+        total_messages: 0,
+        submitted_messages: 0,
+        successful_messages: 0,
+        no_result_messages: 0,
+        failed_messages: 0
+      },
+      outcome_breakdown: [],
+      channel_breakdown: [],
+      recent_messages: []
+    }
+  end
+
+  defp empty_ingestion_snapshot do
+    %{
+      sources: [],
+      recent_runs: []
+    }
+  end
+
+  defp normalize_limit(value, _default) when is_integer(value) and value > 0, do: value
+  defp normalize_limit(_value, default), do: default
+
+  defp present?(value) when is_binary(value), do: String.trim(value) != ""
+  defp present?(_value), do: false
 end

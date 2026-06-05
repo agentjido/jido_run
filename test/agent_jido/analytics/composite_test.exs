@@ -48,6 +48,12 @@ defmodule AgentJido.Analytics.CompositeTest do
 
     assert Composite.feedback_rows_for_export(admin_scope, 7, 10) ==
              Analytics.feedback_rows_for_export(admin_scope, 7, 10)
+
+    assert Composite.search_activity_snapshot(admin_scope, 7, limit: 10) ==
+             Analytics.search_activity_snapshot(admin_scope, 7, limit: 10)
+
+    assert Composite.external_collection_snapshot(admin_scope, 7) ==
+             Analytics.external_collection_snapshot(admin_scope, 7)
   end
 
   test "skips mirrored PostHog writes when server capture is disabled" do
