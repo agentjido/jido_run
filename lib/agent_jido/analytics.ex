@@ -6,9 +6,13 @@ defmodule AgentJido.Analytics do
 
   alias AgentJido.Analytics.AnalyticsEvent
   alias AgentJido.Analytics.Ingestion
+  alias AgentJido.Analytics.Ingestion.GitHubPathSnapshot
+  alias AgentJido.Analytics.Ingestion.GitHubReferrerSnapshot
   alias AgentJido.Analytics.Ingestion.GitHubRepoDaily
   alias AgentJido.Analytics.Ingestion.HexPackageDaily
+  alias AgentJido.Analytics.Ingestion.HexReleaseDaily
   alias AgentJido.Analytics.Ingestion.IngestionRun
+  alias AgentJido.Analytics.Ingestion.PlausibleDimensionDaily
   alias AgentJido.Analytics.Ingestion.PlausibleSiteDaily
   alias AgentJido.Analytics.Ingestion.SearchConsoleDaily
   alias AgentJido.Analytics.Ingestion.TrackedHexPackage
@@ -20,6 +24,7 @@ defmodule AgentJido.Analytics do
 
   @default_days 7
   @default_limit 10
+  @default_ecosystem_limit 8
   @default_feedback_limit 30
   @default_search_message_limit 30
   @failure_statuses ["no_results", "error", "challenge"]
@@ -168,6 +173,45 @@ defmodule AgentJido.Analytics do
     _ -> empty_ingestion_snapshot()
   catch
     _, _ -> empty_ingestion_snapshot()
+  end
+
+  @doc """
+  Returns external ecosystem demand, adoption, and opportunity signals for admin reporting.
+  """
+  @spec ecosystem_snapshot(term(), pos_integer(), keyword()) :: map()
+  def ecosystem_snapshot(current_scope, days \\ 30, opts \\ []) when is_integer(days) and days > 0 do
+    if admin_scope?(current_scope) do
+      limit = Keyword.get(opts, :limit, @default_ecosystem_limit)
+      since_date = since_date(days)
+
+      snapshot = %{
+        days: days,
+        since_date: since_date,
+        unavailable?: false,
+        authorized?: true,
+        totals: ecosystem_totals(since_date),
+        collection: ingestion_snapshot(days),
+        acquisition_sources: plausible_source_rows(since_date, limit),
+        site_pages: plausible_page_rows(since_date, limit),
+        search_queries: search_console_query_rows(since_date, limit),
+        search_pages: search_console_page_rows(since_date, limit),
+        seo_opportunities: search_console_opportunity_rows(since_date, limit),
+        repo_interest: github_repo_interest_rows(since_date, limit),
+        github_paths: github_path_rows(limit),
+        github_referrers: github_referrer_rows(limit),
+        package_adoption: hex_package_rows(limit),
+        release_adoption: hex_release_rows(limit),
+        content_gaps: content_gap_report(current_scope, days, limit: limit)
+      }
+
+      Map.put(snapshot, :action_items, ecosystem_action_items(snapshot, limit))
+    else
+      empty_ecosystem_snapshot(days, authorized?: false)
+    end
+  rescue
+    _ -> empty_ecosystem_snapshot(days, unavailable?: true)
+  catch
+    _, _ -> empty_ecosystem_snapshot(days, unavailable?: true)
   end
 
   @doc """
@@ -579,6 +623,401 @@ defmodule AgentJido.Analytics do
     |> Repo.aggregate(:count, :id)
   end
 
+  defp ecosystem_totals(since_date) do
+    %{
+      github: github_totals(since_date),
+      plausible: plausible_totals(since_date),
+      search_console: search_console_totals(since_date),
+      hex: hex_totals()
+    }
+  end
+
+  defp github_totals(since_date) do
+    from(row in GitHubRepoDaily,
+      where: row.day >= ^since_date,
+      select: %{
+        views_count: sum(row.views_count),
+        views_uniques: sum(row.views_uniques),
+        clones_count: sum(row.clones_count),
+        clones_uniques: sum(row.clones_uniques)
+      }
+    )
+    |> Repo.one()
+    |> normalize_count_map([:views_count, :views_uniques, :clones_count, :clones_uniques])
+  end
+
+  defp plausible_totals(since_date) do
+    from(row in PlausibleSiteDaily,
+      where: row.day >= ^since_date,
+      select: %{
+        visitors: sum(row.visitors),
+        visits: sum(row.visits),
+        pageviews: sum(row.pageviews),
+        events: sum(row.events),
+        bounce_rate: avg(row.bounce_rate),
+        visit_duration: avg(row.visit_duration)
+      }
+    )
+    |> Repo.one()
+    |> normalize_count_map([:visitors, :visits, :pageviews, :events])
+  end
+
+  defp search_console_totals(since_date) do
+    totals =
+      from(row in SearchConsoleDaily,
+        where: row.day >= ^since_date and row.dimension_set == "date",
+        select: %{
+          clicks: sum(row.clicks),
+          impressions: sum(row.impressions),
+          position: avg(row.position)
+        }
+      )
+      |> Repo.one()
+      |> normalize_count_map([:clicks, :impressions])
+
+    Map.put(totals, :ctr, safe_rate(totals.clicks, totals.impressions))
+  end
+
+  defp hex_totals do
+    case latest_hex_package_day() do
+      nil ->
+        %{day: nil, packages_count: 0, downloads_day: 0, downloads_week: 0, downloads_recent: 0, downloads_all: 0}
+
+      latest_day ->
+        totals =
+          from(row in HexPackageDaily,
+            where: row.day == ^latest_day,
+            select: %{
+              packages_count: count(row.id),
+              downloads_day: sum(row.downloads_day),
+              downloads_week: sum(row.downloads_week),
+              downloads_recent: sum(row.downloads_recent),
+              downloads_all: sum(row.downloads_all)
+            }
+          )
+          |> Repo.one()
+          |> normalize_count_map([:packages_count, :downloads_day, :downloads_week, :downloads_recent, :downloads_all])
+
+        Map.put(totals, :day, latest_day)
+    end
+  end
+
+  defp plausible_source_rows(since_date, limit) do
+    plausible_dimension_rows("visit:source", since_date, limit, :visitors, :visits)
+  end
+
+  defp plausible_page_rows(since_date, limit) do
+    plausible_dimension_rows("event:page", since_date, limit, :visitors, :pageviews)
+  end
+
+  defp plausible_dimension_rows(dimension, since_date, limit, primary_metric, secondary_metric) do
+    from(row in PlausibleDimensionDaily,
+      where: row.day >= ^since_date and row.dimension == ^dimension,
+      group_by: row.value,
+      order_by: [desc: sum(field(row, ^primary_metric)), desc: sum(field(row, ^secondary_metric))],
+      limit: ^limit,
+      select: %{
+        value: row.value,
+        visitors: sum(row.visitors),
+        visits: sum(row.visits),
+        pageviews: sum(row.pageviews),
+        events: sum(row.events),
+        bounce_rate: avg(row.bounce_rate),
+        visit_duration: avg(row.visit_duration)
+      }
+    )
+    |> Repo.all()
+    |> Enum.map(&normalize_count_map(&1, [:visitors, :visits, :pageviews, :events]))
+  end
+
+  defp search_console_query_rows(since_date, limit) do
+    search_console_grouped_rows(:query, "date+query", since_date, limit)
+  end
+
+  defp search_console_page_rows(since_date, limit) do
+    search_console_grouped_rows(:page, "date+page", since_date, limit)
+  end
+
+  defp search_console_grouped_rows(field, dimension_set, since_date, limit) do
+    from(row in SearchConsoleDaily,
+      where: row.day >= ^since_date and row.dimension_set == ^dimension_set and not is_nil(field(row, ^field)),
+      group_by: field(row, ^field),
+      order_by: [desc: sum(row.clicks), desc: sum(row.impressions)],
+      limit: ^limit,
+      select: %{
+        value: field(row, ^field),
+        clicks: sum(row.clicks),
+        impressions: sum(row.impressions),
+        position: avg(row.position)
+      }
+    )
+    |> Repo.all()
+    |> Enum.map(&put_ctr/1)
+  end
+
+  defp search_console_opportunity_rows(since_date, limit) do
+    search_console_grouped_rows(:query, "date+query", since_date, limit * 8)
+    |> Enum.filter(fn row ->
+      row.impressions >= 10 and number_between?(row.position, 4.0, 20.0) and row.ctr <= 0.08
+    end)
+    |> Enum.sort_by(fn row -> {-row.impressions, row.position || 999.0, row.value || ""} end)
+    |> Enum.take(limit)
+  end
+
+  defp github_repo_interest_rows(since_date, limit) do
+    from(row in GitHubRepoDaily,
+      join: repository in assoc(row, :tracked_repository),
+      where: row.day >= ^since_date,
+      group_by: repository.full_name,
+      order_by: [desc: sum(row.views_count), desc: sum(row.clones_count)],
+      limit: ^limit,
+      select: %{
+        repository: repository.full_name,
+        views_count: sum(row.views_count),
+        views_uniques: sum(row.views_uniques),
+        clones_count: sum(row.clones_count),
+        clones_uniques: sum(row.clones_uniques)
+      }
+    )
+    |> Repo.all()
+    |> Enum.map(&normalize_count_map(&1, [:views_count, :views_uniques, :clones_count, :clones_uniques]))
+  end
+
+  defp github_path_rows(limit) do
+    case latest_snapshot_day(GitHubPathSnapshot) do
+      nil ->
+        []
+
+      latest_day ->
+        from(row in GitHubPathSnapshot,
+          join: repository in assoc(row, :tracked_repository),
+          where: row.snapshot_date == ^latest_day,
+          order_by: [desc: row.count, asc: row.rank],
+          limit: ^limit,
+          select: %{
+            repository: repository.full_name,
+            path: row.path,
+            title: row.title,
+            count: row.count,
+            uniques: row.uniques,
+            snapshot_date: row.snapshot_date
+          }
+        )
+        |> Repo.all()
+    end
+  end
+
+  defp github_referrer_rows(limit) do
+    case latest_snapshot_day(GitHubReferrerSnapshot) do
+      nil ->
+        []
+
+      latest_day ->
+        from(row in GitHubReferrerSnapshot,
+          join: repository in assoc(row, :tracked_repository),
+          where: row.snapshot_date == ^latest_day,
+          order_by: [desc: row.count, asc: row.rank],
+          limit: ^limit,
+          select: %{
+            repository: repository.full_name,
+            referrer: row.referrer,
+            count: row.count,
+            uniques: row.uniques,
+            snapshot_date: row.snapshot_date
+          }
+        )
+        |> Repo.all()
+    end
+  end
+
+  defp hex_package_rows(limit) do
+    case latest_hex_package_day() do
+      nil ->
+        []
+
+      latest_day ->
+        from(row in HexPackageDaily,
+          where: row.day == ^latest_day,
+          order_by: [desc: row.downloads_recent, desc: row.downloads_week, desc: row.downloads_all],
+          limit: ^limit,
+          select: %{
+            package_name: row.package_name,
+            latest_version: row.latest_version,
+            downloads_day: row.downloads_day,
+            downloads_week: row.downloads_week,
+            downloads_recent: row.downloads_recent,
+            downloads_all: row.downloads_all,
+            day: row.day
+          }
+        )
+        |> Repo.all()
+    end
+  end
+
+  defp hex_release_rows(limit) do
+    case latest_release_day() do
+      nil ->
+        []
+
+      latest_day ->
+        from(row in HexReleaseDaily,
+          where: row.day == ^latest_day,
+          order_by: [desc: row.downloads_total],
+          limit: ^limit,
+          select: %{
+            package_name: row.package_name,
+            version: row.version,
+            downloads_total: row.downloads_total,
+            release_inserted_at: row.release_inserted_at,
+            has_docs: row.has_docs,
+            day: row.day
+          }
+        )
+        |> Repo.all()
+    end
+  end
+
+  defp ecosystem_action_items(snapshot, limit) do
+    []
+    |> maybe_add_failed_collector_action(snapshot)
+    |> maybe_add_seo_action(snapshot)
+    |> maybe_add_content_gap_action(snapshot)
+    |> maybe_add_repo_action(snapshot)
+    |> maybe_add_hex_action(snapshot)
+    |> Enum.take(limit)
+  end
+
+  defp maybe_add_failed_collector_action(actions, %{collection: %{sources: sources}}) do
+    failed =
+      Enum.filter(sources, fn source ->
+        get_in(source, [:latest_run, :status]) == "failed"
+      end)
+
+    case failed do
+      [] ->
+        actions
+
+      failed_sources ->
+        labels = failed_sources |> Enum.map(& &1.label) |> Enum.join(", ")
+
+        [
+          %{
+            source: "Collectors",
+            priority: "Fix",
+            title: "Repair failed analytics collection",
+            evidence: labels
+          }
+          | actions
+        ]
+    end
+  end
+
+  defp maybe_add_failed_collector_action(actions, _snapshot), do: actions
+
+  defp maybe_add_seo_action(actions, %{seo_opportunities: [row | _rows]}) do
+    [
+      %{
+        source: "Search Console",
+        priority: "Improve",
+        title: "Improve search result CTR for #{row.value}",
+        evidence: "#{row.impressions} impressions, #{format_internal_percent(row.ctr)} CTR, avg position #{format_internal_float(row.position)}"
+      }
+      | actions
+    ]
+  end
+
+  defp maybe_add_seo_action(actions, _snapshot), do: actions
+
+  defp maybe_add_content_gap_action(actions, %{content_gaps: [%{failure_count: failure_count} = row | _rows]})
+       when failure_count > 0 do
+    [
+      %{
+        source: "Local search",
+        priority: "Backfill",
+        title: "Improve answer coverage for #{row.query}",
+        evidence: "#{row.failure_count} failed searches in #{row.demand_count} attempts"
+      }
+      | actions
+    ]
+  end
+
+  defp maybe_add_content_gap_action(actions, _snapshot), do: actions
+
+  defp maybe_add_repo_action(actions, %{repo_interest: [row | _rows]}) do
+    [
+      %{
+        source: "GitHub",
+        priority: "Watch",
+        title: "Track developer interest in #{row.repository}",
+        evidence: "#{row.views_count} views and #{row.clones_count} clones"
+      }
+      | actions
+    ]
+  end
+
+  defp maybe_add_repo_action(actions, _snapshot), do: actions
+
+  defp maybe_add_hex_action(actions, %{package_adoption: [row | _rows]}) do
+    [
+      %{
+        source: "Hex",
+        priority: "Watch",
+        title: "Monitor package adoption for #{row.package_name}",
+        evidence: "#{row.downloads_recent} recent downloads, #{row.downloads_week} this week"
+      }
+      | actions
+    ]
+  end
+
+  defp maybe_add_hex_action(actions, _snapshot), do: actions
+
+  defp latest_hex_package_day do
+    from(row in HexPackageDaily, select: max(row.day))
+    |> Repo.one()
+  end
+
+  defp latest_release_day do
+    from(row in HexReleaseDaily, select: max(row.day))
+    |> Repo.one()
+  end
+
+  defp latest_snapshot_day(schema) do
+    from(row in schema, select: max(row.snapshot_date))
+    |> Repo.one()
+  end
+
+  defp normalize_count_map(nil, keys), do: normalize_count_map(%{}, keys)
+
+  defp normalize_count_map(map, keys) when is_map(map) do
+    Enum.reduce(keys, map, fn key, acc ->
+      Map.update(acc, key, 0, &number_or_zero/1)
+    end)
+  end
+
+  defp put_ctr(row) do
+    row
+    |> normalize_count_map([:clicks, :impressions])
+    |> Map.put(:ctr, safe_rate(row.clicks, row.impressions))
+  end
+
+  defp number_or_zero(nil), do: 0
+  defp number_or_zero(value) when is_number(value), do: value
+  defp number_or_zero(_value), do: 0
+
+  defp safe_rate(_numerator, denominator) when denominator in [nil, 0], do: 0.0
+  defp safe_rate(numerator, denominator) when is_number(numerator) and is_number(denominator), do: numerator / denominator
+  defp safe_rate(_numerator, _denominator), do: 0.0
+
+  defp number_between?(value, min, max) when is_number(value), do: value >= min and value <= max
+  defp number_between?(_value, _min, _max), do: false
+
+  defp format_internal_percent(value) when is_number(value), do: "#{Float.round(value * 100, 1)}%"
+  defp format_internal_percent(_value), do: "0.0%"
+
+  defp format_internal_float(value) when is_float(value), do: value |> Float.round(1) |> :erlang.float_to_binary(decimals: 1)
+  defp format_internal_float(value) when is_integer(value), do: Integer.to_string(value)
+  defp format_internal_float(_value), do: "-"
+
   defp configured_site_count(key) do
     if Ingestion.config(key) |> present?(), do: 1, else: 0
   end
@@ -919,6 +1358,34 @@ defmodule AgentJido.Analytics do
     %{
       sources: [],
       recent_runs: []
+    }
+  end
+
+  defp empty_ecosystem_snapshot(days, opts) do
+    %{
+      days: days,
+      since_date: since_date(days),
+      unavailable?: Keyword.get(opts, :unavailable?, false),
+      authorized?: Keyword.get(opts, :authorized?, true),
+      totals: %{
+        github: %{views_count: 0, views_uniques: 0, clones_count: 0, clones_uniques: 0},
+        plausible: %{visitors: 0, visits: 0, pageviews: 0, events: 0, bounce_rate: nil, visit_duration: nil},
+        search_console: %{clicks: 0, impressions: 0, ctr: 0.0, position: nil},
+        hex: %{day: nil, packages_count: 0, downloads_day: 0, downloads_week: 0, downloads_recent: 0, downloads_all: 0}
+      },
+      collection: empty_ingestion_snapshot(),
+      acquisition_sources: [],
+      site_pages: [],
+      search_queries: [],
+      search_pages: [],
+      seo_opportunities: [],
+      repo_interest: [],
+      github_paths: [],
+      github_referrers: [],
+      package_adoption: [],
+      release_adoption: [],
+      content_gaps: [],
+      action_items: []
     }
   end
 

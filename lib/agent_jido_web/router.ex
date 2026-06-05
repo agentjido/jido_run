@@ -121,6 +121,7 @@ defmodule AgentJidoWeb.Router do
       on_mount: @admin_on_mount do
       live "/dashboard", AdminDashboardLive, :index
       live "/dashboard/analytics", AdminAnalyticsLive, :index
+      live "/dashboard/ecosystem-analytics", AdminEcosystemAnalyticsLive, :index
       live "/dashboard/content-ingestion", AdminContentIngestionLive, :index
       live "/dashboard/content-ingestion/audit", AdminContentIngestionLive, :index
       live "/dashboard/contentops", ContentOpsLive, :index

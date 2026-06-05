@@ -96,6 +96,19 @@ defmodule AgentJidoWeb.AdminDashboardLive do
             </.link>
           </article>
 
+          <article id="dashboard-ecosystem-analytics" class="space-y-2 rounded-lg border border-border bg-card p-6 md:col-span-2">
+            <h2 class="text-lg font-semibold text-foreground">Ecosystem Analytics</h2>
+            <p class="text-sm text-muted-foreground">
+              Review external demand, package adoption, repo traffic, and Search Console opportunities.
+            </p>
+            <.link
+              navigate="/dashboard/ecosystem-analytics"
+              class="text-sm font-semibold text-primary hover:text-primary/80"
+            >
+              Open ecosystem analytics
+            </.link>
+          </article>
+
           <article id="dashboard-query-tracking" class="space-y-4 rounded-lg border border-border bg-card p-6 md:col-span-2">
             <div class="flex flex-wrap items-start justify-between gap-3">
               <div class="space-y-2">

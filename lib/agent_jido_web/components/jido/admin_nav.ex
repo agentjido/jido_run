@@ -11,6 +11,7 @@ defmodule AgentJidoWeb.Jido.AdminNav do
   @core_links [
     %{label: "Dashboard", path: "/dashboard", kind: :navigate},
     %{label: "Analytics", path: "/dashboard/analytics", kind: :navigate},
+    %{label: "Ecosystem Analytics", path: "/dashboard/ecosystem-analytics", kind: :navigate},
     %{label: "Content Ingestion", path: "/dashboard/content-ingestion", kind: :navigate},
     %{label: "ContentOps", path: "/dashboard/contentops", kind: :navigate},
     %{label: "ContentOps GitHub", path: "/dashboard/contentops/github", kind: :navigate},
