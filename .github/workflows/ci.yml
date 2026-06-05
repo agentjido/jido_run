@@ -174,7 +174,7 @@ jobs:
         run: mix deps.compile
 
       - name: Setup database
-        run: mix ecto.setup
+        run: mix ecto.create && mix ecto.migrate
         env:
           DATABASE_URL: postgres://${{ env.POSTGRES_USER }}:${{ env.POSTGRES_PASSWORD }}@${{ env.POSTGRES_HOST }}:${{ env.POSTGRES_PORT }}/${{ env.POSTGRES_DB }}
 
