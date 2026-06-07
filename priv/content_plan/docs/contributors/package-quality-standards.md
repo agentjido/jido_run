@@ -24,6 +24,7 @@
     required_sections: ["Fast Path Checklist", "How to use this page", "Package Structure", "Shared Building Blocks", "Quality Gates", "Release Workflow", "Contributor Checklists"],
     must_include: ["Short explanation that quality standards are distinct from support levels",
      "Explicit `mix quality` policy", "GitOps-style release workflow expectations",
+     "`CHANGELOG.md` is generated from Git history during release and should not be modified in normal PRs",
      "Contributor checklists for new packages, first release, and ongoing maintenance",
      "Worktree-safe git hook guidance with explicit install rather than compile-time auto-install"],
     must_avoid: ["Package-specific implementation details that belong in per-repo docs"],
@@ -47,6 +48,7 @@ Canonical checklist and standards page for public Jido ecosystem packages. This 
 - Includes a fast review path near the top
 - Distinguishes quality standards from support level and package roster pages
 - Covers repo structure, quality gates, docs coverage, CI, and release workflow
+- States that `CHANGELOG.md` is generated from Git history during release and should not be edited in normal PRs
 - Captures worktree-safe git hook and local tooling expectations
 - States the canonical package policies clearly enough to link from PRs
 - Includes actionable checklists, not just prose
