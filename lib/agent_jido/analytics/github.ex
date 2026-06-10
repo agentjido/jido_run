@@ -40,6 +40,8 @@ defmodule AgentJido.Analytics.GitHub do
   @spec upsert_referrers(Date.t(), String.t(), [map()], DateTime.t()) :: {:ok, [ReferrerDaily.t()]} | {:error, term()}
   def upsert_referrers(date, repo, referrers, fetched_at) when is_list(referrers) do
     Repo.transaction(fn ->
+      delete_referrer_daily_rows(date, repo)
+
       referrers
       |> Enum.reduce_while([], fn referrer, acc ->
         case insert_referrer_daily(date, repo, referrer, fetched_at) do
@@ -57,6 +59,8 @@ defmodule AgentJido.Analytics.GitHub do
   @spec upsert_paths(Date.t(), String.t(), [map()], DateTime.t()) :: {:ok, [PathDaily.t()]} | {:error, term()}
   def upsert_paths(date, repo, paths, fetched_at) when is_list(paths) do
     Repo.transaction(fn ->
+      delete_path_daily_rows(date, repo)
+
       paths
       |> Enum.reduce_while([], fn path, acc ->
         case insert_path_daily(date, repo, path, fetched_at) do
@@ -84,6 +88,18 @@ defmodule AgentJido.Analytics.GitHub do
 
   defp map_get(map, key, default \\ nil)
   defp map_get(map, key, default) when is_atom(key), do: Map.get(map, key, Map.get(map, Atom.to_string(key), default))
+
+  defp delete_referrer_daily_rows(date, repo) do
+    ReferrerDaily
+    |> where([r], r.date == ^date and r.repo == ^repo)
+    |> Repo.delete_all()
+  end
+
+  defp delete_path_daily_rows(date, repo) do
+    PathDaily
+    |> where([p], p.date == ^date and p.repo == ^repo)
+    |> Repo.delete_all()
+  end
 
   defp insert_referrer_daily(date, repo, referrer, fetched_at) do
     attrs = %{
