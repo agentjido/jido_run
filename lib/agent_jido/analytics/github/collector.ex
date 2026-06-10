@@ -89,8 +89,10 @@ defmodule AgentJido.Analytics.GitHub.Collector do
 
     with {:ok, traffic} <- client.fetch_repo_traffic(owner, name, request_opts),
          {:ok, repo_rows} <- persist_repo_daily(repo_slug, traffic, fetched_at),
-         {:ok, referrer_rows} <- GitHub.upsert_referrers(DateTime.to_date(fetched_at), repo_slug, normalize_referrers(traffic), fetched_at),
-         {:ok, path_rows} <- GitHub.upsert_paths(DateTime.to_date(fetched_at), repo_slug, normalize_paths(traffic), fetched_at) do
+         snapshot_date = DateTime.to_date(fetched_at),
+         referrers = normalize_referrers(traffic),
+         {:ok, referrer_rows} <- GitHub.upsert_referrers(snapshot_date, repo_slug, referrers, fetched_at),
+         {:ok, path_rows} <- GitHub.upsert_paths(snapshot_date, repo_slug, normalize_paths(traffic), fetched_at) do
       {:ok, %{repo_daily: repo_rows, referrers: referrer_rows, paths: path_rows}}
     else
       {:error, reason} = error ->
