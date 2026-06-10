@@ -4,6 +4,7 @@ defmodule AgentJidoWeb.JidoEcosystemLiveTest do
   import Phoenix.LiveViewTest
 
   alias AgentJido.Ecosystem
+  alias AgentJido.Ecosystem.{Layering, SupportLevel}
 
   test "renders ecosystem package directory and links all public packages", %{conn: conn} do
     {:ok, _view, html} = live(conn, "/ecosystem")
@@ -170,7 +171,7 @@ defmodule AgentJidoWeb.JidoEcosystemLiveTest do
 
   defp package_for_support_level!(support_level) do
     Ecosystem.public_packages()
-    |> Enum.find(&(AgentJido.Ecosystem.SupportLevel.normalize(&1.support_level) == support_level))
+    |> Enum.find(&(SupportLevel.normalize(&1.support_level) == support_level))
     |> case do
       nil -> flunk("expected a public package with support level #{inspect(support_level)}")
       pkg -> pkg
@@ -179,12 +180,12 @@ defmodule AgentJidoWeb.JidoEcosystemLiveTest do
 
   defp package_for_support_level(support_level) do
     Ecosystem.public_packages()
-    |> Enum.find(&(AgentJido.Ecosystem.SupportLevel.normalize(&1.support_level) == support_level))
+    |> Enum.find(&(SupportLevel.normalize(&1.support_level) == support_level))
   end
 
   defp package_for_layer!(layer) do
     Ecosystem.public_packages()
-    |> Enum.find(&(AgentJido.Ecosystem.Layering.layer_for(&1) == layer))
+    |> Enum.find(&(Layering.layer_for(&1) == layer))
     |> case do
       nil -> flunk("expected a public package in layer #{inspect(layer)}")
       pkg -> pkg

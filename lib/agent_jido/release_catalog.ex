@@ -140,10 +140,7 @@ defmodule AgentJido.ReleaseCatalog do
     indent = Keyword.get(opts, :indent, 4)
     line_indent = String.duplicate(" ", indent + 2)
 
-    deps =
-      ids
-      |> Enum.map(&mix_dep/1)
-      |> Enum.join(",\n#{line_indent}")
+    deps = Enum.map_join(ids, ",\n#{line_indent}", &mix_dep/1)
 
     """
     defp deps do

@@ -8,8 +8,8 @@ defmodule AgentJido.ContentOps.Chat.Bridge do
   require Logger
 
   alias AgentJido.ContentOps.Chat.{DiscordHandler, TelegramHandler}
-  alias Jido.Signal.Bus
   alias Jido.Messaging.Supervisor, as: MessagingSupervisor
+  alias Jido.Signal.Bus
 
   @type state :: %{
           instance_module: module(),

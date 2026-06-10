@@ -89,8 +89,7 @@ defmodule AgentJido.Ecosystem.Atlas do
           {_facet, grouped_packages} -> render_table(grouped_packages)
         end
       else
-        grouped
-        |> Enum.map(fn {facet, grouped_packages} ->
+        Enum.map_join(grouped, "\n\n", fn {facet, grouped_packages} ->
           """
           ### #{facet_heading(facet)}
 
@@ -98,7 +97,6 @@ defmodule AgentJido.Ecosystem.Atlas do
           """
           |> String.trim()
         end)
-        |> Enum.join("\n\n")
       end
 
     """
@@ -125,9 +123,7 @@ defmodule AgentJido.Ecosystem.Atlas do
 
   defp render_table(packages) do
     rows =
-      packages
-      |> Enum.map(&table_row/1)
-      |> Enum.join("\n")
+      Enum.map_join(packages, "\n", &table_row/1)
 
     """
     | Package | Support | Owner | Release | Purpose |

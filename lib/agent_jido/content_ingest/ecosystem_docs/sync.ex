@@ -177,7 +177,8 @@ defmodule AgentJido.ContentIngest.EcosystemDocs.Sync do
     with {:ok, docs_root_response} <- client.fetch(resolved_package.docs_html_url, opts),
          {:ok, landing_url} <- resolve_landing_url(docs_root_response, manifest_parser),
          {:ok, landing_response} <- client.fetch(landing_url, opts),
-         {:ok, sidebar_asset_url} <- resolve_sidebar_asset_url(landing_response, resolved_package.docs_html_url, client, manifest_parser, opts),
+         {:ok, sidebar_asset_url} <-
+           resolve_sidebar_asset_url(landing_response, resolved_package.docs_html_url, client, manifest_parser, opts),
          {:ok, manifest_response} <- client.fetch(sidebar_asset_url, opts),
          {:ok, manifest} <- manifest_parser.parse_sidebar_items(manifest_response.body) do
       pages = manifest_parser.page_entries(manifest, resolved_package.docs_html_url)

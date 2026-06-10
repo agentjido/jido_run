@@ -111,8 +111,8 @@ defmodule AgentJido.Demos.GithubAgent do
     """,
     max_iterations: 15
 
-  alias Jido.AI.Request
   alias AgentJido.Github.Optional, as: GithubOptional
+  alias Jido.AI.Request
 
   @default_timeout 60_000
 

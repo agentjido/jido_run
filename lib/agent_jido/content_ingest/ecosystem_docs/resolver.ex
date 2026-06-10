@@ -3,9 +3,9 @@ defmodule AgentJido.ContentIngest.EcosystemDocs.Resolver do
   Resolves eligible public ecosystem packages against exact Hex releases.
   """
 
+  alias AgentJido.ContentIngest.EcosystemDocs.HexDocsClient
   alias AgentJido.Ecosystem
   alias AgentJido.Ecosystem.Package
-  alias AgentJido.ContentIngest.EcosystemDocs.HexDocsClient
 
   @typedoc "Resolved package metadata for one exact Hex release."
   @type resolved_package :: %{
@@ -56,16 +56,18 @@ defmodule AgentJido.ContentIngest.EcosystemDocs.Resolver do
   end
 
   defp resolve_release_response(package, %{status: 200, body: body}) do
-    with {:ok, payload} <- Jason.decode(body) do
-      docs_html_url = payload["docs_html_url"]
+    case Jason.decode(body) do
+      {:ok, payload} ->
+        docs_html_url = payload["docs_html_url"]
 
-      if payload["has_docs"] == true and is_binary(docs_html_url) and String.trim(docs_html_url) != "" do
-        {:ok, {:eligible, build_resolved_package(package, docs_html_url)}}
-      else
-        {:ok, {:skipped_unpublished, build_resolved_package(package, docs_html_url)}}
-      end
-    else
-      {:error, reason} -> {:error, {:invalid_release_json, reason}}
+        if payload["has_docs"] == true and is_binary(docs_html_url) and String.trim(docs_html_url) != "" do
+          {:ok, {:eligible, build_resolved_package(package, docs_html_url)}}
+        else
+          {:ok, {:skipped_unpublished, build_resolved_package(package, docs_html_url)}}
+        end
+
+      {:error, reason} ->
+        {:error, {:invalid_release_json, reason}}
     end
   end
 

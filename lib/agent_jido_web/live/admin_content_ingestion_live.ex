@@ -681,7 +681,10 @@ defmodule AgentJidoWeb.AdminContentIngestionLive do
   end
 
   defp ecosystem_docs_poll_interval_ms do
-    case Application.get_env(:agent_jido, :dashboard_ecosystem_docs_poll_interval_ms, @ecosystem_docs_poll_default_ms) do
+    interval_ms =
+      Application.get_env(:agent_jido, :dashboard_ecosystem_docs_poll_interval_ms, @ecosystem_docs_poll_default_ms)
+
+    case interval_ms do
       value when is_integer(value) and value > 0 -> value
       _other -> @ecosystem_docs_poll_default_ms
     end
