@@ -198,6 +198,72 @@ content_assistant_config =
 
 config :agent_jido, AgentJido.ContentAssistant, content_assistant_config
 
+analytics_ingestion_config =
+  case Application.get_env(:agent_jido, AgentJido.Analytics.Ingestion, []) do
+    cfg when is_map(cfg) -> Map.to_list(cfg)
+    cfg when is_list(cfg) -> cfg
+    _other -> []
+  end
+
+analytics_ingestion_config =
+  analytics_ingestion_config
+  |> Keyword.put(:github_token, env!("ANALYTICS_GITHUB_TOKEN", :string, nil))
+  |> Keyword.put(
+    :github_app_id,
+    env!(
+      "ANALYTICS_GITHUB_APP_ID",
+      :string,
+      env!("GITHUB_APP_ID", :string, Keyword.get(analytics_ingestion_config, :github_app_id, nil))
+    )
+  )
+  |> Keyword.put(
+    :github_app_installation_id,
+    env!(
+      "ANALYTICS_GITHUB_APP_INSTALLATION_ID",
+      :string,
+      env!("GITHUB_APP_INSTALLATION_ID", :string, Keyword.get(analytics_ingestion_config, :github_app_installation_id, nil))
+    )
+  )
+  |> Keyword.put(
+    :github_app_private_key,
+    env!(
+      "ANALYTICS_GITHUB_APP_PRIVATE_KEY",
+      :string,
+      env!("GITHUB_APP_PRIVATE_KEY", :string, Keyword.get(analytics_ingestion_config, :github_app_private_key, nil))
+    )
+  )
+  |> Keyword.put(
+    :github_app_private_key_path,
+    env!(
+      "ANALYTICS_GITHUB_APP_PRIVATE_KEY_PATH",
+      :string,
+      env!("GITHUB_APP_PRIVATE_KEY_PATH", :string, Keyword.get(analytics_ingestion_config, :github_app_private_key_path, nil))
+    )
+  )
+  |> Keyword.put(:plausible_api_key, env!("PLAUSIBLE_STATS_API_KEY", :string, nil))
+  |> Keyword.put(
+    :plausible_site_id,
+    env!("PLAUSIBLE_SITE_ID", :string, Keyword.get(analytics_ingestion_config, :plausible_site_id, nil))
+  )
+  |> Keyword.put(
+    :search_console_site_url,
+    env!("GOOGLE_SEARCH_CONSOLE_SITE_URL", :string, Keyword.get(analytics_ingestion_config, :search_console_site_url, nil))
+  )
+  |> Keyword.put(
+    :search_console_credentials_json,
+    env!("GOOGLE_SEARCH_CONSOLE_CREDENTIALS_JSON", :string, nil)
+  )
+  |> Keyword.put(
+    :search_console_credentials_json_path,
+    env!("GOOGLE_SEARCH_CONSOLE_CREDENTIALS_JSON_PATH", :string, nil)
+  )
+  |> Keyword.put(
+    :search_console_quota_project,
+    env!("GOOGLE_SEARCH_CONSOLE_QUOTA_PROJECT", :string, Keyword.get(analytics_ingestion_config, :search_console_quota_project, nil))
+  )
+
+config :agent_jido, AgentJido.Analytics.Ingestion, analytics_ingestion_config
+
 if content_assistant_require_turnstile and (is_nil(turnstile_site_key) or is_nil(turnstile_secret_key)) do
   IO.warn("""
   CONTENT_ASSISTANT_REQUIRE_TURNSTILE is enabled, but CONTENT_ASSISTANT_TURNSTILE_SITE_KEY or CONTENT_ASSISTANT_TURNSTILE_SECRET_KEY is missing.

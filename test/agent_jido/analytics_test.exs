@@ -6,6 +6,8 @@ defmodule AgentJido.AnalyticsTest do
   alias AgentJido.Accounts.Scope
   alias AgentJido.Analytics
   alias AgentJido.Analytics.AnalyticsEvent
+  alias AgentJido.Analytics.Ingestion
+  alias AgentJido.Analytics.Ingestion.IngestionRun
   alias AgentJido.Analytics.RateLimiter
   alias AgentJido.Analytics.Redactor
   alias AgentJido.QueryLogs
@@ -138,6 +140,41 @@ defmodule AgentJido.AnalyticsTest do
       assert Enum.any?(snapshot.feedback_breakdown, &(&1.feedback_value == "helpful"))
       assert Enum.any?(snapshot.recent_feedback, &(&1.feedback_note == "I wanted retry docs"))
       assert Enum.any?(snapshot.recent_feedback, &(&1.feedback_note == "Great summary"))
+      assert snapshot.local_search.summary.total_messages == 2
+      assert Enum.any?(snapshot.local_search.recent_messages, &(&1.query == "agent retry strategies"))
+    end
+
+    test "includes external collector health in the dashboard snapshot" do
+      admin = admin_user_fixture()
+      admin_scope = Scope.for_user(admin)
+
+      {:ok, repo} =
+        Ingestion.upsert_tracked_repository(%{
+          owner: "agentjido",
+          name: "jido",
+          label: "Jido"
+        })
+
+      assert 1 =
+               Ingestion.upsert_github_traffic(repo, %{
+                 daily: [
+                   %{day: ~D[2026-06-01], views_count: 10, views_uniques: 4, clones_count: 3, clones_uniques: 2}
+                 ],
+                 referrers: [],
+                 paths: [],
+                 snapshot_date: ~D[2026-06-02]
+               })
+
+      run = Ingestion.start_run("github_traffic", date_from: ~D[2026-06-01], date_to: ~D[2026-06-02])
+      assert %IngestionRun{} = Ingestion.complete_run(run, 1)
+
+      snapshot = Analytics.dashboard_snapshot(admin_scope, 30)
+      github = Enum.find(snapshot.ingestion.sources, &(&1.source == "github_traffic"))
+
+      assert github.tracked_count == 1
+      assert github.rows_count == 1
+      assert github.latest_day == ~D[2026-06-01]
+      assert github.latest_run.status == "completed"
     end
 
     test "rate limiter blocks after threshold" do

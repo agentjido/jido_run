@@ -110,6 +110,86 @@ defmodule AgentJidoWeb.AdminAnalyticsLive do
           </article>
         </section>
 
+        <section class="rounded-lg border border-border bg-card p-5">
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <h2 class="text-lg font-semibold text-foreground">Collector Health</h2>
+            <span class="text-xs text-muted-foreground">Rows shown for the selected {@analytics_days}d window</span>
+          </div>
+          <div class="mt-3 overflow-x-auto rounded-md border border-border bg-background">
+            <table class="min-w-full text-left text-xs">
+              <thead class="bg-elevated text-muted-foreground">
+                <tr>
+                  <th class="px-3 py-2 font-semibold">Source</th>
+                  <th class="px-3 py-2 font-semibold">Configured</th>
+                  <th class="px-3 py-2 font-semibold">Tracked</th>
+                  <th class="px-3 py-2 font-semibold">Latest run</th>
+                  <th class="px-3 py-2 font-semibold">Latest data day</th>
+                  <th class="px-3 py-2 font-semibold">Rows</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr :for={source <- @analytics_snapshot.ingestion.sources} class="border-t border-border/70">
+                  <td class="whitespace-nowrap px-3 py-2 font-semibold text-foreground">{source.label}</td>
+                  <td class="whitespace-nowrap px-3 py-2">
+                    <span class={configured_badge_class(source[:configured?])}>{configured_label(source[:configured?])}</span>
+                  </td>
+                  <td class="px-3 py-2 text-muted-foreground">{source.tracked_count}</td>
+                  <td class="whitespace-nowrap px-3 py-2">
+                    <span class={run_status_class(get_in(source, [:latest_run, :status]))}>
+                      {run_status_label(get_in(source, [:latest_run, :status]))}
+                    </span>
+                  </td>
+                  <td class="whitespace-nowrap px-3 py-2 text-muted-foreground">{format_date(source.latest_day)}</td>
+                  <td class="px-3 py-2 text-muted-foreground">{source.rows_count}</td>
+                </tr>
+                <tr :if={@analytics_snapshot.ingestion.sources == []}>
+                  <td colspan="6" class="px-3 py-3 text-muted-foreground">No collector health data available.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="rounded-lg border border-border bg-card p-5">
+          <div class="flex flex-wrap items-center justify-between gap-3">
+            <h2 class="text-lg font-semibold text-foreground">Recent Search Messages</h2>
+            <div class="flex flex-wrap gap-2 text-xs text-muted-foreground">
+              <span>success {@analytics_snapshot.local_search.summary.successful_messages || 0}</span>
+              <span>no results {@analytics_snapshot.local_search.summary.no_result_messages || 0}</span>
+              <span>failed {@analytics_snapshot.local_search.summary.failed_messages || 0}</span>
+            </div>
+          </div>
+          <div class="mt-3 overflow-x-auto rounded-md border border-border bg-background">
+            <table class="min-w-full text-left text-xs">
+              <thead class="bg-elevated text-muted-foreground">
+                <tr>
+                  <th class="px-3 py-2 font-semibold">When</th>
+                  <th class="px-3 py-2 font-semibold">Query</th>
+                  <th class="px-3 py-2 font-semibold">Channel</th>
+                  <th class="px-3 py-2 font-semibold">Status</th>
+                  <th class="px-3 py-2 font-semibold">Results</th>
+                  <th class="px-3 py-2 font-semibold">Latency</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr :for={message <- @analytics_snapshot.local_search.recent_messages} class="border-t border-border/70">
+                  <td class="whitespace-nowrap px-3 py-2 text-muted-foreground">{format_datetime(message.inserted_at)}</td>
+                  <td class="max-w-[420px] break-words px-3 py-2 text-foreground">{truncate(message.query)}</td>
+                  <td class="whitespace-nowrap px-3 py-2 text-muted-foreground">{message.channel || "-"}</td>
+                  <td class="whitespace-nowrap px-3 py-2">
+                    <span class={search_status_class(message.status)}>{search_status_label(message.status)}</span>
+                  </td>
+                  <td class="px-3 py-2 text-muted-foreground">{message.results_count || 0}</td>
+                  <td class="whitespace-nowrap px-3 py-2 text-muted-foreground">{format_latency(message.latency_ms)}</td>
+                </tr>
+                <tr :if={@analytics_snapshot.local_search.recent_messages == []}>
+                  <td colspan="6" class="px-3 py-3 text-muted-foreground">No search messages collected yet.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
         <section class="grid gap-6 lg:grid-cols-2">
           <article class="space-y-3 rounded-lg border border-border bg-card p-5">
             <h2 class="text-lg font-semibold text-foreground">Top demand topics</h2>
@@ -275,7 +355,23 @@ defmodule AgentJidoWeb.AdminAnalyticsLive do
       reformulations: [],
       feedback_breakdown: [],
       recent_feedback: [],
-      recent_negative_feedback: []
+      recent_negative_feedback: [],
+      local_search: %{
+        summary: %{
+          total_messages: 0,
+          submitted_messages: 0,
+          successful_messages: 0,
+          no_result_messages: 0,
+          failed_messages: 0
+        },
+        outcome_breakdown: [],
+        channel_breakdown: [],
+        recent_messages: []
+      },
+      ingestion: %{
+        sources: [],
+        recent_runs: []
+      }
     }
   end
 
@@ -307,6 +403,73 @@ defmodule AgentJidoWeb.AdminAnalyticsLive do
 
   defp percent(_rate), do: "0.0%"
 
+  defp configured_label(true), do: "Ready"
+  defp configured_label(false), do: "Missing"
+  defp configured_label(_value), do: "Missing"
+
+  defp configured_badge_class(true) do
+    "inline-flex rounded-full border border-accent-green/30 bg-accent-green/10 px-2 py-0.5 text-[11px] font-semibold text-accent-green"
+  end
+
+  defp configured_badge_class(_value) do
+    "inline-flex rounded-full border border-accent-yellow/30 bg-accent-yellow/10 px-2 py-0.5 text-[11px] font-semibold text-accent-yellow"
+  end
+
+  defp run_status_label("completed"), do: "Completed"
+  defp run_status_label("running"), do: "Running"
+  defp run_status_label("failed"), do: "Failed"
+  defp run_status_label(_status), do: "No runs"
+
+  defp run_status_class("completed") do
+    "inline-flex rounded-full border border-accent-green/30 bg-accent-green/10 px-2 py-0.5 text-[11px] font-semibold text-accent-green"
+  end
+
+  defp run_status_class("running") do
+    "inline-flex rounded-full border border-accent-cyan/30 bg-accent-cyan/10 px-2 py-0.5 text-[11px] font-semibold text-accent-cyan"
+  end
+
+  defp run_status_class("failed") do
+    "inline-flex rounded-full border border-accent-red/30 bg-accent-red/10 px-2 py-0.5 text-[11px] font-semibold text-accent-red"
+  end
+
+  defp run_status_class(_status) do
+    "inline-flex rounded-full border border-border bg-background px-2 py-0.5 text-[11px] font-semibold text-muted-foreground"
+  end
+
+  defp search_status_label("success"), do: "Success"
+  defp search_status_label("no_results"), do: "No results"
+  defp search_status_label("error"), do: "Error"
+  defp search_status_label("challenge"), do: "Challenge"
+  defp search_status_label("submitted"), do: "Submitted"
+  defp search_status_label(_status), do: "Unknown"
+
+  defp search_status_class("success") do
+    "inline-flex rounded-full bg-accent-green/15 px-2 py-0.5 text-[11px] font-semibold text-accent-green"
+  end
+
+  defp search_status_class("no_results") do
+    "inline-flex rounded-full bg-accent-yellow/15 px-2 py-0.5 text-[11px] font-semibold text-accent-yellow"
+  end
+
+  defp search_status_class("error") do
+    "inline-flex rounded-full bg-accent-red/15 px-2 py-0.5 text-[11px] font-semibold text-accent-red"
+  end
+
+  defp search_status_class("challenge") do
+    "inline-flex rounded-full bg-accent-yellow/15 px-2 py-0.5 text-[11px] font-semibold text-accent-yellow"
+  end
+
+  defp search_status_class("submitted") do
+    "inline-flex rounded-full bg-accent-cyan/15 px-2 py-0.5 text-[11px] font-semibold text-accent-cyan"
+  end
+
+  defp search_status_class(_status) do
+    "inline-flex rounded-full bg-muted px-2 py-0.5 text-[11px] font-semibold text-muted-foreground"
+  end
+
+  defp format_latency(latency_ms) when is_integer(latency_ms), do: "#{latency_ms}ms"
+  defp format_latency(_latency_ms), do: "-"
+
   defp feedback_label("helpful"), do: "Helpful"
   defp feedback_label("not_helpful"), do: "Not helpful"
   defp feedback_label(_value), do: "-"
@@ -326,6 +489,9 @@ defmodule AgentJidoWeb.AdminAnalyticsLive do
   defp format_datetime(%NaiveDateTime{} = datetime), do: Calendar.strftime(datetime, "%Y-%m-%d %H:%M:%S")
   defp format_datetime(%DateTime{} = datetime), do: Calendar.strftime(datetime, "%Y-%m-%d %H:%M:%S")
   defp format_datetime(_datetime), do: "-"
+
+  defp format_date(%Date{} = date), do: Date.to_iso8601(date)
+  defp format_date(_date), do: "-"
 
   defp analytics_module do
     Application.get_env(:agent_jido, :analytics_module, Analytics)

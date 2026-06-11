@@ -5,6 +5,7 @@
 
 alias AgentJido.Accounts
 alias AgentJido.Accounts.User
+alias AgentJido.Analytics.Ingestion
 alias AgentJido.Repo
 
 normalize_env = fn
@@ -16,6 +17,27 @@ normalize_env = fn
 
   _other ->
     nil
+end
+
+%{inserted_or_updated: repository_count, errors: repository_errors} = Ingestion.sync_repositories_from_ecosystem()
+%{inserted_or_updated: hex_package_count, errors: hex_package_errors} = Ingestion.sync_hex_packages_from_ecosystem()
+
+if repository_errors == [] do
+  IO.puts("Seeded #{repository_count} analytics tracked repositories.")
+else
+  raise """
+  Failed to seed #{length(repository_errors)} analytics tracked repositories.
+  #{inspect(repository_errors)}
+  """
+end
+
+if hex_package_errors == [] do
+  IO.puts("Seeded #{hex_package_count} analytics tracked Hex packages.")
+else
+  raise """
+  Failed to seed #{length(hex_package_errors)} analytics tracked Hex packages.
+  #{inspect(hex_package_errors)}
+  """
 end
 
 maybe_confirm_user = fn user ->

@@ -26,16 +26,18 @@ defmodule AgentJido.Analytics.Composite do
   @spec feedback_rows_for_export(term(), pos_integer(), pos_integer()) :: [map()]
   defdelegate feedback_rows_for_export(current_scope, days \\ 7, limit \\ 500), to: Analytics
 
+  @spec search_activity_snapshot(term(), pos_integer(), keyword()) :: map()
+  defdelegate search_activity_snapshot(current_scope, days \\ 7, opts \\ []), to: Analytics
+
+  @spec external_collection_snapshot(term(), pos_integer()) :: map()
+  defdelegate external_collection_snapshot(current_scope, days \\ 7), to: Analytics
+
+  @spec ecosystem_snapshot(term(), pos_integer(), keyword()) :: map()
+  defdelegate ecosystem_snapshot(current_scope, days \\ 30, opts \\ []), to: Analytics
+
   @spec latest_feedback_for_identity(String.t() | nil, String.t() | nil, String.t() | nil, keyword()) ::
           %{feedback_value: String.t() | nil, feedback_note: String.t() | nil} | nil
   defdelegate latest_feedback_for_identity(visitor_id, session_id, path, opts \\ []), to: Analytics
-
-  @spec prune_older_than(pos_integer()) :: %{
-          cutoff: NaiveDateTime.t(),
-          deleted_events: non_neg_integer(),
-          deleted_query_logs: non_neg_integer()
-        }
-  defdelegate prune_older_than(days \\ 180), to: Analytics
 
   @spec track_event(term(), map() | keyword()) ::
           {:ok, AnalyticsEvent.t() | :excluded_admin} | {:error, term()}

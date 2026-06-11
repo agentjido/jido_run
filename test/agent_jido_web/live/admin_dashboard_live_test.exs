@@ -29,6 +29,7 @@ defmodule AgentJidoWeb.AdminDashboardLiveTest do
     assert has_element?(view, "#admin-sidebar")
     assert has_element?(view, "a[data-admin-nav-path='/dashboard'][data-admin-nav-active='true']", "Dashboard")
     assert has_element?(view, "a[data-admin-nav-path='/dashboard/analytics']", "Analytics")
+    assert has_element?(view, "a[data-admin-nav-path='/dashboard/ecosystem-analytics']", "Ecosystem Analytics")
     assert has_element?(view, "a[data-admin-nav-path='/dashboard/content-ingestion']", "Content Ingestion")
     assert has_element?(view, "a[data-admin-nav-path='/dashboard/chatops']", "ChatOps")
     assert has_element?(view, "a[data-admin-nav-path='/arcana']", "Arcana")
@@ -36,10 +37,12 @@ defmodule AgentJidoWeb.AdminDashboardLiveTest do
     assert has_element?(view, "a[href='/dev/jido']", "Open Jido Studio")
 
     assert has_element?(view, "a[href='/dashboard/content-ingestion']", "Open Content Ingestion")
+    assert has_element?(view, "a[href='/dashboard/ecosystem-analytics']", "Open ecosystem analytics")
     assert has_element?(view, "a[href='/dashboard/analytics']", "Open analytics dashboard")
     assert has_element?(view, "#dashboard-live-presence", "Live Presence")
     assert has_element?(view, "#dashboard-query-tracking", "Query Tracking")
     assert has_element?(view, "#dashboard-analytics-summary", "Learning Analytics")
+    assert has_element?(view, "#dashboard-ecosystem-analytics", "Ecosystem Analytics")
     assert has_element?(view, "#dashboard-content-ingest", "Content Ingestion")
   end
 

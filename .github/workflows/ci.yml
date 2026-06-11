@@ -33,6 +33,11 @@ jobs:
           otp-version: ${{ env.OTP_VERSION }}
           elixir-version: ${{ env.ELIXIR_VERSION }}
 
+      - name: Install native runtime libraries
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libopenblas0
+
       - name: Install Hex/Rebar
         run: |
           set -euo pipefail
@@ -121,6 +126,11 @@ jobs:
           otp-version: ${{ env.OTP_VERSION }}
           elixir-version: ${{ env.ELIXIR_VERSION }}
 
+      - name: Install native runtime libraries
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libopenblas0
+
       - name: Install Hex/Rebar
         run: |
           set -euo pipefail
@@ -164,7 +174,7 @@ jobs:
         run: mix deps.compile
 
       - name: Setup database
-        run: mix ecto.setup
+        run: mix ecto.create && mix ecto.migrate
         env:
           DATABASE_URL: postgres://${{ env.POSTGRES_USER }}:${{ env.POSTGRES_PASSWORD }}@${{ env.POSTGRES_HOST }}:${{ env.POSTGRES_PORT }}/${{ env.POSTGRES_DB }}
 

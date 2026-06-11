@@ -33,3 +33,7 @@ Phoenix 1.7+ LiveView app showcasing the Jido AI Agent Framework. Hosted on Fly.
 - Keep controllers thin; business logic in contexts under `lib/agent_jido/`
 - Use changesets for validation; parameterized Ecto queries to prevent SQL injection
 - Never log secrets; use `config/runtime.exs` for runtime secrets
+
+## Release Hygiene
+
+- Do not modify `CHANGELOG.md`; release notes are generated from Git history during release, so keep changes focused on proper Conventional Commits.

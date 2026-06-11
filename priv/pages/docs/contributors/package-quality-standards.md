@@ -681,6 +681,8 @@ git commit -m "fix: resolve timeout in async operations"
 git commit -m "feat!: breaking change to API"
 ```
 
+Do not modify `CHANGELOG.md` in normal PRs. Release notes are generated from Git history during release, so keep changes focused on proper Conventional Commits.
+
 ---
 
 ## Git Hooks and Worktree Safety
@@ -729,7 +731,7 @@ If a package needs custom hook scripts, they should derive the repository root a
 Releases in the Jido ecosystem should be GitOps-driven and reproducible from the repository, not dependent on undocumented local release steps.
 
 - Keep release automation in version-controlled GitHub Actions workflows.
-- Use `git_ops` to manage versioning, changelog, and release preparation.
+- Use `git_ops` to manage versioning, release notes, and release preparation from Git history.
 - Treat release workflow configuration as required package infrastructure, not optional polish.
 
 ### Release Checklist
@@ -784,7 +786,7 @@ end
 | File | Purpose |
 |------|---------|
 | `README.md` | Overview, installation (incl. Igniter if relevant), quick start |
-| `CHANGELOG.md` | Version history (conventional changelog) |
+| `CHANGELOG.md` | Generated version history maintained by release automation |
 | `CONTRIBUTING.md` | How to contribute |
 | `AGENTS.md` | AI agent instructions |
 | `usage-rules.md` | LLM usage rules |
@@ -940,7 +942,7 @@ This approach:
 - [ ] `mix test` passes with at least 80% coverage.
 - [ ] `mix docs` builds without errors.
 - [ ] `mix doctor --raise` passes.
-- [ ] `CHANGELOG.md` has initial entry.
+- [ ] Release notes are covered by Conventional Commits; `CHANGELOG.md` is generated during release.
 - [ ] `CONTRIBUTING.md` describes workflow.
 - [ ] GitHub Actions v4 CI configured with required released Elixir version lines and the current RC experimental lane.
 - [ ] Release workflow configured with `jido-release.yml@v4`.
@@ -955,7 +957,7 @@ This approach:
 - [ ] Documentation coverage maintained (doctor).
 - [ ] Conventional commits enforced.
 - [ ] Hook scripts and git tooling still work from contributor worktrees.
-- [ ] CHANGELOG updated on releases.
+- [ ] `CHANGELOG.md` remains release-automation output, not a normal PR edit target.
 - [ ] Dependencies kept up to date.
 - [ ] Security advisories addressed promptly.
 

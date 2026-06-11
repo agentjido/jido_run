@@ -26,6 +26,20 @@ config :agent_jido,
 
 config :agent_jido, AgentJido.Repo, types: AgentJido.PostgrexTypes
 
+config :agent_jido, Oban,
+  engine: Oban.Engines.Basic,
+  repo: AgentJido.Repo,
+  queues: [default: 10, analytics: 5],
+  plugins: [
+    {Oban.Plugins.Cron,
+     crontab: [
+       {"17 */6 * * *", AgentJido.Analytics.Ingestion.Workers.DispatcherWorker},
+       {"23 */6 * * *", AgentJido.Analytics.Ingestion.Workers.PlausibleWorker},
+       {"41 8 * * *", AgentJido.Analytics.Ingestion.Workers.SearchConsoleWorker},
+       {"53 8 * * *", AgentJido.Analytics.Ingestion.Workers.HexWorker}
+     ]}
+  ]
+
 config :git_hooks,
   project_path: Path.expand("..", __DIR__)
 
@@ -65,6 +79,59 @@ config :agent_jido, AgentJido.ContentAssistant,
   search_response_mode: :deterministic,
   search_retrieval_mode: :hybrid,
   progressive_swap_min_ms: 1_200
+
+config :agent_jido, AgentJido.Analytics.Ingestion,
+  request_timeout_ms: 15_000,
+  github_api_version: "2026-03-10",
+  github_app_id: nil,
+  github_app_installation_id: nil,
+  github_app_private_key: nil,
+  github_app_private_key_path: nil,
+  github_token: nil,
+  plausible_api_base_url: "https://plausible.io",
+  plausible_site_id: nil,
+  plausible_window_days: 30,
+  plausible_dimension_limit: 500,
+  plausible_dimensions: [
+    "event:page",
+    "visit:source",
+    "visit:channel",
+    "visit:utm_campaign",
+    "visit:utm_source",
+    "visit:utm_medium",
+    "visit:referrer",
+    "visit:entry_page",
+    "visit:exit_page",
+    "visit:device",
+    "visit:browser",
+    "visit:os",
+    "visit:country"
+  ],
+  search_console_site_url: nil,
+  search_console_credentials_json_path: nil,
+  search_console_quota_project: nil,
+  search_console_window_days: 14,
+  search_console_lag_days: 3,
+  search_console_row_limit: 1_000,
+  search_console_search_type: "web",
+  search_console_dimension_sets: [
+    ["date"],
+    ["date", "page"],
+    ["date", "query"],
+    ["date", "query", "page"],
+    ["date", "country"],
+    ["date", "device"],
+    ["date", "query", "country"],
+    ["date", "query", "device"],
+    ["date", "page", "country"],
+    ["date", "page", "device"]
+  ],
+  hex_api_base_url: "https://hex.pm",
+  hex_release_limit: 20,
+  github_client: AgentJido.Analytics.Ingestion.GitHubTrafficClient,
+  hex_client: AgentJido.Analytics.Ingestion.HexClient,
+  plausible_client: AgentJido.Analytics.Ingestion.PlausibleClient,
+  search_console_client: AgentJido.Analytics.Ingestion.SearchConsoleClient
 
 config :agent_jido, AgentJido.MCP,
   protocol_version: "2025-11-25",
@@ -127,12 +194,6 @@ config :agent_jido, AgentJido.GithubStarsTracker,
     "llm_db" => :timer.hours(24),
     "req_llm" => :timer.hours(24)
   }
-
-config :agent_jido, AgentJido.Analytics.GitHub.Collector,
-  client: AgentJido.Analytics.GitHub.Collector.DefaultClient,
-  request_timeout_ms: 10_000,
-  user_agent: "AgentJido-GitHubTrafficCollector",
-  github_token: nil
 
 config :agent_jido, AgentJido.ContentIngest.EcosystemDocs.Crawler,
   enabled: true,

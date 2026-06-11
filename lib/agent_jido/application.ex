@@ -10,6 +10,7 @@ defmodule AgentJido.Application do
     children =
       [
         AgentJido.Repo,
+        {Oban, Application.fetch_env!(:agent_jido, Oban)},
         AgentJidoWeb.Telemetry,
         {DNSCluster, query: dns_cluster_query},
         {Phoenix.PubSub, name: AgentJido.PubSub},

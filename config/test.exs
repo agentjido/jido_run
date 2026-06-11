@@ -40,6 +40,19 @@ config :agent_jido, AgentJido.GithubStarsTracker, enabled: false
 config :agent_jido, AgentJido.ContentIngest.EcosystemDocs.Crawler, enabled: false, startup_sync: false
 config :agent_jido, :analytics_module, AgentJido.Analytics.Composite
 
+config :agent_jido, Oban, testing: :manual
+
+config :agent_jido, AgentJido.Analytics.Ingestion,
+  github_token: "test-github-token",
+  plausible_api_key: "test-plausible-key",
+  plausible_site_id: "jido.run",
+  search_console_site_url: "sc-domain:jido.run",
+  search_console_credentials_json: ~s({"client_email":"search-console@example.test","private_key":"test-private-key"}),
+  github_client: AgentJido.Analytics.Ingestion.GitHubTrafficClient,
+  hex_client: AgentJido.Analytics.Ingestion.HexClient,
+  plausible_client: AgentJido.Analytics.Ingestion.PlausibleClient,
+  search_console_client: AgentJido.Analytics.Ingestion.SearchConsoleClient
+
 config :agent_jido, :posthog,
   enabled: false,
   browser_enabled: false,

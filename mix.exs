@@ -47,7 +47,7 @@ defmodule AgentJido.MixProject do
       {:plug, "~> 1.14"},
       {:plug_cowboy, "~> 2.5"},
       {:bandit, "~> 1.0"},
-      {:hackney, "~> 1.25", override: true},
+      {:hackney, "~> 4.2", override: true},
       {:remote_ip, "~> 1.2"},
       {:plug_canonical_host, "~> 2.0"},
       {:multipart, "~> 0.4", override: true},
@@ -55,6 +55,7 @@ defmodule AgentJido.MixProject do
       {:finch, "~> 0.13"},
       {:posthog, "~> 2.5"},
       {:swoosh, "~> 1.5"},
+      {:goth, "~> 1.4"},
 
       # Assets
       {:esbuild, "~> 0.8", runtime: Mix.env() == :dev},
@@ -75,10 +76,11 @@ defmodule AgentJido.MixProject do
       # DB / Ecto (required by Arcana)
       {:ecto_sql, "~> 3.12"},
       {:postgrex, "~> 0.19"},
+      {:oban, "~> 2.23"},
       {:pgvector, "~> 0.3"},
 
       # RAG
-      {:arcana, "~> 1.3.3"},
+      {:arcana, "~> 2.0"},
       {:leidenfold, "~> 0.3"},
 
       # Nx backend (Apple Silicon)
@@ -105,7 +107,7 @@ defmodule AgentJido.MixProject do
       {:image, "~> 0.54"},
 
       # Schema validation
-      {:zoi, "~> 0.17"},
+      {:zoi, "~> 0.18"},
 
       # Config / Env
       {:dotenvy, "~> 1.0"},

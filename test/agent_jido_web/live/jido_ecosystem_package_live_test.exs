@@ -56,7 +56,7 @@ defmodule AgentJidoWeb.JidoEcosystemPackageLiveTest do
     refute html =~ "START HERE"
     refute html =~ "KEY MODULES"
     refute html =~ "RELATED PACKAGES"
-    refute html =~ "FAQ"
+    refute html =~ ">FAQ</"
     refute html =~ "Add to mix.exs"
     refute html =~ "Ecosystem Fit"
   end

@@ -115,44 +115,44 @@ defmodule AgentJido.ContentIngest.EcosystemDocs.Sync do
 
   defp sync_one_package(package, existing_docs, repo, opts) do
     with {:ok, {resolution, resolved_package}} <- resolve_package(package, opts) do
-      case resolution do
-        :eligible ->
-          with {:ok, sources} <- build_sources(resolved_package, opts) do
-            case reconcile_package(repo, resolved_package.package_id, sources, existing_docs, opts) do
-              {:ok, package_summary} ->
-                {:ok,
-                 %{
-                   package_id: resolved_package.package_id,
-                   eligible_packages: 1,
-                   skipped_unpublished_count: 0,
-                   total_sources: length(sources),
-                   inserted: package_summary.inserted,
-                   updated: package_summary.updated,
-                   skipped: package_summary.skipped,
-                   deleted: package_summary.deleted
-                 }}
-
-              {:error, reason} ->
-                {:error, reason}
-            end
-          end
-
-        :skipped_unpublished ->
-          deleted = delete_package_documents(repo, existing_docs, Keyword.get(opts, :dry_run, false))
-
-          {:ok,
-           %{
-             package_id: resolved_package.package_id,
-             eligible_packages: 0,
-             skipped_unpublished_count: 1,
-             total_sources: 0,
-             inserted: 0,
-             updated: 0,
-             skipped: 0,
-             deleted: deleted
-           }}
-      end
+      sync_resolved_package(resolution, resolved_package, existing_docs, repo, opts)
     end
+  end
+
+  defp sync_resolved_package(:eligible, resolved_package, existing_docs, repo, opts) do
+    with {:ok, sources} <- build_sources(resolved_package, opts),
+         {:ok, package_summary} <- reconcile_package(repo, resolved_package.package_id, sources, existing_docs, opts) do
+      {:ok, eligible_package_summary(resolved_package, sources, package_summary)}
+    end
+  end
+
+  defp sync_resolved_package(:skipped_unpublished, resolved_package, existing_docs, repo, opts) do
+    deleted = delete_package_documents(repo, existing_docs, Keyword.get(opts, :dry_run, false))
+
+    {:ok,
+     %{
+       package_id: resolved_package.package_id,
+       eligible_packages: 0,
+       skipped_unpublished_count: 1,
+       total_sources: 0,
+       inserted: 0,
+       updated: 0,
+       skipped: 0,
+       deleted: deleted
+     }}
+  end
+
+  defp eligible_package_summary(resolved_package, sources, package_summary) do
+    %{
+      package_id: resolved_package.package_id,
+      eligible_packages: 1,
+      skipped_unpublished_count: 0,
+      total_sources: length(sources),
+      inserted: package_summary.inserted,
+      updated: package_summary.updated,
+      skipped: package_summary.skipped,
+      deleted: package_summary.deleted
+    }
   end
 
   defp resolve_package(package, opts) do
