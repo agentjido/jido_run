@@ -32,6 +32,8 @@ jobs:
         with:
           otp-version: ${{ env.OTP_VERSION }}
           elixir-version: ${{ env.ELIXIR_VERSION }}
+          install-hex: false
+          install-rebar: false
 
       - name: Install native runtime libraries
         run: |
@@ -125,6 +127,8 @@ jobs:
         with:
           otp-version: ${{ env.OTP_VERSION }}
           elixir-version: ${{ env.ELIXIR_VERSION }}
+          install-hex: false
+          install-rebar: false
 
       - name: Install native runtime libraries
         run: |
