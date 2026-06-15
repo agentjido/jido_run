@@ -56,7 +56,7 @@ defmodule AgentJido.ContentOps.Chat.DiscordChannel do
     channel_id = to_integer(channel_id)
     message_opts = Keyword.merge([content: text], Keyword.take(opts, [:tts, :embeds, :components]))
 
-    case apply(Nostrum.Api.Message, :create, [channel_id, message_opts]) do
+    case Nostrum.Api.Message.create(channel_id, message_opts) do
       {:ok, sent_message} ->
         {:ok,
          %{
@@ -75,7 +75,7 @@ defmodule AgentJido.ContentOps.Chat.DiscordChannel do
   def edit_message(channel_id, message_id, text, opts \\ []) do
     edit_opts = Keyword.merge([content: text], Keyword.take(opts, [:embeds, :components]))
 
-    case apply(Nostrum.Api.Message, :edit, [to_integer(channel_id), message_id, edit_opts]) do
+    case Nostrum.Api.Message.edit(to_integer(channel_id), message_id, edit_opts) do
       {:ok, edited_message} ->
         {:ok,
          %{

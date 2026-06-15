@@ -190,15 +190,15 @@ defmodule AgentJido.ContentAssistant do
           snippet: normalize_snippet(snippet),
           url: normalized_url,
           source_type: normalize_source_type(source_type),
-          score: Map.get(map, :score) || Map.get(map, "score"),
-          external?: truthy?(Map.get(map, :external?) || Map.get(map, "external?")),
-          provider: normalize_provider(Map.get(map, :provider) || Map.get(map, "provider")),
-          package_id: Map.get(map, :package_id) || Map.get(map, "package_id"),
-          package_name: Map.get(map, :package_name) || Map.get(map, "package_name"),
-          package_title: Map.get(map, :package_title) || Map.get(map, "package_title"),
-          package_version: Map.get(map, :package_version) || Map.get(map, "package_version"),
-          page_kind: normalize_page_kind(Map.get(map, :page_kind) || Map.get(map, "page_kind")),
-          secondary_url: normalize_optional_href(Map.get(map, :secondary_url) || Map.get(map, "secondary_url"))
+          score: result_value(map, :score),
+          external?: truthy?(result_value(map, :external?)),
+          provider: normalize_provider(result_value(map, :provider)),
+          package_id: result_value(map, :package_id),
+          package_name: result_value(map, :package_name),
+          package_title: result_value(map, :package_title),
+          package_version: result_value(map, :package_version),
+          page_kind: normalize_page_kind(result_value(map, :page_kind)),
+          secondary_url: normalize_optional_href(result_value(map, :secondary_url))
         }
 
       _ ->
@@ -207,6 +207,8 @@ defmodule AgentJido.ContentAssistant do
   end
 
   defp normalize_result(_result), do: nil
+
+  defp result_value(map, key), do: Map.get(map, key) || Map.get(map, Atom.to_string(key))
 
   defp normalize_source_type(source_type) when source_type in [:docs, :blog, :ecosystem, :ecosystem_docs],
     do: source_type
