@@ -13,6 +13,8 @@ concurrency:
 env:
   OTP_VERSION: "27.2.1"
   ELIXIR_VERSION: "1.18.2"
+  HEX_MIRROR: "https://repo.hex.pm"
+  HEX_CDN: "https://repo.hex.pm"
 
 jobs:
   lint:
