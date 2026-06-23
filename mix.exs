@@ -37,7 +37,7 @@ defmodule AgentJido.MixProject do
       {:phoenix, "~> 1.8.3"},
       {:phoenix_ecto, "~> 4.6"},
       {:phoenix_html, "~> 4.1"},
-      {:phoenix_live_view, "~> 1.1.0"},
+      {:phoenix_live_view, "~> 1.1"},
       {:phoenix_live_dashboard, "~> 0.8.7"},
       {:phoenix_live_reload, "~> 1.6", only: :dev},
       {:heroicons, github: "tailwindlabs/heroicons", tag: "v2.2.0", app: false, compile: false, sparse: "optimized"},
@@ -68,13 +68,14 @@ defmodule AgentJido.MixProject do
       {:dns_cluster, "~> 0.2.0"},
 
       # Content / Markdown
-      {:nimble_publisher, "~> 1.1"},
+      {:nimble_publisher, "~> 2.0"},
       {:makeup_elixir, "~> 1.0"},
       {:makeup_js, "~> 0.1.0"},
       {:makeup_html, "~> 0.2.0"},
 
       # DB / Ecto (required by Arcana)
-      {:ecto_sql, "~> 3.12"},
+      {:decimal, "~> 3.0", override: true},
+      {:ecto_sql, "~> 3.14"},
       {:postgrex, "~> 0.19"},
       {:oban, "~> 2.23"},
       {:pgvector, "~> 0.3"},
@@ -82,6 +83,9 @@ defmodule AgentJido.MixProject do
       # RAG
       {:arcana, "~> 2.0"},
       {:leidenfold, "~> 0.3"},
+      # leidenfold uses rustler_precompiled NIFs (rustler is optional there),
+      # so override to satisfy extractous_ex (via jido_browser) needing ~> 0.37
+      {:rustler, "~> 0.37", override: true},
 
       # Nx backend (Apple Silicon)
       {:emlx, "~> 0.2"},
@@ -91,7 +95,7 @@ defmodule AgentJido.MixProject do
       {:jido_action, "~> 2.1", override: true},
       {:jido_signal, "~> 2.0", override: true},
       {:jido_ai, "~> 2.0", override: true},
-      {:jido_browser, "~> 2.0"},
+      {:jido_browser, "~> 2.1"},
       {:jido_runic, github: "agentjido/jido_runic", branch: "main"},
       {:jido_live_dashboard, github: "agentjido/jido_live_dashboard", branch: "main"},
       {:libgraph, github: "zblanco/libgraph", branch: "zw/multigraph-indexes", override: true},
