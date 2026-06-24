@@ -205,8 +205,8 @@ defmodule AgentJidoWeb.Jido.DocsComponents do
       <% else %>
         <div class="flex-1" />
       <% end %>
-      
-    <!-- Livebook CTA -->
+
+      <!-- Livebook CTA -->
       <%= if livebook_url = livebook_url(@selected_document) do %>
         <div class="shrink-0">
           <a
@@ -256,8 +256,8 @@ defmodule AgentJidoWeb.Jido.DocsComponents do
           </button>
         </div>
       <% end %>
-      
-    <!-- Quick Links -->
+
+      <!-- Quick Links -->
       <div class="mt-4 shrink-0 rounded-md border border-border/80 bg-card/75 p-4 shadow-[0_10px_24px_hsl(var(--background)/0.2)]">
         <div class="mb-2 text-[10px] font-semibold tracking-[0.08em] text-muted-foreground">
           QUICK LINKS
@@ -279,8 +279,8 @@ defmodule AgentJidoWeb.Jido.DocsComponents do
           <% end %>
         </div>
       </div>
-      
-    <!-- Feedback -->
+
+      <!-- Feedback -->
       <%= if @docs_feedback do %>
         <div class="mt-4 shrink-0 px-1">
           <.feedback_prompt

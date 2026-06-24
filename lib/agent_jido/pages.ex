@@ -18,6 +18,15 @@ defmodule AgentJido.Pages do
   alias AgentJido.Pages.MenuNode
   alias AgentJido.Pages.Page
 
+  # NimblePublisher 2.0 parses entries inside `Task.async_stream`, which cannot
+  # trigger lazy compilation of the modules our custom parser calls at parse
+  # time. Force them to compile first (and register a compile-time dependency)
+  # so they are available when the parallel parse tasks run.
+  Code.ensure_compiled!(AgentJido.Pages.ContentExpander)
+  Code.ensure_compiled!(AgentJido.ReleaseCatalog)
+  Code.ensure_compiled!(AgentJido.Ecosystem)
+  Code.ensure_compiled!(AgentJido.Ecosystem.Atlas)
+
   use NimblePublisher,
     build: Page,
     from: Application.app_dir(:agent_jido, "priv/pages/**/*.{md,livemd}"),
