@@ -27,6 +27,7 @@ defmodule AgentJido.Pages do
   Code.ensure_compiled!(AgentJido.Ecosystem)
   Code.ensure_compiled!(AgentJido.Ecosystem.Atlas)
   Code.ensure_compiled!(AgentJido.Ecosystem.SupportLevel)
+  Code.ensure_compiled!(AgentJido.Html.CodeEntityDecoder)
 
   use NimblePublisher,
     build: Page,
