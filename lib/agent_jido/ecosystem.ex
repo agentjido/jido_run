@@ -11,6 +11,11 @@ defmodule AgentJido.Ecosystem do
   alias AgentJido.Ecosystem.Package
   alias AgentJido.Ecosystem.SupportLevel
 
+  # NimblePublisher 2.0 builds entries in Task.async_stream, which cannot
+  # lazily compile modules the builder calls. Package.build/3 calls
+  # SupportLevel, so force it to compile before extraction.
+  Code.ensure_compiled!(AgentJido.Ecosystem.SupportLevel)
+
   use NimblePublisher,
     build: Package,
     from: Application.app_dir(:agent_jido, "priv/ecosystem/**/*.md"),

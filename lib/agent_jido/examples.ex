@@ -10,6 +10,11 @@ defmodule AgentJido.Examples do
   alias AgentJido.Examples.Example
   alias AgentJido.Examples.Taxonomy
 
+  # NimblePublisher 2.0 builds entries in Task.async_stream, which cannot
+  # lazily compile modules the builder calls. Example.build/3 calls Taxonomy,
+  # so force it to compile before extraction.
+  Code.ensure_compiled!(AgentJido.Examples.Taxonomy)
+
   use NimblePublisher,
     build: Example,
     from: Application.app_dir(:agent_jido, "priv/examples/**/*.md"),
