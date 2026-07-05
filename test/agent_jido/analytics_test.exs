@@ -155,17 +155,26 @@ defmodule AgentJido.AnalyticsTest do
           label: "Jido"
         })
 
+      traffic_day = Date.utc_today() |> Date.add(-1)
+      snapshot_date = Date.utc_today()
+
       assert 1 =
                Ingestion.upsert_github_traffic(repo, %{
                  daily: [
-                   %{day: ~D[2026-06-01], views_count: 10, views_uniques: 4, clones_count: 3, clones_uniques: 2}
+                   %{
+                     day: traffic_day,
+                     views_count: 10,
+                     views_uniques: 4,
+                     clones_count: 3,
+                     clones_uniques: 2
+                   }
                  ],
                  referrers: [],
                  paths: [],
-                 snapshot_date: ~D[2026-06-02]
+                 snapshot_date: snapshot_date
                })
 
-      run = Ingestion.start_run("github_traffic", date_from: ~D[2026-06-01], date_to: ~D[2026-06-02])
+      run = Ingestion.start_run("github_traffic", date_from: traffic_day, date_to: snapshot_date)
       assert %IngestionRun{} = Ingestion.complete_run(run, 1)
 
       snapshot = Analytics.dashboard_snapshot(admin_scope, 30)
@@ -173,7 +182,7 @@ defmodule AgentJido.AnalyticsTest do
 
       assert github.tracked_count == 1
       assert github.rows_count == 1
-      assert github.latest_day == ~D[2026-06-01]
+      assert github.latest_day == traffic_day
       assert github.latest_run.status == "completed"
     end
 
