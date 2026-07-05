@@ -382,23 +382,24 @@ defmodule AgentJidoWeb.JidoEcosystemPackageLive do
   defp package_meta_description(pkg, summary) do
     case package_seo_value(pkg, :description) do
       "" ->
-        normalized_summary = normalize_text(summary)
-        support_label = SupportLevel.label(pkg.support_level)
-
-        if normalized_summary == "" do
-          prefix =
-            case support_label do
-              nil -> pkg.title
-              label -> "#{pkg.title} (#{label})"
-            end
-
-          "Learn about #{prefix} in the Jido ecosystem and how it fits into production Elixir systems."
-        else
-          normalized_summary
-        end
+        package_default_meta_description(pkg, summary)
 
       description ->
         description
+    end
+  end
+
+  defp package_default_meta_description(pkg, summary) do
+    case normalize_text(summary) do
+      "" -> "Learn about #{package_description_prefix(pkg)} in the Jido ecosystem and how it fits into production Elixir systems."
+      normalized_summary -> normalized_summary
+    end
+  end
+
+  defp package_description_prefix(pkg) do
+    case SupportLevel.label(pkg.support_level) do
+      nil -> pkg.title
+      label -> "#{pkg.title} (#{label})"
     end
   end
 
@@ -524,29 +525,7 @@ defmodule AgentJidoWeb.JidoEcosystemPackageLive do
   defp resource_group_title(:reference), do: "Reference"
 
   defp related_package_groups(pkg) do
-    source_items =
-      pkg.landing_related_packages
-      |> normalize_related_package_items()
-      |> case do
-        [] -> fallback_related_package_items(pkg)
-        items -> items
-      end
-
-    resolved_items =
-      source_items
-      |> Enum.reduce({MapSet.new(), []}, fn item, {seen, acc} ->
-        dedupe_key = {item.relationship, item.id}
-
-        if MapSet.member?(seen, dedupe_key) do
-          {seen, acc}
-        else
-          case resolve_related_package(item) do
-            nil -> {MapSet.put(seen, dedupe_key), acc}
-            resolved -> {MapSet.put(seen, dedupe_key), acc ++ [resolved]}
-          end
-        end
-      end)
-      |> elem(1)
+    resolved_items = pkg |> related_package_source_items() |> resolve_related_package_items()
 
     @relationship_group_order
     |> Enum.map(fn relationship ->
@@ -560,6 +539,32 @@ defmodule AgentJidoWeb.JidoEcosystemPackageLive do
     end)
     |> Enum.reject(&is_nil/1)
   end
+
+  defp related_package_source_items(pkg) do
+    case normalize_related_package_items(pkg.landing_related_packages) do
+      [] -> fallback_related_package_items(pkg)
+      items -> items
+    end
+  end
+
+  defp resolve_related_package_items(source_items) do
+    source_items
+    |> Enum.reduce({MapSet.new(), []}, &resolve_related_package_item/2)
+    |> elem(1)
+  end
+
+  defp resolve_related_package_item(item, {seen, acc}) do
+    dedupe_key = {item.relationship, item.id}
+
+    if MapSet.member?(seen, dedupe_key) do
+      {seen, acc}
+    else
+      {MapSet.put(seen, dedupe_key), append_resolved_package(acc, resolve_related_package(item))}
+    end
+  end
+
+  defp append_resolved_package(acc, nil), do: acc
+  defp append_resolved_package(acc, resolved), do: acc ++ [resolved]
 
   defp normalize_related_package_items(items) when is_list(items) do
     items

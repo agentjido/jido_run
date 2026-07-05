@@ -289,24 +289,7 @@ defmodule AgentJidoWeb.ContentOpsGithubLive do
 
   def handle_event("merge_pr", %{"number" => number_str, "title" => title}, socket) do
     if socket.assigns.github_mutations_enabled do
-      number = String.to_integer(number_str)
-      token = socket.assigns.token
-      owner = socket.assigns.owner
-      repo = socket.assigns.repo
-
-      task =
-        Task.async(fn ->
-          with {:ok, client} <- GithubOptional.build_client(token) do
-            GithubOptional.pulls_merge(client, owner, repo, number, %{})
-          end
-        end)
-
-      socket =
-        socket
-        |> assign(:merge_task_ref, {task.ref, number, title})
-        |> put_flash(:info, "Merging PR ##{number}…")
-
-      {:noreply, socket}
+      {:noreply, start_merge_task(socket, number_str, title)}
     else
       {:noreply, put_flash(socket, :error, "GitHub mutations are disabled for this environment.")}
     end
@@ -329,6 +312,25 @@ defmodule AgentJidoWeb.ContentOpsGithubLive do
       {:noreply, socket}
     else
       {:noreply, put_flash(socket, :error, "GitHub mutations are disabled for this environment.")}
+    end
+  end
+
+  defp start_merge_task(socket, number_str, title) do
+    number = String.to_integer(number_str)
+
+    task =
+      Task.async(fn ->
+        merge_pull_request(socket.assigns.token, socket.assigns.owner, socket.assigns.repo, number)
+      end)
+
+    socket
+    |> assign(:merge_task_ref, {task.ref, number, title})
+    |> put_flash(:info, "Merging PR ##{number}…")
+  end
+
+  defp merge_pull_request(token, owner, repo, number) do
+    with {:ok, client} <- GithubOptional.build_client(token) do
+      GithubOptional.pulls_merge(client, owner, repo, number, %{})
     end
   end
 

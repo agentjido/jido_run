@@ -45,25 +45,14 @@ defmodule AgentJido.Analytics.Ingestion.GitHubTrafficClient do
 
   defp get_json_url(url, token, opts, redirects_left) do
     timeout = Keyword.get(opts, :request_timeout_ms, Ingestion.config(:request_timeout_ms, 15_000))
-
-    headers = [
-      {"Accept", "application/vnd.github+json"},
-      {"Authorization", "Bearer #{token}"},
-      {"X-GitHub-Api-Version", Ingestion.config(:github_api_version, "2026-03-10")},
-      {"User-Agent", @user_agent}
-    ]
-
-    request = Finch.build(:get, url, headers)
+    request = Finch.build(:get, url, request_headers(token))
 
     case Finch.request(request, AgentJido.Finch, receive_timeout: timeout) do
       {:ok, %Finch.Response{status: status, body: body}} when status in 200..299 ->
         Jason.decode(body)
 
       {:ok, %Finch.Response{status: status, body: body}} when status in [301, 302] and redirects_left > 0 ->
-        case redirect_url(body) do
-          nil -> {:error, {:github_http_error, status, body}}
-          url -> get_json_url(url, token, opts, redirects_left - 1)
-        end
+        follow_redirect(status, body, token, opts, redirects_left)
 
       {:ok, %Finch.Response{status: 403, body: body}} ->
         {:error, {:github_forbidden, body}}
@@ -82,15 +71,28 @@ defmodule AgentJido.Analytics.Ingestion.GitHubTrafficClient do
     end
   end
 
-  defp redirect_url(body) when is_binary(body) do
-    with {:ok, %{"url" => url}} when is_binary(url) <- Jason.decode(body) do
-      url
-    else
-      _value -> nil
+  defp request_headers(token) do
+    [
+      {"Accept", "application/vnd.github+json"},
+      {"Authorization", "Bearer #{token}"},
+      {"X-GitHub-Api-Version", Ingestion.config(:github_api_version, "2026-03-10")},
+      {"User-Agent", @user_agent}
+    ]
+  end
+
+  defp follow_redirect(status, body, token, opts, redirects_left) do
+    case redirect_url(body) do
+      nil -> {:error, {:github_http_error, status, body}}
+      url -> get_json_url(url, token, opts, redirects_left - 1)
     end
   end
 
-  defp redirect_url(_body), do: nil
+  defp redirect_url(body) when is_binary(body) do
+    case Jason.decode(body) do
+      {:ok, %{"url" => url}} when is_binary(url) -> url
+      _value -> nil
+    end
+  end
 
   defp merge_daily_series(views, clones) do
     view_days = Map.new(views, &{day_key(&1), &1})

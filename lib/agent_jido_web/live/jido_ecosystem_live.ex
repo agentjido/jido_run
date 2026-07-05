@@ -763,36 +763,14 @@ defmodule AgentJidoWeb.JidoEcosystemLive do
 
   defp layer_filter_order, do: @layer_filter_order
 
-  defp layer_filter_class(selected_layer, layer) do
-    active? = selected_layer == layer
+  defp layer_filter_class(layer, layer), do: active_layer_filter_class(layer)
+  defp layer_filter_class(_selected_layer, _layer), do: "border border-border text-muted-foreground hover:text-foreground"
 
-    case layer do
-      :all ->
-        if active?,
-          do: "bg-primary/10 border border-primary text-primary font-semibold",
-          else: "border border-border text-muted-foreground hover:text-foreground"
-
-      :foundation ->
-        if active?,
-          do: "bg-accent-cyan/10 border border-accent-cyan text-accent-cyan font-semibold",
-          else: "border border-border text-muted-foreground hover:text-foreground"
-
-      :core ->
-        if active?,
-          do: "bg-primary/10 border border-primary text-primary font-semibold",
-          else: "border border-border text-muted-foreground hover:text-foreground"
-
-      :ai ->
-        if active?,
-          do: "bg-accent-yellow/10 border border-accent-yellow text-accent-yellow font-semibold",
-          else: "border border-border text-muted-foreground hover:text-foreground"
-
-      :app ->
-        if active?,
-          do: "bg-accent-red/10 border border-accent-red text-accent-red font-semibold",
-          else: "border border-border text-muted-foreground hover:text-foreground"
-    end
-  end
+  defp active_layer_filter_class(:all), do: "bg-primary/10 border border-primary text-primary font-semibold"
+  defp active_layer_filter_class(:foundation), do: "bg-accent-cyan/10 border border-accent-cyan text-accent-cyan font-semibold"
+  defp active_layer_filter_class(:core), do: "bg-primary/10 border border-primary text-primary font-semibold"
+  defp active_layer_filter_class(:ai), do: "bg-accent-yellow/10 border border-accent-yellow text-accent-yellow font-semibold"
+  defp active_layer_filter_class(:app), do: "bg-accent-red/10 border border-accent-red text-accent-red font-semibold"
 
   defp filters_active?(:all, []), do: false
   defp filters_active?(_selected_layer, _selected_support_levels), do: true

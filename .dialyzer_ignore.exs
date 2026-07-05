@@ -25,6 +25,7 @@
   {"lib/agent_jido/content_gen/verify.ex", :call},
   {"lib/agent_jido/content_ontology/exporter.ex", :call_without_opaque},
   {"lib/agent_jido/content_ops/chat/actions/get_status.ex", :guard_fail},
+  {"lib/agent_jido/content_ops/chat/discord_channel.ex", :unknown_function},
   {"lib/agent_jido/content_ops/chat/ops_service.ex", :guard_fail},
   {"lib/agent_jido/content_ops/chat/ops_service.ex", :pattern_match},
   {"lib/agent_jido/content_ops/chat/router.ex", :pattern_match_cov},

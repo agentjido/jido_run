@@ -66,18 +66,7 @@ defmodule AgentJido.ContentOps.Chat.DiscordHandler do
       {:reply, text} when is_binary(text) ->
         Deliver.deliver_outgoing(@messaging_module, message, text, context)
 
-      {:reply, text, opts} when is_binary(text) ->
-        Deliver.deliver_outgoing(@messaging_module, message, text, context, opts)
-
       :noreply ->
-        :ok
-
-      {:error, reason} ->
-        Logger.warning("[ContentOps.Discord] Handler error: #{inspect(reason)}")
-        {:error, reason}
-
-      other ->
-        Logger.warning("[ContentOps.Discord] Unexpected handler result: #{inspect(other)}")
         :ok
     end
   end

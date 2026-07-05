@@ -483,8 +483,6 @@ defmodule AgentJido.ContentIngest.EcosystemDocs.Sync do
     |> String.slice(0, 280)
   end
 
-  defp snippet(_text), do: ""
-
   defp content_hash(text) do
     :crypto.hash(:sha256, :erlang.term_to_binary(text))
     |> Base.encode16(case: :lower)

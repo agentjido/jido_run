@@ -21,4 +21,6 @@ defmodule AgentJido.Analytics.Ingestion.IngestionRun do
 
     timestamps(updated_at: false, type: :utc_datetime_usec)
   end
+
+  @type t :: %__MODULE__{}
 end

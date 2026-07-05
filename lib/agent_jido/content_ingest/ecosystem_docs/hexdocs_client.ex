@@ -36,7 +36,7 @@ defmodule AgentJido.ContentIngest.EcosystemDocs.HexDocsClient do
          %{
            status: response.status,
            body: response.body,
-           headers: response.headers || [],
+           headers: response.headers,
            url: url
          }}
 

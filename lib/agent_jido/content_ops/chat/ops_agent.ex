@@ -57,21 +57,33 @@ defmodule AgentJido.ContentOps.Chat.OpsAgent do
   def on_before_cmd(agent, action), do: super(agent, action)
 
   defp maybe_put_github_client(tool_context) when is_map(tool_context) do
-    if Map.has_key?(tool_context, :github_client) or Map.has_key?(tool_context, :client) do
-      tool_context
-    else
-      case System.get_env("GITHUB_TOKEN") do
-        token when is_binary(token) and token != "" ->
-          case GithubOptional.build_client(token) do
-            {:ok, client} -> Map.put(tool_context, :github_client, client)
-            {:error, _reason} -> tool_context
-          end
-
-        _other ->
-          tool_context
-      end
-    end
+    if github_client_present?(tool_context), do: tool_context, else: put_github_client_from_env(tool_context)
   end
 
   defp maybe_put_github_client(_other), do: maybe_put_github_client(%{})
+
+  defp github_client_present?(tool_context) do
+    Map.has_key?(tool_context, :github_client) or Map.has_key?(tool_context, :client)
+  end
+
+  defp put_github_client_from_env(tool_context) do
+    case github_token() do
+      nil -> tool_context
+      token -> put_github_client(tool_context, token)
+    end
+  end
+
+  defp github_token do
+    case System.get_env("GITHUB_TOKEN") do
+      token when is_binary(token) and token != "" -> token
+      _other -> nil
+    end
+  end
+
+  defp put_github_client(tool_context, token) do
+    case GithubOptional.build_client(token) do
+      {:ok, client} -> Map.put(tool_context, :github_client, client)
+      {:error, _reason} -> tool_context
+    end
+  end
 end

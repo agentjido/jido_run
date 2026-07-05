@@ -17,6 +17,7 @@ defmodule AgentJido.ContentOps.Chat.ChatAgentRunner do
   @spec agent_config(keyword()) :: Jido.Messaging.AgentRunner.agent_config()
   def agent_config(opts \\ []) do
     %{
+      agent_id: Keyword.get(opts, :agent_id, "chat_agent"),
       name: Keyword.get(opts, :name, @agent_name),
       trigger: :mention,
       handler: &handle_message/2

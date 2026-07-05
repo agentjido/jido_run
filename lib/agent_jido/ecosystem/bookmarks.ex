@@ -147,12 +147,12 @@ defmodule AgentJido.Ecosystem.Bookmarks do
       normalize_text(Map.get(pkg, :github_repo) || Map.get(pkg, "github_repo")) ||
         repo_from_url(Map.get(pkg, :github_url) || Map.get(pkg, "github_url"))
 
-    cond do
-      org && repo -> "#{org}/#{repo}"
-      repo -> repo
-      true -> normalize_text(Map.get(pkg, :title) || Map.get(pkg, "title")) || "repository"
-    end
+    repo_label(org, repo, pkg)
   end
+
+  defp repo_label(org, repo, _pkg) when not is_nil(org) and not is_nil(repo), do: "#{org}/#{repo}"
+  defp repo_label(_org, repo, _pkg) when not is_nil(repo), do: repo
+  defp repo_label(_org, _repo, pkg), do: normalize_text(Map.get(pkg, :title) || Map.get(pkg, "title")) || "repository"
 
   defp repo_from_url(url) do
     url

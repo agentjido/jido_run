@@ -190,8 +190,6 @@ defmodule AgentJido.ContentIngest.EcosystemDocs.Crawler do
     )
   end
 
-  defp sync_for_run_kind(_run_kind, state), do: sync_for_run_kind(:full, state)
-
   defp collection_empty? do
     Sync.snapshot().total_documents == 0
   rescue

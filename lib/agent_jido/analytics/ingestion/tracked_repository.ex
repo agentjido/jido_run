@@ -25,9 +25,9 @@ defmodule AgentJido.Analytics.Ingestion.TrackedRepository do
   @type t :: %__MODULE__{
           id: Ecto.UUID.t() | nil,
           provider: String.t(),
-          owner: String.t(),
-          name: String.t(),
-          full_name: String.t(),
+          owner: String.t() | nil,
+          name: String.t() | nil,
+          full_name: String.t() | nil,
           url: String.t() | nil,
           label: String.t() | nil,
           source: String.t() | nil,

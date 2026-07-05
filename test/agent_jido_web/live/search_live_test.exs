@@ -1,7 +1,6 @@
 defmodule AgentJidoWeb.ContentAssistantLiveTest do
-  use ExUnit.Case, async: false
+  use AgentJidoWeb.ConnCase, async: false
 
-  import Phoenix.ConnTest
   import Phoenix.LiveViewTest
   import Plug.Conn
 
@@ -471,7 +470,7 @@ defmodule AgentJidoWeb.ContentAssistantLiveTest do
 
   setup do
     clear_response_cache()
-    {:ok, conn: build_conn()}
+    :ok
   end
 
   defp with_content_assistant_stub(conn) do

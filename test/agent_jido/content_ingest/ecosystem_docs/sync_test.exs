@@ -32,58 +32,69 @@ defmodule AgentJido.ContentIngest.EcosystemDocs.SyncTest do
 
     def fetch(url, opts) do
       fixture = Keyword.get(opts, :fixture, :v1)
+      fetch_fixture(fixture, url)
+    end
 
-      case {fixture, url} do
-        {_, "https://hexdocs.pm/jido/2.2.0/"} ->
-          {:ok, response(url, root_html())}
+    defp fetch_fixture(_fixture, "https://hexdocs.pm/jido/2.2.0/" = url) do
+      {:ok, response(url, root_html())}
+    end
 
-        {fixture, "https://hexdocs.pm/jido/2.2.0/overview.html"} when fixture in [:v1, :v2, :page_failure] ->
-          {:ok,
-           response(
-             url,
-             page_html("Overview", "Jido overview and package introduction.", include_sidebar?: true),
-             canonical: "https://hexdocs.pm/jido/overview.html"
-           )}
+    defp fetch_fixture(fixture, "https://hexdocs.pm/jido/2.2.0/overview.html" = url)
+         when fixture in [:v1, :v2, :page_failure] do
+      {:ok,
+       response(
+         url,
+         page_html("Overview", "Jido overview and package introduction.", include_sidebar?: true),
+         canonical: "https://hexdocs.pm/jido/overview.html"
+       )}
+    end
 
-        {fixture, "https://hexdocs.pm/jido/2.2.0/getting-started.html"} when fixture in [:v1, :page_failure] ->
-          {:ok,
-           response(
-             url,
-             page_html("Getting Started", "Install Jido and call cmd/2 from your first agent."),
-             canonical: "https://hexdocs.pm/jido/getting-started.html"
-           )}
+    defp fetch_fixture(fixture, "https://hexdocs.pm/jido/2.2.0/getting-started.html" = url)
+         when fixture in [:v1, :page_failure] do
+      {:ok,
+       response(
+         url,
+         page_html("Getting Started", "Install Jido and call cmd/2 from your first agent."),
+         canonical: "https://hexdocs.pm/jido/getting-started.html"
+       )}
+    end
 
-        {:v2, "https://hexdocs.pm/jido/2.2.0/Jido.Agent.html"} ->
-          {:ok,
-           response(
-             url,
-             page_html("Jido.Agent", "cmd/2 returns an updated agent, directives, and validated state."),
-             canonical: "https://hexdocs.pm/jido/Jido.Agent.html"
-           )}
+    defp fetch_fixture(:v2, "https://hexdocs.pm/jido/2.2.0/Jido.Agent.html" = url) do
+      {:ok,
+       response(
+         url,
+         page_html("Jido.Agent", "cmd/2 returns an updated agent, directives, and validated state."),
+         canonical: "https://hexdocs.pm/jido/Jido.Agent.html"
+       )}
+    end
 
-        {:v1, "https://hexdocs.pm/jido/2.2.0/Jido.Agent.html"} ->
-          {:ok,
-           response(
-             url,
-             page_html("Jido.Agent", "cmd/2 returns an updated agent and directives."),
-             canonical: "https://hexdocs.pm/jido/Jido.Agent.html"
-           )}
+    defp fetch_fixture(:v1, "https://hexdocs.pm/jido/2.2.0/Jido.Agent.html" = url) do
+      {:ok,
+       response(
+         url,
+         page_html("Jido.Agent", "cmd/2 returns an updated agent and directives."),
+         canonical: "https://hexdocs.pm/jido/Jido.Agent.html"
+       )}
+    end
 
-        {:page_failure, "https://hexdocs.pm/jido/2.2.0/Jido.Agent.html"} ->
-          {:error, :timeout}
+    defp fetch_fixture(:page_failure, "https://hexdocs.pm/jido/2.2.0/Jido.Agent.html") do
+      {:error, :timeout}
+    end
 
-        {:v1, "https://hexdocs.pm/jido/2.2.0/dist/sidebar_items-test.js"} ->
-          {:ok, response(url, manifest_js(include_getting_started?: true))}
+    defp fetch_fixture(:v1, "https://hexdocs.pm/jido/2.2.0/dist/sidebar_items-test.js" = url) do
+      {:ok, response(url, manifest_js(include_getting_started?: true))}
+    end
 
-        {:v2, "https://hexdocs.pm/jido/2.2.0/dist/sidebar_items-test.js"} ->
-          {:ok, response(url, manifest_js(include_getting_started?: false))}
+    defp fetch_fixture(:v2, "https://hexdocs.pm/jido/2.2.0/dist/sidebar_items-test.js" = url) do
+      {:ok, response(url, manifest_js(include_getting_started?: false))}
+    end
 
-        {:page_failure, "https://hexdocs.pm/jido/2.2.0/dist/sidebar_items-test.js"} ->
-          {:ok, response(url, manifest_js(include_getting_started?: true))}
+    defp fetch_fixture(:page_failure, "https://hexdocs.pm/jido/2.2.0/dist/sidebar_items-test.js" = url) do
+      {:ok, response(url, manifest_js(include_getting_started?: true))}
+    end
 
-        _other ->
-          flunk("unexpected fetch #{inspect({fixture, url})}")
-      end
+    defp fetch_fixture(fixture, url) do
+      flunk("unexpected fetch #{inspect({fixture, url})}")
     end
 
     defp response(url, body, opts \\ []) do

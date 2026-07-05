@@ -73,14 +73,16 @@ defmodule AgentJido.ContentIngest.EcosystemDocs.Extractor do
   def canonical_url(_headers, fallback), do: fallback
 
   defp find_content(document) do
-    case Enum.find_value(@content_selectors, fn selector ->
-           case Floki.find(document, selector) do
-             [node | _rest] -> node
-             _other -> nil
-           end
-         end) do
+    case Enum.find_value(@content_selectors, &find_first_node(document, &1)) do
       nil -> {:error, :missing_content}
       node -> {:ok, node}
+    end
+  end
+
+  defp find_first_node(document, selector) do
+    case Floki.find(document, selector) do
+      [node | _rest] -> node
+      _other -> nil
     end
   end
 
@@ -90,8 +92,6 @@ defmodule AgentJido.ContentIngest.EcosystemDocs.Extractor do
     |> String.replace(~r/\n{3,}/u, "\n\n")
     |> String.trim()
   end
-
-  defp normalize_text(_text), do: ""
 
   defp title_from_opts_or_content(opts, title) do
     case Keyword.get(opts, :title) do
