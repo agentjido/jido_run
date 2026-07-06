@@ -46,9 +46,6 @@ defmodule AgentJido.MixProject do
       # HTTP / Server
       {:plug, "~> 1.14"},
       {:plug_cowboy, "~> 2.5"},
-      # Pin below cowboy 2.17 while cowlib 2.18.0 is flagged by hex.audit.
-      {:cowboy, "~> 2.16.1", override: true},
-      {:cowlib, "~> 2.17.1", override: true},
       {:bandit, "~> 1.0"},
       {:hackney, "~> 4.2", override: true},
       {:remote_ip, "~> 1.2"},

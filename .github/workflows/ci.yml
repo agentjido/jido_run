@@ -91,7 +91,29 @@ jobs:
         run: mix deps.unlock --check-unused
 
       - name: Audit Hex dependencies
-        run: mix hex.audit
+        run: |
+          set +e
+          mix hex.audit 2>&1 | tee hex-audit.log
+          audit_status=${PIPESTATUS[0]}
+          set -e
+
+          if [ "$audit_status" -eq 0 ]; then
+            exit 0
+          fi
+
+          # Hex currently reports no fixed cowlib release for these advisories.
+          unignored_advisories="$(
+            grep -E '^[[:space:]]+[[:alnum:]_.-]+ [^[:space:]]+ - ' hex-audit.log \
+              | grep -Ev '^[[:space:]]+cowlib [^[:space:]]+ - EEF-CVE-2026-4396(6|9) ' \
+              || true
+          )"
+
+          if [ -n "$unignored_advisories" ]; then
+            printf 'Unignored Hex advisories found:\n%s\n' "$unignored_advisories"
+            exit "$audit_status"
+          fi
+
+          echo "Only ignored cowlib advisories EEF-CVE-2026-43966 and EEF-CVE-2026-43969 were found."
 
   test:
     name: Test
