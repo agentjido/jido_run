@@ -27,7 +27,7 @@ jobs:
       MIX_ENV: dev
     steps:
       - name: Checkout code
-        uses: actions/checkout@v7
+        uses: actions/checkout@v7.0.1
 
       - name: Setup Elixir
         uses: erlef/setup-beam@v1
@@ -144,7 +144,7 @@ jobs:
           --health-retries 20
     steps:
       - name: Checkout code
-        uses: actions/checkout@v7
+        uses: actions/checkout@v7.0.1
 
       - name: Setup Elixir
         uses: erlef/setup-beam@v1
