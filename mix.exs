@@ -91,7 +91,7 @@ defmodule AgentJido.MixProject do
       {:rustler, "~> 0.37", override: true},
 
       # Nx backend (Apple Silicon)
-      {:emlx, "~> 0.2"},
+      {:emlx, "~> 0.2", only: [:dev, :test]},
 
       # AI / Jido
       {:jido, "~> 2.1", override: true},

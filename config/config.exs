@@ -240,9 +240,11 @@ config :logger, :console,
 config :phoenix, :json_library, Jason
 
 # Nx backend (Apple Silicon / EMLX) - used for local Nx/Bumblebee workloads
-config :nx,
-  default_backend: EMLX.Backend,
-  default_defn_options: [compiler: EMLX]
+if config_env() in [:dev, :test] do
+  config :nx,
+    default_backend: EMLX.Backend,
+    default_defn_options: [compiler: EMLX]
+end
 
 # Arcana RAG
 config :arcana,
