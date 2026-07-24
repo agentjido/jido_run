@@ -39,7 +39,10 @@
     "Flexible component-based pricing",
     "SHA-256 integrity verification for snapshots",
     "CalVer versioning tracking data freshness"
-  ]
+  ],
+  landing_summary: "Fast, zero-network LLM model metadata catalog for Elixir",
+  landing_use_when: ["You want to add LLM reasoning or tool-calling to an agent."],
+  landing_not_for: ["Your agent has no LLM component (core Jido needs no LLM)."]
 }
 ---
 ## Overview

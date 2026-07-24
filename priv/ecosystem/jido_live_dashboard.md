@@ -37,7 +37,10 @@
     "Per-agent state introspection from the dashboard",
     "WorkerPool and InstanceManager monitoring",
     "Discovery catalog browsing for Actions, Agents, Skills, and Sensors"
-  ]
+  ],
+  landing_summary: "Real-time observability and debugging for Jido agents in Phoenix LiveDashboard",
+  landing_use_when: ["You want ready-made tool Actions for an agent."],
+  landing_not_for: ["You need tools this package does not provide.", "Beta — verify against your Jido version before production use."]
 }
 ---
 ## Overview

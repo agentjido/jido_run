@@ -33,7 +33,10 @@
     "Catalog discovery, deterministic tool search, and safe tool calling",
     "Provider action contracts for GitHub issues, Slack messages, and MCP tool calls",
     "Local Phoenix demo host for OAuth callbacks, webhook validation, and integration testing"
-  ]
+  ],
+  landing_summary: "Integration and connector framework for Jido host applications",
+  landing_use_when: ["You are integrating Jido with another framework or service."],
+  landing_not_for: ["You are not using the framework this package integrates with.", "Beta — verify against your Jido version before production use."]
 }
 ---
 ## Overview

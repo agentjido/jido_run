@@ -36,7 +36,10 @@
     "Normalizes Slack payloads into shared chat envelopes",
     "Includes quality, coverage, Dialyzer, and documentation tooling",
     "Supports the broader chat adapter family across multiple channels"
-  ]
+  ],
+  landing_summary: "Slack adapter package for Jido Chat",
+  landing_use_when: ["You are integrating Jido with another framework or service."],
+  landing_not_for: ["You are not using the framework this package integrates with.", "Beta — verify against your Jido version before production use."]
 }
 ---
 ## Overview

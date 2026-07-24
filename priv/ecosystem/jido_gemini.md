@@ -34,7 +34,10 @@
     "Shared operational patterns with other CLI coding adapters",
     "Project aliases for quality checks and compatibility verification",
     "Designed for multi-provider composition alongside Codex and Amp adapters"
-  ]
+  ],
+  landing_summary: "Google Gemini adapter for Jido Harness with early-stage parity coverage",
+  landing_use_when: ["You are integrating Jido with another framework or service."],
+  landing_not_for: ["You are not using the framework this package integrates with.", "Beta — verify against your Jido version before production use."]
 }
 ---
 ## Overview

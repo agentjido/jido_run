@@ -36,7 +36,10 @@
     "Uses Req and Jason for API interaction and payload handling",
     "Supports adapter testing with local fixtures and environment-driven configuration",
     "Fits into the same channel adapter family as Discord, Telegram, Slack, and X"
-  ]
+  ],
+  landing_summary: "GitHub Issues adapter package for Jido Chat",
+  landing_use_when: ["You are integrating Jido with another framework or service."],
+  landing_not_for: ["You are not using the framework this package integrates with.", "Beta — verify against your Jido version before production use."]
 }
 ---
 ## Overview

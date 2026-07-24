@@ -38,7 +38,10 @@
     "Single-line agent setup via Plugin system",
     "Signal routing for browser.* event-driven workflows",
     "Cross-platform installer for macOS, Linux, and Windows"
-  ]
+  ],
+  landing_summary: "Browser automation for AI agents with 26 composable actions",
+  landing_use_when: ["You want ready-made tool Actions for an agent."],
+  landing_not_for: ["You need tools this package does not provide."]
 }
 ---
 ## Overview

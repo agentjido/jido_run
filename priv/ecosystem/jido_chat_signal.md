@@ -36,7 +36,10 @@
     "Normalizes Signal messages into shared Jido Chat message envelopes",
     "Supports environment-driven testing and local adapter configuration",
     "Complements other channel adapters for multi-platform chat workflows"
-  ]
+  ],
+  landing_summary: "Signal adapter package for Jido Chat using signal-cli",
+  landing_use_when: ["You are integrating Jido with another framework or service."],
+  landing_not_for: ["You are not using the framework this package integrates with.", "Beta — verify against your Jido version before production use."]
 }
 ---
 ## Overview

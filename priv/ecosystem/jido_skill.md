@@ -32,7 +32,10 @@
     "CLI and mix-task surfaces for run/list/reload/routes/watch flows",
     "Runtime route inspection and signal publication utilities",
     "Local executable workflow via escript build/install"
-  ]
+  ],
+  landing_summary: "Deprecated skill runtime retained for historical reference",
+  landing_use_when: ["You want ready-made tool Actions for an agent."],
+  landing_not_for: ["You need tools this package does not provide.", "Not production-ready; APIs may change."]
 }
 ---
 ## Overview

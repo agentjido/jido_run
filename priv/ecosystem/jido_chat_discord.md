@@ -36,7 +36,10 @@
     "Supports listener child specs for gateway or webhook ingress modes",
     "Uses Nostrum-backed ingestion for gateway event handling",
     "Includes compatibility wrapper for legacy channel integrations"
-  ]
+  ],
+  landing_summary: "Discord adapter package implementing the Jido Chat adapter contract",
+  landing_use_when: ["You are integrating Jido with another framework or service."],
+  landing_not_for: ["You are not using the framework this package integrates with.", "Beta — verify against your Jido version before production use."]
 }
 ---
 ## Overview

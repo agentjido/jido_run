@@ -39,7 +39,10 @@
     "Context-aware execution threading agent state and directives through the tree",
     "Full telemetry and observability via Jido.Observe spans",
     "Custom node creation via the Node behaviour with Zoi schema-based structs"
-  ]
+  ],
+  landing_summary: "Full-featured behavior tree engine for Jido agent decision-making",
+  landing_use_when: ["You want ready-made tool Actions for an agent."],
+  landing_not_for: ["You need tools this package does not provide."]
 }
 ---
 ## Overview

@@ -39,7 +39,10 @@
     "Execution summaries with node count, facts, and satisfaction status",
     "Durable workflow state maintained across signal processing cycles",
     "Eager planning identifying all ready runnables after each fact production"
-  ]
+  ],
+  landing_summary: "Workflow composition and execution substrate for DAG-based agent orchestration",
+  landing_use_when: ["You want ready-made tool Actions for an agent."],
+  landing_not_for: ["You need tools this package does not provide."]
 }
 ---
 ## Overview

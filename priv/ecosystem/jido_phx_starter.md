@@ -33,7 +33,10 @@
     "AI chat and listings demos with tool calling",
     "Ash and AshJido integration examples",
     "Local setup flow for database-backed Phoenix development"
-  ]
+  ],
+  landing_summary: "Phoenix starter app for learning Jido and Jido AI in a real project",
+  landing_use_when: ["You need runtime infrastructure (persistence, scheduling, or observability) for a deployed agent."],
+  landing_not_for: ["You are still prototyping and do not yet run agents long-term.", "Beta — verify against your Jido version before production use."]
 }
 ---
 ## Overview

@@ -33,7 +33,10 @@
     "Normalized success/error envelopes for MCP calls",
     "Jido actions and plugin routes for signal-driven MCP usage",
     "Bridge support for exposing MCP servers with explicit allowlists"
-  ]
+  ],
+  landing_summary: "MCP server integration package with pooled clients and Jido action surfaces",
+  landing_use_when: ["You are integrating Jido with another framework or service."],
+  landing_not_for: ["You are not using the framework this package integrates with.", "Beta — verify against your Jido version before production use."]
 }
 ---
 ## Overview

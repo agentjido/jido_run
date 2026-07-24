@@ -91,7 +91,9 @@
     "Prompt evaluation framework (GEPA)",
     "Signal-driven architecture with automatic routing per strategy",
     "Security hardening — prompt injection detection, input sanitization"
-  ]
+  ],
+  landing_use_when: ["You want to add LLM reasoning or tool-calling to an agent."],
+  landing_not_for: ["Your agent has no LLM component (core Jido needs no LLM)."]
 }
 ---
 ## Overview

@@ -32,7 +32,10 @@
     "Strict command payload and permission object validation",
     "Runtime command register/unregister/reload APIs",
     "CLI and mix-task execution surfaces for local workflows"
-  ]
+  ],
+  landing_summary: "Deprecated slash-command runtime retained for historical reference",
+  landing_use_when: ["You want ready-made tool Actions for an agent."],
+  landing_not_for: ["You need tools this package does not provide.", "Not production-ready; APIs may change."]
 }
 ---
 ## Overview

@@ -35,7 +35,10 @@
     "Compatibility bridge for legacy multi-session orchestration surfaces",
     "Typed lifecycle/event handling for session progress and outcomes",
     "Operational tasks for install, compatibility, and smoke verification"
-  ]
+  ],
+  landing_summary: "Claude Code adapter for Jido Harness with migration support for legacy session surfaces",
+  landing_use_when: ["You are integrating Jido with another framework or service."],
+  landing_not_for: ["You are not using the framework this package integrates with.", "Beta — verify against your Jido version before production use."]
 }
 ---
 ## Overview

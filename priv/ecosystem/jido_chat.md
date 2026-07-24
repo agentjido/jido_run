@@ -33,7 +33,10 @@
     "Pure struct/function bot loop for deterministic message handling",
     "Thread and channel reference handles for portable adapter implementations",
     "Compatibility shims to support migration from legacy channel modules"
-  ]
+  ],
+  landing_summary: "SDK-first chat core for typed message flows and adapter contracts",
+  landing_use_when: ["You are integrating Jido with another framework or service."],
+  landing_not_for: ["You are not using the framework this package integrates with.", "Beta — verify against your Jido version before production use."]
 }
 ---
 ## Overview

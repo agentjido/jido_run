@@ -46,7 +46,10 @@
     "Uses Jido runtime and messaging packages as application dependencies",
     "Provides a UI-oriented integration path for chat package validation",
     "Supports local development workflows for adapter demos and runtime experiments"
-  ]
+  ],
+  landing_summary: "Phoenix LiveView UI for Jido Chat",
+  landing_use_when: ["You are integrating Jido with another framework or service."],
+  landing_not_for: ["You are not using the framework this package integrates with.", "Beta — verify against your Jido version before production use."]
 }
 ---
 ## Overview

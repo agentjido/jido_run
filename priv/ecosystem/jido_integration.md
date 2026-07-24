@@ -34,7 +34,10 @@
     "Durable execution state, events, artifacts, and review packets",
     "Inference runtime family for cloud, CLI endpoint, and self-hosted execution paths",
     "Conformance and publishing guides for connector package authors"
-  ]
+  ],
+  landing_summary: "Connector platform for auth lifecycle, invocation, async flows, and durable execution review",
+  landing_use_when: ["You are integrating Jido with another framework or service."],
+  landing_not_for: ["You are not using the framework this package integrates with.", "Not production-ready; APIs may change."]
 }
 ---
 ## Overview

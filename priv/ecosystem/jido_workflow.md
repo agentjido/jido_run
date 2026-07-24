@@ -32,7 +32,10 @@
     "Reserved run option handling with typed input coercion",
     "Mix task integration for workflow operations from development environments",
     "Run lifecycle control APIs for pause/resume/list style operations"
-  ]
+  ],
+  landing_summary: "Deprecated workflow runtime retained for historical reference",
+  landing_use_when: ["You need runtime infrastructure (persistence, scheduling, or observability) for a deployed agent."],
+  landing_not_for: ["You are still prototyping and do not yet run agents long-term.", "Not production-ready; APIs may change."]
 }
 ---
 ## Overview

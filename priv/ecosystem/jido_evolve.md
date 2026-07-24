@@ -33,7 +33,10 @@
     "Fitness behavior abstraction for domain-specific scoring",
     "Example pipelines including knapsack and traveling-salesman style demos",
     "Telemetry-friendly architecture for tracking optimization runs"
-  ]
+  ],
+  landing_summary: "Evolutionary optimization toolkit for Elixir with pluggable fitness pipelines",
+  landing_use_when: ["You want to add LLM reasoning or tool-calling to an agent."],
+  landing_not_for: ["Your agent has no LLM component (core Jido needs no LLM).", "Beta — verify against your Jido version before production use."]
 }
 ---
 ## Overview

@@ -34,7 +34,10 @@
     "Explainable retrieval pipeline with ranking and context packaging",
     "Governance features including policy checks, approvals, masking, and audit logging",
     "Plugin/action integration surfaces for signal-driven runtime workflows"
-  ]
+  ],
+  landing_summary: "Deprecated memory orchestration layer retained for historical reference",
+  landing_use_when: ["You want to add LLM reasoning or tool-calling to an agent."],
+  landing_not_for: ["Your agent has no LLM component (core Jido needs no LLM).", "Not production-ready; APIs may change."]
 }
 ---
 ## Overview

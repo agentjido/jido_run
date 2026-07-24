@@ -33,7 +33,10 @@
     "Stable substrate for higher-level shell and workspace runtimes",
     "Safe file operations suitable for autonomous agent workflows",
     "Clear separation between filesystem primitives and provider orchestration"
-  ]
+  ],
+  landing_summary: "Backend-agnostic filesystem contract for agent runtimes and sandbox adapters",
+  landing_use_when: ["You want ready-made tool Actions for an agent."],
+  landing_not_for: ["You need tools this package does not provide."]
 }
 ---
 ## Overview

@@ -37,7 +37,10 @@
     "Knowledge graph foundation with RDF-based semantic code understanding",
     "Sub-task delegation via isolated TaskAgents with independent LLM context",
     "Two-level settings system — global + project-specific with environment overrides"
-  ]
+  ],
+  landing_summary: "Terminal-native AI coding assistant built on the Jido agent framework",
+  landing_use_when: ["You want ready-made tool Actions for an agent."],
+  landing_not_for: ["You need tools this package does not provide.", "Beta — verify against your Jido version before production use."]
 }
 ---
 ## Overview

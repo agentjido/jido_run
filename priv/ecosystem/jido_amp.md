@@ -33,7 +33,10 @@
     "Streaming event routing into Harness-compatible envelopes",
     "Session cancellation and structured signal mapping",
     "Operational mix tasks for install, compatibility, and smoke testing"
-  ]
+  ],
+  landing_summary: "Amp CLI adapter for Jido Harness with runtime compatibility checks",
+  landing_use_when: ["You are integrating Jido with another framework or service."],
+  landing_not_for: ["You are not using the framework this package integrates with.", "Beta — verify against your Jido version before production use."]
 }
 ---
 ## Overview

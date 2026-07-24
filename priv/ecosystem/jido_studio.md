@@ -33,7 +33,10 @@
     "Operational visibility into agent state and workflow activity",
     "Optional extension pages compiled when companion packages are present",
     "Designed for production-style debugging and control loops"
-  ]
+  ],
+  landing_summary: "Embeddable LiveView dashboard for managing and debugging Jido agents",
+  landing_use_when: ["You need runtime infrastructure (persistence, scheduling, or observability) for a deployed agent."],
+  landing_not_for: ["You are still prototyping and do not yet run agents long-term.", "Beta — verify against your Jido version before production use."]
 }
 ---
 ## Overview

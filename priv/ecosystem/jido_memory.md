@@ -33,7 +33,10 @@
     "Explicit actions for remember, recall, and forget workflows",
     "Auto-capture hooks for LLM and non-LLM signal flows",
     "Namespace-aware storage patterns for multi-agent systems"
-  ]
+  ],
+  landing_summary: "ETS-backed memory system and plugin model for Jido agents",
+  landing_use_when: ["You want to add LLM reasoning or tool-calling to an agent."],
+  landing_not_for: ["Your agent has no LLM component (core Jido needs no LLM)."]
 }
 ---
 ## Overview

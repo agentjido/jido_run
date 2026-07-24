@@ -33,7 +33,10 @@ key_features: [
 "Converts metadata and measurements into OTel attributes",
 "Captures Jido exceptions as OTel exception events",
 "Includes runtime app startup and telemetry wiring patterns"
-]
+],
+  landing_summary: "OpenTelemetry tracer bridge for Jido.Observe instrumentation",
+  landing_use_when: ["You are integrating Jido with another framework or service."],
+  landing_not_for: ["You are not using the framework this package integrates with.", "Beta — verify against your Jido version before production use."]
 }
 
 ---

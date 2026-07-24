@@ -38,7 +38,10 @@
     "DAG-based workflow planning with dependency management",
     "25+ pre-built tools covering file I/O, HTTP, GitHub, weather, and more",
     "Sandboxed Lua evaluation for untrusted code execution"
-  ]
+  ],
+  landing_summary: "Composable, validated command pattern for Elixir with built-in AI tool integration",
+  landing_use_when: ["You are building an agent and need the Agent model, validated Actions, Signals, Directives, and the OTP runtime."],
+  landing_not_for: ["You only need a thin LLM call without an agent model."]
 }
 ---
 ## Overview

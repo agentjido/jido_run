@@ -37,7 +37,10 @@
     "Configurable struct-to-map conversion for AI/LLM consumption",
     "Comprehensive error translation from Ash to Jido's Splode hierarchy",
     "Igniter-powered installation for automated setup"
-  ]
+  ],
+  landing_summary: "Compile-time bridge from Ash Framework resources to Jido Action modules",
+  landing_use_when: ["You are integrating Jido with another framework or service."],
+  landing_not_for: ["You are not using the framework this package integrates with."]
 }
 ---
 ## Overview

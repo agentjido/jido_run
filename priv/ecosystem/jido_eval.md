@@ -33,7 +33,10 @@
     "Typed schemas and CSV utilities for experiment inputs/outputs",
     "Quality automation aliases for repeatable evaluation workflows",
     "Designed to integrate tightly with Jido AI pipelines"
-  ]
+  ],
+  landing_summary: "Evaluation framework for LLM and Jido agent quality measurement",
+  landing_use_when: ["You want to add LLM reasoning or tool-calling to an agent."],
+  landing_not_for: ["Your agent has no LLM component (core Jido needs no LLM).", "Not production-ready; APIs may change."]
 }
 ---
 ## Overview

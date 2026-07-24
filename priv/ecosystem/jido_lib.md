@@ -44,7 +44,10 @@
     "Provider-swappable orchestration over Harness adapters",
     "Workflow composition across shell, VFS, runic, and AI strategy layers",
     "Reusable implementation patterns for production automation agents"
-  ]
+  ],
+  landing_summary: "GitHub triage and PR orchestration workflows composed over the CLI-agent stack",
+  landing_use_when: ["You want ready-made tool Actions for an agent."],
+  landing_not_for: ["You need tools this package does not provide.", "Beta — verify against your Jido version before production use."]
 }
 ---
 ## Overview

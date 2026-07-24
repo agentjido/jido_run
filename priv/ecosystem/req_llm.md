@@ -38,7 +38,10 @@
     "Per-request usage and cost tracking with telemetry",
     "Multi-modal content support (text, image, tool calls)",
     "Secure layered API key management"
-  ]
+  ],
+  landing_summary: "Composable Elixir library for LLM interactions built on Req",
+  landing_use_when: ["You want to add LLM reasoning or tool-calling to an agent."],
+  landing_not_for: ["Your agent has no LLM component (core Jido needs no LLM)."]
 }
 ---
 ## Overview

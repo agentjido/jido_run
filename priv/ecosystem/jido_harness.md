@@ -33,7 +33,10 @@
     "Runtime execution modules under `Jido.Harness.Exec.*`",
     "Schema-validated request, event, and runtime contract models",
     "Architectural center for multi-provider adapter packages"
-  ]
+  ],
+  landing_summary: "Provider-neutral contract and runtime policy layer for CLI coding agents",
+  landing_use_when: ["You need runtime infrastructure (persistence, scheduling, or observability) for a deployed agent."],
+  landing_not_for: ["You are still prototyping and do not yet run agents long-term.", "Beta — verify against your Jido version before production use."]
 }
 ---
 ## Overview

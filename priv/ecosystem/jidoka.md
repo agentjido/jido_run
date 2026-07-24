@@ -43,7 +43,10 @@
     "Guardrail modules for input, output, and tool boundaries",
     "Trace and AgentView concepts for observing agent execution",
     "Integrates multiple Jido ecosystem packages into one experimental application runtime"
-  ]
+  ],
+  landing_summary: "Developer-friendly LLM agent harness built on Jido and Jido AI",
+  landing_use_when: ["You need runtime infrastructure (persistence, scheduling, or observability) for a deployed agent."],
+  landing_not_for: ["You are still prototyping and do not yet run agents long-term.", "Beta — verify against your Jido version before production use."]
 }
 ---
 ## Overview

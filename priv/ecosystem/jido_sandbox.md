@@ -38,7 +38,10 @@
     "Lua-VFS integration with state propagation through the vfs namespace",
     "Zero-process architecture — pure data structure, no GenServer or ETS",
     "Usage rules documentation for LLM tool builders"
-  ]
+  ],
+  landing_summary: "Deprecated sandbox package retained for historical reference",
+  landing_use_when: ["You want ready-made tool Actions for an agent."],
+  landing_not_for: ["You need tools this package does not provide.", "Not production-ready; APIs may change."]
 }
 ---
 ## Overview

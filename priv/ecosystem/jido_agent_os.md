@@ -32,7 +32,10 @@
     "Kernel to pod to agent mental model for long-lived agent backends",
     "Phoenix host-shell guidance for separating product UI from durable runtime topology",
     "Plugin-first extension model built on existing Jido runtime concepts"
-  ]
+  ],
+  landing_summary: "Experimental OTP-native kernel for running durable Jido pods inside host applications",
+  landing_use_when: ["You need runtime infrastructure (persistence, scheduling, or observability) for a deployed agent."],
+  landing_not_for: ["You are still prototyping and do not yet run agents long-term.", "Not production-ready; APIs may change."]
 }
 ---
 ## Overview

@@ -37,7 +37,10 @@
     "Multi-instance isolation with per-instance supervision trees",
     "Composable moderation with keyword filter and rate limiter",
     "Dual observability — telemetry metrics and Jido Signal CloudEvents"
-  ]
+  ],
+  landing_summary: "Platform-agnostic messaging for AI agents across Telegram, Discord, Slack, and WhatsApp",
+  landing_use_when: ["You are integrating Jido with another framework or service."],
+  landing_not_for: ["You are not using the framework this package integrates with.", "Beta — verify against your Jido version before production use."]
 }
 ---
 ## Overview

@@ -33,7 +33,10 @@
     "Session lifecycle helpers for start, stream, and teardown flows",
     "Foundation package used by harness runtime execution paths",
     "Provider-agnostic shell semantics with explicit policy boundaries"
-  ]
+  ],
+  landing_summary: "Agent-friendly shell and session runtime built on top of jido_vfs",
+  landing_use_when: ["You want ready-made tool Actions for an agent."],
+  landing_not_for: ["You need tools this package does not provide."]
 }
 ---
 ## Overview

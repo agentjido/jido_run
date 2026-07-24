@@ -36,7 +36,10 @@
     "Supports adapter-level send operations with token-based auth",
     "Provides Telegram-specific extension helpers for media and callbacks",
     "Includes compatibility surface for legacy channel-style integrations"
-  ]
+  ],
+  landing_summary: "Telegram adapter package implementing the Jido Chat adapter contract",
+  landing_use_when: ["You are integrating Jido with another framework or service."],
+  landing_not_for: ["You are not using the framework this package integrates with.", "Beta — verify against your Jido version before production use."]
 }
 ---
 ## Overview

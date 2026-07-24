@@ -33,7 +33,10 @@
     "`use Jido.Character` macro for reusable templates",
     "Direct rendering to req_llm context payloads",
     "Pluggable persistence adapter pattern with in-memory defaults"
-  ]
+  ],
+  landing_summary: "Composable character definitions and context rendering for AI agents",
+  landing_use_when: ["You want to add LLM reasoning or tool-calling to an agent."],
+  landing_not_for: ["Your agent has no LLM component (core Jido needs no LLM)."]
 }
 ---
 ## Overview

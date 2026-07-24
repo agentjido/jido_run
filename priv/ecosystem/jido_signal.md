@@ -40,7 +40,10 @@
     "W3C-compatible distributed tracing",
     "Multi-format serialization (JSON, MessagePack, ETF)",
     "Instance isolation for multi-tenant deployments"
-  ]
+  ],
+  landing_summary: "CloudEvents-based event-driven communication toolkit for Elixir",
+  landing_use_when: ["You are building an agent and need the Agent model, validated Actions, Signals, Directives, and the OTP runtime."],
+  landing_not_for: ["You only need a thin LLM call without an agent model."]
 }
 ---
 ## Overview

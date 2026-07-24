@@ -33,7 +33,10 @@
     "Includes PostgreSQL and SQLite test/development dependency coverage",
     "Provides package quality gates with coverage, Dialyzer, Credo, and docs",
     "Complements Bedrock storage by providing a familiar Ecto persistence path"
-  ]
+  ],
+  landing_summary: "Ecto-backed storage and persistence adapters for Jido",
+  landing_use_when: ["You are integrating Jido with another framework or service."],
+  landing_not_for: ["You are not using the framework this package integrates with.", "Beta — verify against your Jido version before production use."]
 }
 ---
 ## Overview

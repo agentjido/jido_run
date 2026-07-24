@@ -33,7 +33,10 @@
     "Streaming event normalization into Harness-compatible envelopes",
     "Exec transport by default with optional app-server transport",
     "Validation and smoke-test mix tasks for local setup"
-  ]
+  ],
+  landing_summary: "OpenAI Codex adapter for Jido Harness with deep runtime capability coverage",
+  landing_use_when: ["You are integrating Jido with another framework or service."],
+  landing_not_for: ["You are not using the framework this package integrates with.", "Beta — verify against your Jido version before production use."]
 }
 ---
 ## Overview

@@ -36,7 +36,10 @@
     "Normalizes Mattermost payloads into typed Jido Chat message envelopes",
     "Provides standalone transport implementation without external adapter dependencies",
     "Includes compatibility wrapper for legacy channel integrations"
-  ]
+  ],
+  landing_summary: "Mattermost adapter package implementing the Jido Chat adapter contract",
+  landing_use_when: ["You are integrating Jido with another framework or service."],
+  landing_not_for: ["You are not using the framework this package integrates with.", "Beta — verify against your Jido version before production use."]
 }
 ---
 ## Overview

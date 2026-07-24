@@ -33,7 +33,10 @@
     "Cross-node lookup, call, cast, and stop operations by key",
     "Conservative ownership rebalancing with configurable migration limits",
     "Shared storage adapters for ETS, Mnesia, Bedrock, and Postgres-backed persistence"
-  ]
+  ],
+  landing_summary: "Distributed keyed instance management and storage for multi-node Jido runtimes",
+  landing_use_when: ["You need runtime infrastructure (persistence, scheduling, or observability) for a deployed agent."],
+  landing_not_for: ["You are still prototyping and do not yet run agents long-term.", "Not production-ready; APIs may change."]
 }
 ---
 ## Overview

@@ -34,7 +34,10 @@
     "Snapshot and restore support for speculative agent workflows",
     "Convenience API for read/write/list/delete artifact operations",
     "Shell execution integration for workspace-local command runs"
-  ]
+  ],
+  landing_summary: "Workspace state and artifact lifecycle library for agent sessions",
+  landing_use_when: ["You want ready-made tool Actions for an agent."],
+  landing_not_for: ["You need tools this package does not provide.", "Beta — verify against your Jido version before production use."]
 }
 ---
 ## Overview

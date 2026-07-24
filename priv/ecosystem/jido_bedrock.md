@@ -33,7 +33,10 @@
     "Optimistic concurrency for append operations using expected revision checks",
     "Drop-in storage adapter wiring for Jido runtime configuration",
     "Compatibility with existing Jido instance lifecycle and recovery workflows"
-  ]
+  ],
+  landing_summary: "Bedrock-backed persistence adapters for Jido runtimes",
+  landing_use_when: ["You are integrating Jido with another framework or service."],
+  landing_not_for: ["You are not using the framework this package integrates with.", "Not production-ready; APIs may change."]
 }
 ---
 ## Overview

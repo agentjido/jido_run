@@ -33,7 +33,10 @@
     "Buffered-first result handling with normalized event envelopes",
     "Provider-swappable integration through the shared Harness contract",
     "Contract-first posture for adapter interoperability and testing"
-  ]
+  ],
+  landing_summary: "OpenCode CLI adapter for Jido Harness with buffered-first execution semantics",
+  landing_use_when: ["You are integrating Jido with another framework or service."],
+  landing_not_for: ["You are not using the framework this package integrates with.", "Beta — verify against your Jido version before production use."]
 }
 ---
 ## Overview
