@@ -12,9 +12,15 @@
     "slice-07"
   ],
   "parent": "jido-e06",
+  "comments": [
+    {
+      "text": "Open: control intent/type in page metadata not yet added.",
+      "timestamp": "2026-07-24T12:49:42Z"
+    }
+  ],
   "priority": 2,
   "status": "open",
   "title": "E06-T37 — Add control intent and control type to page metadata.",
   "type": "task",
-  "updated_at": "2026-07-23T12:04:12Z"
+  "updated_at": "2026-07-24T12:49:42Z"
 }
