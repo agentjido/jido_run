@@ -12,6 +12,12 @@
     "slice-05"
   ],
   "parent": "jido-e04",
+  "comments": [
+    {
+      "text": "Done in 61ad79c: operational-control benefit carried in the hero subhead (supervise/constrain/inspect framing).",
+      "timestamp": "2026-07-24T12:41:36Z"
+    }
+  ],
   "priority": 0,
   "status": "in_progress",
   "title": "E04-T33 — Carry the operational-control benefit in the hero subhead or first supporting line.",
