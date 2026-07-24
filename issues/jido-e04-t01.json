@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:41:30Z",
   "created": "2026-07-23T12:02:13Z",
   "description": "Backlog task: E04-T01\n\nWork area: Hero and first viewport\n\nMain targets: `jido_home_live.ex`\n\nComplete when: The category is visible before the headline.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e04-t01",
@@ -19,7 +20,7 @@
     }
   ],
   "priority": 0,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E04-T01 — Keep the eyebrow “Open-source Elixir framework.”",
   "type": "task",
   "updated_at": "2026-07-24T12:41:30Z"
