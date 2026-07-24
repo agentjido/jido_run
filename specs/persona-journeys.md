@@ -1,9 +1,9 @@
 # Persona And Journey Strategy
 
-Version: 2.0  
-Last updated: 2026-02-12  
-Positioning anchor: `Jido is a runtime for reliable, multi-agent systems.`  
-Differentiator: `Built on Elixir/OTP for fault-tolerant concurrency and production-grade reliability.`
+Version: 3.0  
+Last updated: 2026-07-23  
+Positioning anchor: `Jido is the Elixir framework for long-running agent systems.` (see `specs/positioning.md` §11; `jido-e02`)  
+Differentiator: `Build Agent systems you can supervise, constrain, and inspect.`
 
 ## 1) Strategy Premise
 
@@ -98,3 +98,14 @@ Differentiator: `Built on Elixir/OTP for fault-tolerant concurrency and producti
 - Avoid jargon-only claims without practical translation.
 - Always connect persona pages to a concrete next step (`Build`, `Training`, `Docs`, or `Community`).
 - Use `Get Building` as the default global CTA for OSS onboarding.
+
+## Control-Evaluation Audience and Journey (`jido-e02` T40/T41)
+
+Secondary to Elixir builders, a control-evaluation audience evaluates Jido for governed environments: platform engineers, SREs, security teams, and regulated-environment evaluators.
+
+| Persona | Core question | First route |
+|---|---|---|
+| Platform / SRE engineer | Can I supervise, observe, and recover agent work? | `/docs/operations` |
+| Security evaluator | Where are the authorization and audit boundaries? | `/docs/operations/security-and-governance` |
+
+Control-evaluation journey: architecture → authorization hook (`prepare_action/3`) → causal Signal Journal → telemetry and redaction → operations proof (failure drill, incident playbooks). The journey follows the operational-control pillars in `specs/positioning.md` §11 and stays within the claim boundaries (no IAM/compliance overreach).
