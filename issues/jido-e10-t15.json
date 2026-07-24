@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:53:29Z",
   "created": "2026-07-23T12:06:54Z",
   "description": "Backlog task: E10-T15\n\nWork area: Markdown and agent delivery\n\nMain targets: LLMSTxt controller\n\nComplete when: Every documented machine route returns the stated content.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e10-t15",
@@ -18,7 +19,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E10-T15 — Remove unsupported route claims from `llms.txt`.",
   "type": "task",
   "updated_at": "2026-07-24T12:53:29Z"
