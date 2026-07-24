@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:35:07Z",
   "created": "2026-07-23T12:01:08Z",
   "description": "Backlog task: E02-T15\n\nWork area: Vocabulary\n\nMain targets: Glossary and style guide\n\nComplete when: Each term has one approved short definition.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e02-t15",
@@ -19,7 +20,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E02-T15 — Define Strategy, Plugin, Sensor, Thread, Memory, and workflow.",
   "type": "task",
   "updated_at": "2026-07-24T12:35:07Z"
