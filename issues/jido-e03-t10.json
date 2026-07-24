@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:39:43Z",
   "created": "2026-07-23T12:01:48Z",
   "description": "Backlog task: E03-T10\n\nWork area: Tasks\n\nMain targets: Ecosystem LiveView and metadata\n\nComplete when: It says that packages are optional layers and shows a recommended start.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e03-t10",
@@ -19,7 +20,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E03-T10 — Update the Ecosystem hub introduction.",
   "type": "task",
   "updated_at": "2026-07-24T12:39:43Z"
