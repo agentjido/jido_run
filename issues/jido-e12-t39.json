@@ -12,9 +12,15 @@
     "slice-12"
   ],
   "parent": "jido-e12",
+  "comments": [
+    {
+      "text": "Open: integrated controlled-Agent example in CI depends on the reference app (jido-e07).",
+      "timestamp": "2026-07-24T12:55:04Z"
+    }
+  ],
   "priority": 0,
   "status": "open",
   "title": "E12-T39 — Run the integrated controlled-Agent example in CI.",
   "type": "task",
-  "updated_at": "2026-07-23T12:08:20Z"
+  "updated_at": "2026-07-24T12:55:04Z"
 }
