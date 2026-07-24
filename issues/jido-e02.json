@@ -7,6 +7,7 @@
     "jido-e03",
     "jido-e09"
   ],
+  "closed_at": "2026-07-24T01:43:00Z",
   "created": "2026-07-23T12:00:03Z",
   "description": "Give every writer and component one stable description of Jido.\n\nExit criteria:\n- One approved category describes Jido.\n- Agent, AgentServer, Action, Signal, Directive, runtime, and ecosystem have stable definitions.\n- Operational control is a primary benefit with lifecycle, capability, traceability, and failure-response pillars.\n- Identity, authorization, audit, observability, governance, security, and compliance have explicit claim boundaries.\n- Claims have clear proof requirements.\n- Canonical specs agree with each other.\n\nBacklog tasks: 45\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e02",
@@ -17,8 +18,8 @@
   ],
   "parent": "jido-site-facelift",
   "priority": 0,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E02 — Set the positioning and vocabulary canon",
   "type": "epic",
-  "updated_at": "2026-07-24T01:39:42Z"
+  "updated_at": "2026-07-24T01:43:00Z"
 }
