@@ -12,9 +12,15 @@
     "slice-06"
   ],
   "parent": "jido-e05",
+  "comments": [
+    {
+      "text": "Open: copyable expected output after each first-run block not yet added everywhere.",
+      "timestamp": "2026-07-24T12:48:43Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E05-T27 — Add copyable expected output after each first-run block.",
   "type": "task",
-  "updated_at": "2026-07-23T12:03:21Z"
+  "updated_at": "2026-07-24T12:48:43Z"
 }
