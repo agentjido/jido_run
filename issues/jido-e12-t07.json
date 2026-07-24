@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T17:28:44Z",
   "created": "2026-07-23T12:07:48Z",
   "description": "Backlog task: E12-T07\n\nWork area: Content lint and release gates\n\nMain targets: Content validation\n\nComplete when: High-risk process descriptions receive review.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e12-t07",
@@ -22,8 +23,8 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E12-T07 — Add Agent/AgentServer terminology lint rules with an allowlist.",
   "type": "task",
-  "updated_at": "2026-07-24T17:28:43Z"
+  "updated_at": "2026-07-24T17:28:44Z"
 }
