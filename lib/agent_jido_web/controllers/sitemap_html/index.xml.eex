@@ -32,6 +32,13 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+  <%= for example <- @examples do %>
+  <url>
+    <loc><%= AgentJidoWeb.Endpoint.url() %>/examples/<%= example.slug %></loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <% end %>
   <url>
     <loc><%= AgentJidoWeb.Endpoint.url() %>/features</loc>
     <changefreq>monthly</changefreq>

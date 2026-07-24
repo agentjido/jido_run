@@ -3,6 +3,7 @@ defmodule AgentJidoWeb.SitemapControllerTest do
 
   alias AgentJido.Blog
   alias AgentJido.Ecosystem
+  alias AgentJido.Examples
   alias AgentJido.Pages
 
   test "returns raw xml sitemap payload", %{conn: conn} do
@@ -26,6 +27,17 @@ defmodule AgentJidoWeb.SitemapControllerTest do
 
     for pkg <- Ecosystem.public_packages() do
       assert body =~ "/ecosystem/#{pkg.id}"
+    end
+  end
+
+  test "includes public example detail pages", %{conn: conn} do
+    body =
+      conn
+      |> get("/sitemap.xml")
+      |> response(200)
+
+    for example <- Examples.all_examples() do
+      assert body =~ "/examples/#{example.slug}"
     end
   end
 
