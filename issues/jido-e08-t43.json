@@ -12,9 +12,15 @@
     "slice-09"
   ],
   "parent": "jido-e08",
+  "comments": [
+    {
+      "text": "Open: correlated operational trace example depends on T37.",
+      "timestamp": "2026-07-24T12:51:58Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E08-T43 — Show one correlated operational trace.",
   "type": "task",
-  "updated_at": "2026-07-23T12:05:46Z"
+  "updated_at": "2026-07-24T12:51:58Z"
 }
