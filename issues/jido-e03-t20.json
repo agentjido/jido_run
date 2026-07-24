@@ -12,6 +12,12 @@
     "slice-04"
   ],
   "parent": "jido-e03",
+  "comments": [
+    {
+      "text": "Done in 61ad79c: WhatsApp/Discord borrowed-proof removed from home; no occurrences in features/build.",
+      "timestamp": "2026-07-24T12:39:50Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "E03-T20 — Remove the WhatsApp and Discord borrowed-proof sentence.",
