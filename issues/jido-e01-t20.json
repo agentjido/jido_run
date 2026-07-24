@@ -1,5 +1,5 @@
 {
-  "assignee": "Mike Hostetler",
+  "assignee": "",
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:00:50Z",
@@ -19,7 +19,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "open",
   "title": "E01-T20 — Add a route crawl that follows every link from every published page.",
   "type": "task",
   "updated_at": "2026-07-24T12:32:37Z"
