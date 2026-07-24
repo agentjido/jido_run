@@ -12,6 +12,12 @@
     "slice-04"
   ],
   "parent": "jido-e03",
+  "comments": [
+    {
+      "text": "Done in e510eb5 + 5f28d96: restricted-claim scan enforced by test/agent_jido_web/canon_claim_scan_test.exs and test/agent_jido/content_claim_linter_test.exs (corpus-wide, negation-aware).",
+      "timestamp": "2026-07-24T12:39:52Z"
+    }
+  ],
   "priority": 2,
   "status": "in_progress",
   "title": "E03-T25 — Run a restricted-claim scan and review every hit.",
