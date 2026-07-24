@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:47:56Z",
   "created": "2026-07-23T12:02:55Z",
   "description": "Backlog task: E05-T01\n\nWork area: Route and structure\n\nMain targets: Router, nav, sitemap, canonical tags\n\nComplete when: All onboarding links resolve to this route family.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e05-t01",
@@ -19,7 +20,7 @@
     }
   ],
   "priority": 0,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E05-T01 — Make `/docs/getting-started` the only canonical start route.",
   "type": "task",
   "updated_at": "2026-07-24T12:47:56Z"
