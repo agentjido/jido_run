@@ -15,11 +15,15 @@
     {
       "text": "Open: 'What this package does not do' on every package page not yet done.",
       "timestamp": "2026-07-24T12:52:38Z"
+    },
+    {
+      "text": "Done in this commit: every ecosystem package (52/52) has landing_not_for (what it does not do), including an explicit non-production caveat for experimental/beta packages.",
+      "timestamp": "2026-07-24T16:22:03Z"
     }
   ],
   "priority": 1,
   "status": "in_progress",
   "title": "E09-T13 — Add “What this package does not do.”",
   "type": "task",
-  "updated_at": "2026-07-24T16:22:02Z"
+  "updated_at": "2026-07-24T16:22:03Z"
 }
