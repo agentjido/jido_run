@@ -12,9 +12,15 @@
     "slice-05"
   ],
   "parent": "jido-e04",
+  "comments": [
+    {
+      "text": "Open: support-level display for home packages depends on jido-e04-t24.",
+      "timestamp": "2026-07-24T12:46:30Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E04-T26 — Display support level for packages shown in the home section.",
   "type": "task",
-  "updated_at": "2026-07-23T12:02:38Z"
+  "updated_at": "2026-07-24T12:46:30Z"
 }
