@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:54:11Z",
   "created": "2026-07-23T12:07:24Z",
   "description": "Backlog task: E11-T11\n\nWork area: Community flow\n\nMain targets: Existing showcase records\n\nComplete when: The showcase does not overstate Jido adoption.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e11-t11",
@@ -18,7 +19,7 @@
     }
   ],
   "priority": 2,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E11-T11 — Label ReqLLM-only and Jido-inspired projects accurately.",
   "type": "task",
   "updated_at": "2026-07-24T12:54:11Z"
