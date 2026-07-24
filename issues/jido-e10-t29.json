@@ -12,9 +12,15 @@
     "slice-10"
   ],
   "parent": "jido-e10",
+  "comments": [
+    {
+      "text": "Open: control types/limits/proof links in Markdown output not yet done.",
+      "timestamp": "2026-07-24T12:53:37Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E10-T29 — Add control types, boundaries, limitations, and proof links to Markdown output.",
   "type": "task",
-  "updated_at": "2026-07-23T12:07:08Z"
+  "updated_at": "2026-07-24T12:53:37Z"
 }
