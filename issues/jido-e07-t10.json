@@ -11,6 +11,12 @@
     "epic-e07"
   ],
   "parent": "jido-e07",
+  "comments": [
+    {
+      "text": "Done in 0033357: production-readiness checklist published.",
+      "timestamp": "2026-07-24T12:50:27Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "E07-T10 — Publish the production-readiness checklist.",
