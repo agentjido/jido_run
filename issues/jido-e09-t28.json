@@ -11,9 +11,15 @@
     "epic-e09"
   ],
   "parent": "jido-e09",
+  "comments": [
+    {
+      "text": "Open: OTel copy alignment not yet swept.",
+      "timestamp": "2026-07-24T12:52:42Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E09-T28 — Align OTel copy with the current `Jido.Observe` bridge behavior.",
   "type": "task",
-  "updated_at": "2026-07-23T12:06:17Z"
+  "updated_at": "2026-07-24T12:52:42Z"
 }
