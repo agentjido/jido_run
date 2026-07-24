@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T14:34:32Z",
   "created": "2026-07-23T12:05:44Z",
   "description": "Backlog task: E08-T41\n\nWork area: Operational-control proof\n\nMain targets: Controlled-Agent AI example\n\nComplete when: The example reaches a small test quota and produces the documented response and telemetry.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e08-t41",
@@ -23,7 +24,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E08-T41 — Show a quota result.",
   "type": "task",
   "updated_at": "2026-07-24T14:34:32Z"
