@@ -12,9 +12,15 @@
     "slice-12"
   ],
   "parent": "jido-e12",
+  "comments": [
+    {
+      "text": "Open: sensitive-data redaction regression test depends on the reference app.",
+      "timestamp": "2026-07-24T12:55:05Z"
+    }
+  ],
   "priority": 0,
   "status": "open",
   "title": "E12-T41 — Add a sensitive-data redaction regression test.",
   "type": "task",
-  "updated_at": "2026-07-23T12:08:22Z"
+  "updated_at": "2026-07-24T12:55:05Z"
 }
