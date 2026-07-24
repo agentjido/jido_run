@@ -12,9 +12,15 @@
     "slice-10"
   ],
   "parent": "jido-e10",
+  "comments": [
+    {
+      "text": "Open: control overview + controlled-Agent example in sitemap not yet added.",
+      "timestamp": "2026-07-24T12:53:38Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E10-T33 — Add the control overview and controlled-Agent example to the sitemap.",
   "type": "task",
-  "updated_at": "2026-07-23T12:07:12Z"
+  "updated_at": "2026-07-24T12:53:38Z"
 }
