@@ -12,9 +12,15 @@
     "slice-03"
   ],
   "parent": "jido-e02",
+  "comments": [
+    {
+      "text": "Done in 28959a2: \"secure by default\", \"compliance-ready\", \"enterprise governance\", \"complete audit trail\" added to the restricted-claim list (style-voice.md).",
+      "timestamp": "2026-07-24T12:35:48Z"
+    }
+  ],
   "priority": 0,
   "status": "in_progress",
   "title": "E02-T38 — Add “secure by default,” “compliance-ready,” “enterprise governance,” and “complete audit trail” to the restricted-claim list.",
   "type": "task",
-  "updated_at": "2026-07-24T12:35:47Z"
+  "updated_at": "2026-07-24T12:35:48Z"
 }
