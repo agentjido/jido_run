@@ -12,9 +12,15 @@
     "slice-01"
   ],
   "parent": "jido-e01",
+  "comments": [
+    {
+      "text": "Deferred: the Run-in-Livebook button points at livebook.dev/run?url=\u003craw GitHub source\u003e, which cannot expand {{mix_dep}} tokens. Expanding requires serving an expanded .livemd artifact from the site (a delivery-architecture change: new route + controller + build_livebook_url update). The .md endpoint already expands tokens (jido-e01-t08). Reopen when the expanded-livebook delivery endpoint is built.",
+      "timestamp": "2026-07-24T12:32:35Z"
+    }
+  ],
   "priority": 0,
   "status": "in_progress",
   "title": "E01-T09 — Expand tokens before the downloadable Livebook artifact is generated.",
   "type": "task",
-  "updated_at": "2026-07-24T12:32:34Z"
+  "updated_at": "2026-07-24T12:32:35Z"
 }
