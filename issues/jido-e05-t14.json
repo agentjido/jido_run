@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T23:04:52Z",
   "created": "2026-07-23T12:03:08Z",
   "description": "Backlog task: E05-T14\n\nWork area: Core Agent path\n\nMain targets: First-Agent guide\n\nComplete when: The process-state boundary is explicit.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e05-t14",
@@ -23,8 +24,8 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E05-T14 — State what state is lost on restart.",
   "type": "task",
-  "updated_at": "2026-07-24T23:04:51Z"
+  "updated_at": "2026-07-24T23:04:52Z"
 }
