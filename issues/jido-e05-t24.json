@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:48:05Z",
   "created": "2026-07-23T12:03:18Z",
   "description": "Backlog task: E05-T24\n\nWork area: Maintenance and validation\n\nMain targets: All first-run content\n\nComplete when: Start, ask, await, and state calls agree.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e05-t24",
@@ -19,8 +20,8 @@
     }
   ],
   "priority": 0,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E05-T24 — Use one API style across home, onboarding, Livebooks, and starter references.",
   "type": "task",
-  "updated_at": "2026-07-24T12:48:04Z"
+  "updated_at": "2026-07-24T12:48:05Z"
 }
