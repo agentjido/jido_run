@@ -12,9 +12,15 @@
     "slice-11"
   ],
   "parent": "jido-e11",
+  "comments": [
+    {
+      "text": "Deferred: denied-operation story requires a real controlled deployment.",
+      "timestamp": "2026-07-24T12:54:19Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E11-T24 — Include one denied-operation story.",
   "type": "task",
-  "updated_at": "2026-07-23T12:07:37Z"
+  "updated_at": "2026-07-24T12:54:19Z"
 }
