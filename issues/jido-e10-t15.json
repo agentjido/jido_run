@@ -16,11 +16,15 @@
     {
       "text": "Done in d7c403f: llms.txt documents the routes that resolve (removed unsupported claims; added /examples*, /compare*).",
       "timestamp": "2026-07-24T12:53:29Z"
+    },
+    {
+      "text": "Done in d7c403f: llms.txt documents only routes that resolve (/examples*, /compare* added; /skills resolves via E10-T09). Every documented machine route returns stated content.",
+      "timestamp": "2026-07-24T18:41:07Z"
     }
   ],
   "priority": 1,
   "status": "closed",
   "title": "E10-T15 — Remove unsupported route claims from `llms.txt`.",
   "type": "task",
-  "updated_at": "2026-07-24T12:53:29Z"
+  "updated_at": "2026-07-24T18:41:07Z"
 }
