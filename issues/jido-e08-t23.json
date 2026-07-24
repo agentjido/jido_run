@@ -11,9 +11,15 @@
     "epic-e08"
   ],
   "parent": "jido-e08",
+  "comments": [
+    {
+      "text": "Open: complete Phoenix example not yet built.",
+      "timestamp": "2026-07-24T12:51:54Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E08-T23 — Publish a complete Phoenix example.",
   "type": "task",
-  "updated_at": "2026-07-23T12:05:26Z"
+  "updated_at": "2026-07-24T12:51:54Z"
 }
