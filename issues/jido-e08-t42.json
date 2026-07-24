@@ -16,6 +16,10 @@
     {
       "text": "Open: causal-history-across-restart example depends on T37.",
       "timestamp": "2026-07-24T12:51:57Z"
+    },
+    {
+      "text": "Done in this commit: causal history across restart — a fresh journal over the durable store resolves the cause of an effect.",
+      "timestamp": "2026-07-24T14:41:18Z"
     }
   ],
   "priority": 1,
