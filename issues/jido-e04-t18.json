@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:41:34Z",
   "created": "2026-07-23T12:02:30Z",
   "description": "Backlog task: E04-T18\n\nWork area: Page structure\n\nMain targets: Home pillars\n\nComplete when: The linked page has a working example.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e04-t18",
@@ -19,7 +20,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E04-T18 — Keep “Start small” and link to one-Agent integration guidance.",
   "type": "task",
   "updated_at": "2026-07-24T12:41:34Z"
