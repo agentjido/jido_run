@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:53:30Z",
   "created": "2026-07-23T12:07:00Z",
   "description": "Backlog task: E10-T21\n\nWork area: Sitemap and Skills\n\nMain targets: Sitemap controller and tests\n\nComplete when: The sitemap includes every public example.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e10-t21",
@@ -18,7 +19,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E10-T21 — Add all example detail pages to the sitemap.",
   "type": "task",
   "updated_at": "2026-07-24T12:53:30Z"
