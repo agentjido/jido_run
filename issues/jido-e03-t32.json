@@ -12,9 +12,15 @@
     "slice-04"
   ],
   "parent": "jido-e03",
+  "comments": [
+    {
+      "text": "Done: review of \"audit\" found only correct boundary usage (telemetry is not an audit log; durable history needs a configured Journal).",
+      "timestamp": "2026-07-24T12:39:55Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "E03-T32 — Review every use of “audit.”",
   "type": "task",
-  "updated_at": "2026-07-24T12:39:54Z"
+  "updated_at": "2026-07-24T12:39:55Z"
 }
