@@ -11,6 +11,12 @@
     "epic-e12"
   ],
   "parent": "jido-e12",
+  "comments": [
+    {
+      "text": "Done: proof-required-claim coverage folded into the claim linter (production-grade/ready/proven).",
+      "timestamp": "2026-07-24T12:54:52Z"
+    }
+  ],
   "priority": 0,
   "status": "in_progress",
   "title": "E12-T02 — Add a proof-required-claim linter.",
