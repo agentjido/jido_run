@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T14:27:12Z",
   "created": "2026-07-23T12:04:52Z",
   "description": "Backlog task: E07-T40\n\nWork area: Controlled-Agent reference path\n\nMain targets: Reference app policy\n\nComplete when: Permission decisions use named capabilities instead of broad role text.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e07-t40",
@@ -23,7 +24,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E07-T40 — Define Action scopes and capability names.",
   "type": "task",
   "updated_at": "2026-07-24T14:27:12Z"
