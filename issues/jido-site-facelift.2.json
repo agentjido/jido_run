@@ -7,9 +7,15 @@
   "id": "jido-site-facelift.2",
   "labels": [],
   "parent": "jido-site-facelift",
+  "comments": [
+    {
+      "text": "Implemented readable live Zclaude stream output with a raw JSONL trace. Fixed commit-reference verification by removing grep -q under pipefail. Evidence: bash -n passed; formatter fixture showed session, text, tool, result, and final status lines; commit dc43906 was detected for jido-e05-t10; dry-run listed 10 ready tasks; ready-set hash and jido-e12-t38 status remained unchanged; git diff --check passed.",
+      "timestamp": "2026-07-24T19:46:42Z"
+    }
+  ],
   "priority": 0,
   "status": "in_progress",
   "title": "Stream Zclaude Ralph progress and fix commit verification",
   "type": "bug",
-  "updated_at": "2026-07-24T19:45:16Z"
+  "updated_at": "2026-07-24T19:46:42Z"
 }
