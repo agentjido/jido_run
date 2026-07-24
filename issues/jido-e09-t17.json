@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T16:26:26Z",
   "created": "2026-07-23T12:06:06Z",
   "description": "Backlog task: E09-T17\n\nWork area: Package-page contract\n\nMain targets: Package page template\n\nComplete when: Maturity is visible before installation.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e09-t17",
@@ -22,8 +23,8 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E09-T17 — Add support level beside the package title.",
   "type": "task",
-  "updated_at": "2026-07-24T16:26:25Z"
+  "updated_at": "2026-07-24T16:26:26Z"
 }
