@@ -16,11 +16,15 @@
     {
       "text": "Open: 'Trace what happened' control card depends on jido-e04-t34.",
       "timestamp": "2026-07-24T12:46:32Z"
+    },
+    {
+      "text": "Accepted by the Zclaude Ralph supervisor. Commits: cae16fc3. Verification: MIX_ENV=test mix compile \u0026\u0026 MIX_ENV=test mix format --check-formatted.",
+      "timestamp": "2026-07-24T22:06:51Z"
     }
   ],
   "priority": 1,
   "status": "in_progress",
   "title": "E04-T37 — Add a “Trace what happened” card.",
   "type": "task",
-  "updated_at": "2026-07-24T22:02:46Z"
+  "updated_at": "2026-07-24T22:06:51Z"
 }
