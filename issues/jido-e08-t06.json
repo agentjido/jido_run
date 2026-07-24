@@ -15,11 +15,15 @@
     {
       "text": "Open: deterministic/live mode filters not yet implemented.",
       "timestamp": "2026-07-24T12:51:50Z"
+    },
+    {
+      "text": "Blocked on team intent: the existing test 'examples index is simplified without browse filters' (test/agent_jido_web/live/jido_examples_live_test.exs) deliberately removed browse filters, and 7 index tests assert the simplified rendering. E08-T02..T06 ask for filters, which contradicts that decision. Needs product confirmation to re-introduce filters (and update those tests) before implementing. Left open.",
+      "timestamp": "2026-07-24T15:34:26Z"
     }
   ],
   "priority": 1,
   "status": "open",
   "title": "E08-T06 — Add deterministic/live mode filters.",
   "type": "task",
-  "updated_at": "2026-07-24T12:51:50Z"
+  "updated_at": "2026-07-24T15:34:26Z"
 }
