@@ -70,14 +70,6 @@ defmodule AgentJidoWeb.JidoHomeLive do
       </div>
 
       <p class="home-muted-copy text-[11px] leading-relaxed max-w-xl mx-auto -mt-6">
-        New to Elixir?
-        <.link
-          navigate="/docs/getting-started/new-to-elixir"
-          class="text-primary hover:underline font-semibold ml-1"
-        >
-          Start here.
-        </.link>
-        <span class="mx-2">•</span>
         Already an Elixir developer?
         <.link
           id="home-elixir-expert-guide-link"
@@ -85,6 +77,14 @@ defmodule AgentJidoWeb.JidoHomeLive do
           class="text-primary hover:underline font-semibold ml-1"
         >
           Jump to the expert guide.
+        </.link>
+        <span class="mx-2">•</span>
+        New to Elixir?
+        <.link
+          navigate="/docs/getting-started/new-to-elixir"
+          class="text-primary hover:underline font-semibold ml-1"
+        >
+          Start here.
         </.link>
       </p>
     </section>
@@ -166,7 +166,7 @@ defmodule AgentJidoWeb.JidoHomeLive do
         icon: "⧉",
         title: "Multi-agent workflows you can test",
         desc:
-          "Agents coordinate through typed Actions and Signals, not prompt chains. Debug and test each step independently, just like regular code.",
+          "Agents coordinate through typed Actions and Signals, not prompt chains. An Agent is data; an AgentServer is the process that runs it. Debug and test each step independently, just like regular code.",
         icon_color_class: "text-accent-cyan",
         chip_class: "home-pillar-chip home-pillar-chip-cyan",
         link_class: "home-pillar-link home-pillar-link-cyan",
@@ -302,7 +302,7 @@ defmodule AgentJidoWeb.JidoHomeLive do
       %{
         icon: "⚡",
         title: "Massive concurrency",
-        desc: "The BEAM scheduler handles thousands of concurrent agent processes with true parallelism. No thread pools, no async/await gymnastics.",
+        desc: "The BEAM scheduler runs many concurrent agent processes with true parallelism. No thread pools, no async/await gymnastics.",
         tone: :cyan
       }
     ]
@@ -314,7 +314,7 @@ defmodule AgentJidoWeb.JidoHomeLive do
       <div class="home-why-otp-header">
         <h2 class="text-2xl font-bold tracking-tight mb-3">Why an agent framework on Elixir?</h2>
         <p class="home-muted-copy text-sm max-w-md mx-auto leading-relaxed">
-          The BEAM was designed for long-running, concurrent, fault-tolerant systems — the same qualities agent workloads need.
+          The BEAM was designed for long-running, concurrent, fault-tolerant systems — the same qualities agent workloads need. Raw GenServer gives you the process model; Jido adds typed Actions and Signals, Directives for side effects, and a supervised lifecycle so agent behavior stays explicit and testable.
         </p>
       </div>
 
@@ -353,31 +353,25 @@ defmodule AgentJidoWeb.JidoHomeLive do
   end
 
   @quick_start_define_html ~S"""
-  <span class="syntax-keyword">defmodule</span> <span class="syntax-type">MyApp.SupportAgent</span> <span class="syntax-keyword">do</span>
-    <span class="syntax-keyword">use</span> <span class="syntax-type">Jido.AI.Agent</span>,
-      name: <span class="syntax-string">"support_agent"</span>,
-      description: <span class="syntax-string">"Customer support agent"</span>,
-      tools: &lbrack;<span class="syntax-type">MyApp.Tools.KnowledgeBase</span>,
-             <span class="syntax-type">MyApp.Tools.TicketSystem</span>&rbrack;,
-      system_prompt: <span class="syntax-string">"You help customers resolve product issues."</span>
+  <span class="syntax-keyword">defmodule</span> <span class="syntax-type">MyApp.Counter</span> <span class="syntax-keyword">do</span>
+    <span class="syntax-keyword">use</span> <span class="syntax-type">Jido.Agent</span>,
+      name: <span class="syntax-string">"counter"</span>,
+      schema: &lbrack;count: &lbrack;type: :integer, default: 0&rbrack;&rbrack;
+  <span class="syntax-keyword">end</span>
+
+  <span class="syntax-keyword">defmodule</span> <span class="syntax-type">MyApp.Increment</span> <span class="syntax-keyword">do</span>
+    <span class="syntax-keyword">use</span> <span class="syntax-type">Jido.Action</span>, name: <span class="syntax-string">"increment"</span>
+    <span class="syntax-keyword">def</span> run(%{by: by}, %{state: %{count: count}}), <span class="syntax-keyword">do</span>: {:ok, %{count: count + by}}
   <span class="syntax-keyword">end</span>
   """
 
   @quick_start_terminal_lines [
-    %{type: :comment, text: "# Start a supervised agent"},
-    %{type: :input, text: "{:ok, pid} = Jido.AgentServer.start(agent: MyApp.SupportAgent)"},
-    %{type: :output, text: "{:ok, #PID<0.452.0>}"},
+    %{type: :comment, text: "# Agents are data — no runtime or API key required"},
+    %{type: :input, text: "agent = MyApp.Counter.new()"},
     %{type: :spacer, text: nil},
-    %{type: :comment, text: "# Ask it a question"},
-    %{
-      type: :input,
-      text: "MyApp.SupportAgent.ask(pid, \"My order hasn't arrived\")"
-    },
-    %{
-      type: :output,
-      text:
-        "{:ok, \"I found your order #4821. It shipped yesterday and is currently in transit. Expected delivery is tomorrow by 5pm. Want me to send you the tracking link?\"}"
-    }
+    %{type: :comment, text: "# Run a validated, deterministic action"},
+    %{type: :input, text: "{agent, _} = MyApp.Counter.cmd(agent, {MyApp.Increment, %{by: 3}})"},
+    %{type: :output, text: "agent.state  #=> %{count: 3}"}
   ]
 
   defp quick_start_code(assigns) do
@@ -392,7 +386,10 @@ defmodule AgentJidoWeb.JidoHomeLive do
         <div>
           <h2 class="text-2xl font-bold tracking-tight mb-2">Quick start</h2>
           <p class="home-quickstart-summary">
-            Define an agent, start it supervised, ask it questions.
+            Define an agent, run a validated action, inspect deterministic state. No API key required.
+          </p>
+          <p class="home-muted-copy text-[11px] mt-1">
+            Open source. Core packages are Beta. No separate runtime service is required.
           </p>
         </div>
         <.link navigate="/docs/getting-started" class="home-quickstart-guide-link">
