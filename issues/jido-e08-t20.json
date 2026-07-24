@@ -11,9 +11,15 @@
     "epic-e08"
   ],
   "parent": "jido-e08",
+  "comments": [
+    {
+      "text": "Open: OpenTelemetry example not yet built.",
+      "timestamp": "2026-07-24T12:51:53Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E08-T20 — Publish an OpenTelemetry example.",
   "type": "task",
-  "updated_at": "2026-07-23T12:05:23Z"
+  "updated_at": "2026-07-24T12:51:53Z"
 }
