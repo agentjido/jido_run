@@ -4,7 +4,7 @@
   graph_label: "Jido",
   compare_order: 0,
   version: "2.2.0",
-  tagline: "Core agent framework for building autonomous, multi-agent systems in Elixir",
+  tagline: "Core agent framework for building long-running, multi-agent systems in Elixir",
   license: "Apache-2.0",
   visibility: :public,
   category: :core,
@@ -24,9 +24,9 @@
   api_stability: "evolving — 2.0 shipped, but expect continued API refinements across early 2.x",
   stub: false,
   support: :maintained,
-  landing_summary: "Jido is the Elixir agent framework for building long-running, autonomous, multi-agent systems on OTP and the BEAM.",
+  landing_summary: "Jido is the Elixir agent framework for building long-running, long-running, multi-agent systems on OTP and the BEAM.",
   seo: %{
-    title: "Jido Elixir agent framework for autonomous multi-agent systems",
+    title: "Jido Elixir agent framework for long-running multi-agent systems",
     description: "Jido is an Elixir agent framework for long-running, deterministic, multi-agent systems on OTP. Learn when to use it, the key modules, and where to start.",
     keywords: [
       "jido",
@@ -218,9 +218,9 @@
 ---
 ## Overview
 
-Jido (自動, Japanese for "automatic") is the core agent framework for building autonomous, multi-agent systems in Elixir. It provides a pure functional agent architecture inspired by Elm/Redux where agents are immutable data structures updated through a single `cmd/2` operation — actions transform state, directives describe side effects, and an OTP-powered runtime executes everything in production. This separation of pure decision logic from effectful execution gives developers deterministic, testable agent behavior with the full power of the BEAM underneath.
+Jido (自動, Japanese for "automatic") is the core agent framework for building long-running, multi-agent systems in Elixir. It provides a pure functional agent architecture inspired by Elm/Redux where agents are immutable data structures updated through a single `cmd/2` operation — actions transform state, directives describe side effects, and an OTP-powered runtime executes everything in production. This separation of pure decision logic from effectful execution gives developers deterministic, testable agent behavior with the full power of the BEAM underneath.
 
-As the foundation of the Jido ecosystem, this package formalizes the patterns that raw OTP leaves ad-hoc: standardized signal envelopes replace custom message shapes, reusable actions replace business logic scattered across GenServer callbacks, typed directives replace implicit effects, and built-in parent-child hierarchies replace custom child tracking. The result is a production-grade framework for building single agents, cooperating multi-agent workflows, and autonomous systems that can be reasoned about, tested without processes, and deployed with confidence.
+As the foundation of the Jido ecosystem, this package formalizes the patterns that raw OTP leaves ad-hoc: standardized signal envelopes replace custom message shapes, reusable actions replace business logic scattered across GenServer callbacks, typed directives replace implicit effects, and built-in parent-child hierarchies replace custom child tracking. The result is a production-grade framework for building single agents, cooperating multi-agent workflows, and long-running agent systems that can be reasoned about, tested without processes, and deployed with confidence.
 
 ## Purpose
 
