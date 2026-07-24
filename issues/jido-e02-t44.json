@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:36:09Z",
   "created": "2026-07-23T12:01:37Z",
   "description": "Backlog task: E02-T44\n\nWork area: Canonical-source updates\n\nMain targets: `specs/proof.md`\n\nComplete when: Each control claim records package, version, configuration, test, durability, and limitation.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e02-t44",
@@ -19,8 +20,8 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E02-T44 — Add control proof fields to the proof inventory.",
   "type": "task",
-  "updated_at": "2026-07-24T12:36:08Z"
+  "updated_at": "2026-07-24T12:36:09Z"
 }
