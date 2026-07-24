@@ -9,6 +9,7 @@
     "jido-e10",
     "jido-e11"
   ],
+  "closed_at": "2026-07-24T02:30:50Z",
   "created": "2026-07-23T12:00:09Z",
   "description": "Make examples answer “Can Jido do my job?” and “Can I run the proof?”\n\nExit criteria:\n- Every home use case links to a relevant example.\n- Every public example has a task, outcome, packages, maturity, prerequisites, expected result, source, and validation date.\n- Production claims have direct failure, state, trace, and deployment proof.\n- Operational-control claims link to one integrated example and to small examples for denial, quotas, causal history, telemetry, and redaction.\n\nBacklog tasks: 46\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e08",
@@ -19,8 +20,8 @@
   ],
   "parent": "jido-site-facelift",
   "priority": 0,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E08 — Turn examples into direct proof",
   "type": "epic",
-  "updated_at": "2026-07-24T02:06:50Z"
+  "updated_at": "2026-07-24T02:30:50Z"
 }
