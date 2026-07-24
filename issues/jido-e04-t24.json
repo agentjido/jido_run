@@ -12,9 +12,15 @@
     "slice-05"
   ],
   "parent": "jido-e04",
+  "comments": [
+    {
+      "text": "Open: rendering three recommended starting stacks on the home ecosystem section is a structural addition; the stacks reference exists (jido-e09).",
+      "timestamp": "2026-07-24T12:46:30Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E04-T24 — Replace the package list with three recommended starting stacks.",
   "type": "task",
-  "updated_at": "2026-07-23T12:02:36Z"
+  "updated_at": "2026-07-24T12:46:30Z"
 }
