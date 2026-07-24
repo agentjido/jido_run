@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T21:01:48Z",
   "created": "2026-07-23T12:02:33Z",
   "description": "Backlog task: E04-T21\n\nWork area: Use cases, ecosystem, and conversion\n\nMain targets: Home use-case cards\n\nComplete when: No two cards default to the same unfiltered index unless intentional.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e04-t21",
@@ -23,7 +24,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E04-T21 — Give each use-case card a unique destination.",
   "type": "task",
   "updated_at": "2026-07-24T21:01:48Z"
