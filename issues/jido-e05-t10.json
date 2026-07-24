@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T19:46:17Z",
   "created": "2026-07-23T12:03:04Z",
   "description": "Backlog task: E05-T10\n\nWork area: Core Agent path\n\nMain targets: First-Agent Livebook\n\nComplete when: Code matches current `jido` behavior and tests.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e05-t10",
@@ -23,8 +24,8 @@
     }
   ],
   "priority": 0,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E05-T10 — Run the Agent with the current recommended AgentServer API.",
   "type": "task",
-  "updated_at": "2026-07-24T19:46:16Z"
+  "updated_at": "2026-07-24T19:46:17Z"
 }
