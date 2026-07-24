@@ -12,9 +12,15 @@
     "slice-10"
   ],
   "parent": "jido-e10",
+  "comments": [
+    {
+      "text": "Open: Skills router handling operational-control intent not yet done.",
+      "timestamp": "2026-07-24T12:53:38Z"
+    }
+  ],
   "priority": 2,
   "status": "open",
   "title": "E10-T31 — Teach the Skills router to handle operational-control intent.",
   "type": "task",
-  "updated_at": "2026-07-23T12:07:10Z"
+  "updated_at": "2026-07-24T12:53:38Z"
 }
