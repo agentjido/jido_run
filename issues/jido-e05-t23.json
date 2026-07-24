@@ -12,9 +12,15 @@
     "slice-06"
   ],
   "parent": "jido-e05",
+  "comments": [
+    {
+      "text": "Open: provider-specific troubleshooting (missing key, invalid model, rate limit, timeout) not yet added.",
+      "timestamp": "2026-07-24T12:48:43Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E05-T23 — Add provider-specific troubleshooting.",
   "type": "task",
-  "updated_at": "2026-07-23T12:03:17Z"
+  "updated_at": "2026-07-24T12:48:43Z"
 }
