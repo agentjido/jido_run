@@ -12,6 +12,12 @@
     "slice-05"
   ],
   "parent": "jido-e04",
+  "comments": [
+    {
+      "text": "Done in 23412ce: AI support-agent quick start replaced with a deterministic Counter agent (no model key).",
+      "timestamp": "2026-07-24T12:46:24Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "E04-T11 — Replace the current AI support quick start with a deterministic core example.",
