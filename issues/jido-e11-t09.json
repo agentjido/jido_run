@@ -11,6 +11,12 @@
     "epic-e11"
   ],
   "parent": "jido-e11",
+  "comments": [
+    {
+      "text": "Done: showcase submission issue template created (specs/templates/showcase-submission.md).",
+      "timestamp": "2026-07-24T12:54:09Z"
+    }
+  ],
   "priority": 2,
   "status": "in_progress",
   "title": "E11-T09 — Add a showcase submission issue template or form.",
