@@ -11,9 +11,15 @@
     "epic-e12"
   ],
   "parent": "jido-e12",
+  "comments": [
+    {
+      "text": "Open: competitor-page review dates/sources not yet added.",
+      "timestamp": "2026-07-24T12:55:00Z"
+    }
+  ],
   "priority": 2,
   "status": "open",
   "title": "E12-T19 — Add competitor-page review dates and sources.",
   "type": "task",
-  "updated_at": "2026-07-23T12:08:00Z"
+  "updated_at": "2026-07-24T12:55:00Z"
 }
