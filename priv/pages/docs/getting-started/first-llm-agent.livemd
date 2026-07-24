@@ -59,7 +59,7 @@ configured? =
 
 ## Define the agent
 
-`use Jido.AI.Agent` keeps the module declarative: describe the agent, choose a model, and provide a system prompt. This first example does not use tools, so the only new capability is the LLM call.
+`use Jido.AI.Agent` keeps the module declarative: describe the agent, choose a model, and provide a system prompt. This first example does not use tools, so the only new capability is the LLM call. Tools are themselves typed Actions — and unlike this pure prompt, tool Actions can perform I/O. You will add one in [AI Agent with Tools](/docs/learn/ai-agent-with-tools).
 
 ```elixir
 defmodule MyAgentApp.Greeter do

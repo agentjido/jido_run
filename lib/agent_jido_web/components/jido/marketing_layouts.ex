@@ -156,7 +156,7 @@ defmodule AgentJidoWeb.Jido.MarketingLayouts do
             <span>Apache License 2.0</span>
           </div>
           <div class="flex items-center gap-2">
-            <span class="text-xs text-muted-foreground">Jido {Nav.jido_version()}</span>
+            <span class="text-xs text-muted-foreground">Jido core v{Nav.jido_version()}</span>
           </div>
         </div>
       </div>
