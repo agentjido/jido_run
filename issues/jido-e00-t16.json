@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:25:04Z",
   "created": "2026-07-23T12:00:29Z",
   "description": "Backlog task: E00-T16\n\nWork area: Tasks\n\nMain targets: `Jido.Observe`, `Jido.Telemetry`, `jido_otel`, LiveDashboard, AI telemetry\n\nComplete when: The inventory distinguishes core, optional, Stable, Beta, and Experimental capabilities.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e00-t16",
@@ -18,7 +19,7 @@
     }
   ],
   "priority": 0,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E00-T16 — Inventory every observability surface.",
   "type": "task",
   "updated_at": "2026-07-24T12:25:04Z"
