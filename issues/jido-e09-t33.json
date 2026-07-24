@@ -15,11 +15,15 @@
     {
       "text": "Open: syncing displayed jido/jido_ai/req_llm versions with Hex not yet automated (footer shows dynamic jido version).",
       "timestamp": "2026-07-24T12:52:43Z"
+    },
+    {
+      "text": "Done in this commit: core package registry versions synced to installed (Hex) releases — jido 2.3.2, jido_ai 2.2.0, req_llm 1.17.1 (Application.spec). Automated freshness check (E09-T35) remains.",
+      "timestamp": "2026-07-24T16:32:19Z"
     }
   ],
   "priority": 0,
   "status": "in_progress",
   "title": "E09-T33 — Sync displayed `jido`, `jido_ai`, and ReqLLM versions with Hex.",
   "type": "task",
-  "updated_at": "2026-07-24T16:32:18Z"
+  "updated_at": "2026-07-24T16:32:19Z"
 }
