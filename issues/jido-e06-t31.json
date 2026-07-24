@@ -12,9 +12,15 @@
     "slice-07"
   ],
   "parent": "jido-e06",
+  "comments": [
+    {
+      "text": "Open: control-boundary block in guide template not yet added.",
+      "timestamp": "2026-07-24T12:49:41Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E06-T31 — Add a control-boundary block to relevant guides.",
   "type": "task",
-  "updated_at": "2026-07-23T12:04:06Z"
+  "updated_at": "2026-07-24T12:49:41Z"
 }
