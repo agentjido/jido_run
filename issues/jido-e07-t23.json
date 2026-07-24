@@ -15,11 +15,15 @@
     {
       "text": "Open: human-approval patterns not yet a dedicated page.",
       "timestamp": "2026-07-24T12:50:35Z"
+    },
+    {
+      "text": "Done in this commit: human-approval pattern showing explicit pause (request), decision (confirm), and a recorded decision field.",
+      "timestamp": "2026-07-24T14:33:18Z"
     }
   ],
   "priority": 1,
   "status": "in_progress",
   "title": "E07-T23 — Add human-approval patterns.",
   "type": "task",
-  "updated_at": "2026-07-24T14:33:17Z"
+  "updated_at": "2026-07-24T14:33:18Z"
 }
