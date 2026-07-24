@@ -16,6 +16,10 @@
     {
       "text": "Open: allowed-Action execution example depends on T37.",
       "timestamp": "2026-07-24T12:51:57Z"
+    },
+    {
+      "text": "Done in this commit: the same demo shows the allowed Action execution path (approved_count increments for an allowed principal).",
+      "timestamp": "2026-07-24T14:27:13Z"
     }
   ],
   "priority": 1,
