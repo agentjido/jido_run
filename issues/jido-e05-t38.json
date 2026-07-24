@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T14:34:31Z",
   "created": "2026-07-23T12:03:32Z",
   "description": "Backlog task: E05-T38\n\nWork area: Maintenance and validation\n\nMain targets: AI onboarding follow-up\n\nComplete when: The example shows permitted usage and a quota rejection.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e05-t38",
@@ -23,7 +24,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E05-T38 — Add a request and token quota example.",
   "type": "task",
   "updated_at": "2026-07-24T14:34:31Z"
