@@ -16,6 +16,10 @@
     {
       "text": "Open: denied AI tool/effect example depends on T37.",
       "timestamp": "2026-07-24T12:51:57Z"
+    },
+    {
+      "text": "Done in this commit: denied-tool example — the allowlist blocks a disallowed tool (delete) before execution while an allowed tool (search) runs.",
+      "timestamp": "2026-07-24T14:43:39Z"
     }
   ],
   "priority": 1,
