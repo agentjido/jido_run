@@ -528,6 +528,85 @@ defmodule AgentJidoWeb.JidoHomeLiveTest do
     end
   end
 
+  describe "home control note: Agent IDs are not authenticated principals (jido-e04-t40)" do
+    # Acceptance condition: identity claims stay bounded. The "who initiated
+    # work" card talks about principal, tenant, and causation context, so a
+    # visitor could read it as Jido authenticating the caller. A caveat note in
+    # the operational-control section states that Agent IDs (and Signal and
+    # trace IDs) are correlation metadata, not verified identity, because
+    # authentication and IAM are an application/platform boundary in front of
+    # Jido — bounding the claim so an Agent ID cannot be mistaken for a
+    # principal.
+
+    test "renders the note inside the operational-control section", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      note = operational_control_note(html, "identity-not-principal")
+
+      assert note != nil, "expected an identity-not-principal control note"
+
+      assert note |> Floki.find(".home-eyebrow-label") |> Floki.text() |> String.trim() ==
+               "Agent IDs are not authenticated principals"
+    end
+
+    test "the note sits after the integrate card and before the full control model link",
+         %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      # The identity/IAM boundary is introduced by the integrate-your-control-system
+      # card; the caveat lands after it and before the "See the full control
+      # model" link, so an evaluator cannot read "who initiated work" as Jido
+      # authenticating the caller.
+      assert {integrate_idx, _} =
+               :binary.match(html, ~s(data-control-card="integrate-your-control-system"))
+
+      assert {note_idx, _} = :binary.match(html, ~s(data-control-note="identity-not-principal"))
+      assert {model_link_idx, _} = :binary.match(html, "See the full control model")
+
+      assert integrate_idx < note_idx
+      assert note_idx < model_link_idx
+    end
+
+    test "the note explains that Agent IDs are correlation, not authentication",
+         %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      note = operational_control_note(html, "identity-not-principal")
+      body = note |> Floki.find("p.home-muted-copy") |> Floki.text() |> String.downcase()
+
+      # The acceptance condition is the bound itself. The body names Agent IDs,
+      # calls them correlation (not identity), names the principal as something
+      # the caller's boundary issues, and states Jido does not authenticate —
+      # so an evaluator cannot read an Agent ID as a verified principal.
+      for term <- ~w(agent principal correlation authenticate) do
+        assert String.contains?(body, term),
+               "expected the note body to name #{term} to bound the identity claim"
+      end
+    end
+
+    test "the note routes the identity claim to its authoritative page",
+         %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      note = operational_control_note(html, "identity-not-principal")
+
+      links =
+        note
+        |> Floki.find("a[data-note-link]")
+        |> Map.new(fn a ->
+          slug = Floki.attribute(a, "data-note-link") |> hd()
+          href = Floki.attribute(a, "href") |> hd()
+          {slug, href}
+        end)
+
+      # The formal statement that Agent IDs are correlation metadata, not
+      # authenticated principals, lives on the security-and-governance page.
+      assert links == %{
+               "identity-bounded" => "/docs/operations/security-and-governance"
+             }
+    end
+  end
+
   describe "home use-case cards (E04-T21)" do
     test "every card links to a unique scoped destination, not the unfiltered index", %{conn: conn} do
       {:ok, _view, html} = live(conn, "/")

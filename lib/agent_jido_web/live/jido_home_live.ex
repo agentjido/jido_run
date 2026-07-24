@@ -683,11 +683,16 @@ defmodule AgentJidoWeb.JidoHomeLive do
   # telemetry is operational signal, not tamper-evident evidence, and that a
   # durable audit history is the Signal Journal you deliberately configure —
   # with retention, access control, and tamper evidence as application concerns
-  # — and routes each concept to its authoritative page. The remaining identity
-  # note, controlled-Agent example routing, and the SRE CTA land in follow-up
-  # tasks (jido-e04-t40..t42); this section establishes the control story and
-  # routes to the existing operations governance page that already bounds these
-  # claims.
+  # — and routes each concept to its authoritative page. An "Agent IDs are not
+  # authenticated principals" caveat note (jido-e04-t40) then bounds the
+  # identity claim the "who initiated work" card raises: Agent IDs (and Signal
+  # and trace IDs) are correlation metadata — handles for following work, not a
+  # verified identity — because authentication and IAM are an
+  # application/platform boundary in front of Jido, and it routes to the
+  # governance page that states it. The remaining controlled-Agent example
+  # routing and the SRE CTA land in follow-up tasks (jido-e04-t41..t42); this
+  # section establishes the control story and routes to the existing operations
+  # governance page that already bounds these claims.
   defp operational_control_section(assigns) do
     controls = [
       %{
@@ -963,6 +968,28 @@ defmodule AgentJidoWeb.JidoHomeLive do
             data-note-link="durable-journal"
           >
             Configure a durable Journal →
+          </.link>
+        </div>
+      </div>
+
+      <div
+        id="identity-not-principal-note"
+        class="mt-12 max-w-2xl mx-auto rounded-xl border border-primary/20 bg-primary/5 px-6 py-6 text-center"
+        data-control-note="identity-not-principal"
+      >
+        <p class="home-eyebrow-label text-[11px] font-semibold tracking-widest uppercase mb-3">
+          Agent IDs are not authenticated principals
+        </p>
+        <p class="home-muted-copy text-[15px] leading-relaxed max-w-xl mx-auto">
+          Agent IDs — like Signal and trace IDs — are correlation metadata: handles for following one piece of work through your system, not proof of who started it. Jido does not authenticate callers. Verified human or service identity is established at the authentication and IAM boundary you put in front of Jido, and the principal it issues is what each incoming Signal carries.
+        </p>
+        <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 mt-4">
+          <.link
+            navigate="/docs/operations/security-and-governance"
+            class="text-primary hover:underline text-[13px] font-semibold"
+            data-note-link="identity-bounded"
+          >
+            What Jido calls identity →
           </.link>
         </div>
       </div>
