@@ -11,9 +11,15 @@
     "epic-e10"
   ],
   "parent": "jido-e10",
+  "comments": [
+    {
+      "text": "Open: docs-hub Markdown same section order as HTML depends on the IA restructure.",
+      "timestamp": "2026-07-24T12:53:34Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E10-T13 — Give Docs hub Markdown the same section order as HTML.",
   "type": "task",
-  "updated_at": "2026-07-23T12:06:52Z"
+  "updated_at": "2026-07-24T12:53:34Z"
 }
