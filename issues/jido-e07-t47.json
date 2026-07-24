@@ -12,9 +12,15 @@
     "slice-08"
   ],
   "parent": "jido-e07",
+  "comments": [
+    {
+      "text": "Open: correlated span export depends on the reference app.",
+      "timestamp": "2026-07-24T12:50:40Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E07-T47 — Export correlated spans through the supported observation path.",
   "type": "task",
-  "updated_at": "2026-07-23T12:04:59Z"
+  "updated_at": "2026-07-24T12:50:40Z"
 }
