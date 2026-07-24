@@ -12,6 +12,12 @@
     "slice-06"
   ],
   "parent": "jido-e05",
+  "comments": [
+    {
+      "text": "Done: AI onboarding explains jido_ai is an optional layer on core Jido.",
+      "timestamp": "2026-07-24T12:48:02Z"
+    }
+  ],
   "priority": 0,
   "status": "in_progress",
   "title": "E05-T17 — Explain that `jido_ai` depends on the core model but is optional.",
