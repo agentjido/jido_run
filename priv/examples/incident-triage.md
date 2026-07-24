@@ -34,7 +34,13 @@
   capability_theme: :operations_observability,
   evidence_surface: :runnable_example,
   demo_mode: :simulated,
-  sort_order: 4
+  sort_order: 4,
+  outcome: "Ops copilot pattern for alert clustering, severity assignment, and escalation recommendation.",
+  packages: ["jido", "jido_signal"],
+  package_maturity: "Beta",
+  prerequisites: ["Elixir 1.18+", "OTP 27+", "Jido installed", "a persistence store"],
+  expected_result: "The agent runs with persistence and recovery controls.",
+  run_command: "Run the interactive demo on /examples/incident-triage."
 }
 ---
 

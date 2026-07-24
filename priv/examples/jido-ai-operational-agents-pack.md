@@ -47,7 +47,13 @@
   capability_theme: :operations_observability,
   evidence_surface: :docs_reference,
   demo_mode: :real,
-  sort_order: 26
+  sort_order: 26,
+  outcome: "Operational overview/index linking to deterministic workbench examples and upstream Jido.AI ops-agent sources.",
+  packages: ["jido", "jido_ai", "req_llm"],
+  package_maturity: "Beta",
+  prerequisites: ["Elixir 1.18+", "OTP 27+", "Jido installed", "an LLM provider key"],
+  expected_result: "The agent reasons over the prompt using the configured provider and key.",
+  run_command: "Run the interactive demo on /examples/jido-ai-operational-agents-pack."
 }
 ---
 

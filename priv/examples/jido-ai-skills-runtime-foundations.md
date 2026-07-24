@@ -52,7 +52,13 @@
   capability_theme: :ai_intelligence,
   evidence_surface: :runnable_example,
   demo_mode: :real,
-  sort_order: 23
+  sort_order: 23,
+  outcome: "Real skill manifest loading, registry setup, prompt rendering, and builder-skill catalog walkthroughs with checked-in `SKILL.md` fixtures.",
+  packages: ["jido", "jido_ai", "req_llm"],
+  package_maturity: "Beta",
+  prerequisites: ["Elixir 1.18+", "OTP 27+", "Jido installed", "an LLM provider key"],
+  expected_result: "The agent reasons over the prompt using the configured provider and key.",
+  run_command: "Run the interactive demo on /examples/jido-ai-skills-runtime-foundations."
 }
 ---
 

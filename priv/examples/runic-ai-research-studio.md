@@ -42,7 +42,13 @@
   capability_theme: :ai_intelligence,
   evidence_surface: :runnable_example,
   demo_mode: :real,
-  sort_order: 14
+  sort_order: 14,
+  outcome: "Five-stage Runic workflow for research and writing, backed by a real deterministic `Jido.Runic.Strategy` pipeline.",
+  packages: ["jido", "jido_ai", "req_llm"],
+  package_maturity: "Beta",
+  prerequisites: ["Elixir 1.18+", "OTP 27+", "Jido installed", "an LLM provider key"],
+  expected_result: "The agent reasons over the prompt using the configured provider and key.",
+  run_command: "Run the interactive demo on /examples/runic-ai-research-studio."
 }
 ---
 

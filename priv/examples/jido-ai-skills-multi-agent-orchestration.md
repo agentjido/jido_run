@@ -44,7 +44,13 @@
   capability_theme: :coordination_orchestration,
   evidence_surface: :runnable_example,
   demo_mode: :real,
-  sort_order: 24
+  sort_order: 24,
+  outcome: "Real deterministic routing across arithmetic, conversion, and combined skill specialists.",
+  packages: ["jido", "jido_ai", "req_llm"],
+  package_maturity: "Beta",
+  prerequisites: ["Elixir 1.18+", "OTP 27+", "Jido installed", "an LLM provider key"],
+  expected_result: "The agent reasons over the prompt using the configured provider and key.",
+  run_command: "Run the interactive demo on /examples/jido-ai-skills-multi-agent-orchestration."
 }
 ---
 

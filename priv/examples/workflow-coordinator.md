@@ -36,7 +36,13 @@
   capability_theme: :coordination_orchestration,
   evidence_surface: :runnable_example,
   demo_mode: :simulated,
-  sort_order: 6
+  sort_order: 6,
+  outcome: "Orchestrate multi-step pipelines with retry boundaries and checkpoint recovery behavior.",
+  packages: ["jido"],
+  package_maturity: "Beta",
+  prerequisites: ["Elixir 1.18+", "OTP 27+", "Jido installed"],
+  expected_result: "Behavior is deterministic and inspectable; no API key required.",
+  run_command: "Run the interactive demo on /examples/workflow-coordinator."
 }
 ---
 

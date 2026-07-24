@@ -34,7 +34,13 @@
   capability_theme: :ai_intelligence,
   evidence_surface: :docs_reference,
   demo_mode: :real,
-  sort_order: 25
+  sort_order: 25,
+  outcome: "Deterministic comparison lab for choosing between ReAct, CoD, AoT, CoT, ToT, GoT, TRM, and Adaptive weather reasoning strategies.",
+  packages: ["jido", "jido_ai", "req_llm"],
+  package_maturity: "Beta",
+  prerequisites: ["Elixir 1.18+", "OTP 27+", "Jido installed", "an LLM provider key"],
+  expected_result: "The agent reasons over the prompt using the configured provider and key.",
+  run_command: "Run the interactive demo on /examples/jido-ai-weather-reasoning-strategy-suite."
 }
 ---
 
