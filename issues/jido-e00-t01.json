@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:24:41Z",
   "created": "2026-07-23T12:00:14Z",
   "description": "Backlog task: E00-T01\n\nWork area: Tasks\n\nMain targets: Project process\n\nComplete when: Every epic has an accountable owner.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e00-t01",
@@ -18,7 +19,7 @@
     }
   ],
   "priority": 0,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E00-T01 — Assign one owner for positioning, one owner for docs operations, and one owner for release quality.",
   "type": "task",
   "updated_at": "2026-07-24T12:24:41Z"
