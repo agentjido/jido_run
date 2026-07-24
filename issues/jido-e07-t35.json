@@ -12,9 +12,15 @@
     "slice-08"
   ],
   "parent": "jido-e07",
+  "comments": [
+    {
+      "text": "Open: controlled-Agent architecture extension specified but not implemented.",
+      "timestamp": "2026-07-24T12:50:38Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E07-T35 — Extend the reference application into a controlled-Agent architecture.",
   "type": "task",
-  "updated_at": "2026-07-23T12:04:47Z"
+  "updated_at": "2026-07-24T12:50:38Z"
 }
