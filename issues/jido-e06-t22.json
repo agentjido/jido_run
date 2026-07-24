@@ -11,9 +11,15 @@
     "epic-e06"
   ],
   "parent": "jido-e06",
+  "comments": [
+    {
+      "text": "Open: Docs hub generated from the same records as source Markdown depends on T01.",
+      "timestamp": "2026-07-24T12:49:39Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E06-T22 — Generate the Docs hub from the same content records as the source Markdown.",
   "type": "task",
-  "updated_at": "2026-07-23T12:03:57Z"
+  "updated_at": "2026-07-24T12:49:39Z"
 }
