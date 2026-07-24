@@ -1,5 +1,5 @@
 {
-  "assignee": "Mike Hostetler",
+  "assignee": "",
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:02:01Z",
@@ -19,7 +19,7 @@
     }
   ],
   "priority": 2,
-  "status": "in_progress",
+  "status": "open",
   "title": "E03-T23 — Standardize secondary CTA labels.",
   "type": "task",
   "updated_at": "2026-07-24T12:39:57Z"
