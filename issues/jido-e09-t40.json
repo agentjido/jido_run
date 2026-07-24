@@ -17,11 +17,15 @@
     {
       "text": "Done: each controlled-stack package role defined in the stacks reference.",
       "timestamp": "2026-07-24T12:52:37Z"
+    },
+    {
+      "text": "Done: the role of each package in the controlled-Agent stack is defined in specs/recommended-stacks.md (core lifecycle + Plugin hooks; AI policy/quota; Signal Journal; observation; OTel export; Ash context).",
+      "timestamp": "2026-07-24T16:29:24Z"
     }
   ],
   "priority": 1,
   "status": "closed",
   "title": "E09-T40 — Define the role of each package in the controlled-Agent stack.",
   "type": "task",
-  "updated_at": "2026-07-24T12:52:37Z"
+  "updated_at": "2026-07-24T16:29:24Z"
 }
