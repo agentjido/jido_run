@@ -10,6 +10,10 @@
 
 You know what you want to build - these guides show you how. Unlike [Learn tutorials](/docs/learn) that teach progressively or [Concepts](/docs/concepts) that explain primitives, guides are task-oriented. Pick the one that matches your problem and go.
 
+## Before you start
+
+Guides assume you have completed [Your first agent](/docs/getting-started/first-agent): Elixir 1.18+/OTP 27+, Jido installed, and a deterministic agent running. AI guides additionally need a provider key ([Your first LLM agent](/docs/getting-started/first-llm-agent)).
+
 ## Guides
 
 - [Testing agents and actions](/docs/guides/testing-agents-and-actions) - unit and integration test patterns for agents, actions, and workflows

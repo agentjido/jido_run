@@ -142,3 +142,15 @@ A release **must not increase** the number of unmatched internal links.
   are fixed or each new unmatched link is given an intentional redirect.
 - Lowering the count is always allowed and encouraged; update the current ceiling
   above (and the frozen baseline stays as the historical record).
+
+## Automated content gates (`jido-e12`)
+
+These gates run in `mix test` and block a release on failure:
+
+- **Unmatched internal links = 0** — `test/mix/tasks/site.link_audit_test.exs` (ceiling 0; scans `.md`/`.livemd` + HEEx; legacy-redirect-aware).
+- **No restricted claims on public pages** — `test/agent_jido/content_claim_linter_test.exs` (corpus-wide, negation-aware) + `test/agent_jido_web/canon_claim_scan_test.exs` (global surfaces).
+- **No unresolved `{{...}}` placeholders in public Markdown** — `test/agent_jido_web/markdown_content_test.exs`.
+- **Public Livebooks have matching tests** — `test/agent_jido/livebook_docs_coverage_test.exs`.
+- **AI tutorial key/model provider consistency** — `test/agent_jido/first_llm_tutorial_consistency_test.exs`.
+- **Public example detail pages in the sitemap** — `test/agent_jido_web/controllers/sitemap_controller_test.exs`.
+- **Skills catalog renders cards** — `test/agent_jido/skills_catalog_test.exs`.
