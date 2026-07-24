@@ -11,9 +11,15 @@
     "epic-e12"
   ],
   "parent": "jido-e12",
+  "comments": [
+    {
+      "text": "Open: contributor guidance update not yet done.",
+      "timestamp": "2026-07-24T12:55:03Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E12-T33 — Update contributor guidance.",
   "type": "task",
-  "updated_at": "2026-07-23T12:08:14Z"
+  "updated_at": "2026-07-24T12:55:03Z"
 }
