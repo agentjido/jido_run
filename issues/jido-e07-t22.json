@@ -11,9 +11,15 @@
     "epic-e07"
   ],
   "parent": "jido-e07",
+  "comments": [
+    {
+      "text": "Open: rate-limit/cost-budget guidance not yet a dedicated page.",
+      "timestamp": "2026-07-24T12:50:35Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E07-T22 — Add rate-limit and cost-budget guidance.",
   "type": "task",
-  "updated_at": "2026-07-23T12:04:34Z"
+  "updated_at": "2026-07-24T12:50:35Z"
 }
