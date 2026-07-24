@@ -11,9 +11,15 @@
     "epic-e09"
   ],
   "parent": "jido-e09",
+  "comments": [
+    {
+      "text": "Open: 'autonomous' in jido README/site not yet removed/qualified upstream.",
+      "timestamp": "2026-07-24T12:52:41Z"
+    }
+  ],
   "priority": 0,
   "status": "open",
   "title": "E09-T23 — Remove or qualify “autonomous” in the `jido` README and related site copy.",
   "type": "task",
-  "updated_at": "2026-07-23T12:06:12Z"
+  "updated_at": "2026-07-24T12:52:41Z"
 }
