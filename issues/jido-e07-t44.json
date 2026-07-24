@@ -16,6 +16,10 @@
     {
       "text": "Open: durable Signal Journal for the proof path depends on the reference app.",
       "timestamp": "2026-07-24T12:50:40Z"
+    },
+    {
+      "text": "Done in this commit: a durable Signal Journal (ETS adapter, fixed prefix) is configured for the proof path; a restart-recovery test proves the causal history survives a fresh journal instance.",
+      "timestamp": "2026-07-24T14:41:17Z"
     }
   ],
   "priority": 1,
