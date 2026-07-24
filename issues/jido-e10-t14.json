@@ -11,9 +11,15 @@
     "epic-e10"
   ],
   "parent": "jido-e10",
+  "comments": [
+    {
+      "text": "Open: canonical/alternate links on supported routes not yet added.",
+      "timestamp": "2026-07-24T12:53:34Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E10-T14 — Add canonical and alternate links to all supported routes.",
   "type": "task",
-  "updated_at": "2026-07-23T12:06:53Z"
+  "updated_at": "2026-07-24T12:53:34Z"
 }
