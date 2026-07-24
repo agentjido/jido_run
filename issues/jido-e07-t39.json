@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T14:27:11Z",
   "created": "2026-07-23T12:04:51Z",
   "description": "Backlog task: E07-T39\n\nWork area: Controlled-Agent reference path\n\nMain targets: Reference Plugin and tests\n\nComplete when: An unauthorized Action returns a denial and does not run its effect.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e07-t39",
@@ -23,7 +24,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E07-T39 — Use `prepare_action/3` as a fail-closed authorization point.",
   "type": "task",
   "updated_at": "2026-07-24T14:27:11Z"
