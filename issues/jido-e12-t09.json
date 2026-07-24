@@ -15,6 +15,10 @@
     {
       "text": "Open: status-language checks (Experimental not Stable copy) not yet automated.",
       "timestamp": "2026-07-24T12:54:58Z"
+    },
+    {
+      "text": "Done in this commit: status-language gate (test/agent_jido/ecosystem_status_language_test.exs) — public Experimental packages cannot claim Stable/production-ready status. Green; experimental packages carry 'Not production-ready' disclaimers.",
+      "timestamp": "2026-07-24T16:46:56Z"
     }
   ],
   "priority": 1,
