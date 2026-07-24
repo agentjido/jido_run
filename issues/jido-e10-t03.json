@@ -11,9 +11,15 @@
     "epic-e10"
   ],
   "parent": "jido-e10",
+  "comments": [
+    {
+      "text": "Open: public Skills in the search index not yet done.",
+      "timestamp": "2026-07-24T12:53:32Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E10-T03 — Add public Skills to the search index after the catalog is fixed.",
   "type": "task",
-  "updated_at": "2026-07-23T12:06:42Z"
+  "updated_at": "2026-07-24T12:53:32Z"
 }
