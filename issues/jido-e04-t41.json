@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T22:37:08Z",
   "created": "2026-07-23T12:02:53Z",
   "description": "Backlog task: E04-T41\n\nWork area: Use cases, ecosystem, and conversion\n\nMain targets: Home section links\n\nComplete when: The destination proves the complete control path.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e04-t41",
@@ -23,8 +24,8 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E04-T41 — Route the control section to one integrated controlled-Agent example.",
   "type": "task",
-  "updated_at": "2026-07-24T22:37:07Z"
+  "updated_at": "2026-07-24T22:37:08Z"
 }
