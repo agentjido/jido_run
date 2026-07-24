@@ -1,5 +1,13 @@
 # AGENTS.md - Jido Workbench
 
+## Work Management
+
+This project tracks work with `bw` (Beadwork), which persists to git. Plans, progress, and decisions survive compaction, session boundaries, and context loss.
+
+Always run `bw prime` before you start work. It provides the workflow context, current task state, and repository hygiene warnings.
+
+Committing, closing issues, and syncing are part of completing a task.
+
 ## Commands
 
 - **Setup:** `mix setup` (deps, assets)
