@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:35:42Z",
   "created": "2026-07-23T12:01:23Z",
   "description": "Backlog task: E02-T30\n\nWork area: Canonical-source updates\n\nMain targets: `tmp/JIDO_BRAND_CONTEXT.md` and source process\n\nComplete when: No stale “locked” copy remains in a shared prompt file.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e02-t30",
@@ -19,7 +20,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E02-T30 — Regenerate or remove stale temporary brand context.",
   "type": "task",
   "updated_at": "2026-07-24T12:35:42Z"
