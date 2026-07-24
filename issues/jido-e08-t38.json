@@ -16,11 +16,15 @@
     {
       "text": "Open: unauthorized-Action denial example depends on T37.",
       "timestamp": "2026-07-24T12:51:56Z"
+    },
+    {
+      "text": "Done in this commit: the controlled-agent demo shows an unauthorized Action denial (approved_count unchanged for a disallowed principal).",
+      "timestamp": "2026-07-24T14:27:13Z"
     }
   ],
   "priority": 1,
   "status": "in_progress",
   "title": "E08-T38 — Show an unauthorized Action denial.",
   "type": "task",
-  "updated_at": "2026-07-24T14:27:12Z"
+  "updated_at": "2026-07-24T14:27:13Z"
 }
