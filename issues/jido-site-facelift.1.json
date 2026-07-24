@@ -1,0 +1,15 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-24T18:52:50Z",
+  "description": "Copy and adapt the existing Ralph Wiggum shell loop into jido_run. Use the zclaude wrapper so Claude Code runs through the Z.AI/ZLM configuration. Select one ready Beadwork child task per fresh invocation, require exact acceptance evidence, verify task state and Git state, retry bounded failures, and support dry-run and one-task modes. Complete when the project script passes shell syntax checks and a dry-run lists ready Beadwork tasks without changing task state.",
+  "id": "jido-site-facelift.1",
+  "labels": [],
+  "parent": "jido-site-facelift",
+  "priority": 2,
+  "status": "open",
+  "title": "Add a Zclaude Ralph loop for Beadwork tasks",
+  "type": "task",
+  "updated_at": "2026-07-24T18:52:50Z"
+}
