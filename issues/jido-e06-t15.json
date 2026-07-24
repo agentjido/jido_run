@@ -11,9 +11,15 @@
     "epic-e06"
   ],
   "parent": "jido-e06",
+  "comments": [
+    {
+      "text": "Open: illustrative-output labeling not yet added everywhere.",
+      "timestamp": "2026-07-24T12:49:38Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E06-T15 — Mark illustrative output as illustrative.",
   "type": "task",
-  "updated_at": "2026-07-23T12:03:50Z"
+  "updated_at": "2026-07-24T12:49:38Z"
 }
