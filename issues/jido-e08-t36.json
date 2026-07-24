@@ -23,7 +23,7 @@
     }
   ],
   "priority": 1,
-  "status": "open",
+  "status": "deferred",
   "title": "E08-T36 — Add operational-control filters to the Examples hub.",
   "type": "task",
   "updated_at": "2026-07-24T16:16:56Z"
