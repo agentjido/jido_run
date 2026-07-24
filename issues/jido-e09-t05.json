@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:52:34Z",
   "created": "2026-07-23T12:05:54Z",
   "description": "Backlog task: E09-T05\n\nWork area: Recommended stacks\n\nMain targets: Ecosystem hub and guide\n\nComplete when: It explains generated Actions and preserved Ash authorization.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e09-t05",
@@ -18,7 +19,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E09-T05 — Create an Ash application stack.",
   "type": "task",
   "updated_at": "2026-07-24T12:52:34Z"
