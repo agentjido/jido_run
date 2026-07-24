@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:47:57Z",
   "created": "2026-07-23T12:02:57Z",
   "description": "Backlog task: E05-T03\n\nWork area: Route and structure\n\nMain targets: Getting Started hub\n\nComplete when: It goes directly to install and first Agent.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e05-t03",
@@ -19,8 +20,8 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E05-T03 — Add a short “Already use Elixir?” path.",
   "type": "task",
-  "updated_at": "2026-07-24T12:47:56Z"
+  "updated_at": "2026-07-24T12:47:57Z"
 }
