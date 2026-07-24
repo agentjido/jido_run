@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:25:07Z",
   "created": "2026-07-23T12:00:25Z",
   "description": "Backlog task: E00-T12\n\nWork area: Tasks\n\nMain targets: Analytics and release plan\n\nComplete when: The measure is “activated builder reaches and completes one Operate guide or production example.”\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e00-t12",
@@ -18,7 +19,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E00-T12 — Define the acceptance measure for the production path.",
   "type": "task",
   "updated_at": "2026-07-24T12:25:07Z"
