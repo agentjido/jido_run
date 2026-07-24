@@ -15,11 +15,15 @@
     {
       "text": "Open: 'Run locally' command per example not yet added.",
       "timestamp": "2026-07-24T12:51:51Z"
+    },
+    {
+      "text": "Done: every public example carries a 'Run locally' run_command.",
+      "timestamp": "2026-07-24T14:59:43Z"
     }
   ],
   "priority": 1,
   "status": "in_progress",
   "title": "E08-T14 — Add a “Run locally” command to every runnable example.",
   "type": "task",
-  "updated_at": "2026-07-24T14:59:42Z"
+  "updated_at": "2026-07-24T14:59:43Z"
 }
