@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:51:49Z",
   "created": "2026-07-23T12:05:34Z",
   "description": "Backlog task: E08-T31\n\nWork area: Inventory and delivery\n\nMain targets: Sitemap controller and tests\n\nComplete when: All current public examples appear.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e08-t31",
@@ -18,8 +19,8 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E08-T31 — Add all public example detail routes to the sitemap.",
   "type": "task",
-  "updated_at": "2026-07-24T12:51:48Z"
+  "updated_at": "2026-07-24T12:51:49Z"
 }
