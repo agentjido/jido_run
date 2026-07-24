@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T20:43:41Z",
   "created": "2026-07-23T12:02:22Z",
   "description": "Backlog task: E04-T10\n\nWork area: Page structure\n\nMain targets: Home sections\n\nComplete when: Each card maps to Agent, AgentServer, Action/Signal, or Directive.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e04-t10",
@@ -23,8 +24,8 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E04-T10 — Add a four-part Agent model section: state, lifecycle, typed boundaries, visible effects.",
   "type": "task",
-  "updated_at": "2026-07-24T20:43:40Z"
+  "updated_at": "2026-07-24T20:43:41Z"
 }
