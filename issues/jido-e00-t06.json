@@ -11,9 +11,15 @@
     "epic-e00"
   ],
   "parent": "jido-e00",
+  "comments": [
+    {
+      "text": "Done in eb56808: canonical-source-per-surface map (Home/Docs/Livebook/Build/Compare/Example/Ecosystem/Skills/Markdown/sitemap/search/MCP) added to specs/content-system.md section 8.",
+      "timestamp": "2026-07-24T12:25:01Z"
+    }
+  ],
   "priority": 0,
   "status": "in_progress",
   "title": "E00-T06 — Record the canonical source for each rendered surface.",
   "type": "task",
-  "updated_at": "2026-07-24T12:25:00Z"
+  "updated_at": "2026-07-24T12:25:01Z"
 }
