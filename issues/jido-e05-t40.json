@@ -12,9 +12,15 @@
     "slice-06"
   ],
   "parent": "jido-e05",
+  "comments": [
+    {
+      "text": "Open: optional durable Signal Journal step depends on jido-e07.",
+      "timestamp": "2026-07-24T12:48:46Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E05-T40 — Add an optional durable Signal Journal step.",
   "type": "task",
-  "updated_at": "2026-07-23T12:03:34Z"
+  "updated_at": "2026-07-24T12:48:46Z"
 }
