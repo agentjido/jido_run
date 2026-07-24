@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:49:33Z",
   "created": "2026-07-23T12:04:04Z",
   "description": "Backlog task: E06-T29\n\nWork area: Operational-control content\n\nMain targets: New Docs page\n\nComplete when: The page maps each operational risk to a Jido control point, an application duty, and proof.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e06-t29",
@@ -19,7 +20,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E06-T29 — Publish an operational-control overview.",
   "type": "task",
   "updated_at": "2026-07-24T12:49:33Z"
