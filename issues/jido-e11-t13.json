@@ -11,9 +11,15 @@
     "epic-e11"
   ],
   "parent": "jido-e11",
+  "comments": [
+    {
+      "text": "Open: turning the Elixir Forum first-LLM fault into a public fix note not yet published.",
+      "timestamp": "2026-07-24T12:54:17Z"
+    }
+  ],
   "priority": 2,
   "status": "open",
   "title": "E11-T13 — Turn the Elixir Forum first-LLM fault into a short public fix note.",
   "type": "task",
-  "updated_at": "2026-07-23T12:07:26Z"
+  "updated_at": "2026-07-24T12:54:17Z"
 }
