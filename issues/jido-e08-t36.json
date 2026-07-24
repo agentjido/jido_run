@@ -12,9 +12,15 @@
     "slice-09"
   ],
   "parent": "jido-e08",
+  "comments": [
+    {
+      "text": "Open: operational-control filters on the examples hub not yet added.",
+      "timestamp": "2026-07-24T12:51:56Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E08-T36 — Add operational-control filters to the Examples hub.",
   "type": "task",
-  "updated_at": "2026-07-23T12:05:39Z"
+  "updated_at": "2026-07-24T12:51:56Z"
 }
