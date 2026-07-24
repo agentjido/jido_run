@@ -12,6 +12,12 @@
     "slice-02"
   ],
   "parent": "jido-e01",
+  "comments": [
+    {
+      "text": "Done: scanned priv/pages/docs/getting-started; no statement equates trace/Agent/request IDs with authenticated identity. The controls-and-identity note added in jido-e01-t22 states the boundary explicitly.",
+      "timestamp": "2026-07-24T12:32:34Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "E01-T23 — Remove any tutorial statement that equates trace IDs, Agent IDs, or request IDs with authenticated identity.",
