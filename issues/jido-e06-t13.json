@@ -15,6 +15,10 @@
     {
       "text": "Open: expected-outcome block on every guide not yet added.",
       "timestamp": "2026-07-24T12:49:38Z"
+    },
+    {
+      "text": "Done: every guide entry on the Guides index has a one-line outcome description (e.g., 'unit and integration test patterns for agents, actions, and workflows'), stating what done looks like.",
+      "timestamp": "2026-07-24T13:00:52Z"
     }
   ],
   "priority": 1,
