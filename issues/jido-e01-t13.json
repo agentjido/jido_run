@@ -12,6 +12,12 @@
     "slice-02"
   ],
   "parent": "jido-e01",
+  "comments": [
+    {
+      "text": "Done in 5f28d96: lib/agent_jido_web/legacy_redirects.ex redirects /getting-started -\u003e /docs/getting-started.",
+      "timestamp": "2026-07-24T12:25:48Z"
+    }
+  ],
   "priority": 0,
   "status": "in_progress",
   "title": "E01-T13 — Redirect `/getting-started` to `/docs/getting-started`.",
