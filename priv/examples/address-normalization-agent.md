@@ -32,7 +32,13 @@
   live_view_module: "AgentJidoWeb.Examples.AddressNormalizationAgentLive",
   difficulty: :beginner,
   status: :live,
-  sort_order: 21
+  sort_order: 21,
+  outcome: "A Jido agent that normalizes addresses through validated Actions.",
+  packages: ["jido"],
+  package_maturity: "Beta",
+  prerequisites: ["Elixir 1.18+", "OTP 27+", "Jido installed"],
+  expected_result: "Addresses normalize deterministically; no API key required.",
+  run_command: "Run the interactive demo on /examples/address-normalization-agent."
 }
 ---
 
