@@ -16,6 +16,10 @@
     {
       "text": "Open: copyable expected output after each first-run block not yet added everywhere.",
       "timestamp": "2026-07-24T12:48:43Z"
+    },
+    {
+      "text": "Done: onboarding Livebooks execute and render real output cells (expected output); the home quick-start result is shown as deterministic actual output (agent.state =\u003e %{count: 3}), not illustrative sample text.",
+      "timestamp": "2026-07-24T12:59:43Z"
     }
   ],
   "priority": 1,
