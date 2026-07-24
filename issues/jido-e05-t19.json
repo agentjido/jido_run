@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T13:00:52Z",
   "created": "2026-07-23T12:03:13Z",
   "description": "Backlog task: E05-T19\n\nWork area: AI Agent path\n\nMain targets: AI onboarding\n\nComplete when: Alias and model selection behavior is visible.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e05-t19",
@@ -23,7 +24,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E05-T19 — Explain that LLMDB resolves model metadata and capabilities.",
   "type": "task",
   "updated_at": "2026-07-24T13:00:52Z"
