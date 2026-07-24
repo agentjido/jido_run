@@ -386,6 +386,50 @@ defmodule AgentJidoWeb.JidoHomeLiveTest do
     end
   end
 
+  describe "home CTA and card destinations (jido-e04-t31)" do
+    # Acceptance condition: all CTA and card routes resolve. The static link
+    # audit already confirms zero unmatched links across the source files, but it
+    # scans static markup — it cannot see the destinations the LiveView actually
+    # renders. This mounts the home LiveView, reads every destination a visitor
+    # sees (every CTA and card in #home-page), and follows each one through the
+    # router, asserting it resolves to a real route or a legacy redirect — never
+    # the 404 catch-all.
+
+    test "every CTA and card destination resolves to a real route, not the 404 fallback", %{
+      conn: conn
+    } do
+      {:ok, _view, html} = live(conn, "/")
+
+      destinations =
+        html
+        |> Floki.parse_document!()
+        |> Floki.find("#home-page a[href]")
+        |> Floki.attribute("href")
+        |> Enum.filter(&home_route?/1)
+        |> Enum.uniq()
+
+      # Sanity floor: the home page carries many CTAs and cards across its
+      # sections. This guards against the extraction silently returning an empty
+      # or near-empty list, which would make the loop below pass vacuously.
+      assert length(destinations) >= 12,
+             "expected at least 12 home destinations, got #{length(destinations)}: " <>
+               "#{inspect(destinations)}"
+
+      unresolved =
+        for destination <- destinations,
+            status = get(conn, destination).status,
+            status not in 200..399 do
+          {destination, status}
+        end
+
+      # A status outside 200..399 means the destination only resolved to the
+      # router's catch-all (PageController.not_found returns 404), so it does not
+      # actually route to a page a visitor can reach.
+      assert unresolved == [],
+             "home CTA/card destinations that did not resolve: #{inspect(unresolved)}"
+    end
+  end
+
   defp home_ecosystem_stacks(html) do
     html
     |> Floki.parse_document!()
@@ -435,6 +479,16 @@ defmodule AgentJidoWeb.JidoHomeLiveTest do
       status = Floki.attribute(card, "data-status") |> hd()
       {use_case, status}
     end)
+  end
+
+  # An internal navigation destination: an absolute path that is not a static
+  # asset. External URLs and fragment-only anchors are excluded by the leading
+  # "/" check.
+  defp home_route?(path) do
+    String.starts_with?(path, "/") and
+      not String.starts_with?(path, "/assets/") and
+      not String.starts_with?(path, "/images/") and
+      not String.starts_with?(path, "/fonts/")
   end
 
   defp ensure_started(app) do
