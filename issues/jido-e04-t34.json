@@ -12,9 +12,15 @@
     "slice-05"
   ],
   "parent": "jido-e04",
+  "comments": [
+    {
+      "text": "Open: operational-control section after the Agent model is a new home section, not yet built (control story currently on home pillars + /docs/operations).",
+      "timestamp": "2026-07-24T12:46:31Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E04-T34 — Add an operational-control section after the Agent model or deterministic proof.",
   "type": "task",
-  "updated_at": "2026-07-23T12:02:46Z"
+  "updated_at": "2026-07-24T12:46:31Z"
 }
