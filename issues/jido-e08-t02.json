@@ -11,9 +11,15 @@
     "epic-e08"
   ],
   "parent": "jido-e08",
+  "comments": [
+    {
+      "text": "Open: examples-hub text search not yet implemented.",
+      "timestamp": "2026-07-24T12:51:49Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E08-T02 — Add text search to the Examples hub.",
   "type": "task",
-  "updated_at": "2026-07-23T12:05:05Z"
+  "updated_at": "2026-07-24T12:51:49Z"
 }
