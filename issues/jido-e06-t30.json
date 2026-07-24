@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:49:34Z",
   "created": "2026-07-23T12:04:05Z",
   "description": "Backlog task: E06-T30\n\nWork area: Operational-control content\n\nMain targets: Glossary and term links\n\nComplete when: Each term has one narrow meaning and links to its implementation boundary.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e06-t30",
@@ -19,7 +20,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E06-T30 — Add identity, authorization, audit, observability, policy, and control to the glossary.",
   "type": "task",
   "updated_at": "2026-07-24T12:49:34Z"
