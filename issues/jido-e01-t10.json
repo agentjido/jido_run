@@ -12,6 +12,12 @@
     "slice-01"
   ],
   "parent": "jido-e01",
+  "comments": [
+    {
+      "text": "Deferred: Copy Markdown copies client-side source; making it copy rendered-equivalent (expanded) source depends on the same expanded-source serving as jido-e01-t09. Reopen alongside T09.",
+      "timestamp": "2026-07-24T12:32:35Z"
+    }
+  ],
   "priority": 0,
   "status": "in_progress",
   "title": "E01-T10 — Make “Copy Markdown” copy rendered-equivalent source.",
