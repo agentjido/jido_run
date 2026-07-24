@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T22:23:00Z",
   "created": "2026-07-23T12:02:52Z",
   "description": "Backlog task: E04-T40\n\nWork area: Use cases, ecosystem, and conversion\n\nMain targets: Home control section or linked explainer\n\nComplete when: Identity claims stay bounded.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e04-t40",
@@ -23,7 +24,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E04-T40 — Add a visible note that Agent IDs are not authenticated principals.",
   "type": "task",
   "updated_at": "2026-07-24T22:23:00Z"
