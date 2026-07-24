@@ -12,6 +12,12 @@
     "slice-03"
   ],
   "parent": "jido-e02",
+  "comments": [
+    {
+      "text": "Done in 0328efd: control-proof fields table (mechanism, proof, limitation) added to proof.md.",
+      "timestamp": "2026-07-24T12:36:08Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "E02-T44 — Add control proof fields to the proof inventory.",
