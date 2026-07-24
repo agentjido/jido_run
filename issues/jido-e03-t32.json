@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:39:55Z",
   "created": "2026-07-23T12:02:10Z",
   "description": "Backlog task: E03-T32\n\nWork area: Tasks\n\nMain targets: All public content\n\nComplete when: Each use states what is recorded, where, for how long, and with which adapter.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e03-t32",
@@ -19,7 +20,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E03-T32 — Review every use of “audit.”",
   "type": "task",
   "updated_at": "2026-07-24T12:39:55Z"
