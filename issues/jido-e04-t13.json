@@ -12,6 +12,12 @@
     "slice-05"
   ],
   "parent": "jido-e04",
+  "comments": [
+    {
+      "text": "Done in 23412ce: quick start uses the canonical cmd/2 API matching the first-agent tutorial.",
+      "timestamp": "2026-07-24T12:46:25Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "E04-T13 — Show AgentServer under a named Jido instance or the current recommended API.",
