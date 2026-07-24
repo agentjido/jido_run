@@ -11,9 +11,15 @@
     "epic-e12"
   ],
   "parent": "jido-e12",
+  "comments": [
+    {
+      "text": "Open: last_validated/tested_with/owner metadata required for executable content not yet enforced.",
+      "timestamp": "2026-07-24T12:54:59Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E12-T14 — Require `last_validated`, `tested_with`, and `owner` metadata for executable content.",
   "type": "task",
-  "updated_at": "2026-07-23T12:07:55Z"
+  "updated_at": "2026-07-24T12:54:59Z"
 }
