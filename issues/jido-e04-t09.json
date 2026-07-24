@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T20:36:40Z",
   "created": "2026-07-23T12:02:21Z",
   "description": "Backlog task: E04-T09\n\nWork area: Page structure\n\nMain targets: Home section order\n\nComplete when: The lowest-risk adoption message appears early.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e04-t09",
@@ -23,8 +24,8 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E04-T09 — Move “Start with one Agent” directly after the hero or first proof.",
   "type": "task",
-  "updated_at": "2026-07-24T20:36:39Z"
+  "updated_at": "2026-07-24T20:36:40Z"
 }
