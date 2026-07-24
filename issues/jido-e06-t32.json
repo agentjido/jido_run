@@ -12,9 +12,15 @@
     "slice-07"
   ],
   "parent": "jido-e06",
+  "comments": [
+    {
+      "text": "Open: control-surface table on reference pages not yet added.",
+      "timestamp": "2026-07-24T12:49:41Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E06-T32 — Add a control-surface table to relevant reference pages.",
   "type": "task",
-  "updated_at": "2026-07-23T12:04:07Z"
+  "updated_at": "2026-07-24T12:49:41Z"
 }
