@@ -12,9 +12,15 @@
     "slice-05"
   ],
   "parent": "jido-e04",
+  "comments": [
+    {
+      "text": "Open: repositioning 'Start with one Agent' directly after the hero is a home-section reorder, not yet done.",
+      "timestamp": "2026-07-24T12:46:29Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E04-T09 — Move “Start with one Agent” directly after the hero or first proof.",
   "type": "task",
-  "updated_at": "2026-07-23T12:02:21Z"
+  "updated_at": "2026-07-24T12:46:29Z"
 }
