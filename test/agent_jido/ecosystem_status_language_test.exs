@@ -7,7 +7,14 @@ defmodule AgentJido.EcosystemStatusLanguageTest do
 
   alias AgentJido.Ecosystem
 
-  @stable_claims ~w(production-ready production-grade production-stable "API is stable" stable and production-proven)
+  @stable_claims [
+    "production-ready",
+    "production-grade",
+    "production-stable",
+    "production-proven",
+    "API is stable",
+    "stable for production"
+  ]
 
   test "public Experimental packages do not claim Stable/production-ready status" do
     offenders =
