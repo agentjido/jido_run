@@ -22,7 +22,7 @@
     }
   ],
   "priority": 1,
-  "status": "open",
+  "status": "deferred",
   "title": "E06-T07 — Update canonical URLs and sitemap entries after route moves.",
   "type": "task",
   "updated_at": "2026-07-24T16:16:59Z"
