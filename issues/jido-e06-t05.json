@@ -15,11 +15,15 @@
     {
       "text": "Open: Operate is public (E07); adding it to primary nav depends on the IA restructure.",
       "timestamp": "2026-07-24T12:49:37Z"
+    },
+    {
+      "text": "Product decision 2026-07-24: deferred for this iteration. Keep the current documentation structure, public URLs, and document paths unchanged. Do not perform or plan route moves, related redirects, or canonical URL changes now. Reconsider in a future IA iteration.",
+      "timestamp": "2026-07-24T16:16:58Z"
     }
   ],
   "priority": 1,
   "status": "open",
   "title": "E06-T05 — Add Operate to the primary Docs navigation only when its minimum page set is public.",
   "type": "task",
-  "updated_at": "2026-07-24T12:49:37Z"
+  "updated_at": "2026-07-24T16:16:58Z"
 }
