@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:25:48Z",
   "created": "2026-07-23T12:00:41Z",
   "description": "Backlog task: E01-T11\n\nWork area: Rendered and downloadable parity\n\nMain targets: Controller and Livebook tests\n\nComplete when: Any unresolved public token fails CI.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e01-t11",
@@ -19,8 +20,8 @@
     }
   ],
   "priority": 0,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E01-T11 — Add a test that rejects `{{...}}` in every public artifact.",
   "type": "task",
-  "updated_at": "2026-07-24T12:25:47Z"
+  "updated_at": "2026-07-24T12:25:48Z"
 }
