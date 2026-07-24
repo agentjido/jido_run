@@ -12,9 +12,15 @@
     "slice-02"
   ],
   "parent": "jido-e01",
+  "comments": [
+    {
+      "text": "Deferred: a route crawl that follows every link from every published page requires running the Phoenix endpoint in CI. The static link audit (now at 0 unmatched, enforced by the jido-e12 release gate) already guarantees every internal link resolves to a route or redirect. Reopen when an endpoint-crawl CI job is added.",
+      "timestamp": "2026-07-24T12:32:37Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "E01-T20 — Add a route crawl that follows every link from every published page.",
   "type": "task",
-  "updated_at": "2026-07-24T12:32:36Z"
+  "updated_at": "2026-07-24T12:32:37Z"
 }
