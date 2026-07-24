@@ -16,11 +16,15 @@
     {
       "text": "Open: stable IDs in the controlled onboarding example depend on jido-e07.",
       "timestamp": "2026-07-24T12:48:44Z"
+    },
+    {
+      "text": "Done in this commit: controlled-agent demo carries a stable agent id; Signals carry a stable id; the AgentServer attaches correlation (trace/span) on dispatch. Test asserts the stable ids.",
+      "timestamp": "2026-07-24T14:30:24Z"
     }
   ],
   "priority": 1,
   "status": "in_progress",
   "title": "E05-T33 — Add stable Agent, request, run, Signal, and tool-call IDs to the controlled onboarding example.",
   "type": "task",
-  "updated_at": "2026-07-24T14:30:23Z"
+  "updated_at": "2026-07-24T14:30:24Z"
 }
