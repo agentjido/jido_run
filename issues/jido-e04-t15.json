@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:41:33Z",
   "created": "2026-07-23T12:02:27Z",
   "description": "Backlog task: E04-T15\n\nWork area: Page structure\n\nMain targets: Home pillars\n\nComplete when: It explains restart policy and does not imply state recovery.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e04-t15",
@@ -19,7 +20,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E04-T15 — Replace the self-healing card with supervised failure handling.",
   "type": "task",
   "updated_at": "2026-07-24T12:41:33Z"
