@@ -12,9 +12,15 @@
     "slice-09"
   ],
   "parent": "jido-e07",
+  "comments": [
+    {
+      "text": "Open: operator-investigation runbook not yet a dedicated page.",
+      "timestamp": "2026-07-24T12:50:41Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E07-T49 — Publish an operator investigation runbook.",
   "type": "task",
-  "updated_at": "2026-07-23T12:05:01Z"
+  "updated_at": "2026-07-24T12:50:41Z"
 }
