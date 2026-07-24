@@ -12,6 +12,12 @@
     "slice-03"
   ],
   "parent": "jido-e02",
+  "comments": [
+    {
+      "text": "Done in 28959a2: audit defined as a deliberately configured durable record (§11).",
+      "timestamp": "2026-07-24T12:35:46Z"
+    }
+  ],
   "priority": 0,
   "status": "in_progress",
   "title": "E02-T36 — Define audit as a deliberately configured durable record.",
