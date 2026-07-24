@@ -12,6 +12,8 @@
     "Start the default Jido runtime and run your first AI-enhanced command"
   ],
   prerequisites: ["/docs/getting-started/first-agent"],
+  last_validated: "2026-07-24",
+  tested_with: %{jido: "2.3.2", jido_ai: "2.2.0", req_llm: "1.17.1"},
   livebook: %{
     runnable: true,
     required_env_vars: ["OPENAI_API_KEY"],

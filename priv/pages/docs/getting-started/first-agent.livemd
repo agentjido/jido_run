@@ -15,6 +15,8 @@
     "State the process-state boundary: in-memory state is lost on restart, the agent definition survives"
   ],
   prerequisites: ["/docs/getting-started/installation"],
+  last_validated: "2026-07-24",
+  tested_with: %{jido: "2.3.2"},
   livebook: %{
     runnable: true
   }

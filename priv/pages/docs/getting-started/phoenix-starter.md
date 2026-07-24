@@ -5,7 +5,9 @@
   category: :docs,
   order: 22,
   tags: [:docs, :getting_started, :phoenix],
-  draft: false
+  draft: false,
+  last_validated: "2026-07-24",
+  tested_with: %{jido: "2.3.2", jido_ai: "2.2.0", req_llm: "1.17.1"}
 }
 ---
 

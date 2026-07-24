@@ -45,6 +45,10 @@ defmodule AgentJido.Pages.Page do
   - `prerequisites` - List of prerequisite page IDs
   - `learning_outcomes` - List of learning outcome strings
 
+  ### Validation
+  - `last_validated` - ISO date this page's code was last validated
+  - `tested_with` - Map of package/version pairs this page was validated against
+
   ### SEO
   - `og_image` - Per-page Open Graph image override
   - `seo` - Nested SEO metadata map
@@ -120,6 +124,14 @@ defmodule AgentJido.Pages.Page do
               duration_minutes: Zoi.integer(description: "Estimated duration in minutes") |> Zoi.optional(),
               prerequisites: Zoi.any(description: "List of prerequisite page IDs") |> Zoi.default([]),
               learning_outcomes: Zoi.any(description: "List of learning outcome strings") |> Zoi.default([]),
+              # Validation metadata (author-set; surfaced to readers so they can
+              # see the last validation date and the versions a page was tested with)
+              last_validated:
+                Zoi.string(description: "ISO date this page's code was last validated against tested_with")
+                |> Zoi.default(""),
+              tested_with:
+                Zoi.any(description: "Map of package/version pairs this page was validated against (e.g. %{jido: \"2.3.2\"})")
+                |> Zoi.default(%{}),
               # SEO top-level override
               og_image: Zoi.string(description: "Per-page Open Graph image override") |> Zoi.optional(),
               # Nested metadata maps

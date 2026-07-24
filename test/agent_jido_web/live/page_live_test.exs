@@ -95,6 +95,34 @@ defmodule AgentJidoWeb.PageLiveTest do
     end
   end
 
+  describe "onboarding version metadata (jido-e05-t28)" do
+    test "the first-agent lane renders last validation date and tested versions", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/docs/getting-started/first-agent")
+
+      assert html =~ "Last validated"
+      assert html =~ "Tested with"
+      # 2.3.2 only appears via the tested_with metadata; the body uses build tokens.
+      assert html =~ "2.3.2"
+    end
+
+    test "the first-LLM lane renders the full tested-with package set", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/docs/getting-started/first-llm-agent")
+
+      assert html =~ "Last validated"
+      assert html =~ "Tested with"
+      assert html =~ "jido_ai"
+      assert html =~ "req_llm"
+      assert html =~ "2.2.0"
+    end
+
+    test "the Phoenix starter lane renders last validation date and tested versions", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/docs/getting-started/phoenix-starter")
+
+      assert html =~ "Last validated"
+      assert html =~ "Tested with"
+    end
+  end
+
   describe "home quick start and cta sections" do
     test "renders elixir onboarding guide links", %{conn: conn} do
       {:ok, _view, html} = live(conn, "/")
