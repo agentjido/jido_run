@@ -11,7 +11,8 @@
     "Implement an action and execute it via cmd/2",
     "Interpret updated state and returned directives",
     "Start a supervised agent and drive it with a Signal through the AgentServer",
-    "Stop a supervised agent and restart it as a fresh process"
+    "Stop a supervised agent and restart it as a fresh process",
+    "State the process-state boundary: in-memory state is lost on restart, the agent definition survives"
   ],
   prerequisites: ["/docs/getting-started/installation"],
   livebook: %{
@@ -199,6 +200,17 @@ restarted_state.agent.state
 ```
 
 The same thing happens when the supervisor restarts a crashed process: a new `AgentServer` boots from the agent defaults. The lifecycle is the point here — a stopped or crashed process is gone, and starting the agent again brings a fresh one back.
+
+## What is lost on restart
+
+That restart draws a clear line between **process state** and the **agent definition**:
+
+| | Held in the running process | Part of the agent definition |
+|---|---|---|
+| What it is | The in-memory agent struct — the `count`, and any state an Action has written | The module: its schema, defaults, Actions, and signal routes |
+| On stop or crash | **Lost** — the process takes its in-memory state with it | **Survives** — the next process boots from these schema defaults |
+
+This is why the restarted counter came back at `0`: the definition survived, the in-memory count did not. The agent definition is not process state — it lives in the compiled module, so every fresh process starts from the same defaults. A restart is not state recovery: Jido keeps no copy of the in-memory state by default. Making an agent's state survive a restart is a separate, deliberate choice you make on top of this process lifecycle.
 
 ## Using this in a Mix project
 
