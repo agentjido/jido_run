@@ -11,9 +11,15 @@
     "epic-e00"
   ],
   "parent": "jido-e00",
+  "comments": [
+    {
+      "text": "Done in eb56808: owner roles (positioning, docs ops, release quality) recorded in specs/audits/baseline-2026-07-23.md Owners section.",
+      "timestamp": "2026-07-24T12:24:41Z"
+    }
+  ],
   "priority": 0,
   "status": "in_progress",
   "title": "E00-T01 — Assign one owner for positioning, one owner for docs operations, and one owner for release quality.",
   "type": "task",
-  "updated_at": "2026-07-24T12:24:40Z"
+  "updated_at": "2026-07-24T12:24:41Z"
 }
