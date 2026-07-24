@@ -15,11 +15,15 @@
     {
       "text": "Open: canonical/alternate links on supported routes not yet added.",
       "timestamp": "2026-07-24T12:53:34Z"
+    },
+    {
+      "text": "Done: the LLMResponse plug adds canonical and alternate (markdown) link headers on supported routes (put_markdown_seo_headers + put_markdown_alternate_link_header in lib/agent_jido_web/plugs/llm_response.ex), so HTML and markdown identify each other.",
+      "timestamp": "2026-07-24T18:41:26Z"
     }
   ],
   "priority": 1,
   "status": "in_progress",
   "title": "E10-T14 — Add canonical and alternate links to all supported routes.",
   "type": "task",
-  "updated_at": "2026-07-24T18:41:25Z"
+  "updated_at": "2026-07-24T18:41:26Z"
 }
