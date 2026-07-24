@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:39:56Z",
   "created": "2026-07-23T12:02:12Z",
   "description": "Backlog task: E03-T34\n\nWork area: Tasks\n\nMain targets: `llms.txt`, Markdown hub fallbacks, MCP descriptions\n\nComplete when: Machine and human summaries use the same bounded benefit.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e03-t34",
@@ -19,7 +20,7 @@
     }
   ],
   "priority": 2,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E03-T34 — Add the control message to machine-facing summaries.",
   "type": "task",
   "updated_at": "2026-07-24T12:39:56Z"
