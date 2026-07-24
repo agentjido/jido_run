@@ -36,6 +36,21 @@ defmodule AgentJido.Examples.Taxonomy do
 
   @evidence_surfaces [:package, :runnable_example, :training_module, :docs_reference, :runbook, :case_study]
 
+  # Task-oriented labels that describe the user job an example proves, intended
+  # to replace internal taxonomy terms on public cards (jido-e08 E08-T01).
+  @tasks [
+    :chat_and_support,
+    :research,
+    :coding,
+    :browser_work,
+    :data_and_documents,
+    :scheduling,
+    :persistence,
+    :recovery,
+    :coordination,
+    :observability
+  ]
+
   @type metadata :: %{
           status: atom(),
           published: boolean(),
@@ -45,7 +60,8 @@ defmodule AgentJido.Examples.Taxonomy do
           content_intent: atom(),
           capability_theme: atom(),
           evidence_surface: atom(),
-          demo_mode: atom()
+          demo_mode: atom(),
+          tasks: [atom()]
         }
 
   @spec statuses() :: [atom()]
@@ -71,6 +87,9 @@ defmodule AgentJido.Examples.Taxonomy do
 
   @spec evidence_surfaces() :: [atom()]
   def evidence_surfaces, do: @evidence_surfaces
+
+  @spec tasks() :: [atom()]
+  def tasks, do: @tasks
 
   @spec metadata(keyword() | map()) :: metadata()
   def metadata(attrs) when is_list(attrs), do: attrs |> Map.new() |> metadata()
