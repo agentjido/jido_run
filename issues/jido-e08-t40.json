@@ -12,9 +12,15 @@
     "slice-09"
   ],
   "parent": "jido-e08",
+  "comments": [
+    {
+      "text": "Open: denied AI tool/effect example depends on T37.",
+      "timestamp": "2026-07-24T12:51:57Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E08-T40 — Show a denied AI tool or effect.",
   "type": "task",
-  "updated_at": "2026-07-23T12:05:43Z"
+  "updated_at": "2026-07-24T12:51:57Z"
 }
