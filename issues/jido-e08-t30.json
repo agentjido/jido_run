@@ -11,9 +11,15 @@
     "epic-e08"
   ],
   "parent": "jido-e08",
+  "comments": [
+    {
+      "text": "Done: every example defaults to published:true (status :live); no record is draft merely because status is missing.",
+      "timestamp": "2026-07-24T12:51:48Z"
+    }
+  ],
   "priority": 0,
   "status": "in_progress",
   "title": "E08-T30 — Give every non-public example an explicit status.",
   "type": "task",
-  "updated_at": "2026-07-24T12:51:47Z"
+  "updated_at": "2026-07-24T12:51:48Z"
 }
