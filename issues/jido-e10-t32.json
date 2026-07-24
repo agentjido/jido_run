@@ -12,9 +12,15 @@
     "slice-10"
   ],
   "parent": "jido-e10",
+  "comments": [
+    {
+      "text": "Open: qualified operational-control position in llms.txt not yet added.",
+      "timestamp": "2026-07-24T12:53:38Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E10-T32 — Add the qualified operational-control position to `llms.txt`.",
   "type": "task",
-  "updated_at": "2026-07-23T12:07:11Z"
+  "updated_at": "2026-07-24T12:53:38Z"
 }
