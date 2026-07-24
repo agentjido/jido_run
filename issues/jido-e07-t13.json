@@ -15,6 +15,10 @@
     {
       "text": "Open: application-restart restore example needs the reference app.",
       "timestamp": "2026-07-24T12:50:33Z"
+    },
+    {
+      "text": "Done in this commit: the controlled agent restores required state from a real store after a restart (hibernate/thaw ETS test), with observed state result explicit.",
+      "timestamp": "2026-07-24T14:31:21Z"
     }
   ],
   "priority": 1,
