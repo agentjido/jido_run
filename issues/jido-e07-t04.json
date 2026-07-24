@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T14:35:41Z",
   "created": "2026-07-23T12:04:16Z",
   "description": "Backlog task: E07-T04\n\nWork area: Core linear path\n\nMain targets: Operations docs\n\nComplete when: It covers duplicate work and retry-safe boundaries.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e07-t04",
@@ -22,8 +23,8 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E07-T04 — Publish “Idempotent Actions and effect delivery.”",
   "type": "task",
-  "updated_at": "2026-07-24T14:35:40Z"
+  "updated_at": "2026-07-24T14:35:41Z"
 }
