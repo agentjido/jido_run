@@ -12,9 +12,15 @@
     "slice-06"
   ],
   "parent": "jido-e05",
+  "comments": [
+    {
+      "text": "Open: application-supplied principal/tenant context depends on jido-e07.",
+      "timestamp": "2026-07-24T12:48:44Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E05-T34 — Add application-supplied principal and tenant context.",
   "type": "task",
-  "updated_at": "2026-07-23T12:03:28Z"
+  "updated_at": "2026-07-24T12:48:44Z"
 }
