@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:25:03Z",
   "created": "2026-07-23T12:00:27Z",
   "description": "Backlog task: E00-T14\n\nWork area: Tasks\n\nMain targets: Plugin hooks, Action contracts, Jido AI policy/effects/quota, Ash policies\n\nComplete when: Each control names its package, maturity, default behavior, and failure mode.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e00-t14",
@@ -18,7 +19,7 @@
     }
   ],
   "priority": 0,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E00-T14 — Inventory every authorization and policy control point.",
   "type": "task",
   "updated_at": "2026-07-24T12:25:03Z"
