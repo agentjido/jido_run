@@ -607,6 +607,80 @@ defmodule AgentJidoWeb.JidoHomeLiveTest do
     end
   end
 
+  describe "home control proof card: one integrated controlled agent (jido-e04-t41)" do
+    # Acceptance condition: the control section routes to ONE integrated
+    # controlled-Agent example, and the destination proves the complete control
+    # path. The four control cards above each route a single control to its own
+    # surface; this capstone card ties them together in one runnable example.
+
+    test "renders an integrated controlled-agent capstone card inside the operational-control section",
+         %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      card = operational_control_card(html, "integrated-controlled-agent")
+
+      assert card != nil, "expected an integrated-controlled-agent control card"
+
+      assert card |> Floki.find("h3") |> Floki.text() |> String.trim() ==
+               "See one integrated controlled agent"
+    end
+
+    test "the capstone card sits after the caveat notes and before the full control model link",
+         %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      # The capstone is the synthesis of the four control cards, so it lands
+      # after the bounding caveat notes and before the deeper "See the full
+      # control model" governance link.
+      assert {identity_idx, _} =
+               :binary.match(html, ~s(data-control-note="identity-not-principal"))
+
+      assert {card_idx, _} =
+               :binary.match(html, ~s(data-control-card="integrated-controlled-agent"))
+
+      assert {model_link_idx, _} = :binary.match(html, "See the full control model")
+
+      assert identity_idx < card_idx
+      assert card_idx < model_link_idx
+    end
+
+    test "routes the control section to one integrated controlled-Agent example", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      card = operational_control_card(html, "integrated-controlled-agent")
+
+      example =
+        card
+        |> Floki.find("a[data-control-link='controlled-agent-example']")
+        |> Floki.attribute("href")
+        |> List.first()
+
+      # One destination — the integrated controlled-Agent example.
+      assert example == "/examples/controlled-agent"
+    end
+
+    test "the destination is a live example that proves the complete control path", %{conn: conn} do
+      # The acceptance condition is on the destination: it must be reachable and
+      # it must prove the complete control path. The example resolves through
+      # the router (covered by the jido-e04-t31 destination audit) and is a
+      # published live example whose source proves all four controls.
+      assert get(conn, "/examples/controlled-agent").status == 200
+
+      example = AgentJido.Examples.get_example!("controlled-agent")
+
+      assert example.status == :live
+      assert example.live_view_module == "AgentJidoWeb.Examples.ControlledAgentLive"
+
+      # The example copy names the complete control path it proves.
+      copy = example.body |> String.downcase()
+
+      for term <- ~w(who initiated allowed happened failure) do
+        assert String.contains?(copy, term),
+               "expected the controlled-agent example to prove the #{term} control"
+      end
+    end
+  end
+
   describe "home use-case cards (E04-T21)" do
     test "every card links to a unique scoped destination, not the unfiltered index", %{conn: conn} do
       {:ok, _view, html} = live(conn, "/")

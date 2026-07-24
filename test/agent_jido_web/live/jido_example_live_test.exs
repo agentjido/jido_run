@@ -1170,4 +1170,86 @@ defmodule AgentJidoWeb.JidoExampleLiveTest do
     |> element("##{id}")
     |> render()
   end
+
+  describe "/examples/controlled-agent (jido-e04-t41)" do
+    # The integrated controlled-Agent example: one supervised run proves the
+    # complete control path — who initiated work, what was allowed, what
+    # happened, and how failure was handled.
+
+    test "renders explanation tab mapping the example to the complete control path", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/examples/controlled-agent?tab=explanation")
+
+      assert html =~ "Controlled Agent"
+      assert html =~ "AgentServer"
+
+      # The destination must prove the complete control path, so the explanation
+      # names each control question.
+      for term <- ~w(Who initiated What was allowed What happened How failure) do
+        assert html =~ term,
+               "expected the controlled-agent explanation to name the '#{term}' control"
+      end
+    end
+
+    test "renders source tab with the controlled-agent implementation", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/examples/controlled-agent?tab=source")
+
+      assert html =~ "controlled_agent.ex"
+      assert html =~ "approve_action.ex"
+      assert html =~ "authorization_plugin.ex"
+      assert html =~ "supervisor.ex"
+      assert html =~ "controlled_agent_live.ex"
+    end
+
+    test "is registered as a live runnable example with a real demo module", _conn do
+      example = Examples.get_example!("controlled-agent")
+
+      assert example.status == :live
+      assert example.demo_mode == :real
+      assert example.live_view_module == "AgentJidoWeb.Examples.ControlledAgentLive"
+      assert Enum.map(example.sources, & &1.path) == example.source_files
+      assert Enum.all?(example.source_files, &File.exists?/1)
+    end
+
+    test "demo tab runs the allowed path, denies the unauthorized path, and restarts on crash",
+         %{conn: conn} do
+      {:ok, view, html} = live(conn, "/examples/controlled-agent?tab=demo")
+
+      assert html =~ "Controlled Agent"
+      refute html =~ "Simulated demo"
+
+      demo_view = find_live_child(view, "demo-controlled-agent")
+
+      # Allowed path: an authorized principal runs the protected Action.
+      allowed_html =
+        demo_view
+        |> element("#controlled-agent-approve-allowed")
+        |> render_click()
+
+      assert allowed_html =~ "allowed"
+      assert element_cell(demo_view, "controlled-agent-approved") =~ ~r/>\s*1\s*</
+
+      # Denied path: an unauthorized principal is rejected before the Action runs.
+      denied_html =
+        demo_view
+        |> element("#controlled-agent-approve-denied")
+        |> render_click()
+
+      assert denied_html =~ "denied"
+      assert denied_html =~ ":unauthorized"
+      # The counter did not move.
+      assert element_cell(demo_view, "controlled-agent-approved") =~ ~r/>\s*1\s*</
+
+      # How failure was handled: crashing the process triggers a supervised restart,
+      # and the in-memory approved counter resets.
+      crash_html =
+        demo_view
+        |> element("#controlled-agent-crash")
+        |> render_click()
+
+      assert crash_html =~ "restart"
+      assert render(demo_view) =~ "approved work reset to 0"
+      assert element_cell(demo_view, "controlled-agent-approved") =~ ~r/>\s*0\s*</
+      assert element_cell(demo_view, "controlled-agent-restarts") =~ ~r/>\s*1\s*</
+    end
+  end
 end

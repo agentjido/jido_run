@@ -689,10 +689,15 @@ defmodule AgentJidoWeb.JidoHomeLive do
   # and trace IDs) are correlation metadata — handles for following work, not a
   # verified identity — because authentication and IAM are an
   # application/platform boundary in front of Jido, and it routes to the
-  # governance page that states it. The remaining controlled-Agent example
-  # routing and the SRE CTA land in follow-up tasks (jido-e04-t41..t42); this
-  # section establishes the control story and routes to the existing operations
-  # governance page that already bounds these claims.
+  # governance page that states it. A capstone "one integrated controlled
+  # agent" card (jido-e04-t41) then routes the whole section to a single
+  # runnable example (/examples/controlled-agent) that proves the complete
+  # control path — who initiated work, what was allowed, what happened, and
+  # how failure was handled — in one supervised run, instead of leaving the
+  # four controls as separate doc destinations. The SRE CTA lands in a
+  # follow-up task (jido-e04-t42); this section establishes the control story,
+  # routes each control to its surface, and ties them together in one
+  # integrated example.
   defp operational_control_section(assigns) do
     controls = [
       %{
@@ -993,6 +998,31 @@ defmodule AgentJidoWeb.JidoHomeLive do
           </.link>
         </div>
       </div>
+
+      <article
+        id="control-integrated-controlled-agent"
+        class="home-pillar-card px-6 py-6 mt-12"
+        data-control-card="integrated-controlled-agent"
+      >
+        <div class="home-pillar-chip home-pillar-chip-cyan">
+          <span class="text-2xl leading-none text-accent-cyan">🛡</span>
+        </div>
+        <h3 class="text-lg sm:text-xl font-bold mt-2 mb-3 leading-tight">
+          See one integrated controlled agent
+        </h3>
+        <p class="home-muted-copy text-[15px] leading-relaxed max-w-md mx-auto mb-5">
+          The four controls above are not separate promises — they are one supervised agent. Run the integrated controlled-Agent example to watch an allowed principal run a protected Action, an unauthorized principal get denied before it runs, and supervision restart a crashed process. One run proves the complete control path: who initiated work, what was allowed, what happened, and how failure was handled.
+        </p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+          <.link
+            navigate="/examples/controlled-agent"
+            class="home-pillar-link home-pillar-link-cyan"
+            data-control-link="controlled-agent-example"
+          >
+            Run the integrated example →
+          </.link>
+        </div>
+      </article>
 
       <div class="text-center mt-12">
         <.link

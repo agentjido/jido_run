@@ -25,7 +25,8 @@ defmodule AgentJido.ExamplesTest do
     {"jido-ai-skills-multi-agent-orchestration", "AgentJidoWeb.Examples.SkillsMultiAgentOrchestrationLive"},
     {"jido-ai-weather-reasoning-strategy-suite", "AgentJidoWeb.Examples.WeatherReasoningStrategySuiteLive"},
     {"jido-ai-operational-agents-pack", "AgentJidoWeb.Examples.OperationalAgentsPackLive"},
-    {"failure-drill-agent", "AgentJidoWeb.Examples.FailureDrillAgentLive"}
+    {"failure-drill-agent", "AgentJidoWeb.Examples.FailureDrillAgentLive"},
+    {"controlled-agent", "AgentJidoWeb.Examples.ControlledAgentLive"}
   ]
 
   test "draft examples are hidden from default lookups" do
