@@ -12,9 +12,15 @@
     "slice-12"
   ],
   "parent": "jido-e12",
+  "comments": [
+    {
+      "text": "Open: operational-control copy review on the release punch list not yet formalized.",
+      "timestamp": "2026-07-24T12:55:06Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E12-T45 — Add an operational-control copy review to the release punch list.",
   "type": "task",
-  "updated_at": "2026-07-23T12:08:26Z"
+  "updated_at": "2026-07-24T12:55:06Z"
 }
