@@ -12,6 +12,12 @@
     "slice-04"
   ],
   "parent": "jido-e03",
+  "comments": [
+    {
+      "text": "Deferred: an 'Operational control' feature group requires features-data-model changes; the control proof lives under /docs/operations. Reopen with the features hub IA rework.",
+      "timestamp": "2026-07-24T12:39:59Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "E03-T29 — Add an “Operational control” feature group.",
