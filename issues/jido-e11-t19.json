@@ -11,6 +11,12 @@
     "epic-e11"
   ],
   "parent": "jido-e11",
+  "comments": [
+    {
+      "text": "Done: onboarding-time claim removed until measured (methodology published).",
+      "timestamp": "2026-07-24T12:54:13Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "E11-T19 — Publish an onboarding-time claim only after measurement.",
