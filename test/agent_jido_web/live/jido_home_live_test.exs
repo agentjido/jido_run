@@ -36,6 +36,31 @@ defmodule AgentJidoWeb.JidoHomeLiveTest do
     end
   end
 
+  describe "home adoption message (E04-T09)" do
+    test "the lowest-risk adoption message appears directly after the hero", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      # The adoption heading is present on the home page.
+      assert {adoption_idx, _} = :binary.match(html, "Start with one Agent")
+
+      # It sits after the hero headline...
+      assert {hero_idx, _} = :binary.match(html, "Build long-running agents")
+      assert adoption_idx > hero_idx
+
+      # ...and before the deeper sections (the quick-start "first proof"),
+      # so the lowest-risk adoption message appears early.
+      assert {quick_start_idx, _} = :binary.match(html, "Quick start")
+      assert adoption_idx < quick_start_idx
+    end
+
+    test "the adoption message links to one-agent integration guidance", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      assert html =~ "Lowest-risk way to start"
+      assert html =~ ~s(href="/features/start-small")
+    end
+  end
+
   defp ensure_started(app) do
     case Application.ensure_all_started(app) do
       {:ok, _apps} -> :ok

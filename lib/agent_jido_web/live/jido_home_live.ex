@@ -25,6 +25,7 @@ defmodule AgentJidoWeb.JidoHomeLive do
     >
       <div id="home-page" class="container max-w-[1000px] mx-auto px-6">
         <.hero_section />
+        <.start_with_one_agent_section />
         <.what_you_can_build_section />
         <.quick_start_code />
         <.pillars_section />
@@ -88,6 +89,30 @@ defmodule AgentJidoWeb.JidoHomeLive do
           Start here.
         </.link>
       </p>
+    </section>
+    """
+  end
+
+  defp start_with_one_agent_section(assigns) do
+    ~H"""
+    <section id="start-with-one-agent" class="text-center mb-16 animate-fade-in">
+      <div class="max-w-2xl mx-auto rounded-xl border border-primary/20 bg-primary/5 px-6 py-7">
+        <span class="home-eyebrow-label text-[11px] font-semibold tracking-widest uppercase">
+          Lowest-risk way to start
+        </span>
+        <h2 class="text-2xl sm:text-3xl font-bold tracking-tight mt-3 mb-3">
+          Start with one Agent
+        </h2>
+        <p class="home-muted-copy text-[15px] leading-relaxed max-w-xl mx-auto mb-5">
+          Add a single supervised agent to the Elixir app you already run. No rewrite, no platform migration, and no separate service to deploy. Reach for AI, coordination, and more packages only when you need them.
+        </p>
+        <.link
+          navigate="/features/start-small"
+          class="text-primary hover:underline text-[13px] font-semibold"
+        >
+          How to start with one agent →
+        </.link>
+      </div>
     </section>
     """
   end
