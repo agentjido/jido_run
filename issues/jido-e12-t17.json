@@ -15,11 +15,15 @@
     {
       "text": "Open: automated Hex-version comparison not yet added.",
       "timestamp": "2026-07-24T12:54:59Z"
+    },
+    {
+      "text": "Done in this commit: the ecosystem version-freshness gate runs in mix test and reports stale dependency-package versions.",
+      "timestamp": "2026-07-24T16:45:27Z"
     }
   ],
   "priority": 1,
   "status": "in_progress",
   "title": "E12-T17 — Add automated Hex-version comparison.",
   "type": "task",
-  "updated_at": "2026-07-24T16:45:26Z"
+  "updated_at": "2026-07-24T16:45:27Z"
 }
