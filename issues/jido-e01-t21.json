@@ -1,5 +1,5 @@
 {
-  "assignee": "",
+  "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:00:51Z",
@@ -13,8 +13,8 @@
   ],
   "parent": "jido-e01",
   "priority": 0,
-  "status": "open",
+  "status": "in_progress",
   "title": "E01-T21 — Verify that first-run logs and errors redact provider keys, tokens, prompts, and tool arguments according to the documented configuration.",
   "type": "task",
-  "updated_at": "2026-07-23T12:00:51Z"
+  "updated_at": "2026-07-24T12:32:33Z"
 }
