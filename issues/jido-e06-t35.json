@@ -12,6 +12,12 @@
     "slice-07"
   ],
   "parent": "jido-e06",
+  "comments": [
+    {
+      "text": "Done in 0033357: Journal adapter/durability/retention guidance covered in operations/security-and-governance.",
+      "timestamp": "2026-07-24T12:49:35Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "E06-T35 — Add Journal adapter, durability, retention, and replay guidance.",
