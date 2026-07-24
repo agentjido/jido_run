@@ -12,9 +12,15 @@
     "slice-08"
   ],
   "parent": "jido-e07",
+  "comments": [
+    {
+      "text": "Open: Journal retention/access/deletion duties not yet a dedicated page.",
+      "timestamp": "2026-07-24T12:50:40Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E07-T45 — Define Journal retention, access, and deletion duties.",
   "type": "task",
-  "updated_at": "2026-07-23T12:04:57Z"
+  "updated_at": "2026-07-24T12:50:40Z"
 }
