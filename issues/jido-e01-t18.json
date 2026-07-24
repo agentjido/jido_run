@@ -12,9 +12,15 @@
     "slice-02"
   ],
   "parent": "jido-e01",
+  "comments": [
+    {
+      "text": "Done in 5f28d96: removed priv/examples/address-normalization-agent.md.tmp.",
+      "timestamp": "2026-07-24T12:25:51Z"
+    }
+  ],
   "priority": 0,
   "status": "in_progress",
   "title": "E01-T18 — Remove `priv/examples/address-normalization-agent.md.tmp`.",
   "type": "task",
-  "updated_at": "2026-07-24T12:25:50Z"
+  "updated_at": "2026-07-24T12:25:51Z"
 }
