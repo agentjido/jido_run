@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T16:45:27Z",
   "created": "2026-07-23T12:07:58Z",
   "description": "Backlog task: E12-T17\n\nWork area: Freshness and ownership\n\nMain targets: Release catalog\n\nComplete when: Stale ecosystem versions create a report.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e12-t17",
@@ -22,7 +23,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E12-T17 — Add automated Hex-version comparison.",
   "type": "task",
   "updated_at": "2026-07-24T16:45:27Z"
