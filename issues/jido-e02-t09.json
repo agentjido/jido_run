@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:35:03Z",
   "created": "2026-07-23T12:01:02Z",
   "description": "Backlog task: E02-T09\n\nWork area: Canonical message\n\nMain targets: Positioning and comparison specs\n\nComplete when: Copy states that Jido adds more structure than a prompt script.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e02-t09",
@@ -19,7 +20,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E02-T09 — Define the honest tradeoff.",
   "type": "task",
   "updated_at": "2026-07-24T12:35:03Z"
