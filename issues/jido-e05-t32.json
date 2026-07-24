@@ -16,11 +16,15 @@
     {
       "text": "Open: 'Add operational controls' onboarding lane depends on the controlled-Agent example (jido-e07).",
       "timestamp": "2026-07-24T12:48:44Z"
+    },
+    {
+      "text": "Accepted by the Zclaude Ralph supervisor. Commits: 64129bed. Verification: MIX_ENV=test mix compile \u0026\u0026 MIX_ENV=test mix format --check-formatted.",
+      "timestamp": "2026-07-24T23:53:08Z"
     }
   ],
   "priority": 1,
   "status": "in_progress",
   "title": "E05-T32 — Add a third onboarding lane called “Add operational controls.”",
   "type": "task",
-  "updated_at": "2026-07-24T23:34:30Z"
+  "updated_at": "2026-07-24T23:53:08Z"
 }
