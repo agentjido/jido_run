@@ -20,11 +20,15 @@
     {
       "text": "Done: ash_jido site copy has no 'policy bypass'/'secure by default' language; it preserves Ash authorization rather than implying a bypass.",
       "timestamp": "2026-07-24T16:28:04Z"
+    },
+    {
+      "text": "Clarification: the 'bypass' mentions in ash_jido copy are correct negations ('does not bypass policies or validations', 'does not bypass Ash authorization') — confirming AshJido preserves authorization, which is canon-compliant.",
+      "timestamp": "2026-07-24T16:28:53Z"
     }
   ],
   "priority": 1,
   "status": "closed",
   "title": "E09-T30 — Align Ash copy with its authorization and domain boundaries.",
   "type": "task",
-  "updated_at": "2026-07-24T16:28:04Z"
+  "updated_at": "2026-07-24T16:28:53Z"
 }
