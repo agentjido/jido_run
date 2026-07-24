@@ -11,9 +11,15 @@
     "epic-e10"
   ],
   "parent": "jido-e10",
+  "comments": [
+    {
+      "text": "Open: ecosystem package pages linked to matching Skills not yet done.",
+      "timestamp": "2026-07-24T12:53:36Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E10-T25 — Link ecosystem package pages to matching Skills.",
   "type": "task",
-  "updated_at": "2026-07-23T12:07:04Z"
+  "updated_at": "2026-07-24T12:53:36Z"
 }
