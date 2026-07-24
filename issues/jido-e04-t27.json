@@ -1,5 +1,5 @@
 {
-  "assignee": "",
+  "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:02:39Z",
@@ -13,8 +13,8 @@
   ],
   "parent": "jido-e04",
   "priority": 1,
-  "status": "open",
+  "status": "in_progress",
   "title": "E04-T27 — Remove “under ten minutes” until measured.",
   "type": "task",
-  "updated_at": "2026-07-23T12:02:39Z"
+  "updated_at": "2026-07-24T12:41:35Z"
 }
