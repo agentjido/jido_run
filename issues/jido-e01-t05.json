@@ -12,9 +12,15 @@
     "slice-01"
   ],
   "parent": "jido-e01",
+  "comments": [
+    {
+      "text": "Done in 5f28d96: model alias teaching moved after the explicit openai: request succeeds.",
+      "timestamp": "2026-07-24T12:25:46Z"
+    }
+  ],
   "priority": 0,
   "status": "in_progress",
   "title": "E01-T05 — Teach aliases only after the explicit-model request succeeds.",
   "type": "task",
-  "updated_at": "2026-07-24T12:25:45Z"
+  "updated_at": "2026-07-24T12:25:46Z"
 }
