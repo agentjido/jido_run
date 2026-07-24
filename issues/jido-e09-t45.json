@@ -12,9 +12,15 @@
     "slice-10"
   ],
   "parent": "jido-e09",
+  "comments": [
+    {
+      "text": "Open: core observation vs jido_otel vs audit separation on package pages not yet done.",
+      "timestamp": "2026-07-24T12:52:45Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E09-T45 — Separate core observation, `jido_otel` export, and audit history.",
   "type": "task",
-  "updated_at": "2026-07-23T12:06:34Z"
+  "updated_at": "2026-07-24T12:52:45Z"
 }
