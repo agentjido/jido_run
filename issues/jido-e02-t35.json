@@ -12,9 +12,15 @@
     "slice-03"
   ],
   "parent": "jido-e02",
+  "comments": [
+    {
+      "text": "Done in 28959a2: authorization defined as an application/Plugin decision that can fail closed before Action execution (§11).",
+      "timestamp": "2026-07-24T12:35:46Z"
+    }
+  ],
   "priority": 0,
   "status": "in_progress",
   "title": "E02-T35 — Define authorization as an application or Plugin decision that can fail closed before Action execution.",
   "type": "task",
-  "updated_at": "2026-07-24T12:35:45Z"
+  "updated_at": "2026-07-24T12:35:46Z"
 }
