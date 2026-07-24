@@ -11,9 +11,15 @@
     "epic-e08"
   ],
   "parent": "jido-e08",
+  "comments": [
+    {
+      "text": "Open: last-validated date/version set per example not yet added.",
+      "timestamp": "2026-07-24T12:51:52Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E08-T15 — Add a last-validated date and version set.",
   "type": "task",
-  "updated_at": "2026-07-23T12:05:18Z"
+  "updated_at": "2026-07-24T12:51:52Z"
 }
