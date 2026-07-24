@@ -1,5 +1,5 @@
 {
-  "assignee": "",
+  "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:02:22Z",
@@ -19,8 +19,8 @@
     }
   ],
   "priority": 1,
-  "status": "open",
+  "status": "in_progress",
   "title": "E04-T10 — Add a four-part Agent model section: state, lifecycle, typed boundaries, visible effects.",
   "type": "task",
-  "updated_at": "2026-07-24T12:46:29Z"
+  "updated_at": "2026-07-24T20:36:43Z"
 }
