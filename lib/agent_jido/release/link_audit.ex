@@ -124,7 +124,7 @@ defmodule AgentJido.Release.LinkAudit do
   defp collect_markdown_internal_links(root) do
     root
     |> markdown_paths()
-    |> Enum.flat_map(&scan_file_for_links(root, &1, @internal_md_link, :md, :path))
+    |> Enum.flat_map(&scan_file_for_links(root, &1, @internal_md_link, :md, :path, skip_code_fences: true))
     |> Enum.uniq()
   end
 
@@ -143,29 +143,58 @@ defmodule AgentJido.Release.LinkAudit do
   defp collect_markdown_external_links(root) do
     root
     |> markdown_paths()
-    |> Enum.flat_map(&scan_file_for_links(root, &1, @external_md_link, :md, :url))
+    |> Enum.flat_map(&scan_file_for_links(root, &1, @external_md_link, :md, :url, skip_code_fences: true))
     |> Enum.uniq()
   end
 
-  defp scan_file_for_links(root, path, regex, kind, value_key) do
+  defp scan_file_for_links(root, path, regex, kind, value_key, opts \\ []) do
+    skip_code_fences = Keyword.get(opts, :skip_code_fences, false)
     relative = Path.relative_to(path, root)
 
-    path
-    |> File.stream!([], :line)
-    |> Stream.with_index(1)
-    |> Enum.flat_map(fn {line, line_number} ->
-      Regex.scan(regex, line)
-      |> Enum.map(fn
-        [_full, captured] when value_key == :path ->
-          %{path: normalize_path(captured), source: "#{relative}:#{line_number}", kind: kind}
+    # Track fenced code blocks so links written inside ```, ~~~`, or indented
+    # Elixir cells are not mistaken for navigation links. This matters most for
+    # Livebooks, whose code cells frequently contain brackets and parentheses.
+    {_, links} =
+      path
+      |> File.stream!([], :line)
+      |> Stream.with_index(1)
+      |> Enum.reduce({false, []}, fn {line, line_number}, {in_fence?, acc} ->
+        cond do
+          skip_code_fences and fence_boundary?(line) ->
+            {not in_fence?, acc}
 
-        [_full, captured] when value_key == :url ->
-          %{url: String.trim(captured), source: "#{relative}:#{line_number}", kind: kind}
+          skip_code_fences and in_fence? ->
+            {in_fence?, acc}
+
+          true ->
+            matches =
+              Regex.scan(regex, line)
+              |> Enum.map(fn
+                [_full, captured] when value_key == :path ->
+                  %{path: normalize_path(captured), source: "#{relative}:#{line_number}", kind: kind}
+
+                [_full, captured] when value_key == :url ->
+                  %{url: String.trim(captured), source: "#{relative}:#{line_number}", kind: kind}
+              end)
+
+            {in_fence?, Enum.reduce(matches, acc, fn match, inner -> [match | inner] end)}
+        end
       end)
-    end)
+
+    Enum.reverse(links)
   end
 
-  defp markdown_paths(root), do: Path.wildcard(Path.join(root, "priv/pages/**/*.md")) |> Enum.sort()
+  defp fence_boundary?(line) do
+    trimmed = String.trim_leading(line)
+    String.starts_with?(trimmed, "```") or String.starts_with?(trimmed, "~~~")
+  end
+
+  defp markdown_paths(root) do
+    (Path.wildcard(Path.join(root, "priv/pages/**/*.md")) ++
+       Path.wildcard(Path.join(root, "priv/pages/**/*.livemd")))
+    |> Enum.uniq()
+    |> Enum.sort()
+  end
 
   defp heex_paths(root) do
     (Path.wildcard(Path.join(root, "lib/agent_jido_web/**/*.heex")) ++

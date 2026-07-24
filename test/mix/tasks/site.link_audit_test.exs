@@ -47,4 +47,36 @@ defmodule Mix.Tasks.Site.LinkAuditTest do
       end)
     end
   end
+
+  test "audits internal links inside Livebook (.livemd) files", %{report_path: report_path} do
+    root =
+      Path.join(System.tmp_dir!(), "site_link_audit_livemd_#{System.unique_integer([:positive])}")
+
+    pages = Path.join([root, "priv", "pages"])
+    File.mkdir_p!(pages)
+
+    # A real internal link to a live route, a broken internal link, and a link
+    # shaped like a route but written inside a code fence (must be ignored).
+    File.write!(Path.join(pages, "sample.livemd"), """
+    # Sample Livebook
+
+    See [the docs](/docs) and then [a broken link](/no/such/canonical/route).
+
+    ```elixir
+    # ignore this: [not a link](/also/inside/code)
+    ```
+    """)
+
+    on_exit(fn -> File.rm_rf!(root) end)
+
+    assert {:error, report} =
+             AgentJido.Release.LinkAudit.run(root: root, report_path: report_path)
+
+    unmatched_paths = Enum.map(report.unmatched_internal, & &1.path)
+
+    # The broken Livebook link is caught now that .livemd is in the input set.
+    assert "/no/such/canonical/route" in unmatched_paths
+    # The fenced-code pseudo-link is not mistaken for a navigation link.
+    refute "/also/inside/code" in unmatched_paths
+  end
 end

@@ -462,3 +462,30 @@ When implementing this taxonomy in code/content metadata:
 - add optional `scenario_cluster` metadata for examples
 - add `domain` to ecosystem package schema/frontmatter
 - expose docs package reference filters by ecosystem `layer + domain`
+
+## Route Status Table (`E00-T05`)
+
+Every content route family has exactly one state. This is the canonical reference
+for the link audit allow-list and for release gating.
+
+| Route family | State | Source | Notes |
+|---|---|---|---|
+| `/docs/**` (published) | public | `priv/pages/docs/**` | Excludes the draft set below |
+| `/docs/operations/**`, `/docs/reference/architecture/**`, 7 others | draft | `priv/pages/docs/**` (draft) | Hidden from published indexes; do not link from public pages (`E01-T16`) |
+| `/features/**` | public | `priv/pages/features/*.md` | |
+| `/build/**` | public | `priv/pages/build/*.md` | |
+| `/compare/**` | public | `priv/pages/compare/*.md` | |
+| `/examples/**` | public (22) / draft (24) | `priv/examples/*.md` | Status defaults to draft when unset (`E08-T30`) |
+| `/ecosystem/**` | public (47) / private (5) | `priv/ecosystem/*.md` | |
+| `/blog/**` | public | `priv/blog/**` | |
+| `/community/**` | public (2) / private (1) | `priv/community_showcase/**` | |
+| `/skills` | public (route) | LiveView | Catalog renders 0 cards until `E10-T23` |
+| `/training/**` | retired | `priv/pages/training/*.md` | Public routing retired; inbound links are defects (`E01-T15`) |
+| `/getting-started` | redirect (target) | legacy route | Redirect to `/docs/getting-started` (`E01-T13`) |
+
+State definitions:
+
+- **public** — indexed, sitemapped, linkable.
+- **draft** — exists in source, excluded from published indexes and sitemap; public pages must not link here.
+- **retired** — source retained for history; route returns 404; inbound links must be replaced (`E01-T15`).
+- **redirect** — route resolves to a canonical target.
