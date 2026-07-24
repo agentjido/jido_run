@@ -16,6 +16,10 @@
     {
       "text": "Open: quota-result example depends on T37.",
       "timestamp": "2026-07-24T12:51:57Z"
+    },
+    {
+      "text": "Done in this commit: quota-result example (calls succeed to the limit; the next call is rejected with an error directive and unchanged state). Telemetry-event capture of the quota event remains a follow-up.",
+      "timestamp": "2026-07-24T14:34:32Z"
     }
   ],
   "priority": 1,
