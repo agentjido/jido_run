@@ -11,9 +11,15 @@
     "epic-e06"
   ],
   "parent": "jido-e06",
+  "comments": [
+    {
+      "text": "Open: 'What to do next' block on every page not yet added.",
+      "timestamp": "2026-07-24T12:49:38Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E06-T14 — Add one “What to do next” block to every page.",
   "type": "task",
-  "updated_at": "2026-07-23T12:03:49Z"
+  "updated_at": "2026-07-24T12:49:38Z"
 }
