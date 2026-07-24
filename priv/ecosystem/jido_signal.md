@@ -2,7 +2,7 @@
   name: "jido_signal",
   title: "Jido Signal",
   graph_label: "Jido Signal",
-  version: "2.1.1",
+  version: "2.2.2",
   tagline: "CloudEvents-based event-driven communication toolkit for Elixir",
   license: "Apache-2.0",
   visibility: :public,
