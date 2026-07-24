@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T16:28:04Z",
   "created": "2026-07-23T12:06:18Z",
   "description": "Backlog task: E09-T29\n\nWork area: README and registry alignment\n\nMain targets: `jido_browser` record and examples\n\nComplete when: Stateless and session workflows are not mixed.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e09-t29",
@@ -22,8 +23,8 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E09-T29 — Align browser copy with its three retrieval lanes.",
   "type": "task",
-  "updated_at": "2026-07-24T16:28:03Z"
+  "updated_at": "2026-07-24T16:28:04Z"
 }
