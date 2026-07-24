@@ -11,9 +11,15 @@
     "epic-e06"
   ],
   "parent": "jido-e06",
+  "comments": [
+    {
+      "text": "Open: review of 'automatic recovery' language across docs not yet swept.",
+      "timestamp": "2026-07-24T12:49:39Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E06-T18 — Review every use of “automatic recovery.”",
   "type": "task",
-  "updated_at": "2026-07-23T12:03:53Z"
+  "updated_at": "2026-07-24T12:49:39Z"
 }
