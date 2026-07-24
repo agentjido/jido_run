@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:35:50Z",
   "created": "2026-07-23T12:01:36Z",
   "description": "Backlog task: E02-T43\n\nWork area: Canonical-source updates\n\nMain targets: Positioning spec\n\nComplete when: Jido integrates with IAM, policy, storage, SIEM, and telemetry systems; it does not replace them.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e02-t43",
@@ -19,7 +20,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E02-T43 — Define the integration posture.",
   "type": "task",
   "updated_at": "2026-07-24T12:35:50Z"
