@@ -15,11 +15,15 @@
     {
       "text": "Open: home use-case links in link audit/LiveView tests not yet added.",
       "timestamp": "2026-07-24T12:51:55Z"
+    },
+    {
+      "text": "Done: home use-case card links are scanned by the link audit (--include-heex covers the HEEx navigate=/examples); /examples resolves and the audit reports 0 unmatched, so a removed example cannot leave a broken home card.",
+      "timestamp": "2026-07-24T12:57:57Z"
     }
   ],
   "priority": 1,
   "status": "in_progress",
   "title": "E08-T33 — Add home use-case links to the link audit and LiveView tests.",
   "type": "task",
-  "updated_at": "2026-07-24T12:57:56Z"
+  "updated_at": "2026-07-24T12:57:57Z"
 }
