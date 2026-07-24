@@ -11,9 +11,15 @@
     "epic-e08"
   ],
   "parent": "jido-e08",
+  "comments": [
+    {
+      "text": "Open: direct source link per example not yet added.",
+      "timestamp": "2026-07-24T12:51:51Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E08-T13 — Add a direct source link to every example.",
   "type": "task",
-  "updated_at": "2026-07-23T12:05:16Z"
+  "updated_at": "2026-07-24T12:51:51Z"
 }
