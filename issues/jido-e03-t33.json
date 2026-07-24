@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:39:56Z",
   "created": "2026-07-23T12:02:11Z",
   "description": "Backlog task: E03-T33\n\nWork area: Tasks\n\nMain targets: All public content\n\nComplete when: Each use names core telemetry, optional OTel, dashboard, log, metric, or trace behavior.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e03-t33",
@@ -19,8 +20,8 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E03-T33 — Review every use of “observability.”",
   "type": "task",
-  "updated_at": "2026-07-24T12:39:55Z"
+  "updated_at": "2026-07-24T12:39:56Z"
 }
