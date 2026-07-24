@@ -16,11 +16,15 @@
     {
       "text": "Done: /skills.md resolves via the LLM plug + MarkdownContent /skills fallback (LegacyRedirects handles .md variants).",
       "timestamp": "2026-07-24T12:53:28Z"
+    },
+    {
+      "text": "Done in this commit: /skills resolves to markdown (MarkdownContent.resolve \"/skills\" returns the skills catalog summary); the .md variant is served by the LLMResponse plug + LegacyRedirects .md handling.",
+      "timestamp": "2026-07-24T18:40:40Z"
     }
   ],
   "priority": 1,
   "status": "closed",
   "title": "E10-T09 — Add `/skills.md`.",
   "type": "task",
-  "updated_at": "2026-07-24T12:53:28Z"
+  "updated_at": "2026-07-24T18:40:40Z"
 }
