@@ -15,6 +15,10 @@
     {
       "text": "Open: 'production-ready request orchestration' in jido_ai README/site not yet proven/removed upstream.",
       "timestamp": "2026-07-24T12:52:41Z"
+    },
+    {
+      "text": "Done: jido_ai site copy contains no 'production-ready request orchestration' claim (verified by grep); nothing to remove/qualify on the site side. Upstream jido_ai README change is separate.",
+      "timestamp": "2026-07-24T16:24:02Z"
     }
   ],
   "priority": 0,
