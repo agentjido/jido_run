@@ -131,7 +131,7 @@ A release **must not increase** the number of unmatched internal links.
 - Baseline (2026-07-23, frozen): **64 unmatched internal links** across 603
   internal links and 173 route patterns.
   Artifact: `specs/audits/link-audit-baseline-2026-07-23.md`.
-- Current ceiling: **32** (reduced from 64 by `E01` retired-training and
+- Current ceiling: **9** (reduced from 64 by retired-training redirects and the published Operations section (`E01`, `E07`) and
   getting-started legacy redirects). This is the max allowed count.
 - Check: `mix site.link_audit --include-heex --report tmp/link_audit_report.md`.
   The audit scans `priv/pages/**/*.{md,livemd}` and `lib/agent_jido_web/**/*.{heex,ex}`

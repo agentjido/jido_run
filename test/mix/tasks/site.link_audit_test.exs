@@ -44,7 +44,7 @@ defmodule Mix.Tasks.Site.LinkAuditTest do
   # internal-link count must not grow. Current ceiling is the observed count;
   # a PR that increases it must fix the links, redirect them, or consciously
   # bump this number (and update specs/runbooks/release_punchlist.md).
-  @link_ceiling 30
+  @link_ceiling 9
 
   test "release gate: unmatched internal links do not exceed the ceiling", %{report_path: report_path} do
     result = AgentJido.Release.LinkAudit.run(include_heex: true, report_path: report_path)

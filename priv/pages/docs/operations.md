@@ -5,7 +5,7 @@
   legacy_paths: [],
   tags: [:docs, :operations],
   order: 50,
-  draft: true
+  draft: false
 }
 ---
 
