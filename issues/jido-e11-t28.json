@@ -12,9 +12,15 @@
     "slice-11"
   ],
   "parent": "jido-e11",
+  "comments": [
+    {
+      "text": "Deferred: verified operational-control proof strip requires real verified projects.",
+      "timestamp": "2026-07-24T12:54:20Z"
+    }
+  ],
   "priority": 2,
   "status": "open",
   "title": "E11-T28 — Add a verified operational-control proof strip.",
   "type": "task",
-  "updated_at": "2026-07-23T12:07:41Z"
+  "updated_at": "2026-07-24T12:54:20Z"
 }
