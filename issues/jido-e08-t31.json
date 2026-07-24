@@ -11,6 +11,12 @@
     "epic-e08"
   ],
   "parent": "jido-e08",
+  "comments": [
+    {
+      "text": "Done in 7ecb2d3: all public example detail routes are in the sitemap (+ test).",
+      "timestamp": "2026-07-24T12:51:48Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "E08-T31 — Add all public example detail routes to the sitemap.",
