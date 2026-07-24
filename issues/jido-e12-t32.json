@@ -11,9 +11,15 @@
     "epic-e12"
   ],
   "parent": "jido-e12",
+  "comments": [
+    {
+      "text": "Open: author templates with new metadata/claim rules not yet updated.",
+      "timestamp": "2026-07-24T12:55:03Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E12-T32 — Update author templates with the new metadata and claim rules.",
   "type": "task",
-  "updated_at": "2026-07-23T12:08:13Z"
+  "updated_at": "2026-07-24T12:55:03Z"
 }
