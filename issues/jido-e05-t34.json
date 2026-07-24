@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T14:27:53Z",
   "created": "2026-07-23T12:03:28Z",
   "description": "Backlog task: E05-T34\n\nWork area: Maintenance and validation\n\nMain targets: Controlled onboarding guide\n\nComplete when: The example labels this as supplied context, not built-in authentication.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e05-t34",
@@ -23,8 +24,8 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E05-T34 — Add application-supplied principal and tenant context.",
   "type": "task",
-  "updated_at": "2026-07-24T14:27:52Z"
+  "updated_at": "2026-07-24T14:27:53Z"
 }
