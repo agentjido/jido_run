@@ -1,5 +1,5 @@
 {
-  "assignee": "Mike Hostetler",
+  "assignee": "",
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:00:39Z",
@@ -19,7 +19,7 @@
     }
   ],
   "priority": 0,
-  "status": "in_progress",
+  "status": "open",
   "title": "E01-T09 — Expand tokens before the downloadable Livebook artifact is generated.",
   "type": "task",
   "updated_at": "2026-07-24T12:32:35Z"
