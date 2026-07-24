@@ -16,6 +16,10 @@
     {
       "text": "Open: redaction fixtures/expected output depend on T37.",
       "timestamp": "2026-07-24T12:51:58Z"
+    },
+    {
+      "text": "Done in this commit: redaction fixture + expected output — the RedactedAction takes a secret token and the test proves it is absent from telemetry metadata.",
+      "timestamp": "2026-07-24T15:06:23Z"
     }
   ],
   "priority": 1,
