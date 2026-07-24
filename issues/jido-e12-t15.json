@@ -11,9 +11,15 @@
     "epic-e12"
   ],
   "parent": "jido-e12",
+  "comments": [
+    {
+      "text": "Open: 90-day review queue for onboarding/operations content not yet implemented.",
+      "timestamp": "2026-07-24T12:54:59Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E12-T15 — Create a 90-day review queue for onboarding and operations content.",
   "type": "task",
-  "updated_at": "2026-07-23T12:07:56Z"
+  "updated_at": "2026-07-24T12:54:59Z"
 }
