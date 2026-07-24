@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:48:41Z",
   "created": "2026-07-23T12:02:56Z",
   "description": "Backlog task: E05-T02\n\nWork area: Route and structure\n\nMain targets: Getting Started hub\n\nComplete when: AI is optional and appears second.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e05-t02",
@@ -19,8 +20,8 @@
     }
   ],
   "priority": 0,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E05-T02 — Give the route two explicit lanes: Core Agent and AI Agent.",
   "type": "task",
-  "updated_at": "2026-07-24T12:48:40Z"
+  "updated_at": "2026-07-24T12:48:41Z"
 }
