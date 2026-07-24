@@ -16,11 +16,15 @@
     {
       "text": "Open: giving each use-case card a unique destination needs one public example per home use case (jido-e08 T24-T29); several do not exist yet.",
       "timestamp": "2026-07-24T12:46:29Z"
+    },
+    {
+      "text": "Accepted by the Zclaude Ralph supervisor. Commits: eadd75f. Verification: MIX_ENV=test mix compile \u0026\u0026 MIX_ENV=test mix format --check-formatted.",
+      "timestamp": "2026-07-24T21:01:48Z"
     }
   ],
   "priority": 1,
   "status": "in_progress",
   "title": "E04-T21 — Give each use-case card a unique destination.",
   "type": "task",
-  "updated_at": "2026-07-24T20:43:44Z"
+  "updated_at": "2026-07-24T21:01:48Z"
 }
