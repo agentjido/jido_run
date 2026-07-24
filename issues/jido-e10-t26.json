@@ -11,9 +11,15 @@
     "epic-e10"
   ],
   "parent": "jido-e10",
+  "comments": [
+    {
+      "text": "Open: 'use the router when unsure' copy not yet on the Skills hub.",
+      "timestamp": "2026-07-24T12:53:36Z"
+    }
+  ],
   "priority": 2,
   "status": "open",
   "title": "E10-T26 — Add “Use the router when unsure” copy from the skills README.",
   "type": "task",
-  "updated_at": "2026-07-23T12:07:05Z"
+  "updated_at": "2026-07-24T12:53:36Z"
 }
