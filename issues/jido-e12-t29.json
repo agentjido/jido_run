@@ -11,9 +11,15 @@
     "epic-e12"
   ],
   "parent": "jido-e12",
+  "comments": [
+    {
+      "text": "Open: Docs no-results/reformulation analytics not yet instrumented.",
+      "timestamp": "2026-07-24T12:55:02Z"
+    }
+  ],
   "priority": 2,
   "status": "open",
   "title": "E12-T29 — Measure Docs search no-results and reformulations.",
   "type": "task",
-  "updated_at": "2026-07-23T12:08:10Z"
+  "updated_at": "2026-07-24T12:55:02Z"
 }
