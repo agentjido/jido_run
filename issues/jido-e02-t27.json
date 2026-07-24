@@ -12,6 +12,12 @@
     "slice-03"
   ],
   "parent": "jido-e02",
+  "comments": [
+    {
+      "text": "Done in 0328efd: persona-journeys.md updated (v3) — anchor aligned to the canon.",
+      "timestamp": "2026-07-24T12:36:05Z"
+    }
+  ],
   "priority": 0,
   "status": "in_progress",
   "title": "E02-T27 — Update persona journeys.",
