@@ -11,9 +11,15 @@
     "epic-e10"
   ],
   "parent": "jido-e10",
+  "comments": [
+    {
+      "text": "Open: example tasks/packages/outcomes in indexed fields not yet done.",
+      "timestamp": "2026-07-24T12:53:31Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E10-T02 — Add example tasks, packages, and outcomes to indexed fields.",
   "type": "task",
-  "updated_at": "2026-07-23T12:06:41Z"
+  "updated_at": "2026-07-24T12:53:31Z"
 }
