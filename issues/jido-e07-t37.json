@@ -12,9 +12,15 @@
     "slice-08"
   ],
   "parent": "jido-e07",
+  "comments": [
+    {
+      "text": "Open: principal/tenant/causation context propagation depends on the reference app.",
+      "timestamp": "2026-07-24T12:50:38Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E07-T37 — Carry principal, tenant, request, correlation, and causation context in the incoming Signal.",
   "type": "task",
-  "updated_at": "2026-07-23T12:04:49Z"
+  "updated_at": "2026-07-24T12:50:38Z"
 }
