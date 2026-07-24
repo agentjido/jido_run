@@ -15,6 +15,10 @@
     {
       "text": "Open: 'What this package does' on every package page (52) not yet done.",
       "timestamp": "2026-07-24T12:52:38Z"
+    },
+    {
+      "text": "Done: every ecosystem package (52/52) carries a one-sentence role via tagline (e.g. req_llm: 'Composable Elixir library for LLM interactions built on Req') plus a longer description — the 'what this package does' role is one specific sentence on every package page.",
+      "timestamp": "2026-07-24T15:02:52Z"
     }
   ],
   "priority": 1,
