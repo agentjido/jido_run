@@ -12,9 +12,15 @@
     "slice-06"
   ],
   "parent": "jido-e05",
+  "comments": [
+    {
+      "text": "Done in 5f28d96: first-LLM path shows a successful request path with provider/model check.",
+      "timestamp": "2026-07-24T12:48:04Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "E05-T22 — Show one successful tool call with a verified result.",
   "type": "task",
-  "updated_at": "2026-07-24T12:48:03Z"
+  "updated_at": "2026-07-24T12:48:04Z"
 }
