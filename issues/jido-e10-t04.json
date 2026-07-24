@@ -11,9 +11,15 @@
     "epic-e10"
   ],
   "parent": "jido-e10",
+  "comments": [
+    {
+      "text": "Open: search aliases (agent server, supervision, durable, tools, function calling) not yet added.",
+      "timestamp": "2026-07-24T12:53:32Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E10-T04 — Add common aliases: agent server, AgentServer, supervision, restart, durable, long-running, tools, and function calling.",
   "type": "task",
-  "updated_at": "2026-07-23T12:06:43Z"
+  "updated_at": "2026-07-24T12:53:32Z"
 }
