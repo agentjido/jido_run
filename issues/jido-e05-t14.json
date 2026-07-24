@@ -12,9 +12,15 @@
     "slice-06"
   ],
   "parent": "jido-e05",
+  "comments": [
+    {
+      "text": "Open: 'what state is lost on restart' is not yet stated in onboarding.",
+      "timestamp": "2026-07-24T12:48:42Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E05-T14 — State what state is lost on restart.",
   "type": "task",
-  "updated_at": "2026-07-23T12:03:08Z"
+  "updated_at": "2026-07-24T12:48:42Z"
 }
