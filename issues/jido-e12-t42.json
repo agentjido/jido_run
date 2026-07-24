@@ -12,9 +12,15 @@
     "slice-12"
   ],
   "parent": "jido-e12",
+  "comments": [
+    {
+      "text": "Open: durable-history restart test depends on the reference app.",
+      "timestamp": "2026-07-24T12:55:05Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E12-T42 — Add a durable-history restart test.",
   "type": "task",
-  "updated_at": "2026-07-23T12:08:23Z"
+  "updated_at": "2026-07-24T12:55:05Z"
 }
