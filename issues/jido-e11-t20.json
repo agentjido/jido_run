@@ -11,9 +11,15 @@
     "epic-e11"
   ],
   "parent": "jido-e11",
+  "comments": [
+    {
+      "text": "Open: proof link beside every remaining production claim not yet added site-wide.",
+      "timestamp": "2026-07-24T12:54:18Z"
+    }
+  ],
   "priority": 2,
   "status": "open",
   "title": "E11-T20 — Add a proof link beside every remaining production claim.",
   "type": "task",
-  "updated_at": "2026-07-23T12:07:33Z"
+  "updated_at": "2026-07-24T12:54:18Z"
 }
