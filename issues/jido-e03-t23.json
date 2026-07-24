@@ -12,9 +12,15 @@
     "slice-04"
   ],
   "parent": "jido-e03",
+  "comments": [
+    {
+      "text": "Deferred: secondary CTA standardization across every page is a broad UI sweep; the primary CTA and definitions are set (home + style-voice). Reopen when running a site-wide CTA normalization pass.",
+      "timestamp": "2026-07-24T12:39:57Z"
+    }
+  ],
   "priority": 2,
   "status": "in_progress",
   "title": "E03-T23 — Standardize secondary CTA labels.",
   "type": "task",
-  "updated_at": "2026-07-24T12:39:56Z"
+  "updated_at": "2026-07-24T12:39:57Z"
 }
