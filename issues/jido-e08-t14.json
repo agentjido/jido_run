@@ -11,9 +11,15 @@
     "epic-e08"
   ],
   "parent": "jido-e08",
+  "comments": [
+    {
+      "text": "Open: 'Run locally' command per example not yet added.",
+      "timestamp": "2026-07-24T12:51:51Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E08-T14 — Add a “Run locally” command to every runnable example.",
   "type": "task",
-  "updated_at": "2026-07-23T12:05:17Z"
+  "updated_at": "2026-07-24T12:51:51Z"
 }
