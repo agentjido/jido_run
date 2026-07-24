@@ -11,9 +11,15 @@
     "epic-e09"
   ],
   "parent": "jido-e09",
+  "comments": [
+    {
+      "text": "Open: README-drift review in ecosystem ingestion not yet added.",
+      "timestamp": "2026-07-24T12:52:43Z"
+    }
+  ],
   "priority": 2,
   "status": "open",
   "title": "E09-T32 — Add a README-drift review to ecosystem ingestion.",
   "type": "task",
-  "updated_at": "2026-07-23T12:06:21Z"
+  "updated_at": "2026-07-24T12:52:43Z"
 }
