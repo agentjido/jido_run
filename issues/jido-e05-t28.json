@@ -12,9 +12,15 @@
     "slice-06"
   ],
   "parent": "jido-e05",
+  "comments": [
+    {
+      "text": "Open: package-version metadata on onboarding pages not yet added.",
+      "timestamp": "2026-07-24T12:48:43Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E05-T28 — Add package-version metadata to onboarding pages.",
   "type": "task",
-  "updated_at": "2026-07-23T12:03:22Z"
+  "updated_at": "2026-07-24T12:48:43Z"
 }
