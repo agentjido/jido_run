@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T14:41:19Z",
   "created": "2026-07-23T12:08:23Z",
   "description": "Backlog task: E12-T42\n\nWork area: Operational-control quality gates\n\nMain targets: Signal Journal integration tests\n\nComplete when: The required causal records remain available after the tested restart.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e12-t42",
@@ -23,8 +24,8 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E12-T42 — Add a durable-history restart test.",
   "type": "task",
-  "updated_at": "2026-07-24T14:41:18Z"
+  "updated_at": "2026-07-24T14:41:19Z"
 }
