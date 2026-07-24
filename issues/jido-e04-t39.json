@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T22:17:48Z",
   "created": "2026-07-23T12:02:51Z",
   "description": "Backlog task: E04-T39\n\nWork area: Use cases, ecosystem, and conversion\n\nMain targets: Home control section or linked explainer\n\nComplete when: Evaluators see the distinction before they infer compliance.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e04-t39",
@@ -23,8 +24,8 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E04-T39 — Add a visible note that telemetry is not an audit log.",
   "type": "task",
-  "updated_at": "2026-07-24T22:17:47Z"
+  "updated_at": "2026-07-24T22:17:48Z"
 }
