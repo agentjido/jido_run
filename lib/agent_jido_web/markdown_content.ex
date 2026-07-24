@@ -8,6 +8,7 @@ defmodule AgentJidoWeb.MarkdownContent do
   alias AgentJido.Ecosystem
   alias AgentJido.Examples
   alias AgentJido.Pages
+  alias AgentJido.ReleaseCatalog
 
   @doc """
   Returns true when the request path is in the markdown-enabled public route set.
@@ -55,7 +56,11 @@ defmodule AgentJidoWeb.MarkdownContent do
       {:ok, page, _resolution} ->
         case read_source_markdown(map_get(page, :source_path)) do
           {:ok, markdown} ->
-            {:ok, markdown}
+            # Expand release placeholders so the public `.md` payload carries real
+            # dependency requirements instead of raw `{{mix_dep:*}}` tokens. This
+            # keeps the Markdown endpoint in parity with the rendered HTML page
+            # (see E01-T08). Pages are the surface that uses these tokens.
+            {:ok, ReleaseCatalog.expand_placeholders(markdown)}
 
           _other ->
             {:fallback, map_get(page, :title) || "Site Page", page_summary(page)}

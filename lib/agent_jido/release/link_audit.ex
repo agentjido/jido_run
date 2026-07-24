@@ -57,7 +57,10 @@ defmodule AgentJido.Release.LinkAudit do
 
     unmatched_internal =
       internal_links
-      |> Enum.reject(&(ignored_path?(&1.path) or matches_any_route?(&1.path, routes) or allowed_unmatched?(&1.path, allowed_prefixes)))
+      |> Enum.reject(
+        &(ignored_path?(&1.path) or matches_any_route?(&1.path, routes) or
+            legacy_redirect?(&1.path) or allowed_unmatched?(&1.path, allowed_prefixes))
+      )
 
     {external_count, external_warnings, external_failures} =
       if check_external do
@@ -247,6 +250,13 @@ defmodule AgentJido.Release.LinkAudit do
 
   defp allowed_unmatched?(path, prefixes) do
     Enum.any?(prefixes, &String.starts_with?(path, &1))
+  end
+
+  # A link to a path that the site redirects (301) to a canonical route is not
+  # broken. This keeps the audit in parity with the runtime LegacyRedirects
+  # table (jido-e01: E01-T13/T14/T15).
+  defp legacy_redirect?(path) do
+    is_binary(AgentJidoWeb.LegacyRedirects.destination(path))
   end
 
   defp check_external_links(external_links) do

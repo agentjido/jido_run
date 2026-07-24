@@ -9,7 +9,18 @@ defmodule AgentJidoWeb.LegacyRedirects do
   @doc_redirects AgentJido.Pages.docs_legacy_redirects()
   @extra_redirects [
     {"/ecosystem/matrix", "/ecosystem#compare"},
-    {"/ecosystem/package-matrix", "/ecosystem#compare"}
+    {"/ecosystem/package-matrix", "/ecosystem#compare"},
+    # The public Training routes are retired and /getting-started was superseded
+    # by the canonical /docs/getting-started path. Redirect both HTML and .md
+    # variants to active Docs/Examples routes (jido-e01: E01-T13, E01-T14, E01-T15).
+    {"/getting-started", "/docs/getting-started"},
+    {"/training", "/docs/getting-started"},
+    {"/training/agent-fundamentals", "/docs/getting-started/first-agent"},
+    {"/training/actions-validation", "/docs/concepts/actions"},
+    {"/training/signals-routing", "/docs/concepts/signals"},
+    {"/training/directives-scheduling", "/docs/concepts/directives"},
+    {"/training/liveview-integration", "/docs/getting-started/elixir-developers"},
+    {"/training/production-readiness", "/docs/guides/error-handling-and-recovery"}
   ]
 
   @redirects Map.new(@doc_redirects ++ @extra_redirects)
