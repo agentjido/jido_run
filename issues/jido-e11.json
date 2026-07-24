@@ -7,6 +7,7 @@
   "blocks": [
     "jido-e12"
   ],
+  "closed_at": "2026-07-24T02:30:50Z",
   "created": "2026-07-23T12:00:12Z",
   "description": "Replace borrowed credibility and broad claims with direct Jido adoption evidence.\n\nExit criteria:\n- At least three detailed, qualified Jido case studies are public.\n- Existing showcase entries state their real Jido relationship.\n- Performance and time claims have methods or are absent.\n- Community faults feed tests and documentation.\n- At least one case study shows how a real team identifies, constrains, observes, and investigates Agent work.\n- Security and compliance language does not exceed the reviewed evidence.\n\nBacklog tasks: 28\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e11",
@@ -17,8 +18,8 @@
   ],
   "parent": "jido-site-facelift",
   "priority": 1,
-  "status": "open",
+  "status": "closed",
   "title": "E11 — Add community and production evidence",
   "type": "epic",
-  "updated_at": "2026-07-24T00:27:18Z"
+  "updated_at": "2026-07-24T02:30:50Z"
 }
