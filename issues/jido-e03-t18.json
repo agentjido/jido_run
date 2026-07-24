@@ -12,9 +12,15 @@
     "slice-04"
   ],
   "parent": "jido-e03",
+  "comments": [
+    {
+      "text": "Done in 61ad79c: bounded-failure copy replaces \"never takes down another\" on the home BEAM section; no occurrences in features/build.",
+      "timestamp": "2026-07-24T12:39:49Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "E03-T18 — Qualify “one Agent failing never takes down another.”",
   "type": "task",
-  "updated_at": "2026-07-24T12:39:48Z"
+  "updated_at": "2026-07-24T12:39:49Z"
 }
