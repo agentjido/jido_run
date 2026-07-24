@@ -11,9 +11,15 @@
     "epic-e07"
   ],
   "parent": "jido-e07",
+  "comments": [
+    {
+      "text": "Open: production-path index on home/Docs hubs not yet added.",
+      "timestamp": "2026-07-24T12:50:37Z"
+    }
+  ],
   "priority": 2,
   "status": "open",
   "title": "E07-T34 — Add a short production-path index to the home and Docs hubs.",
   "type": "task",
-  "updated_at": "2026-07-23T12:04:46Z"
+  "updated_at": "2026-07-24T12:50:37Z"
 }
