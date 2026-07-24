@@ -1,5 +1,5 @@
 {
-  "assignee": "",
+  "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:04:56Z",
@@ -19,8 +19,8 @@
     }
   ],
   "priority": 1,
-  "status": "open",
+  "status": "in_progress",
   "title": "E07-T44 — Configure a durable Signal Journal for the proof path.",
   "type": "task",
-  "updated_at": "2026-07-24T12:50:40Z"
+  "updated_at": "2026-07-24T14:41:17Z"
 }
