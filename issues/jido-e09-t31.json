@@ -15,11 +15,15 @@
     {
       "text": "Open: Runic copy alignment not yet swept.",
       "timestamp": "2026-07-24T12:52:43Z"
+    },
+    {
+      "text": "Done: jido_runic site copy does not describe Runic as the default Jido orchestrator and has no 'production-ready'/'autonomous' overstatement.",
+      "timestamp": "2026-07-24T16:28:05Z"
     }
   ],
   "priority": 1,
   "status": "in_progress",
   "title": "E09-T31 — Align Runic copy with DAG, Signal-Fact, Strategy, and provenance roles.",
   "type": "task",
-  "updated_at": "2026-07-24T16:28:04Z"
+  "updated_at": "2026-07-24T16:28:05Z"
 }
