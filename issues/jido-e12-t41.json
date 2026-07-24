@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T15:06:23Z",
   "created": "2026-07-23T12:08:22Z",
   "description": "Backlog task: E12-T41\n\nWork area: Operational-control quality gates\n\nMain targets: Logs, telemetry, Journal, and error tests\n\nComplete when: Defined secret and personal-data fixtures do not appear in captured output.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e12-t41",
@@ -23,8 +24,8 @@
     }
   ],
   "priority": 0,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E12-T41 — Add a sensitive-data redaction regression test.",
   "type": "task",
-  "updated_at": "2026-07-24T15:06:22Z"
+  "updated_at": "2026-07-24T15:06:23Z"
 }
