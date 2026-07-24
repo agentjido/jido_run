@@ -11,9 +11,15 @@
     "epic-e10"
   ],
   "parent": "jido-e10",
+  "comments": [
+    {
+      "text": "Open: Skill cards with package/task/maturity/source not yet rendered.",
+      "timestamp": "2026-07-24T12:53:36Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E10-T24 — Give each Skill card a package, task, maturity note, and source.",
   "type": "task",
-  "updated_at": "2026-07-23T12:07:03Z"
+  "updated_at": "2026-07-24T12:53:36Z"
 }
