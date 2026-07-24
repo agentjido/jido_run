@@ -12,9 +12,15 @@
     "slice-10"
   ],
   "parent": "jido-e09",
+  "comments": [
+    {
+      "text": "Open: control capability/limitation fields on each package page not yet added.",
+      "timestamp": "2026-07-24T12:52:44Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E09-T41 — Add control capability and limitation fields to each package page.",
   "type": "task",
-  "updated_at": "2026-07-23T12:06:30Z"
+  "updated_at": "2026-07-24T12:52:44Z"
 }
