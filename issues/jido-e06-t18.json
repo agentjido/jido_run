@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:57:56Z",
   "created": "2026-07-23T12:03:53Z",
   "description": "Backlog task: E06-T18\n\nWork area: Content hygiene\n\nMain targets: Docs pages\n\nComplete when: Each use says process restart, state restore, retry, or reconciliation.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e06-t18",
@@ -22,7 +23,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E06-T18 — Review every use of “automatic recovery.”",
   "type": "task",
   "updated_at": "2026-07-24T12:57:56Z"
