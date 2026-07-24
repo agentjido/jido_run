@@ -12,9 +12,15 @@
     "slice-09"
   ],
   "parent": "jido-e07",
+  "comments": [
+    {
+      "text": "Done in e276f86 + 0033357: explicit non-goals (no complete IAM/audit/compliance/no-downtime claims) stated.",
+      "timestamp": "2026-07-24T12:50:31Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "E07-T51 — Publish explicit non-goals for the control position.",
   "type": "task",
-  "updated_at": "2026-07-24T12:50:30Z"
+  "updated_at": "2026-07-24T12:50:31Z"
 }
