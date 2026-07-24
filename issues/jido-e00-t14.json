@@ -11,9 +11,15 @@
     "epic-e00"
   ],
   "parent": "jido-e00",
+  "comments": [
+    {
+      "text": "Done in eb56808: authorization/policy control-point inventory (prepare_signal/2, prepare_action/3, AI policies, Ash) in specs/audits/control-inventory-2026-07-23.md.",
+      "timestamp": "2026-07-24T12:25:03Z"
+    }
+  ],
   "priority": 0,
   "status": "in_progress",
   "title": "E00-T14 — Inventory every authorization and policy control point.",
   "type": "task",
-  "updated_at": "2026-07-24T12:25:02Z"
+  "updated_at": "2026-07-24T12:25:03Z"
 }
