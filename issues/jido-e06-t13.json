@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T13:00:52Z",
   "created": "2026-07-23T12:03:48Z",
   "description": "Backlog task: E06-T13\n\nWork area: Content hygiene\n\nMain targets: Docs templates\n\nComplete when: A reader knows what “done” means.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e06-t13",
@@ -22,7 +23,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E06-T13 — Add one clear expected outcome to every guide.",
   "type": "task",
   "updated_at": "2026-07-24T13:00:52Z"
