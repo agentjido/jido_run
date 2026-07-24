@@ -1,5 +1,5 @@
 {
-  "assignee": "",
+  "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:08:20Z",
@@ -19,8 +19,8 @@
     }
   ],
   "priority": 0,
-  "status": "open",
+  "status": "in_progress",
   "title": "E12-T39 — Run the integrated controlled-Agent example in CI.",
   "type": "task",
-  "updated_at": "2026-07-24T12:55:04Z"
+  "updated_at": "2026-07-24T20:02:28Z"
 }
