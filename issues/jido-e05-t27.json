@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:59:43Z",
   "created": "2026-07-23T12:03:21Z",
   "description": "Backlog task: E05-T27\n\nWork area: Maintenance and validation\n\nMain targets: Onboarding content\n\nComplete when: Output is tested or clearly marked illustrative.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e05-t27",
@@ -23,7 +24,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E05-T27 — Add copyable expected output after each first-run block.",
   "type": "task",
   "updated_at": "2026-07-24T12:59:43Z"
