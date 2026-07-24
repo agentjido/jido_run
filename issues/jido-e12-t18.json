@@ -11,9 +11,15 @@
     "epic-e12"
   ],
   "parent": "jido-e12",
+  "comments": [
+    {
+      "text": "Open: upstream README change detection not yet added.",
+      "timestamp": "2026-07-24T12:55:00Z"
+    }
+  ],
   "priority": 2,
   "status": "open",
   "title": "E12-T18 — Add upstream README change detection for priority packages.",
   "type": "task",
-  "updated_at": "2026-07-23T12:07:59Z"
+  "updated_at": "2026-07-24T12:55:00Z"
 }
