@@ -11,9 +11,15 @@
     "epic-e09"
   ],
   "parent": "jido-e09",
+  "comments": [
+    {
+      "text": "Open: Action purity language alignment not yet swept.",
+      "timestamp": "2026-07-24T12:52:41Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E09-T25 — Align Action purity language with `jido_action` and `jido_ai` READMEs.",
   "type": "task",
-  "updated_at": "2026-07-23T12:06:14Z"
+  "updated_at": "2026-07-24T12:52:41Z"
 }
