@@ -11,9 +11,15 @@
     "epic-e12"
   ],
   "parent": "jido-e12",
+  "comments": [
+    {
+      "text": "Open: monthly content-quality dashboard not yet built.",
+      "timestamp": "2026-07-24T12:55:02Z"
+    }
+  ],
   "priority": 2,
   "status": "open",
   "title": "E12-T30 — Add a monthly content quality dashboard.",
   "type": "task",
-  "updated_at": "2026-07-23T12:08:11Z"
+  "updated_at": "2026-07-24T12:55:02Z"
 }
