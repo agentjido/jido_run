@@ -15,6 +15,10 @@
     {
       "text": "Open: duplicate-Signal idempotency example needs the reference app.",
       "timestamp": "2026-07-24T12:50:34Z"
+    },
+    {
+      "text": "Done in this commit: duplicate-Signal-delivery idempotency — the same key is applied once.",
+      "timestamp": "2026-07-24T14:35:41Z"
     }
   ],
   "priority": 1,
