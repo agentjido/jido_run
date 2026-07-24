@@ -16,11 +16,15 @@
     {
       "text": "Open: LLMDB metadata/capability explanation is not yet in AI onboarding.",
       "timestamp": "2026-07-24T12:48:42Z"
+    },
+    {
+      "text": "Done in this commit: first-LLM tutorial explains llm_db resolves aliases to a concrete provider/model and supplies capabilities.",
+      "timestamp": "2026-07-24T13:00:52Z"
     }
   ],
   "priority": 1,
   "status": "in_progress",
   "title": "E05-T19 — Explain that LLMDB resolves model metadata and capabilities.",
   "type": "task",
-  "updated_at": "2026-07-24T13:00:51Z"
+  "updated_at": "2026-07-24T13:00:52Z"
 }
