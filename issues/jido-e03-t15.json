@@ -12,9 +12,15 @@
     "slice-04"
   ],
   "parent": "jido-e03",
+  "comments": [
+    {
+      "text": "Done in d7c403f: feature title \"Observe everything\" -\u003e \"Instrument agent lifecycles\" (route stable).",
+      "timestamp": "2026-07-24T12:39:47Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "E03-T15 — Replace “Observe everything” with “Instrument Agent lifecycles.”",
   "type": "task",
-  "updated_at": "2026-07-24T12:39:46Z"
+  "updated_at": "2026-07-24T12:39:47Z"
 }
