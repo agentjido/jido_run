@@ -16,6 +16,10 @@
     {
       "text": "Open: fail-closed prepare_action/3 in the reference app not yet implemented.",
       "timestamp": "2026-07-24T12:50:39Z"
+    },
+    {
+      "text": "Done in this commit: prepare_action/3 is a fail-closed authorization point in the controlled-agent reference demo; unauthorized Actions return a denial and do not run their effect.",
+      "timestamp": "2026-07-24T14:27:11Z"
     }
   ],
   "priority": 1,
