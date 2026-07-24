@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:57:55Z",
   "created": "2026-07-23T12:03:23Z",
   "description": "Backlog task: E05-T29\n\nWork area: Maintenance and validation\n\nMain targets: Onboarding pages\n\nComplete when: The path continues without returning to a hub.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e05-t29",
@@ -23,7 +24,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E05-T29 — Add “Next: Build” and “Next: Operate” links.",
   "type": "task",
   "updated_at": "2026-07-24T12:57:55Z"
