@@ -12,9 +12,15 @@
     "slice-08"
   ],
   "parent": "jido-e07",
+  "comments": [
+    {
+      "text": "Open: causation/correlation ingress-to-effect depends on the reference app.",
+      "timestamp": "2026-07-24T12:50:40Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E07-T46 — Keep causation and correlation context from ingress to external effect.",
   "type": "task",
-  "updated_at": "2026-07-23T12:04:58Z"
+  "updated_at": "2026-07-24T12:50:40Z"
 }
