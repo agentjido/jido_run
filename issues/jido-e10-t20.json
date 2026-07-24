@@ -11,9 +11,15 @@
     "epic-e10"
   ],
   "parent": "jido-e10",
+  "comments": [
+    {
+      "text": "Open: MCP parity tests for page content not yet added.",
+      "timestamp": "2026-07-24T12:53:35Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E10-T20 — Add MCP parity tests for page content.",
   "type": "task",
-  "updated_at": "2026-07-23T12:06:59Z"
+  "updated_at": "2026-07-24T12:53:35Z"
 }
