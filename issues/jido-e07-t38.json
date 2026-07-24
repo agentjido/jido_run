@@ -12,9 +12,15 @@
     "slice-08"
   ],
   "parent": "jido-e07",
+  "comments": [
+    {
+      "text": "Open: prepare_signal/2 context verification depends on the reference app.",
+      "timestamp": "2026-07-24T12:50:38Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E07-T38 — Use `prepare_signal/2` to verify or enrich runtime context.",
   "type": "task",
-  "updated_at": "2026-07-23T12:04:50Z"
+  "updated_at": "2026-07-24T12:50:38Z"
 }
