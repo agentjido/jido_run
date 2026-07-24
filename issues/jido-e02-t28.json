@@ -12,6 +12,12 @@
     "slice-03"
   ],
   "parent": "jido-e02",
+  "comments": [
+    {
+      "text": "Done in 0328efd: proof.md updated (v2) — anchor aligned; notes Operations pages now published and retired training no longer proof.",
+      "timestamp": "2026-07-24T12:36:06Z"
+    }
+  ],
   "priority": 0,
   "status": "in_progress",
   "title": "E02-T28 — Update the proof inventory against current published assets.",
