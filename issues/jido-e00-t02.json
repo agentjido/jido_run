@@ -11,6 +11,12 @@
     "epic-e00"
   ],
   "parent": "jido-e00",
+  "comments": [
+    {
+      "text": "Done in eb56808: specs/audits/content-inventory-baseline-2026-07-23.md has Docs/Livebooks/Features/Build/Compare/Examples/Ecosystem/Blog/Community/Skills counts with reproducible method.",
+      "timestamp": "2026-07-24T12:24:41Z"
+    }
+  ],
   "priority": 0,
   "status": "in_progress",
   "title": "E00-T02 — Save the current content inventory as a dated baseline. Include published, draft, and retired records.",
