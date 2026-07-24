@@ -11,9 +11,15 @@
     "epic-e06"
   ],
   "parent": "jido-e06",
+  "comments": [
+    {
+      "text": "Open: primary Docs sections -\u003e Start/Build/Operate/Reference/Ecosystem/Contribute is a large IA restructure; not yet executed.",
+      "timestamp": "2026-07-24T12:49:35Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E06-T01 — Change primary Docs sections to Start, Build, Operate, Reference, Ecosystem, and Contribute.",
   "type": "task",
-  "updated_at": "2026-07-23T12:03:36Z"
+  "updated_at": "2026-07-24T12:49:35Z"
 }
