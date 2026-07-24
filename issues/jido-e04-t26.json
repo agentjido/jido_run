@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T21:32:49Z",
   "created": "2026-07-23T12:02:38Z",
   "description": "Backlog task: E04-T26\n\nWork area: Use cases, ecosystem, and conversion\n\nMain targets: Home ecosystem section\n\nComplete when: Stable, Beta, or Experimental is visible.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e04-t26",
@@ -23,7 +24,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E04-T26 — Display support level for packages shown in the home section.",
   "type": "task",
   "updated_at": "2026-07-24T21:32:49Z"
