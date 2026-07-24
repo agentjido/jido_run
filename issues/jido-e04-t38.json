@@ -12,9 +12,15 @@
     "slice-05"
   ],
   "parent": "jido-e04",
+  "comments": [
+    {
+      "text": "Open: 'Integrate your control system' control card depends on jido-e04-t34.",
+      "timestamp": "2026-07-24T12:46:32Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E04-T38 — Add an “Integrate your control system” card.",
   "type": "task",
-  "updated_at": "2026-07-23T12:02:50Z"
+  "updated_at": "2026-07-24T12:46:32Z"
 }
