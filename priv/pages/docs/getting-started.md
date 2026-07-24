@@ -22,7 +22,7 @@ Phoenix is not required. Jido works in any Elixir project. If you want to build 
 
 ## Choose your path
 
-Pick the track that matches your background. Both paths lead to the same onboarding tutorials - they differ in how much context they provide before you start building.
+Pick the track that matches your background. The first two paths lead to the same onboarding tutorials - they differ in how much context they provide before you start building. The third path is for builders who want a running Phoenix application instead of starting from a blank Mix project.
 
 ### [I'm new to Elixir](/docs/getting-started/new-to-elixir)
 
@@ -31,6 +31,10 @@ You're coming from Python, TypeScript, Java, or another stack. You found Jido be
 ### [I know Elixir](/docs/getting-started/elixir-developers)
 
 You've built OTP applications. You're comfortable with GenServer, supervision trees, and Mix. This path maps Jido's architecture to patterns you already know, then gets you into the tutorials fast.
+
+### [Use the Phoenix starter](/docs/getting-started/phoenix-starter)
+
+You want to explore Jido inside a real, running Phoenix app instead of building from a blank project. This path points you at the Jido PHX Starter and states its Postgres and provider-key requirements up front.
 
 ## Where this takes you
 
@@ -65,4 +69,5 @@ Once you finish the onboarding path:
 
 - [I'm new to Elixir](/docs/getting-started/new-to-elixir) - get the Elixir foundations first
 - [I know Elixir](/docs/getting-started/elixir-developers) - jump in with OTP context
+- [Use the Phoenix starter](/docs/getting-started/phoenix-starter) - run a complete demo app
 - [Explore core concepts](/docs/concepts) - understand the architecture before you build

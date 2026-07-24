@@ -74,6 +74,27 @@ defmodule AgentJidoWeb.PageLiveTest do
     end
   end
 
+  describe "getting-started hub lanes (jido-e05-t05)" do
+    test "renders all three choose-your-path lanes", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/docs/getting-started")
+
+      assert html =~ ~s(href="/docs/getting-started/new-to-elixir")
+      assert html =~ ~s(href="/docs/getting-started/elixir-developers")
+      assert html =~ ~s(href="/docs/getting-started/phoenix-starter")
+      assert html =~ "Use the Phoenix starter"
+    end
+
+    test "the Phoenix starter lane route renders its requirements", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/docs/getting-started/phoenix-starter")
+
+      assert html =~ "Use the Phoenix starter"
+      assert html =~ "https://github.com/agentjido/jido_phx_starter"
+      assert html =~ "Postgres"
+      assert html =~ "ecto.setup"
+      assert html =~ "API key"
+    end
+  end
+
   describe "home quick start and cta sections" do
     test "renders elixir onboarding guide links", %{conn: conn} do
       {:ok, _view, html} = live(conn, "/")

@@ -784,4 +784,63 @@ defmodule AgentJido.PagesTest do
       end)
     end
   end
+
+  describe "getting-started Phoenix starter lane (jido-e05-t05)" do
+    @phoenix_starter_source Path.expand(
+                              "../../priv/pages/docs/getting-started/phoenix-starter.md",
+                              __DIR__
+                            )
+
+    test "the lane page is published and routable" do
+      page = Pages.get_page_by_path("/docs/getting-started/phoenix-starter")
+
+      assert page != nil
+      assert page.category == :docs
+      assert page.draft == false
+      assert Pages.route_for(page) == "/docs/getting-started/phoenix-starter"
+    end
+
+    test "the lane links to the jido_phx_starter repo" do
+      body = File.read!(@phoenix_starter_source)
+
+      assert body =~ ~r{https://github\.com/agentjido/jido_phx_starter}
+    end
+
+    test "the lane clearly states the Postgres requirement from the starter README" do
+      body = File.read!(@phoenix_starter_source)
+
+      # Postgres is required, the app expects the local postgres/postgres user,
+      # and ecto.setup is what provisions the database.
+      assert body =~ ~r/Postgres/i
+      assert body =~ "postgres"
+      assert body =~ "ecto.setup"
+    end
+
+    test "the lane clearly states the provider-key requirement from the starter README" do
+      body = File.read!(@phoenix_starter_source)
+
+      # AI demos require an LLM provider key; core demos do not.
+      assert body =~ "API key"
+      assert body =~ "ANTHROPIC_API_KEY"
+      assert body =~ ~r/optional/i
+    end
+
+    test "the lane source has no placeholder markers" do
+      body = File.read!(@phoenix_starter_source)
+
+      placeholder_patterns = [
+        ~r/content coming soon/i,
+        ~r/\bcoming soon\b/i,
+        ~r/\bTODO\b/,
+        ~r/\bTBD\b/,
+        ~r/lorem ipsum/i
+      ]
+
+      assert body =~ "draft: false"
+
+      Enum.each(placeholder_patterns, fn pattern ->
+        refute body =~ pattern
+      end)
+    end
+  end
 end
