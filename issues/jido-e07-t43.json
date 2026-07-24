@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T14:33:17Z",
   "created": "2026-07-23T12:04:55Z",
   "description": "Backlog task: E07-T43\n\nWork area: Controlled-Agent reference path\n\nMain targets: Reference app and guide\n\nComplete when: The effect waits for an explicit decision and records the decision context.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e07-t43",
@@ -23,7 +24,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E07-T43 — Add a human-approval boundary for one high-impact effect.",
   "type": "task",
   "updated_at": "2026-07-24T14:33:17Z"
