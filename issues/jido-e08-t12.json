@@ -15,6 +15,10 @@
     {
       "text": "Open: expected result per example not yet added.",
       "timestamp": "2026-07-24T12:51:51Z"
+    },
+    {
+      "text": "Done: every public example states an expected result.",
+      "timestamp": "2026-07-24T14:59:41Z"
     }
   ],
   "priority": 1,
