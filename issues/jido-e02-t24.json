@@ -12,9 +12,15 @@
     "slice-03"
   ],
   "parent": "jido-e02",
+  "comments": [
+    {
+      "text": "Done in 28959a2: capitalization/code-name rules for Agent/AgentServer/Action/Signal/Directive set in §11 vocabulary; style-voice enforces the same form.",
+      "timestamp": "2026-07-24T12:35:40Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "E02-T24 — Define capitalization and code-name rules for Agent, AgentServer, Actions, Signals, and Directives.",
   "type": "task",
-  "updated_at": "2026-07-24T12:35:39Z"
+  "updated_at": "2026-07-24T12:35:40Z"
 }
