@@ -15,6 +15,10 @@
     {
       "text": "Open: direct/transitive dependencies on package pages not yet done.",
       "timestamp": "2026-07-24T12:52:39Z"
+    },
+    {
+      "text": "Done: package pages render direct/transitive dependencies (pkg.ecosystem_deps at jido_ecosystem_package_live.ex:588).",
+      "timestamp": "2026-07-24T16:26:04Z"
     }
   ],
   "priority": 1,
