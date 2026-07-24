@@ -10,7 +10,8 @@
     "Define an agent module with typed state",
     "Implement an action and execute it via cmd/2",
     "Interpret updated state and returned directives",
-    "Start a supervised agent and drive it with a Signal through the AgentServer"
+    "Start a supervised agent and drive it with a Signal through the AgentServer",
+    "Stop a supervised agent and restart it as a fresh process"
   ],
   prerequisites: ["/docs/getting-started/installation"],
   livebook: %{
@@ -172,6 +173,32 @@ server_state.agent.state
 ```
 
 Both paths produce the same state transition. Use `cmd/2` when you hold the agent struct and want a synchronous result. Use the `AgentServer` when the agent is a long-lived process that receives work as Signals.
+
+## Stop and restart the process
+
+The supervised agent is an OTP process, so you can stop it directly. `Jido.stop_agent/2` terminates the `AgentServer` under the runtime supervisor. After it stops, the process is gone from the registry:
+
+```elixir
+:ok = Jido.stop_agent(runtime, pid)
+
+Jido.whereis(runtime, agent_id)
+```
+
+Start the agent again with the same id. `Jido.start_agent/3` boots a fresh `AgentServer` and returns its new pid:
+
+```elixir
+{:ok, restarted_pid} = Jido.start_agent(runtime, SignalCounterAgent, id: agent_id)
+```
+
+The new process is a brand-new agent. Its state comes from the schema defaults, not from the process you stopped — the count you incremented earlier is gone:
+
+```elixir
+{:ok, restarted_state} = Jido.AgentServer.state(restarted_pid)
+
+restarted_state.agent.state
+```
+
+The same thing happens when the supervisor restarts a crashed process: a new `AgentServer` boots from the agent defaults. The lifecycle is the point here — a stopped or crashed process is gone, and starting the agent again brings a fresh one back.
 
 ## Using this in a Mix project
 
