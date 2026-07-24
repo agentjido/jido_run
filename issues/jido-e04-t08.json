@@ -12,9 +12,15 @@
     "slice-05"
   ],
   "parent": "jido-e04",
+  "comments": [
+    {
+      "text": "Open: collapsing non-Elixir evaluation to a single secondary hero link is a minor hero refactor, not yet done.",
+      "timestamp": "2026-07-24T12:46:29Z"
+    }
+  ],
   "priority": 2,
   "status": "open",
   "title": "E04-T08 — Move non-Elixir evaluation to one secondary link.",
   "type": "task",
-  "updated_at": "2026-07-23T12:02:20Z"
+  "updated_at": "2026-07-24T12:46:29Z"
 }
