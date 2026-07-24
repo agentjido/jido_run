@@ -12,9 +12,15 @@
     "slice-10"
   ],
   "parent": "jido-e09",
+  "comments": [
+    {
+      "text": "Open: control packages marked with version/support/evidence not yet done.",
+      "timestamp": "2026-07-24T12:52:46Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E09-T47 — Mark each control package with released version, support level, and evidence.",
   "type": "task",
-  "updated_at": "2026-07-23T12:06:36Z"
+  "updated_at": "2026-07-24T12:52:46Z"
 }
