@@ -165,6 +165,8 @@ updated_agent.state
 
 ## Next steps
 
-- Continue to [Your first LLM agent](/docs/getting-started/first-llm-agent) to add a runtime and model-backed reasoning.
+- **Next: Build** — compose actions into a [first workflow](/docs/learn/first-workflow).
+- **Next: Operate** — when you are ready to run long-term, see [Operations](/docs/operations) for supervision, persistence, and recovery.
+- Continue to [Your first LLM agent](/docs/getting-started/first-llm-agent) to add a model-backed reasoning step.
 - Review [Agents](/docs/concepts/agents) for the full conceptual model.
 - Review [Actions](/docs/concepts/actions) for deeper action design patterns.
