@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T16:45:26Z",
   "created": "2026-07-23T12:06:24Z",
   "description": "Backlog task: E09-T35\n\nWork area: Version and compatibility controls\n\nMain targets: Ingestion and CI\n\nComplete when: Stale public versions create a failing or blocking report.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e09-t35",
@@ -22,7 +23,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E09-T35 — Add an automated Hex-version freshness check.",
   "type": "task",
   "updated_at": "2026-07-24T16:45:26Z"
