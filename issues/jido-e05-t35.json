@@ -12,9 +12,15 @@
     "slice-06"
   ],
   "parent": "jido-e05",
+  "comments": [
+    {
+      "text": "Open: fail-closed prepare_action/3 authorization plugin depends on jido-e07.",
+      "timestamp": "2026-07-24T12:48:45Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E05-T35 — Add a fail-closed `prepare_action/3` authorization Plugin.",
   "type": "task",
-  "updated_at": "2026-07-23T12:03:29Z"
+  "updated_at": "2026-07-24T12:48:45Z"
 }
