@@ -1,5 +1,5 @@
 {
-  "assignee": "",
+  "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:02:38Z",
@@ -19,8 +19,8 @@
     }
   ],
   "priority": 1,
-  "status": "open",
+  "status": "in_progress",
   "title": "E04-T26 — Display support level for packages shown in the home section.",
   "type": "task",
-  "updated_at": "2026-07-24T12:46:30Z"
+  "updated_at": "2026-07-24T21:25:54Z"
 }
