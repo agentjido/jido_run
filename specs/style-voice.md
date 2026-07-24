@@ -1,8 +1,8 @@
 # Voice, Tone, and Style Guide
 
-Version: 1.0  
-Last updated: 2026-02-12  
-Positioning anchor: `Jido is a runtime for reliable, multi-agent systems.`
+Version: 2.0  
+Last updated: 2026-07-23  
+Positioning anchor: `Jido is the Elixir framework for long-running agent systems.` (see `specs/positioning.md` Section 11; `jido-e02`)
 
 ## Register
 
@@ -121,3 +121,47 @@ Name competitors when the comparison is specific and technical (e.g., "Unlike Cr
 - Default CTA across the site: **Get Building**
 - Section-specific alternatives: "Start Training", "Explore Features", "See the Ecosystem"
 - CTA must always link to a real, populated destination
+
+---
+
+## Claim Policy (`jido-e02`, E02-T18..T22, E02-T38)
+
+Copy must stay inside the claim boundaries in `specs/positioning.md` Section 11.
+The release claim linter (`jido-e12`, E12-T01/T02/T37) enforces the lists below.
+
+### Restricted claims — reject unless an approved proof reference is cited
+self-healing, no downtime, uptime guarantees, observe everything, secure by
+default, compliance-ready, enterprise governance, complete audit trail.
+
+### Proof-required claims — need named evidence
+production-grade, production-ready, production-proven.
+
+### Definition-required claims — must define scope, controls, and stop conditions
+autonomous.
+
+### Qualifier claims — name the tested behavior or package maturity
+reliable, recover, durable, scale, safe, tracing, identity-aware, authorized,
+auditable, governed, controlled.
+
+### Proof levels
+1. Design intent
+2. Tested behavior
+3. Benchmark
+4. Production evidence
+
+Each public claim should be able to name its proof level.
+
+### Operational-control copy rules (E02-T30..T33)
+- Prefer: long-running, supervised, explicit, typed, observable, stateful,
+  event-driven, bounded failure, restart policy, existing Elixir application,
+  add AI when needed.
+- "Control" must name the exact type: lifecycle, capability, authorization,
+  quota, trace, or recovery control. Avoid bare "control" as an adjective.
+- Telemetry is not an audit log. Agent IDs are not authenticated principals.
+  State these distinctions where a reader could infer compliance.
+
+### Default SEO/category language (E03-T01)
+Title: `Jido: the Elixir framework for long-running agent systems`.
+Description: `Build supervised agents, typed tools, and explicit workflows on
+Elixir/OTP. Start with one Agent in your current application and add AI when you
+need it.`

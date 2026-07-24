@@ -1,30 +1,46 @@
 # Jido Positioning Strategy
 
-Version: 3.0  
-Last updated: 2026-02-12  
-Primary inputs: `specs/content-outline.md`, `specs/persona-journeys.md`, `priv/ecosystem/*.md`
+Version: 4.0  
+Last updated: 2026-07-23  
+Primary inputs: `specs/content-outline.md`, `specs/persona-journeys.md`, `priv/ecosystem/*.md`, `docs/Jido Positioning Review 2026-07-23.md`
+
+> **Canon status:** Section 1 and the Positioning Canon (Section 11) supersede all
+> earlier "locked" language on this page, including the former anchor "a runtime
+> for reliable, multi-agent systems" and the former category "Reliable Multi-Agent
+> Runtime Platform." Source: `jido-e02` (E02-T01..T45).
 
 ## 1) Core Positioning
 
-### Anchor phrase
-`Jido is a runtime for reliable, multi-agent systems.`
+### Public category (`E02-T01`)
+`Jido is the Elixir framework for long-running agent systems.`
 
-### Sub-phrase differentiator
-`Built on Elixir/OTP for fault-tolerant concurrency and production-grade reliability.`
+### Primary operational benefit (`E02-T31`, `E02-T32`)
+`Build Agent systems you can supervise, constrain, and inspect.`
+
+Operational control is the bridge between the production promise and the
+reliability of the BEAM. It is a product benefit, not a claim that Jido is a
+complete governance or compliance platform.
 
 ### One-line positioning statement
-Jido helps engineering teams move from fragile agent prototypes to production-grade multi-agent systems with explicit coordination, fault isolation, and operational control.
+Jido gives Elixir teams explicit control points for long-running Agents —
+supervised lifecycles, validated capabilities, fail-closed policy hooks, causal
+Signals, and correlated telemetry — that fit an existing Phoenix or OTP
+application.
 
-### Category we are claiming
-`Reliable Multi-Agent Runtime Platform`
+### Primary audience (`E02-T06`)
+Elixir engineers who need agent work to become part of a real Phoenix or OTP
+application. Non-Elixir builders are a secondary evaluation route (`E02-T07`).
 
 ### Product posture
-Jido is open source. Position calls-to-action around builder activation and self-serve adoption.
+Jido is open source. Position calls-to-action around builder activation and
+self-serve adoption. Core packages are Beta; no separate runtime service is
+required.
 
 ### What Jido is not
 - Not only a prompt-orchestration helper.
 - Not only an LLM API wrapper.
-- Not optimized for weekend demo velocity at the cost of runtime safety.
+- Not a separate deployment platform, IAM, or compliance product (see claim
+  boundaries in Section 11).
 
 ## 2) Market Point of View
 
@@ -300,3 +316,94 @@ Response:
 ## 19) Voice and Tone Guide
 
 See `specs/style-voice.md` for the full voice, tone, and style/mechanical conventions guide.
+
+---
+
+## 11) Positioning Canon (v4, 2026-07-23) — `jido-e02`
+
+This section is the single source of truth for writers and components. Where
+earlier sections of this document conflict with Section 11, Section 11 wins.
+
+### Message house
+
+| Level | Message |
+|---|---|
+| Category | The Elixir framework for long-running agent systems |
+| Main promise | Build supervised, observable agent workflows that fit your existing Elixir application |
+| Runtime reason | Elixir/OTP gives each running Agent an isolated process and an explicit supervision policy |
+| Design reason | Typed Actions, Signals, and Directives keep behavior testable and side effects visible |
+| Adoption reason | Start with one Agent; add AI, persistence, tools, and coordination as the work requires |
+| Operational benefit | Build Agent systems you can supervise, constrain, and inspect |
+| Proof | Runnable failure drill, state-recovery example, workflow trace, and real project story |
+| Tradeoff | More explicit structure than a prompt script; better fit for work that must run and change over time |
+
+### Operational-control pillars (`E02-T33`)
+
+| Pillar | Mechanism | Proof requirement |
+|---|---|---|
+| Lifecycle | `AgentServer` + OTP supervision, restart policy | Failure-drill example |
+| Capability | typed Actions, tool allowlists, `prepare_action/3` policy hooks, effect policies, quotas | Deny/allow example |
+| Traceability | causal Signals, Signal Journal, correlated telemetry | Cross-restart causal-history + trace example |
+| Failure response | supervision, retry, idempotency, state recovery, queue/quota limits | Recovery example per boundary |
+
+Every "production" or "control" claim must name at least one lifecycle control and
+one inspection control (`E02-T45`).
+
+### Vocabulary canon (`E02-T10..T17`)
+
+| Term | Definition |
+|---|---|
+| Agent | Immutable data (a struct) with explicit state and behavior. Not a process. |
+| AgentServer | The process and lifecycle layer that runs an Agent under OTP supervision. |
+| Action | A validated execution unit. Can be pure or effectful; do not claim all Actions are pure. |
+| Signal | A structured event envelope and routing input. Not a generic message. |
+| Directive | A description of a runtime-owned effect, kept outside the decision step. |
+| runtime | The `AgentServer` and OTP lifecycle mechanism. Not the public product category. |
+| ecosystem | The optional package set (AI, model access, memory, browser, observability, workflow, data, integrations). Not required. |
+| Strategy / Plugin / Sensor / Thread / Memory | Defined in the glossary; one approved short definition each. |
+
+Brand form for prose: **Jido**. Remove "Agent Jido," "JIDO," and lowercase prose
+uses, or explain them (`E02-T17`).
+
+### Claim boundaries (`E02-T34..T38`)
+
+These words have one bounded meaning. Copy must not imply more.
+
+| Term | Safe current meaning | Do not imply |
+|---|---|---|
+| Identity | Agent lifecycle/profile state and runtime correlation IDs | Authentication, IAM, verified human identity |
+| Authorization | A fail-closed Plugin hook (`prepare_action/3`) + integration-specific policy | A complete RBAC/ABAC product |
+| Audit | Optional durable causal Signal history plus application records | Automatic coverage, tamper evidence, retention, compliance |
+| Observability | Jido telemetry, correlated spans, metrics, logs, optional OTel export | Durable audit evidence or automatic incident response |
+| Policy | Action, tool, effect, prompt, quota, and integration control points | Central policy administration across every package |
+| Production | Explicit lifecycle, failure, policy, and inspection mechanisms with tested examples | No downtime, complete safety, compliance |
+
+### Integration posture (`E02-T43`)
+
+Jido integrates with IAM, policy, storage, SIEM, and telemetry systems; it does
+not replace them. Authentication is an application/platform boundary, not
+something Jido performs by itself (`E07-T36`).
+
+### Claim policy and proof levels (`E02-T18..T22`)
+
+- **Restricted (reject unless an approved proof reference is cited):**
+  self-healing, no downtime, uptime guarantees, observe everything, secure by
+  default, compliance-ready, enterprise governance, complete audit trail.
+- **Proof-required (needs named evidence):** production-grade, production-ready,
+  production-proven.
+- **Definition-required (must define scope, controls, stop conditions):**
+  autonomous.
+- **Qualifier (name the tested behavior or package maturity):** reliable,
+  recover, durable, scale, safe, tracing, identity-aware, authorized, auditable,
+  governed, controlled.
+
+Proof levels: (1) design intent, (2) tested behavior, (3) benchmark,
+(4) production evidence. Each claim should name its level (`E02-T22`,
+`specs/proof.md`).
+
+### Control contrast and audience (`E02-T40..T42`)
+
+Jido provides explicit control points; do not describe other frameworks as
+unsafe. A secondary control-evaluation audience (platform, SRE, security,
+regulated environments) follows the proof route in `specs/persona-journeys.md`,
+secondary to Elixir builders.
