@@ -18,9 +18,15 @@
     "epic-e06"
   ],
   "parent": "jido-site-facelift",
+  "comments": [
+    {
+      "text": "Product decision 2026-07-24: do not restructure the documentation IA in this iteration. Keep all current public URLs and document paths unchanged. Do not add or plan route moves, move-related redirects, or move-related canonical URL changes now. Continue content-quality work that does not move documents.",
+      "timestamp": "2026-07-24T16:16:56Z"
+    }
+  ],
   "priority": 0,
   "status": "closed",
   "title": "E06 — Reorder docs for end-user work",
   "type": "epic",
-  "updated_at": "2026-07-24T02:32:31Z"
+  "updated_at": "2026-07-24T16:16:56Z"
 }
