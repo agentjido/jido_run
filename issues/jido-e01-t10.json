@@ -1,5 +1,5 @@
 {
-  "assignee": "Mike Hostetler",
+  "assignee": "",
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:00:40Z",
@@ -19,8 +19,8 @@
     }
   ],
   "priority": 0,
-  "status": "in_progress",
+  "status": "open",
   "title": "E01-T10 — Make “Copy Markdown” copy rendered-equivalent source.",
   "type": "task",
-  "updated_at": "2026-07-24T12:32:35Z"
+  "updated_at": "2026-07-24T12:32:36Z"
 }
