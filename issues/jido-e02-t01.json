@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:34:58Z",
   "created": "2026-07-23T12:00:54Z",
   "description": "Backlog task: E02-T01\n\nWork area: Canonical message\n\nMain targets: Product decision\n\nComplete when: The phrase has one approved owner and version date.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e02-t01",
@@ -19,8 +20,8 @@
     }
   ],
   "priority": 0,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E02-T01 — Approve “The Elixir framework for long-running agent systems” as the public category.",
   "type": "task",
-  "updated_at": "2026-07-24T12:34:57Z"
+  "updated_at": "2026-07-24T12:34:58Z"
 }
