@@ -12,9 +12,15 @@
     "slice-06"
   ],
   "parent": "jido-e05",
+  "comments": [
+    {
+      "text": "Open: request/token quota example depends on jido-e07/e08.",
+      "timestamp": "2026-07-24T12:48:45Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E05-T38 — Add a request and token quota example.",
   "type": "task",
-  "updated_at": "2026-07-23T12:03:32Z"
+  "updated_at": "2026-07-24T12:48:45Z"
 }
