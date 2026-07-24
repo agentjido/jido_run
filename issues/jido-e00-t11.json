@@ -11,9 +11,15 @@
     "epic-e00"
   ],
   "parent": "jido-e00",
+  "comments": [
+    {
+      "text": "Done in eb56808: first-Agent-path acceptance measure (\"one tested Agent flow completed without manual repair\") in specs/audits/baseline-2026-07-23.md.",
+      "timestamp": "2026-07-24T12:25:07Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "E00-T11 — Define the acceptance measure for the first Agent path.",
   "type": "task",
-  "updated_at": "2026-07-24T12:25:06Z"
+  "updated_at": "2026-07-24T12:25:07Z"
 }
