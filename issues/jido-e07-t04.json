@@ -15,6 +15,10 @@
     {
       "text": "Open: dedicated 'Idempotent Actions and effect delivery' page not yet published.",
       "timestamp": "2026-07-24T12:50:32Z"
+    },
+    {
+      "text": "Done in this commit: idempotent-Actions demo — a dedup key makes duplicate delivery a no-op (retry-safe boundary).",
+      "timestamp": "2026-07-24T14:35:40Z"
     }
   ],
   "priority": 1,
