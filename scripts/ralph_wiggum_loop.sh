@@ -36,6 +36,8 @@ Environment variables:
   ZCLAUDE_MODEL            Default value for --model
   VERIFY_CMD               Default value for --verify-cmd
   LOG_FILE                 Log file (default: tmp/ralph_wiggum_loop.log)
+  RAW_LOG_FILE             Raw Zclaude JSONL trace
+                           (default: tmp/ralph_wiggum_loop.raw.jsonl)
   LOCK_DIR                 Lock directory (default: tmp/ralph_wiggum_loop.lock)
 
 Examples:
@@ -286,17 +288,61 @@ PROMPT
   } >"$prompt_file"
 }
 
+render_zclaude_stream() {
+  jq --unbuffered -Rr '
+    . as $raw
+    | (try fromjson catch null) as $event
+    | if $event == null then
+        $raw
+      elif $event.type == "system" and $event.subtype == "init" then
+        "[session] id=\($event.session_id // "unknown") model=\($event.model // "unknown")"
+      elif $event.type == "assistant" then
+        $event.message.content[]?
+        | if .type == "text" then
+            .text
+          elif .type == "tool_use" then
+            (.input.command // .input.file_path // .input.pattern // .input // "") as $detail
+            | "[tool] \(.name // "unknown"): \(($detail | tostring)[0:1200])"
+          else
+            empty
+          end
+      elif $event.type == "user" then
+        $event.message.content[]?
+        | select(.type == "tool_result")
+        | "[tool result] \(((.content // "") | tostring)[0:1600])"
+      elif $event.type == "result" then
+        "[session result] status=\($event.subtype // "unknown") duration_ms=\($event.duration_ms // "unknown")"
+      elif $event.type == "rate_limit_event" then
+        "[rate limit] \($event | tostring)"
+      else
+        empty
+      end
+  '
+}
+
 run_zclaude() {
   local prompt_file="$1"
   local context="$2"
+  local exit_codes
 
   log "Starting fresh Zclaude/GLM session for ${context}"
+  log "Live worker turns and tool calls follow. Raw trace: ${RAW_LOG_FILE}"
+
+  set +e
   "$ZCLAUDE_BIN" \
     --print \
     --permission-mode auto \
     --model "$ZCLAUDE_MODEL" \
-    --output-format text \
-    <"$prompt_file" 2>&1 | tee -a "$LOG_FILE"
+    --output-format stream-json \
+    --verbose \
+    <"$prompt_file" 2>&1 |
+    tee -a "$RAW_LOG_FILE" |
+    render_zclaude_stream |
+    tee -a "$LOG_FILE"
+  exit_codes=("${PIPESTATUS[@]}")
+  set -e
+
+  return "${exit_codes[0]}"
 }
 
 commit_references_task() {
@@ -304,7 +350,7 @@ commit_references_task() {
   local task_id="$2"
 
   git log --format='%H%n%B%n---END-COMMIT---' "${before_head}..HEAD" |
-    grep -Fq "$task_id"
+    grep -F "$task_id" >/dev/null
 }
 
 verify_worker_result() {
@@ -446,6 +492,7 @@ TARGET_BRANCH=""
 ALLOW_MAIN=0
 DRY_RUN=0
 LOG_FILE="${LOG_FILE:-tmp/ralph_wiggum_loop.log}"
+RAW_LOG_FILE="${RAW_LOG_FILE:-tmp/ralph_wiggum_loop.raw.jsonl}"
 LOCK_DIR="${LOCK_DIR:-tmp/ralph_wiggum_loop.lock}"
 
 while [ "$#" -gt 0 ]; do
@@ -535,7 +582,7 @@ fi
 
 REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null)" || fail "Not inside a Git repository"
 cd "$REPO_ROOT"
-mkdir -p "$(dirname "$LOG_FILE")" "$(dirname "$LOCK_DIR")"
+mkdir -p "$(dirname "$LOG_FILE")" "$(dirname "$RAW_LOG_FILE")" "$(dirname "$LOCK_DIR")"
 
 require_command git
 require_command jq
@@ -569,6 +616,7 @@ log "Branch: ${TARGET_BRANCH}"
 log "Runner: ${ZCLAUDE_BIN}"
 log "Forced Z.AI model: ${ZCLAUDE_MODEL}"
 log "Verification: ${VERIFY_CMD}"
+log "Raw Zclaude trace: ${RAW_LOG_FILE}"
 
 processed=0
 
