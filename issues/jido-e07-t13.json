@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T14:31:21Z",
   "created": "2026-07-23T12:04:25Z",
   "description": "Backlog task: E07-T13\n\nWork area: Failure and recovery cases\n\nMain targets: Guide and example\n\nComplete when: The example restores required state from a real store.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e07-t13",
@@ -22,7 +23,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E07-T13 — Document an application restart.",
   "type": "task",
   "updated_at": "2026-07-24T14:31:21Z"
