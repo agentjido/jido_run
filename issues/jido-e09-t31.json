@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T16:28:05Z",
   "created": "2026-07-23T12:06:20Z",
   "description": "Backlog task: E09-T31\n\nWork area: README and registry alignment\n\nMain targets: `jido_runic` record and examples\n\nComplete when: The package is not described as the default Jido orchestrator.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e09-t31",
@@ -22,7 +23,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E09-T31 — Align Runic copy with DAG, Signal-Fact, Strategy, and provenance roles.",
   "type": "task",
   "updated_at": "2026-07-24T16:28:05Z"
