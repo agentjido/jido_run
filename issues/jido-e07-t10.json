@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:50:28Z",
   "created": "2026-07-23T12:04:22Z",
   "description": "Backlog task: E07-T10\n\nWork area: Core linear path\n\nMain targets: Existing draft page\n\nComplete when: Every checklist item links to evidence or a guide.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e07-t10",
@@ -18,8 +19,8 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E07-T10 — Publish the production-readiness checklist.",
   "type": "task",
-  "updated_at": "2026-07-24T12:50:27Z"
+  "updated_at": "2026-07-24T12:50:28Z"
 }
