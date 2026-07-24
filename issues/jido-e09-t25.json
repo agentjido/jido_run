@@ -15,6 +15,10 @@
     {
       "text": "Open: Action purity language alignment not yet swept.",
       "timestamp": "2026-07-24T12:52:41Z"
+    },
+    {
+      "text": "Done: jido_action site copy contains no 'all actions are pure' overstatement (grep found none); Actions can be pure or effectful per the canon.",
+      "timestamp": "2026-07-24T16:27:27Z"
     }
   ],
   "priority": 1,
