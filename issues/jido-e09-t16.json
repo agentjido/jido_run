@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T16:26:04Z",
   "created": "2026-07-23T12:06:05Z",
   "description": "Backlog task: E09-T16\n\nWork area: Package-page contract\n\nMain targets: Package pages\n\nComplete when: Dependency relationships are visible.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e09-t16",
@@ -22,7 +23,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E09-T16 — Add direct and transitive dependencies.",
   "type": "task",
   "updated_at": "2026-07-24T16:26:04Z"
