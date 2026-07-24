@@ -11,6 +11,12 @@
     "epic-e10"
   ],
   "parent": "jido-e10",
+  "comments": [
+    {
+      "text": "Done in 5f28d96: Docs Markdown uses expanded source (ReleaseCatalog.expand_placeholders in resolve_from_pages).",
+      "timestamp": "2026-07-24T12:53:27Z"
+    }
+  ],
   "priority": 0,
   "status": "in_progress",
   "title": "E10-T08 — Make Docs Markdown use expanded source.",
