@@ -11,9 +11,15 @@
     "epic-e09"
   ],
   "parent": "jido-e09",
+  "comments": [
+    {
+      "text": "Open: syncing displayed jido/jido_ai/req_llm versions with Hex not yet automated (footer shows dynamic jido version).",
+      "timestamp": "2026-07-24T12:52:43Z"
+    }
+  ],
   "priority": 0,
   "status": "open",
   "title": "E09-T33 — Sync displayed `jido`, `jido_ai`, and ReqLLM versions with Hex.",
   "type": "task",
-  "updated_at": "2026-07-23T12:06:22Z"
+  "updated_at": "2026-07-24T12:52:43Z"
 }
