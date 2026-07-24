@@ -279,16 +279,62 @@ _This document is a living inventory. Update status columns as assets are create
 
 ---
 
-## Control Proof Fields (`jido-e02` T44)
+## Control Proof Fields (`jido-e02` T44, `jido-e12` T38)
 
-Every operational-control claim records: package, version/configuration, the test or example that proves it, durability, and the limitation. Control proof does not use one concept (e.g., telemetry) as proof of another (e.g., audit).
+Every operational-control claim names seven proof fields, all required before
+the claim can back restricted control, security, or compliance copy:
+**control point**, **configuration**, **test**, **limitation**, **owner**,
+**version**, and **validation date**. Control proof does not use one concept
+(e.g., telemetry) as proof of another (e.g., audit), and a claim whose `test`
+points at a non-existent file is treated as unproven. This field set is enforced
+in CI by `test/agent_jido/specs/operational_control_proof_test.exs`.
 
-| Control claim | Mechanism | Proof | Limitation |
-|---|---|---|---|
-| Supervised lifecycle | AgentServer + OTP supervision | `/docs/operations` production-readiness checklist; failure drill pending (runnable app) | Restart ≠ state recovery; persistence is application-supplied |
-| Fail-closed authorization | `prepare_action/3` plugin hook | `/docs/operations/security-and-governance`; controlled-agent example pending | Not a built-in IAM/RBAC product |
-| Causal history | durable Signal Journal adapter | `/docs/operations/security-and-governance`; restart test pending | Default is not durable; retention is application-defined |
-| Correlated telemetry | `Jido.Observe`, optional `jido_otel` | `/docs/operations` observability items; OTel export is Experimental | Telemetry is not an audit log |
-| Cost/quota control | `jido_ai` tool/effect/prompt/quota policies | AI operations guide pending; quota example pending | Application sets the budgets |
+### Supervised lifecycle
+- **Control point:** `Jido.AgentServer` linked under an OTP supervisor.
+- **Configuration:** default OTP child spec; supervisor `restart: :permanent`.
+- **Test:** `test/agent_jido/demos/controlled_agent_test.exs` (AgentServer starts linked with a stable identity and correlation IDs) and `test/agent_jido/demos/controlled_agent_persistence_test.exs` (approved state survives a restart).
+- **Limitation:** Restart restores the process, not application state; persistence is application-supplied.
+- **Owner:** Platform owner.
+- **Version:** jido 2.3.2 (Stable).
+- **Validation date:** 2026-07-24.
 
-Claims in the "Proof" column marked "pending" require the long-running reference application (`specs/operations-reference-architecture.md`) before they become public proof.
+### Fail-closed authorization
+- **Control point:** `Jido.Plugin.prepare_action/3` fail-closed hook plus `jido_ai` tool/effect allowlists.
+- **Configuration:** plugin denies the protected Action when required principal/tenant context is missing; AI tool/effect policies configured.
+- **Test:** `test/agent_jido/demos/controlled_agent_test.exs` (an unauthorized principal cannot run the protected Action) and `test/agent_jido/demos/tool_allowlist_agent_test.exs` (an allowlisted tool runs; a disallowed tool is denied before execution).
+- **Limitation:** Integration point, not a built-in IAM/RBAC product; the application supplies the policy decision.
+- **Owner:** Technical docs owner.
+- **Version:** jido 2.3.2, jido_ai 2.2.0 (Stable hook; Beta AI policies).
+- **Validation date:** 2026-07-24.
+
+### Causal history
+- **Control point:** durable `Jido.Signal.Journal` adapter.
+- **Configuration:** explicit durable Journal adapter (ETS adapter under a fixed prefix in the test) plus an application-defined retention policy.
+- **Test:** `test/agent_jido/demos/signal_journal_test.exs` (causal history is recorded and survives a journal restart against a durable store).
+- **Limitation:** Default is not durable; retention/replay is application-defined; the Journal is not tamper-evident.
+- **Owner:** Technical docs owner.
+- **Version:** jido_signal 2.2.2 (durable only with an explicit adapter).
+- **Validation date:** 2026-07-24.
+
+### Correlated telemetry
+- **Control point:** `Jido.Observe` / `Jido.Telemetry` correlated spans; optional `jido_otel` export.
+- **Configuration:** `:telemetry` handlers attached to Action and lifecycle events.
+- **Test:** `test/agent_jido/demos/redaction_test.exs` (action telemetry emits the action module only; a secret action param is excluded from metadata).
+- **Limitation:** Telemetry is not an audit log; OTel export is Experimental.
+- **Owner:** Platform owner.
+- **Version:** jido 2.3.2 (Stable); jido_otel Experimental.
+- **Validation date:** 2026-07-24.
+
+### Cost/quota control
+- **Control point:** `jido_ai` tool/effect/prompt/quota policies and AI budget directives.
+- **Configuration:** per-agent token/request/tool budgets; the quota plugin rejects over-budget calls.
+- **Test:** `test/agent_jido/demos/quota_control_agent_test.exs` (calls succeed up to the budget, then the next is rejected) and `test/agent_jido/demos/approval_boundary_agent_test.exs` (a high-impact effect waits for an explicit confirm decision).
+- **Limitation:** The application sets the budgets; not a built-in spend-management product.
+- **Owner:** Technical docs owner.
+- **Version:** jido 2.3.2, jido_ai 2.2.0 (Beta AI policies).
+- **Validation date:** 2026-07-24.
+
+The unit tests above prove each control in isolation. Claims that still require
+the long-running reference application (`specs/operations-reference-architecture.md`)
+for end-to-end public proof — e.g., the failure-drill runnable app — remain
+pending and must not be presented as public proof until that application exists.
