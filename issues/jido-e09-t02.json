@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:52:32Z",
   "created": "2026-07-23T12:05:51Z",
   "description": "Backlog task: E09-T02\n\nWork area: Recommended stacks\n\nMain targets: Ecosystem hub and guide\n\nComplete when: It explains `jido_ai`, ReqLLM, and LLMDB roles.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e09-t02",
@@ -18,7 +19,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E09-T02 — Create an AI Agent stack.",
   "type": "task",
   "updated_at": "2026-07-24T12:52:32Z"
