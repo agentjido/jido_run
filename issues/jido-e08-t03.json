@@ -26,7 +26,7 @@
     }
   ],
   "priority": 1,
-  "status": "open",
+  "status": "deferred",
   "title": "E08-T03 — Add task filters.",
   "type": "task",
   "updated_at": "2026-07-24T16:16:54Z"
