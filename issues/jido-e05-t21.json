@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T13:50:32Z",
   "created": "2026-07-23T12:03:15Z",
   "description": "Backlog task: E05-T21\n\nWork area: AI Agent path\n\nMain targets: AI onboarding\n\nComplete when: Copy matches `jido_action` and `jido_ai` READMEs.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e05-t21",
@@ -23,7 +24,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E05-T21 — State that tool Actions can perform I/O.",
   "type": "task",
   "updated_at": "2026-07-24T13:50:32Z"
