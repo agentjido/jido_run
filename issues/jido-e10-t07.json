@@ -11,9 +11,15 @@
     "epic-e10"
   ],
   "parent": "jido-e10",
+  "comments": [
+    {
+      "text": "Open: search-result type filters not yet added.",
+      "timestamp": "2026-07-24T12:53:33Z"
+    }
+  ],
   "priority": 2,
   "status": "open",
   "title": "E10-T07 — Add search-result type filters.",
   "type": "task",
-  "updated_at": "2026-07-23T12:06:46Z"
+  "updated_at": "2026-07-24T12:53:33Z"
 }
