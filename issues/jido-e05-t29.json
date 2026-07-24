@@ -16,6 +16,10 @@
     {
       "text": "Open: 'Next: Build' / 'Next: Operate' links not yet added to all onboarding pages.",
       "timestamp": "2026-07-24T12:48:43Z"
+    },
+    {
+      "text": "Done in this commit: explicit Next: Build (first-workflow) and Next: Operate (operations) links on the first-agent page.",
+      "timestamp": "2026-07-24T12:57:55Z"
     }
   ],
   "priority": 1,
