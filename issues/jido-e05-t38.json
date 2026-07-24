@@ -1,5 +1,5 @@
 {
-  "assignee": "",
+  "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:03:32Z",
@@ -19,8 +19,8 @@
     }
   ],
   "priority": 1,
-  "status": "open",
+  "status": "in_progress",
   "title": "E05-T38 — Add a request and token quota example.",
   "type": "task",
-  "updated_at": "2026-07-24T12:48:45Z"
+  "updated_at": "2026-07-24T14:34:31Z"
 }
