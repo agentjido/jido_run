@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:35:08Z",
   "created": "2026-07-23T12:01:09Z",
   "description": "Backlog task: E02-T16\n\nWork area: Vocabulary\n\nMain targets: Positioning and ecosystem templates\n\nComplete when: AI is optional and package roles do not overlap.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e02-t16",
@@ -19,7 +20,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E02-T16 — Define the relation between Jido, Jido AI, ReqLLM, and LLMDB.",
   "type": "task",
   "updated_at": "2026-07-24T12:35:08Z"
