@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T13:50:33Z",
   "created": "2026-07-23T12:08:13Z",
   "description": "Backlog task: E12-T32\n\nWork area: Governance\n\nMain targets: `specs/templates/*`\n\nComplete when: New content starts compliant.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e12-t32",
@@ -22,7 +23,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E12-T32 — Update author templates with the new metadata and claim rules.",
   "type": "task",
   "updated_at": "2026-07-24T13:50:33Z"
