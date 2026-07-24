@@ -15,11 +15,15 @@
     {
       "text": "Open: examples-hub text search not yet implemented.",
       "timestamp": "2026-07-24T12:51:49Z"
+    },
+    {
+      "text": "Blocked on team intent: the existing test 'examples index is simplified without browse filters' (test/agent_jido_web/live/jido_examples_live_test.exs) deliberately removed browse filters, and 7 index tests assert the simplified rendering. E08-T02..T06 ask for filters, which contradicts that decision. Needs product confirmation to re-introduce filters (and update those tests) before implementing. Left open.",
+      "timestamp": "2026-07-24T15:34:25Z"
     }
   ],
   "priority": 1,
   "status": "open",
   "title": "E08-T02 — Add text search to the Examples hub.",
   "type": "task",
-  "updated_at": "2026-07-24T12:51:49Z"
+  "updated_at": "2026-07-24T15:34:25Z"
 }
