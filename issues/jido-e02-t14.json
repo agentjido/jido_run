@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:35:07Z",
   "created": "2026-07-23T12:01:07Z",
   "description": "Backlog task: E02-T14\n\nWork area: Vocabulary\n\nMain targets: Style guide, Directives docs\n\nComplete when: Copy explains why Directives exist.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e02-t14",
@@ -19,8 +20,8 @@
     }
   ],
   "priority": 0,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E02-T14 — Define Directive as a description of a runtime-owned effect.",
   "type": "task",
-  "updated_at": "2026-07-24T12:35:06Z"
+  "updated_at": "2026-07-24T12:35:07Z"
 }
