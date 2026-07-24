@@ -19,9 +19,19 @@
 - An existing Elixir app, or create one with `mix new my_agent_app --sup`
 - An API key for an LLM provider if you plan to use AI-backed features
 
-## Add dependencies
+## Install Jido
 
-Add `jido`, `jido_ai`, and `req_llm` to `mix.exs`:
+The recommended way to install Jido is the [Igniter](https://hex.pm/packages/igniter) installer. It adds the dependency and generates a Jido instance module wired into your supervision tree, so the runtime is owned by your OTP application:
+
+```shell
+mix igniter.install jido
+```
+
+This creates a `use Jido` module (for example `MyAgentApp.Jido`) and adds it to your application supervisor's `children` list. Then continue to [Your first agent](/docs/getting-started/first-agent).
+
+### Add dependencies manually
+
+If you prefer to wire things up by hand, add `jido` to `mix.exs` (add `jido_ai` and `req_llm` when you introduce AI):
 
 ```elixir
 defp deps do
@@ -31,6 +41,21 @@ defp deps do
     {{mix_dep:req_llm}}
   ]
 end
+```
+
+Define a Jido instance module and start it under your application supervisor:
+
+```elixir
+defmodule MyAgentApp.Jido do
+  use Jido, otp_app: :my_agent_app
+end
+```
+
+```elixir
+# lib/my_agent_app/application.ex
+children = [
+  {MyAgentApp.Jido, name: MyAgentApp.Jido}
+]
 ```
 
 Fetch and compile:
