@@ -368,6 +368,92 @@ defmodule AgentJidoWeb.JidoHomeLiveTest do
     end
   end
 
+  describe "home control proof cards: integrate your control system (jido-e04-t38)" do
+    # Acceptance condition: an "Integrate your control system" card sits in the
+    # operational-control section and explains IAM, Ash actor/tenant, storage,
+    # SIEM, and OTel integration boundaries — each routed to the boundary's
+    # authoritative destination.
+
+    test "renders an 'Integrate your control system' card inside the operational-control section",
+         %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      card = operational_control_card(html, "integrate-your-control-system")
+
+      assert card != nil, "expected an integrate-your-control-system control card"
+
+      assert card |> Floki.find("h3") |> Floki.text() |> String.trim() ==
+               "Integrate your control system"
+    end
+
+    test "the card sits after the trace-what-happened card", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      # Proof cards land in order, so the conceptual answers lead and each
+      # routing card follows the last.
+      assert {trace_idx, _} =
+               :binary.match(html, ~s(data-control-card="trace-what-happened"))
+
+      assert {integrate_idx, _} =
+               :binary.match(html, ~s(data-control-card="integrate-your-control-system"))
+
+      assert integrate_idx > trace_idx
+    end
+
+    test "names the IAM, Ash actor/tenant, storage, SIEM, and OTel boundaries in its copy",
+         %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      card = operational_control_card(html, "integrate-your-control-system")
+      copy = card |> Floki.find("p") |> Floki.text() |> String.downcase()
+
+      # The acceptance condition requires the card to *explain* these five
+      # integration boundaries, so each must appear by name in the card copy.
+      for term <- ~w(iam ash storage siem otel) do
+        assert String.contains?(copy, term),
+               "expected card copy to name the #{term} integration boundary"
+      end
+    end
+
+    test "links each integration boundary to its authoritative destination", %{
+      conn: conn
+    } do
+      {:ok, _view, html} = live(conn, "/")
+
+      card = operational_control_card(html, "integrate-your-control-system")
+
+      # Each boundary named in the acceptance condition routes to the page that
+      # owns it: the IAM and SIEM boundaries are the integration posture on the
+      # governance page; Ash actor/tenant context is the ash_jido bridge;
+      # durable storage is the Journal; OTel export is the telemetry bridge.
+      expected = %{
+        "iam-boundary" => "/docs/operations/security-and-governance",
+        "ash-actor-tenant" => "/ecosystem/ash_jido",
+        "durable-storage" => "/docs/concepts/persistence",
+        "siem-integration" => "/docs/operations/security-and-governance",
+        "otel-export" => "/docs/reference/telemetry-and-observability"
+      }
+
+      links =
+        card
+        |> Floki.find("a[data-control-link]")
+        |> Map.new(fn a ->
+          slug = Floki.attribute(a, "data-control-link") |> hd()
+          href = Floki.attribute(a, "href") |> hd()
+          {slug, href}
+        end)
+
+      assert Map.keys(links) |> MapSet.new() == MapSet.new(Map.keys(expected)),
+             "expected links for #{inspect(Map.keys(expected))}, " <>
+               "got #{inspect(Map.keys(links))}"
+
+      for {slug, href} <- expected do
+        assert links[slug] == href,
+               "expected #{slug} to link to #{href}, got #{inspect(links[slug])}"
+      end
+    end
+  end
+
   describe "home use-case cards (E04-T21)" do
     test "every card links to a unique scoped destination, not the unfiltered index", %{conn: conn} do
       {:ok, _view, html} = live(conn, "/")

@@ -670,11 +670,18 @@ defmodule AgentJidoWeb.JidoHomeLive do
   # records that reconstruct work — causal Signals (/docs/concepts/signals),
   # the durable Journal you configure for causal history
   # (/docs/concepts/persistence), and correlated telemetry that joins the
-  # trace (/docs/reference/telemetry-and-observability). The remaining
-  # dedicated cards, the telemetry-vs-audit and identity notes,
-  # controlled-Agent example routing, and the SRE CTA land in follow-up tasks
-  # (jido-e04-t38..t42); this section establishes the control story and routes
-  # to the existing operations governance page that already bounds these claims.
+  # trace (/docs/reference/telemetry-and-observability). The fourth, "Integrate
+  # your control system" (jido-e04-t38), names the boundaries Jido defers to
+  # your stack and routes each to where it is owned — the IAM/identity boundary
+  # in front of Jido (/docs/operations/security-and-governance), Ash actor and
+  # tenant context (/ecosystem/ash_jido), durable Journal storage
+  # (/docs/concepts/persistence), the SIEM audit-export boundary
+  # (/docs/operations/security-and-governance), and OTel export
+  # (/docs/reference/telemetry-and-observability). The remaining dedicated
+  # cards, the telemetry-vs-audit and identity notes, controlled-Agent example
+  # routing, and the SRE CTA land in follow-up tasks (jido-e04-t39..t42); this
+  # section establishes the control story and routes to the existing operations
+  # governance page that already bounds these claims.
   defp operational_control_section(assigns) do
     controls = [
       %{
@@ -866,6 +873,59 @@ defmodule AgentJidoWeb.JidoHomeLive do
               data-control-link="correlated-telemetry"
             >
               Correlated telemetry →
+            </.link>
+          </div>
+        </article>
+
+        <article
+          id="control-integrate-your-control-system"
+          class="home-pillar-card px-6 py-6 mt-6"
+          data-control-card="integrate-your-control-system"
+        >
+          <div class="home-pillar-chip home-pillar-chip-cyan">
+            <span class="text-2xl leading-none text-accent-cyan">⇄</span>
+          </div>
+          <h3 class="text-lg sm:text-xl font-bold mt-2 mb-3 leading-tight">
+            Integrate your control system
+          </h3>
+          <p class="home-muted-copy text-[15px] leading-relaxed max-w-md mx-auto mb-5">
+            Jido integrates with your existing systems; it does not replace them. Each boundary stays yours — the IAM and identity layer in front of Jido, Ash actor and tenant context carried through ash_jido, durable storage for the Journal, and your SIEM and OTel backends for export.
+          </p>
+          <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
+            <.link
+              navigate="/docs/operations/security-and-governance"
+              class="home-pillar-link home-pillar-link-cyan"
+              data-control-link="iam-boundary"
+            >
+              IAM boundary →
+            </.link>
+            <.link
+              navigate="/ecosystem/ash_jido"
+              class="home-pillar-link home-pillar-link-cyan"
+              data-control-link="ash-actor-tenant"
+            >
+              Ash actor/tenant →
+            </.link>
+            <.link
+              navigate="/docs/concepts/persistence"
+              class="home-pillar-link home-pillar-link-cyan"
+              data-control-link="durable-storage"
+            >
+              Durable storage →
+            </.link>
+            <.link
+              navigate="/docs/operations/security-and-governance"
+              class="home-pillar-link home-pillar-link-cyan"
+              data-control-link="siem-integration"
+            >
+              SIEM integration →
+            </.link>
+            <.link
+              navigate="/docs/reference/telemetry-and-observability"
+              class="home-pillar-link home-pillar-link-cyan"
+              data-control-link="otel-export"
+            >
+              OTel export →
             </.link>
           </div>
         </article>
