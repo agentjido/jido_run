@@ -12,9 +12,15 @@
     "slice-05"
   ],
   "parent": "jido-e04",
+  "comments": [
+    {
+      "text": "Open: secondary 'Run a failure drill' CTA depends on a runnable failure-drill example (jido-e08). Not external-gated; build the example first.",
+      "timestamp": "2026-07-24T12:46:28Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E04-T05 — Use “Run a failure drill” as the secondary proof CTA after the example exists.",
   "type": "task",
-  "updated_at": "2026-07-23T12:02:17Z"
+  "updated_at": "2026-07-24T12:46:28Z"
 }
