@@ -11,6 +11,12 @@
     "epic-e09"
   ],
   "parent": "jido-e09",
+  "comments": [
+    {
+      "text": "Done: Workflow stack defined (Strategies vs Runic DAG).",
+      "timestamp": "2026-07-24T12:52:35Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "E09-T07 — Create a workflow stack.",
