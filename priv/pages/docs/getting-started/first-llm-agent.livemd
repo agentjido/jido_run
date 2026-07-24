@@ -57,16 +57,70 @@ configured? =
   end
 ```
 
+## Define a typed tool Action
+
+A model-only agent can only generate text. To let an agent act — compute a value, return structured data, or call an API — you give it typed tool Actions. Every tool is a plain `Jido.Action` module: a typed `schema` declares its inputs, and a `run/2` callback performs the effect and returns `{:ok, result}` or `{:error, reason}`. Define the smallest useful one now.
+
+```elixir
+defmodule MyAgentApp.ComposeGreeting do
+  use Jido.Action,
+    name: "compose_greeting",
+    description: "Compose a greeting for a named person in a chosen tone.",
+    schema: [
+      name: [type: :string, required: true, doc: "Name of the person to greet"],
+      tone: [
+        type: {:in, ["warm", "formal", "playful"]},
+        default: "warm",
+        doc: "Tone of the greeting"
+      ],
+      enthusiasm: [
+        type: :integer,
+        default: 1,
+        doc: "Exclamation marks to append, clamped to 0-3"
+      ]
+    ]
+
+  @impl true
+  def run(%{name: name, tone: tone, enthusiasm: enthusiasm}, _context) do
+    salutation =
+      case tone do
+        "warm" -> "Hi"
+        "formal" -> "Greetings"
+        "playful" -> "Hey there"
+      end
+
+    marks = String.duplicate("!", clamp(enthusiasm, 0, 3))
+    {:ok, %{greeting: "#{salutation}, #{name}#{marks}"}}
+  end
+
+  defp clamp(value, low, high), do: value |> max(low) |> min(high)
+end
+```
+
+Test the effect directly, with no LLM in the loop. Calling `run/2` runs the Action's effect with the params you pass, so this cell works without a provider key:
+
+```elixir
+{:ok, composed} =
+  MyAgentApp.ComposeGreeting.run(
+    %{name: "Casey", tone: "playful", enthusiasm: 3},
+    %{}
+  )
+
+IO.inspect(composed, label: "Composed greeting")
+```
+
+The `schema` is what both the runtime and the LLM read. Each parameter carries a `type` (`:string`, `:integer`, or an `{:in, [...]}` enum), an optional `default:` and `doc:`, and a `required:` flag. The `run/2` callback is the effect — it receives the validated params and a context map and returns a result. Because LLM tool calls arrive as JSON, enum values use strings (`"warm"`, not `:warm`). [AI Agent with Tools](/docs/learn/ai-agent-with-tools) builds the full ReAct tool-calling loop on this same Action type.
+
 ## Define the agent
 
-`use Jido.AI.Agent` keeps the module declarative: describe the agent, choose a model, and provide a system prompt. This first example does not use tools, so the only new capability is the LLM call. Tools are themselves typed Actions — and unlike this pure prompt, tool Actions can perform I/O. You will add one in [AI Agent with Tools](/docs/learn/ai-agent-with-tools).
+`use Jido.AI.Agent` keeps the module declarative: name the agent, choose a model, list the tool Actions it may call, and provide a system prompt. This greeter lists the `compose_greeting` Action defined above, so it can both generate text and call a typed tool.
 
 ```elixir
 defmodule MyAgentApp.Greeter do
   use Jido.AI.Agent,
     name: "greeter",
     description: "Generates a friendly greeting",
-    tools: [],
+    tools: [MyAgentApp.ComposeGreeting],
     model: "openai:gpt-4o-mini",
     system_prompt: """
     You are a friendly greeter.
