@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:39:38Z",
   "created": "2026-07-23T12:01:40Z",
   "description": "Backlog task: E03-T02\n\nWork area: Tasks\n\nMain targets: `lib/agent_jido_web/components/layouts/root.html.heex`\n\nComplete when: Root and route-specific metadata agree.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e03-t02",
@@ -19,7 +20,7 @@
     }
   ],
   "priority": 0,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E03-T02 — Replace the root-layout default description.",
   "type": "task",
   "updated_at": "2026-07-24T12:39:38Z"
