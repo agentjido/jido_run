@@ -1,5 +1,5 @@
 {
-  "assignee": "",
+  "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:04:10Z",
@@ -13,8 +13,8 @@
   ],
   "parent": "jido-e06",
   "priority": 1,
-  "status": "open",
+  "status": "in_progress",
   "title": "E06-T35 — Add Journal adapter, durability, retention, and replay guidance.",
   "type": "task",
-  "updated_at": "2026-07-23T12:04:10Z"
+  "updated_at": "2026-07-24T12:49:35Z"
 }
