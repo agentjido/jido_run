@@ -12,9 +12,15 @@
     "slice-05"
   ],
   "parent": "jido-e04",
+  "comments": [
+    {
+      "text": "Open: 'Why not a GenServer?' objection block is a new home section, not yet built.",
+      "timestamp": "2026-07-24T12:46:30Z"
+    }
+  ],
   "priority": 2,
   "status": "open",
   "title": "E04-T28 — Add an objection block for “Why not a GenServer?”",
   "type": "task",
-  "updated_at": "2026-07-23T12:02:40Z"
+  "updated_at": "2026-07-24T12:46:30Z"
 }
