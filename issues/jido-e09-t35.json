@@ -15,6 +15,10 @@
     {
       "text": "Open: automated Hex-version freshness check not yet added.",
       "timestamp": "2026-07-24T12:52:43Z"
+    },
+    {
+      "text": "Done in this commit: automated version-freshness check (test/agent_jido/ecosystem_version_freshness_test.exs) flags registry-vs-installed drift for dependency packages; jido_signal and llm_db synced to installed releases. Hex-network check for non-dep packages is the follow-up.",
+      "timestamp": "2026-07-24T16:45:26Z"
     }
   ],
   "priority": 1,
