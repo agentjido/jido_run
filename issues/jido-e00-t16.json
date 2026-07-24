@@ -11,6 +11,12 @@
     "epic-e00"
   ],
   "parent": "jido-e00",
+  "comments": [
+    {
+      "text": "Done in eb56808: observability surface inventory (Jido.Observe, Jido.Telemetry, jido_signal tracing, jido_otel Experimental, LiveDashboard) in specs/audits/control-inventory-2026-07-23.md.",
+      "timestamp": "2026-07-24T12:25:04Z"
+    }
+  ],
   "priority": 0,
   "status": "in_progress",
   "title": "E00-T16 — Inventory every observability surface.",
