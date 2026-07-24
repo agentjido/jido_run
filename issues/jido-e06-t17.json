@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:49:31Z",
   "created": "2026-07-23T12:03:52Z",
   "description": "Backlog task: E06-T17\n\nWork area: Content hygiene\n\nMain targets: Concepts and Feature pages\n\nComplete when: Agent and AgentServer terms follow the canon.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e06-t17",
@@ -18,8 +19,8 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E06-T17 — Correct pages that call the Agent struct a process.",
   "type": "task",
-  "updated_at": "2026-07-24T12:49:30Z"
+  "updated_at": "2026-07-24T12:49:31Z"
 }
