@@ -11,9 +11,15 @@
     "epic-e09"
   ],
   "parent": "jido-e09",
+  "comments": [
+    {
+      "text": "Done: Messaging Agent stack defined (Experimental adapters noted).",
+      "timestamp": "2026-07-24T12:52:35Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "E09-T06 — Create a messaging Agent stack.",
   "type": "task",
-  "updated_at": "2026-07-24T12:52:34Z"
+  "updated_at": "2026-07-24T12:52:35Z"
 }
