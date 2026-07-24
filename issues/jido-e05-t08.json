@@ -12,6 +12,12 @@
     "slice-06"
   ],
   "parent": "jido-e05",
+  "comments": [
+    {
+      "text": "Done in 8f0ebca: installation page shows the instance in the application supervision tree.",
+      "timestamp": "2026-07-24T12:47:59Z"
+    }
+  ],
   "priority": 0,
   "status": "in_progress",
   "title": "E05-T08 — Show the Jido instance in the supervision tree.",
