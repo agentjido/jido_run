@@ -16,6 +16,10 @@
     {
       "text": "Open: Action scopes/capability names depend on the reference app.",
       "timestamp": "2026-07-24T12:50:39Z"
+    },
+    {
+      "text": "Done in this commit: permission decisions use a named capability/action path (work.approve) and an allowlist instead of broad role text.",
+      "timestamp": "2026-07-24T14:27:12Z"
     }
   ],
   "priority": 1,
