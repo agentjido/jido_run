@@ -11,9 +11,15 @@
     "epic-e08"
   ],
   "parent": "jido-e08",
+  "comments": [
+    {
+      "text": "Open: URL-persisted filter state not yet implemented.",
+      "timestamp": "2026-07-24T12:51:50Z"
+    }
+  ],
   "priority": 2,
   "status": "open",
   "title": "E08-T07 — Persist filter state in the URL.",
   "type": "task",
-  "updated_at": "2026-07-23T12:05:10Z"
+  "updated_at": "2026-07-24T12:51:50Z"
 }
