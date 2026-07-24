@@ -15,6 +15,10 @@
     {
       "text": "Open: state-restore example not yet built.",
       "timestamp": "2026-07-24T12:51:52Z"
+    },
+    {
+      "text": "Done: the public persistence-storage-agent example (priv/examples/persistence-storage-agent.md, status :live) demonstrates state restore after hibernate/thaw (test/agent_jido/demos/persistence_storage_agent_test.exs asserts restored state).",
+      "timestamp": "2026-07-24T13:52:51Z"
     }
   ],
   "priority": 1,
