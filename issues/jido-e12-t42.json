@@ -16,6 +16,10 @@
     {
       "text": "Open: durable-history restart test depends on the reference app.",
       "timestamp": "2026-07-24T12:55:05Z"
+    },
+    {
+      "text": "Done in this commit: durable-history restart test asserts the required causal records remain available after the restart.",
+      "timestamp": "2026-07-24T14:41:18Z"
     }
   ],
   "priority": 1,
