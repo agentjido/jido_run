@@ -11,9 +11,15 @@
     "epic-e12"
   ],
   "parent": "jido-e12",
+  "comments": [
+    {
+      "text": "Done: public-example sitemap coverage check (test/agent_jido_web/controllers/sitemap_controller_test.exs).",
+      "timestamp": "2026-07-24T12:54:56Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "E12-T11 — Add public-example sitemap coverage checks.",
   "type": "task",
-  "updated_at": "2026-07-24T12:54:55Z"
+  "updated_at": "2026-07-24T12:54:56Z"
 }
