@@ -1,5 +1,5 @@
 {
-  "assignee": "Mike Hostetler",
+  "assignee": "",
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:02:06Z",
@@ -19,7 +19,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "open",
   "title": "E03-T28 — Add a concise operational-control introduction to the Features hub.",
   "type": "task",
   "updated_at": "2026-07-24T12:39:59Z"
