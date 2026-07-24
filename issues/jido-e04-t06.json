@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:46:23Z",
   "created": "2026-07-23T12:02:18Z",
   "description": "Backlog task: E04-T06\n\nWork area: Hero and first viewport\n\nMain targets: Home hero or proof strip\n\nComplete when: It states that core packages are Beta and no separate runtime service is required.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e04-t06",
@@ -19,7 +20,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E04-T06 — Add a short maturity note.",
   "type": "task",
   "updated_at": "2026-07-24T12:46:23Z"
