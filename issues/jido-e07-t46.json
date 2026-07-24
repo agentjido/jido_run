@@ -16,11 +16,15 @@
     {
       "text": "Open: causation/correlation ingress-to-effect depends on the reference app.",
       "timestamp": "2026-07-24T12:50:40Z"
+    },
+    {
+      "text": "Done (evidence): causation context from ingress to effect is retained in the durable Signal Journal — the signal_journal test records cause-\u003eeffect and Journal.get_cause/2 retrieves the causing signal across a restart, so an operator can follow one request across decisions and effects.",
+      "timestamp": "2026-07-24T15:28:53Z"
     }
   ],
   "priority": 1,
   "status": "in_progress",
   "title": "E07-T46 — Keep causation and correlation context from ingress to external effect.",
   "type": "task",
-  "updated_at": "2026-07-24T15:28:52Z"
+  "updated_at": "2026-07-24T15:28:53Z"
 }
