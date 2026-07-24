@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:49:32Z",
   "created": "2026-07-23T12:04:03Z",
   "description": "Backlog task: E06-T28\n\nWork area: Operational-control content\n\nMain targets: Docs IA and Operate hub\n\nComplete when: A reader can follow identity context, authorization, history, observation, and failure handling in one order.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e06-t28",
@@ -19,7 +20,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E06-T28 — Add an operational-control path under Operate.",
   "type": "task",
   "updated_at": "2026-07-24T12:49:32Z"
