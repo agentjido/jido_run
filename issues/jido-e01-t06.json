@@ -12,6 +12,12 @@
     "slice-01"
   ],
   "parent": "jido-e01",
+  "comments": [
+    {
+      "text": "Done in 5f28d96: regression test test/agent_jido/first_llm_tutorial_consistency_test.exs fails on provider/model mismatch or alias use.",
+      "timestamp": "2026-07-24T12:25:46Z"
+    }
+  ],
   "priority": 0,
   "status": "in_progress",
   "title": "E01-T06 — Add a regression test for the Elixir Forum failure.",
