@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:52:33Z",
   "created": "2026-07-23T12:05:52Z",
   "description": "Backlog task: E09-T03\n\nWork area: Recommended stacks\n\nMain targets: Ecosystem hub and guide\n\nComplete when: It names persistence and observability choices with maturity.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e09-t03",
@@ -18,7 +19,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E09-T03 — Create a durable long-running stack.",
   "type": "task",
   "updated_at": "2026-07-24T12:52:33Z"
