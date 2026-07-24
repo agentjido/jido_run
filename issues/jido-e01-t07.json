@@ -12,6 +12,12 @@
     "slice-01"
   ],
   "parent": "jido-e01",
+  "comments": [
+    {
+      "text": "Deferred: running the external Livebook in CI requires an OPENAI_API_KEY secret in the GitHub Actions environment, which is infra/config outside this task. The defect itself is covered by the static regression test (jido-e01-t06) and the explicit openai: model fix (jido-e01-t01). Reopen when a provider key can be provisioned to CI as a scheduled release gate.",
+      "timestamp": "2026-07-24T12:25:51Z"
+    }
+  ],
   "priority": 0,
   "status": "in_progress",
   "title": "E01-T07 — Run the external Livebook test with the documented provider in CI or a scheduled release gate.",
