@@ -12,9 +12,15 @@
     "slice-03"
   ],
   "parent": "jido-e02",
+  "comments": [
+    {
+      "text": "Done in 28959a2: reliable/recover/durable/scale/safe/tracing added to the qualifier list in style-voice.md.",
+      "timestamp": "2026-07-24T12:35:38Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "E02-T21 — Add “reliable,” “recover,” “durable,” “scale,” “safe,” and “tracing” to the qualifier list.",
   "type": "task",
-  "updated_at": "2026-07-24T12:35:37Z"
+  "updated_at": "2026-07-24T12:35:38Z"
 }
