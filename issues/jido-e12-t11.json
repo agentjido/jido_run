@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:54:56Z",
   "created": "2026-07-23T12:07:52Z",
   "description": "Backlog task: E12-T11\n\nWork area: Content lint and release gates\n\nMain targets: Sitemap tests\n\nComplete when: A new public example must appear in the sitemap.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e12-t11",
@@ -18,7 +19,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E12-T11 — Add public-example sitemap coverage checks.",
   "type": "task",
   "updated_at": "2026-07-24T12:54:56Z"
