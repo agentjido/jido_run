@@ -12,6 +12,12 @@
     "slice-03"
   ],
   "parent": "jido-e02",
+  "comments": [
+    {
+      "text": "Done in 28959a2: \"self-healing\", \"no downtime\", \"uptime guarantees\", \"observe everything\" added to the restricted-claim list in style-voice.md.",
+      "timestamp": "2026-07-24T12:35:36Z"
+    }
+  ],
   "priority": 0,
   "status": "in_progress",
   "title": "E02-T18 — Add “self-healing,” “no downtime,” “uptime guarantees,” and “observe everything” to the restricted-claim list.",
