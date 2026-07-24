@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:25:05Z",
   "created": "2026-07-23T12:00:21Z",
   "description": "Backlog task: E00-T08\n\nWork area: Tasks\n\nMain targets: `priv/ecosystem/*.md`, `lib/agent_jido/release_catalog.ex`\n\nComplete when: A dated table shows registry version, Hex version, and support level.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e00-t08",
@@ -18,7 +19,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E00-T08 — Record current package versions and support levels.",
   "type": "task",
   "updated_at": "2026-07-24T12:25:05Z"
