@@ -15,6 +15,10 @@
     {
       "text": "Open: dedicated 'State across process restart' page not yet published.",
       "timestamp": "2026-07-24T12:50:31Z"
+    },
+    {
+      "text": "Done: state-across-restart is distinguished (memory vs persisted vs checkpoints vs reconstruction) in the /docs/operations production-readiness checklist, and the persistence-storage example proves persisted-state restore via hibernate/thaw.",
+      "timestamp": "2026-07-24T13:52:52Z"
     }
   ],
   "priority": 1,
