@@ -12,9 +12,15 @@
     "slice-05"
   ],
   "parent": "jido-e04",
+  "comments": [
+    {
+      "text": "Open: LiveView tests asserting every landing-page destination resolves; the static link audit covers resolution at zero, but a LiveView-render test is not yet added.",
+      "timestamp": "2026-07-24T12:46:31Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E04-T31 — Add LiveView tests for every landing-page destination.",
   "type": "task",
-  "updated_at": "2026-07-23T12:02:43Z"
+  "updated_at": "2026-07-24T12:46:31Z"
 }
