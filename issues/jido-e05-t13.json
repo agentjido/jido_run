@@ -12,9 +12,15 @@
     "slice-06"
   ],
   "parent": "jido-e05",
+  "comments": [
+    {
+      "text": "Open: stop/restart the running process is not yet in the first-agent Livebook (local cmd/2 example).",
+      "timestamp": "2026-07-24T12:48:41Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E05-T13 — Stop and restart the running process.",
   "type": "task",
-  "updated_at": "2026-07-23T12:03:07Z"
+  "updated_at": "2026-07-24T12:48:41Z"
 }
