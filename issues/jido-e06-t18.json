@@ -15,6 +15,10 @@
     {
       "text": "Open: review of 'automatic recovery' language across docs not yet swept.",
       "timestamp": "2026-07-24T12:49:39Z"
+    },
+    {
+      "text": "Done: scanned priv/pages/docs for 'automatic recovery'/'auto-recover'/'auto-heal' — no occurrences; the docs already distinguish process restart from state recovery.",
+      "timestamp": "2026-07-24T12:57:56Z"
     }
   ],
   "priority": 1,
