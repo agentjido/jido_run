@@ -12,9 +12,15 @@
     "slice-08"
   ],
   "parent": "jido-e07",
+  "comments": [
+    {
+      "text": "Open: authentication-as-boundary in the reference app depends on T35.",
+      "timestamp": "2026-07-24T12:50:38Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E07-T36 — Show authentication as an application or platform boundary.",
   "type": "task",
-  "updated_at": "2026-07-23T12:04:48Z"
+  "updated_at": "2026-07-24T12:50:38Z"
 }
