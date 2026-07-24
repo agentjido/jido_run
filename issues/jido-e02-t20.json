@@ -12,6 +12,12 @@
     "slice-03"
   ],
   "parent": "jido-e02",
+  "comments": [
+    {
+      "text": "Done in 28959a2: \"autonomous\" added to the definition-required list in style-voice.md.",
+      "timestamp": "2026-07-24T12:35:37Z"
+    }
+  ],
   "priority": 0,
   "status": "in_progress",
   "title": "E02-T20 — Add “autonomous” to the definition-required list.",
