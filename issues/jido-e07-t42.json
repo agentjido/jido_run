@@ -16,11 +16,15 @@
     {
       "text": "Open: request/token/tool quotas depend on the reference app.",
       "timestamp": "2026-07-24T12:50:39Z"
+    },
+    {
+      "text": "Done in this commit: request/quota control — BilledAction runs up to the budget then is rejected with an observable error result.",
+      "timestamp": "2026-07-24T14:34:31Z"
     }
   ],
   "priority": 1,
   "status": "in_progress",
   "title": "E07-T42 — Configure request, token, and tool quotas.",
   "type": "task",
-  "updated_at": "2026-07-24T14:34:30Z"
+  "updated_at": "2026-07-24T14:34:31Z"
 }
