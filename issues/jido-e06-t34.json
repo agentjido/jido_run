@@ -12,6 +12,12 @@
     "slice-07"
   ],
   "parent": "jido-e06",
+  "comments": [
+    {
+      "text": "Done in 0033357: sensitive-data and telemetry-redaction rules covered in operations/security-and-governance.",
+      "timestamp": "2026-07-24T12:49:34Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "E06-T34 — Add sensitive-data and telemetry-redaction rules.",
