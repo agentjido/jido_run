@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:25:07Z",
   "created": "2026-07-23T12:00:24Z",
   "description": "Backlog task: E00-T11\n\nWork area: Tasks\n\nMain targets: Analytics and release plan\n\nComplete when: The measure is “one tested Agent flow completed without manual repair.”\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e00-t11",
@@ -18,7 +19,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E00-T11 — Define the acceptance measure for the first Agent path.",
   "type": "task",
   "updated_at": "2026-07-24T12:25:07Z"
