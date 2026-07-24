@@ -88,7 +88,7 @@ For scheduling and recurring behaviors, Directives also model time-based orchest
 - **Fault tolerance:** [Agents that self-heal](/features/agents-that-self-heal)
 - **Observability:** [Observe everything](/features/observe-everything)
 - **Training paths:** [Signals routing](/training/signals-routing), [Directives scheduling](/training/directives-scheduling)
-- **Reference docs:** [Architecture](/docs/reference/architecture), [Guides](/docs/guides)
+- **Reference docs:** [Architecture](/docs/reference/behavior-first-architecture), [Guides](/docs/guides)
 
 ## Get Building
 

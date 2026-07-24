@@ -73,7 +73,7 @@ This provides an implementation reference for supervised runtime topology and ex
 1. Choose the smallest pattern that supports your near-term workflow complexity.
 2. Map each critical workflow to one owning agent and one fallback path.
 3. Confirm observability and recovery expectations with [Production Readiness Checklist](/docs/operations/production-readiness-checklist).
-4. Review runtime and package rationale with [Architecture](/docs/reference/architecture).
+4. Review runtime and package rationale with [Architecture](/docs/reference/behavior-first-architecture).
 
 ## Get Building
 

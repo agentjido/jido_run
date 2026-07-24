@@ -24,7 +24,7 @@ Pick the persona path that matches your current bottleneck, finish one milestone
 - First milestone: run one supervised agent and verify deterministic state updates.
 - Start: [Counter Agent example](/examples/counter-agent)
 - Next training: [Agent Fundamentals on the BEAM](/training/agent-fundamentals)
-- Ops/reference follow-up: [Architecture](/docs/reference/architecture)
+- Ops/reference follow-up: [Architecture](/docs/reference/behavior-first-architecture)
 
 ### AI product engineer
 

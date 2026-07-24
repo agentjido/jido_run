@@ -78,7 +78,7 @@ You can evaluate Jido with a single `mix deps.get` and remove it with a single d
 - **Tools:** [Give agents tools](/features/tools)
 - **Fault tolerance:** [Agents that self-heal](/features/agents-that-self-heal)
 - **BEAM advantages:** [BEAM for AI builders](/features/beam-for-ai-builders)
-- **Reference docs:** [Architecture](/docs/reference/architecture)
+- **Reference docs:** [Architecture](/docs/reference/behavior-first-architecture)
 
 ## Get Building
 

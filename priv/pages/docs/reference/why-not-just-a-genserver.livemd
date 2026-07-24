@@ -109,6 +109,6 @@ Jido adds structure on top of OTP: typed state, deterministic transitions, signa
 
 ## Next steps
 
-- [Agent fundamentals](/docs/learn/agent-fundamentals) - deeper mental model for Jido agents
+- [Agent fundamentals](/docs/concepts/agents) - deeper mental model for Jido agents
 - [Agents concept](/docs/concepts/agents) - the authoritative reference for the Agent system
 - [Agent runtime concept](/docs/concepts/agent-runtime) - how AgentServer wraps agents in OTP
