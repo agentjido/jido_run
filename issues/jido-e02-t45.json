@@ -12,6 +12,12 @@
     "slice-03"
   ],
   "parent": "jido-e02",
+  "comments": [
+    {
+      "text": "Done in 28959a2: rule that every \"production\" claim names at least one lifecycle control and one inspection control (§11).",
+      "timestamp": "2026-07-24T12:35:50Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "E02-T45 — Add a rule that every “production” claim must name at least one lifecycle control and one inspection control.",
