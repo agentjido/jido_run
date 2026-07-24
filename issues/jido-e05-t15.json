@@ -1,5 +1,5 @@
 {
-  "assignee": "",
+  "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:03:09Z",
@@ -19,8 +19,8 @@
     }
   ],
   "priority": 1,
-  "status": "open",
+  "status": "in_progress",
   "title": "E05-T15 — Link to persistence as the next operation step.",
   "type": "task",
-  "updated_at": "2026-07-24T12:48:42Z"
+  "updated_at": "2026-07-24T23:04:55Z"
 }
