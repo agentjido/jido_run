@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:54:09Z",
   "created": "2026-07-23T12:07:15Z",
   "description": "Backlog task: E11-T02\n\nWork area: Case studies\n\nMain targets: Case-study template\n\nComplete when: The project owner approves every operational claim.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e11-t02",
@@ -18,8 +19,8 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E11-T02 — Add a claim-approval section to the template.",
   "type": "task",
-  "updated_at": "2026-07-24T12:54:08Z"
+  "updated_at": "2026-07-24T12:54:09Z"
 }
