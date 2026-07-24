@@ -12,9 +12,15 @@
     "slice-06"
   ],
   "parent": "jido-e05",
+  "comments": [
+    {
+      "text": "Open: control-boundary summary depends on jido-e07.",
+      "timestamp": "2026-07-24T12:48:46Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E05-T41 — Add a control-boundary summary.",
   "type": "task",
-  "updated_at": "2026-07-23T12:03:35Z"
+  "updated_at": "2026-07-24T12:48:46Z"
 }
