@@ -12,9 +12,15 @@
     "slice-03"
   ],
   "parent": "jido-e02",
+  "comments": [
+    {
+      "text": "Done in 0328efd: control-evaluation journey (architecture -\u003e authz hook -\u003e Journal -\u003e telemetry/redaction -\u003e ops proof) added to persona-journeys.md.",
+      "timestamp": "2026-07-24T12:36:08Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "E02-T41 — Add a control-evaluation journey.",
   "type": "task",
-  "updated_at": "2026-07-24T12:36:07Z"
+  "updated_at": "2026-07-24T12:36:08Z"
 }
