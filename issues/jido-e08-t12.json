@@ -11,9 +11,15 @@
     "epic-e08"
   ],
   "parent": "jido-e08",
+  "comments": [
+    {
+      "text": "Open: expected result per example not yet added.",
+      "timestamp": "2026-07-24T12:51:51Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E08-T12 — Add an expected result to every public example.",
   "type": "task",
-  "updated_at": "2026-07-23T12:05:15Z"
+  "updated_at": "2026-07-24T12:51:51Z"
 }
