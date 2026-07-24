@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:53:31Z",
   "created": "2026-07-23T12:07:02Z",
   "description": "Backlog task: E10-T23\n\nWork area: Sitemap and Skills\n\nMain targets: Skills LiveView and vendored manifest\n\nComplete when: The 12 package skills and router skill appear as cards.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e10-t23",
@@ -18,7 +19,7 @@
     }
   ],
   "priority": 0,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E10-T23 — Repair the empty Skills catalog.",
   "type": "task",
   "updated_at": "2026-07-24T12:53:31Z"
