@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:24:43Z",
   "created": "2026-07-23T12:00:18Z",
   "description": "Backlog task: E00-T05\n\nWork area: Tasks\n\nMain targets: `specs/taxonomy.md`, route tests\n\nComplete when: Every content route family has one state.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e00-t05",
@@ -18,7 +19,7 @@
     }
   ],
   "priority": 0,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E00-T05 — Create a route-status table with `public`, `draft`, `retired`, and `redirect` states.",
   "type": "task",
   "updated_at": "2026-07-24T12:24:43Z"
