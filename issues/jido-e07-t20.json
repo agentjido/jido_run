@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:50:29Z",
   "created": "2026-07-23T12:04:32Z",
   "description": "Backlog task: E07-T20\n\nWork area: Operational topics\n\nMain targets: Existing draft\n\nComplete when: It covers tool permissions, secrets, approval, audit, and data boundaries.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e07-t20",
@@ -18,7 +19,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E07-T20 — Publish security and governance guidance.",
   "type": "task",
   "updated_at": "2026-07-24T12:50:29Z"
