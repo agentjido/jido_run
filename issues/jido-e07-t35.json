@@ -16,11 +16,15 @@
     {
       "text": "Open: controlled-Agent architecture extension specified but not implemented.",
       "timestamp": "2026-07-24T12:50:38Z"
+    },
+    {
+      "text": "Progress: the controlled-agent demo implements ingress (Signal), application-supplied principal, policy (allowlist), and a fail-closed authorization Action. Remaining for the full architecture: durable Journal, correlated telemetry, human-approval boundary, and recovery (tracked in sibling tasks).",
+      "timestamp": "2026-07-24T14:27:54Z"
     }
   ],
   "priority": 1,
   "status": "open",
   "title": "E07-T35 — Extend the reference application into a controlled-Agent architecture.",
   "type": "task",
-  "updated_at": "2026-07-24T12:50:38Z"
+  "updated_at": "2026-07-24T14:27:54Z"
 }
