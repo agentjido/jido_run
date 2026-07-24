@@ -1,5 +1,5 @@
 {
-  "assignee": "",
+  "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:06:24Z",
@@ -18,8 +18,8 @@
     }
   ],
   "priority": 1,
-  "status": "open",
+  "status": "in_progress",
   "title": "E09-T35 — Add an automated Hex-version freshness check.",
   "type": "task",
-  "updated_at": "2026-07-24T12:52:43Z"
+  "updated_at": "2026-07-24T16:45:26Z"
 }
