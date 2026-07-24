@@ -12,9 +12,15 @@
     "slice-08"
   ],
   "parent": "jido-e07",
+  "comments": [
+    {
+      "text": "Open: AI tool/effect allowlists depend on the reference app.",
+      "timestamp": "2026-07-24T12:50:39Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E07-T41 — Configure AI tool and effect allowlists.",
   "type": "task",
-  "updated_at": "2026-07-23T12:04:53Z"
+  "updated_at": "2026-07-24T12:50:39Z"
 }
