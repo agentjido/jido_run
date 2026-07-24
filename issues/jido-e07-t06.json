@@ -11,9 +11,15 @@
     "epic-e07"
   ],
   "parent": "jido-e07",
+  "comments": [
+    {
+      "text": "Open: dedicated 'Scheduling and event input' page not yet published.",
+      "timestamp": "2026-07-24T12:50:32Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E07-T06 — Publish “Scheduling and event input.”",
   "type": "task",
-  "updated_at": "2026-07-23T12:04:18Z"
+  "updated_at": "2026-07-24T12:50:32Z"
 }
