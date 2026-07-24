@@ -222,6 +222,6 @@ The protocol uses `@fallback_to_any true`, so unknown directive types are logged
 
 ## Next steps
 
-- [Actions](/docs/concepts/actions) - learn how pure functions produce state changes and directives
+- [Actions](/docs/concepts/actions) - learn how Actions produce state changes and directives
 - [Agent runtime](/docs/concepts/agent-runtime) - understand how AgentServer supervises agents and drains directives
 - [Signals](/docs/concepts/signals) - explore the typed envelopes that directives dispatch

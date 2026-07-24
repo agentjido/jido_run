@@ -2,8 +2,8 @@
 
 Version: 2.0  
 Last updated: 2026-02-12  
-Positioning anchor: `Jido is a runtime for reliable, multi-agent systems.`  
-Differentiator: `Built on Elixir/OTP for fault-tolerant concurrency and production-grade reliability.`
+Positioning anchor: `Jido is the Elixir framework for long-running agent systems.` (see `specs/positioning.md` Section 11; `jido-e02`)  
+Differentiator: `Build Agent systems you can supervise, constrain, and inspect.`
 Project posture: Open-source, self-serve first.
 
 ## 1) Narrative Ladder
