@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:25:01Z",
   "created": "2026-07-23T12:00:19Z",
   "description": "Backlog task: E00-T06\n\nWork area: Tasks\n\nMain targets: `specs/content-system.md`, `specs/content-governance.md`\n\nComplete when: Home, Docs hub, Docs leaf, Livebook, Build, Compare, Example, Ecosystem, Skills, Markdown, sitemap, search, and MCP each have a named source.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e00-t06",
@@ -18,7 +19,7 @@
     }
   ],
   "priority": 0,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E00-T06 — Record the canonical source for each rendered surface.",
   "type": "task",
   "updated_at": "2026-07-24T12:25:01Z"
