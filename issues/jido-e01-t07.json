@@ -1,5 +1,5 @@
 {
-  "assignee": "Mike Hostetler",
+  "assignee": "",
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:00:37Z",
@@ -19,8 +19,8 @@
     }
   ],
   "priority": 0,
-  "status": "in_progress",
+  "status": "open",
   "title": "E01-T07 — Run the external Livebook test with the documented provider in CI or a scheduled release gate.",
   "type": "task",
-  "updated_at": "2026-07-24T12:25:51Z"
+  "updated_at": "2026-07-24T12:26:15Z"
 }
