@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T23:53:08Z",
   "created": "2026-07-23T12:03:26Z",
   "description": "Backlog task: E05-T32\n\nWork area: Maintenance and validation\n\nMain targets: Getting Started hub\n\nComplete when: The lane follows the first working Agent and does not block basic activation.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e05-t32",
@@ -23,7 +24,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E05-T32 — Add a third onboarding lane called “Add operational controls.”",
   "type": "task",
   "updated_at": "2026-07-24T23:53:08Z"
