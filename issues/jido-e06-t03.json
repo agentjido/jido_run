@@ -22,8 +22,8 @@
     }
   ],
   "priority": 1,
-  "status": "open",
+  "status": "deferred",
   "title": "E06-T03 — Move Learn tutorials under Build.",
   "type": "task",
-  "updated_at": "2026-07-24T16:16:57Z"
+  "updated_at": "2026-07-24T16:16:58Z"
 }
