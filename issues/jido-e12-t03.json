@@ -11,6 +11,12 @@
     "epic-e12"
   ],
   "parent": "jido-e12",
+  "comments": [
+    {
+      "text": "Done: unresolved-placeholder gate (markdown_content_test rejects {{...}} in the first-LLM payload; placeholder expansion in resolve_from_pages).",
+      "timestamp": "2026-07-24T12:54:53Z"
+    }
+  ],
   "priority": 0,
   "status": "in_progress",
   "title": "E12-T03 — Add an unresolved-placeholder gate.",
