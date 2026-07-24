@@ -11,9 +11,15 @@
     "epic-e10"
   ],
   "parent": "jido-e10",
+  "comments": [
+    {
+      "text": "Open: content type/status/version metadata in Markdown output not yet added.",
+      "timestamp": "2026-07-24T12:53:34Z"
+    }
+  ],
   "priority": 2,
   "status": "open",
   "title": "E10-T16 — Add content type, status, version, and last-validated metadata to Markdown output.",
   "type": "task",
-  "updated_at": "2026-07-23T12:06:55Z"
+  "updated_at": "2026-07-24T12:53:34Z"
 }
