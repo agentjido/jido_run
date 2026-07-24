@@ -11,9 +11,15 @@
     "epic-e08"
   ],
   "parent": "jido-e08",
+  "comments": [
+    {
+      "text": "Open: document-processing example not yet published.",
+      "timestamp": "2026-07-24T12:51:54Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E08-T26 — Publish one document-processing example.",
   "type": "task",
-  "updated_at": "2026-07-23T12:05:29Z"
+  "updated_at": "2026-07-24T12:51:54Z"
 }
