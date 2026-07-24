@@ -11,9 +11,15 @@
     "epic-e07"
   ],
   "parent": "jido-e07",
+  "comments": [
+    {
+      "text": "Open: failure-drill script depends on the reference app (T29).",
+      "timestamp": "2026-07-24T12:50:37Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E07-T31 — Add a failure-drill script.",
   "type": "task",
-  "updated_at": "2026-07-23T12:04:43Z"
+  "updated_at": "2026-07-24T12:50:37Z"
 }
