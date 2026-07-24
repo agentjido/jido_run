@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:25:46Z",
   "created": "2026-07-23T12:00:36Z",
   "description": "Backlog task: E01-T06\n\nWork area: First LLM tutorial\n\nMain targets: `test/livebooks/docs/`, forum issue fixture or assertion\n\nComplete when: A provider mismatch fails the test.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e01-t06",
@@ -19,7 +20,7 @@
     }
   ],
   "priority": 0,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E01-T06 — Add a regression test for the Elixir Forum failure.",
   "type": "task",
   "updated_at": "2026-07-24T12:25:46Z"
