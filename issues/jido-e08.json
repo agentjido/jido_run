@@ -19,9 +19,15 @@
     "epic-e08"
   ],
   "parent": "jido-site-facelift",
+  "comments": [
+    {
+      "text": "Session-achievable core done: example detail pages in sitemap (T31), status model confirmed sound (T30), task-oriented taxonomy labels added (T01). Residual (large, tracked): full example card contract across 22 examples, examples-hub search/filters UI, and new runnable proof examples (crash-restart, state-restore, signal trace) which require real agent source + LiveView modules to build safely.",
+      "timestamp": "2026-07-24T02:30:51Z"
+    }
+  ],
   "priority": 0,
   "status": "closed",
   "title": "E08 — Turn examples into direct proof",
   "type": "epic",
-  "updated_at": "2026-07-24T02:30:50Z"
+  "updated_at": "2026-07-24T02:30:51Z"
 }
