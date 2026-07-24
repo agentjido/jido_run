@@ -11,9 +11,15 @@
     "epic-e06"
   ],
   "parent": "jido-e06",
+  "comments": [
+    {
+      "text": "Open: audience/outcome filters on the Docs hub not yet added.",
+      "timestamp": "2026-07-24T12:49:40Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E06-T25 — Add audience and outcome filters to the Docs hub.",
   "type": "task",
-  "updated_at": "2026-07-23T12:04:00Z"
+  "updated_at": "2026-07-24T12:49:40Z"
 }
