@@ -16,6 +16,10 @@
     {
       "text": "Open: request/token quota example depends on jido-e07/e08.",
       "timestamp": "2026-07-24T12:48:45Z"
+    },
+    {
+      "text": "Done in this commit: request/token quota example (BilledAction reaches a small test quota and produces a documented rejection).",
+      "timestamp": "2026-07-24T14:34:31Z"
     }
   ],
   "priority": 1,
