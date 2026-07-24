@@ -12,9 +12,15 @@
     "slice-05"
   ],
   "parent": "jido-e04",
+  "comments": [
+    {
+      "text": "Open: per-card 'available example' status label depends on the per-category examples in jido-e04-t21.",
+      "timestamp": "2026-07-24T12:46:29Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E04-T22 — Add a “status” or “available example” label to each card.",
   "type": "task",
-  "updated_at": "2026-07-23T12:02:34Z"
+  "updated_at": "2026-07-24T12:46:29Z"
 }
