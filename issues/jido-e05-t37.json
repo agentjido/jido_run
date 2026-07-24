@@ -12,9 +12,15 @@
     "slice-06"
   ],
   "parent": "jido-e05",
+  "comments": [
+    {
+      "text": "Open: AI tool allowlist/effect-policy example depends on jido-e07/e08.",
+      "timestamp": "2026-07-24T12:48:45Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E05-T37 — Add one Jido AI tool allowlist or effect-policy example.",
   "type": "task",
-  "updated_at": "2026-07-23T12:03:31Z"
+  "updated_at": "2026-07-24T12:48:45Z"
 }
