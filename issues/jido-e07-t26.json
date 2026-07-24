@@ -11,9 +11,15 @@
     "epic-e07"
   ],
   "parent": "jido-e07",
+  "comments": [
+    {
+      "text": "Open: Fly.io deployment guidance not yet published.",
+      "timestamp": "2026-07-24T12:50:36Z"
+    }
+  ],
   "priority": 2,
   "status": "open",
   "title": "E07-T26 — Add Fly.io deployment guidance.",
   "type": "task",
-  "updated_at": "2026-07-23T12:04:38Z"
+  "updated_at": "2026-07-24T12:50:36Z"
 }
