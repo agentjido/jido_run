@@ -11,9 +11,15 @@
     "epic-e06"
   ],
   "parent": "jido-e06",
+  "comments": [
+    {
+      "text": "Open: move Concepts under Start/Build depends on the IA restructure (T01).",
+      "timestamp": "2026-07-24T12:49:36Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E06-T02 — Move Concepts under Start or Build.",
   "type": "task",
-  "updated_at": "2026-07-23T12:03:37Z"
+  "updated_at": "2026-07-24T12:49:36Z"
 }
