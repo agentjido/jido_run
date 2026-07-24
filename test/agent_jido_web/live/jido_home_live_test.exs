@@ -242,6 +242,7 @@ defmodule AgentJidoWeb.JidoHomeLiveTest do
       card = operational_control_card(html, "constrain-capabilities")
 
       assert card != nil, "expected a constrain-capabilities control card"
+
       assert card |> Floki.find("h3") |> Floki.text() |> String.trim() ==
                "Constrain capabilities"
     end
