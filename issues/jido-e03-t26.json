@@ -12,6 +12,12 @@
     "slice-04"
   ],
   "parent": "jido-e03",
+  "comments": [
+    {
+      "text": "Deferred: a vocabulary scan for framework/runtime/platform/infrastructure/ecosystem misuse is context-dependent (these words appear legitimately); the restricted-claim linter covers the high-risk terms. Reopen with a context-aware vocabulary check.",
+      "timestamp": "2026-07-24T12:39:58Z"
+    }
+  ],
   "priority": 2,
   "status": "in_progress",
   "title": "E03-T26 — Run a vocabulary scan for framework, runtime, platform, infrastructure, and ecosystem.",
