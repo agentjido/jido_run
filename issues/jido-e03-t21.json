@@ -12,9 +12,15 @@
     "slice-04"
   ],
   "parent": "jido-e03",
+  "comments": [
+    {
+      "text": "Done in 61ad79c: \"What people build\" -\u003e \"What you can build\" on home.",
+      "timestamp": "2026-07-24T12:39:51Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "E03-T21 — Change “What people build” to “What you can build” until direct case proof exists.",
   "type": "task",
-  "updated_at": "2026-07-24T12:39:50Z"
+  "updated_at": "2026-07-24T12:39:51Z"
 }
