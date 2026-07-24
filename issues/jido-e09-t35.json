@@ -11,9 +11,15 @@
     "epic-e09"
   ],
   "parent": "jido-e09",
+  "comments": [
+    {
+      "text": "Open: automated Hex-version freshness check not yet added.",
+      "timestamp": "2026-07-24T12:52:43Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E09-T35 — Add an automated Hex-version freshness check.",
   "type": "task",
-  "updated_at": "2026-07-23T12:06:24Z"
+  "updated_at": "2026-07-24T12:52:43Z"
 }
