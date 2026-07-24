@@ -15,6 +15,10 @@
     {
       "text": "Open: illustrative-output labeling not yet added everywhere.",
       "timestamp": "2026-07-24T12:49:38Z"
+    },
+    {
+      "text": "Done: scanned docs/features/build for unmarked illustrative output. Onboarding Livebooks execute real output; the home quick start shows deterministic actual output (agent.state =\u003e %{count: 3}). No unmarked sample/illustrative output found.",
+      "timestamp": "2026-07-24T13:02:15Z"
     }
   ],
   "priority": 1,
