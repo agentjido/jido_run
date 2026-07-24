@@ -15,6 +15,10 @@
     {
       "text": "Open: Ash copy alignment not yet swept.",
       "timestamp": "2026-07-24T12:52:42Z"
+    },
+    {
+      "text": "Done: ash_jido site copy has no 'policy bypass'/'secure by default' language; it preserves Ash authorization rather than implying a bypass.",
+      "timestamp": "2026-07-24T16:28:04Z"
     }
   ],
   "priority": 1,
