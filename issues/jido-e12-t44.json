@@ -12,9 +12,15 @@
     "slice-12"
   ],
   "parent": "jido-e12",
+  "comments": [
+    {
+      "text": "Open: block proof depending on unreleased/unsupported packages not yet enforced.",
+      "timestamp": "2026-07-24T12:55:05Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E12-T44 — Block proof that depends on an unreleased or unsupported package.",
   "type": "task",
-  "updated_at": "2026-07-23T12:08:25Z"
+  "updated_at": "2026-07-24T12:55:05Z"
 }
