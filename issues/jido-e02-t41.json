@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:36:08Z",
   "created": "2026-07-23T12:01:34Z",
   "description": "Backlog task: E02-T41\n\nWork area: Canonical-source updates\n\nMain targets: Persona journeys\n\nComplete when: The journey follows architecture, authorization hook, causal journal, telemetry, and operations proof.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e02-t41",
@@ -19,7 +20,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E02-T41 — Add a control-evaluation journey.",
   "type": "task",
   "updated_at": "2026-07-24T12:36:08Z"
