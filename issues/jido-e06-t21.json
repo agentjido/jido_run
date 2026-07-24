@@ -1,5 +1,5 @@
 {
-  "assignee": "",
+  "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:03:56Z",
@@ -12,8 +12,8 @@
   ],
   "parent": "jido-e06",
   "priority": 2,
-  "status": "open",
+  "status": "in_progress",
   "title": "E06-T21 — Remove internal planning terms such as “Wave A.”",
   "type": "task",
-  "updated_at": "2026-07-23T12:03:56Z"
+  "updated_at": "2026-07-24T12:49:31Z"
 }
