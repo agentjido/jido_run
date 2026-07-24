@@ -11,6 +11,12 @@
     "epic-e10"
   ],
   "parent": "jido-e10",
+  "comments": [
+    {
+      "text": "Done in d7c403f: llms.txt documents the routes that resolve (removed unsupported claims; added /examples*, /compare*).",
+      "timestamp": "2026-07-24T12:53:29Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "E10-T15 — Remove unsupported route claims from `llms.txt`.",
