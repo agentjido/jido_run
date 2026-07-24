@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T16:33:27Z",
   "created": "2026-07-23T12:06:10Z",
   "description": "Backlog task: E09-T21\n\nWork area: Package-page contract\n\nMain targets: Ecosystem records\n\nComplete when: Users know where to report package faults.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e09-t21",
@@ -22,7 +23,7 @@
     }
   ],
   "priority": 2,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E09-T21 — Add an owner or repository-maintainer field.",
   "type": "task",
   "updated_at": "2026-07-24T16:33:27Z"
