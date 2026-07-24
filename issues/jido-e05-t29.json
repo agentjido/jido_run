@@ -12,9 +12,15 @@
     "slice-06"
   ],
   "parent": "jido-e05",
+  "comments": [
+    {
+      "text": "Open: 'Next: Build' / 'Next: Operate' links not yet added to all onboarding pages.",
+      "timestamp": "2026-07-24T12:48:43Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E05-T29 — Add “Next: Build” and “Next: Operate” links.",
   "type": "task",
-  "updated_at": "2026-07-23T12:03:23Z"
+  "updated_at": "2026-07-24T12:48:43Z"
 }
