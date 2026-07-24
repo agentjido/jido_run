@@ -12,9 +12,15 @@
     "slice-05"
   ],
   "parent": "jido-e04",
+  "comments": [
+    {
+      "text": "Open: control-focused CTA for platform/SRE evaluators depends on jido-e04-t34.",
+      "timestamp": "2026-07-24T12:46:33Z"
+    }
+  ],
   "priority": 2,
   "status": "open",
   "title": "E04-T42 — Add a control-focused CTA for platform and SRE evaluators.",
   "type": "task",
-  "updated_at": "2026-07-23T12:02:54Z"
+  "updated_at": "2026-07-24T12:46:33Z"
 }
