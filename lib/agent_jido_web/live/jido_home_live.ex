@@ -62,10 +62,11 @@ defmodule AgentJidoWeb.JidoHomeLive do
           BUILD YOUR FIRST AGENT →
         </.link>
         <.link
-          navigate="/examples"
+          id="home-failure-drill-cta"
+          navigate="/examples/failure-drill-agent"
           class="home-subtle-link text-[13px] font-semibold transition-colors"
         >
-          SEE EXAMPLES →
+          RUN A FAILURE DRILL →
         </.link>
       </div>
 

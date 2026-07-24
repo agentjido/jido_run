@@ -1106,4 +1106,68 @@ defmodule AgentJidoWeb.JidoExampleLiveTest do
       end
     end
   end
+
+  describe "/examples/failure-drill-agent" do
+    test "renders explanation tab", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/examples/failure-drill-agent?tab=explanation")
+
+      assert html =~ "Failure Drill Agent"
+      assert html =~ "AgentServer"
+      assert html =~ "supervisor"
+    end
+
+    test "renders source tab with the drill implementation", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/examples/failure-drill-agent?tab=source")
+
+      assert html =~ "failure_drill_agent.ex"
+      assert html =~ "tick_action.ex"
+      assert html =~ "supervisor.ex"
+      assert html =~ "failure_drill_agent_live.ex"
+    end
+
+    test "is registered as a live runnable example with a real demo module", _conn do
+      example = Examples.get_example!("failure-drill-agent")
+
+      assert example.status == :live
+      assert example.demo_mode == :real
+      assert example.live_view_module == "AgentJidoWeb.Examples.FailureDrillAgentLive"
+      assert Enum.map(example.sources, & &1.path) == example.source_files
+      assert Enum.all?(example.source_files, &File.exists?/1)
+    end
+
+    test "demo tab ticks the counter, then crashes with a supervised restart", %{conn: conn} do
+      {:ok, view, html} = live(conn, "/examples/failure-drill-agent?tab=demo")
+
+      assert html =~ "Failure Drill Agent"
+      refute html =~ "Simulated demo"
+
+      demo_view = find_live_child(view, "demo-failure-drill-agent")
+
+      Enum.each(1..3, fn _ ->
+        demo_view
+        |> element("#failure-drill-tick-btn")
+        |> render_click()
+      end)
+
+      # Three ticks land in the supervised agent's in-memory state.
+      assert element_cell(demo_view, "failure-drill-ticks") =~ ~r/>\s*3\s*</
+
+      crash_html =
+        demo_view
+        |> element("#failure-drill-crash-btn")
+        |> render_click()
+
+      assert crash_html =~ "restart"
+      # OTP restarted the process; the in-memory counter is gone.
+      assert render(demo_view) =~ "ticks reset to 0"
+      assert element_cell(demo_view, "failure-drill-ticks") =~ ~r/>\s*0\s*</
+      assert element_cell(demo_view, "failure-drill-restarts") =~ ~r/>\s*1\s*</
+    end
+  end
+
+  defp element_cell(view, id) do
+    view
+    |> element("##{id}")
+    |> render()
+  end
 end
