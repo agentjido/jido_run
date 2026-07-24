@@ -15,11 +15,15 @@
     {
       "text": "Open: owner/repository-maintainer field not yet added.",
       "timestamp": "2026-07-24T12:52:40Z"
+    },
+    {
+      "text": "Done: ecosystem packages carry an owner/maintainer field (tech_lead, e.g. jido_ai: tech_lead: \"@mikehostetler\"), so users know where to report package faults.",
+      "timestamp": "2026-07-24T16:33:27Z"
     }
   ],
   "priority": 2,
   "status": "in_progress",
   "title": "E09-T21 — Add an owner or repository-maintainer field.",
   "type": "task",
-  "updated_at": "2026-07-24T16:33:26Z"
+  "updated_at": "2026-07-24T16:33:27Z"
 }
