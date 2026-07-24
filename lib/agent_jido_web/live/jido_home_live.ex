@@ -654,10 +654,16 @@ defmodule AgentJidoWeb.JidoHomeLive do
   # condition in order — who initiated work, what was allowed, what happened,
   # and how failure was handled — each tied to a named Jido control surface
   # (incoming Signal context, fail-closed authorization, causal Journal +
-  # telemetry, OTP supervision) rather than a promise. The dedicated cards,
-  # the telemetry-vs-audit and identity notes, controlled-Agent example
-  # routing, and the SRE CTA land in follow-up tasks (jido-e04-t35..t42); this
-  # section establishes the control story and routes to the existing operations
+  # telemetry, OTP supervision) rather than a promise.
+  #
+  # Below the four blocks, a proof-card layer routes each control to the place
+  # a visitor can see it. The first proof card, "Supervise the lifecycle"
+  # (jido-e04-t35), links the failure-handling block to AgentServer supervision
+  # (/features/agents-that-self-heal) and a runnable failure-boundary proof
+  # (/examples/failure-drill-agent). The remaining dedicated cards, the
+  # telemetry-vs-audit and identity notes, controlled-Agent example routing,
+  # and the SRE CTA land in follow-up tasks (jido-e04-t36..t42); this section
+  # establishes the control story and routes to the existing operations
   # governance page that already bounds these claims.
   defp operational_control_section(assigns) do
     controls = [
@@ -721,6 +727,45 @@ defmodule AgentJidoWeb.JidoHomeLive do
           </div>
           <h3 class="text-lg sm:text-xl font-bold mt-2 mb-3 leading-tight">{control.question}</h3>
           <p class="home-muted-copy text-[15px] leading-relaxed max-w-md mx-auto">{control.answer}</p>
+        </article>
+      </div>
+
+      <div class="mt-16 max-w-2xl mx-auto">
+        <p class="home-eyebrow-label text-[11px] font-semibold tracking-widest uppercase text-center mb-4">
+          See the control in action
+        </p>
+
+        <article
+          id="control-supervise-lifecycle"
+          class="home-pillar-card px-6 py-6"
+          data-control-card="supervise-lifecycle"
+        >
+          <div class="home-pillar-chip home-pillar-chip-red">
+            <span class="text-2xl leading-none text-accent-red">↺</span>
+          </div>
+          <h3 class="text-lg sm:text-xl font-bold mt-2 mb-3 leading-tight">
+            Supervise the lifecycle
+          </h3>
+          <p class="home-muted-copy text-[15px] leading-relaxed max-w-md mx-auto mb-5">
+            Watch supervision contain a real crash. Run the failure drill to see a crashed AgentServer restart as a fresh process, then read how OTP supervision bounds each agent's lifecycle.
+          </p>
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+            <.link
+              navigate="/features/agents-that-self-heal"
+              class="home-pillar-link home-pillar-link-red"
+              data-control-link="supervision"
+            >
+              Read how supervision works →
+            </.link>
+            <span class="home-muted-copy hidden sm:inline">·</span>
+            <.link
+              navigate="/examples/failure-drill-agent"
+              class="home-pillar-link home-pillar-link-red"
+              data-control-link="failure-boundary-proof"
+            >
+              Run the failure drill →
+            </.link>
+          </div>
         </article>
       </div>
 

@@ -166,6 +166,68 @@ defmodule AgentJidoWeb.JidoHomeLiveTest do
     end
   end
 
+  describe "home control proof cards (jido-e04-t35)" do
+    # Acceptance condition: a "Supervise the lifecycle" card sits in the
+    # operational-control section and links to AgentServer supervision and a
+    # failure-boundary proof. The four control questions above it stay the
+    # conceptual story; this card is the proof-routing layer.
+
+    test "renders a 'Supervise the lifecycle' card inside the operational-control section", %{
+      conn: conn
+    } do
+      {:ok, _view, html} = live(conn, "/")
+
+      card = operational_control_card(html, "supervise-lifecycle")
+
+      # The card is present within the operational-control section and is labelled
+      # "Supervise the lifecycle".
+      assert card != nil, "expected a supervise-lifecycle control card"
+      assert card |> Floki.find("h3") |> Floki.text() |> String.trim() == "Supervise the lifecycle"
+    end
+
+    test "the card sits after the four control question blocks", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      # The proof card comes after the last question block, so the conceptual
+      # answers lead and the proof routing follows.
+      assert {last_block_idx, _} =
+               :binary.match(html, ~s(data-control-question="how-failure-was-handled"))
+
+      assert {card_idx, _} = :binary.match(html, ~s(data-control-card="supervise-lifecycle"))
+      assert card_idx > last_block_idx
+    end
+
+    test "links to AgentServer supervision", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      card = operational_control_card(html, "supervise-lifecycle")
+
+      supervision =
+        card
+        |> Floki.find("a[data-control-link='supervision']")
+        |> Floki.attribute("href")
+        |> List.first()
+
+      # AgentServer supervision lives on the self-heal feature page.
+      assert supervision == "/features/agents-that-self-heal"
+    end
+
+    test "links to a failure-boundary proof", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      card = operational_control_card(html, "supervise-lifecycle")
+
+      proof =
+        card
+        |> Floki.find("a[data-control-link='failure-boundary-proof']")
+        |> Floki.attribute("href")
+        |> List.first()
+
+      # The failure drill is the runnable crash-and-restart proof.
+      assert proof == "/examples/failure-drill-agent"
+    end
+  end
+
   describe "home use-case cards (E04-T21)" do
     test "every card links to a unique scoped destination, not the unfiltered index", %{conn: conn} do
       {:ok, _view, html} = live(conn, "/")
@@ -544,6 +606,15 @@ defmodule AgentJidoWeb.JidoHomeLiveTest do
       question = card |> Floki.find("h3") |> Floki.text() |> String.trim()
       {slug, question}
     end)
+  end
+
+  # A single proof card from the operational-control section, looked up by its
+  # data-control-card slug (jido-e04-t35+). Returns the Floki node or nil.
+  defp operational_control_card(html, slug) do
+    html
+    |> Floki.parse_document!()
+    |> Floki.find("#operational-control article[data-control-card='#{slug}']")
+    |> List.first()
   end
 
   # An internal navigation destination: an absolute path that is not a static
