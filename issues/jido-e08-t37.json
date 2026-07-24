@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T14:27:53Z",
   "created": "2026-07-23T12:05:40Z",
   "description": "Backlog task: E08-T37\n\nWork area: Operational-control proof\n\nMain targets: New public example and source\n\nComplete when: One run joins authenticated application context, fail-closed authorization, policy, history, telemetry, and an external effect.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e08-t37",
@@ -23,7 +24,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E08-T37 — Publish one integrated controlled-Agent example.",
   "type": "task",
   "updated_at": "2026-07-24T14:27:53Z"
