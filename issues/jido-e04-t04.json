@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:41:32Z",
   "created": "2026-07-23T12:02:16Z",
   "description": "Backlog task: E04-T04\n\nWork area: Hero and first viewport\n\nMain targets: Home hero\n\nComplete when: It links to the canonical tested path.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e04-t04",
@@ -19,7 +20,7 @@
     }
   ],
   "priority": 0,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E04-T04 — Use “Build your first Agent” as the primary CTA.",
   "type": "task",
   "updated_at": "2026-07-24T12:41:32Z"
