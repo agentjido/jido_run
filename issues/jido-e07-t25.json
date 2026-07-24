@@ -11,9 +11,15 @@
     "epic-e07"
   ],
   "parent": "jido-e07",
+  "comments": [
+    {
+      "text": "Open: backup/DR guidance route removed from plans; full guidance not yet published.",
+      "timestamp": "2026-07-24T12:50:36Z"
+    }
+  ],
   "priority": 2,
   "status": "open",
   "title": "E07-T25 — Add backup and disaster-recovery guidance or remove the route from plans.",
   "type": "task",
-  "updated_at": "2026-07-23T12:04:37Z"
+  "updated_at": "2026-07-24T12:50:36Z"
 }
