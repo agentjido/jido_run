@@ -12,6 +12,12 @@
     "slice-04"
   ],
   "parent": "jido-e03",
+  "comments": [
+    {
+      "text": "Done in d7c403f: feature title \"Agents that self-heal\" -\u003e \"Supervised failure handling\" (route stable).",
+      "timestamp": "2026-07-24T12:39:46Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "E03-T14 — Replace “self-heal” titles with “supervised failure handling” or an approved phrase.",
