@@ -11,6 +11,12 @@
     "epic-e00"
   ],
   "parent": "jido-e00",
+  "comments": [
+    {
+      "text": "Done in eb56808: audit/history surface inventory (Signal Journal, Thread, persistence, telemetry, logs) with durability/retention in specs/audits/control-inventory-2026-07-23.md.",
+      "timestamp": "2026-07-24T12:25:03Z"
+    }
+  ],
   "priority": 0,
   "status": "in_progress",
   "title": "E00-T15 — Inventory every audit and history surface.",
