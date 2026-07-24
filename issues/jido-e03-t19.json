@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:39:49Z",
   "created": "2026-07-23T12:01:57Z",
   "description": "Backlog task: E03-T19\n\nWork area: Tasks\n\nMain targets: Home and Feature pages\n\nComplete when: Timing claims have a benchmark or are absent.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e03-t19",
@@ -19,7 +20,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E03-T19 — Remove untested “restart in milliseconds” claims.",
   "type": "task",
   "updated_at": "2026-07-24T12:39:49Z"
