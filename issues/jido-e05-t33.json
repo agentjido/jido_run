@@ -1,5 +1,5 @@
 {
-  "assignee": "",
+  "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:03:27Z",
@@ -19,8 +19,8 @@
     }
   ],
   "priority": 1,
-  "status": "open",
+  "status": "in_progress",
   "title": "E05-T33 — Add stable Agent, request, run, Signal, and tool-call IDs to the controlled onboarding example.",
   "type": "task",
-  "updated_at": "2026-07-24T12:48:44Z"
+  "updated_at": "2026-07-24T14:30:23Z"
 }
