@@ -9,7 +9,8 @@
   learning_outcomes: [
     "Define an agent module with typed state",
     "Implement an action and execute it via cmd/2",
-    "Interpret updated state and returned directives"
+    "Interpret updated state and returned directives",
+    "Start a supervised agent and drive it with a Signal through the AgentServer"
   ],
   prerequisites: ["/docs/getting-started/installation"],
   livebook: %{
@@ -116,6 +117,61 @@ error_directives
 ```
 
 The agent state remains `%{count: 0}`, the same as before the failed command. The error directive wraps a `Jido.Error` with context about what went wrong.
+
+## Run the agent as a supervised process
+
+`cmd/2` runs an action directly against the agent struct, which is ideal for short-lived, synchronous work. When an agent needs to live longer than one function call — receiving work over time, running under supervision, or joining a larger tree — run it as a process through the `AgentServer`. This is the recommended runtime API for any long-lived agent.
+
+Signals are how you address a running agent. A Signal is a typed envelope with a data payload. The agent declares `signal_routes/1` to map a Signal type to an Action, and the `AgentServer` runs that Action when the Signal arrives.
+
+Add a route to a counter agent. This is the same schema and Action as before; the only addition is the route from the `"counter.increment"` Signal type to `IncrementAction`:
+
+```elixir
+defmodule SignalCounterAgent do
+  use Jido.Agent,
+    name: "signal_counter_agent",
+    description: "Counter driven by signals",
+    schema: Zoi.object(%{
+      count: Zoi.integer() |> Zoi.default(0)
+    })
+
+  @impl true
+  def signal_routes(_ctx) do
+    [{"counter.increment", IncrementAction}]
+  end
+end
+```
+
+`Jido.start/0` starts the default runtime and is safe to call more than once, so rerunning the cell does not require a notebook restart. `Jido.start_agent/3` starts your agent as a supervised `AgentServer` process under that runtime.
+
+```elixir
+{:ok, _} = Jido.start()
+runtime = Jido.default_instance()
+agent_id = "counter-demo-#{System.unique_integer([:positive])}"
+
+{:ok, pid} = Jido.start_agent(runtime, SignalCounterAgent, id: agent_id)
+```
+
+Send one Signal with `call/2`. It is synchronous: the `AgentServer` matches the Signal to the route, runs `IncrementAction`, and returns the updated agent struct.
+
+```elixir
+increment_signal =
+  Jido.Signal.new!("counter.increment", %{by: 7}, source: "/first-agent")
+
+{:ok, routed_agent} = Jido.AgentServer.call(pid, increment_signal)
+
+routed_agent.state
+```
+
+Inspect the running process directly with `state/1`. It returns the full server state; the agent struct lives at `server_state.agent`.
+
+```elixir
+{:ok, server_state} = Jido.AgentServer.state(pid)
+
+server_state.agent.state
+```
+
+Both paths produce the same state transition. Use `cmd/2` when you hold the agent struct and want a synchronous result. Use the `AgentServer` when the agent is a long-lived process that receives work as Signals.
 
 ## Using this in a Mix project
 
