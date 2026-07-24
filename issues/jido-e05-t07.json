@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:47:59Z",
   "created": "2026-07-23T12:03:01Z",
   "description": "Backlog task: E05-T07\n\nWork area: Core Agent path\n\nMain targets: Installation and first-Agent pages\n\nComplete when: The reader understands what Igniter added.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e05-t07",
@@ -19,8 +20,8 @@
     }
   ],
   "priority": 0,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E05-T07 — Show the generated Jido instance module.",
   "type": "task",
-  "updated_at": "2026-07-24T12:47:58Z"
+  "updated_at": "2026-07-24T12:47:59Z"
 }
