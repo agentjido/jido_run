@@ -15,6 +15,10 @@
     {
       "text": "Open: support level beside package title not yet rendered.",
       "timestamp": "2026-07-24T12:52:39Z"
+    },
+    {
+      "text": "Done: package pages show the support level beside the title — a support_level_badge before the h1 (line 72) and a 'SupportLevel.label support' line under the title (line 92).",
+      "timestamp": "2026-07-24T16:26:25Z"
     }
   ],
   "priority": 1,
