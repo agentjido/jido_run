@@ -33,6 +33,7 @@ defmodule AgentJidoWeb.JidoHomeLive do
         <.what_you_can_build_section />
         <.quick_start_code />
         <.agent_model_section />
+        <.operational_control_section />
         <.pillars_section />
         <.why_elixir_otp_section />
         <.ecosystem_section />
@@ -641,6 +642,94 @@ defmodule AgentJidoWeb.JidoHomeLive do
       <div class="text-center mt-12">
         <.link navigate="/docs/getting-started" class="text-primary hover:underline text-[13px] font-semibold">
           Learn the model in the getting started guide →
+        </.link>
+      </div>
+    </section>
+    """
+  end
+
+  # Operational control section (jido-e04-t34). Sits directly after the Agent
+  # model so a visitor sees how to *control* agent work immediately after
+  # learning how an agent is built. The four blocks answer the acceptance
+  # condition in order — who initiated work, what was allowed, what happened,
+  # and how failure was handled — each tied to a named Jido control surface
+  # (incoming Signal context, fail-closed authorization, causal Journal +
+  # telemetry, OTP supervision) rather than a promise. The dedicated cards,
+  # the telemetry-vs-audit and identity notes, controlled-Agent example
+  # routing, and the SRE CTA land in follow-up tasks (jido-e04-t35..t42); this
+  # section establishes the control story and routes to the existing operations
+  # governance page that already bounds these claims.
+  defp operational_control_section(assigns) do
+    controls = [
+      %{
+        icon: "◍",
+        question: "Who initiated work",
+        slug: "who-initiated",
+        accent: :cyan,
+        answer:
+          "Every incoming Signal carries the context that started it — principal, tenant, request, and causation. prepare_signal/2 verifies and enriches that context before an Action runs, so each piece of work is attributable to the caller, not to the agent."
+      },
+      %{
+        icon: "▦",
+        question: "What was allowed",
+        slug: "what-was-allowed",
+        accent: :yellow,
+        answer:
+          "Typed Actions name exactly what an agent can do. prepare_action/3 is fail-closed: an Action runs only when an allowlist and policy permit it. Quotas cap tokens, requests, and tool calls, so runaway work stops at a budget."
+      },
+      %{
+        icon: "↳",
+        question: "What happened",
+        slug: "what-happened",
+        accent: :green,
+        answer:
+          "A durable Signal Journal, when you configure one, keeps causal history — every Signal that entered and the Actions and Directives it triggered. Correlated telemetry joins the trace, so you can reconstruct what ran and why."
+      },
+      %{
+        icon: "↺",
+        question: "How failure was handled",
+        slug: "how-failure-was-handled",
+        accent: :red,
+        answer:
+          "Each AgentServer runs under OTP supervision with an explicit restart strategy. Retryable and terminal errors take different paths, poison work lands in a dead letter, and the supervisor restarts a crashed process by your rules — never silently."
+      }
+    ]
+
+    assigns = assign(assigns, :controls, controls)
+
+    ~H"""
+    <section
+      id="operational-control"
+      class="home-pillars-section mb-20 opacity-0"
+      phx-hook="ScrollReveal"
+    >
+      <div class="text-center mb-16">
+        <h2 class="text-3xl font-bold tracking-tight mb-4">Operational control</h2>
+        <p class="home-muted-copy text-sm leading-relaxed max-w-lg mx-auto">
+          For each piece of agent work, Jido answers four questions: who started it, what it was allowed to do, what it did, and how failure was contained.
+        </p>
+      </div>
+
+      <div class="home-pillars-grid">
+        <article
+          :for={control <- @controls}
+          class="home-pillar-card"
+          data-control-question={control.slug}
+        >
+          <div class={"home-pillar-chip home-pillar-chip-#{control.accent}"}>
+            <span class={"text-2xl leading-none text-accent-#{control.accent}"}>{control.icon}</span>
+          </div>
+          <h3 class="text-lg sm:text-xl font-bold mt-2 mb-3 leading-tight">{control.question}</h3>
+          <p class="home-muted-copy text-[15px] leading-relaxed max-w-md mx-auto">{control.answer}</p>
+        </article>
+      </div>
+
+      <div class="text-center mt-12">
+        <.link
+          navigate="/docs/operations/security-and-governance"
+          class="text-primary hover:underline text-[13px] font-semibold"
+        >
+          See the full control model →
         </.link>
       </div>
     </section>

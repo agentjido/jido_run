@@ -112,6 +112,60 @@ defmodule AgentJidoWeb.JidoHomeLiveTest do
     end
   end
 
+  describe "home operational-control section (jido-e04-t34)" do
+    # Acceptance condition: the section appears after the Agent model (or the
+    # deterministic proof) and answers who initiated work, what was allowed,
+    # what happened, and how failure was handled. Each answer is tied to a named
+    # Jido control surface rather than a promise.
+
+    test "renders the operational-control section after the Agent model", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      assert html =~ ~s(id="operational-control")
+      assert html =~ "Operational control"
+
+      # It follows the Agent model section, not before it.
+      assert {model_idx, _} = :binary.match(html, ~s(id="agent-model"))
+      assert {control_idx, _} = :binary.match(html, ~s(id="operational-control"))
+      assert control_idx > model_idx
+    end
+
+    test "answers all four control questions", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      questions = operational_control_questions(html)
+
+      # Acceptance condition: the section answers each of the four questions,
+      # and each carries a human-readable label that matches the question.
+      assert Map.keys(questions) |> MapSet.new() ==
+               MapSet.new(~w(who-initiated what-was-allowed what-happened how-failure-was-handled))
+
+      assert questions == %{
+               "who-initiated" => "Who initiated work",
+               "what-was-allowed" => "What was allowed",
+               "what-happened" => "What happened",
+               "how-failure-was-handled" => "How failure was handled"
+             }
+    end
+
+    test "each answer names a Jido control surface and is non-empty", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      answers =
+        html
+        |> Floki.parse_document!()
+        |> Floki.find("#operational-control article[data-control-question] p")
+        |> Enum.map(&Floki.text/1)
+        |> Enum.map(&String.trim/1)
+
+      assert length(answers) == 4
+
+      for answer <- answers do
+        assert byte_size(answer) > 0, "expected a non-empty answer for every control question"
+      end
+    end
+  end
+
   describe "home use-case cards (E04-T21)" do
     test "every card links to a unique scoped destination, not the unfiltered index", %{conn: conn} do
       {:ok, _view, html} = live(conn, "/")
@@ -478,6 +532,17 @@ defmodule AgentJidoWeb.JidoHomeLiveTest do
       use_case = Floki.attribute(card, "data-use-case") |> hd()
       status = Floki.attribute(card, "data-status") |> hd()
       {use_case, status}
+    end)
+  end
+
+  defp operational_control_questions(html) do
+    html
+    |> Floki.parse_document!()
+    |> Floki.find("#operational-control article[data-control-question]")
+    |> Map.new(fn card ->
+      slug = Floki.attribute(card, "data-control-question") |> hd()
+      question = card |> Floki.find("h3") |> Floki.text() |> String.trim()
+      {slug, question}
     end)
   end
 
