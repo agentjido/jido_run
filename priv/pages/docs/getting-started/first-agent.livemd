@@ -210,7 +210,7 @@ That restart draws a clear line between **process state** and the **agent defini
 | What it is | The in-memory agent struct — the `count`, and any state an Action has written | The module: its schema, defaults, Actions, and signal routes |
 | On stop or crash | **Lost** — the process takes its in-memory state with it | **Survives** — the next process boots from these schema defaults |
 
-This is why the restarted counter came back at `0`: the definition survived, the in-memory count did not. The agent definition is not process state — it lives in the compiled module, so every fresh process starts from the same defaults. A restart is not state recovery: Jido keeps no copy of the in-memory state by default. Making an agent's state survive a restart is a separate, deliberate choice you make on top of this process lifecycle.
+This is why the restarted counter came back at `0`: the definition survived, the in-memory count did not. The agent definition is not process state — it lives in the compiled module, so every fresh process starts from the same defaults. A restart is not state recovery: Jido keeps no copy of the in-memory state by default. Until you configure persistence, recovery is not implied — no step in the lifecycle above brings that in-memory count back. Keeping state across a restart is the next operation step: [Persistence](/docs/concepts/persistence) shows how to add a `Jido.Storage` adapter that snapshots state and rehydrates a fresh process on the next boot.
 
 ## Using this in a Mix project
 
