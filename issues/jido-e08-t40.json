@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T14:43:39Z",
   "created": "2026-07-23T12:05:43Z",
   "description": "Backlog task: E08-T40\n\nWork area: Operational-control proof\n\nMain targets: Controlled-Agent AI example\n\nComplete when: The allowlist or effect policy blocks the operation before execution.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e08-t40",
@@ -23,7 +24,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E08-T40 — Show a denied AI tool or effect.",
   "type": "task",
   "updated_at": "2026-07-24T14:43:39Z"
