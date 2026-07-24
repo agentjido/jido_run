@@ -16,11 +16,15 @@
     {
       "text": "Open: repositioning 'Start with one Agent' directly after the hero is a home-section reorder, not yet done.",
       "timestamp": "2026-07-24T12:46:29Z"
+    },
+    {
+      "text": "Accepted by the Zclaude Ralph supervisor. Commits: 23a19b1. Verification: MIX_ENV=test mix compile \u0026\u0026 MIX_ENV=test mix format --check-formatted.",
+      "timestamp": "2026-07-24T20:36:39Z"
     }
   ],
   "priority": 1,
   "status": "in_progress",
   "title": "E04-T09 — Move “Start with one Agent” directly after the hero or first proof.",
   "type": "task",
-  "updated_at": "2026-07-24T20:31:11Z"
+  "updated_at": "2026-07-24T20:36:39Z"
 }
