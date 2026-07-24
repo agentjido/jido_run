@@ -12,9 +12,15 @@
     "slice-06"
   ],
   "parent": "jido-e05",
+  "comments": [
+    {
+      "text": "Open: 'Use the Phoenix starter' lane needs a jido_phx_starter link + its Postgres/provider-key requirements; not yet added.",
+      "timestamp": "2026-07-24T12:48:41Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E05-T05 — Add a “Use the Phoenix starter” path.",
   "type": "task",
-  "updated_at": "2026-07-23T12:02:59Z"
+  "updated_at": "2026-07-24T12:48:41Z"
 }
