@@ -11,6 +11,12 @@
     "epic-e10"
   ],
   "parent": "jido-e10",
+  "comments": [
+    {
+      "text": "Done in 730d865: /compare.md and /compare/\u003cslug\u003e.md resolve (compare added to markdown allowed-prefixes).",
+      "timestamp": "2026-07-24T12:53:28Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "E10-T10 — Add `/compare.md` and comparison detail Markdown.",
