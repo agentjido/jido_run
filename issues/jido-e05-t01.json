@@ -12,9 +12,15 @@
     "slice-06"
   ],
   "parent": "jido-e05",
+  "comments": [
+    {
+      "text": "Done: /docs/getting-started is the canonical start route (router, nav, sitemap); legacy /getting-started redirects here (jido-e01-t13).",
+      "timestamp": "2026-07-24T12:47:56Z"
+    }
+  ],
   "priority": 0,
   "status": "in_progress",
   "title": "E05-T01 — Make `/docs/getting-started` the only canonical start route.",
   "type": "task",
-  "updated_at": "2026-07-24T12:47:55Z"
+  "updated_at": "2026-07-24T12:47:56Z"
 }
