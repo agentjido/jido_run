@@ -11,9 +11,15 @@
     "epic-e09"
   ],
   "parent": "jido-e09",
+  "comments": [
+    {
+      "text": "Done: Durable long-running stack defined.",
+      "timestamp": "2026-07-24T12:52:33Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "E09-T03 — Create a durable long-running stack.",
   "type": "task",
-  "updated_at": "2026-07-24T12:52:32Z"
+  "updated_at": "2026-07-24T12:52:33Z"
 }
