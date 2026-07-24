@@ -12,9 +12,15 @@
     "slice-10"
   ],
   "parent": "jido-e09",
+  "comments": [
+    {
+      "text": "Open: Signal Journal storage/durability on the jido_signal page not yet documented.",
+      "timestamp": "2026-07-24T12:52:45Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E09-T44 — Document Signal Journal storage choices and durability.",
   "type": "task",
-  "updated_at": "2026-07-23T12:06:33Z"
+  "updated_at": "2026-07-24T12:52:45Z"
 }
