@@ -11,9 +11,15 @@
     "epic-e10"
   ],
   "parent": "jido-e10",
+  "comments": [
+    {
+      "text": "Open: public Build/Compare detail pages with modification dates in sitemap not yet added.",
+      "timestamp": "2026-07-24T12:53:36Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E10-T22 — Add public Build and Compare detail pages with correct modification dates.",
   "type": "task",
-  "updated_at": "2026-07-23T12:07:01Z"
+  "updated_at": "2026-07-24T12:53:36Z"
 }
