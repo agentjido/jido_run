@@ -11,6 +11,12 @@
     "epic-e11"
   ],
   "parent": "jido-e11",
+  "comments": [
+    {
+      "text": "Done: existing showcase entries label their real Jido relationship (Loomkin=Jido runtime; ScreenTour=ReqLLM + Jido-inspired).",
+      "timestamp": "2026-07-24T12:54:10Z"
+    }
+  ],
   "priority": 2,
   "status": "in_progress",
   "title": "E11-T10 — Add a “Built with Jido” qualification rule.",
