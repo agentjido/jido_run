@@ -1,5 +1,5 @@
 {
-  "assignee": "",
+  "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:01:25Z",
@@ -13,8 +13,8 @@
   ],
   "parent": "jido-e02",
   "priority": 0,
-  "status": "open",
+  "status": "in_progress",
   "title": "E02-T32 — Add the short benefit line “Build Agent systems you can supervise, constrain, and inspect.”",
   "type": "task",
-  "updated_at": "2026-07-23T12:01:25Z"
+  "updated_at": "2026-07-24T12:35:43Z"
 }
