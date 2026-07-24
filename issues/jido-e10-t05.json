@@ -11,9 +11,15 @@
     "epic-e10"
   ],
   "parent": "jido-e10",
+  "comments": [
+    {
+      "text": "Open: search redirects/synonyms for retired Training terms not yet added.",
+      "timestamp": "2026-07-24T12:53:32Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E10-T05 — Add redirects or synonyms for retired Training terms.",
   "type": "task",
-  "updated_at": "2026-07-23T12:06:44Z"
+  "updated_at": "2026-07-24T12:53:32Z"
 }
