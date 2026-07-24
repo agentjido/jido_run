@@ -11,9 +11,15 @@
     "epic-e11"
   ],
   "parent": "jido-e11",
+  "comments": [
+    {
+      "text": "Deferred: integration case study requires a real Ash/browser/messaging deployment.",
+      "timestamp": "2026-07-24T12:54:16Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E11-T05 — Publish one integration case study.",
   "type": "task",
-  "updated_at": "2026-07-23T12:07:18Z"
+  "updated_at": "2026-07-24T12:54:16Z"
 }
