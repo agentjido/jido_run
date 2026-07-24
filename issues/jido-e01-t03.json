@@ -1,5 +1,5 @@
 {
-  "assignee": "",
+  "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:00:33Z",
@@ -13,8 +13,8 @@
   ],
   "parent": "jido-e01",
   "priority": 0,
-  "status": "open",
+  "status": "in_progress",
   "title": "E01-T03 — Add a visible provider-and-model check cell.",
   "type": "task",
-  "updated_at": "2026-07-23T12:00:33Z"
+  "updated_at": "2026-07-24T12:25:44Z"
 }
