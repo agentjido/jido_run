@@ -15,11 +15,15 @@
     {
       "text": "Open: prerequisites per example not yet added.",
       "timestamp": "2026-07-24T12:51:51Z"
+    },
+    {
+      "text": "Done: every public example lists prerequisites (Elixir/OTP/Jido; AI examples add a provider key; production adds a store).",
+      "timestamp": "2026-07-24T14:59:41Z"
     }
   ],
   "priority": 1,
   "status": "in_progress",
   "title": "E08-T11 — Add prerequisites to every public example.",
   "type": "task",
-  "updated_at": "2026-07-24T14:59:40Z"
+  "updated_at": "2026-07-24T14:59:41Z"
 }
