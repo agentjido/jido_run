@@ -12,9 +12,15 @@
     "slice-09"
   ],
   "parent": "jido-e08",
+  "comments": [
+    {
+      "text": "Open: controlled-Agent example links from home/Features/Docs/Operate depend on T37.",
+      "timestamp": "2026-07-24T12:51:58Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E08-T46 — Link the controlled-Agent example from the home, Features, Docs, and Operate hubs.",
   "type": "task",
-  "updated_at": "2026-07-23T12:05:49Z"
+  "updated_at": "2026-07-24T12:51:58Z"
 }
