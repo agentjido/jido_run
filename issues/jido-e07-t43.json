@@ -12,9 +12,15 @@
     "slice-08"
   ],
   "parent": "jido-e07",
+  "comments": [
+    {
+      "text": "Open: human-approval boundary depends on the reference app.",
+      "timestamp": "2026-07-24T12:50:39Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E07-T43 — Add a human-approval boundary for one high-impact effect.",
   "type": "task",
-  "updated_at": "2026-07-23T12:04:55Z"
+  "updated_at": "2026-07-24T12:50:39Z"
 }
