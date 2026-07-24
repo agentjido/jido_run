@@ -11,6 +11,12 @@
     "epic-e11"
   ],
   "parent": "jido-e11",
+  "comments": [
+    {
+      "text": "Done: claim-approval section in the case-study template.",
+      "timestamp": "2026-07-24T12:54:08Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "E11-T02 — Add a claim-approval section to the template.",
