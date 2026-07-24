@@ -15,11 +15,15 @@
     {
       "text": "Open: memory copy alignment not yet swept.",
       "timestamp": "2026-07-24T12:52:42Z"
+    },
+    {
+      "text": "Done: jido_memory site copy has no canon violations (no 'secure by default'/compliance/'production-ready'/'autonomous' overstatements); the plugin-first model is described bounded.",
+      "timestamp": "2026-07-24T16:28:03Z"
     }
   ],
   "priority": 1,
   "status": "in_progress",
   "title": "E09-T27 — Align memory copy with the plugin-first model in `jido_memory`.",
   "type": "task",
-  "updated_at": "2026-07-24T16:28:02Z"
+  "updated_at": "2026-07-24T16:28:03Z"
 }
