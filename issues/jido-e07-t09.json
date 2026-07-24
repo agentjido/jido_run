@@ -11,9 +11,15 @@
     "epic-e07"
   ],
   "parent": "jido-e07",
+  "comments": [
+    {
+      "text": "Open: dedicated 'Deployment and restart verification' page not yet published.",
+      "timestamp": "2026-07-24T12:50:33Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E07-T09 — Publish “Deployment and restart verification.”",
   "type": "task",
-  "updated_at": "2026-07-23T12:04:21Z"
+  "updated_at": "2026-07-24T12:50:33Z"
 }
