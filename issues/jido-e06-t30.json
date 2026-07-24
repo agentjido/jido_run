@@ -12,9 +12,15 @@
     "slice-07"
   ],
   "parent": "jido-e06",
+  "comments": [
+    {
+      "text": "Done in 28959a2 + 0033357: identity/authorization/audit/observability/policy/control defined with one narrow meaning (canon §11 + operations pages).",
+      "timestamp": "2026-07-24T12:49:34Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "E06-T30 — Add identity, authorization, audit, observability, policy, and control to the glossary.",
   "type": "task",
-  "updated_at": "2026-07-24T12:49:33Z"
+  "updated_at": "2026-07-24T12:49:34Z"
 }
