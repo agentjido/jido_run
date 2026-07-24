@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:39:41Z",
   "created": "2026-07-23T12:01:44Z",
   "description": "Backlog task: E03-T06\n\nWork area: Tasks\n\nMain targets: Docs hub sources\n\nComplete when: HTML and Markdown versions have the same outline and promise.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e03-t06",
@@ -19,8 +20,8 @@
     }
   ],
   "priority": 0,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E03-T06 — Align the hard-coded Docs hub and `priv/pages/docs/index.md`.",
   "type": "task",
-  "updated_at": "2026-07-24T12:39:40Z"
+  "updated_at": "2026-07-24T12:39:41Z"
 }
