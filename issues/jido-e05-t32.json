@@ -12,9 +12,15 @@
     "slice-06"
   ],
   "parent": "jido-e05",
+  "comments": [
+    {
+      "text": "Open: 'Add operational controls' onboarding lane depends on the controlled-Agent example (jido-e07).",
+      "timestamp": "2026-07-24T12:48:44Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E05-T32 — Add a third onboarding lane called “Add operational controls.”",
   "type": "task",
-  "updated_at": "2026-07-23T12:03:26Z"
+  "updated_at": "2026-07-24T12:48:44Z"
 }
