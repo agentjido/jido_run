@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T19:49:08Z",
   "created": "2026-07-24T19:45:16Z",
   "description": "Show live Zclaude turns and tool calls in the Ralph log, keep a raw JSON trace, and fix commit-reference verification under pipefail. Complete when shell syntax and dry-run checks pass without changing a candidate task.",
   "id": "jido-site-facelift.2",
@@ -14,8 +15,8 @@
     }
   ],
   "priority": 0,
-  "status": "in_progress",
+  "status": "closed",
   "title": "Stream Zclaude Ralph progress and fix commit verification",
   "type": "bug",
-  "updated_at": "2026-07-24T19:46:42Z"
+  "updated_at": "2026-07-24T19:49:08Z"
 }
