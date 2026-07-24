@@ -11,9 +11,15 @@
     "epic-e09"
   ],
   "parent": "jido-e09",
+  "comments": [
+    {
+      "text": "Open: tested minimal example per stack not yet built.",
+      "timestamp": "2026-07-24T12:52:37Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E09-T09 — Give each stack a tested minimal example.",
   "type": "task",
-  "updated_at": "2026-07-23T12:05:58Z"
+  "updated_at": "2026-07-24T12:52:37Z"
 }
