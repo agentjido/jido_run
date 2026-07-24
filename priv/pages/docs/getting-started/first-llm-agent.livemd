@@ -185,6 +185,15 @@ Then start agents against that named runtime:
 MyAgentApp.Greeter.ask_sync(pid, "Say hello to the production app.", timeout: 30_000)
 ```
 
+## Troubleshooting
+
+- **Missing key** — the request is skipped with a message. Set `OPENAI_API_KEY` (or `LB_OPENAI_API_KEY` in Livebook) and rerun the configure cell.
+- **401 / invalid model** — confirm the model's provider matches your key. An OpenAI key needs an `openai:` model; an alias like `:fast` may resolve to a different provider.
+- **429 / rate limit** — you hit the provider rate limit. Wait and retry, or lower concurrency.
+- **Timeout** — `ask_sync/3` timed out. Raise the `timeout:` value, or check the provider's status.
+
+These failures come from `req_llm`, the provider-request layer under `jido_ai`, not from core Jido.
+
 ## Next steps
 
 - Continue to [Build an AI Chat Agent](/docs/learn/ai-chat-agent) for multi-turn conversation on the same agent process.
