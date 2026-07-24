@@ -8,6 +8,7 @@
     "jido-e07",
     "jido-e10"
   ],
+  "closed_at": "2026-07-24T02:32:31Z",
   "created": "2026-07-23T12:00:07Z",
   "description": "Make Docs follow the work that an engineer does, not the internal content structure.\n\nExit criteria:\n- Docs navigation follows Start, Build, Operate, Reference, Ecosystem, Contribute.\n- Published pages have prerequisites, expected outcomes, versions, validation dates, and next steps.\n- Technical terms match package behavior.\n- Operational-control pages state Jido controls, application duties, limits, and proof.\n\nBacklog tasks: 37\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e06",
@@ -18,8 +19,8 @@
   ],
   "parent": "jido-site-facelift",
   "priority": 0,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E06 — Reorder docs for end-user work",
   "type": "epic",
-  "updated_at": "2026-07-24T01:53:12Z"
+  "updated_at": "2026-07-24T02:32:31Z"
 }
