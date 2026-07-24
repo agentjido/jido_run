@@ -1,5 +1,5 @@
 {
-  "assignee": "",
+  "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:02:16Z",
@@ -13,8 +13,8 @@
   ],
   "parent": "jido-e04",
   "priority": 0,
-  "status": "open",
+  "status": "in_progress",
   "title": "E04-T04 — Use “Build your first Agent” as the primary CTA.",
   "type": "task",
-  "updated_at": "2026-07-23T12:02:16Z"
+  "updated_at": "2026-07-24T12:41:32Z"
 }
