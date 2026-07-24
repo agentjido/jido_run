@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:35:04Z",
   "created": "2026-07-23T12:01:04Z",
   "description": "Backlog task: E02-T11\n\nWork area: Vocabulary\n\nMain targets: Style guide and glossary\n\nComplete when: Process claims name AgentServer or a running Agent explicitly.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e02-t11",
@@ -19,7 +20,7 @@
     }
   ],
   "priority": 0,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E02-T11 — Define AgentServer as the process and lifecycle layer.",
   "type": "task",
   "updated_at": "2026-07-24T12:35:04Z"
