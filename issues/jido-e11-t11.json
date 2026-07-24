@@ -1,5 +1,5 @@
 {
-  "assignee": "",
+  "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:07:24Z",
@@ -12,8 +12,8 @@
   ],
   "parent": "jido-e11",
   "priority": 2,
-  "status": "open",
+  "status": "in_progress",
   "title": "E11-T11 — Label ReqLLM-only and Jido-inspired projects accurately.",
   "type": "task",
-  "updated_at": "2026-07-23T12:07:24Z"
+  "updated_at": "2026-07-24T12:54:10Z"
 }
