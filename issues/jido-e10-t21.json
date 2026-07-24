@@ -11,6 +11,12 @@
     "epic-e10"
   ],
   "parent": "jido-e10",
+  "comments": [
+    {
+      "text": "Done in 7ecb2d3: public example detail pages are in the sitemap (+ test).",
+      "timestamp": "2026-07-24T12:53:30Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "E10-T21 — Add all example detail pages to the sitemap.",
