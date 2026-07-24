@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:41:36Z",
   "created": "2026-07-23T12:02:45Z",
   "description": "Backlog task: E04-T33\n\nWork area: Use cases, ecosystem, and conversion\n\nMain targets: Home hero\n\nComplete when: The first viewport connects production to supervision, constraints, and inspection.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e04-t33",
@@ -19,7 +20,7 @@
     }
   ],
   "priority": 0,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E04-T33 — Carry the operational-control benefit in the hero subhead or first supporting line.",
   "type": "task",
   "updated_at": "2026-07-24T12:41:36Z"
