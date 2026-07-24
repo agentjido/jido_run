@@ -16,6 +16,10 @@
     {
       "text": "Open: fail-closed authorization regression test depends on the reference app.",
       "timestamp": "2026-07-24T12:55:04Z"
+    },
+    {
+      "text": "Done in this commit: fail-closed authorization regression test (test/agent_jido/demos/controlled_agent_test.exs): missing/invalid/denied context cannot run the protected Action.",
+      "timestamp": "2026-07-24T14:27:14Z"
     }
   ],
   "priority": 0,
