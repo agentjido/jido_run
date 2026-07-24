@@ -1,5 +1,5 @@
 {
-  "assignee": "",
+  "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:01:57Z",
@@ -13,8 +13,8 @@
   ],
   "parent": "jido-e03",
   "priority": 1,
-  "status": "open",
+  "status": "in_progress",
   "title": "E03-T19 — Remove untested “restart in milliseconds” claims.",
   "type": "task",
-  "updated_at": "2026-07-23T12:01:57Z"
+  "updated_at": "2026-07-24T12:39:49Z"
 }
