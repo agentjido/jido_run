@@ -11,9 +11,15 @@
     "epic-e09"
   ],
   "parent": "jido-e09",
+  "comments": [
+    {
+      "text": "Open: 'What this package does' on every package page (52) not yet done.",
+      "timestamp": "2026-07-24T12:52:38Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E09-T12 — Add “What this package does” to every package page.",
   "type": "task",
-  "updated_at": "2026-07-23T12:06:01Z"
+  "updated_at": "2026-07-24T12:52:38Z"
 }
