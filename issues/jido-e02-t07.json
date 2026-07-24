@@ -12,6 +12,12 @@
     "slice-03"
   ],
   "parent": "jido-e02",
+  "comments": [
+    {
+      "text": "Done in 28959a2: non-Elixir builders kept as a secondary evaluation route in §1.",
+      "timestamp": "2026-07-24T12:35:01Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "E02-T07 — Keep non-Elixir builders as a secondary evaluation route.",
