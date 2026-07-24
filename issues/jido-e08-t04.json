@@ -19,11 +19,15 @@
     {
       "text": "Blocked on team intent: the existing test 'examples index is simplified without browse filters' (test/agent_jido_web/live/jido_examples_live_test.exs) deliberately removed browse filters, and 7 index tests assert the simplified rendering. E08-T02..T06 ask for filters, which contradicts that decision. Needs product confirmation to re-introduce filters (and update those tests) before implementing. Left open.",
       "timestamp": "2026-07-24T15:34:25Z"
+    },
+    {
+      "text": "Product decision 2026-07-24: deferred for this iteration. Keep the Examples hub simple and card-based. Do not add search or filter controls. Use clear cards, use-case entry points, and direct documentation links for discovery. Reconsider in a future iteration.",
+      "timestamp": "2026-07-24T16:16:54Z"
     }
   ],
   "priority": 1,
   "status": "open",
   "title": "E08-T04 — Add package filters.",
   "type": "task",
-  "updated_at": "2026-07-24T15:34:25Z"
+  "updated_at": "2026-07-24T16:16:54Z"
 }
