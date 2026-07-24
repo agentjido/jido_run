@@ -12,6 +12,12 @@
     "slice-03"
   ],
   "parent": "jido-e02",
+  "comments": [
+    {
+      "text": "Done in 28959a2: Strategy/Plugin/Sensor/Thread/Memory/workflow referenced in §11 vocabulary with glossary as the source of short definitions.",
+      "timestamp": "2026-07-24T12:35:07Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "E02-T15 — Define Strategy, Plugin, Sensor, Thread, Memory, and workflow.",
