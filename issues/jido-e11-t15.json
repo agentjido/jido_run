@@ -11,9 +11,15 @@
     "epic-e11"
   ],
   "parent": "jido-e11",
+  "comments": [
+    {
+      "text": "Deferred: verified project cards on home use cases require real verified projects.",
+      "timestamp": "2026-07-24T12:54:18Z"
+    }
+  ],
   "priority": 2,
   "status": "open",
   "title": "E11-T15 — Add verified project cards to relevant home use cases.",
   "type": "task",
-  "updated_at": "2026-07-23T12:07:28Z"
+  "updated_at": "2026-07-24T12:54:18Z"
 }
