@@ -38,7 +38,13 @@
   capability_theme: :operations_observability,
   evidence_surface: :runnable_example,
   demo_mode: :real,
-  sort_order: 26
+  sort_order: 26,
+  outcome: "An agent whose state survives a restart via hibernate/thaw persistence.",
+  packages: ["jido"],
+  package_maturity: "Beta",
+  prerequisites: ["Elixir 1.18+", "OTP 27+", "Jido installed", "a persistence store"],
+  expected_result: "State is restored from the store after a restart; no API key required.",
+  run_command: "Run the interactive demo on /examples/persistence-storage-agent, or: mix test test/agent_jido/demos/persistence_storage_agent_test.exs"
 }
 ---
 

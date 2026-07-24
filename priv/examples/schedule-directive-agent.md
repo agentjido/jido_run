@@ -39,7 +39,13 @@
   capability_theme: :coordination_orchestration,
   evidence_surface: :runnable_example,
   demo_mode: :real,
-  sort_order: 27
+  sort_order: 27,
+  outcome: "An agent that schedules delayed and recurring work via Schedule directives and bounded retries.",
+  packages: ["jido"],
+  package_maturity: "Beta",
+  prerequisites: ["Elixir 1.18+", "OTP 27+", "Jido installed"],
+  expected_result: "Scheduled work fires and retries complete within the configured budget; no API key required.",
+  run_command: "Run the interactive demo on /examples/schedule-directive-agent, or: mix test test/agent_jido/demos/schedule_directive_agent_test.exs"
 }
 ---
 

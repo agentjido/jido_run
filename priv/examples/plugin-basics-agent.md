@@ -39,7 +39,13 @@
   capability_theme: :coordination_orchestration,
   evidence_surface: :runnable_example,
   demo_mode: :real,
-  sort_order: 25
+  sort_order: 25,
+  outcome: "An agent composed from a plugin that contributes state and signal routes.",
+  packages: ["jido"],
+  package_maturity: "Beta",
+  prerequisites: ["Elixir 1.18+", "OTP 27+", "Jido installed"],
+  expected_result: "Plugin state and routes are mounted on the agent; no API key required.",
+  run_command: "Run the interactive demo on /examples/plugin-basics-agent, or: mix test test/agent_jido/demos/plugin_basics_agent_test.exs"
 }
 ---
 

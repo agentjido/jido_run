@@ -39,7 +39,13 @@
   capability_theme: :runtime_foundations,
   evidence_surface: :runnable_example,
   demo_mode: :real,
-  sort_order: 24
+  sort_order: 24,
+  outcome: "An agent that changes state through validated Actions and inspects the result.",
+  packages: ["jido"],
+  package_maturity: "Beta",
+  prerequisites: ["Elixir 1.18+", "OTP 27+", "Jido installed"],
+  expected_result: "State transitions are deterministic and inspectable; no API key required.",
+  run_command: "Run the interactive demo on /examples/state-ops-agent, or: mix test test/agent_jido/demos/state_ops_agent_test.exs"
 }
 ---
 
