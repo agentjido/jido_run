@@ -12,9 +12,15 @@
     "slice-07"
   ],
   "parent": "jido-e06",
+  "comments": [
+    {
+      "text": "Open: OpenTelemetry/SIEM integration guidance not yet added.",
+      "timestamp": "2026-07-24T12:49:41Z"
+    }
+  ],
   "priority": 2,
   "status": "open",
   "title": "E06-T36 — Add OpenTelemetry and SIEM integration guidance.",
   "type": "task",
-  "updated_at": "2026-07-23T12:04:11Z"
+  "updated_at": "2026-07-24T12:49:41Z"
 }
