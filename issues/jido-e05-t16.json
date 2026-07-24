@@ -12,9 +12,15 @@
     "slice-06"
   ],
   "parent": "jido-e05",
+  "comments": [
+    {
+      "text": "Done in 5f28d96: first-LLM livebook uses one explicit openai: model matching the key.",
+      "timestamp": "2026-07-24T12:48:02Z"
+    }
+  ],
   "priority": 0,
   "status": "in_progress",
   "title": "E05-T16 — Use one explicit provider and model for the first request.",
   "type": "task",
-  "updated_at": "2026-07-24T12:48:01Z"
+  "updated_at": "2026-07-24T12:48:02Z"
 }
