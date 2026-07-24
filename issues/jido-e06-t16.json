@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:49:30Z",
   "created": "2026-07-23T12:03:51Z",
   "description": "Backlog task: E06-T16\n\nWork area: Content hygiene\n\nMain targets: Actions, Agent model, tool pages\n\nComplete when: Copy matches package READMEs.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e06-t16",
@@ -18,8 +19,8 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E06-T16 — Correct pages that say all Actions are pure.",
   "type": "task",
-  "updated_at": "2026-07-24T12:49:29Z"
+  "updated_at": "2026-07-24T12:49:30Z"
 }
