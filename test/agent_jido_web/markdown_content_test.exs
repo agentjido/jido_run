@@ -32,4 +32,13 @@ defmodule AgentJidoWeb.MarkdownContentTest do
                MarkdownContent.resolve("/compare", "https://jido.run/compare")
     end
   end
+
+  describe "skills markdown delivery (E10-T09)" do
+    test "the skills hub resolves to markdown (the .md route promised by llms.txt)" do
+      assert {:ok, markdown} =
+               MarkdownContent.resolve("/skills", "https://jido.run/skills")
+
+      assert markdown =~ "Skills"
+    end
+  end
 end
