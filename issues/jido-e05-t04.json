@@ -1,5 +1,5 @@
 {
-  "assignee": "",
+  "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:02:58Z",
@@ -13,8 +13,8 @@
   ],
   "parent": "jido-e05",
   "priority": 1,
-  "status": "open",
+  "status": "in_progress",
   "title": "E05-T04 — Add a bounded “New to Elixir?” prerequisites path.",
   "type": "task",
-  "updated_at": "2026-07-23T12:02:58Z"
+  "updated_at": "2026-07-24T12:47:57Z"
 }
