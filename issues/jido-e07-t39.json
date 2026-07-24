@@ -12,9 +12,15 @@
     "slice-08"
   ],
   "parent": "jido-e07",
+  "comments": [
+    {
+      "text": "Open: fail-closed prepare_action/3 in the reference app not yet implemented.",
+      "timestamp": "2026-07-24T12:50:39Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E07-T39 — Use `prepare_action/3` as a fail-closed authorization point.",
   "type": "task",
-  "updated_at": "2026-07-23T12:04:51Z"
+  "updated_at": "2026-07-24T12:50:39Z"
 }
