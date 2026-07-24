@@ -11,9 +11,15 @@
     "epic-e11"
   ],
   "parent": "jido-e11",
+  "comments": [
+    {
+      "text": "Done in \u003cE11 commit\u003e: production case-study template created (specs/templates/case-study.md).",
+      "timestamp": "2026-07-24T12:54:08Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "E11-T01 — Create a production case-study template.",
   "type": "task",
-  "updated_at": "2026-07-24T12:54:07Z"
+  "updated_at": "2026-07-24T12:54:08Z"
 }
