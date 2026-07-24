@@ -11,6 +11,12 @@
     "epic-e06"
   ],
   "parent": "jido-e06",
+  "comments": [
+    {
+      "text": "Done: no retired /training/* links remain (redirected in jido-e01).",
+      "timestamp": "2026-07-24T12:49:29Z"
+    }
+  ],
   "priority": 0,
   "status": "in_progress",
   "title": "E06-T09 — Audit every published page for retired Training links.",
