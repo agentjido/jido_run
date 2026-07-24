@@ -11,6 +11,12 @@
     "epic-e00"
   ],
   "parent": "jido-e00",
+  "comments": [
+    {
+      "text": "Done in eb56808: identity-field inventory (Agent id, Signal id, request/run/tool-call IDs, trace IDs) with lifecycle-vs-correlation-vs-principal classification in specs/audits/control-inventory-2026-07-23.md.",
+      "timestamp": "2026-07-24T12:25:02Z"
+    }
+  ],
   "priority": 0,
   "status": "in_progress",
   "title": "E00-T13 — Inventory every current identity field and state whether it is lifecycle state, correlation metadata, or authenticated principal context.",
