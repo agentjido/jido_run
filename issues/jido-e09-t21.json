@@ -1,5 +1,5 @@
 {
-  "assignee": "",
+  "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:06:10Z",
@@ -18,8 +18,8 @@
     }
   ],
   "priority": 2,
-  "status": "open",
+  "status": "in_progress",
   "title": "E09-T21 — Add an owner or repository-maintainer field.",
   "type": "task",
-  "updated_at": "2026-07-24T12:52:40Z"
+  "updated_at": "2026-07-24T16:33:26Z"
 }
