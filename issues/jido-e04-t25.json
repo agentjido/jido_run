@@ -16,11 +16,15 @@
     {
       "text": "Open: one-line role text per home package depends on jido-e04-t24.",
       "timestamp": "2026-07-24T12:46:30Z"
+    },
+    {
+      "text": "Accepted by the Zclaude Ralph supervisor. Commits: ca4b29c. Verification: MIX_ENV=test mix compile \u0026\u0026 MIX_ENV=test mix format --check-formatted.",
+      "timestamp": "2026-07-24T21:25:50Z"
     }
   ],
   "priority": 1,
   "status": "in_progress",
   "title": "E04-T25 — Add one-line role text for every package shown.",
   "type": "task",
-  "updated_at": "2026-07-24T21:21:22Z"
+  "updated_at": "2026-07-24T21:25:50Z"
 }
