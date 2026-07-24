@@ -185,7 +185,7 @@ defmodule AgentJidoWeb.MarkdownContent do
 
   defp resolve_misc("/") do
     {:fallback, "Agent Jido",
-     "A runtime for reliable multi-agent systems built on Elixir/OTP for fault isolation, concurrency, and production uptime."}
+     "The Elixir framework for long-running agent systems. Build supervised agents, typed tools, and explicit workflows on Elixir/OTP."}
   end
 
   defp resolve_misc("/getting-started") do
@@ -193,7 +193,12 @@ defmodule AgentJidoWeb.MarkdownContent do
   end
 
   defp resolve_misc("/features") do
-    {:fallback, "Jido Features", "Runtime capabilities, orchestration strategies, and ecosystem components for reliable multi-agent systems."}
+    {:fallback, "Jido Features",
+     "Runtime capabilities, orchestration strategies, and ecosystem components for long-running agent systems on Elixir/OTP."}
+  end
+
+  defp resolve_misc("/compare") do
+    {:fallback, "Compare Jido", "Compare Jido's supervised, explicit agent model with other agent and orchestration frameworks."}
   end
 
   defp resolve_misc("/skills") do
@@ -307,7 +312,8 @@ defmodule AgentJidoWeb.MarkdownContent do
       String.starts_with?(path, "/features") or
       String.starts_with?(path, "/build") or
       String.starts_with?(path, "/community") or
-      String.starts_with?(path, "/examples")
+      String.starts_with?(path, "/examples") or
+      String.starts_with?(path, "/compare")
   end
 
   defp excluded_prefix?(path) do

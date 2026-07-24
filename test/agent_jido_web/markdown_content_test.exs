@@ -19,4 +19,17 @@ defmodule AgentJidoWeb.MarkdownContentTest do
       assert markdown =~ "{:jido_ai,"
     end
   end
+
+  describe "compare markdown delivery (E10-T10)" do
+    test "compare detail pages and the hub resolve to markdown" do
+      assert {:ok, _} =
+               MarkdownContent.resolve(
+                 "/compare/semantic-kernel",
+                 "https://jido.run/compare/semantic-kernel"
+               )
+
+      assert {:ok, _} =
+               MarkdownContent.resolve("/compare", "https://jido.run/compare")
+    end
+  end
 end
