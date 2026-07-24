@@ -1,5 +1,5 @@
 {
-  "assignee": "",
+  "assignee": "Mike Hostetler",
   "blocked_by": [
     "jido-e02"
   ],
@@ -17,8 +17,8 @@
   ],
   "parent": "jido-site-facelift",
   "priority": 0,
-  "status": "open",
+  "status": "in_progress",
   "title": "E03 — Normalize global copy and claims",
   "type": "epic",
-  "updated_at": "2026-07-24T00:27:18Z"
+  "updated_at": "2026-07-24T01:43:00Z"
 }
