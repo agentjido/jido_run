@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:48:04Z",
   "created": "2026-07-23T12:03:16Z",
   "description": "Backlog task: E05-T22\n\nWork area: AI Agent path\n\nMain targets: AI onboarding\n\nComplete when: The result comes from a tested fixture or live external test.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e05-t22",
@@ -19,7 +20,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E05-T22 — Show one successful tool call with a verified result.",
   "type": "task",
   "updated_at": "2026-07-24T12:48:04Z"
