@@ -11,9 +11,15 @@
     "epic-e12"
   ],
   "parent": "jido-e12",
+  "comments": [
+    {
+      "text": "Open: Agent/AgentServer terminology lint with allowlist not yet added (canon covers it in prose).",
+      "timestamp": "2026-07-24T12:54:58Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E12-T07 — Add Agent/AgentServer terminology lint rules with an allowlist.",
   "type": "task",
-  "updated_at": "2026-07-23T12:07:48Z"
+  "updated_at": "2026-07-24T12:54:58Z"
 }
