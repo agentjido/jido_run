@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T16:46:57Z",
   "created": "2026-07-23T12:07:50Z",
   "description": "Backlog task: E12-T09\n\nWork area: Content lint and release gates\n\nMain targets: Content validation\n\nComplete when: Experimental packages cannot use Stable copy.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e12-t09",
@@ -22,8 +23,8 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E12-T09 — Add status-language checks.",
   "type": "task",
-  "updated_at": "2026-07-24T16:46:56Z"
+  "updated_at": "2026-07-24T16:46:57Z"
 }
