@@ -12,9 +12,15 @@
     "slice-10"
   ],
   "parent": "jido-e09",
+  "comments": [
+    {
+      "text": "Open: Ash actor/tenant/authorization explanation not yet on the ash_jido page.",
+      "timestamp": "2026-07-24T12:52:46Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E09-T46 — Explain Ash actor, tenant, and authorization context.",
   "type": "task",
-  "updated_at": "2026-07-23T12:06:35Z"
+  "updated_at": "2026-07-24T12:52:46Z"
 }
