@@ -12,9 +12,15 @@
     "slice-04"
   ],
   "parent": "jido-e03",
+  "comments": [
+    {
+      "text": "Done: examples hub intro carries no old canon language.",
+      "timestamp": "2026-07-24T12:39:44Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "E03-T11 — Update the Examples hub introduction.",
   "type": "task",
-  "updated_at": "2026-07-24T12:39:43Z"
+  "updated_at": "2026-07-24T12:39:44Z"
 }
