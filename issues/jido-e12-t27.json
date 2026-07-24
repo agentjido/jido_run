@@ -11,9 +11,15 @@
     "epic-e12"
   ],
   "parent": "jido-e12",
+  "comments": [
+    {
+      "text": "Open: onboarding-to-Operate analytics not yet instrumented.",
+      "timestamp": "2026-07-24T12:55:02Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E12-T27 — Measure movement from onboarding to Operate.",
   "type": "task",
-  "updated_at": "2026-07-23T12:08:08Z"
+  "updated_at": "2026-07-24T12:55:02Z"
 }
