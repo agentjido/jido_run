@@ -11,9 +11,15 @@
     "epic-e11"
   ],
   "parent": "jido-e11",
+  "comments": [
+    {
+      "text": "Open: public request for production failure stories not yet published.",
+      "timestamp": "2026-07-24T12:54:17Z"
+    }
+  ],
   "priority": 2,
   "status": "open",
   "title": "E11-T12 — Add a public request for production failure stories.",
   "type": "task",
-  "updated_at": "2026-07-23T12:07:25Z"
+  "updated_at": "2026-07-24T12:54:17Z"
 }
