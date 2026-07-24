@@ -11,6 +11,12 @@
     "epic-e12"
   ],
   "parent": "jido-e12",
+  "comments": [
+    {
+      "text": "Done: provider/model consistency check on AI tutorials (test/agent_jido/first_llm_tutorial_consistency_test.exs).",
+      "timestamp": "2026-07-24T12:54:55Z"
+    }
+  ],
   "priority": 0,
   "status": "in_progress",
   "title": "E12-T06 — Add provider/model consistency checks to AI tutorials.",
