@@ -12,6 +12,12 @@
     "slice-02"
   ],
   "parent": "jido-e01",
+  "comments": [
+    {
+      "text": "Done in 5f28d96: LegacyRedirects handles .md variants automatically; covered by test/agent_jido_web/legacy_redirects_test.exs.",
+      "timestamp": "2026-07-24T12:25:49Z"
+    }
+  ],
   "priority": 0,
   "status": "in_progress",
   "title": "E01-T14 — Redirect `.md` variants of the retired route.",
