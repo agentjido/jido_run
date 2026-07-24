@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T14:27:10Z",
   "created": "2026-07-23T12:03:29Z",
   "description": "Backlog task: E05-T35\n\nWork area: Maintenance and validation\n\nMain targets: Controlled onboarding guide and test\n\nComplete when: One unauthorized Action is rejected before execution.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e05-t35",
@@ -23,7 +24,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E05-T35 — Add a fail-closed `prepare_action/3` authorization Plugin.",
   "type": "task",
   "updated_at": "2026-07-24T14:27:10Z"
