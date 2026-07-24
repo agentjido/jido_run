@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T14:43:39Z",
   "created": "2026-07-23T12:04:53Z",
   "description": "Backlog task: E07-T41\n\nWork area: Controlled-Agent reference path\n\nMain targets: AI control guide and reference app\n\nComplete when: A disallowed tool or effect is denied before execution.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e07-t41",
@@ -23,8 +24,8 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E07-T41 — Configure AI tool and effect allowlists.",
   "type": "task",
-  "updated_at": "2026-07-24T14:43:38Z"
+  "updated_at": "2026-07-24T14:43:39Z"
 }
