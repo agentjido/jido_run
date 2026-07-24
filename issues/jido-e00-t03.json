@@ -11,6 +11,12 @@
     "epic-e00"
   ],
   "parent": "jido-e00",
+  "comments": [
+    {
+      "text": "Done in eb56808: specs/audits/link-audit-baseline-2026-07-23.md frozen baseline (173 routes, 603 links, 64 unmatched).",
+      "timestamp": "2026-07-24T12:24:42Z"
+    }
+  ],
   "priority": 0,
   "status": "in_progress",
   "title": "E00-T03 — Save the current internal-link audit as a dated artifact.",
