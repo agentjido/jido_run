@@ -12,9 +12,15 @@
     "slice-03"
   ],
   "parent": "jido-e02",
+  "comments": [
+    {
+      "text": "Done in 28959a2: Agent defined as immutable data with state and behavior (§11).",
+      "timestamp": "2026-07-24T12:35:04Z"
+    }
+  ],
   "priority": 0,
   "status": "in_progress",
   "title": "E02-T10 — Define Agent as immutable data with state and behavior.",
   "type": "task",
-  "updated_at": "2026-07-24T12:35:03Z"
+  "updated_at": "2026-07-24T12:35:04Z"
 }
