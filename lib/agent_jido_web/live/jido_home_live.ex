@@ -660,10 +660,15 @@ defmodule AgentJidoWeb.JidoHomeLive do
   # a visitor can see it. The first proof card, "Supervise the lifecycle"
   # (jido-e04-t35), links the failure-handling block to AgentServer supervision
   # (/features/agents-that-self-heal) and a runnable failure-boundary proof
-  # (/examples/failure-drill-agent). The remaining dedicated cards, the
-  # telemetry-vs-audit and identity notes, controlled-Agent example routing,
-  # and the SRE CTA land in follow-up tasks (jido-e04-t36..t42); this section
-  # establishes the control story and routes to the existing operations
+  # (/examples/failure-drill-agent). The second, "Constrain capabilities"
+  # (jido-e04-t36), links the what-was-allowed block to the five capability
+  # surfaces a visitor can pin down — typed Actions (/docs/concepts/actions),
+  # effects via Directives (/docs/concepts/directives), and tool allowlists,
+  # policy hooks, and quotas on the governance page that bounds them
+  # (/docs/operations/security-and-governance). The remaining dedicated cards,
+  # the telemetry-vs-audit and identity notes, controlled-Agent example
+  # routing, and the SRE CTA land in follow-up tasks (jido-e04-t37..t42); this
+  # section establishes the control story and routes to the existing operations
   # governance page that already bounds these claims.
   defp operational_control_section(assigns) do
     controls = [
@@ -764,6 +769,59 @@ defmodule AgentJidoWeb.JidoHomeLive do
               data-control-link="failure-boundary-proof"
             >
               Run the failure drill →
+            </.link>
+          </div>
+        </article>
+
+        <article
+          id="control-constrain-capabilities"
+          class="home-pillar-card px-6 py-6 mt-6"
+          data-control-card="constrain-capabilities"
+        >
+          <div class="home-pillar-chip home-pillar-chip-yellow">
+            <span class="text-2xl leading-none text-accent-yellow">▦</span>
+          </div>
+          <h3 class="text-lg sm:text-xl font-bold mt-2 mb-3 leading-tight">
+            Constrain capabilities
+          </h3>
+          <p class="home-muted-copy text-[15px] leading-relaxed max-w-md mx-auto mb-5">
+            Pin down what an agent may do before it runs. Follow each capability surface to where it is bounded — typed Actions, tool allowlists, policy hooks, effects, and quotas all reject work that exceeds what you explicitly allowed.
+          </p>
+          <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
+            <.link
+              navigate="/docs/concepts/actions"
+              class="home-pillar-link home-pillar-link-yellow"
+              data-control-link="typed-actions"
+            >
+              Typed Actions →
+            </.link>
+            <.link
+              navigate="/docs/operations/security-and-governance"
+              class="home-pillar-link home-pillar-link-yellow"
+              data-control-link="tool-allowlists"
+            >
+              Tool allowlists →
+            </.link>
+            <.link
+              navigate="/docs/operations/security-and-governance"
+              class="home-pillar-link home-pillar-link-yellow"
+              data-control-link="policy-hooks"
+            >
+              Policy hooks →
+            </.link>
+            <.link
+              navigate="/docs/concepts/directives"
+              class="home-pillar-link home-pillar-link-yellow"
+              data-control-link="effects"
+            >
+              Effects →
+            </.link>
+            <.link
+              navigate="/docs/operations/security-and-governance"
+              class="home-pillar-link home-pillar-link-yellow"
+              data-control-link="quotas"
+            >
+              Quotas →
             </.link>
           </div>
         </article>

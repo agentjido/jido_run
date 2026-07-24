@@ -228,6 +228,77 @@ defmodule AgentJidoWeb.JidoHomeLiveTest do
     end
   end
 
+  describe "home control proof cards: constrain capabilities (jido-e04-t36)" do
+    # Acceptance condition: a "Constrain capabilities" card sits in the
+    # operational-control section and links to typed Actions, tool allowlists,
+    # policy hooks, effects, and quotas — the five capability surfaces that
+    # bound what an agent may do.
+
+    test "renders a 'Constrain capabilities' card inside the operational-control section", %{
+      conn: conn
+    } do
+      {:ok, _view, html} = live(conn, "/")
+
+      card = operational_control_card(html, "constrain-capabilities")
+
+      assert card != nil, "expected a constrain-capabilities control card"
+      assert card |> Floki.find("h3") |> Floki.text() |> String.trim() ==
+               "Constrain capabilities"
+    end
+
+    test "the card sits after the supervise-lifecycle card", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      # Proof cards land in order, so the conceptual answers lead and each
+      # routing card follows the last.
+      assert {supervise_idx, _} =
+               :binary.match(html, ~s(data-control-card="supervise-lifecycle"))
+
+      assert {constrain_idx, _} =
+               :binary.match(html, ~s(data-control-card="constrain-capabilities"))
+
+      assert constrain_idx > supervise_idx
+    end
+
+    test "links to typed Actions, tool allowlists, policy hooks, effects, and quotas", %{
+      conn: conn
+    } do
+      {:ok, _view, html} = live(conn, "/")
+
+      card = operational_control_card(html, "constrain-capabilities")
+
+      # Each concept named in the acceptance condition is documented on the
+      # page below: typed Actions and effects (Directives) have their own
+      # concept pages, while tool allowlists, policy hooks, and quotas are the
+      # jido_ai control surface bounded on the governance page.
+      expected = %{
+        "typed-actions" => "/docs/concepts/actions",
+        "tool-allowlists" => "/docs/operations/security-and-governance",
+        "policy-hooks" => "/docs/operations/security-and-governance",
+        "effects" => "/docs/concepts/directives",
+        "quotas" => "/docs/operations/security-and-governance"
+      }
+
+      links =
+        card
+        |> Floki.find("a[data-control-link]")
+        |> Map.new(fn a ->
+          slug = Floki.attribute(a, "data-control-link") |> hd()
+          href = Floki.attribute(a, "href") |> hd()
+          {slug, href}
+        end)
+
+      assert Map.keys(links) |> MapSet.new() == MapSet.new(Map.keys(expected)),
+             "expected links for #{inspect(Map.keys(expected))}, " <>
+               "got #{inspect(Map.keys(links))}"
+
+      for {slug, href} <- expected do
+        assert links[slug] == href,
+               "expected #{slug} to link to #{href}, got #{inspect(links[slug])}"
+      end
+    end
+  end
+
   describe "home use-case cards (E04-T21)" do
     test "every card links to a unique scoped destination, not the unfiltered index", %{conn: conn} do
       {:ok, _view, html} = live(conn, "/")
