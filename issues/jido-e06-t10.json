@@ -11,9 +11,15 @@
     "epic-e06"
   ],
   "parent": "jido-e06",
+  "comments": [
+    {
+      "text": "Open: prerequisite block on every guide/Livebook not yet added.",
+      "timestamp": "2026-07-24T12:49:37Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E06-T10 — Add a prerequisite block to every guide and Livebook.",
   "type": "task",
-  "updated_at": "2026-07-23T12:03:45Z"
+  "updated_at": "2026-07-24T12:49:37Z"
 }
