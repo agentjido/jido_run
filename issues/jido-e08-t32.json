@@ -11,9 +11,15 @@
     "epic-e08"
   ],
   "parent": "jido-e08",
+  "comments": [
+    {
+      "text": "Open: examples added to the proof inventory (specs/proof.md control-proof section added; full per-example mapping pending).",
+      "timestamp": "2026-07-24T12:51:55Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E08-T32 — Add every public example to the proof inventory.",
   "type": "task",
-  "updated_at": "2026-07-23T12:05:35Z"
+  "updated_at": "2026-07-24T12:51:55Z"
 }
