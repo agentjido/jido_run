@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:54:10Z",
   "created": "2026-07-23T12:07:23Z",
   "description": "Backlog task: E11-T10\n\nWork area: Community flow\n\nMain targets: Community governance\n\nComplete when: Core Jido use is distinguished from adjacent-package use.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e11-t10",
@@ -18,7 +19,7 @@
     }
   ],
   "priority": 2,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E11-T10 — Add a “Built with Jido” qualification rule.",
   "type": "task",
   "updated_at": "2026-07-24T12:54:10Z"
