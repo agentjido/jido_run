@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T14:27:11Z",
   "created": "2026-07-23T12:03:30Z",
   "description": "Backlog task: E05-T36\n\nWork area: Maintenance and validation\n\nMain targets: Controlled onboarding guide and test\n\nComplete when: The approved request completes and records its control context.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e05-t36",
@@ -23,7 +24,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E05-T36 — Add a permitted Action path with typed inputs.",
   "type": "task",
   "updated_at": "2026-07-24T14:27:11Z"
