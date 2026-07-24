@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:25:51Z",
   "created": "2026-07-23T12:00:48Z",
   "description": "Backlog task: E01-T18\n\nWork area: Broken paths and source noise\n\nMain targets: Examples source\n\nComplete when: The temporary file is absent from content discovery.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e01-t18",
@@ -19,7 +20,7 @@
     }
   ],
   "priority": 0,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E01-T18 — Remove `priv/examples/address-normalization-agent.md.tmp`.",
   "type": "task",
   "updated_at": "2026-07-24T12:25:51Z"
