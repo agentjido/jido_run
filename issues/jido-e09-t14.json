@@ -15,6 +15,10 @@
     {
       "text": "Open: 'Use this when' on package pages not yet done.",
       "timestamp": "2026-07-24T12:52:39Z"
+    },
+    {
+      "text": "Done in this commit: every package has landing_use_when derived from its category.",
+      "timestamp": "2026-07-24T16:22:03Z"
     }
   ],
   "priority": 1,
