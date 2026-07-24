@@ -11,9 +11,15 @@
     "epic-e12"
   ],
   "parent": "jido-e12",
+  "comments": [
+    {
+      "text": "Open: home-to-onboarding conversion analytics not yet instrumented.",
+      "timestamp": "2026-07-24T12:55:00Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E12-T21 — Measure home-to-onboarding conversion.",
   "type": "task",
-  "updated_at": "2026-07-23T12:08:02Z"
+  "updated_at": "2026-07-24T12:55:00Z"
 }
