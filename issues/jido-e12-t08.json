@@ -11,9 +11,15 @@
     "epic-e12"
   ],
   "parent": "jido-e12",
+  "comments": [
+    {
+      "text": "Open: framework/runtime/platform vocabulary review rules not yet automated.",
+      "timestamp": "2026-07-24T12:54:58Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E12-T08 — Add framework/runtime/platform vocabulary review rules.",
   "type": "task",
-  "updated_at": "2026-07-23T12:07:49Z"
+  "updated_at": "2026-07-24T12:54:58Z"
 }
