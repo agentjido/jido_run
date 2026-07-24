@@ -11,9 +11,15 @@
     "epic-e12"
   ],
   "parent": "jido-e12",
+  "comments": [
+    {
+      "text": "Open: examples-to-source/local-run analytics not yet instrumented.",
+      "timestamp": "2026-07-24T12:55:01Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E12-T26 — Measure movement from examples to source and local run.",
   "type": "task",
-  "updated_at": "2026-07-23T12:08:07Z"
+  "updated_at": "2026-07-24T12:55:01Z"
 }
