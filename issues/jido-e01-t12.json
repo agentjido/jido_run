@@ -12,6 +12,12 @@
     "slice-01"
   ],
   "parent": "jido-e01",
+  "comments": [
+    {
+      "text": "Deferred: a full HTML/Markdown/Livebook source-render parity test depends on the expanded-Livebook delivery (jido-e01-t09). Markdown parity is already covered by jido-e01-t08/T11. Reopen alongside T09.",
+      "timestamp": "2026-07-24T12:32:36Z"
+    }
+  ],
   "priority": 0,
   "status": "in_progress",
   "title": "E01-T12 — Add a source/render parity test for code blocks.",
