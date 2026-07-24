@@ -12,9 +12,15 @@
     "slice-07"
   ],
   "parent": "jido-e06",
+  "comments": [
+    {
+      "text": "Open: page distinguishing correlation IDs from authenticated principals not yet added.",
+      "timestamp": "2026-07-24T12:49:41Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E06-T33 — Add a page that distinguishes correlation IDs from authenticated principals.",
   "type": "task",
-  "updated_at": "2026-07-23T12:04:08Z"
+  "updated_at": "2026-07-24T12:49:41Z"
 }
