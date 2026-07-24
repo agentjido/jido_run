@@ -12,9 +12,15 @@
     "slice-04"
   ],
   "parent": "jido-e03",
+  "comments": [
+    {
+      "text": "Deferred: a dedicated operational-control introduction on the Features hub is a features-IA change; the control story is currently told on the home pillars + /docs/operations. Reopen when the features hub IA is reworked (pairs with E06).",
+      "timestamp": "2026-07-24T12:39:59Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "E03-T28 — Add a concise operational-control introduction to the Features hub.",
   "type": "task",
-  "updated_at": "2026-07-24T12:39:58Z"
+  "updated_at": "2026-07-24T12:39:59Z"
 }
