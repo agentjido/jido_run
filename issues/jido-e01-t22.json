@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:32:33Z",
   "created": "2026-07-23T12:00:52Z",
   "description": "Backlog task: E01-T22\n\nWork area: Broken paths and source noise\n\nMain targets: Core and AI onboarding intros\n\nComplete when: It explains that typed tools and supervision are present, while identity and authorization must be supplied by the application.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e01-t22",
@@ -13,7 +14,7 @@
   ],
   "parent": "jido-e01",
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E01-T22 — Add a short first-run control note.",
   "type": "task",
   "updated_at": "2026-07-24T12:32:33Z"
