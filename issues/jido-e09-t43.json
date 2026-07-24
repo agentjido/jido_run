@@ -12,9 +12,15 @@
     "slice-10"
   ],
   "parent": "jido-e09",
+  "comments": [
+    {
+      "text": "Open: Plugin hooks as authorization integration points not yet documented on the package page.",
+      "timestamp": "2026-07-24T12:52:45Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E09-T43 — Document Plugin hooks as integration points for authorization.",
   "type": "task",
-  "updated_at": "2026-07-23T12:06:32Z"
+  "updated_at": "2026-07-24T12:52:45Z"
 }
