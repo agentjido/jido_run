@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T13:52:51Z",
   "created": "2026-07-23T12:05:21Z",
   "description": "Backlog task: E08-T18\n\nWork area: Required proof examples\n\nMain targets: New or expanded persistence example\n\nComplete when: It restores state after an application restart.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e08-t18",
@@ -22,7 +23,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E08-T18 — Publish a state-restore example.",
   "type": "task",
   "updated_at": "2026-07-24T13:52:51Z"
