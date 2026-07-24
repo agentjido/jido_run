@@ -3,7 +3,7 @@
   title: "Jido",
   graph_label: "Jido",
   compare_order: 0,
-  version: "2.2.0",
+  version: "2.3.2",
   tagline: "Core agent framework for building long-running, multi-agent systems in Elixir",
   license: "Apache-2.0",
   visibility: :public,

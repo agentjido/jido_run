@@ -1,7 +1,7 @@
 %{
   name: "req_llm",
   title: "ReqLLM",
-  version: "1.11.0",
+  version: "1.17.1",
   tagline: "Composable Elixir library for LLM interactions built on Req",
   graph_label: "ReqLLM",
   license: "Apache-2.0",
