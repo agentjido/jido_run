@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T14:59:39Z",
   "created": "2026-07-23T12:05:12Z",
   "description": "Backlog task: E08-T09\n\nWork area: Example-card contract\n\nMain targets: Example metadata\n\nComplete when: Package names link to ecosystem pages.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e08-t09",
@@ -22,7 +23,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E08-T09 — Add required packages to every public example.",
   "type": "task",
   "updated_at": "2026-07-24T14:59:39Z"
