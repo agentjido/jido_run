@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:25:01Z",
   "created": "2026-07-23T12:00:20Z",
   "description": "Backlog task: E00-T07\n\nWork area: Tasks\n\nMain targets: `specs/runbooks/release_punchlist.md`, CI\n\nComplete when: A PR cannot increase the unmatched-link count.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e00-t07",
@@ -18,7 +19,7 @@
     }
   ],
   "priority": 0,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E00-T07 — Add a temporary release blocker for new unmatched public links.",
   "type": "task",
   "updated_at": "2026-07-24T12:25:01Z"
