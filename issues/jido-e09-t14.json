@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T16:22:04Z",
   "created": "2026-07-23T12:06:03Z",
   "description": "Backlog task: E09-T14\n\nWork area: Package-page contract\n\nMain targets: Ecosystem package pages\n\nComplete when: The page names a user job.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e09-t14",
@@ -22,8 +23,8 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E09-T14 — Add “Use this when.”",
   "type": "task",
-  "updated_at": "2026-07-24T16:22:03Z"
+  "updated_at": "2026-07-24T16:22:04Z"
 }
