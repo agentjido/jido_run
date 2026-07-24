@@ -11,9 +11,15 @@
     "epic-e07"
   ],
   "parent": "jido-e07",
+  "comments": [
+    {
+      "text": "Open: Kubernetes guidance requires a tested reference.",
+      "timestamp": "2026-07-24T12:50:36Z"
+    }
+  ],
   "priority": 2,
   "status": "open",
   "title": "E07-T28 — Add Kubernetes guidance only with a tested reference.",
   "type": "task",
-  "updated_at": "2026-07-23T12:04:40Z"
+  "updated_at": "2026-07-24T12:50:36Z"
 }
