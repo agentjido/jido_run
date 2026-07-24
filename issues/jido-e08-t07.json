@@ -22,7 +22,7 @@
     }
   ],
   "priority": 2,
-  "status": "open",
+  "status": "deferred",
   "title": "E08-T07 — Persist filter state in the URL.",
   "type": "task",
   "updated_at": "2026-07-24T16:16:56Z"
