@@ -12,9 +12,15 @@
     "slice-05"
   ],
   "parent": "jido-e04",
+  "comments": [
+    {
+      "text": "Open: 'Do I need AI?' objection block is a new home section, not yet built.",
+      "timestamp": "2026-07-24T12:46:31Z"
+    }
+  ],
   "priority": 2,
   "status": "open",
   "title": "E04-T29 — Add an objection block for “Do I need AI?”",
   "type": "task",
-  "updated_at": "2026-07-23T12:02:41Z"
+  "updated_at": "2026-07-24T12:46:31Z"
 }
