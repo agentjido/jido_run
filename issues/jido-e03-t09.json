@@ -12,6 +12,12 @@
     "slice-04"
   ],
   "parent": "jido-e03",
+  "comments": [
+    {
+      "text": "Done: compare hub (\"How Jido compares\") states Jido's positive position; no old canon language.",
+      "timestamp": "2026-07-24T12:39:42Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "E03-T09 — Update the Compare hub introduction.",
