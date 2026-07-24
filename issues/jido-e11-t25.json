@@ -12,9 +12,15 @@
     "slice-11"
   ],
   "parent": "jido-e11",
+  "comments": [
+    {
+      "text": "Deferred: incident/recovery story requires a real deployment.",
+      "timestamp": "2026-07-24T12:54:19Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E11-T25 — Include one incident or recovery story.",
   "type": "task",
-  "updated_at": "2026-07-23T12:07:38Z"
+  "updated_at": "2026-07-24T12:54:19Z"
 }
