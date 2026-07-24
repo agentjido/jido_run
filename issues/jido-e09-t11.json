@@ -11,9 +11,15 @@
     "epic-e09"
   ],
   "parent": "jido-e09",
+  "comments": [
+    {
+      "text": "Open: production-next-step link per stack on hub not yet done.",
+      "timestamp": "2026-07-24T12:52:38Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E09-T11 — Give each stack a production-next-step link.",
   "type": "task",
-  "updated_at": "2026-07-23T12:06:00Z"
+  "updated_at": "2026-07-24T12:52:38Z"
 }
