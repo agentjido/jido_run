@@ -18,9 +18,15 @@
     "epic-e10"
   ],
   "parent": "jido-site-facelift",
+  "comments": [
+    {
+      "text": "Done: example pages in sitemap (T21), compare + canon-aligned markdown delivery (T10/T29), skills catalog confirmed rendering 13 cards (T23), docs markdown placeholder expansion (T08 from E01). Residual: full search-index parity (examples/skills), MCP example tools, and deeper Markdown hub equivalents.",
+      "timestamp": "2026-07-24T02:30:51Z"
+    }
+  ],
   "priority": 0,
   "status": "closed",
   "title": "E10 — Align search and machine-readable delivery",
   "type": "epic",
-  "updated_at": "2026-07-24T02:30:50Z"
+  "updated_at": "2026-07-24T02:30:51Z"
 }
