@@ -16,6 +16,10 @@
     {
       "text": "Open: sensitive-data redaction regression test depends on the reference app.",
       "timestamp": "2026-07-24T12:55:05Z"
+    },
+    {
+      "text": "Done in this commit: sensitive-data redaction regression test — a secret action param does not appear in captured [:jido, :action] telemetry metadata (params are excluded from span metadata). Logs/Journal/error output remain application-controlled.",
+      "timestamp": "2026-07-24T15:06:22Z"
     }
   ],
   "priority": 0,
