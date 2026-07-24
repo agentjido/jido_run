@@ -15,11 +15,15 @@
     {
       "text": "Open: redirects for moved routes depend on T01.",
       "timestamp": "2026-07-24T12:49:37Z"
+    },
+    {
+      "text": "Product decision 2026-07-24: deferred for this iteration. Keep the current documentation structure, public URLs, and document paths unchanged. Do not perform or plan route moves, related redirects, or canonical URL changes now. Reconsider in a future IA iteration.",
+      "timestamp": "2026-07-24T16:16:59Z"
     }
   ],
   "priority": 1,
   "status": "open",
   "title": "E06-T06 — Define redirects for every moved route.",
   "type": "task",
-  "updated_at": "2026-07-24T12:49:37Z"
+  "updated_at": "2026-07-24T16:16:59Z"
 }
