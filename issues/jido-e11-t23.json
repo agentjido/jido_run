@@ -12,9 +12,15 @@
     "slice-11"
   ],
   "parent": "jido-e11",
+  "comments": [
+    {
+      "text": "Deferred: controlled-Agent case study requires a real controlled deployment.",
+      "timestamp": "2026-07-24T12:54:19Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E11-T23 — Publish one controlled-Agent case study.",
   "type": "task",
-  "updated_at": "2026-07-23T12:07:36Z"
+  "updated_at": "2026-07-24T12:54:19Z"
 }
