@@ -16,11 +16,15 @@
     {
       "text": "Open: integrated controlled-Agent example in CI depends on the reference app (jido-e07).",
       "timestamp": "2026-07-24T12:55:04Z"
+    },
+    {
+      "text": "Accepted by the Zclaude Ralph supervisor. Commits: 1d46058. Verification: MIX_ENV=test mix compile \u0026\u0026 MIX_ENV=test mix format --check-formatted.",
+      "timestamp": "2026-07-24T20:09:28Z"
     }
   ],
   "priority": 0,
   "status": "in_progress",
   "title": "E12-T39 — Run the integrated controlled-Agent example in CI.",
   "type": "task",
-  "updated_at": "2026-07-24T20:02:28Z"
+  "updated_at": "2026-07-24T20:09:28Z"
 }
