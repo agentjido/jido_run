@@ -274,15 +274,49 @@ defmodule AgentJidoWeb.JidoHomeLive do
     """
   end
 
+  # Three recommended starting stacks replace the flat package list (jido-e04-t24).
+  # The first view reads as three named, explained stacks — Core, AI, Operate —
+  # instead of nine unexplained package names. Each stack carries a one-line
+  # purpose so a visitor knows what the stack is for and when to reach for it;
+  # the Core stack is marked as the recommended place to begin. Per-package role
+  # text and support levels land in jido-e04-t25 and jido-e04-t26; the deeper
+  # stack treatment (dependency blocks, examples) belongs to epic jido-e09.
   defp ecosystem_section(assigns) do
+    stacks = [
+      %{
+        key: "core",
+        name: "Core",
+        tone: "core",
+        start: true,
+        purpose: "The runtime every Jido system runs on — agents, typed Actions, and Signals.",
+        packages: ["jido", "jido_action", "jido_signal"]
+      },
+      %{
+        key: "ai",
+        name: "AI",
+        tone: "ai",
+        purpose: "Add LLM-backed agents, provider choice, and model metadata when you need AI.",
+        packages: ["jido_ai", "req_llm", "llm_db"]
+      },
+      %{
+        key: "operate",
+        name: "Operate",
+        tone: "operate",
+        purpose: "Ship to production — observability, messaging, and framework integration.",
+        packages: ["ash_jido", "jido_messaging", "jido_otel"]
+      }
+    ]
+
+    assigns = assign(assigns, :stacks, stacks)
+
     ~H"""
     <section id="ecosystem" class="home-ecosystem-section mb-16 opacity-0" phx-hook="ScrollReveal">
       <div id="home-ecosystem-section">
         <div class="home-ecosystem-header">
           <div>
-            <h2 class="text-2xl font-bold tracking-tight">One framework, many packages</h2>
+            <h2 class="text-2xl font-bold tracking-tight">One framework, three starting stacks</h2>
             <p class="home-ecosystem-summary">
-              Start with the core. Add AI, tools, and integrations as you need them.
+              Begin with the Core stack every Jido system runs on. Add AI and Operate packages only when you need them.
             </p>
           </div>
 
@@ -292,42 +326,23 @@ defmodule AgentJidoWeb.JidoHomeLive do
         </div>
 
         <div class="home-ecosystem-rows">
-          <article class="home-ecosystem-row">
+          <article
+            :for={stack <- @stacks}
+            class={"home-ecosystem-row home-ecosystem-stack home-ecosystem-stack-#{stack.tone}"}
+            data-stack={stack.key}
+          >
             <div class="home-ecosystem-row-header">
-              <h3 class="home-ecosystem-row-title">Core</h3>
+              <h3 class="home-ecosystem-row-title">{stack.name}</h3>
+              <span :if={stack[:start]} class="home-ecosystem-start-badge">Start here</span>
             </div>
-            <p class="home-ecosystem-packages">
-              <span>jido</span>
-              <span class="home-ecosystem-separator" aria-hidden="true">·</span>
-              <span>jido_action</span>
-              <span class="home-ecosystem-separator" aria-hidden="true">·</span>
-              <span>jido_signal</span>
-            </p>
-          </article>
 
-          <article class="home-ecosystem-row">
-            <div class="home-ecosystem-row-header">
-              <h3 class="home-ecosystem-row-title">Add AI when ready</h3>
-            </div>
-            <p class="home-ecosystem-packages">
-              <span>jido_ai</span>
-              <span class="home-ecosystem-separator" aria-hidden="true">·</span>
-              <span>req_llm</span>
-              <span class="home-ecosystem-separator" aria-hidden="true">·</span>
-              <span>llm_db</span>
-            </p>
-          </article>
+            <p class="home-ecosystem-stack-purpose">{stack.purpose}</p>
 
-          <article class="home-ecosystem-row">
-            <div class="home-ecosystem-row-header">
-              <h3 class="home-ecosystem-row-title">Integrate and extend</h3>
-            </div>
             <p class="home-ecosystem-packages">
-              <span>ash_jido</span>
-              <span class="home-ecosystem-separator" aria-hidden="true">·</span>
-              <span>jido_messaging</span>
-              <span class="home-ecosystem-separator" aria-hidden="true">·</span>
-              <span>jido_otel</span>
+              <%= for {pkg, index} <- Enum.with_index(stack.packages) do %>
+                <span class="home-ecosystem-stack-package">{pkg}</span>
+                <span :if={index < length(stack.packages) - 1} class="home-ecosystem-separator" aria-hidden="true">·</span>
+              <% end %>
             </p>
           </article>
         </div>

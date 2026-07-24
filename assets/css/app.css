@@ -1112,6 +1112,38 @@
     border-left-color: hsl(var(--accent-cyan));
   }
 
+  /* Starting-stack tones (jido-e04-t24): Core, AI, Operate. */
+  #home-page .home-ecosystem-stack-core {
+    border-left-color: hsl(var(--accent-green));
+  }
+
+  #home-page .home-ecosystem-stack-ai {
+    border-left-color: hsl(var(--accent-yellow));
+  }
+
+  #home-page .home-ecosystem-stack-operate {
+    border-left-color: hsl(var(--accent-red));
+  }
+
+  #home-page .home-ecosystem-stack-purpose {
+    color: hsl(var(--foreground) / 0.82);
+    font-size: 0.86rem;
+    line-height: 1.5;
+    margin-top: 0.4rem;
+  }
+
+  #home-page .home-ecosystem-start-badge {
+    @apply inline-flex items-center rounded-sm border;
+    padding: 0.12rem 0.45rem;
+    font-size: 0.64rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: hsl(var(--accent-green));
+    border-color: hsl(var(--accent-green) / 0.45);
+    background: hsl(var(--accent-green) / 0.12);
+  }
+
   #home-page .home-ecosystem-row-header {
     @apply flex items-center;
     flex-wrap: nowrap;

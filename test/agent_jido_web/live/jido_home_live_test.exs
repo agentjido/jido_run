@@ -215,6 +215,61 @@ defmodule AgentJidoWeb.JidoHomeLiveTest do
     end
   end
 
+  describe "home ecosystem starting stacks (E04-T24)" do
+    # Acceptance condition: the first view is Core, AI, and Operate — three
+    # named, explained starting stacks — not nine unexplained package names.
+
+    test "renders three recommended starting stacks named Core, AI, and Operate in order", %{
+      conn: conn
+    } do
+      {:ok, _view, html} = live(conn, "/")
+
+      stacks = home_ecosystem_stacks(html)
+
+      assert Enum.map(stacks, &elem(&1, 0)) == ~w(core ai operate)
+      assert Enum.map(stacks, fn {_key, stack} -> stack.name end) == ~w(Core AI Operate)
+    end
+
+    test "each stack explains what it is for, so the names are not unexplained", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      for {key, %{purpose: purpose}} <- home_ecosystem_stacks(html) do
+        assert is_binary(purpose) and byte_size(purpose) > 0,
+               "expected the #{key} stack to carry a one-line purpose"
+      end
+    end
+
+    test "the Core stack is marked as the recommended place to start", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      stacks = Map.new(home_ecosystem_stacks(html))
+
+      assert stacks["core"].start
+      refute stacks["ai"].start
+      refute stacks["operate"].start
+    end
+
+    test "the old vague category headers are gone", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      refute html =~ "Add AI when ready"
+      refute html =~ "Integrate and extend"
+    end
+  end
+
+  defp home_ecosystem_stacks(html) do
+    html
+    |> Floki.parse_document!()
+    |> Floki.find("#home-ecosystem-section article[data-stack]")
+    |> Enum.map(fn card ->
+      key = Floki.attribute(card, "data-stack") |> hd()
+      name = card |> Floki.find(".home-ecosystem-row-title") |> Floki.text() |> String.trim()
+      purpose = card |> Floki.find(".home-ecosystem-stack-purpose") |> Floki.text() |> String.trim()
+      has_start = card |> Floki.find(".home-ecosystem-start-badge") |> Enum.any?()
+      {key, %{name: name, purpose: purpose, start: has_start}}
+    end)
+  end
+
   defp use_case_statuses(html) do
     html
     |> Floki.parse_document!()
