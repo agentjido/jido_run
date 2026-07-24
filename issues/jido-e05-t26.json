@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:48:06Z",
   "created": "2026-07-23T12:03:20Z",
   "description": "Backlog task: E05-T26\n\nWork area: Maintenance and validation\n\nMain targets: Existing coverage tests\n\nComplete when: An untested public Livebook fails CI.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e05-t26",
@@ -19,7 +20,7 @@
     }
   ],
   "priority": 0,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E05-T26 — Add a test that every Docs Livebook has a matching test.",
   "type": "task",
   "updated_at": "2026-07-24T12:48:06Z"
