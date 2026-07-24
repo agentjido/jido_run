@@ -12,9 +12,15 @@
     "slice-05"
   ],
   "parent": "jido-e04",
+  "comments": [
+    {
+      "text": "Open: analytics events for hero CTA / cards / stacks require analytics instrumentation, not yet done.",
+      "timestamp": "2026-07-24T12:46:31Z"
+    }
+  ],
   "priority": 2,
   "status": "open",
   "title": "E04-T32 — Add analytics events for hero CTA, failure drill, use-case cards, and package stacks.",
   "type": "task",
-  "updated_at": "2026-07-23T12:02:44Z"
+  "updated_at": "2026-07-24T12:46:31Z"
 }
