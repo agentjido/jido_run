@@ -11,6 +11,12 @@
     "epic-e00"
   ],
   "parent": "jido-e00",
+  "comments": [
+    {
+      "text": "Done in eb56808: operational-risk-to-control matrix (tool misuse, runaway cost, lost state, hidden failure, duplicate work, provider failure, leakage) in specs/audits/control-inventory-2026-07-23.md.",
+      "timestamp": "2026-07-24T12:25:08Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "E00-T17 — Create an operational-risk-to-control matrix.",
