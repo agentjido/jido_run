@@ -11,6 +11,12 @@
     "epic-e06"
   ],
   "parent": "jido-e06",
+  "comments": [
+    {
+      "text": "Done in 9e09cd1: \"all Actions are pure\" corrected across docs.",
+      "timestamp": "2026-07-24T12:49:29Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "E06-T16 — Correct pages that say all Actions are pure.",
