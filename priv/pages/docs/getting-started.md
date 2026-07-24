@@ -57,6 +57,8 @@ These tutorials focus on getting an agent running. A few things to know up front
 
 See [Security and governance](/docs/operations/security-and-governance) when you move toward production.
 
+When you are ready to govern agent work - authorization, policy, durable history, and telemetry - the [Add operational controls](/docs/getting-started/operational-controls) lane picks up where your first agent leaves off. It is an optional path that follows the first working agent; none of it is required to run a basic agent.
+
 ## After getting started
 
 Once you finish the onboarding path:
@@ -70,4 +72,5 @@ Once you finish the onboarding path:
 - [I'm new to Elixir](/docs/getting-started/new-to-elixir) - get the Elixir foundations first
 - [I know Elixir](/docs/getting-started/elixir-developers) - jump in with OTP context
 - [Use the Phoenix starter](/docs/getting-started/phoenix-starter) - run a complete demo app
+- [Add operational controls](/docs/getting-started/operational-controls) - the optional authorization, policy, and observability path
 - [Explore core concepts](/docs/concepts) - understand the architecture before you build

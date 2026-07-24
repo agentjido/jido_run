@@ -95,6 +95,25 @@ defmodule AgentJidoWeb.PageLiveTest do
     end
   end
 
+  describe "getting-started operational controls lane (jido-e05-t32)" do
+    test "the hub renders the operational controls lane as an optional next path", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/docs/getting-started")
+
+      assert html =~ ~s(href="/docs/getting-started/operational-controls")
+      assert html =~ "Add operational controls"
+    end
+
+    test "the operational controls lane route renders", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/docs/getting-started/operational-controls")
+
+      assert html =~ "Add operational controls"
+      # The lane follows the first working agent and links back to it.
+      assert html =~ ~s(href="/docs/getting-started/first-agent")
+      # The lane does not block basic activation.
+      assert html =~ "Nothing on this page is required to run a basic agent"
+    end
+  end
+
   describe "onboarding version metadata (jido-e05-t28)" do
     test "the first-agent lane renders last validation date and tested versions", %{conn: conn} do
       {:ok, _view, html} = live(conn, "/docs/getting-started/first-agent")

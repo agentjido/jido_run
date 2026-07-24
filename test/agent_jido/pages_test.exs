@@ -843,4 +843,63 @@ defmodule AgentJido.PagesTest do
       end)
     end
   end
+
+  describe "getting-started operational controls lane (jido-e05-t32)" do
+    @operational_controls_source Path.expand(
+                                   "../../priv/pages/docs/getting-started/operational-controls.md",
+                                   __DIR__
+                                 )
+
+    test "the lane page is published and routable" do
+      page = Pages.get_page_by_path("/docs/getting-started/operational-controls")
+
+      assert page != nil
+      assert page.category == :docs
+      assert page.draft == false
+      assert Pages.route_for(page) == "/docs/getting-started/operational-controls"
+    end
+
+    # Acceptance: "The lane follows the first working Agent."
+    test "the lane follows the first working agent" do
+      body = File.read!(@operational_controls_source)
+
+      # The lane builds on the first-agent lane and says so by name and link.
+      assert body =~ ~s(/docs/getting-started/first-agent)
+      assert body =~ "first agent"
+    end
+
+    # Acceptance: "...and does not block basic activation."
+    test "the lane does not block basic activation" do
+      body = File.read!(@operational_controls_source)
+
+      # The lane is explicitly optional and states the basic agent runs without it.
+      assert body =~ ~r/optional/i
+      assert body =~ "Nothing on this page is required to run a basic agent"
+    end
+
+    test "the lane points at the documented operational control surfaces" do
+      body = File.read!(@operational_controls_source)
+
+      assert body =~ "prepare_action/3"
+      assert body =~ ~s(/docs/operations/security-and-governance)
+    end
+
+    test "the lane source has no placeholder markers" do
+      body = File.read!(@operational_controls_source)
+
+      placeholder_patterns = [
+        ~r/content coming soon/i,
+        ~r/\bcoming soon\b/i,
+        ~r/\bTODO\b/,
+        ~r/\bTBD\b/,
+        ~r/lorem ipsum/i
+      ]
+
+      assert body =~ "draft: false"
+
+      Enum.each(placeholder_patterns, fn pattern ->
+        refute body =~ pattern
+      end)
+    end
+  end
 end
