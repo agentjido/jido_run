@@ -11,6 +11,12 @@
     "epic-e06"
   ],
   "parent": "jido-e06",
+  "comments": [
+    {
+      "text": "Done in d7c403f: \"Wave A\" planning language removed from the build hub.",
+      "timestamp": "2026-07-24T12:49:31Z"
+    }
+  ],
   "priority": 2,
   "status": "in_progress",
   "title": "E06-T21 — Remove internal planning terms such as “Wave A.”",
