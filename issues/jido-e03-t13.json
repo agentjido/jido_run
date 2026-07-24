@@ -12,6 +12,12 @@
     "slice-04"
   ],
   "parent": "jido-e03",
+  "comments": [
+    {
+      "text": "Done in e510eb5: OG/social descriptions use the approved message via the SEO config.",
+      "timestamp": "2026-07-24T12:39:45Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "E03-T13 — Update Open Graph and social descriptions.",
