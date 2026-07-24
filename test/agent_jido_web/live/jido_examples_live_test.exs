@@ -286,4 +286,49 @@ defmodule AgentJidoWeb.JidoExamplesLiveTest do
 
     assert html =~ ~s(class="container max-w-[1000px] mx-auto px-6 py-12")
   end
+
+  describe "use-case scoped index (E04-T21)" do
+    test "?use_case=research scopes the list to research examples", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/examples?use_case=research")
+
+      # The scoped hero names the use case.
+      assert html =~ "Research and synthesis"
+      # A public research example is listed.
+      assert html =~ "Runic AI Research Studio"
+      # A core example outside the research scope is hidden.
+      refute html =~ "Counter Agent"
+    end
+
+    test "?use_case=coding shows an honest scoped empty state", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/examples?use_case=coding")
+
+      assert html =~ "Coding agents"
+      # No public coding example exists yet, so the scoped empty state appears.
+      assert html =~ "No public examples for Coding agents yet"
+      assert html =~ "Browse all examples"
+      # The draft coding example does not leak into the public scoped view.
+      refute html =~ "Coding Assistant"
+    end
+
+    test "an unknown use_case falls back to the unfiltered index", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/examples?use_case=not-a-real-use-case")
+
+      assert html =~ "Learn by"
+      assert html =~ "Counter Agent"
+    end
+
+    test "admin draft toggle preserves an active use_case scope", %{conn: conn} do
+      admin_conn = log_in_user(conn, admin_user_fixture())
+      {:ok, view, _html} = live(admin_conn, "/examples?use_case=research")
+
+      view
+      |> element("#toggle-drafts-button")
+      |> render_click()
+
+      # The scope survives the drafts toggle (param order is not significant).
+      path = assert_patch(view)
+      assert path =~ "use_case=research"
+      assert path =~ "hide_drafts=true"
+    end
+  end
 end

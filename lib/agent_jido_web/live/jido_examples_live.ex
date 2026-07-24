@@ -11,6 +11,23 @@ defmodule AgentJidoWeb.JidoExamplesLive do
 
   @category_order [:core, :ai, :production]
 
+  # Home use-case cards (jido-e04-t21) deep-link to /examples?use_case=<slug>.
+  # Each entry scopes the index to examples whose tags signal that user job, so
+  # every card reaches a distinct destination instead of all collapsing onto the
+  # unfiltered index. Use cases without a published example yet render an honest
+  # scoped empty state until the matching public example lands (jido-e08-t24…t29).
+  @home_use_cases %{
+    "coding" => %{label: "Coding agents", tags: ~w(coding)},
+    "research" => %{label: "Research and synthesis", tags: ~w(runic research)},
+    "documents" => %{label: "Document processing", tags: ~w(documents document policy)},
+    "support" => %{label: "Customer support", tags: ~w(support ticket triage)},
+    "devops" => %{
+      label: "DevOps and monitoring",
+      tags: ~w(ops-governance operations observability telemetry incident supervision reliability restart)
+    },
+    "data-pipelines" => %{label: "Data pipelines", tags: ~w(data pipeline sql etl)}
+  }
+
   @impl true
   def mount(_params, session, socket) do
     admin_can_toggle_drafts = Map.get(session, "examples_include_drafts", false)
@@ -25,6 +42,7 @@ defmodule AgentJidoWeb.JidoExamplesLive do
      |> assign(:admin_can_toggle_drafts, admin_can_toggle_drafts)
      |> assign(:default_include_drafts, admin_can_toggle_drafts)
      |> assign(:include_drafts, admin_can_toggle_drafts)
+     |> assign(:use_case, nil)
      |> assign(:current_params, %{})
      |> assign(:examples, [])
      |> assign(:grouped_examples, %{})
@@ -41,10 +59,13 @@ defmodule AgentJidoWeb.JidoExamplesLive do
         socket.assigns.default_include_drafts
       )
 
+    use_case = resolve_use_case(params)
+
     {:noreply,
      socket
      |> assign(:current_params, params)
      |> assign(:include_drafts, include_drafts)
+     |> assign(:use_case, use_case)
      |> load_examples()}
   end
 
@@ -83,11 +104,20 @@ defmodule AgentJidoWeb.JidoExamplesLive do
             </span>
           </div>
           <h1 class="text-4xl font-bold mb-4">
-            Learn by <span class="text-primary">building</span>
+            <%= if @use_case do %>
+              {@use_case.label}
+            <% else %>
+              Learn by <span class="text-primary">building</span>
+            <% end %>
           </h1>
           <p class="copy-measure-wide mx-auto text-lg text-muted-foreground">
-            Interactive examples with source code, explanation, and live demos.
-            AI/browser demos can run in deterministic simulated mode so no external model calls are required.
+            <%= if @use_case do %>
+              Runnable examples for {@use_case.label}.
+              <.link navigate="/examples" class="text-primary hover:underline font-semibold">Browse all examples →</.link>
+            <% else %>
+              Interactive examples with source code, explanation, and live demos.
+              AI/browser demos can run in deterministic simulated mode so no external model calls are required.
+            <% end %>
           </p>
           <div :if={@admin_can_toggle_drafts} class="mt-4 flex items-center justify-center gap-3">
             <span class="text-[10px] px-2 py-0.5 rounded font-semibold uppercase bg-accent-yellow/10 border border-accent-yellow/30 text-accent-yellow">
@@ -106,10 +136,23 @@ defmodule AgentJidoWeb.JidoExamplesLive do
 
         <%!-- Empty state --%>
         <section :if={@examples == []} class="mb-16 rounded-lg border border-border bg-card p-10 text-center">
-          <h2 class="text-xl font-bold mb-2">No examples available yet</h2>
-          <p class="text-sm text-muted-foreground">
-            Check back soon for more runnable examples.
+          <h2 class="text-xl font-bold mb-2">
+            <%= if @use_case do %>
+              No public examples for {@use_case.label} yet
+            <% else %>
+              No examples available yet
+            <% end %>
+          </h2>
+          <p class="text-sm text-muted-foreground mb-4">
+            <%= if @use_case do %>
+              A runnable example for this use case is on the way. Browse the full catalog in the meantime.
+            <% else %>
+              Check back soon for more runnable examples.
+            <% end %>
           </p>
+          <.link :if={@use_case} navigate="/examples" class="text-primary hover:underline text-[13px] font-semibold">
+            Browse all examples →
+          </.link>
         </section>
 
         <%= for category <- @categories_to_render do %>
@@ -193,7 +236,12 @@ defmodule AgentJidoWeb.JidoExamplesLive do
 
   defp load_examples(socket) do
     opts = if socket.assigns.include_drafts, do: [include_drafts: true], else: []
-    examples = Examples.all_examples(opts)
+
+    examples =
+      opts
+      |> Examples.all_examples()
+      |> filter_by_use_case(socket.assigns.use_case)
+
     grouped_examples = Enum.group_by(examples, & &1.category)
 
     categories_to_render =
@@ -205,6 +253,37 @@ defmodule AgentJidoWeb.JidoExamplesLive do
     |> assign(:grouped_examples, grouped_examples)
     |> assign(:categories_to_render, categories_to_render)
     |> assign(:match_count, length(examples))
+  end
+
+  # Scopes the example list to a home use case (jido-e04-t21). Examples are
+  # matched when they carry any tag that signals the use case. An unknown or
+  # missing use case leaves the list unfiltered.
+  defp filter_by_use_case(examples, nil), do: examples
+
+  defp filter_by_use_case(examples, %{tags: tags}) do
+    wanted = MapSet.new(tags, &normalize_tag/1)
+
+    Enum.filter(examples, fn example ->
+      example_tags =
+        example
+        |> Map.get(:tags, [])
+        |> List.wrap()
+        |> Enum.map(&normalize_tag/1)
+        |> MapSet.new()
+
+      not MapSet.disjoint?(wanted, example_tags)
+    end)
+  end
+
+  defp resolve_use_case(params) do
+    case Map.get(params, "use_case") do
+      nil -> nil
+      slug -> Map.get(@home_use_cases, to_string(slug))
+    end
+  end
+
+  defp normalize_tag(tag) do
+    tag |> to_string() |> String.downcase() |> String.replace("_", "-") |> String.trim()
   end
 
   defp labelize(value) when is_atom(value) do

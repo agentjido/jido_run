@@ -119,30 +119,40 @@ defmodule AgentJidoWeb.JidoHomeLive do
   end
 
   defp what_you_can_build_section(assigns) do
+    # Each use-case card routes to its own scoped examples destination
+    # (/examples?use_case=<slug>) instead of all collapsing onto the unfiltered
+    # /examples index (jido-e04-t21). Use cases without a published example yet
+    # show an honest scoped empty state until that example lands (jido-e08-t24…t29).
     cards = [
       %{
         title: "Coding agents",
-        desc: "Agents that read, analyze, and refactor code across repositories."
+        desc: "Agents that read, analyze, and refactor code across repositories.",
+        link: "/examples?use_case=coding"
       },
       %{
         title: "Research and synthesis",
-        desc: "Multi-step research agents that find sources, verify facts, and produce reports."
+        desc: "Multi-step research agents that find sources, verify facts, and produce reports.",
+        link: "/examples?use_case=research"
       },
       %{
         title: "Document processing",
-        desc: "Extract, classify, and route documents: invoices, contracts, support tickets."
+        desc: "Extract, classify, and route documents: invoices, contracts, support tickets.",
+        link: "/examples?use_case=documents"
       },
       %{
         title: "Customer support",
-        desc: "Agents that resolve issues using your knowledge base and escalate when needed."
+        desc: "Agents that resolve issues using your knowledge base and escalate when needed.",
+        link: "/examples?use_case=support"
       },
       %{
         title: "DevOps and monitoring",
-        desc: "Agents that watch systems, diagnose problems, and run remediation playbooks."
+        desc: "Agents that watch systems, diagnose problems, and run remediation playbooks.",
+        link: "/examples?use_case=devops"
       },
       %{
         title: "Data pipelines",
-        desc: "Agents that collect, transform, and load data from multiple sources on schedule."
+        desc: "Agents that collect, transform, and load data from multiple sources on schedule.",
+        link: "/examples?use_case=data-pipelines"
       }
     ]
 
@@ -163,7 +173,7 @@ defmodule AgentJidoWeb.JidoHomeLive do
 
       <div class="home-pillars-grid">
         <%= for card <- @cards do %>
-          <.link navigate="/examples" class="home-pillar-card group">
+          <.link navigate={card.link} class="home-pillar-card group">
             <h3 class="text-lg sm:text-xl font-bold mb-3 leading-tight group-hover:text-primary transition-colors duration-200">
               {card.title}
             </h3>

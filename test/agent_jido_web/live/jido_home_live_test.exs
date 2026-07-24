@@ -112,6 +112,37 @@ defmodule AgentJidoWeb.JidoHomeLiveTest do
     end
   end
 
+  describe "home use-case cards (E04-T21)" do
+    test "every card links to a unique scoped destination, not the unfiltered index", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      hrefs =
+        html
+        |> Floki.parse_document!()
+        |> Floki.find("#what-you-can-build a.home-pillar-card")
+        |> Floki.attribute("href")
+
+      # Six cards, each with a destination.
+      assert length(hrefs) == 6
+
+      # Acceptance condition: no two cards default to the same unfiltered index.
+      # Each destination is unique...
+      assert length(Enum.uniq(hrefs)) == 6
+      # ...and none is the bare unfiltered /examples index.
+      refute "/examples" in hrefs
+
+      # Every destination is scoped to its own use case.
+      for href <- hrefs do
+        assert String.starts_with?(href, "/examples?use_case=")
+      end
+
+      scopes = Enum.map(hrefs, &String.replace_prefix(&1, "/examples?use_case=", ""))
+
+      assert Enum.sort(scopes) ==
+               Enum.sort(~w(coding research documents support devops data-pipelines))
+    end
+  end
+
   defp ensure_started(app) do
     case Application.ensure_all_started(app) do
       {:ok, _apps} -> :ok
