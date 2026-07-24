@@ -16,6 +16,10 @@
     {
       "text": "Open: integrated controlled-Agent example not yet built.",
       "timestamp": "2026-07-24T12:51:56Z"
+    },
+    {
+      "text": "Done in commit \u003ccontrolled-agent\u003e: the controlled-agent demo is an integrated example joining application-supplied principal context, fail-closed authorization, a typed Action, and an observable result.",
+      "timestamp": "2026-07-24T14:27:53Z"
     }
   ],
   "priority": 1,
