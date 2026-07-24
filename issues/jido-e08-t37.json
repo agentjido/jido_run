@@ -12,9 +12,15 @@
     "slice-09"
   ],
   "parent": "jido-e08",
+  "comments": [
+    {
+      "text": "Open: integrated controlled-Agent example not yet built.",
+      "timestamp": "2026-07-24T12:51:56Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E08-T37 — Publish one integrated controlled-Agent example.",
   "type": "task",
-  "updated_at": "2026-07-23T12:05:40Z"
+  "updated_at": "2026-07-24T12:51:56Z"
 }
