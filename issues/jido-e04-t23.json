@@ -12,6 +12,12 @@
     "slice-05"
   ],
   "parent": "jido-e04",
+  "comments": [
+    {
+      "text": "Done in 61ad79c: use-case copy is outcome-oriented under the \"What you can build\" heading (possible outcomes, not guaranteed behavior).",
+      "timestamp": "2026-07-24T12:46:28Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "E04-T23 — Rewrite advanced use-case claims as possible outcomes, not guaranteed behavior.",
