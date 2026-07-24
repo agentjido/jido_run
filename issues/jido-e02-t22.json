@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:35:39Z",
   "created": "2026-07-23T12:01:15Z",
   "description": "Backlog task: E02-T22\n\nWork area: Claim policy\n\nMain targets: `specs/proof.md`\n\nComplete when: Each claim can name its proof level.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e02-t22",
@@ -19,8 +20,8 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E02-T22 — Define proof levels: design intent, tested behavior, benchmark, and production evidence.",
   "type": "task",
-  "updated_at": "2026-07-24T12:35:38Z"
+  "updated_at": "2026-07-24T12:35:39Z"
 }
