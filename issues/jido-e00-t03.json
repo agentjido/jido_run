@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:24:42Z",
   "created": "2026-07-23T12:00:16Z",
   "description": "Backlog task: E00-T03\n\nWork area: Tasks\n\nMain targets: `mix site.link_audit --include-heex`\n\nComplete when: The artifact lists all current unmatched links and their source files.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e00-t03",
@@ -18,7 +19,7 @@
     }
   ],
   "priority": 0,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E00-T03 — Save the current internal-link audit as a dated artifact.",
   "type": "task",
   "updated_at": "2026-07-24T12:24:42Z"
