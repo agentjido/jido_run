@@ -11,6 +11,12 @@
     "epic-e12"
   ],
   "parent": "jido-e12",
+  "comments": [
+    {
+      "text": "Done: public Livebook test coverage is a release requirement (test/agent_jido/livebook_docs_coverage_test.exs).",
+      "timestamp": "2026-07-24T12:54:54Z"
+    }
+  ],
   "priority": 0,
   "status": "in_progress",
   "title": "E12-T05 — Make public Livebook test coverage a release requirement.",
