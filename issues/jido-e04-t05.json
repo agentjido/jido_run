@@ -16,11 +16,15 @@
     {
       "text": "Open: secondary 'Run a failure drill' CTA depends on a runnable failure-drill example (jido-e08). Not external-gated; build the example first.",
       "timestamp": "2026-07-24T12:46:28Z"
+    },
+    {
+      "text": "Accepted by the Zclaude Ralph supervisor. Commits: d2a59f6,295ad3e. Verification: MIX_ENV=test mix compile \u0026\u0026 MIX_ENV=test mix format --check-formatted.",
+      "timestamp": "2026-07-24T20:31:07Z"
     }
   ],
   "priority": 1,
   "status": "in_progress",
   "title": "E04-T05 — Use “Run a failure drill” as the secondary proof CTA after the example exists.",
   "type": "task",
-  "updated_at": "2026-07-24T20:09:32Z"
+  "updated_at": "2026-07-24T20:31:07Z"
 }
