@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T14:41:17Z",
   "created": "2026-07-23T12:04:56Z",
   "description": "Backlog task: E07-T44\n\nWork area: Controlled-Agent reference path\n\nMain targets: Reference app and operations guide\n\nComplete when: Restart tests prove that the selected adapter keeps the required causal history.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e07-t44",
@@ -23,7 +24,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E07-T44 — Configure a durable Signal Journal for the proof path.",
   "type": "task",
   "updated_at": "2026-07-24T14:41:17Z"
