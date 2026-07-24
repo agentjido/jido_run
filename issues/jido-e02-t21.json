@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:35:38Z",
   "created": "2026-07-23T12:01:14Z",
   "description": "Backlog task: E02-T21\n\nWork area: Claim policy\n\nMain targets: Style guide\n\nComplete when: Copy names the tested behavior or package maturity.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e02-t21",
@@ -19,7 +20,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E02-T21 — Add “reliable,” “recover,” “durable,” “scale,” “safe,” and “tracing” to the qualifier list.",
   "type": "task",
   "updated_at": "2026-07-24T12:35:38Z"
