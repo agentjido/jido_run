@@ -12,6 +12,12 @@
     "slice-03"
   ],
   "parent": "jido-e02",
+  "comments": [
+    {
+      "text": "Done in 28959a2: prose brand form set to \"Jido\" in the canon (§11). Controlled prose (home hero/meta, SEO descriptions) uses \"Jido\"; \"Agent Jido\" remains only as the product/app identifier (site_name, repo) which is identity, not prose.",
+      "timestamp": "2026-07-24T12:35:35Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "E02-T17 — Select one brand form for prose: “Jido.”",
