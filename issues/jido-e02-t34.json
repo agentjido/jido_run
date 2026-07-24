@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:35:45Z",
   "created": "2026-07-23T12:01:27Z",
   "description": "Backlog task: E02-T34\n\nWork area: Canonical-source updates\n\nMain targets: Style guide and glossary\n\nComplete when: The word “identity” cannot hide which concept is meant.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e02-t34",
@@ -19,7 +20,7 @@
     }
   ],
   "priority": 0,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E02-T34 — Define runtime identity, Agent identity state, and authenticated principal identity as separate concepts.",
   "type": "task",
   "updated_at": "2026-07-24T12:35:45Z"
