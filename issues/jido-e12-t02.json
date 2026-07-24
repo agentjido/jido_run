@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:54:52Z",
   "created": "2026-07-23T12:07:43Z",
   "description": "Backlog task: E12-T02\n\nWork area: Content lint and release gates\n\nMain targets: Release tooling\n\nComplete when: “Production-ready” and related claims need proof metadata.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e12-t02",
@@ -18,7 +19,7 @@
     }
   ],
   "priority": 0,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E12-T02 — Add a proof-required-claim linter.",
   "type": "task",
   "updated_at": "2026-07-24T12:54:52Z"
