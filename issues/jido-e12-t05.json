@@ -1,5 +1,5 @@
 {
-  "assignee": "",
+  "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:07:46Z",
@@ -12,8 +12,8 @@
   ],
   "parent": "jido-e12",
   "priority": 0,
-  "status": "open",
+  "status": "in_progress",
   "title": "E12-T05 — Make public Livebook test coverage a release requirement.",
   "type": "task",
-  "updated_at": "2026-07-23T12:07:46Z"
+  "updated_at": "2026-07-24T12:54:54Z"
 }
