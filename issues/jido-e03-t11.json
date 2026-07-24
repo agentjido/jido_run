@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:39:44Z",
   "created": "2026-07-23T12:01:49Z",
   "description": "Backlog task: E03-T11\n\nWork area: Tasks\n\nMain targets: Examples LiveView\n\nComplete when: It promises runnable proof by task, not a general gallery.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e03-t11",
@@ -19,7 +20,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E03-T11 — Update the Examples hub introduction.",
   "type": "task",
   "updated_at": "2026-07-24T12:39:44Z"
