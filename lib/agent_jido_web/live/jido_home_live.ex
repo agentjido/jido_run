@@ -665,11 +665,16 @@ defmodule AgentJidoWeb.JidoHomeLive do
   # surfaces a visitor can pin down — typed Actions (/docs/concepts/actions),
   # effects via Directives (/docs/concepts/directives), and tool allowlists,
   # policy hooks, and quotas on the governance page that bounds them
-  # (/docs/operations/security-and-governance). The remaining dedicated cards,
-  # the telemetry-vs-audit and identity notes, controlled-Agent example
-  # routing, and the SRE CTA land in follow-up tasks (jido-e04-t37..t42); this
-  # section establishes the control story and routes to the existing operations
-  # governance page that already bounds these claims.
+  # (/docs/operations/security-and-governance). The third, "Trace what
+  # happened" (jido-e04-t37), links the what-happened block to the three
+  # records that reconstruct work — causal Signals (/docs/concepts/signals),
+  # the durable Journal you configure for causal history
+  # (/docs/concepts/persistence), and correlated telemetry that joins the
+  # trace (/docs/reference/telemetry-and-observability). The remaining
+  # dedicated cards, the telemetry-vs-audit and identity notes,
+  # controlled-Agent example routing, and the SRE CTA land in follow-up tasks
+  # (jido-e04-t38..t42); this section establishes the control story and routes
+  # to the existing operations governance page that already bounds these claims.
   defp operational_control_section(assigns) do
     controls = [
       %{
@@ -822,6 +827,45 @@ defmodule AgentJidoWeb.JidoHomeLive do
               data-control-link="quotas"
             >
               Quotas →
+            </.link>
+          </div>
+        </article>
+
+        <article
+          id="control-trace-what-happened"
+          class="home-pillar-card px-6 py-6 mt-6"
+          data-control-card="trace-what-happened"
+        >
+          <div class="home-pillar-chip home-pillar-chip-green">
+            <span class="text-2xl leading-none text-accent-green">↳</span>
+          </div>
+          <h3 class="text-lg sm:text-xl font-bold mt-2 mb-3 leading-tight">
+            Trace what happened
+          </h3>
+          <p class="home-muted-copy text-[15px] leading-relaxed max-w-md mx-auto mb-5">
+            Reconstruct any piece of work after it runs. Follow the causal trail to where it is recorded — every Signal that entered, the durable Journal that keeps the history, and the correlated telemetry that joins the trace — so you can see exactly what ran and why.
+          </p>
+          <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
+            <.link
+              navigate="/docs/concepts/signals"
+              class="home-pillar-link home-pillar-link-green"
+              data-control-link="causal-signals"
+            >
+              Causal Signals →
+            </.link>
+            <.link
+              navigate="/docs/concepts/persistence"
+              class="home-pillar-link home-pillar-link-green"
+              data-control-link="journal-configuration"
+            >
+              Journal configuration →
+            </.link>
+            <.link
+              navigate="/docs/reference/telemetry-and-observability"
+              class="home-pillar-link home-pillar-link-green"
+              data-control-link="correlated-telemetry"
+            >
+              Correlated telemetry →
             </.link>
           </div>
         </article>

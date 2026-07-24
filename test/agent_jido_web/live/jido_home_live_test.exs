@@ -300,6 +300,74 @@ defmodule AgentJidoWeb.JidoHomeLiveTest do
     end
   end
 
+  describe "home control proof cards: trace what happened (jido-e04-t37)" do
+    # Acceptance condition: a "Trace what happened" card sits in the
+    # operational-control section and links to causal Signals, Journal
+    # configuration, and correlated telemetry — the three records that let an
+    # operator reconstruct what ran and why.
+
+    test "renders a 'Trace what happened' card inside the operational-control section",
+         %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      card = operational_control_card(html, "trace-what-happened")
+
+      assert card != nil, "expected a trace-what-happened control card"
+      assert card |> Floki.find("h3") |> Floki.text() |> String.trim() == "Trace what happened"
+    end
+
+    test "the card sits after the constrain-capabilities card", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      # Proof cards land in order, so the conceptual answers lead and each
+      # routing card follows the last.
+      assert {constrain_idx, _} =
+               :binary.match(html, ~s(data-control-card="constrain-capabilities"))
+
+      assert {trace_idx, _} =
+               :binary.match(html, ~s(data-control-card="trace-what-happened"))
+
+      assert trace_idx > constrain_idx
+    end
+
+    test "links to causal Signals, Journal configuration, and correlated telemetry", %{
+      conn: conn
+    } do
+      {:ok, _view, html} = live(conn, "/")
+
+      card = operational_control_card(html, "trace-what-happened")
+
+      # Each record named in the acceptance condition routes to the most
+      # authoritative page that documents it: causal Signals (the CloudEvents
+      # message that carries causation), the durable Journal you configure via
+      # the Storage behaviour, and correlated telemetry (trace/span correlation
+      # plus the OpenTelemetry bridge).
+      expected = %{
+        "causal-signals" => "/docs/concepts/signals",
+        "journal-configuration" => "/docs/concepts/persistence",
+        "correlated-telemetry" => "/docs/reference/telemetry-and-observability"
+      }
+
+      links =
+        card
+        |> Floki.find("a[data-control-link]")
+        |> Map.new(fn a ->
+          slug = Floki.attribute(a, "data-control-link") |> hd()
+          href = Floki.attribute(a, "href") |> hd()
+          {slug, href}
+        end)
+
+      assert Map.keys(links) |> MapSet.new() == MapSet.new(Map.keys(expected)),
+             "expected links for #{inspect(Map.keys(expected))}, " <>
+               "got #{inspect(Map.keys(links))}"
+
+      for {slug, href} <- expected do
+        assert links[slug] == href,
+               "expected #{slug} to link to #{href}, got #{inspect(links[slug])}"
+      end
+    end
+  end
+
   describe "home use-case cards (E04-T21)" do
     test "every card links to a unique scoped destination, not the unfiltered index", %{conn: conn} do
       {:ok, _view, html} = live(conn, "/")
