@@ -12,9 +12,15 @@
     "slice-12"
   ],
   "parent": "jido-e12",
+  "comments": [
+    {
+      "text": "Open: fail-closed authorization regression test depends on the reference app.",
+      "timestamp": "2026-07-24T12:55:04Z"
+    }
+  ],
   "priority": 0,
   "status": "open",
   "title": "E12-T40 — Add a fail-closed authorization regression test.",
   "type": "task",
-  "updated_at": "2026-07-23T12:08:21Z"
+  "updated_at": "2026-07-24T12:55:04Z"
 }
