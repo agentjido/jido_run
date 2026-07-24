@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T23:34:26Z",
   "created": "2026-07-23T12:03:22Z",
   "description": "Backlog task: E05-T28\n\nWork area: Maintenance and validation\n\nMain targets: Page frontmatter\n\nComplete when: A reader can see last validation date and tested versions.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e05-t28",
@@ -23,7 +24,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E05-T28 — Add package-version metadata to onboarding pages.",
   "type": "task",
   "updated_at": "2026-07-24T23:34:26Z"
