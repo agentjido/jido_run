@@ -1,5 +1,5 @@
 {
-  "assignee": "",
+  "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:00:52Z",
@@ -13,8 +13,8 @@
   ],
   "parent": "jido-e01",
   "priority": 1,
-  "status": "open",
+  "status": "in_progress",
   "title": "E01-T22 — Add a short first-run control note.",
   "type": "task",
-  "updated_at": "2026-07-23T12:00:52Z"
+  "updated_at": "2026-07-24T12:32:33Z"
 }
