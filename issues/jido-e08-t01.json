@@ -11,6 +11,12 @@
     "epic-e08"
   ],
   "parent": "jido-e08",
+  "comments": [
+    {
+      "text": "Done (taxonomy commit): task-oriented labels (chat/research/coding/browser/data/scheduling/persistence/recovery/coordination/observability) added to Examples.Taxonomy; per-example tagging is the rendering follow-up.",
+      "timestamp": "2026-07-24T12:51:47Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "E08-T01 — Replace internal example taxonomy with task labels.",
