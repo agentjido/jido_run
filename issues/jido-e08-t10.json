@@ -15,6 +15,10 @@
     {
       "text": "Open: package-maturity on example cards not yet added.",
       "timestamp": "2026-07-24T12:51:51Z"
+    },
+    {
+      "text": "Done: every public example states package maturity (Beta) on the card contract.",
+      "timestamp": "2026-07-24T14:59:40Z"
     }
   ],
   "priority": 1,
