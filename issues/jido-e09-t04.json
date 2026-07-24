@@ -11,6 +11,12 @@
     "epic-e09"
   ],
   "parent": "jido-e09",
+  "comments": [
+    {
+      "text": "Done: Browser Agent stack defined (three retrieval lanes).",
+      "timestamp": "2026-07-24T12:52:33Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "E09-T04 — Create a browser Agent stack.",
