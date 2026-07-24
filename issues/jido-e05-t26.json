@@ -12,9 +12,15 @@
     "slice-06"
   ],
   "parent": "jido-e05",
+  "comments": [
+    {
+      "text": "Done: livebook_docs_coverage_test enforces that every Docs Livebook has a matching test.",
+      "timestamp": "2026-07-24T12:48:06Z"
+    }
+  ],
   "priority": 0,
   "status": "in_progress",
   "title": "E05-T26 — Add a test that every Docs Livebook has a matching test.",
   "type": "task",
-  "updated_at": "2026-07-24T12:48:05Z"
+  "updated_at": "2026-07-24T12:48:06Z"
 }
