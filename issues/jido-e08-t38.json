@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T14:27:13Z",
   "created": "2026-07-23T12:05:41Z",
   "description": "Backlog task: E08-T38\n\nWork area: Operational-control proof\n\nMain targets: Controlled-Agent example\n\nComplete when: The denied effect does not run, and the result includes safe decision context.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e08-t38",
@@ -23,7 +24,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E08-T38 — Show an unauthorized Action denial.",
   "type": "task",
   "updated_at": "2026-07-24T14:27:13Z"
