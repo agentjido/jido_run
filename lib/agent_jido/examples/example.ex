@@ -86,6 +86,30 @@ defmodule AgentJido.Examples.Example do
                   description: "Whether the demo uses real runtime behavior or a deterministic simulation"
                 )
                 |> Zoi.default(:real),
+              outcome:
+                Zoi.string(description: "Card contract: one sentence stating what this example proves")
+                |> Zoi.default(""),
+              packages:
+                Zoi.any(description: "Card contract: required Jido packages for this example")
+                |> Zoi.default([]),
+              package_maturity:
+                Zoi.string(description: "Card contract: Stable/Beta/Experimental maturity of the dependencies")
+                |> Zoi.default(""),
+              prerequisites:
+                Zoi.any(description: "Card contract: list of prerequisite strings (keys, services, binaries, dbs)")
+                |> Zoi.default([]),
+              expected_result:
+                Zoi.string(description: "Card contract: what a successful run produces")
+                |> Zoi.default(""),
+              run_command:
+                Zoi.string(description: "Card contract: command to run this example locally")
+                |> Zoi.default(""),
+              last_validated:
+                Zoi.string(description: "Card contract: ISO date this example was last validated")
+                |> Zoi.default(""),
+              tested_with:
+                Zoi.any(description: "Card contract: map of tested package/version pairs")
+                |> Zoi.default(%{}),
               sort_order:
                 Zoi.integer(description: "Sort order within category")
                 |> Zoi.default(100),
