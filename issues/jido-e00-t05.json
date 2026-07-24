@@ -11,6 +11,12 @@
     "epic-e00"
   ],
   "parent": "jido-e00",
+  "comments": [
+    {
+      "text": "Done in eb56808: route-status table (public/draft/retired/redirect) added to specs/taxonomy.md.",
+      "timestamp": "2026-07-24T12:24:43Z"
+    }
+  ],
   "priority": 0,
   "status": "in_progress",
   "title": "E00-T05 — Create a route-status table with `public`, `draft`, `retired`, and `redirect` states.",
