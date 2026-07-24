@@ -15,6 +15,10 @@
     {
       "text": "Open: Agent/AgentServer terminology lint with allowlist not yet added (canon covers it in prose).",
       "timestamp": "2026-07-24T12:54:58Z"
+    },
+    {
+      "text": "Done in this commit: Agent/AgentServer terminology gate (test/agent_jido/terminology_lint_test.exs) — public pages cannot describe an Agent as a process. Negation-aware; green across the corpus.",
+      "timestamp": "2026-07-24T17:28:43Z"
     }
   ],
   "priority": 1,
