@@ -11,9 +11,15 @@
     "epic-e10"
   ],
   "parent": "jido-e10",
+  "comments": [
+    {
+      "text": "Open: example retrieval MCP tool (scope expansion) not yet built.",
+      "timestamp": "2026-07-24T12:53:35Z"
+    }
+  ],
   "priority": 2,
   "status": "open",
   "title": "E10-T18 — Add an example retrieval tool if MCP scope expands.",
   "type": "task",
-  "updated_at": "2026-07-23T12:06:57Z"
+  "updated_at": "2026-07-24T12:53:35Z"
 }
