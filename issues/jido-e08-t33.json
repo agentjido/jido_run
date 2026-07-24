@@ -11,9 +11,15 @@
     "epic-e08"
   ],
   "parent": "jido-e08",
+  "comments": [
+    {
+      "text": "Open: home use-case links in link audit/LiveView tests not yet added.",
+      "timestamp": "2026-07-24T12:51:55Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E08-T33 — Add home use-case links to the link audit and LiveView tests.",
   "type": "task",
-  "updated_at": "2026-07-23T12:05:36Z"
+  "updated_at": "2026-07-24T12:51:55Z"
 }
