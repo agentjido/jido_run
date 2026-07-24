@@ -15,11 +15,15 @@
     {
       "text": "Open: OTel copy alignment not yet swept.",
       "timestamp": "2026-07-24T12:52:42Z"
+    },
+    {
+      "text": "Done: jido_otel site copy correctly describes itself as an OpenTelemetry bridge for Jido.Observe (tagline 'bridge'), not implying core Jido exports OTel by itself.",
+      "timestamp": "2026-07-24T16:27:29Z"
     }
   ],
   "priority": 1,
   "status": "in_progress",
   "title": "E09-T28 — Align OTel copy with the current `Jido.Observe` bridge behavior.",
   "type": "task",
-  "updated_at": "2026-07-24T16:27:28Z"
+  "updated_at": "2026-07-24T16:27:29Z"
 }
