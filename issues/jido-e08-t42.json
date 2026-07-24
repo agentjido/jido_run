@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T14:41:18Z",
   "created": "2026-07-23T12:05:45Z",
   "description": "Backlog task: E08-T42\n\nWork area: Operational-control proof\n\nMain targets: Controlled-Agent example and durable Journal\n\nComplete when: A user can inspect the retained causal chain after an application restart.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e08-t42",
@@ -23,7 +24,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E08-T42 — Show causal history across restart.",
   "type": "task",
   "updated_at": "2026-07-24T14:41:18Z"
