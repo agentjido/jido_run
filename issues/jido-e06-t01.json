@@ -15,11 +15,15 @@
     {
       "text": "Open: primary Docs sections -\u003e Start/Build/Operate/Reference/Ecosystem/Contribute is a large IA restructure; not yet executed.",
       "timestamp": "2026-07-24T12:49:35Z"
+    },
+    {
+      "text": "Product decision 2026-07-24: deferred for this iteration. Keep the current documentation structure, public URLs, and document paths unchanged. Do not perform or plan route moves, related redirects, or canonical URL changes now. Reconsider in a future IA iteration.",
+      "timestamp": "2026-07-24T16:16:57Z"
     }
   ],
   "priority": 1,
   "status": "open",
   "title": "E06-T01 — Change primary Docs sections to Start, Build, Operate, Reference, Ecosystem, and Contribute.",
   "type": "task",
-  "updated_at": "2026-07-24T12:49:35Z"
+  "updated_at": "2026-07-24T16:16:57Z"
 }
