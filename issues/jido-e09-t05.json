@@ -11,6 +11,12 @@
     "epic-e09"
   ],
   "parent": "jido-e09",
+  "comments": [
+    {
+      "text": "Done: Ash application stack defined.",
+      "timestamp": "2026-07-24T12:52:34Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "E09-T05 — Create an Ash application stack.",
