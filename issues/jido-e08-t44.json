@@ -12,9 +12,15 @@
     "slice-09"
   ],
   "parent": "jido-e08",
+  "comments": [
+    {
+      "text": "Open: redaction fixtures/expected output depend on T37.",
+      "timestamp": "2026-07-24T12:51:58Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E08-T44 — Add redaction fixtures and expected output.",
   "type": "task",
-  "updated_at": "2026-07-23T12:05:47Z"
+  "updated_at": "2026-07-24T12:51:58Z"
 }
