@@ -11,9 +11,15 @@
     "epic-e11"
   ],
   "parent": "jido-e11",
+  "comments": [
+    {
+      "text": "Open: adoption interview script not yet added.",
+      "timestamp": "2026-07-24T12:54:18Z"
+    }
+  ],
   "priority": 3,
   "status": "open",
   "title": "E11-T16 — Add an adoption interview script.",
   "type": "task",
-  "updated_at": "2026-07-23T12:07:29Z"
+  "updated_at": "2026-07-24T12:54:18Z"
 }
