@@ -1,5 +1,5 @@
 {
-  "assignee": "",
+  "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:05:16Z",
@@ -18,8 +18,8 @@
     }
   ],
   "priority": 1,
-  "status": "open",
+  "status": "in_progress",
   "title": "E08-T13 — Add a direct source link to every example.",
   "type": "task",
-  "updated_at": "2026-07-24T12:51:51Z"
+  "updated_at": "2026-07-24T14:59:42Z"
 }
