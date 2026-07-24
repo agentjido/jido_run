@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:46:26Z",
   "created": "2026-07-23T12:02:26Z",
   "description": "Backlog task: E04-T14\n\nWork area: Page structure\n\nMain targets: Home quick start\n\nComplete when: A reader can inspect and run the same code.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e04-t14",
@@ -19,7 +20,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E04-T14 — Add a link from each code block to the exact source.",
   "type": "task",
   "updated_at": "2026-07-24T12:46:26Z"
