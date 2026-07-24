@@ -33,7 +33,13 @@
   live_view_module: "AgentJidoWeb.Examples.CounterAgentLive",
   difficulty: :beginner,
   status: :live,
-  sort_order: 10
+  sort_order: 10,
+  outcome: "A supervised Jido agent that counts up and down via validated Actions and Signals.",
+  packages: ["jido"],
+  package_maturity: "Beta",
+  prerequisites: ["Elixir 1.18+", "OTP 27+", "Jido installed"],
+  expected_result: "The counter increments and decrements deterministically; no API key required.",
+  run_command: "Run the interactive demo on /examples/counter-agent, or: mix test test/agent_jido/demos/counter_agent_test.exs"
 }
 ---
 
