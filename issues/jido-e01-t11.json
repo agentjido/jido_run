@@ -1,5 +1,5 @@
 {
-  "assignee": "",
+  "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:00:41Z",
@@ -13,8 +13,8 @@
   ],
   "parent": "jido-e01",
   "priority": 0,
-  "status": "open",
+  "status": "in_progress",
   "title": "E01-T11 — Add a test that rejects `{{...}}` in every public artifact.",
   "type": "task",
-  "updated_at": "2026-07-23T12:00:41Z"
+  "updated_at": "2026-07-24T12:25:47Z"
 }
