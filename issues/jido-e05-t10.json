@@ -12,9 +12,15 @@
     "slice-06"
   ],
   "parent": "jido-e05",
+  "comments": [
+    {
+      "text": "Open: first-agent Livebook runs cmd/2 locally; an AgentServer-based variant is not yet shown.",
+      "timestamp": "2026-07-24T12:48:41Z"
+    }
+  ],
   "priority": 0,
   "status": "open",
   "title": "E05-T10 — Run the Agent with the current recommended AgentServer API.",
   "type": "task",
-  "updated_at": "2026-07-23T12:03:04Z"
+  "updated_at": "2026-07-24T12:48:41Z"
 }
