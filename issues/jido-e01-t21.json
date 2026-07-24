@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:32:34Z",
   "created": "2026-07-23T12:00:51Z",
   "description": "Backlog task: E01-T21\n\nWork area: Broken paths and source noise\n\nMain targets: First LLM Livebook, telemetry config, tests\n\nComplete when: A failure path does not expose a secret in page output or captured logs.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e01-t21",
@@ -19,8 +20,8 @@
     }
   ],
   "priority": 0,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E01-T21 — Verify that first-run logs and errors redact provider keys, tokens, prompts, and tool arguments according to the documented configuration.",
   "type": "task",
-  "updated_at": "2026-07-24T12:32:33Z"
+  "updated_at": "2026-07-24T12:32:34Z"
 }
