@@ -11,9 +11,15 @@
     "epic-e06"
   ],
   "parent": "jido-e06",
+  "comments": [
+    {
+      "text": "Open: tested-version field on executable pages not yet added.",
+      "timestamp": "2026-07-24T12:49:37Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E06-T11 — Add a tested-version field to every executable page.",
   "type": "task",
-  "updated_at": "2026-07-23T12:03:46Z"
+  "updated_at": "2026-07-24T12:49:37Z"
 }
