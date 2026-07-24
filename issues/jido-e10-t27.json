@@ -12,9 +12,15 @@
     "slice-10"
   ],
   "parent": "jido-e10",
+  "comments": [
+    {
+      "text": "Open: control search terms/aliases not yet added.",
+      "timestamp": "2026-07-24T12:53:37Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E10-T27 — Add identity context, authorization, audit, observability, policy, quota, approval, redaction, and controlled Agent as search terms.",
   "type": "task",
-  "updated_at": "2026-07-23T12:07:06Z"
+  "updated_at": "2026-07-24T12:53:37Z"
 }
