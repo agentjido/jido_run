@@ -12,6 +12,12 @@
     "slice-03"
   ],
   "parent": "jido-e02",
+  "comments": [
+    {
+      "text": "Done in 0328efd: control-evaluation audience segment (platform/SRE, security) added to persona-journeys.md.",
+      "timestamp": "2026-07-24T12:36:07Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "E02-T40 — Add a control-oriented audience segment for platform, SRE, security, and regulated-environment evaluators.",
