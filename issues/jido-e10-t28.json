@@ -12,9 +12,15 @@
     "slice-10"
   ],
   "parent": "jido-e10",
+  "comments": [
+    {
+      "text": "Open: control search results labeled by type/proof level not yet done.",
+      "timestamp": "2026-07-24T12:53:37Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E10-T28 — Label control search results by content type and proof level.",
   "type": "task",
-  "updated_at": "2026-07-23T12:07:07Z"
+  "updated_at": "2026-07-24T12:53:37Z"
 }
