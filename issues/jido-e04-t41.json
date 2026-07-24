@@ -12,9 +12,15 @@
     "slice-05"
   ],
   "parent": "jido-e04",
+  "comments": [
+    {
+      "text": "Open: routing the control section to one integrated controlled-Agent example depends on the controlled-Agent example (jido-e07/e08).",
+      "timestamp": "2026-07-24T12:46:33Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E04-T41 — Route the control section to one integrated controlled-Agent example.",
   "type": "task",
-  "updated_at": "2026-07-23T12:02:53Z"
+  "updated_at": "2026-07-24T12:46:33Z"
 }
