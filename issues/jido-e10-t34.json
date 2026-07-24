@@ -12,9 +12,15 @@
     "slice-10"
   ],
   "parent": "jido-e10",
+  "comments": [
+    {
+      "text": "Open: browser/Markdown/search/MCP/Skills parity tests for control language not yet added.",
+      "timestamp": "2026-07-24T12:53:38Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E10-T34 — Add browser, Markdown, search, MCP, and Skills parity tests for control language.",
   "type": "task",
-  "updated_at": "2026-07-23T12:07:13Z"
+  "updated_at": "2026-07-24T12:53:38Z"
 }
