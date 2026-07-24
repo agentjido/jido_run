@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:35:48Z",
   "created": "2026-07-23T12:01:31Z",
   "description": "Backlog task: E02-T38\n\nWork area: Canonical-source updates\n\nMain targets: `specs/style-voice.md`\n\nComplete when: These phrases cannot publish without separate, reviewed proof.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e02-t38",
@@ -19,7 +20,7 @@
     }
   ],
   "priority": 0,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E02-T38 — Add “secure by default,” “compliance-ready,” “enterprise governance,” and “complete audit trail” to the restricted-claim list.",
   "type": "task",
   "updated_at": "2026-07-24T12:35:48Z"
