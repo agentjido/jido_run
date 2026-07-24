@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:35:37Z",
   "created": "2026-07-23T12:01:13Z",
   "description": "Backlog task: E02-T20\n\nWork area: Claim policy\n\nMain targets: Style guide\n\nComplete when: A page must define scope, controls, and stop conditions.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e02-t20",
@@ -19,7 +20,7 @@
     }
   ],
   "priority": 0,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E02-T20 — Add “autonomous” to the definition-required list.",
   "type": "task",
   "updated_at": "2026-07-24T12:35:37Z"
