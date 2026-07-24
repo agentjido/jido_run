@@ -313,6 +313,79 @@ defmodule AgentJidoWeb.JidoHomeLiveTest do
     end
   end
 
+  describe "home ecosystem package support levels (E04-T26)" do
+    # Acceptance condition: a support level — Stable, Beta, or Experimental — is
+    # visible for the packages shown in the home section. Each package's level is
+    # resolved from the authoritative ecosystem registry at render time, so the
+    # badge tracks package maturity instead of a hardcoded copy that drifts.
+
+    test "every shown package carries a Stable, Beta, or Experimental level", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      levels = home_ecosystem_package_support_levels(html)
+
+      # All nine packages across the three stacks carry a level.
+      assert Map.keys(levels) |> MapSet.new() ==
+               MapSet.new(~w(jido jido_action jido_signal jido_ai req_llm llm_db ash_jido jido_messaging jido_otel))
+
+      for {name, %{level: level}} <- levels do
+        assert level in ~w(stable beta experimental),
+               "expected a support level for #{name}, got: #{inspect(level)}"
+      end
+    end
+
+    test "the displayed level matches the authoritative ecosystem registry", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      levels = home_ecosystem_package_support_levels(html)
+
+      for {name, %{level: level}} <- levels do
+        package = AgentJido.Ecosystem.get_public_package(name)
+        assert package != nil, "expected #{name} to be a public ecosystem package"
+
+        # The home badge is derived from the same registry the ecosystem hub uses,
+        # so it never claims a maturity the package does not have.
+        assert package.support_level in [:stable, :beta, :experimental]
+        assert level == Atom.to_string(package.support_level)
+      end
+    end
+
+    test "a Stable, Beta, or Experimental label is visible to a visitor", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      labels =
+        home_ecosystem_package_support_levels(html)
+        |> Map.values()
+        |> Enum.map(& &1.label)
+        |> MapSet.new()
+
+      # The acceptance condition: at least one support level is visible. The copy
+      # uses the canonical capitalized labels from SupportLevel, never a bare atom.
+      refute MapSet.disjoint?(labels, MapSet.new(["Stable", "Beta", "Experimental"]))
+
+      for label <- labels do
+        assert label in ["Stable", "Beta", "Experimental"],
+               "expected a canonical support-level label, got: #{inspect(label)}"
+      end
+    end
+
+    test "each package renders a human-readable level beside its name", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      rows =
+        html
+        |> Floki.parse_document!()
+        |> Floki.find("#home-ecosystem-section .home-ecosystem-package-role")
+
+      assert length(rows) == 9
+
+      for row <- rows do
+        label = row |> Floki.find(".home-ecosystem-support-level") |> Floki.text() |> String.trim()
+        assert label != "", "expected a support-level label beside every package name"
+      end
+    end
+  end
+
   defp home_ecosystem_stacks(html) do
     html
     |> Floki.parse_document!()
@@ -336,6 +409,20 @@ defmodule AgentJidoWeb.JidoHomeLiveTest do
         end)
 
       {key, %{name: name, purpose: purpose, start: has_start, packages: packages}}
+    end)
+  end
+
+  defp home_ecosystem_package_support_levels(html) do
+    html
+    |> Floki.parse_document!()
+    |> Floki.find("#home-ecosystem-section .home-ecosystem-package-role")
+    |> Map.new(fn row ->
+      name = Floki.attribute(row, "data-package") |> hd()
+      level = Floki.attribute(row, "data-support-level") |> hd()
+
+      label = row |> Floki.find(".home-ecosystem-support-level") |> Floki.text() |> String.trim()
+
+      {name, %{level: level, label: label}}
     end)
   end
 

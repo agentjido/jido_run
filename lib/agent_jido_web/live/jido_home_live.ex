@@ -4,6 +4,8 @@ defmodule AgentJidoWeb.JidoHomeLive do
   import AgentJidoWeb.Jido.HomeSections
   import AgentJidoWeb.Jido.MarketingLayouts
 
+  alias AgentJido.Ecosystem
+  alias AgentJido.Ecosystem.SupportLevel
   alias AgentJido.Examples.UseCases
 
   @impl true
@@ -283,45 +285,54 @@ defmodule AgentJidoWeb.JidoHomeLive do
   # Each package carries its own one-line role so a visitor knows why it is in
   # the stack (jido-e04-t25). Roles are condensed from the authoritative package
   # taglines in priv/ecosystem/*.md — they explain the package's job, not the
-  # stack's. Support-level badges (jido-e04-t26) and deeper stack detail such as
-  # dependency blocks and examples (epic jido-e09) remain separate tasks.
+  # stack's.
+  #
+  # Each package also shows its public support level — Stable, Beta, or
+  # Experimental — resolved from the authoritative ecosystem registry at render
+  # time (jido-e04-t26), so the home badge tracks package maturity instead of a
+  # hardcoded copy that can drift. Deeper stack detail such as dependency blocks
+  # and examples (epic jido-e09) remains a separate task.
   defp ecosystem_section(assigns) do
-    stacks = [
-      %{
-        key: "core",
-        name: "Core",
-        tone: "core",
-        start: true,
-        purpose: "The runtime every Jido system runs on — agents, typed Actions, and Signals.",
-        packages: [
-          %{name: "jido", role: "Agent state, the supervised AgentServer, and Directives."},
-          %{name: "jido_action", role: "Typed, validated commands and tools an agent runs."},
-          %{name: "jido_signal", role: "CloudEvents messages agents send, route, and replay."}
-        ]
-      },
-      %{
-        key: "ai",
-        name: "AI",
-        tone: "ai",
-        purpose: "Add LLM-backed agents, provider choice, and model metadata when you need AI.",
-        packages: [
-          %{name: "jido_ai", role: "Reasoning strategies, tool use, and accuracy over LLM calls."},
-          %{name: "req_llm", role: "Model requests across Anthropic, OpenAI, Google, and more."},
-          %{name: "llm_db", role: "Offline model metadata and capability catalog."}
-        ]
-      },
-      %{
-        key: "operate",
-        name: "Operate",
-        tone: "operate",
-        purpose: "Ship to production — observability, messaging, and framework integration.",
-        packages: [
-          %{name: "ash_jido", role: "Turns Ash resources into typed Jido Actions."},
-          %{name: "jido_messaging", role: "Chat channels (Slack, Discord, Telegram) for agents."},
-          %{name: "jido_otel", role: "Exports Jido telemetry as OpenTelemetry spans."}
-        ]
-      }
-    ]
+    stacks =
+      [
+        %{
+          key: "core",
+          name: "Core",
+          tone: "core",
+          start: true,
+          purpose: "The runtime every Jido system runs on — agents, typed Actions, and Signals.",
+          packages: [
+            %{name: "jido", role: "Agent state, the supervised AgentServer, and Directives."},
+            %{name: "jido_action", role: "Typed, validated commands and tools an agent runs."},
+            %{name: "jido_signal", role: "CloudEvents messages agents send, route, and replay."}
+          ]
+        },
+        %{
+          key: "ai",
+          name: "AI",
+          tone: "ai",
+          purpose: "Add LLM-backed agents, provider choice, and model metadata when you need AI.",
+          packages: [
+            %{name: "jido_ai", role: "Reasoning strategies, tool use, and accuracy over LLM calls."},
+            %{name: "req_llm", role: "Model requests across Anthropic, OpenAI, Google, and more."},
+            %{name: "llm_db", role: "Offline model metadata and capability catalog."}
+          ]
+        },
+        %{
+          key: "operate",
+          name: "Operate",
+          tone: "operate",
+          purpose: "Ship to production — observability, messaging, and framework integration.",
+          packages: [
+            %{name: "ash_jido", role: "Turns Ash resources into typed Jido Actions."},
+            %{name: "jido_messaging", role: "Chat channels (Slack, Discord, Telegram) for agents."},
+            %{name: "jido_otel", role: "Exports Jido telemetry as OpenTelemetry spans."}
+          ]
+        }
+      ]
+      |> Enum.map(fn stack ->
+        %{stack | packages: Enum.map(stack.packages, &with_support_level/1)}
+      end)
 
     assigns = assign(assigns, :stacks, stacks)
 
@@ -355,9 +366,19 @@ defmodule AgentJidoWeb.JidoHomeLive do
             <p class="home-ecosystem-stack-purpose">{stack.purpose}</p>
 
             <ul class="home-ecosystem-packages">
-              <li :for={pkg <- stack.packages} class="home-ecosystem-package-role" data-package={pkg.name}>
+              <li
+                :for={pkg <- stack.packages}
+                class="home-ecosystem-package-role"
+                data-package={pkg.name}
+                data-support-level={pkg.support_level}
+              >
                 <span class="home-ecosystem-stack-package">{pkg.name}</span>
                 <span class="home-ecosystem-stack-package-role">{pkg.role}</span>
+                <span class={
+                    "home-ecosystem-support-level home-ecosystem-support-level-#{pkg.support_level}"
+                  }>
+                  {pkg.support_level_label}
+                </span>
               </li>
             </ul>
           </article>
@@ -365,6 +386,30 @@ defmodule AgentJidoWeb.JidoHomeLive do
       </div>
     </section>
     """
+  end
+
+  # Attaches a package's public support level so each home package carries a
+  # Stable, Beta, or Experimental badge (jido-e04-t26). The level is resolved
+  # from the authoritative ecosystem registry at render time — the same
+  # derive-from-source-of-truth approach the use-case status labels use
+  # (jido-e04-t22) — so the badge tracks package maturity instead of a hardcoded
+  # copy that drifts. A package with no recorded level falls back to
+  # :experimental, the most conservative public claim, so the badge is always
+  # visible.
+  defp with_support_level(%{name: name} = pkg) do
+    level = package_support_level(name)
+
+    Map.merge(pkg, %{
+      support_level: level,
+      support_level_label: SupportLevel.label(level)
+    })
+  end
+
+  defp package_support_level(name) do
+    case Ecosystem.get_public_package(name) do
+      %{support_level: level} when level in [:stable, :beta, :experimental] -> level
+      _other -> :experimental
+    end
   end
 
   defp why_elixir_otp_section(assigns) do

@@ -1256,6 +1256,37 @@
     line-height: 1.45;
   }
 
+  /* Public support-level badge on each home package (jido-e04-t26), so a
+     visitor can see at a glance whether a package is Stable, Beta, or
+     Experimental. Mirrors the use-case status badge treatment above. */
+  #home-page .home-ecosystem-support-level {
+    @apply inline-flex items-center text-[10px] font-semibold uppercase;
+    letter-spacing: 0.08em;
+    margin-left: auto;
+    padding: 0.1rem 0.45rem;
+    border-radius: 9999px;
+    border: 1px solid transparent;
+    white-space: nowrap;
+  }
+
+  #home-page .home-ecosystem-support-level-stable {
+    color: hsl(var(--accent-green));
+    border-color: hsl(var(--accent-green) / 0.34);
+    background: hsl(var(--accent-green) / 0.1);
+  }
+
+  #home-page .home-ecosystem-support-level-beta {
+    color: hsl(var(--accent-yellow));
+    border-color: hsl(var(--accent-yellow) / 0.34);
+    background: hsl(var(--accent-yellow) / 0.1);
+  }
+
+  #home-page .home-ecosystem-support-level-experimental {
+    color: hsl(var(--muted-foreground));
+    border-color: hsl(var(--border) / 0.6);
+    background: hsl(var(--surface) / 0.5);
+  }
+
   #home-page .home-ecosystem-package-link {
     color: hsl(var(--muted-foreground));
     transition: color 150ms ease;
