@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:54:09Z",
   "created": "2026-07-23T12:07:22Z",
   "description": "Backlog task: E11-T09\n\nWork area: Community flow\n\nMain targets: GitHub/community page\n\nComplete when: Required evidence fields match the case-study template.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e11-t09",
@@ -18,7 +19,7 @@
     }
   ],
   "priority": 2,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E11-T09 — Add a showcase submission issue template or form.",
   "type": "task",
   "updated_at": "2026-07-24T12:54:09Z"
