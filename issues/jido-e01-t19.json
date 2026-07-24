@@ -13,9 +13,15 @@
     "slice-02"
   ],
   "parent": "jido-e01",
+  "comments": [
+    {
+      "text": "Done: all baseline unmatched links resolved (64 -\u003e 0). Retired /training/* and /getting-started via legacy redirects (5f28d96); draft architecture/agent-fundamentals/reasoning-strategies repointed (this commit); operations routes published (E07). Link audit reports 0 unmatched.",
+      "timestamp": "2026-07-24T12:30:52Z"
+    }
+  ],
   "priority": 0,
   "status": "closed",
   "title": "E01-T19 — Fix all 62 unmatched internal links or give each one an intentional redirect.",
   "type": "task",
-  "updated_at": "2026-07-24T12:30:51Z"
+  "updated_at": "2026-07-24T12:30:52Z"
 }
