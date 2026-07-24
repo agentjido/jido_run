@@ -1,5 +1,5 @@
 {
-  "assignee": "",
+  "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:01:00Z",
@@ -13,8 +13,8 @@
   ],
   "parent": "jido-e02",
   "priority": 1,
-  "status": "open",
+  "status": "in_progress",
   "title": "E02-T07 — Keep non-Elixir builders as a secondary evaluation route.",
   "type": "task",
-  "updated_at": "2026-07-23T12:01:00Z"
+  "updated_at": "2026-07-24T12:35:01Z"
 }
