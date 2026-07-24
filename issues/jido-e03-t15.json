@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:39:47Z",
   "created": "2026-07-23T12:01:53Z",
   "description": "Backlog task: E03-T15\n\nWork area: Tasks\n\nMain targets: Home, Features, metadata\n\nComplete when: Copy distinguishes core events from optional OpenTelemetry integration.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e03-t15",
@@ -19,7 +20,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E03-T15 — Replace “Observe everything” with “Instrument Agent lifecycles.”",
   "type": "task",
   "updated_at": "2026-07-24T12:39:47Z"
