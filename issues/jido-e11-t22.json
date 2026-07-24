@@ -12,6 +12,12 @@
     "slice-11"
   ],
   "parent": "jido-e11",
+  "comments": [
+    {
+      "text": "Done: template requires separating identity/authorization/audit/telemetry.",
+      "timestamp": "2026-07-24T12:54:14Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "E11-T22 — Require the author to separate identity, authorization, audit history, and telemetry.",
