@@ -11,9 +11,15 @@
     "epic-e09"
   ],
   "parent": "jido-e09",
+  "comments": [
+    {
+      "text": "Open: memory copy alignment not yet swept.",
+      "timestamp": "2026-07-24T12:52:42Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E09-T27 — Align memory copy with the plugin-first model in `jido_memory`.",
   "type": "task",
-  "updated_at": "2026-07-23T12:06:16Z"
+  "updated_at": "2026-07-24T12:52:42Z"
 }
