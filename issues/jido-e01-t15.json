@@ -12,6 +12,12 @@
     "slice-02"
   ],
   "parent": "jido-e01",
+  "comments": [
+    {
+      "text": "Done in 5f28d96: legacy_redirects.ex maps all /training/* routes to active Docs/Examples routes.",
+      "timestamp": "2026-07-24T12:25:49Z"
+    }
+  ],
   "priority": 0,
   "status": "in_progress",
   "title": "E01-T15 — Replace all public `/training/*` links with active Docs or Examples routes.",
