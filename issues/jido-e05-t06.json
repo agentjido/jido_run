@@ -12,9 +12,15 @@
     "slice-06"
   ],
   "parent": "jido-e05",
+  "comments": [
+    {
+      "text": "Done in 8f0ebca: mix igniter.install jido is the recommended install command.",
+      "timestamp": "2026-07-24T12:47:58Z"
+    }
+  ],
   "priority": 0,
   "status": "in_progress",
   "title": "E05-T06 — Use `mix igniter.install jido` as the recommended install command.",
   "type": "task",
-  "updated_at": "2026-07-24T12:47:57Z"
+  "updated_at": "2026-07-24T12:47:58Z"
 }
