@@ -12,9 +12,15 @@
     "slice-03"
   ],
   "parent": "jido-e02",
+  "comments": [
+    {
+      "text": "Done in 28959a2: Jido/Jido AI/ReqLLM/LLMDB relation stated in §11 + control-inventory (AI optional; provider/model roles distinct).",
+      "timestamp": "2026-07-24T12:35:08Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "E02-T16 — Define the relation between Jido, Jido AI, ReqLLM, and LLMDB.",
   "type": "task",
-  "updated_at": "2026-07-24T12:35:07Z"
+  "updated_at": "2026-07-24T12:35:08Z"
 }
