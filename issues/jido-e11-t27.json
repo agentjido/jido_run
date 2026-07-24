@@ -12,9 +12,15 @@
     "slice-11"
   ],
   "parent": "jido-e11",
+  "comments": [
+    {
+      "text": "Deferred: security/compliance statement review with evidence owners requires real evidence.",
+      "timestamp": "2026-07-24T12:54:20Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E11-T27 — Review every security or compliance statement with the evidence owner.",
   "type": "task",
-  "updated_at": "2026-07-23T12:07:40Z"
+  "updated_at": "2026-07-24T12:54:20Z"
 }
