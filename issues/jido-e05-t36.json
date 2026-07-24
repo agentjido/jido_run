@@ -16,11 +16,15 @@
     {
       "text": "Open: permitted Action path depends on jido-e07.",
       "timestamp": "2026-07-24T12:48:45Z"
+    },
+    {
+      "text": "Done in this commit: the permitted Action path runs with typed inputs (ApproveAction schema) and records its result (approved_count increments) when the principal is allowed.",
+      "timestamp": "2026-07-24T14:27:11Z"
     }
   ],
   "priority": 1,
   "status": "in_progress",
   "title": "E05-T36 — Add a permitted Action path with typed inputs.",
   "type": "task",
-  "updated_at": "2026-07-24T14:27:10Z"
+  "updated_at": "2026-07-24T14:27:11Z"
 }
