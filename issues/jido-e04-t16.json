@@ -12,9 +12,15 @@
     "slice-05"
   ],
   "parent": "jido-e04",
+  "comments": [
+    {
+      "text": "Done in 23412ce: typed-coordination pillar states Agent is data / AgentServer is the process.",
+      "timestamp": "2026-07-24T12:46:27Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "E04-T16 — Keep the typed coordination card and add the Agent/AgentServer distinction.",
   "type": "task",
-  "updated_at": "2026-07-24T12:46:26Z"
+  "updated_at": "2026-07-24T12:46:27Z"
 }
