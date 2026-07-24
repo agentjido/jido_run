@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:39:51Z",
   "created": "2026-07-23T12:02:00Z",
   "description": "Backlog task: E03-T22\n\nWork area: Tasks\n\nMain targets: Home, Feature, Docs, Build, Examples\n\nComplete when: All main pages use one approved CTA.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e03-t22",
@@ -19,7 +20,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E03-T22 — Standardize the primary CTA label.",
   "type": "task",
   "updated_at": "2026-07-24T12:39:51Z"
