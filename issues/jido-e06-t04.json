@@ -11,9 +11,15 @@
     "epic-e06"
   ],
   "parent": "jido-e06",
+  "comments": [
+    {
+      "text": "Open: move Contributors to Contribute depends on T01.",
+      "timestamp": "2026-07-24T12:49:36Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E06-T04 — Move Contributors to Contribute.",
   "type": "task",
-  "updated_at": "2026-07-23T12:03:39Z"
+  "updated_at": "2026-07-24T12:49:36Z"
 }
