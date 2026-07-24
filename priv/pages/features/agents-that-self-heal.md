@@ -1,5 +1,5 @@
 %{
-  title: "Agents that self-heal",
+  title: "Supervised failure handling",
   category: :features,
   description: "Each agent runs in its own BEAM process under OTP supervision. Crashes are recovered automatically.",
   doc_type: :explanation,

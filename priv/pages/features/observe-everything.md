@@ -1,5 +1,5 @@
 %{
-  title: "Observe everything",
+  title: "Instrument agent lifecycles",
   category: :features,
   description: "Built-in telemetry and OpenTelemetry tracing across every agent lifecycle transition.",
   doc_type: :explanation,

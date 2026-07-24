@@ -9,7 +9,7 @@ defmodule AgentJidoWeb.LLMSTxtController do
     endpoint_url = AgentJidoWeb.Endpoint.url()
 
     body = """
-    Agent Jido (#{endpoint_url}) is a site for building reliable multi-agent systems on Elixir/OTP.
+    Agent Jido (#{endpoint_url}) is the Elixir framework for long-running agent systems. Build supervised agents, typed tools, and explicit workflows on Elixir/OTP.
 
     Preferred retrieval
     - Append `.md` to canonical public routes to request markdown directly.
@@ -19,6 +19,8 @@ defmodule AgentJidoWeb.LLMSTxtController do
       - /docs*
       - /blog*
       - /ecosystem*
+      - /examples*
+      - /compare*
       - /skills
       - /features*
       - /build*
