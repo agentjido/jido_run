@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T21:25:50Z",
   "created": "2026-07-23T12:02:37Z",
   "description": "Backlog task: E04-T25\n\nWork area: Use cases, ecosystem, and conversion\n\nMain targets: Home ecosystem section\n\nComplete when: A new user knows why each package is present.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e04-t25",
@@ -23,7 +24,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E04-T25 — Add one-line role text for every package shown.",
   "type": "task",
   "updated_at": "2026-07-24T21:25:50Z"
