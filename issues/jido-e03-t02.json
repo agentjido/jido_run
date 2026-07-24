@@ -12,9 +12,15 @@
     "slice-04"
   ],
   "parent": "jido-e03",
+  "comments": [
+    {
+      "text": "Done in e510eb5: root layout default description replaced.",
+      "timestamp": "2026-07-24T12:39:38Z"
+    }
+  ],
   "priority": 0,
   "status": "in_progress",
   "title": "E03-T02 — Replace the root-layout default description.",
   "type": "task",
-  "updated_at": "2026-07-24T12:39:37Z"
+  "updated_at": "2026-07-24T12:39:38Z"
 }
