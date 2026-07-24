@@ -12,9 +12,15 @@
     "slice-06"
   ],
   "parent": "jido-e05",
+  "comments": [
+    {
+      "text": "Deferred: measuring median time to first core Agent success requires a moderated measurement process; not yet run.",
+      "timestamp": "2026-07-24T12:48:44Z"
+    }
+  ],
   "priority": 2,
   "status": "open",
   "title": "E05-T30 — Measure median time to first core Agent success.",
   "type": "task",
-  "updated_at": "2026-07-23T12:03:24Z"
+  "updated_at": "2026-07-24T12:48:44Z"
 }
