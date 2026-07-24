@@ -1,5 +1,5 @@
 {
-  "assignee": "",
+  "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:03:23Z",
@@ -19,8 +19,8 @@
     }
   ],
   "priority": 1,
-  "status": "open",
+  "status": "in_progress",
   "title": "E05-T29 — Add “Next: Build” and “Next: Operate” links.",
   "type": "task",
-  "updated_at": "2026-07-24T12:48:43Z"
+  "updated_at": "2026-07-24T12:57:55Z"
 }
