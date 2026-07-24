@@ -13,9 +13,15 @@
     "slice-02"
   ],
   "parent": "jido-e01",
+  "comments": [
+    {
+      "text": "Done in this commit + 5f28d96: no public page links to a draft route. Draft architecture links repointed to the public behavior-first-architecture page; operations links are valid now that Operations is published (E07); debugging reference drafted with its index link removed. Link audit = 0 unmatched.",
+      "timestamp": "2026-07-24T12:30:51Z"
+    }
+  ],
   "priority": 0,
   "status": "closed",
   "title": "E01-T16 — Remove links to draft Operations and draft Reference pages until publication.",
   "type": "task",
-  "updated_at": "2026-07-24T12:30:50Z"
+  "updated_at": "2026-07-24T12:30:51Z"
 }
