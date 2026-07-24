@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:52:34Z",
   "created": "2026-07-23T12:05:53Z",
   "description": "Backlog task: E09-T04\n\nWork area: Recommended stacks\n\nMain targets: Ecosystem hub and guide\n\nComplete when: It explains stateless fetch, rich fetch, and browser sessions from the `jido_browser` README.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e09-t04",
@@ -18,8 +19,8 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E09-T04 — Create a browser Agent stack.",
   "type": "task",
-  "updated_at": "2026-07-24T12:52:33Z"
+  "updated_at": "2026-07-24T12:52:34Z"
 }
