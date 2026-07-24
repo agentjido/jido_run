@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T23:08:02Z",
   "created": "2026-07-23T12:03:09Z",
   "description": "Backlog task: E05-T15\n\nWork area: Core Agent path\n\nMain targets: First-Agent guide\n\nComplete when: Recovery is not implied before persistence is configured.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e05-t15",
@@ -23,7 +24,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E05-T15 — Link to persistence as the next operation step.",
   "type": "task",
   "updated_at": "2026-07-24T23:08:02Z"
