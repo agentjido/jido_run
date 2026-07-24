@@ -12,9 +12,15 @@
     "slice-06"
   ],
   "parent": "jido-e05",
+  "comments": [
+    {
+      "text": "Done: first-agent livebook defines a deterministic Agent with a typed schema.",
+      "timestamp": "2026-07-24T12:48:00Z"
+    }
+  ],
   "priority": 0,
   "status": "in_progress",
   "title": "E05-T09 — Define one deterministic Agent.",
   "type": "task",
-  "updated_at": "2026-07-24T12:47:59Z"
+  "updated_at": "2026-07-24T12:48:00Z"
 }
