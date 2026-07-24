@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:50:30Z",
   "created": "2026-07-23T12:05:02Z",
   "description": "Backlog task: E07-T50\n\nWork area: Controlled-Agent reference path\n\nMain targets: Operate docs\n\nComplete when: It lists protected assets, trust boundaries, abuse cases, controls, evidence, and known gaps.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e07-t50",
@@ -19,7 +20,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E07-T50 — Publish a threat and control model for the reference path.",
   "type": "task",
   "updated_at": "2026-07-24T12:50:30Z"
