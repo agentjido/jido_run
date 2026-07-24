@@ -11,9 +11,15 @@
     "epic-e09"
   ],
   "parent": "jido-e09",
+  "comments": [
+    {
+      "text": "Open: one best guide per package page not yet wired.",
+      "timestamp": "2026-07-24T12:52:40Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E09-T20 — Add one best guide.",
   "type": "task",
-  "updated_at": "2026-07-23T12:06:09Z"
+  "updated_at": "2026-07-24T12:52:40Z"
 }
