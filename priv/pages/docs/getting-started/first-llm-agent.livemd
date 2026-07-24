@@ -76,7 +76,7 @@ defmodule MyAgentApp.Greeter do
 end
 ```
 
-`model: "openai:gpt-4o-mini"` names an explicit provider and model. The configured key is an OpenAI key, so the model must be an `openai:` model — a provider/model mismatch is the most common first-run failure. Model aliases like `:fast` are convenient, but each alias resolves to one fixed provider, so they are introduced later, once this explicit request succeeds.
+`model: "openai:gpt-4o-mini"` names an explicit provider and model. The configured key is an OpenAI key, so the model must be an `openai:` model — a provider/model mismatch is the most common first-run failure. Model aliases like `:fast` are convenient, but each alias resolves to one fixed provider, so they are introduced later, once this explicit request succeeds. When you do adopt aliases, `llm_db` resolves each alias to a concrete provider and model and supplies its capabilities.
 
 Before running the request, confirm the configured key provider matches the selected model provider:
 
