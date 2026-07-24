@@ -11,6 +11,12 @@
     "epic-e09"
   ],
   "parent": "jido-e09",
+  "comments": [
+    {
+      "text": "Done in \u003cstacks commit\u003e: Core Agent stack defined (jido, jido_action, jido_signal).",
+      "timestamp": "2026-07-24T12:52:31Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "E09-T01 — Create a Core Agent stack.",
