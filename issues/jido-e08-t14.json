@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T14:59:43Z",
   "created": "2026-07-23T12:05:17Z",
   "description": "Backlog task: E08-T14\n\nWork area: Example-card contract\n\nMain targets: Example pages\n\nComplete when: The command works from a documented directory.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e08-t14",
@@ -22,7 +23,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E08-T14 — Add a “Run locally” command to every runnable example.",
   "type": "task",
   "updated_at": "2026-07-24T14:59:43Z"
