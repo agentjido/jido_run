@@ -11,6 +11,12 @@
     "epic-e09"
   ],
   "parent": "jido-e09",
+  "comments": [
+    {
+      "text": "Done: AI Agent stack defined (Core + jido_ai, req_llm, llm_db with roles).",
+      "timestamp": "2026-07-24T12:52:32Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "E09-T02 — Create an AI Agent stack.",
