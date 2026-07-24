@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:54:55Z",
   "created": "2026-07-23T12:07:47Z",
   "description": "Backlog task: E12-T06\n\nWork area: Content lint and release gates\n\nMain targets: Content validation\n\nComplete when: A configured provider mismatch fails CI.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e12-t06",
@@ -18,7 +19,7 @@
     }
   ],
   "priority": 0,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E12-T06 — Add provider/model consistency checks to AI tutorials.",
   "type": "task",
   "updated_at": "2026-07-24T12:54:55Z"
