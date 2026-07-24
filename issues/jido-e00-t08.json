@@ -11,9 +11,15 @@
     "epic-e00"
   ],
   "parent": "jido-e00",
+  "comments": [
+    {
+      "text": "Done in eb56808: package version/support-level drift table (jido, jido_ai, req_llm registry vs Hex) in specs/audits/baseline-2026-07-23.md.",
+      "timestamp": "2026-07-24T12:25:05Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "E00-T08 — Record current package versions and support levels.",
   "type": "task",
-  "updated_at": "2026-07-24T12:25:04Z"
+  "updated_at": "2026-07-24T12:25:05Z"
 }
