@@ -15,6 +15,10 @@
     {
       "text": "Open: Signal capability copy alignment not yet swept.",
       "timestamp": "2026-07-24T12:52:41Z"
+    },
+    {
+      "text": "Done: jido_signal site copy describes envelope/routing/dispatch/persist/track accurately without compliance/tamper/audit-trail overstatement.",
+      "timestamp": "2026-07-24T16:27:28Z"
     }
   ],
   "priority": 1,
