@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T15:28:53Z",
   "created": "2026-07-23T12:04:58Z",
   "description": "Backlog task: E07-T46\n\nWork area: Controlled-Agent reference path\n\nMain targets: Signals, Actions, and tests\n\nComplete when: An operator can follow one request across Agent decisions and effects.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e07-t46",
@@ -23,7 +24,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E07-T46 — Keep causation and correlation context from ingress to external effect.",
   "type": "task",
   "updated_at": "2026-07-24T15:28:53Z"
