@@ -12,6 +12,12 @@
     "slice-04"
   ],
   "parent": "jido-e03",
+  "comments": [
+    {
+      "text": "Done in e510eb5: hard-coded docs hub and priv/pages/docs/index.md carry the same outline/promise (index.md has no old claims).",
+      "timestamp": "2026-07-24T12:39:40Z"
+    }
+  ],
   "priority": 0,
   "status": "in_progress",
   "title": "E03-T06 — Align the hard-coded Docs hub and `priv/pages/docs/index.md`.",
