@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T20:31:07Z",
   "created": "2026-07-23T12:02:17Z",
   "description": "Backlog task: E04-T05\n\nWork area: Hero and first viewport\n\nMain targets: Home hero\n\nComplete when: It links to a runnable restart example.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e04-t05",
@@ -23,7 +24,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E04-T05 — Use “Run a failure drill” as the secondary proof CTA after the example exists.",
   "type": "task",
   "updated_at": "2026-07-24T20:31:07Z"
