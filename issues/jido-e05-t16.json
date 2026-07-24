@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:48:02Z",
   "created": "2026-07-23T12:03:10Z",
   "description": "Backlog task: E05-T16\n\nWork area: AI Agent path\n\nMain targets: First LLM Livebook\n\nComplete when: Key and model provider match.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e05-t16",
@@ -19,7 +20,7 @@
     }
   ],
   "priority": 0,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E05-T16 — Use one explicit provider and model for the first request.",
   "type": "task",
   "updated_at": "2026-07-24T12:48:02Z"
