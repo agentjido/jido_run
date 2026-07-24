@@ -11,9 +11,15 @@
     "epic-e10"
   ],
   "parent": "jido-e10",
+  "comments": [
+    {
+      "text": "Done: the Skills catalog renders 13 cards (+ coverage test jido-e12-t13).",
+      "timestamp": "2026-07-24T12:53:31Z"
+    }
+  ],
   "priority": 0,
   "status": "in_progress",
   "title": "E10-T23 — Repair the empty Skills catalog.",
   "type": "task",
-  "updated_at": "2026-07-24T12:53:30Z"
+  "updated_at": "2026-07-24T12:53:31Z"
 }
