@@ -1,5 +1,5 @@
 {
-  "assignee": "",
+  "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:07:31Z",
@@ -12,8 +12,8 @@
   ],
   "parent": "jido-e11",
   "priority": 1,
-  "status": "open",
+  "status": "in_progress",
   "title": "E11-T18 — Publish restart-time results only with conditions.",
   "type": "task",
-  "updated_at": "2026-07-23T12:07:31Z"
+  "updated_at": "2026-07-24T12:54:12Z"
 }
