@@ -11,9 +11,15 @@
     "epic-e06"
   ],
   "parent": "jido-e06",
+  "comments": [
+    {
+      "text": "Open: Operate is public (E07); adding it to primary nav depends on the IA restructure.",
+      "timestamp": "2026-07-24T12:49:37Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E06-T05 — Add Operate to the primary Docs navigation only when its minimum page set is public.",
   "type": "task",
-  "updated_at": "2026-07-23T12:03:40Z"
+  "updated_at": "2026-07-24T12:49:37Z"
 }
