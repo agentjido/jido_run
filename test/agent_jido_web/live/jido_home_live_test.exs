@@ -257,6 +257,62 @@ defmodule AgentJidoWeb.JidoHomeLiveTest do
     end
   end
 
+  describe "home ecosystem package roles (E04-T25)" do
+    # Acceptance condition: a new user knows why each package is present. Every
+    # package shown in the home stacks carries a one-line role, so a name is
+    # never presented without an explanation.
+
+    test "every shown package carries a non-empty one-line role", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      packages =
+        home_ecosystem_stacks(html)
+        |> Enum.flat_map(fn {_key, %{packages: packages}} -> Map.to_list(packages) end)
+        |> Map.new()
+
+      # All nine packages across the three stacks are shown.
+      assert Map.keys(packages) |> MapSet.new() ==
+               MapSet.new(~w(jido jido_action jido_signal jido_ai req_llm llm_db ash_jido jido_messaging jido_otel))
+
+      for {name, role} <- packages do
+        assert is_binary(role) and String.trim(role) != "",
+               "expected a one-line role for #{name}, got: #{inspect(role)}"
+      end
+    end
+
+    test "each role is distinct, so the roles explain the packages and not each other",
+         %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      roles =
+        home_ecosystem_stacks(html)
+        |> Enum.flat_map(fn {_key, %{packages: packages}} -> Map.values(packages) end)
+
+      assert length(roles) == 9
+      assert length(Enum.uniq(roles)) == 9
+    end
+
+    test "no package name is shown without a role beside it", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      # Every package row pairs the name element with a role element.
+      rows =
+        html
+        |> Floki.parse_document!()
+        |> Floki.find("#home-ecosystem-section .home-ecosystem-package-role")
+
+      assert length(rows) == 9
+
+      for row <- rows do
+        name = row |> Floki.find(".home-ecosystem-stack-package") |> Floki.text() |> String.trim()
+        role = row |> Floki.find(".home-ecosystem-stack-package-role") |> Floki.text() |> String.trim()
+
+        assert name != ""
+        assert role != ""
+      end
+    end
+  end
+
   defp home_ecosystem_stacks(html) do
     html
     |> Floki.parse_document!()
@@ -266,7 +322,20 @@ defmodule AgentJidoWeb.JidoHomeLiveTest do
       name = card |> Floki.find(".home-ecosystem-row-title") |> Floki.text() |> String.trim()
       purpose = card |> Floki.find(".home-ecosystem-stack-purpose") |> Floki.text() |> String.trim()
       has_start = card |> Floki.find(".home-ecosystem-start-badge") |> Enum.any?()
-      {key, %{name: name, purpose: purpose, start: has_start}}
+
+      packages =
+        card
+        |> Floki.find(".home-ecosystem-package-role")
+        |> Map.new(fn row ->
+          pkg_name = Floki.attribute(row, "data-package") |> hd()
+
+          role =
+            row |> Floki.find(".home-ecosystem-stack-package-role") |> Floki.text() |> String.trim()
+
+          {pkg_name, role}
+        end)
+
+      {key, %{name: name, purpose: purpose, start: has_start, packages: packages}}
     end)
   end
 

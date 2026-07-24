@@ -278,9 +278,13 @@ defmodule AgentJidoWeb.JidoHomeLive do
   # The first view reads as three named, explained stacks — Core, AI, Operate —
   # instead of nine unexplained package names. Each stack carries a one-line
   # purpose so a visitor knows what the stack is for and when to reach for it;
-  # the Core stack is marked as the recommended place to begin. Per-package role
-  # text and support levels land in jido-e04-t25 and jido-e04-t26; the deeper
-  # stack treatment (dependency blocks, examples) belongs to epic jido-e09.
+  # the Core stack is marked as the recommended place to begin.
+  #
+  # Each package carries its own one-line role so a visitor knows why it is in
+  # the stack (jido-e04-t25). Roles are condensed from the authoritative package
+  # taglines in priv/ecosystem/*.md — they explain the package's job, not the
+  # stack's. Support-level badges (jido-e04-t26) and deeper stack detail such as
+  # dependency blocks and examples (epic jido-e09) remain separate tasks.
   defp ecosystem_section(assigns) do
     stacks = [
       %{
@@ -289,21 +293,33 @@ defmodule AgentJidoWeb.JidoHomeLive do
         tone: "core",
         start: true,
         purpose: "The runtime every Jido system runs on — agents, typed Actions, and Signals.",
-        packages: ["jido", "jido_action", "jido_signal"]
+        packages: [
+          %{name: "jido", role: "Agent state, the supervised AgentServer, and Directives."},
+          %{name: "jido_action", role: "Typed, validated commands and tools an agent runs."},
+          %{name: "jido_signal", role: "CloudEvents messages agents send, route, and replay."}
+        ]
       },
       %{
         key: "ai",
         name: "AI",
         tone: "ai",
         purpose: "Add LLM-backed agents, provider choice, and model metadata when you need AI.",
-        packages: ["jido_ai", "req_llm", "llm_db"]
+        packages: [
+          %{name: "jido_ai", role: "Reasoning strategies, tool use, and accuracy over LLM calls."},
+          %{name: "req_llm", role: "Model requests across Anthropic, OpenAI, Google, and more."},
+          %{name: "llm_db", role: "Offline model metadata and capability catalog."}
+        ]
       },
       %{
         key: "operate",
         name: "Operate",
         tone: "operate",
         purpose: "Ship to production — observability, messaging, and framework integration.",
-        packages: ["ash_jido", "jido_messaging", "jido_otel"]
+        packages: [
+          %{name: "ash_jido", role: "Turns Ash resources into typed Jido Actions."},
+          %{name: "jido_messaging", role: "Chat channels (Slack, Discord, Telegram) for agents."},
+          %{name: "jido_otel", role: "Exports Jido telemetry as OpenTelemetry spans."}
+        ]
       }
     ]
 
@@ -338,12 +354,12 @@ defmodule AgentJidoWeb.JidoHomeLive do
 
             <p class="home-ecosystem-stack-purpose">{stack.purpose}</p>
 
-            <p class="home-ecosystem-packages">
-              <%= for {pkg, index} <- Enum.with_index(stack.packages) do %>
-                <span class="home-ecosystem-stack-package">{pkg}</span>
-                <span :if={index < length(stack.packages) - 1} class="home-ecosystem-separator" aria-hidden="true">·</span>
-              <% end %>
-            </p>
+            <ul class="home-ecosystem-packages">
+              <li :for={pkg <- stack.packages} class="home-ecosystem-package-role" data-package={pkg.name}>
+                <span class="home-ecosystem-stack-package">{pkg.name}</span>
+                <span class="home-ecosystem-stack-package-role">{pkg.role}</span>
+              </li>
+            </ul>
           </article>
         </div>
       </div>

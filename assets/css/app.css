@@ -1230,17 +1230,30 @@
   }
 
   #home-page .home-ecosystem-packages {
-    @apply flex flex-wrap items-center;
-    column-gap: 0.4rem;
-    row-gap: 0.18rem;
-    color: hsl(var(--muted-foreground));
-    font-size: 0.86rem;
-    margin-top: 0.65rem;
+    @apply flex flex-col;
+    row-gap: 0.32rem;
+    margin-top: 0.7rem;
   }
 
-  #home-page .home-ecosystem-separator {
-    color: hsl(var(--muted-foreground) / 0.7);
-    line-height: 1;
+  /* One name + one-line role per package (jido-e04-t25), so a visitor knows
+     why each package is present rather than reading a bare list of names. */
+  #home-page .home-ecosystem-package-role {
+    @apply flex items-baseline flex-wrap;
+    column-gap: 0.5rem;
+    row-gap: 0.1rem;
+  }
+
+  #home-page .home-ecosystem-stack-package {
+    font-family: var(--font-mono, ui-monospace, monospace);
+    font-weight: 600;
+    font-size: 0.84rem;
+    color: hsl(var(--foreground) / 0.92);
+  }
+
+  #home-page .home-ecosystem-stack-package-role {
+    color: hsl(var(--muted-foreground));
+    font-size: 0.82rem;
+    line-height: 1.45;
   }
 
   #home-page .home-ecosystem-package-link {
