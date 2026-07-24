@@ -15,6 +15,10 @@
     {
       "text": "Open: jido site description vs README core-model alignment not yet swept.",
       "timestamp": "2026-07-24T12:52:40Z"
+    },
+    {
+      "text": "Done: the jido package site description covers Agent, cmd/2, Directives, AgentServer, and optional AI (verified in priv/ecosystem/jido.md body).",
+      "timestamp": "2026-07-24T16:25:14Z"
     }
   ],
   "priority": 0,
