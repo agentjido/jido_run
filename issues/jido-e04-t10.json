@@ -12,9 +12,15 @@
     "slice-05"
   ],
   "parent": "jido-e04",
+  "comments": [
+    {
+      "text": "Open: the four-part Agent model section (state/lifecycle/typed boundaries/visible effects) is a new home section, not yet built.",
+      "timestamp": "2026-07-24T12:46:29Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E04-T10 — Add a four-part Agent model section: state, lifecycle, typed boundaries, visible effects.",
   "type": "task",
-  "updated_at": "2026-07-23T12:02:22Z"
+  "updated_at": "2026-07-24T12:46:29Z"
 }
