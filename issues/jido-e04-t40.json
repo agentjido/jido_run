@@ -12,9 +12,15 @@
     "slice-05"
   ],
   "parent": "jido-e04",
+  "comments": [
+    {
+      "text": "Open: 'Agent IDs are not principals' home note depends on jido-e04-t34.",
+      "timestamp": "2026-07-24T12:46:33Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E04-T40 — Add a visible note that Agent IDs are not authenticated principals.",
   "type": "task",
-  "updated_at": "2026-07-23T12:02:52Z"
+  "updated_at": "2026-07-24T12:46:33Z"
 }
