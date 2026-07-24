@@ -34,7 +34,13 @@
   live_view_module: "AgentJidoWeb.Examples.DemandTrackerAgentLive",
   difficulty: :intermediate,
   status: :live,
-  sort_order: 20
+  sort_order: 20,
+  outcome: "A Jido agent that tracks demand by routing typed Signals to validated Actions.",
+  packages: ["jido"],
+  package_maturity: "Beta",
+  prerequisites: ["Elixir 1.18+", "OTP 27+", "Jido installed"],
+  expected_result: "Demand counts update deterministically from routed signals; no API key required.",
+  run_command: "Run the interactive demo on /examples/demand-tracker-agent, or: mix test test/agent_jido/demos/demand_tracker_agent_test.exs"
 }
 ---
 

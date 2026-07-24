@@ -39,7 +39,13 @@
   capability_theme: :runtime_foundations,
   evidence_surface: :runnable_example,
   demo_mode: :real,
-  sort_order: 23
+  sort_order: 23,
+  outcome: "An agent emits Directives that describe side effects for the runtime to execute.",
+  packages: ["jido"],
+  package_maturity: "Beta",
+  prerequisites: ["Elixir 1.18+", "OTP 27+", "Jido installed"],
+  expected_result: "Emitted Directives are visible and runtime-handled; no API key required.",
+  run_command: "Run the interactive demo on /examples/emit-directive-agent, or: mix test test/agent_jido/demos/emit_directive_agent_test.exs"
 }
 ---
 

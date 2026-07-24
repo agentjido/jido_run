@@ -40,7 +40,13 @@
   capability_theme: :runtime_foundations,
   evidence_surface: :runnable_example,
   demo_mode: :real,
-  sort_order: 22
+  sort_order: 22,
+  outcome: "A route table sends each Signal type to the right Action so behavior is explicit and testable.",
+  packages: ["jido", "jido_signal"],
+  package_maturity: "Beta",
+  prerequisites: ["Elixir 1.18+", "OTP 27+", "Jido installed"],
+  expected_result: "Each Signal type triggers its mapped Action deterministically; no API key required.",
+  run_command: "Run the interactive demo on /examples/signal-routing-agent, or: mix test test/agent_jido/demos/signal_routing_agent_test.exs"
 }
 ---
 
