@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:47:57Z",
   "created": "2026-07-23T12:02:58Z",
   "description": "Backlog task: E05-T04\n\nWork area: Route and structure\n\nMain targets: Getting Started hub\n\nComplete when: It covers required tools without turning Jido docs into a full Elixir course.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e05-t04",
@@ -19,7 +20,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E05-T04 — Add a bounded “New to Elixir?” prerequisites path.",
   "type": "task",
   "updated_at": "2026-07-24T12:47:57Z"
