@@ -11,9 +11,15 @@
     "epic-e06"
   ],
   "parent": "jido-e06",
+  "comments": [
+    {
+      "text": "Open: move Learn under Build depends on T01.",
+      "timestamp": "2026-07-24T12:49:36Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E06-T03 — Move Learn tutorials under Build.",
   "type": "task",
-  "updated_at": "2026-07-23T12:03:38Z"
+  "updated_at": "2026-07-24T12:49:36Z"
 }
