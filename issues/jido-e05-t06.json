@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:47:58Z",
   "created": "2026-07-23T12:03:00Z",
   "description": "Backlog task: E05-T06\n\nWork area: Core Agent path\n\nMain targets: Installation page\n\nComplete when: It matches the `jido` README.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e05-t06",
@@ -19,7 +20,7 @@
     }
   ],
   "priority": 0,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E05-T06 — Use `mix igniter.install jido` as the recommended install command.",
   "type": "task",
   "updated_at": "2026-07-24T12:47:58Z"
