@@ -12,6 +12,12 @@
     "slice-03"
   ],
   "parent": "jido-e02",
+  "comments": [
+    {
+      "text": "Done in 28959a2 + e510eb5: default CTA \"Build your first Agent\" set in style-voice.md and applied on the home hero.",
+      "timestamp": "2026-07-24T12:35:39Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "E02-T23 — Define one default CTA.",
