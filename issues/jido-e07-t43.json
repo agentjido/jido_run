@@ -16,6 +16,10 @@
     {
       "text": "Open: human-approval boundary depends on the reference app.",
       "timestamp": "2026-07-24T12:50:39Z"
+    },
+    {
+      "text": "Done in this commit: human-approval boundary around a high-impact publish effect — request pauses, confirm runs the effect and records the decision context (last_decided_by); confirm without a request is rejected.",
+      "timestamp": "2026-07-24T14:33:17Z"
     }
   ],
   "priority": 1,
