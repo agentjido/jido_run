@@ -15,6 +15,10 @@
     {
       "text": "Open: 'Do not start here when' on package pages not yet done.",
       "timestamp": "2026-07-24T12:52:39Z"
+    },
+    {
+      "text": "Done in this commit: 'do not start here when' guidance is carried via landing_not_for (experimental/beta packages advise against production/first use).",
+      "timestamp": "2026-07-24T16:22:04Z"
     }
   ],
   "priority": 1,
