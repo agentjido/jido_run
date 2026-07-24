@@ -16,11 +16,15 @@
     {
       "text": "Open: operational-control filters on the examples hub not yet added.",
       "timestamp": "2026-07-24T12:51:56Z"
+    },
+    {
+      "text": "Product decision 2026-07-24: deferred for this iteration. Keep the Examples hub simple and card-based. Do not add search or filter controls. Use clear cards, use-case entry points, and direct documentation links for discovery. Reconsider in a future iteration.",
+      "timestamp": "2026-07-24T16:16:56Z"
     }
   ],
   "priority": 1,
   "status": "open",
   "title": "E08-T36 — Add operational-control filters to the Examples hub.",
   "type": "task",
-  "updated_at": "2026-07-24T12:51:56Z"
+  "updated_at": "2026-07-24T16:16:56Z"
 }
