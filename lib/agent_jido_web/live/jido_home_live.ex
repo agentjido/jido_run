@@ -677,11 +677,17 @@ defmodule AgentJidoWeb.JidoHomeLive do
   # tenant context (/ecosystem/ash_jido), durable Journal storage
   # (/docs/concepts/persistence), the SIEM audit-export boundary
   # (/docs/operations/security-and-governance), and OTel export
-  # (/docs/reference/telemetry-and-observability). The remaining dedicated
-  # cards, the telemetry-vs-audit and identity notes, controlled-Agent example
-  # routing, and the SRE CTA land in follow-up tasks (jido-e04-t39..t42); this
-  # section establishes the control story and routes to the existing operations
-  # governance page that already bounds these claims.
+  # (/docs/reference/telemetry-and-observability). A "Telemetry is not an audit
+  # log" caveat note (jido-e04-t39) caps the proof-card layer so an evaluator
+  # cannot read the traceability story as compliance: it states that correlated
+  # telemetry is operational signal, not tamper-evident evidence, and that a
+  # durable audit history is the Signal Journal you deliberately configure —
+  # with retention, access control, and tamper evidence as application concerns
+  # — and routes each concept to its authoritative page. The remaining identity
+  # note, controlled-Agent example routing, and the SRE CTA land in follow-up
+  # tasks (jido-e04-t40..t42); this section establishes the control story and
+  # routes to the existing operations governance page that already bounds these
+  # claims.
   defp operational_control_section(assigns) do
     controls = [
       %{
@@ -929,6 +935,36 @@ defmodule AgentJidoWeb.JidoHomeLive do
             </.link>
           </div>
         </article>
+      </div>
+
+      <div
+        id="telemetry-not-audit-note"
+        class="mt-12 max-w-2xl mx-auto rounded-xl border border-primary/20 bg-primary/5 px-6 py-6 text-center"
+        data-control-note="telemetry-not-audit"
+      >
+        <p class="home-eyebrow-label text-[11px] font-semibold tracking-widest uppercase mb-3">
+          Telemetry is not an audit log
+        </p>
+        <p class="home-muted-copy text-[15px] leading-relaxed max-w-xl mx-auto">
+          Telemetry — correlated spans, metrics, and logs — and its OpenTelemetry export show how your agents are running. That is operational signal, not tamper-evident evidence. A durable audit history is the Signal Journal you deliberately configure, and retention, access control, and tamper evidence remain your application's responsibility.
+        </p>
+        <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 mt-4">
+          <.link
+            navigate="/docs/reference/telemetry-and-observability"
+            class="text-primary hover:underline text-[13px] font-semibold"
+            data-note-link="telemetry-scope"
+          >
+            What telemetry covers →
+          </.link>
+          <span class="home-muted-copy">·</span>
+          <.link
+            navigate="/docs/concepts/persistence"
+            class="text-primary hover:underline text-[13px] font-semibold"
+            data-note-link="durable-journal"
+          >
+            Configure a durable Journal →
+          </.link>
+        </div>
       </div>
 
       <div class="text-center mt-12">

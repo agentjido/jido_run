@@ -454,6 +454,80 @@ defmodule AgentJidoWeb.JidoHomeLiveTest do
     end
   end
 
+  describe "home control note: telemetry is not an audit log (jido-e04-t39)" do
+    # Acceptance condition: evaluators see the distinction before they infer
+    # compliance. A caveat note in the operational-control section separates
+    # telemetry (operational signal) from an audit log (deliberately configured
+    # durable history with application-owned retention, access, and tamper
+    # evidence), so a visitor cannot read the traceability story as compliance.
+
+    test "renders the note inside the operational-control section", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      note = operational_control_note(html, "telemetry-not-audit")
+
+      assert note != nil, "expected a telemetry-not-audit control note"
+
+      assert note |> Floki.find(".home-eyebrow-label") |> Floki.text() |> String.trim() ==
+               "Telemetry is not an audit log"
+    end
+
+    test "the note sits after the trace card and before the full control model link",
+         %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      # The caveat lands after the trace card — where telemetry is introduced —
+      # and before the "See the full control model" link, so an evaluator hits
+      # the distinction before concluding anything about compliance.
+      assert {trace_idx, _} = :binary.match(html, ~s(data-control-card="trace-what-happened"))
+      assert {note_idx, _} = :binary.match(html, ~s(data-control-note="telemetry-not-audit"))
+      assert {model_link_idx, _} = :binary.match(html, "See the full control model")
+
+      assert trace_idx < note_idx
+      assert note_idx < model_link_idx
+    end
+
+    test "the note explains that telemetry is operational signal, not an audit record",
+         %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      note = operational_control_note(html, "telemetry-not-audit")
+      body = note |> Floki.find("p.home-muted-copy") |> Floki.text() |> String.downcase()
+
+      # The acceptance condition is the distinction itself. The body names
+      # telemetry, keeps audit as a separately configured durable record, and
+      # calls out that telemetry is not tamper-evident evidence — so an
+      # evaluator cannot conflate the two.
+      for term <- ~w(telemetry audit tamper) do
+        assert String.contains?(body, term),
+               "expected the note body to name #{term} to make the distinction"
+      end
+    end
+
+    test "the note routes telemetry and the durable Journal to their authoritative pages",
+         %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      note = operational_control_note(html, "telemetry-not-audit")
+
+      links =
+        note
+        |> Floki.find("a[data-note-link]")
+        |> Map.new(fn a ->
+          slug = Floki.attribute(a, "data-note-link") |> hd()
+          href = Floki.attribute(a, "href") |> hd()
+          {slug, href}
+        end)
+
+      # Telemetry's scope lives on the observability page; the durable Journal
+      # you configure for causal history lives on the persistence page.
+      assert links == %{
+               "telemetry-scope" => "/docs/reference/telemetry-and-observability",
+               "durable-journal" => "/docs/concepts/persistence"
+             }
+    end
+  end
+
   describe "home use-case cards (E04-T21)" do
     test "every card links to a unique scoped destination, not the unfiltered index", %{conn: conn} do
       {:ok, _view, html} = live(conn, "/")
@@ -840,6 +914,15 @@ defmodule AgentJidoWeb.JidoHomeLiveTest do
     html
     |> Floki.parse_document!()
     |> Floki.find("#operational-control article[data-control-card='#{slug}']")
+    |> List.first()
+  end
+
+  # A caveat note from the operational-control section, looked up by its
+  # data-control-note slug (jido-e04-t39). Returns the Floki node or nil.
+  defp operational_control_note(html, slug) do
+    html
+    |> Floki.parse_document!()
+    |> Floki.find("#operational-control div[data-control-note='#{slug}']")
     |> List.first()
   end
 
