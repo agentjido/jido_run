@@ -12,9 +12,15 @@
     "slice-06"
   ],
   "parent": "jido-e05",
+  "comments": [
+    {
+      "text": "Open: tool-Actions-can-perform-IO statement not yet in AI onboarding.",
+      "timestamp": "2026-07-24T12:48:42Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E05-T21 — State that tool Actions can perform I/O.",
   "type": "task",
-  "updated_at": "2026-07-23T12:03:15Z"
+  "updated_at": "2026-07-24T12:48:42Z"
 }
