@@ -22,8 +22,8 @@
     }
   ],
   "priority": 1,
-  "status": "open",
+  "status": "deferred",
   "title": "E06-T05 — Add Operate to the primary Docs navigation only when its minimum page set is public.",
   "type": "task",
-  "updated_at": "2026-07-24T16:16:58Z"
+  "updated_at": "2026-07-24T16:16:59Z"
 }
