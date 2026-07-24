@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:49:29Z",
   "created": "2026-07-23T12:03:44Z",
   "description": "Backlog task: E06-T09\n\nWork area: Content hygiene\n\nMain targets: Docs, Feature, Build content\n\nComplete when: No retired Training URL remains.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e06-t09",
@@ -18,7 +19,7 @@
     }
   ],
   "priority": 0,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E06-T09 — Audit every published page for retired Training links.",
   "type": "task",
   "updated_at": "2026-07-24T12:49:29Z"
