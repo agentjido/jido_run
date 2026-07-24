@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:57:57Z",
   "created": "2026-07-23T12:05:36Z",
   "description": "Backlog task: E08-T33\n\nWork area: Inventory and delivery\n\nMain targets: Tests\n\nComplete when: A removed example cannot leave a broken home card.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e08-t33",
@@ -22,7 +23,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E08-T33 — Add home use-case links to the link audit and LiveView tests.",
   "type": "task",
   "updated_at": "2026-07-24T12:57:57Z"
