@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:35:41Z",
   "created": "2026-07-23T12:01:19Z",
   "description": "Backlog task: E02-T26\n\nWork area: Canonical-source updates\n\nMain targets: `specs/style-voice.md`\n\nComplete when: It contains the vocabulary and claim rules above.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e02-t26",
@@ -19,7 +20,7 @@
     }
   ],
   "priority": 0,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E02-T26 — Update the voice guide.",
   "type": "task",
   "updated_at": "2026-07-24T12:35:41Z"
