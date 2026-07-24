@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:25:47Z",
   "created": "2026-07-23T12:00:38Z",
   "description": "Backlog task: E01-T08\n\nWork area: Rendered and downloadable parity\n\nMain targets: `lib/agent_jido_web/markdown_content.ex`\n\nComplete when: Public `.md` output has real dependency requirements.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e01-t08",
@@ -19,7 +20,7 @@
     }
   ],
   "priority": 0,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E01-T08 — Expand `{{mix_dep:*}}` tokens before the Markdown response is served.",
   "type": "task",
   "updated_at": "2026-07-24T12:25:47Z"
