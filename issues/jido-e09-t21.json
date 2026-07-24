@@ -11,9 +11,15 @@
     "epic-e09"
   ],
   "parent": "jido-e09",
+  "comments": [
+    {
+      "text": "Open: owner/repository-maintainer field not yet added.",
+      "timestamp": "2026-07-24T12:52:40Z"
+    }
+  ],
   "priority": 2,
   "status": "open",
   "title": "E09-T21 — Add an owner or repository-maintainer field.",
   "type": "task",
-  "updated_at": "2026-07-23T12:06:10Z"
+  "updated_at": "2026-07-24T12:52:40Z"
 }
