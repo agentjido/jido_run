@@ -12,9 +12,15 @@
     "slice-09"
   ],
   "parent": "jido-e08",
+  "comments": [
+    {
+      "text": "Open: control-types in the example contract not yet added.",
+      "timestamp": "2026-07-24T12:51:56Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E08-T35 — Add control types to the public example contract.",
   "type": "task",
-  "updated_at": "2026-07-23T12:05:38Z"
+  "updated_at": "2026-07-24T12:51:56Z"
 }
