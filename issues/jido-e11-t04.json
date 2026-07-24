@@ -11,9 +11,15 @@
     "epic-e11"
   ],
   "parent": "jido-e11",
+  "comments": [
+    {
+      "text": "Deferred: AI Agent case study requires a real deployment with provider/tools/controls/failure data.",
+      "timestamp": "2026-07-24T12:54:15Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E11-T04 — Publish one AI Agent case study.",
   "type": "task",
-  "updated_at": "2026-07-23T12:07:17Z"
+  "updated_at": "2026-07-24T12:54:15Z"
 }
