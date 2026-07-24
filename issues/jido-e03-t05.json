@@ -12,9 +12,15 @@
     "slice-04"
   ],
   "parent": "jido-e03",
+  "comments": [
+    {
+      "text": "Done in e510eb5: docs hub promise drops \"production-grade autonomous\" and \"10,000+\" for bounded copy.",
+      "timestamp": "2026-07-24T12:39:40Z"
+    }
+  ],
   "priority": 0,
   "status": "in_progress",
   "title": "E03-T05 — Rewrite the Docs hub promise.",
   "type": "task",
-  "updated_at": "2026-07-24T12:39:39Z"
+  "updated_at": "2026-07-24T12:39:40Z"
 }
