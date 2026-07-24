@@ -12,9 +12,15 @@
     "slice-01"
   ],
   "parent": "jido-e01",
+  "comments": [
+    {
+      "text": "Done in 5f28d96: required OPENAI_API_KEY/LB_OPENAI_API_KEY stated in a blockquote before the first (Mix.install) code block.",
+      "timestamp": "2026-07-24T12:25:44Z"
+    }
+  ],
   "priority": 0,
   "status": "in_progress",
   "title": "E01-T02 — State the exact environment variable before the first code block.",
   "type": "task",
-  "updated_at": "2026-07-24T12:25:43Z"
+  "updated_at": "2026-07-24T12:25:44Z"
 }
