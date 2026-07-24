@@ -15,6 +15,10 @@
     {
       "text": "Open: ambiguous footer version labeling not yet refined (it reads the installed jido version).",
       "timestamp": "2026-07-24T12:52:43Z"
+    },
+    {
+      "text": "Done in this commit: footer version labeled 'Jido core v\u003cversion\u003e' so it names the package it represents.",
+      "timestamp": "2026-07-24T13:50:32Z"
     }
   ],
   "priority": 1,
