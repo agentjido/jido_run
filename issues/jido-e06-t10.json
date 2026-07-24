@@ -15,11 +15,15 @@
     {
       "text": "Open: prerequisite block on every guide/Livebook not yet added.",
       "timestamp": "2026-07-24T12:49:37Z"
+    },
+    {
+      "text": "Done in this commit: prerequisites block added to the Guides index (Elixir/OTP, Jido installed, first agent; provider key for AI guides).",
+      "timestamp": "2026-07-24T12:59:07Z"
     }
   ],
   "priority": 1,
   "status": "in_progress",
   "title": "E06-T10 — Add a prerequisite block to every guide and Livebook.",
   "type": "task",
-  "updated_at": "2026-07-24T12:59:06Z"
+  "updated_at": "2026-07-24T12:59:07Z"
 }
