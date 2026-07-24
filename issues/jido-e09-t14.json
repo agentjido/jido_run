@@ -11,9 +11,15 @@
     "epic-e09"
   ],
   "parent": "jido-e09",
+  "comments": [
+    {
+      "text": "Open: 'Use this when' on package pages not yet done.",
+      "timestamp": "2026-07-24T12:52:39Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E09-T14 — Add “Use this when.”",
   "type": "task",
-  "updated_at": "2026-07-23T12:06:03Z"
+  "updated_at": "2026-07-24T12:52:39Z"
 }
