@@ -11,9 +11,15 @@
     "epic-e07"
   ],
   "parent": "jido-e07",
+  "comments": [
+    {
+      "text": "Open: the runnable end-to-end reference application is not yet built (architecture spec exists).",
+      "timestamp": "2026-07-24T12:50:37Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E07-T29 — Create one end-to-end long-running reference application.",
   "type": "task",
-  "updated_at": "2026-07-23T12:04:41Z"
+  "updated_at": "2026-07-24T12:50:37Z"
 }
