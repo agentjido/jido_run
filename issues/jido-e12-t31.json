@@ -11,9 +11,15 @@
     "epic-e12"
   ],
   "parent": "jido-e12",
+  "comments": [
+    {
+      "text": "Open: release punch list updated with new content gates (partially: link/claim/placeholder gates added).",
+      "timestamp": "2026-07-24T12:55:03Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E12-T31 — Update the release punch list with all new content gates.",
   "type": "task",
-  "updated_at": "2026-07-23T12:08:12Z"
+  "updated_at": "2026-07-24T12:55:03Z"
 }
