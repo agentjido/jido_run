@@ -1,5 +1,5 @@
 {
-  "assignee": "Mike Hostetler",
+  "assignee": "",
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:02:07Z",
@@ -19,8 +19,8 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "open",
   "title": "E03-T29 — Add an “Operational control” feature group.",
   "type": "task",
-  "updated_at": "2026-07-24T12:39:59Z"
+  "updated_at": "2026-07-24T12:40:00Z"
 }
