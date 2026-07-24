@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:39:39Z",
   "created": "2026-07-23T12:01:41Z",
   "description": "Backlog task: E03-T03\n\nWork area: Tasks\n\nMain targets: `jido_home_live.ex`\n\nComplete when: Title, hero, and approved category support the same message.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e03-t03",
@@ -19,8 +20,8 @@
     }
   ],
   "priority": 0,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E03-T03 — Update the home page title and meta description.",
   "type": "task",
-  "updated_at": "2026-07-24T12:39:38Z"
+  "updated_at": "2026-07-24T12:39:39Z"
 }
