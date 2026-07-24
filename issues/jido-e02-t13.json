@@ -1,5 +1,5 @@
 {
-  "assignee": "",
+  "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:01:06Z",
@@ -13,8 +13,8 @@
   ],
   "parent": "jido-e02",
   "priority": 0,
-  "status": "open",
+  "status": "in_progress",
   "title": "E02-T13 — Define Signal as a structured event envelope and routing input.",
   "type": "task",
-  "updated_at": "2026-07-23T12:01:06Z"
+  "updated_at": "2026-07-24T12:35:05Z"
 }
