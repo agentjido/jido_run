@@ -12,6 +12,12 @@
     "slice-01"
   ],
   "parent": "jido-e01",
+  "comments": [
+    {
+      "text": "Done in 5f28d96: lib/agent_jido_web/markdown_content.ex runs ReleaseCatalog.expand_placeholders in resolve_from_pages.",
+      "timestamp": "2026-07-24T12:25:47Z"
+    }
+  ],
   "priority": 0,
   "status": "in_progress",
   "title": "E01-T08 — Expand `{{mix_dep:*}}` tokens before the Markdown response is served.",
