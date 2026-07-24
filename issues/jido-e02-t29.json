@@ -12,9 +12,15 @@
     "slice-03"
   ],
   "parent": "jido-e02",
+  "comments": [
+    {
+      "text": "Done in 9e09cd1 + eb56808: content-outline anchor aligned to the canon; taxonomy route-status added (E00).",
+      "timestamp": "2026-07-24T12:35:42Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "E02-T29 — Update content outline and taxonomy.",
   "type": "task",
-  "updated_at": "2026-07-24T12:35:41Z"
+  "updated_at": "2026-07-24T12:35:42Z"
 }
