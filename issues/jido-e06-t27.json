@@ -11,9 +11,15 @@
     "epic-e06"
   ],
   "parent": "jido-e06",
+  "comments": [
+    {
+      "text": "Open: related-examples on guides not yet added.",
+      "timestamp": "2026-07-24T12:49:40Z"
+    }
+  ],
   "priority": 2,
   "status": "open",
   "title": "E06-T27 — Add related examples to each guide.",
   "type": "task",
-  "updated_at": "2026-07-23T12:04:02Z"
+  "updated_at": "2026-07-24T12:49:40Z"
 }
