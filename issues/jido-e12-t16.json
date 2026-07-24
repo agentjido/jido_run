@@ -11,9 +11,15 @@
     "epic-e12"
   ],
   "parent": "jido-e12",
+  "comments": [
+    {
+      "text": "Open: 180-day review queue for concepts/comparisons not yet implemented.",
+      "timestamp": "2026-07-24T12:54:59Z"
+    }
+  ],
   "priority": 2,
   "status": "open",
   "title": "E12-T16 — Create a 180-day review queue for concepts and comparisons.",
   "type": "task",
-  "updated_at": "2026-07-23T12:07:57Z"
+  "updated_at": "2026-07-24T12:54:59Z"
 }
