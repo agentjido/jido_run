@@ -17,11 +17,15 @@
     {
       "text": "Done: controlled-Agent recommended stack defined (Core + AI + Journal + observation + OTel + Ash).",
       "timestamp": "2026-07-24T12:52:36Z"
+    },
+    {
+      "text": "Done: controlled-Agent recommended stack defined in specs/recommended-stacks.md (Core + AI + Signal Journal + observation + optional OTel + Ash), starting from core Jido and adding only the control packages required by the selected risks.",
+      "timestamp": "2026-07-24T16:29:24Z"
     }
   ],
   "priority": 1,
   "status": "closed",
   "title": "E09-T39 — Create a controlled-Agent recommended stack.",
   "type": "task",
-  "updated_at": "2026-07-24T12:52:36Z"
+  "updated_at": "2026-07-24T16:29:24Z"
 }
