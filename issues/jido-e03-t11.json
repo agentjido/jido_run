@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:01:49Z",
+  "description": "Backlog task: E03-T11\n\nWork area: Tasks\n\nMain targets: Examples LiveView\n\nComplete when: It promises runnable proof by task, not a general gallery.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e03-t11",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e03",
+    "slice-04"
+  ],
+  "parent": "jido-e03",
+  "priority": 1,
+  "status": "open",
+  "title": "E03-T11 — Update the Examples hub introduction.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:01:49Z"
+}

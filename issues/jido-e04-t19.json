@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:02:31Z",
+  "description": "Backlog task: E04-T19\n\nWork area: Page structure\n\nMain targets: Home BEAM section\n\nComplete when: It has no unbounded throughput or restart-time claim.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e04-t19",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e04",
+    "slice-05"
+  ],
+  "parent": "jido-e04",
+  "priority": 1,
+  "status": "open",
+  "title": "E04-T19 — Rewrite the BEAM section around isolation, explicit supervision rules, and concurrent processes.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:02:31Z"
+}

@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:06:59Z",
+  "description": "Backlog task: E10-T20\n\nWork area: MCP\n\nMain targets: MCP tests\n\nComplete when: MCP returns the same expanded code as public Markdown.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e10-t20",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e10"
+  ],
+  "parent": "jido-e10",
+  "priority": 1,
+  "status": "open",
+  "title": "E10-T20 — Add MCP parity tests for page content.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:06:59Z"
+}

@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:05:04Z",
+  "description": "Backlog task: E08-T01\n\nWork area: Taxonomy and discovery\n\nMain targets: `lib/agent_jido/examples/taxonomy.ex`\n\nComplete when: Labels include chat, research, coding, browser, data, scheduling, persistence, recovery, coordination, and observability.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e08-t01",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e08"
+  ],
+  "parent": "jido-e08",
+  "priority": 1,
+  "status": "open",
+  "title": "E08-T01 — Replace internal example taxonomy with task labels.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:05:04Z"
+}

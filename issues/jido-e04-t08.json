@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:02:20Z",
+  "description": "Backlog task: E04-T08\n\nWork area: Hero and first viewport\n\nMain targets: Home hero\n\nComplete when: The first viewport does not split attention across three personas.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e04-t08",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e04",
+    "slice-05"
+  ],
+  "parent": "jido-e04",
+  "priority": 2,
+  "status": "open",
+  "title": "E04-T08 — Move non-Elixir evaluation to one secondary link.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:02:20Z"
+}

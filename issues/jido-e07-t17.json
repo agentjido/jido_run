@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:04:29Z",
+  "description": "Backlog task: E07-T17\n\nWork area: Failure and recovery cases\n\nMain targets: Signal or workflow guide\n\nComplete when: Failed work can be inspected and replayed.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e07-t17",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e07"
+  ],
+  "parent": "jido-e07",
+  "priority": 1,
+  "status": "open",
+  "title": "E07-T17 — Document poison work and dead-letter handling.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:04:29Z"
+}

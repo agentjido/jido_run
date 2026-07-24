@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:00:15Z",
+  "description": "Backlog task: E00-T02\n\nWork area: Tasks\n\nMain targets: `lib/agent_jido/content_ingest/inventory.ex`, `tmp/` audit output\n\nComplete when: The baseline contains Docs, Livebooks, Features, Build, Compare, Examples, Ecosystem, Blog, Community, and Skills counts.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e00-t02",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e00"
+  ],
+  "parent": "jido-e00",
+  "priority": 0,
+  "status": "open",
+  "title": "E00-T02 — Save the current content inventory as a dated baseline. Include published, draft, and retired records.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:00:15Z"
+}

@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:06:17Z",
+  "description": "Backlog task: E09-T28\n\nWork area: README and registry alignment\n\nMain targets: `jido_otel` record and observability docs\n\nComplete when: Copy does not imply that core Jido exports OTel by itself.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e09-t28",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e09"
+  ],
+  "parent": "jido-e09",
+  "priority": 1,
+  "status": "open",
+  "title": "E09-T28 — Align OTel copy with the current `Jido.Observe` bridge behavior.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:06:17Z"
+}

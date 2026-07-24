@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:02:05Z",
+  "description": "Backlog task: E03-T27\n\nWork area: Tasks\n\nMain targets: SEO, root metadata, Open Graph\n\nComplete when: Metadata connects long-running Agents with supervision, constraints, and inspection.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e03-t27",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e03",
+    "slice-04"
+  ],
+  "parent": "jido-e03",
+  "priority": 0,
+  "status": "open",
+  "title": "E03-T27 — Add the approved operational-control benefit to global metadata where length permits.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:02:05Z"
+}

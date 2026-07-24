@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:07:48Z",
+  "description": "Backlog task: E12-T07\n\nWork area: Content lint and release gates\n\nMain targets: Content validation\n\nComplete when: High-risk process descriptions receive review.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e12-t07",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e12"
+  ],
+  "parent": "jido-e12",
+  "priority": 1,
+  "status": "open",
+  "title": "E12-T07 — Add Agent/AgentServer terminology lint rules with an allowlist.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:07:48Z"
+}

@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:01:22Z",
+  "description": "Backlog task: E02-T29\n\nWork area: Canonical-source updates\n\nMain targets: `specs/content-outline.md`, `specs/taxonomy.md`\n\nComplete when: IA and vocabulary match the new message.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e02-t29",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e02",
+    "slice-03"
+  ],
+  "parent": "jido-e02",
+  "priority": 1,
+  "status": "open",
+  "title": "E02-T29 — Update content outline and taxonomy.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:01:22Z"
+}

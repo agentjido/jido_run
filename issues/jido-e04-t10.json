@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:02:22Z",
+  "description": "Backlog task: E04-T10\n\nWork area: Page structure\n\nMain targets: Home sections\n\nComplete when: Each card maps to Agent, AgentServer, Action/Signal, or Directive.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e04-t10",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e04",
+    "slice-05"
+  ],
+  "parent": "jido-e04",
+  "priority": 1,
+  "status": "open",
+  "title": "E04-T10 — Add a four-part Agent model section: state, lifecycle, typed boundaries, visible effects.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:02:22Z"
+}

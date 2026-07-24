@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:07:08Z",
+  "description": "Backlog task: E10-T29\n\nWork area: Operational-control delivery\n\nMain targets: Docs, Examples, and Ecosystem Markdown\n\nComplete when: Machine clients receive the same qualified control claims as browser clients.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e10-t29",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e10",
+    "slice-10"
+  ],
+  "parent": "jido-e10",
+  "priority": 1,
+  "status": "open",
+  "title": "E10-T29 — Add control types, boundaries, limitations, and proof links to Markdown output.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:07:08Z"
+}

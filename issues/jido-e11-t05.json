@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:07:18Z",
+  "description": "Backlog task: E11-T05\n\nWork area: Case studies\n\nMain targets: Community showcase\n\nComplete when: It can cover Ash, browser, messaging, or mixed-stack use.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e11-t05",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e11"
+  ],
+  "parent": "jido-e11",
+  "priority": 1,
+  "status": "open",
+  "title": "E11-T05 — Publish one integration case study.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:07:18Z"
+}

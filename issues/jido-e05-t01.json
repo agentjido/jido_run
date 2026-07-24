@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:02:55Z",
+  "description": "Backlog task: E05-T01\n\nWork area: Route and structure\n\nMain targets: Router, nav, sitemap, canonical tags\n\nComplete when: All onboarding links resolve to this route family.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e05-t01",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e05",
+    "slice-06"
+  ],
+  "parent": "jido-e05",
+  "priority": 0,
+  "status": "open",
+  "title": "E05-T01 — Make `/docs/getting-started` the only canonical start route.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:02:55Z"
+}

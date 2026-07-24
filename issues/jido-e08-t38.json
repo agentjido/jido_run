@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:05:41Z",
+  "description": "Backlog task: E08-T38\n\nWork area: Operational-control proof\n\nMain targets: Controlled-Agent example\n\nComplete when: The denied effect does not run, and the result includes safe decision context.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e08-t38",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e08",
+    "slice-09"
+  ],
+  "parent": "jido-e08",
+  "priority": 1,
+  "status": "open",
+  "title": "E08-T38 — Show an unauthorized Action denial.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:05:41Z"
+}

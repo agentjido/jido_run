@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:08:17Z",
+  "description": "Backlog task: E12-T36\n\nWork area: Governance\n\nMain targets: Project calendar/process\n\nComplete when: Position, package roles, proof, and audience are reviewed together.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e12-t36",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e12"
+  ],
+  "parent": "jido-e12",
+  "priority": 2,
+  "status": "open",
+  "title": "E12-T36 — Hold a quarterly message review.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:08:17Z"
+}

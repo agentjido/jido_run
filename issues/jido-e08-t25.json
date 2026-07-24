@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:05:28Z",
+  "description": "Backlog task: E08-T25\n\nWork area: Home-page use cases\n\nMain targets: Existing Runic research examples\n\nComplete when: The home research card links to one best entry point.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e08-t25",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e08"
+  ],
+  "parent": "jido-e08",
+  "priority": 1,
+  "status": "open",
+  "title": "E08-T25 — Publish or select one research example.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:05:28Z"
+}

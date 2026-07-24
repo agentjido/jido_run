@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:06:24Z",
+  "description": "Backlog task: E09-T35\n\nWork area: Version and compatibility controls\n\nMain targets: Ingestion and CI\n\nComplete when: Stale public versions create a failing or blocking report.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e09-t35",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e09"
+  ],
+  "parent": "jido-e09",
+  "priority": 1,
+  "status": "open",
+  "title": "E09-T35 — Add an automated Hex-version freshness check.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:06:24Z"
+}

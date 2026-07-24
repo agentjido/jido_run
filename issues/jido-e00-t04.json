@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:00:17Z",
+  "description": "Backlog task: E00-T04\n\nWork area: Tasks\n\nMain targets: `lib/agent_jido/release/link_audit.ex`, tests\n\nComplete when: A broken link in a Livebook fails the audit test.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e00-t04",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e00"
+  ],
+  "parent": "jido-e00",
+  "priority": 0,
+  "status": "open",
+  "title": "E00-T04 — Add `.livemd` files to the link-audit input set.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:00:17Z"
+}

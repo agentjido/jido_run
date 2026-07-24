@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:08:20Z",
+  "description": "Backlog task: E12-T39\n\nWork area: Operational-control quality gates\n\nMain targets: Example tests\n\nComplete when: Its allowed and denied paths pass with the documented dependency set.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e12-t39",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e12",
+    "slice-12"
+  ],
+  "parent": "jido-e12",
+  "priority": 0,
+  "status": "open",
+  "title": "E12-T39 — Run the integrated controlled-Agent example in CI.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:08:20Z"
+}

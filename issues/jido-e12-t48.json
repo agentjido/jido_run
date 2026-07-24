@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:08:29Z",
+  "description": "Backlog task: E12-T48\n\nWork area: Operational-control quality gates\n\nMain targets: Search analytics\n\nComplete when: No-result and reformulated control queries create content work.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e12-t48",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e12",
+    "slice-12"
+  ],
+  "parent": "jido-e12",
+  "priority": 2,
+  "status": "open",
+  "title": "E12-T48 — Measure control-related search gaps.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:08:29Z"
+}

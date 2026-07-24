@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:05:13Z",
+  "description": "Backlog task: E08-T10\n\nWork area: Example-card contract\n\nMain targets: Example cards\n\nComplete when: Stable, Beta, and Experimental dependencies are visible.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e08-t10",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e08"
+  ],
+  "parent": "jido-e08",
+  "priority": 1,
+  "status": "open",
+  "title": "E08-T10 — Add package maturity to every public example.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:05:13Z"
+}

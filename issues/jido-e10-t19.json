@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:06:58Z",
+  "description": "Backlog task: E10-T19\n\nWork area: MCP\n\nMain targets: MCP server\n\nComplete when: A client can ask for a recommended package set.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e10-t19",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e10"
+  ],
+  "parent": "jido-e10",
+  "priority": 2,
+  "status": "open",
+  "title": "E10-T19 — Add Ecosystem stack retrieval if MCP scope expands.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:06:58Z"
+}

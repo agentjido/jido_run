@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:03:18Z",
+  "description": "Backlog task: E05-T24\n\nWork area: Maintenance and validation\n\nMain targets: All first-run content\n\nComplete when: Start, ask, await, and state calls agree.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e05-t24",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e05",
+    "slice-06"
+  ],
+  "parent": "jido-e05",
+  "priority": 0,
+  "status": "open",
+  "title": "E05-T24 — Use one API style across home, onboarding, Livebooks, and starter references.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:03:18Z"
+}

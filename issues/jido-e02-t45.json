@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:01:38Z",
+  "description": "Backlog task: E02-T45\n\nWork area: Canonical-source updates\n\nMain targets: Positioning and governance specs\n\nComplete when: Production copy cannot remain a broad adjective.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e02-t45",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e02",
+    "slice-03"
+  ],
+  "parent": "jido-e02",
+  "priority": 1,
+  "status": "open",
+  "title": "E02-T45 — Add a rule that every “production” claim must name at least one lifecycle control and one inspection control.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:01:38Z"
+}

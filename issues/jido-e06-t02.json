@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:03:37Z",
+  "description": "Backlog task: E06-T02\n\nWork area: Information architecture\n\nMain targets: Docs IA\n\nComplete when: Concept pages remain easy to find but do not compete with Operate.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e06-t02",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e06"
+  ],
+  "parent": "jido-e06",
+  "priority": 1,
+  "status": "open",
+  "title": "E06-T02 — Move Concepts under Start or Build.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:03:37Z"
+}

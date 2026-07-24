@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:01:33Z",
+  "description": "Backlog task: E02-T40\n\nWork area: Canonical-source updates\n\nMain targets: Persona journeys\n\nComplete when: The segment is secondary to Elixir builders and has a defined proof route.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e02-t40",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e02",
+    "slice-03"
+  ],
+  "parent": "jido-e02",
+  "priority": 1,
+  "status": "open",
+  "title": "E02-T40 — Add a control-oriented audience segment for platform, SRE, security, and regulated-environment evaluators.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:01:33Z"
+}

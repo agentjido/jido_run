@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:01:26Z",
+  "description": "Backlog task: E02-T33\n\nWork area: Canonical-source updates\n\nMain targets: Positioning and proof specs\n\nComplete when: Each pillar has a mechanism and proof requirement.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e02-t33",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e02",
+    "slice-03"
+  ],
+  "parent": "jido-e02",
+  "priority": 0,
+  "status": "open",
+  "title": "E02-T33 — Define the four operational-control pillars: lifecycle, capability, traceability, and failure response.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:01:26Z"
+}

@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:03:46Z",
+  "description": "Backlog task: E06-T11\n\nWork area: Content hygiene\n\nMain targets: Page metadata and templates\n\nComplete when: Version context is rendered.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e06-t11",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e06"
+  ],
+  "parent": "jido-e06",
+  "priority": 1,
+  "status": "open",
+  "title": "E06-T11 — Add a tested-version field to every executable page.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:03:46Z"
+}

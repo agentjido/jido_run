@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:06:29Z",
+  "description": "Backlog task: E09-T40\n\nWork area: Operational-control stack and boundaries\n\nMain targets: Stack guide\n\nComplete when: Core lifecycle and Plugin hooks, AI policy and quotas, Signal Journal, observation, OTel export, and Ash context have separate roles.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e09-t40",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e09",
+    "slice-10"
+  ],
+  "parent": "jido-e09",
+  "priority": 1,
+  "status": "open",
+  "title": "E09-T40 — Define the role of each package in the controlled-Agent stack.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:06:29Z"
+}

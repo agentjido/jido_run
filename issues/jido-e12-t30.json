@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:08:11Z",
+  "description": "Backlog task: E12-T30\n\nWork area: Measurement\n\nMain targets: Admin or report\n\nComplete when: Broken links, stale pages, version drift, failed Livebooks, and no-result queries are visible together.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e12-t30",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e12"
+  ],
+  "parent": "jido-e12",
+  "priority": 2,
+  "status": "open",
+  "title": "E12-T30 — Add a monthly content quality dashboard.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:08:11Z"
+}

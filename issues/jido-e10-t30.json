@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:07:09Z",
+  "description": "Backlog task: E10-T30\n\nWork area: Operational-control delivery\n\nMain targets: MCP search or guide retrieval\n\nComplete when: A client can retrieve the canonical control overview and its proof without a broad text guess.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e10-t30",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e10",
+    "slice-10"
+  ],
+  "parent": "jido-e10",
+  "priority": 1,
+  "status": "open",
+  "title": "E10-T30 — Add an operational-control query path to MCP.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:07:09Z"
+}

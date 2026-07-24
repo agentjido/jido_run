@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:07:56Z",
+  "description": "Backlog task: E12-T15\n\nWork area: Freshness and ownership\n\nMain targets: Content operations\n\nComplete when: Stale critical pages create assigned work.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e12-t15",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e12"
+  ],
+  "parent": "jido-e12",
+  "priority": 1,
+  "status": "open",
+  "title": "E12-T15 — Create a 90-day review queue for onboarding and operations content.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:07:56Z"
+}

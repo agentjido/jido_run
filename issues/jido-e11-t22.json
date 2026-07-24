@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:07:35Z",
+  "description": "Backlog task: E11-T22\n\nWork area: Operational-control evidence\n\nMain targets: Case-study review\n\nComplete when: A study cannot use one as proof of another.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e11-t22",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e11",
+    "slice-11"
+  ],
+  "parent": "jido-e11",
+  "priority": 1,
+  "status": "open",
+  "title": "E11-T22 — Require the author to separate identity, authorization, audit history, and telemetry.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:07:35Z"
+}

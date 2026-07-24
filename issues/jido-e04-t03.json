@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:02:15Z",
+  "description": "Backlog task: E04-T03\n\nWork area: Hero and first viewport\n\nMain targets: Home hero\n\nComplete when: It does not promise broad fault tolerance without mechanism.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e04-t03",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e04",
+    "slice-05"
+  ],
+  "parent": "jido-e04",
+  "priority": 0,
+  "status": "open",
+  "title": "E04-T03 — Rewrite the subhead around supervised Agent processes, typed tools, and explicit workflows.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:02:15Z"
+}

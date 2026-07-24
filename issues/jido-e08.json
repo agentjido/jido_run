@@ -1,0 +1,26 @@
+{
+  "assignee": "",
+  "blocked_by": [
+    "jido-e04",
+    "jido-e07"
+  ],
+  "blocks": [
+    "jido-e09",
+    "jido-e10",
+    "jido-e11"
+  ],
+  "created": "2026-07-23T12:00:09Z",
+  "description": "Make examples answer “Can Jido do my job?” and “Can I run the proof?”\n\nExit criteria:\n- Every home use case links to a relevant example.\n- Every public example has a task, outcome, packages, maturity, prerequisites, expected result, source, and validation date.\n- Production claims have direct failure, state, trace, and deployment proof.\n- Operational-control claims link to one integrated example and to small examples for denial, quotas, causal history, telemetry, and redaction.\n\nBacklog tasks: 46\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e08",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e08"
+  ],
+  "parent": "jido-site-facelift",
+  "priority": 0,
+  "status": "open",
+  "title": "E08 — Turn examples into direct proof",
+  "type": "epic",
+  "updated_at": "2026-07-24T00:27:18Z"
+}

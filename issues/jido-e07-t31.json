@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:04:43Z",
+  "description": "Backlog task: E07-T31\n\nWork area: Proof package\n\nMain targets: Reference app\n\nComplete when: One command runs the documented failures.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e07-t31",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e07"
+  ],
+  "parent": "jido-e07",
+  "priority": 1,
+  "status": "open",
+  "title": "E07-T31 — Add a failure-drill script.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:04:43Z"
+}

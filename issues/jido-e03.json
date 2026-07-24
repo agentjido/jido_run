@@ -1,0 +1,24 @@
+{
+  "assignee": "",
+  "blocked_by": [
+    "jido-e02"
+  ],
+  "blocks": [
+    "jido-e04",
+    "jido-e06"
+  ],
+  "created": "2026-07-23T12:00:04Z",
+  "description": "Apply the approved message to every global and high-traffic surface.\n\nExit criteria:\n- Global metadata, footer, hubs, and feature labels use one category.\n- Global copy carries the operational-control benefit without overstating identity, audit, security, or compliance.\n- Unsupported absolute claims are absent.\n- Human and machine descriptions agree.\n\nBacklog tasks: 34\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e03",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e03"
+  ],
+  "parent": "jido-site-facelift",
+  "priority": 0,
+  "status": "open",
+  "title": "E03 — Normalize global copy and claims",
+  "type": "epic",
+  "updated_at": "2026-07-24T00:27:18Z"
+}

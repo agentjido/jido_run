@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:04:25Z",
+  "description": "Backlog task: E07-T13\n\nWork area: Failure and recovery cases\n\nMain targets: Guide and example\n\nComplete when: The example restores required state from a real store.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e07-t13",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e07"
+  ],
+  "parent": "jido-e07",
+  "priority": 1,
+  "status": "open",
+  "title": "E07-T13 — Document an application restart.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:04:25Z"
+}

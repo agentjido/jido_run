@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:08:15Z",
+  "description": "Backlog task: E12-T34\n\nWork area: Governance\n\nMain targets: PR checklist\n\nComplete when: Route changes update content outline, content system, and taxonomy.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e12-t34",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e12"
+  ],
+  "parent": "jido-e12",
+  "priority": 1,
+  "status": "open",
+  "title": "E12-T34 — Require IA specs in any route or navigation PR.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:08:15Z"
+}

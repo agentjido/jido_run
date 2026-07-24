@@ -1,0 +1,25 @@
+{
+  "assignee": "",
+  "blocked_by": [
+    "jido-e02",
+    "jido-e08"
+  ],
+  "blocks": [
+    "jido-e10",
+    "jido-e11"
+  ],
+  "created": "2026-07-23T12:00:10Z",
+  "description": "Help a builder select a small, correct package set before showing the full catalog.\n\nExit criteria:\n- A new user selects a recommended stack before entering the full catalog.\n- Package roles and boundaries match current READMEs.\n- Maturity, versions, compatibility, proof, and next steps are visible.\n- The controlled-Agent stack shows which control comes from core Jido, an optional Jido package, or the host application.\n- Only released and tested package behavior supports operational-control claims.\n\nBacklog tasks: 50\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e09",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e09"
+  ],
+  "parent": "jido-site-facelift",
+  "priority": 0,
+  "status": "open",
+  "title": "E09 — Reduce ecosystem package choice cost",
+  "type": "epic",
+  "updated_at": "2026-07-24T00:27:18Z"
+}

@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:07:23Z",
+  "description": "Backlog task: E11-T10\n\nWork area: Community flow\n\nMain targets: Community governance\n\nComplete when: Core Jido use is distinguished from adjacent-package use.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e11-t10",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e11"
+  ],
+  "parent": "jido-e11",
+  "priority": 2,
+  "status": "open",
+  "title": "E11-T10 — Add a “Built with Jido” qualification rule.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:07:23Z"
+}

@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:06:25Z",
+  "description": "Backlog task: E09-T36\n\nWork area: Version and compatibility controls\n\nMain targets: Ecosystem guide\n\nComplete when: Supported package ranges are explicit.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e09-t36",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e09"
+  ],
+  "parent": "jido-e09",
+  "priority": 1,
+  "status": "open",
+  "title": "E09-T36 — Build a compatibility matrix for the main stacks.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:06:25Z"
+}

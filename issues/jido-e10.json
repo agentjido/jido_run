@@ -1,0 +1,25 @@
+{
+  "assignee": "",
+  "blocked_by": [
+    "jido-e06",
+    "jido-e08",
+    "jido-e09"
+  ],
+  "blocks": [
+    "jido-e12"
+  ],
+  "created": "2026-07-23T12:00:11Z",
+  "description": "Make browser, Markdown, sitemap, search, MCP, and skills delivery present the same useful content.\n\nExit criteria:\n- Browser, Markdown, search, MCP, sitemap, and Skills agree about public content.\n- Examples are searchable and present in the sitemap.\n- Promised Markdown routes work.\n- Skills are visible and connected to package selection.\n- Machine and browser surfaces use the same operational-control terms, limits, package roles, and proof links.\n\nBacklog tasks: 34\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e10",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e10"
+  ],
+  "parent": "jido-site-facelift",
+  "priority": 0,
+  "status": "open",
+  "title": "E10 — Align search and machine-readable delivery",
+  "type": "epic",
+  "updated_at": "2026-07-24T00:27:18Z"
+}

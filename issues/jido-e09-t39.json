@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:06:28Z",
+  "description": "Backlog task: E09-T39\n\nWork area: Operational-control stack and boundaries\n\nMain targets: Ecosystem hub and stack guide\n\nComplete when: The stack starts with core Jido and adds only the control packages required by the selected risks.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e09-t39",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e09",
+    "slice-10"
+  ],
+  "parent": "jido-e09",
+  "priority": 1,
+  "status": "open",
+  "title": "E09-T39 — Create a controlled-Agent recommended stack.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:06:28Z"
+}

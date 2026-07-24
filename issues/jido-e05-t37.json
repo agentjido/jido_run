@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:03:31Z",
+  "description": "Backlog task: E05-T37\n\nWork area: Maintenance and validation\n\nMain targets: AI onboarding follow-up\n\nComplete when: A disallowed tool or effect is rejected with a tested result.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e05-t37",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e05",
+    "slice-06"
+  ],
+  "parent": "jido-e05",
+  "priority": 1,
+  "status": "open",
+  "title": "E05-T37 — Add one Jido AI tool allowlist or effect-policy example.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:03:31Z"
+}

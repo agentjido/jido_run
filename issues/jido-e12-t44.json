@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:08:25Z",
+  "description": "Backlog task: E12-T44\n\nWork area: Operational-control quality gates\n\nMain targets: Release catalog and content CI\n\nComplete when: Only the approved version and support level can satisfy a public claim.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e12-t44",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e12",
+    "slice-12"
+  ],
+  "parent": "jido-e12",
+  "priority": 1,
+  "status": "open",
+  "title": "E12-T44 — Block proof that depends on an unreleased or unsupported package.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:08:25Z"
+}

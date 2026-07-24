@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:06:40Z",
+  "description": "Backlog task: E10-T01\n\nWork area: Search\n\nMain targets: Search ingestion\n\nComplete when: A query for “persistence example” returns the matching example.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e10-t01",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e10"
+  ],
+  "parent": "jido-e10",
+  "priority": 1,
+  "status": "open",
+  "title": "E10-T01 — Add public examples to the search index.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:06:40Z"
+}

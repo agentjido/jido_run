@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:02:25Z",
+  "description": "Backlog task: E04-T13\n\nWork area: Page structure\n\nMain targets: Home quick start\n\nComplete when: Code matches the canonical onboarding and package README.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e04-t13",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e04",
+    "slice-05"
+  ],
+  "parent": "jido-e04",
+  "priority": 1,
+  "status": "open",
+  "title": "E04-T13 — Show AgentServer under a named Jido instance or the current recommended API.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:02:25Z"
+}

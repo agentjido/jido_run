@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:04:59Z",
+  "description": "Backlog task: E07-T47\n\nWork area: Controlled-Agent reference path\n\nMain targets: `Jido.Observe`, optional `jido_otel`, and reference app\n\nComplete when: A trace joins Agent, Signal, Action, tool, and external-effect work.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e07-t47",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e07",
+    "slice-08"
+  ],
+  "parent": "jido-e07",
+  "priority": 1,
+  "status": "open",
+  "title": "E07-T47 — Export correlated spans through the supported observation path.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:04:59Z"
+}

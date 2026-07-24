@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:02:13Z",
+  "description": "Backlog task: E04-T01\n\nWork area: Hero and first viewport\n\nMain targets: `jido_home_live.ex`\n\nComplete when: The category is visible before the headline.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e04-t01",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e04",
+    "slice-05"
+  ],
+  "parent": "jido-e04",
+  "priority": 0,
+  "status": "open",
+  "title": "E04-T01 — Keep the eyebrow “Open-source Elixir framework.”",
+  "type": "task",
+  "updated_at": "2026-07-23T12:02:13Z"
+}

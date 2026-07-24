@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:04:47Z",
+  "description": "Backlog task: E07-T35\n\nWork area: Controlled-Agent reference path\n\nMain targets: Reference app and architecture guide\n\nComplete when: The design includes ingress, principal context, policy, Actions, effects, Journal, telemetry, approval, and recovery.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e07-t35",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e07",
+    "slice-08"
+  ],
+  "parent": "jido-e07",
+  "priority": 1,
+  "status": "open",
+  "title": "E07-T35 — Extend the reference application into a controlled-Agent architecture.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:04:47Z"
+}

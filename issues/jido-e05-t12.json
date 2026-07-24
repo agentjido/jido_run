@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:03:06Z",
+  "description": "Backlog task: E05-T12\n\nWork area: Core Agent path\n\nMain targets: First-Agent Livebook\n\nComplete when: The reader can see the changed state.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e05-t12",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e05",
+    "slice-06"
+  ],
+  "parent": "jido-e05",
+  "priority": 0,
+  "status": "open",
+  "title": "E05-T12 — Inspect Agent state.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:03:06Z"
+}

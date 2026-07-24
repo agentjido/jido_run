@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:00:56Z",
+  "description": "Backlog task: E02-T03\n\nWork area: Canonical message\n\nMain targets: Positioning and taxonomy specs\n\nComplete when: The word does not imply that every package is required.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e02-t03",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e02",
+    "slice-03"
+  ],
+  "parent": "jido-e02",
+  "priority": 0,
+  "status": "open",
+  "title": "E02-T03 — Define “ecosystem” as the optional package set.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:00:56Z"
+}

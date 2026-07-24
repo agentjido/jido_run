@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:02:39Z",
+  "description": "Backlog task: E04-T27\n\nWork area: Use cases, ecosystem, and conversion\n\nMain targets: Final CTA\n\nComplete when: The CTA promises a tested action, not a time estimate.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e04-t27",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e04",
+    "slice-05"
+  ],
+  "parent": "jido-e04",
+  "priority": 1,
+  "status": "open",
+  "title": "E04-T27 — Remove “under ten minutes” until measured.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:02:39Z"
+}

@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:04:46Z",
+  "description": "Backlog task: E07-T34\n\nWork area: Proof package\n\nMain targets: Home and Docs\n\nComplete when: The main position links to the full proof path.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e07-t34",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e07"
+  ],
+  "parent": "jido-e07",
+  "priority": 2,
+  "status": "open",
+  "title": "E07-T34 — Add a short production-path index to the home and Docs hubs.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:04:46Z"
+}

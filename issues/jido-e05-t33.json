@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:03:27Z",
+  "description": "Backlog task: E05-T33\n\nWork area: Maintenance and validation\n\nMain targets: Controlled onboarding guide\n\nComplete when: The reader can correlate one unit of work across components.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e05-t33",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e05",
+    "slice-06"
+  ],
+  "parent": "jido-e05",
+  "priority": 1,
+  "status": "open",
+  "title": "E05-T33 — Add stable Agent, request, run, Signal, and tool-call IDs to the controlled onboarding example.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:03:27Z"
+}

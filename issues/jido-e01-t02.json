@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:00:32Z",
+  "description": "Backlog task: E01-T02\n\nWork area: First LLM tutorial\n\nMain targets: First LLM Livebook\n\nComplete when: A new reader sees the required key name before execution.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e01-t02",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e01",
+    "slice-01"
+  ],
+  "parent": "jido-e01",
+  "priority": 0,
+  "status": "open",
+  "title": "E01-T02 — State the exact environment variable before the first code block.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:00:32Z"
+}

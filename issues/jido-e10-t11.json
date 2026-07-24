@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:06:50Z",
+  "description": "Backlog task: E10-T11\n\nWork area: Markdown and agent delivery\n\nMain targets: Markdown content\n\nComplete when: It includes task, outcome, packages, maturity, and URL.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e10-t11",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e10"
+  ],
+  "parent": "jido-e10",
+  "priority": 1,
+  "status": "open",
+  "title": "E10-T11 — Give Examples hub Markdown a complete public inventory.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:06:50Z"
+}

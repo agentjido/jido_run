@@ -1,0 +1,24 @@
+{
+  "assignee": "",
+  "blocked_by": [
+    "jido-e01",
+    "jido-e04"
+  ],
+  "blocks": [
+    "jido-e06"
+  ],
+  "created": "2026-07-23T12:00:06Z",
+  "description": "Give builders one maintained route from installation to a working core Agent and optional AI Agent.\n\nExit criteria:\n- One canonical route supports both core and AI paths.\n- The core path works without an API key.\n- The AI path uses an explicit provider and model.\n- The optional control path demonstrates principal context, fail-closed authorization, policy, quotas, causal history, telemetry, and redaction.\n- All public onboarding code uses one API and has a matching test.\n\nBacklog tasks: 41\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e05",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e05"
+  ],
+  "parent": "jido-site-facelift",
+  "priority": 0,
+  "status": "open",
+  "title": "E05 — Create one tested onboarding path",
+  "type": "epic",
+  "updated_at": "2026-07-24T00:27:18Z"
+}

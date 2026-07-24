@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:02:28Z",
+  "description": "Backlog task: E04-T16\n\nWork area: Page structure\n\nMain targets: Home pillars\n\nComplete when: The card names testable Jido mechanisms.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e04-t16",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e04",
+    "slice-05"
+  ],
+  "parent": "jido-e04",
+  "priority": 1,
+  "status": "open",
+  "title": "E04-T16 — Keep the typed coordination card and add the Agent/AgentServer distinction.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:02:28Z"
+}

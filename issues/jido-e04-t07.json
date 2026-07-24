@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:02:19Z",
+  "description": "Backlog task: E04-T07\n\nWork area: Hero and first viewport\n\nMain targets: Home hero\n\nComplete when: The primary audience is first in reading and keyboard order.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e04-t07",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e04",
+    "slice-05"
+  ],
+  "parent": "jido-e04",
+  "priority": 1,
+  "status": "open",
+  "title": "E04-T07 — Move the Elixir-expert route before the new-to-Elixir route.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:02:19Z"
+}

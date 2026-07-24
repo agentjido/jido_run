@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:00:35Z",
+  "description": "Backlog task: E01-T05\n\nWork area: First LLM tutorial\n\nMain targets: First LLM Livebook\n\nComplete when: The first success path has no hidden alias mapping.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e01-t05",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e01",
+    "slice-01"
+  ],
+  "parent": "jido-e01",
+  "priority": 0,
+  "status": "open",
+  "title": "E01-T05 — Teach aliases only after the explicit-model request succeeds.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:00:35Z"
+}

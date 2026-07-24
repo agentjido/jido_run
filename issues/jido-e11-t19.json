@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:07:32Z",
+  "description": "Backlog task: E11-T19\n\nWork area: Benchmarks and operational proof\n\nMain targets: Home CTA\n\nComplete when: Sample size, starting conditions, and median are recorded.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e11-t19",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e11"
+  ],
+  "parent": "jido-e11",
+  "priority": 1,
+  "status": "open",
+  "title": "E11-T19 — Publish an onboarding-time claim only after measurement.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:07:32Z"
+}

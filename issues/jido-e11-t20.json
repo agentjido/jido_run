@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:07:33Z",
+  "description": "Backlog task: E11-T20\n\nWork area: Benchmarks and operational proof\n\nMain targets: Marketing components\n\nComplete when: A visitor can open the supporting example, benchmark, or case study.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e11-t20",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e11"
+  ],
+  "parent": "jido-e11",
+  "priority": 2,
+  "status": "open",
+  "title": "E11-T20 — Add a proof link beside every remaining production claim.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:07:33Z"
+}

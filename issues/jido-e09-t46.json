@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:06:35Z",
+  "description": "Backlog task: E09-T46\n\nWork area: Operational-control stack and boundaries\n\nMain targets: `ash_jido` page and controlled stack\n\nComplete when: The page states what AshJido preserves and what the host Ash application enforces.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e09-t46",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e09",
+    "slice-10"
+  ],
+  "parent": "jido-e09",
+  "priority": 1,
+  "status": "open",
+  "title": "E09-T46 — Explain Ash actor, tenant, and authorization context.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:06:35Z"
+}

@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:07:16Z",
+  "description": "Backlog task: E11-T03\n\nWork area: Case studies\n\nMain targets: Community showcase\n\nComplete when: It proves Jido use, not only ReqLLM or Jido-inspired patterns.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e11-t03",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e11"
+  ],
+  "parent": "jido-e11",
+  "priority": 1,
+  "status": "open",
+  "title": "E11-T03 — Publish one long-running core Agent case study.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:07:16Z"
+}

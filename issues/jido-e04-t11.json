@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:02:23Z",
+  "description": "Backlog task: E04-T11\n\nWork area: Page structure\n\nMain targets: Home quick-start component\n\nComplete when: The result does not need a model key or fictional tools.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e04-t11",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e04",
+    "slice-05"
+  ],
+  "parent": "jido-e04",
+  "priority": 1,
+  "status": "open",
+  "title": "E04-T11 — Replace the current AI support quick start with a deterministic core example.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:02:23Z"
+}

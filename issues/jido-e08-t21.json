@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:05:24Z",
+  "description": "Backlog task: E08-T21\n\nWork area: Required proof examples\n\nMain targets: AI example\n\nComplete when: It shows bounded retry and a defined fallback.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e08-t21",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e08"
+  ],
+  "parent": "jido-e08",
+  "priority": 1,
+  "status": "open",
+  "title": "E08-T21 — Publish a provider-fallback example.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:05:24Z"
+}

@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:01:52Z",
+  "description": "Backlog task: E03-T14\n\nWork area: Tasks\n\nMain targets: Home, Features, links, metadata\n\nComplete when: Routes can remain stable, but visible labels are precise.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e03-t14",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e03",
+    "slice-04"
+  ],
+  "parent": "jido-e03",
+  "priority": 1,
+  "status": "open",
+  "title": "E03-T14 — Replace “self-heal” titles with “supervised failure handling” or an approved phrase.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:01:52Z"
+}

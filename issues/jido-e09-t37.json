@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:06:26Z",
+  "description": "Backlog task: E09-T37\n\nWork area: Version and compatibility controls\n\nMain targets: Docs\n\nComplete when: Builders do not need to infer compatible versions.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e09-t37",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e09"
+  ],
+  "parent": "jido-e09",
+  "priority": 1,
+  "status": "open",
+  "title": "E09-T37 — Add compatibility links to onboarding and Operate pages.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:06:26Z"
+}

@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:07:29Z",
+  "description": "Backlog task: E11-T16\n\nWork area: Community flow\n\nMain targets: Community process\n\nComplete when: Interviews ask about first success, package choice, failures, and missing docs.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e11-t16",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e11"
+  ],
+  "parent": "jido-e11",
+  "priority": 3,
+  "status": "open",
+  "title": "E11-T16 — Add an adoption interview script.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:07:29Z"
+}

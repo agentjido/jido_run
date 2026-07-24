@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:07:24Z",
+  "description": "Backlog task: E11-T11\n\nWork area: Community flow\n\nMain targets: Existing showcase records\n\nComplete when: The showcase does not overstate Jido adoption.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e11-t11",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e11"
+  ],
+  "parent": "jido-e11",
+  "priority": 2,
+  "status": "open",
+  "title": "E11-T11 — Label ReqLLM-only and Jido-inspired projects accurately.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:07:24Z"
+}

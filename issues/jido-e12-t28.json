@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:08:09Z",
+  "description": "Backlog task: E12-T28\n\nWork area: Measurement\n\nMain targets: Ecosystem analytics\n\nComplete when: The team can compare recommended stacks with full-catalog browsing.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e12-t28",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e12"
+  ],
+  "parent": "jido-e12",
+  "priority": 2,
+  "status": "open",
+  "title": "E12-T28 — Measure ecosystem stack selection.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:08:09Z"
+}

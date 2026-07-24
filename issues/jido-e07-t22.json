@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:04:34Z",
+  "description": "Backlog task: E07-T22\n\nWork area: Operational topics\n\nMain targets: AI operations docs\n\nComplete when: It covers token, request, and tool budgets.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e07-t22",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e07"
+  ],
+  "parent": "jido-e07",
+  "priority": 1,
+  "status": "open",
+  "title": "E07-T22 — Add rate-limit and cost-budget guidance.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:04:34Z"
+}

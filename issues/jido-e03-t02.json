@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:01:40Z",
+  "description": "Backlog task: E03-T02\n\nWork area: Tasks\n\nMain targets: `lib/agent_jido_web/components/layouts/root.html.heex`\n\nComplete when: Root and route-specific metadata agree.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e03-t02",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e03",
+    "slice-04"
+  ],
+  "parent": "jido-e03",
+  "priority": 0,
+  "status": "open",
+  "title": "E03-T02 — Replace the root-layout default description.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:01:40Z"
+}

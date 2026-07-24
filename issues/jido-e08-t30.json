@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:05:33Z",
+  "description": "Backlog task: E08-T30\n\nWork area: Inventory and delivery\n\nMain targets: `priv/examples/*.md`\n\nComplete when: No record becomes draft only because status is missing.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e08-t30",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e08"
+  ],
+  "parent": "jido-e08",
+  "priority": 0,
+  "status": "open",
+  "title": "E08-T30 — Give every non-public example an explicit status.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:05:33Z"
+}

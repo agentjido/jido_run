@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:08:18Z",
+  "description": "Backlog task: E12-T37\n\nWork area: Operational-control quality gates\n\nMain targets: Content validation\n\nComplete when: A restricted term needs its approved meaning, qualifier, and proof metadata.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e12-t37",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e12",
+    "slice-12"
+  ],
+  "parent": "jido-e12",
+  "priority": 0,
+  "status": "open",
+  "title": "E12-T37 — Extend claim lint for identity, authorization, audit, observability, security, governance, control, and compliance terms.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:08:18Z"
+}

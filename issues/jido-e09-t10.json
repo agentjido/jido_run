@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:05:59Z",
+  "description": "Backlog task: E09-T10\n\nWork area: Recommended stacks\n\nMain targets: Stack guides\n\nComplete when: Selection guidance includes a negative fit.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e09-t10",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e09"
+  ],
+  "parent": "jido-e09",
+  "priority": 1,
+  "status": "open",
+  "title": "E09-T10 — Give each stack a “Do not use this when” note.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:05:59Z"
+}

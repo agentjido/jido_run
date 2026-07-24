@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:08:01Z",
+  "description": "Backlog task: E12-T20\n\nWork area: Freshness and ownership\n\nMain targets: Content inventory\n\nComplete when: Every public page has an inbound navigation or related-content link.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e12-t20",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e12"
+  ],
+  "parent": "jido-e12",
+  "priority": 2,
+  "status": "open",
+  "title": "E12-T20 — Add an orphan-page report.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:08:01Z"
+}

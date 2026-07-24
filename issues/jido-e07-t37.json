@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:04:49Z",
+  "description": "Backlog task: E07-T37\n\nWork area: Controlled-Agent reference path\n\nMain targets: Reference app\n\nComplete when: Each field has a source, validation rule, and propagation test.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e07-t37",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e07",
+    "slice-08"
+  ],
+  "parent": "jido-e07",
+  "priority": 1,
+  "status": "open",
+  "title": "E07-T37 — Carry principal, tenant, request, correlation, and causation context in the incoming Signal.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:04:49Z"
+}

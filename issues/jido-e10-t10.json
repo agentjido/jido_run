@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:06:49Z",
+  "description": "Backlog task: E10-T10\n\nWork area: Markdown and agent delivery\n\nMain targets: Markdown route handling\n\nComplete when: Compare content has a full machine-readable form.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e10-t10",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e10"
+  ],
+  "parent": "jido-e10",
+  "priority": 1,
+  "status": "open",
+  "title": "E10-T10 — Add `/compare.md` and comparison detail Markdown.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:06:49Z"
+}

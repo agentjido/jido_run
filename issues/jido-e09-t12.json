@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:06:01Z",
+  "description": "Backlog task: E09-T12\n\nWork area: Package-page contract\n\nMain targets: Ecosystem template and records\n\nComplete when: The role is one specific sentence.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e09-t12",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e09"
+  ],
+  "parent": "jido-e09",
+  "priority": 1,
+  "status": "open",
+  "title": "E09-T12 — Add “What this package does” to every package page.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:06:01Z"
+}

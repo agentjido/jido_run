@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:05:34Z",
+  "description": "Backlog task: E08-T31\n\nWork area: Inventory and delivery\n\nMain targets: Sitemap controller and tests\n\nComplete when: All current public examples appear.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e08-t31",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e08"
+  ],
+  "parent": "jido-e08",
+  "priority": 1,
+  "status": "open",
+  "title": "E08-T31 — Add all public example detail routes to the sitemap.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:05:34Z"
+}

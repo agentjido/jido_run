@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:03:14Z",
+  "description": "Backlog task: E05-T20\n\nWork area: AI Agent path\n\nMain targets: AI onboarding\n\nComplete when: The schema and effect behavior are clear.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e05-t20",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e05",
+    "slice-06"
+  ],
+  "parent": "jido-e05",
+  "priority": 1,
+  "status": "open",
+  "title": "E05-T20 — Define one typed tool Action.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:03:14Z"
+}

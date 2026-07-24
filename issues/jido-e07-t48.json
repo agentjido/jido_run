@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:05:00Z",
+  "description": "Backlog task: E07-T48\n\nWork area: Controlled-Agent reference path\n\nMain targets: Reference app tests\n\nComplete when: The defined sensitive fixtures do not appear in captured operational data.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e07-t48",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e07",
+    "slice-08"
+  ],
+  "parent": "jido-e07",
+  "priority": 1,
+  "status": "open",
+  "title": "E07-T48 — Test redaction in logs, telemetry, Journal entries, and error output.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:05:00Z"
+}

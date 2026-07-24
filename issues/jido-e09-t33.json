@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:06:22Z",
+  "description": "Backlog task: E09-T33\n\nWork area: Version and compatibility controls\n\nMain targets: Release catalog and footer\n\nComplete when: The site does not show stale patch versions.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e09-t33",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e09"
+  ],
+  "parent": "jido-e09",
+  "priority": 0,
+  "status": "open",
+  "title": "E09-T33 — Sync displayed `jido`, `jido_ai`, and ReqLLM versions with Hex.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:06:22Z"
+}

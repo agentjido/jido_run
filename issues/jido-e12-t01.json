@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:07:42Z",
+  "description": "Backlog task: E12-T01\n\nWork area: Content lint and release gates\n\nMain targets: Release tooling\n\nComplete when: Unapproved “no downtime,” “self-healing,” and similar phrases fail CI.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e12-t01",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e12"
+  ],
+  "parent": "jido-e12",
+  "priority": 0,
+  "status": "open",
+  "title": "E12-T01 — Add a restricted-claim linter.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:07:42Z"
+}

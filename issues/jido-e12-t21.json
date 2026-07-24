@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:08:02Z",
+  "description": "Backlog task: E12-T21\n\nWork area: Measurement\n\nMain targets: Analytics\n\nComplete when: Hero and section CTA paths are visible.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e12-t21",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e12"
+  ],
+  "parent": "jido-e12",
+  "priority": 1,
+  "status": "open",
+  "title": "E12-T21 — Measure home-to-onboarding conversion.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:08:02Z"
+}

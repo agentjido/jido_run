@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:02:59Z",
+  "description": "Backlog task: E05-T05\n\nWork area: Route and structure\n\nMain targets: Getting Started hub, `jido_phx_starter` link\n\nComplete when: It clearly states Postgres and provider-key requirements from the starter README.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e05-t05",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e05",
+    "slice-06"
+  ],
+  "parent": "jido-e05",
+  "priority": 1,
+  "status": "open",
+  "title": "E05-T05 — Add a “Use the Phoenix starter” path.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:02:59Z"
+}

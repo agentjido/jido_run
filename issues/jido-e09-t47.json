@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:06:36Z",
+  "description": "Backlog task: E09-T47\n\nWork area: Operational-control stack and boundaries\n\nMain targets: Controlled stack and package pages\n\nComplete when: Experimental or unreleased work cannot support a general production claim.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e09-t47",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e09",
+    "slice-10"
+  ],
+  "parent": "jido-e09",
+  "priority": 1,
+  "status": "open",
+  "title": "E09-T47 — Mark each control package with released version, support level, and evidence.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:06:36Z"
+}

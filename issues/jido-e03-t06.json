@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:01:44Z",
+  "description": "Backlog task: E03-T06\n\nWork area: Tasks\n\nMain targets: Docs hub sources\n\nComplete when: HTML and Markdown versions have the same outline and promise.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e03-t06",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e03",
+    "slice-04"
+  ],
+  "parent": "jido-e03",
+  "priority": 0,
+  "status": "open",
+  "title": "E03-T06 — Align the hard-coded Docs hub and `priv/pages/docs/index.md`.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:01:44Z"
+}

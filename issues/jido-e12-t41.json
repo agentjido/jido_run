@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:08:22Z",
+  "description": "Backlog task: E12-T41\n\nWork area: Operational-control quality gates\n\nMain targets: Logs, telemetry, Journal, and error tests\n\nComplete when: Defined secret and personal-data fixtures do not appear in captured output.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e12-t41",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e12",
+    "slice-12"
+  ],
+  "parent": "jido-e12",
+  "priority": 0,
+  "status": "open",
+  "title": "E12-T41 — Add a sensitive-data redaction regression test.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:08:22Z"
+}

@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:03:19Z",
+  "description": "Backlog task: E05-T25\n\nWork area: Maintenance and validation\n\nMain targets: `test/livebooks/docs`\n\nComplete when: Coverage follows `test/livebooks/README.md`.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e05-t25",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e05",
+    "slice-06"
+  ],
+  "parent": "jido-e05",
+  "priority": 0,
+  "status": "open",
+  "title": "E05-T25 — Add one test file for every onboarding Livebook.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:03:19Z"
+}

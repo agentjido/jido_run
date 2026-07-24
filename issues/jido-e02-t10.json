@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:01:03Z",
+  "description": "Backlog task: E02-T10\n\nWork area: Vocabulary\n\nMain targets: Style guide and glossary\n\nComplete when: Marketing and docs do not call the Agent struct a process.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e02-t10",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e02",
+    "slice-03"
+  ],
+  "parent": "jido-e02",
+  "priority": 0,
+  "status": "open",
+  "title": "E02-T10 — Define Agent as immutable data with state and behavior.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:01:03Z"
+}

@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:04:15Z",
+  "description": "Backlog task: E07-T03\n\nWork area: Core linear path\n\nMain targets: Operations docs\n\nComplete when: It distinguishes memory, persisted state, checkpoints, and reconstruction.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e07-t03",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e07"
+  ],
+  "parent": "jido-e07",
+  "priority": 1,
+  "status": "open",
+  "title": "E07-T03 — Publish “State across process restart.”",
+  "type": "task",
+  "updated_at": "2026-07-23T12:04:15Z"
+}

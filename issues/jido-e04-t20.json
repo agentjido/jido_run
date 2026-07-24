@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:02:32Z",
+  "description": "Backlog task: E04-T20\n\nWork area: Page structure\n\nMain targets: Home BEAM section\n\nComplete when: It names Signals, Actions, Directives, and lifecycle structure.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e04-t20",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e04",
+    "slice-05"
+  ],
+  "parent": "jido-e04",
+  "priority": 1,
+  "status": "open",
+  "title": "E04-T20 — Add one sentence that explains why raw GenServer is not the complete Jido model.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:02:32Z"
+}

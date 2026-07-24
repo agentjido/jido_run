@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:00:43Z",
+  "description": "Backlog task: E01-T13\n\nWork area: Broken paths and source noise\n\nMain targets: Router, legacy redirects\n\nComplete when: Only one canonical onboarding route remains.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e01-t13",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e01",
+    "slice-02"
+  ],
+  "parent": "jido-e01",
+  "priority": 0,
+  "status": "open",
+  "title": "E01-T13 — Redirect `/getting-started` to `/docs/getting-started`.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:00:43Z"
+}

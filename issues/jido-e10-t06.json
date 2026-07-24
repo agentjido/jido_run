@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:06:45Z",
+  "description": "Backlog task: E10-T06\n\nWork area: Search\n\nMain targets: Search feedback\n\nComplete when: Query, filters, and route are recorded without sensitive data.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e10-t06",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e10"
+  ],
+  "parent": "jido-e10",
+  "priority": 2,
+  "status": "open",
+  "title": "E10-T06 — Add no-result analytics.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:06:45Z"
+}

@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:04:02Z",
+  "description": "Backlog task: E06-T27\n\nWork area: Hub and leaf alignment\n\nMain targets: Docs metadata and components\n\nComplete when: Every major guide has runnable proof.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e06-t27",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e06"
+  ],
+  "parent": "jido-e06",
+  "priority": 2,
+  "status": "open",
+  "title": "E06-T27 — Add related examples to each guide.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:04:02Z"
+}

@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:05:07Z",
+  "description": "Backlog task: E08-T04\n\nWork area: Taxonomy and discovery\n\nMain targets: Examples hub\n\nComplete when: A user can see examples for `jido`, `jido_ai`, `jido_browser`, and other packages.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e08-t04",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e08"
+  ],
+  "parent": "jido-e08",
+  "priority": 1,
+  "status": "open",
+  "title": "E08-T04 — Add package filters.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:05:07Z"
+}

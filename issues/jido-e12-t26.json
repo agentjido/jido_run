@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:08:07Z",
+  "description": "Backlog task: E12-T26\n\nWork area: Measurement\n\nMain targets: Examples analytics\n\nComplete when: Proof engagement is visible.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e12-t26",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e12"
+  ],
+  "parent": "jido-e12",
+  "priority": 1,
+  "status": "open",
+  "title": "E12-T26 — Measure movement from examples to source and local run.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:08:07Z"
+}

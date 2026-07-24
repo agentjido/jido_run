@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:06:16Z",
+  "description": "Backlog task: E09-T27\n\nWork area: README and registry alignment\n\nMain targets: Package record and guide\n\nComplete when: Agent-facing plugins and provider plumbing are distinguished.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e09-t27",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e09"
+  ],
+  "parent": "jido-e09",
+  "priority": 1,
+  "status": "open",
+  "title": "E09-T27 — Align memory copy with the plugin-first model in `jido_memory`.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:06:16Z"
+}

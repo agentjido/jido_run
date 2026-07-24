@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:07:30Z",
+  "description": "Backlog task: E11-T17\n\nWork area: Benchmarks and operational proof\n\nMain targets: Docs hub and benchmark page\n\nComplete when: Workload, machine, code, limits, and results are public.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e11-t17",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e11"
+  ],
+  "parent": "jido-e11",
+  "priority": 1,
+  "status": "open",
+  "title": "E11-T17 — Remove “10,000+ supervised agents” or publish the benchmark.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:07:30Z"
+}

@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:06:54Z",
+  "description": "Backlog task: E10-T15\n\nWork area: Markdown and agent delivery\n\nMain targets: LLMSTxt controller\n\nComplete when: Every documented machine route returns the stated content.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e10-t15",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e10"
+  ],
+  "parent": "jido-e10",
+  "priority": 1,
+  "status": "open",
+  "title": "E10-T15 — Remove unsupported route claims from `llms.txt`.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:06:54Z"
+}

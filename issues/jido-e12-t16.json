@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:07:57Z",
+  "description": "Backlog task: E12-T16\n\nWork area: Freshness and ownership\n\nMain targets: Content operations\n\nComplete when: Slow-changing pages still receive planned review.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e12-t16",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e12"
+  ],
+  "parent": "jido-e12",
+  "priority": 2,
+  "status": "open",
+  "title": "E12-T16 — Create a 180-day review queue for concepts and comparisons.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:07:57Z"
+}

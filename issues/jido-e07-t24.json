@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:04:36Z",
+  "description": "Backlog task: E07-T24\n\nWork area: Operational topics\n\nMain targets: Existing draft reference\n\nComplete when: Each supported upgrade path has a version range.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e07-t24",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e07"
+  ],
+  "parent": "jido-e07",
+  "priority": 1,
+  "status": "open",
+  "title": "E07-T24 — Add upgrade and migration guidance for `jido`, `jido_ai`, and ReqLLM.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:04:36Z"
+}

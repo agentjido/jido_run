@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:05:32Z",
+  "description": "Backlog task: E08-T29\n\nWork area: Home-page use cases\n\nMain targets: Current draft or new example\n\nComplete when: The home data card has a direct destination.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e08-t29",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e08"
+  ],
+  "parent": "jido-e08",
+  "priority": 1,
+  "status": "open",
+  "title": "E08-T29 — Publish one data-pipeline example.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:05:32Z"
+}

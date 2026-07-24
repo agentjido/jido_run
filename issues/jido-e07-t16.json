@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:04:28Z",
+  "description": "Backlog task: E07-T16\n\nWork area: Failure and recovery cases\n\nMain targets: AI operations guide\n\nComplete when: The example has bounded retries and an explicit fallback rule.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e07-t16",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e07"
+  ],
+  "parent": "jido-e07",
+  "priority": 1,
+  "status": "open",
+  "title": "E07-T16 — Document a provider timeout and fallback.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:04:28Z"
+}

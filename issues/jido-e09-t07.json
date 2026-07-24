@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:05:56Z",
+  "description": "Backlog task: E09-T07\n\nWork area: Recommended stacks\n\nMain targets: Ecosystem hub and guide\n\nComplete when: It distinguishes core Strategies, behavior trees, and Runic DAG workflows.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e09-t07",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e09"
+  ],
+  "parent": "jido-e09",
+  "priority": 1,
+  "status": "open",
+  "title": "E09-T07 — Create a workflow stack.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:05:56Z"
+}

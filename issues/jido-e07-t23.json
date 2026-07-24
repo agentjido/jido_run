@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:04:35Z",
+  "description": "Backlog task: E07-T23\n\nWork area: Operational topics\n\nMain targets: Operations and AI docs\n\nComplete when: It shows an explicit pause, decision, and audit event.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e07-t23",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e07"
+  ],
+  "parent": "jido-e07",
+  "priority": 1,
+  "status": "open",
+  "title": "E07-T23 — Add human-approval patterns.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:04:35Z"
+}

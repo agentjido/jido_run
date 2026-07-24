@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:02:43Z",
+  "description": "Backlog task: E04-T31\n\nWork area: Use cases, ecosystem, and conversion\n\nMain targets: Home LiveView tests\n\nComplete when: All CTA and card routes resolve.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e04-t31",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e04",
+    "slice-05"
+  ],
+  "parent": "jido-e04",
+  "priority": 1,
+  "status": "open",
+  "title": "E04-T31 — Add LiveView tests for every landing-page destination.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:02:43Z"
+}

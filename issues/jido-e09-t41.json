@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:06:30Z",
+  "description": "Backlog task: E09-T41\n\nWork area: Operational-control stack and boundaries\n\nMain targets: Ecosystem schema and template\n\nComplete when: A page states the control surface that the package supplies and the control result that it does not supply.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e09-t41",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e09",
+    "slice-10"
+  ],
+  "parent": "jido-e09",
+  "priority": 1,
+  "status": "open",
+  "title": "E09-T41 — Add control capability and limitation fields to each package page.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:06:30Z"
+}

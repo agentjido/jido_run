@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:00:26Z",
+  "description": "Backlog task: E00-T13\n\nWork area: Tasks\n\nMain targets: `jido`, `jido_ai`, `jido_signal`, AshJido, site docs\n\nComplete when: The inventory prevents Agent IDs from being presented as security identities.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e00-t13",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e00"
+  ],
+  "parent": "jido-e00",
+  "priority": 0,
+  "status": "open",
+  "title": "E00-T13 — Inventory every current identity field and state whether it is lifecycle state, correlation metadata, or authenticated principal context.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:00:26Z"
+}

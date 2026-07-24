@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:00:30Z",
+  "description": "Backlog task: E00-T17\n\nWork area: Tasks\n\nMain targets: New spec or `specs/proof.md`\n\nComplete when: Tool misuse, unauthorized work, runaway cost, lost state, hidden failure, duplicate work, and provider failure each map to controls and gaps.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e00-t17",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e00"
+  ],
+  "parent": "jido-e00",
+  "priority": 1,
+  "status": "open",
+  "title": "E00-T17 — Create an operational-risk-to-control matrix.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:00:30Z"
+}

@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:04:41Z",
+  "description": "Backlog task: E07-T29\n\nWork area: Proof package\n\nMain targets: Workbench or dedicated example repo\n\nComplete when: It covers supervision, scheduling, persistence, retries, telemetry, health, and deployment.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e07-t29",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e07"
+  ],
+  "parent": "jido-e07",
+  "priority": 1,
+  "status": "open",
+  "title": "E07-T29 — Create one end-to-end long-running reference application.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:04:41Z"
+}

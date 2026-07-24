@@ -1,0 +1,17 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:00:00Z",
+  "description": "Implement the Jido site improvement backlog dated 2026-07-23.\n\nPublic category: Jido is the Elixir framework for long-running agent systems.\n\nPrimary operational benefit: Build Agent systems you can supervise, constrain, and inspect.\n\nThe program covers content, landing pages, onboarding, documentation, examples, ecosystem guidance, machine delivery, adoption evidence, and quality controls.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-site-facelift",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23"
+  ],
+  "priority": 0,
+  "status": "open",
+  "title": "Jido site facelift and adoption backlog",
+  "type": "epic",
+  "updated_at": "2026-07-23T12:00:00Z"
+}

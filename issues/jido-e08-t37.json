@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:05:40Z",
+  "description": "Backlog task: E08-T37\n\nWork area: Operational-control proof\n\nMain targets: New public example and source\n\nComplete when: One run joins authenticated application context, fail-closed authorization, policy, history, telemetry, and an external effect.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e08-t37",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e08",
+    "slice-09"
+  ],
+  "parent": "jido-e08",
+  "priority": 1,
+  "status": "open",
+  "title": "E08-T37 — Publish one integrated controlled-Agent example.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:05:40Z"
+}

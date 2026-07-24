@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:07:03Z",
+  "description": "Backlog task: E10-T24\n\nWork area: Sitemap and Skills\n\nMain targets: Skills UI\n\nComplete when: A user can choose a skill without opening all files.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e10-t24",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e10"
+  ],
+  "parent": "jido-e10",
+  "priority": 1,
+  "status": "open",
+  "title": "E10-T24 — Give each Skill card a package, task, maturity note, and source.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:07:03Z"
+}

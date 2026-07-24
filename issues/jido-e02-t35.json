@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:01:28Z",
+  "description": "Backlog task: E02-T35\n\nWork area: Canonical-source updates\n\nMain targets: Style guide and glossary\n\nComplete when: Copy does not imply a built-in IAM product.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e02-t35",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e02",
+    "slice-03"
+  ],
+  "parent": "jido-e02",
+  "priority": 0,
+  "status": "open",
+  "title": "E02-T35 — Define authorization as an application or Plugin decision that can fail closed before Action execution.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:01:28Z"
+}

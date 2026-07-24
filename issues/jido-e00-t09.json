@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:00:22Z",
+  "description": "Backlog task: E00-T09\n\nWork area: Tasks\n\nMain targets: Package READMEs, getting-started pages\n\nComplete when: Differences in install, start, ask, and await APIs are listed.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e00-t09",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e00"
+  ],
+  "parent": "jido-e00",
+  "priority": 1,
+  "status": "open",
+  "title": "E00-T09 — Record current first-run commands and APIs from `jido`, `jido_ai`, and the site.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:00:22Z"
+}

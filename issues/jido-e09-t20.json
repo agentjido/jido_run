@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:06:09Z",
+  "description": "Backlog task: E09-T20\n\nWork area: Package-page contract\n\nMain targets: Package pages\n\nComplete when: Each package has a maintained learning path.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e09-t20",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e09"
+  ],
+  "parent": "jido-e09",
+  "priority": 1,
+  "status": "open",
+  "title": "E09-T20 — Add one best guide.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:06:09Z"
+}

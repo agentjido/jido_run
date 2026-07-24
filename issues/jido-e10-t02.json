@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:06:41Z",
+  "description": "Backlog task: E10-T02\n\nWork area: Search\n\nMain targets: Search document model\n\nComplete when: Task and package queries work.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e10-t02",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e10"
+  ],
+  "parent": "jido-e10",
+  "priority": 1,
+  "status": "open",
+  "title": "E10-T02 — Add example tasks, packages, and outcomes to indexed fields.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:06:41Z"
+}

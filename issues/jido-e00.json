@@ -1,0 +1,22 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [
+    "jido-e01",
+    "jido-e02"
+  ],
+  "created": "2026-07-23T12:00:01Z",
+  "description": "Create a controlled starting point before copy and route changes begin.\n\nExit criteria:\n- The team can list every public content surface.\n- The team knows which source controls each surface.\n- New broken links and new unresolved placeholders cannot ship.\n- The team has named owners and baseline measures.\n\nBacklog tasks: 17\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e00",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e00"
+  ],
+  "parent": "jido-site-facelift",
+  "priority": 0,
+  "status": "open",
+  "title": "E00 — Baseline, ownership, and release controls",
+  "type": "epic",
+  "updated_at": "2026-07-24T00:27:18Z"
+}

@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:02:35Z",
+  "description": "Backlog task: E04-T23\n\nWork area: Use cases, ecosystem, and conversion\n\nMain targets: Home use-case copy\n\nComplete when: “Verify,” “resolve,” and “remediate” have clear conditions.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e04-t23",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e04",
+    "slice-05"
+  ],
+  "parent": "jido-e04",
+  "priority": 1,
+  "status": "open",
+  "title": "E04-T23 — Rewrite advanced use-case claims as possible outcomes, not guaranteed behavior.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:02:35Z"
+}

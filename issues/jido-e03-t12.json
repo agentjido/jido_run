@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:01:50Z",
+  "description": "Backlog task: E03-T12\n\nWork area: Tasks\n\nMain targets: `llms_txt_controller.ex`\n\nComplete when: Machine-facing category matches human-facing category.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e03-t12",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e03",
+    "slice-04"
+  ],
+  "parent": "jido-e03",
+  "priority": 1,
+  "status": "open",
+  "title": "E03-T12 — Update `llms.txt` product description.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:01:50Z"
+}

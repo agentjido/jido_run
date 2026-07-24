@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:02:14Z",
+  "description": "Backlog task: E04-T02\n\nWork area: Hero and first viewport\n\nMain targets: Home hero\n\nComplete when: The headline names the workload and the technical context.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e04-t02",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e04",
+    "slice-05"
+  ],
+  "parent": "jido-e04",
+  "priority": 0,
+  "status": "open",
+  "title": "E04-T02 — Change the headline to “Build long-running agents on the BEAM.”",
+  "type": "task",
+  "updated_at": "2026-07-23T12:02:14Z"
+}

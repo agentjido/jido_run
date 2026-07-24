@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:06:53Z",
+  "description": "Backlog task: E10-T14\n\nWork area: Markdown and agent delivery\n\nMain targets: LLM response plug\n\nComplete when: HTML and Markdown identify each other.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e10-t14",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e10"
+  ],
+  "parent": "jido-e10",
+  "priority": 1,
+  "status": "open",
+  "title": "E10-T14 — Add canonical and alternate links to all supported routes.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:06:53Z"
+}

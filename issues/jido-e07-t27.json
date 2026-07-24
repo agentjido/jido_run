@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:04:39Z",
+  "description": "Backlog task: E07-T27\n\nWork area: Operational topics\n\nMain targets: Operations docs\n\nComplete when: Configuration, secrets, probes, and migration order are covered.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e07-t27",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e07"
+  ],
+  "parent": "jido-e07",
+  "priority": 2,
+  "status": "open",
+  "title": "E07-T27 — Add OTP release guidance.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:04:39Z"
+}

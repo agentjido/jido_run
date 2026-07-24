@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:08:00Z",
+  "description": "Backlog task: E12-T19\n\nWork area: Freshness and ownership\n\nMain targets: Compare pages\n\nComplete when: Old facts are visible and queued for review.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e12-t19",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e12"
+  ],
+  "parent": "jido-e12",
+  "priority": 2,
+  "status": "open",
+  "title": "E12-T19 — Add competitor-page review dates and sources.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:08:00Z"
+}

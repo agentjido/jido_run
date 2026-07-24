@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:07:01Z",
+  "description": "Backlog task: E10-T22\n\nWork area: Sitemap and Skills\n\nMain targets: Sitemap\n\nComplete when: Search engines receive accurate freshness data.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e10-t22",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e10"
+  ],
+  "parent": "jido-e10",
+  "priority": 1,
+  "status": "open",
+  "title": "E10-T22 — Add public Build and Compare detail pages with correct modification dates.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:07:01Z"
+}

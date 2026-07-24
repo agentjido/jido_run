@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:03:20Z",
+  "description": "Backlog task: E05-T26\n\nWork area: Maintenance and validation\n\nMain targets: Existing coverage tests\n\nComplete when: An untested public Livebook fails CI.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e05-t26",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e05",
+    "slice-06"
+  ],
+  "parent": "jido-e05",
+  "priority": 0,
+  "status": "open",
+  "title": "E05-T26 — Add a test that every Docs Livebook has a matching test.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:03:20Z"
+}

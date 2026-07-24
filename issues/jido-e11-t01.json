@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:07:14Z",
+  "description": "Backlog task: E11-T01\n\nWork area: Case studies\n\nMain targets: Community content template\n\nComplete when: It requires architecture, runtime duration, load, failure policy, state store, package versions, and measured outcome.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e11-t01",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e11"
+  ],
+  "parent": "jido-e11",
+  "priority": 1,
+  "status": "open",
+  "title": "E11-T01 — Create a production case-study template.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:07:14Z"
+}

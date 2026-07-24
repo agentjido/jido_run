@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:07:27Z",
+  "description": "Backlog task: E11-T14\n\nWork area: Community flow\n\nMain targets: Blog or Community\n\nComplete when: It covers stable releases, new examples, migrations, and known issues.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e11-t14",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e11"
+  ],
+  "parent": "jido-e11",
+  "priority": 2,
+  "status": "open",
+  "title": "E11-T14 — Publish a regular adopter-focused ecosystem digest.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:07:27Z"
+}

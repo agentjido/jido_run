@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:06:55Z",
+  "description": "Backlog task: E10-T16\n\nWork area: Markdown and agent delivery\n\nMain targets: Markdown renderer\n\nComplete when: Agents can assess freshness and maturity.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e10-t16",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e10"
+  ],
+  "parent": "jido-e10",
+  "priority": 2,
+  "status": "open",
+  "title": "E10-T16 — Add content type, status, version, and last-validated metadata to Markdown output.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:06:55Z"
+}

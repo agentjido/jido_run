@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:05:53Z",
+  "description": "Backlog task: E09-T04\n\nWork area: Recommended stacks\n\nMain targets: Ecosystem hub and guide\n\nComplete when: It explains stateless fetch, rich fetch, and browser sessions from the `jido_browser` README.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e09-t04",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e09"
+  ],
+  "parent": "jido-e09",
+  "priority": 1,
+  "status": "open",
+  "title": "E09-T04 — Create a browser Agent stack.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:05:53Z"
+}

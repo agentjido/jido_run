@@ -1,0 +1,24 @@
+{
+  "assignee": "",
+  "blocked_by": [
+    "jido-e00"
+  ],
+  "blocks": [
+    "jido-e04",
+    "jido-e05"
+  ],
+  "created": "2026-07-23T12:00:02Z",
+  "description": "Make the current first-run experience truthful and runnable before adding new marketing claims.\n\nExit criteria:\n- The first non-LLM and first LLM examples run with documented inputs.\n- Rendered, copied, Markdown, and Livebook code agree.\n- Public pages have no unintended 404 links.\n- The old onboarding route cannot compete with the canonical route.\n\nBacklog tasks: 23\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e01",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e01"
+  ],
+  "parent": "jido-site-facelift",
+  "priority": 0,
+  "status": "open",
+  "title": "E01 — Repair critical trust faults",
+  "type": "epic",
+  "updated_at": "2026-07-24T00:27:18Z"
+}

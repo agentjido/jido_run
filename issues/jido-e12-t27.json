@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:08:08Z",
+  "description": "Backlog task: E12-T27\n\nWork area: Measurement\n\nMain targets: Docs analytics\n\nComplete when: The long-running path has a conversion measure.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e12-t27",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e12"
+  ],
+  "parent": "jido-e12",
+  "priority": 1,
+  "status": "open",
+  "title": "E12-T27 — Measure movement from onboarding to Operate.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:08:08Z"
+}

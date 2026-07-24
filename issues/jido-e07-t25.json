@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:04:37Z",
+  "description": "Backlog task: E07-T25\n\nWork area: Operational topics\n\nMain targets: Operations IA\n\nComplete when: No planned navigation points to a nonexistent page.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e07-t25",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e07"
+  ],
+  "parent": "jido-e07",
+  "priority": 2,
+  "status": "open",
+  "title": "E07-T25 — Add backup and disaster-recovery guidance or remove the route from plans.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:04:37Z"
+}

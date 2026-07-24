@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:02:12Z",
+  "description": "Backlog task: E03-T34\n\nWork area: Tasks\n\nMain targets: `llms.txt`, Markdown hub fallbacks, MCP descriptions\n\nComplete when: Machine and human summaries use the same bounded benefit.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e03-t34",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e03",
+    "slice-04"
+  ],
+  "parent": "jido-e03",
+  "priority": 2,
+  "status": "open",
+  "title": "E03-T34 — Add the control message to machine-facing summaries.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:02:12Z"
+}

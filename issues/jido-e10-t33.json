@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:07:12Z",
+  "description": "Backlog task: E10-T33\n\nWork area: Operational-control delivery\n\nMain targets: Sitemap and tests\n\nComplete when: Search engines receive both canonical proof routes with correct dates.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e10-t33",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e10",
+    "slice-10"
+  ],
+  "parent": "jido-e10",
+  "priority": 1,
+  "status": "open",
+  "title": "E10-T33 — Add the control overview and controlled-Agent example to the sitemap.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:07:12Z"
+}

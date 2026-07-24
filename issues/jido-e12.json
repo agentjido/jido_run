@@ -1,0 +1,22 @@
+{
+  "assignee": "",
+  "blocked_by": [
+    "jido-e10",
+    "jido-e11"
+  ],
+  "blocks": [],
+  "created": "2026-07-23T12:00:13Z",
+  "description": "Prevent the site from returning to copy, route, version, and proof drift.\n\nExit criteria:\n- CI protects links, placeholders, Livebooks, claims, terminology, search, sitemap, and Skills.\n- Executable pages have owners, versions, and validation dates.\n- The team measures user success, not only page traffic.\n- Content and package drift create assigned backlog work.\n- CI proves the allowed path, denied path, durable history, trace continuity, and redaction for the operational-control example.\n- Restricted control, security, and compliance language cannot publish without qualified evidence.\n\nBacklog tasks: 50\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e12",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e12"
+  ],
+  "parent": "jido-site-facelift",
+  "priority": 0,
+  "status": "open",
+  "title": "E12 — Automate quality, freshness, and measurement",
+  "type": "epic",
+  "updated_at": "2026-07-24T00:27:18Z"
+}

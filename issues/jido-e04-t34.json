@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:02:46Z",
+  "description": "Backlog task: E04-T34\n\nWork area: Use cases, ecosystem, and conversion\n\nMain targets: Home sections\n\nComplete when: It answers who initiated work, what was allowed, what happened, and how failure was handled.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e04-t34",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e04",
+    "slice-05"
+  ],
+  "parent": "jido-e04",
+  "priority": 1,
+  "status": "open",
+  "title": "E04-T34 — Add an operational-control section after the Agent model or deterministic proof.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:02:46Z"
+}

@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:02:34Z",
+  "description": "Backlog task: E04-T22\n\nWork area: Use cases, ecosystem, and conversion\n\nMain targets: Home use-case cards\n\nComplete when: A visitor can distinguish a runnable example from a planned pattern.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e04-t22",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e04",
+    "slice-05"
+  ],
+  "parent": "jido-e04",
+  "priority": 1,
+  "status": "open",
+  "title": "E04-T22 — Add a “status” or “available example” label to each card.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:02:34Z"
+}

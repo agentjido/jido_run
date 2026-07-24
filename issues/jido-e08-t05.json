@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:05:08Z",
+  "description": "Backlog task: E08-T05\n\nWork area: Taxonomy and discovery\n\nMain targets: Examples hub\n\nComplete when: Experimental examples are clearly separable.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e08-t05",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e08"
+  ],
+  "parent": "jido-e08",
+  "priority": 1,
+  "status": "open",
+  "title": "E08-T05 — Add maturity filters.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:05:08Z"
+}

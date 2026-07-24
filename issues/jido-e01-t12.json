@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:00:42Z",
+  "description": "Backlog task: E01-T12\n\nWork area: Rendered and downloadable parity\n\nMain targets: Page rendering tests\n\nComplete when: A changed dependency or model is equal in HTML, Markdown, and Livebook output.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e01-t12",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e01",
+    "slice-01"
+  ],
+  "parent": "jido-e01",
+  "priority": 0,
+  "status": "open",
+  "title": "E01-T12 — Add a source/render parity test for code blocks.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:00:42Z"
+}

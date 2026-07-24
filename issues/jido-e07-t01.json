@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:04:13Z",
+  "description": "Backlog task: E07-T01\n\nWork area: Core linear path\n\nMain targets: `priv/pages/docs/operations.md`\n\nComplete when: The page links only to public and tested content.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e07-t01",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e07"
+  ],
+  "parent": "jido-e07",
+  "priority": 1,
+  "status": "open",
+  "title": "E07-T01 — Publish an Operate landing page with one ordered path.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:04:13Z"
+}

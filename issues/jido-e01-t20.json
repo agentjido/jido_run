@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:00:50Z",
+  "description": "Backlog task: E01-T20\n\nWork area: Broken paths and source noise\n\nMain targets: Release tests\n\nComplete when: Every internal destination returns 200 or an approved redirect.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e01-t20",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e01",
+    "slice-02"
+  ],
+  "parent": "jido-e01",
+  "priority": 1,
+  "status": "open",
+  "title": "E01-T20 — Add a route crawl that follows every link from every published page.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:00:50Z"
+}

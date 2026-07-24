@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:03:42Z",
+  "description": "Backlog task: E06-T07\n\nWork area: Information architecture\n\nMain targets: SEO and sitemap\n\nComplete when: Search engines see one canonical location.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e06-t07",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e06"
+  ],
+  "parent": "jido-e06",
+  "priority": 1,
+  "status": "open",
+  "title": "E06-T07 — Update canonical URLs and sitemap entries after route moves.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:03:42Z"
+}

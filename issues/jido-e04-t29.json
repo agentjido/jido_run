@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:02:41Z",
+  "description": "Backlog task: E04-T29\n\nWork area: Use cases, ecosystem, and conversion\n\nMain targets: Home or linked feature\n\nComplete when: The answer is “No,” with core and AI routes.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e04-t29",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e04",
+    "slice-05"
+  ],
+  "parent": "jido-e04",
+  "priority": 2,
+  "status": "open",
+  "title": "E04-T29 — Add an objection block for “Do I need AI?”",
+  "type": "task",
+  "updated_at": "2026-07-23T12:02:41Z"
+}

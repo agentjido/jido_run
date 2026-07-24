@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:03:58Z",
+  "description": "Backlog task: E06-T23\n\nWork area: Hub and leaf alignment\n\nMain targets: `markdown_content.ex`\n\nComplete when: `.md` is not only a short fallback.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e06-t23",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e06"
+  ],
+  "parent": "jido-e06",
+  "priority": 1,
+  "status": "open",
+  "title": "E06-T23 — Give Build and Compare hubs full Markdown equivalents.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:03:58Z"
+}

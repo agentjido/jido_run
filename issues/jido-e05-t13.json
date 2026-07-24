@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:03:07Z",
+  "description": "Backlog task: E05-T13\n\nWork area: Core Agent path\n\nMain targets: First-Agent Livebook or linked failure drill\n\nComplete when: The reader sees process restart behavior without a state-recovery claim.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e05-t13",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e05",
+    "slice-06"
+  ],
+  "parent": "jido-e05",
+  "priority": 1,
+  "status": "open",
+  "title": "E05-T13 — Stop and restart the running process.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:03:07Z"
+}

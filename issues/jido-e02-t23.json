@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:01:16Z",
+  "description": "Backlog task: E02-T23\n\nWork area: Claim policy\n\nMain targets: Style guide\n\nComplete when: Main pages use “Build your first Agent” or one approved equivalent.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e02-t23",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e02",
+    "slice-03"
+  ],
+  "parent": "jido-e02",
+  "priority": 1,
+  "status": "open",
+  "title": "E02-T23 — Define one default CTA.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:01:16Z"
+}

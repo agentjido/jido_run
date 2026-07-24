@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:03:16Z",
+  "description": "Backlog task: E05-T22\n\nWork area: AI Agent path\n\nMain targets: AI onboarding\n\nComplete when: The result comes from a tested fixture or live external test.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e05-t22",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e05",
+    "slice-06"
+  ],
+  "parent": "jido-e05",
+  "priority": 1,
+  "status": "open",
+  "title": "E05-T22 — Show one successful tool call with a verified result.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:03:16Z"
+}

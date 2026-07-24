@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:02:48Z",
+  "description": "Backlog task: E04-T36\n\nWork area: Use cases, ecosystem, and conversion\n\nMain targets: Home control section\n\nComplete when: It links to typed Actions, tool allowlists, policy hooks, effects, and quotas.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e04-t36",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e04",
+    "slice-05"
+  ],
+  "parent": "jido-e04",
+  "priority": 1,
+  "status": "open",
+  "title": "E04-T36 — Add a “Constrain capabilities” card.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:02:48Z"
+}

@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:07:34Z",
+  "description": "Backlog task: E11-T21\n\nWork area: Operational-control evidence\n\nMain targets: Community content template\n\nComplete when: A study records principal source, authorization point, policy, retained history, observation path, redaction, and application duties.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e11-t21",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e11",
+    "slice-11"
+  ],
+  "parent": "jido-e11",
+  "priority": 1,
+  "status": "open",
+  "title": "E11-T21 — Add operational-control evidence fields to the case-study template.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:07:34Z"
+}

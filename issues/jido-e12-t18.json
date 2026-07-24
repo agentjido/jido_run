@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:07:59Z",
+  "description": "Backlog task: E12-T18\n\nWork area: Freshness and ownership\n\nMain targets: Ecosystem ingestion\n\nComplete when: Material package-role changes create a review task.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e12-t18",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e12"
+  ],
+  "parent": "jido-e12",
+  "priority": 2,
+  "status": "open",
+  "title": "E12-T18 — Add upstream README change detection for priority packages.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:07:59Z"
+}

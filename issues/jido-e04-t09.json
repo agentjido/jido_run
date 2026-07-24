@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:02:21Z",
+  "description": "Backlog task: E04-T09\n\nWork area: Page structure\n\nMain targets: Home section order\n\nComplete when: The lowest-risk adoption message appears early.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e04-t09",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e04",
+    "slice-05"
+  ],
+  "parent": "jido-e04",
+  "priority": 1,
+  "status": "open",
+  "title": "E04-T09 — Move “Start with one Agent” directly after the hero or first proof.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:02:21Z"
+}

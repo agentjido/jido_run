@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:04:42Z",
+  "description": "Backlog task: E07-T30\n\nWork area: Proof package\n\nMain targets: Guide asset\n\nComplete when: Agent, AgentServer, store, provider, telemetry, and external effects are visible.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e07-t30",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e07"
+  ],
+  "parent": "jido-e07",
+  "priority": 1,
+  "status": "open",
+  "title": "E07-T30 — Add an architecture diagram for the reference application.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:04:42Z"
+}

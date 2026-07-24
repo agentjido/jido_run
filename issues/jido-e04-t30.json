@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:02:42Z",
+  "description": "Backlog task: E04-T30\n\nWork area: Use cases, ecosystem, and conversion\n\nMain targets: Home FAQ\n\nComplete when: The answer explains the library and supervision-tree model.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e04-t30",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e04",
+    "slice-05"
+  ],
+  "parent": "jido-e04",
+  "priority": 2,
+  "status": "open",
+  "title": "E04-T30 — Add an objection block for “Is Jido a separate service?”",
+  "type": "task",
+  "updated_at": "2026-07-23T12:02:42Z"
+}

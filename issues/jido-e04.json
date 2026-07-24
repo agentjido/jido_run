@@ -1,0 +1,25 @@
+{
+  "assignee": "",
+  "blocked_by": [
+    "jido-e01",
+    "jido-e03"
+  ],
+  "blocks": [
+    "jido-e05",
+    "jido-e08"
+  ],
+  "created": "2026-07-23T12:00:05Z",
+  "description": "Make the landing page explain Jido, show the smallest useful proof, and route each user to a relevant next step.\n\nExit criteria:\n- A visitor can answer what Jido is, who it is for, and how it works from the first two sections.\n- A visitor can see how Jido helps teams supervise, constrain, and inspect Agent work.\n- The quick start is deterministic and tested.\n- Every use case and CTA has a specific destination.\n- Claims match package maturity and visible proof.\n\nBacklog tasks: 42\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e04",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e04"
+  ],
+  "parent": "jido-site-facelift",
+  "priority": 0,
+  "status": "open",
+  "title": "E04 — Rebuild the landing-page message flow",
+  "type": "epic",
+  "updated_at": "2026-07-24T00:27:18Z"
+}

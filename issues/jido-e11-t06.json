@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:07:19Z",
+  "description": "Backlog task: E11-T06\n\nWork area: Case studies\n\nMain targets: Case-study pages\n\nComplete when: Runtime and system boundaries are visible.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e11-t06",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e11"
+  ],
+  "parent": "jido-e11",
+  "priority": 1,
+  "status": "open",
+  "title": "E11-T06 — Add an architecture diagram to every detailed case study.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:07:19Z"
+}

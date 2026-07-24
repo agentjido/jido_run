@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:03:00Z",
+  "description": "Backlog task: E05-T06\n\nWork area: Core Agent path\n\nMain targets: Installation page\n\nComplete when: It matches the `jido` README.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e05-t06",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e05",
+    "slice-06"
+  ],
+  "parent": "jido-e05",
+  "priority": 0,
+  "status": "open",
+  "title": "E05-T06 — Use `mix igniter.install jido` as the recommended install command.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:03:00Z"
+}

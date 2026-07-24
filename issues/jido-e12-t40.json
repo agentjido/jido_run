@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:08:21Z",
+  "description": "Backlog task: E12-T40\n\nWork area: Operational-control quality gates\n\nMain targets: Plugin and example tests\n\nComplete when: Missing, invalid, and denied context cannot run the protected Action.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e12-t40",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e12",
+    "slice-12"
+  ],
+  "parent": "jido-e12",
+  "priority": 0,
+  "status": "open",
+  "title": "E12-T40 — Add a fail-closed authorization regression test.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:08:21Z"
+}

@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:00:47Z",
+  "description": "Backlog task: E01-T17\n\nWork area: Broken paths and source noise\n\nMain targets: `priv/pages/docs/reference/debugging.md`\n\nComplete when: The page is not public until it has useful reference content.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e01-t17",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e01",
+    "slice-02"
+  ],
+  "parent": "jido-e01",
+  "priority": 0,
+  "status": "open",
+  "title": "E01-T17 — Change the TODO-only Debugging reference to draft.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:00:47Z"
+}

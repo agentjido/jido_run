@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:04:07Z",
+  "description": "Backlog task: E06-T32\n\nWork area: Operational-control content\n\nMain targets: Agent, Plugin, Signal, Action, AI, and Observe references\n\nComplete when: Each table names the hook, input, decision, output, failure behavior, and evidence.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e06-t32",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e06",
+    "slice-07"
+  ],
+  "parent": "jido-e06",
+  "priority": 1,
+  "status": "open",
+  "title": "E06-T32 — Add a control-surface table to relevant reference pages.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:04:07Z"
+}

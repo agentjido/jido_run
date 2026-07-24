@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:03:33Z",
+  "description": "Backlog task: E05-T39\n\nWork area: Maintenance and validation\n\nMain targets: Controlled onboarding guide\n\nComplete when: The example shows trace fields and proves that configured secrets are absent.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e05-t39",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e05",
+    "slice-06"
+  ],
+  "parent": "jido-e05",
+  "priority": 1,
+  "status": "open",
+  "title": "E05-T39 — Add correlated telemetry with sensitive-data redaction.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:03:33Z"
+}

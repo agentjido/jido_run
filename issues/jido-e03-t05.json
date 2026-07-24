@@ -1,0 +1,20 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:01:43Z",
+  "description": "Backlog task: E03-T05\n\nWork area: Tasks\n\nMain targets: `page_live.html.heex`, `priv/pages/docs/index.md`\n\nComplete when: It removes unsupported “production-grade autonomous” and “10,000+” claims.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e03-t05",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e03",
+    "slice-04"
+  ],
+  "parent": "jido-e03",
+  "priority": 0,
+  "status": "open",
+  "title": "E03-T05 — Rewrite the Docs hub promise.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:01:43Z"
+}

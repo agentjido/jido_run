@@ -1,0 +1,19 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-07-23T12:00:25Z",
+  "description": "Backlog task: E00-T12\n\nWork area: Tasks\n\nMain targets: Analytics and release plan\n\nComplete when: The measure is “activated builder reaches and completes one Operate guide or production example.”\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
+  "id": "jido-e00-t12",
+  "labels": [
+    "site-facelift",
+    "backlog-2026-07-23",
+    "epic-e00"
+  ],
+  "parent": "jido-e00",
+  "priority": 1,
+  "status": "open",
+  "title": "E00-T12 — Define the acceptance measure for the production path.",
+  "type": "task",
+  "updated_at": "2026-07-23T12:00:25Z"
+}
