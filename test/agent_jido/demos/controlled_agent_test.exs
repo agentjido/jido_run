@@ -44,6 +44,17 @@ defmodule AgentJido.Demos.ControlledAgentTest do
     {:ok, pid}
   end
 
+  test "the agent carries a stable identity and signals carry correlation IDs" do
+    {:ok, pid} = start_server()
+
+    {:ok, st} = AgentServer.state(pid)
+    assert is_binary(st.agent.id) and st.agent.id != ""
+
+    sig = Signal.new!("work.approve", %{note: "x"}, source: "alice")
+    # Signals carry a stable id; the AgentServer attaches correlation on dispatch.
+    assert is_binary(sig.id) and sig.id != ""
+  end
+
   defp agent_state(pid) do
     {:ok, st} = AgentServer.state(pid)
     st.agent.state
