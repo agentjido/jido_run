@@ -15,6 +15,10 @@
     {
       "text": "Open: direct source link per example not yet added.",
       "timestamp": "2026-07-24T12:51:51Z"
+    },
+    {
+      "text": "Done: every public example already exposes a direct source link via source_files.",
+      "timestamp": "2026-07-24T14:59:42Z"
     }
   ],
   "priority": 1,
