@@ -1033,6 +1033,23 @@
     background: hsl(var(--accent-red) / 0.1);
   }
 
+  #home-page .home-use-case-status {
+    @apply inline-flex items-center text-[10px] font-semibold uppercase mb-4 px-2.5 py-1 rounded-full border;
+    letter-spacing: 0.08em;
+  }
+
+  #home-page .home-use-case-status-runnable {
+    color: hsl(var(--accent-green));
+    border-color: hsl(var(--accent-green) / 0.34);
+    background: hsl(var(--accent-green) / 0.1);
+  }
+
+  #home-page .home-use-case-status-planned {
+    color: hsl(var(--muted-foreground));
+    border-color: hsl(var(--border) / 0.6);
+    background: hsl(var(--surface) / 0.5);
+  }
+
   #home-page .home-ecosystem-section {
     border: none;
     border-radius: 0;

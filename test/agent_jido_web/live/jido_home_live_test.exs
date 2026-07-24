@@ -143,6 +143,89 @@ defmodule AgentJidoWeb.JidoHomeLiveTest do
     end
   end
 
+  describe "home use-case card status labels (E04-T22)" do
+    # Acceptance condition: a visitor can distinguish a runnable example from a
+    # planned pattern. Every card carries a status that matches whether a public
+    # example actually exists, so the label tracks reality as examples land.
+
+    test "each card shows a runnable or planned status", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      status_by_use_case = use_case_statuses(html)
+
+      # All six cards carry a status label.
+      assert map_size(status_by_use_case) == 6
+
+      statuses = Map.values(status_by_use_case)
+
+      assert Enum.all?(statuses, &(&1 in ~w(runnable planned)))
+      # Both kinds are visible, so the two states are distinguishable on the page.
+      assert "runnable" in statuses
+      assert "planned" in statuses
+    end
+
+    test "the status matches whether a public example exists", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      status_by_use_case = use_case_statuses(html)
+
+      expected =
+        AgentJido.Examples.UseCases.all()
+        |> Map.new(fn %{slug: slug} ->
+          {slug, if(AgentJido.Examples.UseCases.available?(slug), do: "runnable", else: "planned")}
+        end)
+
+      # The rendered label is derived from the same source of truth as the scoped
+      # examples destination, so a card never says "runnable" over an empty scope.
+      assert status_by_use_case == expected
+    end
+
+    test "runnable and planned cards render distinct, human-readable labels", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      label_by_use_case =
+        html
+        |> Floki.parse_document!()
+        |> Floki.find("#what-you-can-build a.home-pillar-card")
+        |> Map.new(fn card ->
+          use_case = Floki.attribute(card, "data-use-case") |> hd()
+          label = card |> Floki.find(".home-use-case-status") |> Floki.text() |> String.trim()
+          {use_case, label}
+        end)
+
+      # The copy maps 1:1 to the acceptance condition language and tracks the
+      # same source of truth as the status, so a runnable card never reads
+      # "Planned pattern" and vice versa.
+      for %{slug: slug} <- AgentJido.Examples.UseCases.all() do
+        expected =
+          if AgentJido.Examples.UseCases.available?(slug),
+            do: "Runnable example",
+            else: "Planned pattern"
+
+        assert label_by_use_case[slug] == expected
+      end
+
+      # Both labels are present on the page, so the two states are distinguishable.
+      labels = MapSet.new(Map.values(label_by_use_case))
+
+      assert MapSet.subset?(
+               MapSet.new(["Runnable example", "Planned pattern"]),
+               labels
+             )
+    end
+  end
+
+  defp use_case_statuses(html) do
+    html
+    |> Floki.parse_document!()
+    |> Floki.find("#what-you-can-build a.home-pillar-card")
+    |> Map.new(fn card ->
+      use_case = Floki.attribute(card, "data-use-case") |> hd()
+      status = Floki.attribute(card, "data-status") |> hd()
+      {use_case, status}
+    end)
+  end
+
   defp ensure_started(app) do
     case Application.ensure_all_started(app) do
       {:ok, _apps} -> :ok

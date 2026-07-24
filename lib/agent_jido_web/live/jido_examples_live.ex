@@ -8,25 +8,14 @@ defmodule AgentJidoWeb.JidoExamplesLive do
   import AgentJidoWeb.Jido.MarketingLayouts
 
   alias AgentJido.Examples
+  alias AgentJido.Examples.UseCases
 
   @category_order [:core, :ai, :production]
 
   # Home use-case cards (jido-e04-t21) deep-link to /examples?use_case=<slug>.
-  # Each entry scopes the index to examples whose tags signal that user job, so
-  # every card reaches a distinct destination instead of all collapsing onto the
-  # unfiltered index. Use cases without a published example yet render an honest
-  # scoped empty state until the matching public example lands (jido-e08-t24…t29).
-  @home_use_cases %{
-    "coding" => %{label: "Coding agents", tags: ~w(coding)},
-    "research" => %{label: "Research and synthesis", tags: ~w(runic research)},
-    "documents" => %{label: "Document processing", tags: ~w(documents document policy)},
-    "support" => %{label: "Customer support", tags: ~w(support ticket triage)},
-    "devops" => %{
-      label: "DevOps and monitoring",
-      tags: ~w(ops-governance operations observability telemetry incident supervision reliability restart)
-    },
-    "data-pipelines" => %{label: "Data pipelines", tags: ~w(data pipeline sql etl)}
-  }
+  # The use-case definitions and tag-matching live in `UseCases`, which the home
+  # page also uses to label each card as a runnable example or a planned pattern
+  # (jido-e04-t22), so the card label and the scoped destination never disagree.
 
   @impl true
   def mount(_params, session, socket) do
@@ -240,7 +229,7 @@ defmodule AgentJidoWeb.JidoExamplesLive do
     examples =
       opts
       |> Examples.all_examples()
-      |> filter_by_use_case(socket.assigns.use_case)
+      |> UseCases.scope(socket.assigns.use_case)
 
     grouped_examples = Enum.group_by(examples, & &1.category)
 
@@ -255,35 +244,11 @@ defmodule AgentJidoWeb.JidoExamplesLive do
     |> assign(:match_count, length(examples))
   end
 
-  # Scopes the example list to a home use case (jido-e04-t21). Examples are
-  # matched when they carry any tag that signals the use case. An unknown or
-  # missing use case leaves the list unfiltered.
-  defp filter_by_use_case(examples, nil), do: examples
-
-  defp filter_by_use_case(examples, %{tags: tags}) do
-    wanted = MapSet.new(tags, &normalize_tag/1)
-
-    Enum.filter(examples, fn example ->
-      example_tags =
-        example
-        |> Map.get(:tags, [])
-        |> List.wrap()
-        |> Enum.map(&normalize_tag/1)
-        |> MapSet.new()
-
-      not MapSet.disjoint?(wanted, example_tags)
-    end)
-  end
-
   defp resolve_use_case(params) do
     case Map.get(params, "use_case") do
       nil -> nil
-      slug -> Map.get(@home_use_cases, to_string(slug))
+      slug -> UseCases.fetch(to_string(slug))
     end
-  end
-
-  defp normalize_tag(tag) do
-    tag |> to_string() |> String.downcase() |> String.replace("_", "-") |> String.trim()
   end
 
   defp labelize(value) when is_atom(value) do

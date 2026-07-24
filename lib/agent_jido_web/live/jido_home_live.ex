@@ -4,6 +4,8 @@ defmodule AgentJidoWeb.JidoHomeLive do
   import AgentJidoWeb.Jido.HomeSections
   import AgentJidoWeb.Jido.MarketingLayouts
 
+  alias AgentJido.Examples.UseCases
+
   @impl true
   def mount(_params, _session, socket) do
     {:ok,
@@ -121,40 +123,35 @@ defmodule AgentJidoWeb.JidoHomeLive do
   defp what_you_can_build_section(assigns) do
     # Each use-case card routes to its own scoped examples destination
     # (/examples?use_case=<slug>) instead of all collapsing onto the unfiltered
-    # /examples index (jido-e04-t21). Use cases without a published example yet
-    # show an honest scoped empty state until that example lands (jido-e08-t24…t29).
-    cards = [
-      %{
-        title: "Coding agents",
-        desc: "Agents that read, analyze, and refactor code across repositories.",
-        link: "/examples?use_case=coding"
-      },
-      %{
-        title: "Research and synthesis",
-        desc: "Multi-step research agents that find sources, verify facts, and produce reports.",
-        link: "/examples?use_case=research"
-      },
-      %{
-        title: "Document processing",
-        desc: "Extract, classify, and route documents: invoices, contracts, support tickets.",
-        link: "/examples?use_case=documents"
-      },
-      %{
-        title: "Customer support",
-        desc: "Agents that resolve issues using your knowledge base and escalate when needed.",
-        link: "/examples?use_case=support"
-      },
-      %{
-        title: "DevOps and monitoring",
-        desc: "Agents that watch systems, diagnose problems, and run remediation playbooks.",
-        link: "/examples?use_case=devops"
-      },
-      %{
-        title: "Data pipelines",
-        desc: "Agents that collect, transform, and load data from multiple sources on schedule.",
-        link: "/examples?use_case=data-pipelines"
-      }
-    ]
+    # /examples index (jido-e04-t21). The status label on each card is derived
+    # from the same example match, so a visitor can tell a runnable example from
+    # a planned pattern (jido-e04-t22). Labels flip automatically when the
+    # matching public example lands (jido-e08-t24…t29).
+    descriptions = %{
+      "coding" => "Agents that read, analyze, and refactor code across repositories.",
+      "research" => "Multi-step research agents that find sources, verify facts, and produce reports.",
+      "documents" => "Extract, classify, and route documents: invoices, contracts, support tickets.",
+      "support" => "Agents that resolve issues using your knowledge base and escalate when needed.",
+      "devops" => "Agents that watch systems, diagnose problems, and run remediation playbooks.",
+      "data-pipelines" => "Agents that collect, transform, and load data from multiple sources on schedule."
+    }
+
+    cards =
+      Enum.map(UseCases.all(), fn %{slug: slug, label: label} ->
+        available = UseCases.available?(slug)
+        status = if(available, do: :runnable, else: :planned)
+        badge = use_case_status(status)
+
+        %{
+          slug: slug,
+          title: label,
+          desc: Map.fetch!(descriptions, slug),
+          link: "/examples?use_case=#{slug}",
+          status: status,
+          status_label: badge.label,
+          status_class: badge.class
+        }
+      end)
 
     assigns = assign(assigns, :cards, cards)
 
@@ -173,7 +170,13 @@ defmodule AgentJidoWeb.JidoHomeLive do
 
       <div class="home-pillars-grid">
         <%= for card <- @cards do %>
-          <.link navigate={card.link} class="home-pillar-card group">
+          <.link
+            navigate={card.link}
+            class="home-pillar-card group"
+            data-use-case={card.slug}
+            data-status={card.status}
+          >
+            <span class={card.status_class}>{card.status_label}</span>
             <h3 class="text-lg sm:text-xl font-bold mb-3 leading-tight group-hover:text-primary transition-colors duration-200">
               {card.title}
             </h3>
@@ -185,6 +188,17 @@ defmodule AgentJidoWeb.JidoHomeLive do
       </div>
     </section>
     """
+  end
+
+  # The status badge shown on each use-case card (jido-e04-t22). Runnable cards
+  # point at a real example; planned cards mark a use case with no public
+  # example yet. The copy maps 1:1 to the acceptance condition.
+  defp use_case_status(:runnable) do
+    %{label: "Runnable example", class: "home-use-case-status home-use-case-status-runnable"}
+  end
+
+  defp use_case_status(:planned) do
+    %{label: "Planned pattern", class: "home-use-case-status home-use-case-status-planned"}
   end
 
   defp pillars_section(assigns) do
