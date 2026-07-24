@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:51:47Z",
   "created": "2026-07-23T12:05:04Z",
   "description": "Backlog task: E08-T01\n\nWork area: Taxonomy and discovery\n\nMain targets: `lib/agent_jido/examples/taxonomy.ex`\n\nComplete when: Labels include chat, research, coding, browser, data, scheduling, persistence, recovery, coordination, and observability.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e08-t01",
@@ -18,7 +19,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E08-T01 — Replace internal example taxonomy with task labels.",
   "type": "task",
   "updated_at": "2026-07-24T12:51:47Z"
