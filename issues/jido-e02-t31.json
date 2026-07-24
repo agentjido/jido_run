@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:35:43Z",
   "created": "2026-07-23T12:01:24Z",
   "description": "Backlog task: E02-T31\n\nWork area: Canonical-source updates\n\nMain targets: `specs/positioning.md`\n\nComplete when: The category remains unchanged and the benefit has one canonical sentence.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e02-t31",
@@ -19,7 +20,7 @@
     }
   ],
   "priority": 0,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E02-T31 — Approve “operational control” as the primary benefit that supports the production promise.",
   "type": "task",
   "updated_at": "2026-07-24T12:35:43Z"
