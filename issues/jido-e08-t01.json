@@ -1,5 +1,5 @@
 {
-  "assignee": "",
+  "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:05:04Z",
@@ -12,8 +12,8 @@
   ],
   "parent": "jido-e08",
   "priority": 1,
-  "status": "open",
+  "status": "in_progress",
   "title": "E08-T01 — Replace internal example taxonomy with task labels.",
   "type": "task",
-  "updated_at": "2026-07-23T12:05:04Z"
+  "updated_at": "2026-07-24T12:51:47Z"
 }
