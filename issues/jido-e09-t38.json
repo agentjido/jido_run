@@ -11,9 +11,15 @@
     "epic-e09"
   ],
   "parent": "jido-e09",
+  "comments": [
+    {
+      "text": "Open: dependency-map view (collapsed, stacks first) not yet built.",
+      "timestamp": "2026-07-24T12:52:44Z"
+    }
+  ],
   "priority": 2,
   "status": "open",
   "title": "E09-T38 — Add a dependency-map view that starts collapsed.",
   "type": "task",
-  "updated_at": "2026-07-23T12:06:27Z"
+  "updated_at": "2026-07-24T12:52:44Z"
 }
