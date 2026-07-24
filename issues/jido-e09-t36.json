@@ -11,9 +11,15 @@
     "epic-e09"
   ],
   "parent": "jido-e09",
+  "comments": [
+    {
+      "text": "Open: compatibility matrix for the main stacks not yet built.",
+      "timestamp": "2026-07-24T12:52:44Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E09-T36 — Build a compatibility matrix for the main stacks.",
   "type": "task",
-  "updated_at": "2026-07-23T12:06:25Z"
+  "updated_at": "2026-07-24T12:52:44Z"
 }
