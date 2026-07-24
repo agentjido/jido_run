@@ -11,6 +11,12 @@
     "epic-e00"
   ],
   "parent": "jido-e00",
+  "comments": [
+    {
+      "text": "Done in eb56808: first-run command/API divergence table (legacy getting-started vs current Livebooks) in specs/audits/baseline-2026-07-23.md.",
+      "timestamp": "2026-07-24T12:25:05Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "E00-T09 — Record current first-run commands and APIs from `jido`, `jido_ai`, and the site.",
