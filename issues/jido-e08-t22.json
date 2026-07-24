@@ -11,9 +11,15 @@
     "epic-e08"
   ],
   "parent": "jido-e08",
+  "comments": [
+    {
+      "text": "Open: long-running scheduled worker example not yet built.",
+      "timestamp": "2026-07-24T12:51:53Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E08-T22 — Publish a long-running scheduled worker.",
   "type": "task",
-  "updated_at": "2026-07-23T12:05:25Z"
+  "updated_at": "2026-07-24T12:51:53Z"
 }
