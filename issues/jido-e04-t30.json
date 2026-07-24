@@ -12,9 +12,15 @@
     "slice-05"
   ],
   "parent": "jido-e04",
+  "comments": [
+    {
+      "text": "Open: 'Is Jido a separate service?' objection block is a new home FAQ section, not yet built.",
+      "timestamp": "2026-07-24T12:46:31Z"
+    }
+  ],
   "priority": 2,
   "status": "open",
   "title": "E04-T30 — Add an objection block for “Is Jido a separate service?”",
   "type": "task",
-  "updated_at": "2026-07-23T12:02:42Z"
+  "updated_at": "2026-07-24T12:46:31Z"
 }
