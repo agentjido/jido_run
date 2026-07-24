@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:39:51Z",
   "created": "2026-07-23T12:01:59Z",
   "description": "Backlog task: E03-T21\n\nWork area: Tasks\n\nMain targets: Home page\n\nComplete when: The heading does not imply unshown adoption.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e03-t21",
@@ -19,7 +20,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E03-T21 — Change “What people build” to “What you can build” until direct case proof exists.",
   "type": "task",
   "updated_at": "2026-07-24T12:39:51Z"
