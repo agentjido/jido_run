@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:49:28Z",
   "created": "2026-07-23T12:03:43Z",
   "description": "Backlog task: E06-T08\n\nWork area: Content hygiene\n\nMain targets: `priv/pages/docs`\n\nComplete when: No public page links to hidden content.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e06-t08",
@@ -18,7 +19,7 @@
     }
   ],
   "priority": 0,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E06-T08 — Audit every published page for draft links.",
   "type": "task",
   "updated_at": "2026-07-24T12:49:28Z"
