@@ -16,6 +16,10 @@
     {
       "text": "Open: application-supplied principal/tenant context depends on jido-e07.",
       "timestamp": "2026-07-24T12:48:44Z"
+    },
+    {
+      "text": "Done in commit \u003ccontrolled-agent\u003e: the principal is application-supplied via the Signal source (signal.source), not built-in authentication; the controlled-agent demo labels it as supplied context.",
+      "timestamp": "2026-07-24T14:27:52Z"
     }
   ],
   "priority": 1,
