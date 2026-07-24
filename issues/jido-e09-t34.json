@@ -11,9 +11,15 @@
     "epic-e09"
   ],
   "parent": "jido-e09",
+  "comments": [
+    {
+      "text": "Open: ambiguous footer version labeling not yet refined (it reads the installed jido version).",
+      "timestamp": "2026-07-24T12:52:43Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E09-T34 — Remove the ambiguous footer version or label it.",
   "type": "task",
-  "updated_at": "2026-07-23T12:06:23Z"
+  "updated_at": "2026-07-24T12:52:43Z"
 }
