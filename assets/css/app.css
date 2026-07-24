@@ -1004,6 +1004,35 @@
     text-decoration-thickness: 0.08em;
   }
 
+  #home-page .home-agent-model-badge {
+    @apply inline-flex items-center text-[10px] font-semibold uppercase mt-5 px-2.5 py-1 rounded-full border;
+    letter-spacing: 0.08em;
+  }
+
+  #home-page .home-agent-model-badge-cyan {
+    color: hsl(var(--accent-cyan));
+    border-color: hsl(var(--accent-cyan) / 0.34);
+    background: hsl(var(--accent-cyan) / 0.1);
+  }
+
+  #home-page .home-agent-model-badge-green {
+    color: hsl(var(--accent-green));
+    border-color: hsl(var(--accent-green) / 0.34);
+    background: hsl(var(--accent-green) / 0.1);
+  }
+
+  #home-page .home-agent-model-badge-yellow {
+    color: hsl(var(--accent-yellow));
+    border-color: hsl(var(--accent-yellow) / 0.34);
+    background: hsl(var(--accent-yellow) / 0.1);
+  }
+
+  #home-page .home-agent-model-badge-red {
+    color: hsl(var(--accent-red));
+    border-color: hsl(var(--accent-red) / 0.34);
+    background: hsl(var(--accent-red) / 0.1);
+  }
+
   #home-page .home-ecosystem-section {
     border: none;
     border-radius: 0;

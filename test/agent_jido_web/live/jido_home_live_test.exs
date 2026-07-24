@@ -61,6 +61,57 @@ defmodule AgentJidoWeb.JidoHomeLiveTest do
     end
   end
 
+  describe "home Agent model section (E04-T10)" do
+    test "renders the four-part Agent model section after the first proof", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      assert html =~ ~s(id="agent-model")
+      assert html =~ "How an agent is built"
+
+      # It follows the quick-start proof, not before it.
+      assert {quick_start_idx, _} = :binary.match(html, ~s(id="quick-start"))
+      assert {model_idx, _} = :binary.match(html, ~s(id="agent-model"))
+      assert model_idx > quick_start_idx
+    end
+
+    test "each of the four parts is present", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      for part <- ["State", "Lifecycle", "Typed boundaries", "Visible effects"] do
+        assert html =~ part
+      end
+    end
+
+    test "each card maps to a named Jido concept", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      # The acceptance condition: every card maps to one of these concepts.
+      for concept <- ["Agent", "AgentServer", "Action / Signal", "Directive"] do
+        assert html =~ "maps to #{concept}"
+      end
+    end
+
+    test "each part maps to exactly its concept", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      # Parse each model card and pair its part with the concept it maps to.
+      cards =
+        html
+        |> Floki.parse_document!()
+        |> Floki.find("#agent-model article[data-agent-model-part]")
+        |> Map.new(fn card ->
+          {Floki.attribute(card, "data-agent-model-part") |> hd(), Floki.attribute(card, "data-maps-to") |> hd()}
+        end)
+
+      assert cards == %{
+               "State" => "Agent",
+               "Lifecycle" => "AgentServer",
+               "Typed boundaries" => "Action / Signal",
+               "Visible effects" => "Directive"
+             }
+    end
+  end
+
   defp ensure_started(app) do
     case Application.ensure_all_started(app) do
       {:ok, _apps} -> :ok

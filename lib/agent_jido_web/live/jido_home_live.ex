@@ -28,6 +28,7 @@ defmodule AgentJidoWeb.JidoHomeLive do
         <.start_with_one_agent_section />
         <.what_you_can_build_section />
         <.quick_start_code />
+        <.agent_model_section />
         <.pillars_section />
         <.why_elixir_otp_section />
         <.ecosystem_section />
@@ -464,6 +465,83 @@ defmodule AgentJidoWeb.JidoHomeLive do
             <% end %>
           </div>
         </div>
+      </div>
+    </section>
+    """
+  end
+
+  # The four-part Agent model: state, lifecycle, typed boundaries, visible effects.
+  # Each part maps to one named Jido concept (Agent, AgentServer, Action/Signal,
+  # Directive) so a visitor can see exactly how the framework is built.
+  defp agent_model_section(assigns) do
+    parts = [
+      %{
+        icon: "◇",
+        part: "State",
+        concept: "Agent",
+        desc:
+          "An Agent is immutable data. It carries a validated state struct and changes only through commands, so every state transition is explicit and unit-testable.",
+        accent: :cyan
+      },
+      %{
+        icon: "⟳",
+        part: "Lifecycle",
+        concept: "AgentServer",
+        desc:
+          "An AgentServer is the supervised process that runs an Agent. OTP owns start, stop, and restart, so a crash is bounded by your supervision strategy.",
+        accent: :green
+      },
+      %{
+        icon: "⧉",
+        part: "Typed boundaries",
+        concept: "Action / Signal",
+        desc:
+          "Actions are typed functions that transform state and do work; Signals are typed messages. Agents coordinate through these contracts, not prompt chains.",
+        accent: :yellow
+      },
+      %{
+        icon: "▣",
+        part: "Visible effects",
+        concept: "Directive",
+        desc:
+          "Side effects the runtime should own — emitting signals, scheduling work, spawning processes — return as Directives, never hidden inside agent state.",
+        accent: :red
+      }
+    ]
+
+    assigns = assign(assigns, :parts, parts)
+
+    ~H"""
+    <section id="agent-model" class="home-pillars-section mb-20 opacity-0" phx-hook="ScrollReveal">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl font-bold tracking-tight mb-4">How an agent is built</h2>
+        <p class="home-muted-copy text-sm leading-relaxed max-w-lg mx-auto">
+          Every Jido system is four pieces. Each one has one job and one name — no hidden state, no implicit processes.
+        </p>
+      </div>
+
+      <div class="home-pillars-grid">
+        <article
+          :for={part <- @parts}
+          class="home-pillar-card"
+          data-agent-model-part={part.part}
+          data-maps-to={part.concept}
+        >
+          <div class={"home-pillar-chip home-pillar-chip-#{part.accent}"}>
+            <span class={"text-2xl leading-none text-accent-#{part.accent}"}>{part.icon}</span>
+          </div>
+          <span class={"home-agent-model-badge home-agent-model-badge-#{part.accent}"}>
+            maps to {part.concept}
+          </span>
+          <h3 class="text-lg sm:text-xl font-bold mt-1 mb-3 leading-tight">{part.part}</h3>
+          <p class="home-muted-copy text-[15px] leading-relaxed max-w-md mx-auto">{part.desc}</p>
+        </article>
+      </div>
+
+      <div class="text-center mt-12">
+        <.link navigate="/docs/getting-started" class="text-primary hover:underline text-[13px] font-semibold">
+          Learn the model in the getting started guide →
+        </.link>
       </div>
     </section>
     """
