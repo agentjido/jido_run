@@ -12,6 +12,12 @@
     "slice-03"
   ],
   "parent": "jido-e02",
+  "comments": [
+    {
+      "text": "Done in 28959a2: \"runtime\" defined as the AgentServer/OTP lifecycle mechanism (not the public category) in positioning.md §11 vocabulary.",
+      "timestamp": "2026-07-24T12:34:58Z"
+    }
+  ],
   "priority": 0,
   "status": "in_progress",
   "title": "E02-T02 — Define “runtime” as the AgentServer and OTP lifecycle mechanism, not the public product category.",
