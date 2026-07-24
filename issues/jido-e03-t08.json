@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:39:42Z",
   "created": "2026-07-23T12:01:46Z",
   "description": "Backlog task: E03-T08\n\nWork area: Tasks\n\nMain targets: `priv/pages/build/index.md`\n\nComplete when: It uses public builder language, not “Wave A” planning language.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e03-t08",
@@ -19,7 +20,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E03-T08 — Update the Build hub introduction.",
   "type": "task",
   "updated_at": "2026-07-24T12:39:42Z"
