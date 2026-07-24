@@ -12,9 +12,15 @@
     "slice-06"
   ],
   "parent": "jido-e05",
+  "comments": [
+    {
+      "text": "Open: stable IDs in the controlled onboarding example depend on jido-e07.",
+      "timestamp": "2026-07-24T12:48:44Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E05-T33 — Add stable Agent, request, run, Signal, and tool-call IDs to the controlled onboarding example.",
   "type": "task",
-  "updated_at": "2026-07-23T12:03:27Z"
+  "updated_at": "2026-07-24T12:48:44Z"
 }
