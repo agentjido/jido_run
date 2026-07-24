@@ -11,9 +11,15 @@
     "epic-e12"
   ],
   "parent": "jido-e12",
+  "comments": [
+    {
+      "text": "Open: first core-Agent-success analytics not yet instrumented.",
+      "timestamp": "2026-07-24T12:55:01Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E12-T23 — Measure first core Agent success.",
   "type": "task",
-  "updated_at": "2026-07-23T12:08:04Z"
+  "updated_at": "2026-07-24T12:55:01Z"
 }
