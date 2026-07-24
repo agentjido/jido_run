@@ -12,9 +12,15 @@
     "slice-05"
   ],
   "parent": "jido-e04",
+  "comments": [
+    {
+      "text": "Done in 23412ce: deterministic expected state shown (agent.state #=\u003e %{count: 3}), not a fabricated response.",
+      "timestamp": "2026-07-24T12:46:25Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "E04-T12 — Show a real expected state result.",
   "type": "task",
-  "updated_at": "2026-07-24T12:46:24Z"
+  "updated_at": "2026-07-24T12:46:25Z"
 }
