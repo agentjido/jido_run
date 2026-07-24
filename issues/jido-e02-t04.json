@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:35:00Z",
   "created": "2026-07-23T12:00:57Z",
   "description": "Backlog task: E02-T04\n\nWork area: Canonical message\n\nMain targets: `specs/positioning.md`, brand context\n\nComplete when: “Platform” appears only with a specific qualified meaning.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e02-t04",
@@ -19,8 +20,8 @@
     }
   ],
   "priority": 0,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E02-T04 — Remove “Reliable Multi-Agent Runtime Platform” as the main category.",
   "type": "task",
-  "updated_at": "2026-07-24T12:34:59Z"
+  "updated_at": "2026-07-24T12:35:00Z"
 }
