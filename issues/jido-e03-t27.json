@@ -12,9 +12,15 @@
     "slice-04"
   ],
   "parent": "jido-e03",
+  "comments": [
+    {
+      "text": "Done in e510eb5: operational-control benefit carried in SEO/root/OG metadata.",
+      "timestamp": "2026-07-24T12:39:53Z"
+    }
+  ],
   "priority": 0,
   "status": "in_progress",
   "title": "E03-T27 — Add the approved operational-control benefit to global metadata where length permits.",
   "type": "task",
-  "updated_at": "2026-07-24T12:39:52Z"
+  "updated_at": "2026-07-24T12:39:53Z"
 }
