@@ -11,6 +11,12 @@
     "epic-e00"
   ],
   "parent": "jido-e00",
+  "comments": [
+    {
+      "text": "Done in eb56808 + fa7cb4b: unmatched-link regression gate in specs/runbooks/release_punchlist.md and enforced by the \"release gate\" test in test/mix/tasks/site.link_audit_test.exs.",
+      "timestamp": "2026-07-24T12:25:01Z"
+    }
+  ],
   "priority": 0,
   "status": "in_progress",
   "title": "E00-T07 — Add a temporary release blocker for new unmatched public links.",
