@@ -1,5 +1,5 @@
 {
-  "assignee": "",
+  "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:02:30Z",
@@ -13,8 +13,8 @@
   ],
   "parent": "jido-e04",
   "priority": 1,
-  "status": "open",
+  "status": "in_progress",
   "title": "E04-T18 — Keep “Start small” and link to one-Agent integration guidance.",
   "type": "task",
-  "updated_at": "2026-07-23T12:02:30Z"
+  "updated_at": "2026-07-24T12:41:34Z"
 }
