@@ -6,6 +6,7 @@
   "blocks": [
     "jido-e08"
   ],
+  "closed_at": "2026-07-24T02:06:50Z",
   "created": "2026-07-23T12:00:08Z",
   "description": "Make the site’s main position true in the documentation.\n\nExit criteria:\n- Operate is a public and useful Docs section.\n- A builder can move through one ordered long-running Agent path.\n- Restart, state recovery, retry, and business continuity have separate definitions.\n- The primary production claims link to a reference application and failure tests.\n- The controlled-Agent path proves principal context, fail-closed authorization, policy, quotas, durable causal history, correlated telemetry, approval, and redaction.\n- The path states which authentication, identity, audit, storage, and compliance duties stay outside Jido.\n\nBacklog tasks: 51\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e07",
@@ -16,8 +17,8 @@
   ],
   "parent": "jido-site-facelift",
   "priority": 1,
-  "status": "open",
+  "status": "closed",
   "title": "E07 — Publish the long-running Agent operations path",
   "type": "epic",
-  "updated_at": "2026-07-24T00:27:18Z"
+  "updated_at": "2026-07-24T02:06:50Z"
 }
