@@ -15,6 +15,10 @@
     {
       "text": "Open: 'autonomous' in jido README/site not yet removed/qualified upstream.",
       "timestamp": "2026-07-24T12:52:41Z"
+    },
+    {
+      "text": "Done in this commit: site copy of the jido package qualifies 'autonomous' -\u003e 'long-running' (tagline, landing summary, meta title, body). Upstream jido README change remains a separate upstream issue.",
+      "timestamp": "2026-07-24T16:24:01Z"
     }
   ],
   "priority": 0,
