@@ -11,9 +11,15 @@
     "epic-e09"
   ],
   "parent": "jido-e09",
+  "comments": [
+    {
+      "text": "Open: 'do not use this when' note per stack rendered on hub not yet done.",
+      "timestamp": "2026-07-24T12:52:38Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E09-T10 — Give each stack a “Do not use this when” note.",
   "type": "task",
-  "updated_at": "2026-07-23T12:05:59Z"
+  "updated_at": "2026-07-24T12:52:38Z"
 }
