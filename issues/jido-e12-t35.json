@@ -11,9 +11,15 @@
     "epic-e12"
   ],
   "parent": "jido-e12",
+  "comments": [
+    {
+      "text": "Open: proof inventory updates required in claim PRs not yet enforced.",
+      "timestamp": "2026-07-24T12:55:04Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E12-T35 — Require proof inventory updates in any claim PR.",
   "type": "task",
-  "updated_at": "2026-07-23T12:08:16Z"
+  "updated_at": "2026-07-24T12:55:04Z"
 }
