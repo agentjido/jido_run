@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:54:15Z",
   "created": "2026-07-23T12:07:35Z",
   "description": "Backlog task: E11-T22\n\nWork area: Operational-control evidence\n\nMain targets: Case-study review\n\nComplete when: A study cannot use one as proof of another.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e11-t22",
@@ -19,8 +20,8 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E11-T22 — Require the author to separate identity, authorization, audit history, and telemetry.",
   "type": "task",
-  "updated_at": "2026-07-24T12:54:14Z"
+  "updated_at": "2026-07-24T12:54:15Z"
 }
