@@ -12,9 +12,15 @@
     "slice-06"
   ],
   "parent": "jido-e05",
+  "comments": [
+    {
+      "text": "Open: correlated telemetry with redaction depends on jido-e07.",
+      "timestamp": "2026-07-24T12:48:45Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E05-T39 — Add correlated telemetry with sensitive-data redaction.",
   "type": "task",
-  "updated_at": "2026-07-23T12:03:33Z"
+  "updated_at": "2026-07-24T12:48:45Z"
 }
