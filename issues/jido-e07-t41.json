@@ -16,6 +16,10 @@
     {
       "text": "Open: AI tool/effect allowlists depend on the reference app.",
       "timestamp": "2026-07-24T12:50:39Z"
+    },
+    {
+      "text": "Done in this commit: tool/effect allowlist — a disallowed tool is denied before execution via the ToolAllowlistPlugin. (jido_ai-specific tool/effect policy wiring is the AI-layer follow-up; the control mechanism is proven and tested.)",
+      "timestamp": "2026-07-24T14:43:38Z"
     }
   ],
   "priority": 1,
