@@ -12,9 +12,15 @@
     "slice-05"
   ],
   "parent": "jido-e04",
+  "comments": [
+    {
+      "text": "Done in 61ad79c: BEAM section rewritten around isolation, explicit supervision, concurrent processes.",
+      "timestamp": "2026-07-24T12:41:35Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "E04-T19 — Rewrite the BEAM section around isolation, explicit supervision rules, and concurrent processes.",
   "type": "task",
-  "updated_at": "2026-07-24T12:41:34Z"
+  "updated_at": "2026-07-24T12:41:35Z"
 }
