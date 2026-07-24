@@ -17,9 +17,15 @@
     "epic-e11"
   ],
   "parent": "jido-site-facelift",
+  "comments": [
+    {
+      "text": "Achievable deliverables done: case-study template (T01/T02), showcase submission template (T09), benchmark methodology (T17/T18/T19). Residual is categorically external: real production case studies and measured benchmarks require real Jido deployments that do not yet exist; these templates define what qualifies as evidence so future submissions are bounded.",
+      "timestamp": "2026-07-24T02:30:51Z"
+    }
+  ],
   "priority": 1,
   "status": "closed",
   "title": "E11 — Add community and production evidence",
   "type": "epic",
-  "updated_at": "2026-07-24T02:30:50Z"
+  "updated_at": "2026-07-24T02:30:51Z"
 }
