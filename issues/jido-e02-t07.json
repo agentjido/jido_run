@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:35:02Z",
   "created": "2026-07-23T12:01:00Z",
   "description": "Backlog task: E02-T07\n\nWork area: Canonical message\n\nMain targets: Persona and journey specs\n\nComplete when: Python and TypeScript paths remain available but do not control the hero.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e02-t07",
@@ -19,8 +20,8 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E02-T07 — Keep non-Elixir builders as a secondary evaluation route.",
   "type": "task",
-  "updated_at": "2026-07-24T12:35:01Z"
+  "updated_at": "2026-07-24T12:35:02Z"
 }
