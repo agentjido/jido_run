@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T14:59:39Z",
   "created": "2026-07-23T12:05:11Z",
   "description": "Backlog task: E08-T08\n\nWork area: Example-card contract\n\nMain targets: `priv/examples/*.md` metadata\n\nComplete when: The card states what the example proves.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e08-t08",
@@ -22,8 +23,8 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E08-T08 — Add one outcome sentence to every public example.",
   "type": "task",
-  "updated_at": "2026-07-24T14:59:38Z"
+  "updated_at": "2026-07-24T14:59:39Z"
 }
