@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T12:36:06Z",
   "created": "2026-07-23T12:01:20Z",
   "description": "Backlog task: E02-T27\n\nWork area: Canonical-source updates\n\nMain targets: `specs/persona-journeys.md`\n\nComplete when: Elixir builders are first; other routes have clear secondary roles.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e02-t27",
@@ -19,8 +20,8 @@
     }
   ],
   "priority": 0,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E02-T27 — Update persona journeys.",
   "type": "task",
-  "updated_at": "2026-07-24T12:36:05Z"
+  "updated_at": "2026-07-24T12:36:06Z"
 }
