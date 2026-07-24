@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-24T21:55:21Z",
   "created": "2026-07-23T12:02:47Z",
   "description": "Backlog task: E04-T35\n\nWork area: Use cases, ecosystem, and conversion\n\nMain targets: Home control section\n\nComplete when: It links to AgentServer supervision and failure-boundary proof.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e04-t35",
@@ -23,8 +24,8 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E04-T35 — Add a “Supervise the lifecycle” card.",
   "type": "task",
-  "updated_at": "2026-07-24T21:55:20Z"
+  "updated_at": "2026-07-24T21:55:21Z"
 }
