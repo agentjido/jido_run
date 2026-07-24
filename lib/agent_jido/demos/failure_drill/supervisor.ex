@@ -33,8 +33,7 @@ defmodule AgentJido.Demos.FailureDrill.Supervisor do
       end)
 
     children = [
-      {Jido.AgentServer,
-       jido: AgentJido.Jido, agent: FailureDrillAgent, id: agent_id}
+      {Jido.AgentServer, jido: AgentJido.Jido, agent: FailureDrillAgent, id: agent_id}
     ]
 
     Supervisor.init(children,

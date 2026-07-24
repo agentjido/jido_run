@@ -263,7 +263,9 @@ defmodule AgentJidoWeb.Examples.FailureDrillAgentLive do
 
   defp await_restart(sup_pid, old_pid, attempts) do
     case DrillSupervisor.agent_server_pid(sup_pid) do
-      pid when is_pid(pid) and pid != old_pid -> pid
+      pid when is_pid(pid) and pid != old_pid ->
+        pid
+
       _other ->
         Process.sleep(5)
         await_restart(sup_pid, old_pid, attempts - 1)
