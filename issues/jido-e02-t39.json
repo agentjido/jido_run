@@ -12,6 +12,12 @@
     "slice-03"
   ],
   "parent": "jido-e02",
+  "comments": [
+    {
+      "text": "Done in 28959a2: identity-aware/authorized/auditable/governed/controlled added to the qualifier list (style-voice.md).",
+      "timestamp": "2026-07-24T12:35:48Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "E02-T39 — Add “identity-aware,” “authorized,” “auditable,” “governed,” and “controlled” to the qualifier list.",
