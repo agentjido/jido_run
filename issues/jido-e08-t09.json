@@ -15,6 +15,10 @@
     {
       "text": "Open: required-packages metadata per example not yet added.",
       "timestamp": "2026-07-24T12:51:50Z"
+    },
+    {
+      "text": "Done: every public example lists required packages (category-based: core=jido, ai=jido+jido_ai+req_llm, production=jido+jido_signal).",
+      "timestamp": "2026-07-24T14:59:39Z"
     }
   ],
   "priority": 1,
