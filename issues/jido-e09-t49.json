@@ -12,9 +12,15 @@
     "slice-10"
   ],
   "parent": "jido-e09",
+  "comments": [
+    {
+      "text": "Open: operational-control capability matrix not yet built.",
+      "timestamp": "2026-07-24T12:52:46Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E09-T49 — Add an operational-control capability matrix.",
   "type": "task",
-  "updated_at": "2026-07-23T12:06:38Z"
+  "updated_at": "2026-07-24T12:52:46Z"
 }
