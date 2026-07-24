@@ -12,6 +12,12 @@
     "slice-05"
   ],
   "parent": "jido-e04",
+  "comments": [
+    {
+      "text": "Done in 61ad79c + d9834f9: \"under ten minutes\" removed (home + getting-started).",
+      "timestamp": "2026-07-24T12:41:35Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "E04-T27 — Remove “under ten minutes” until measured.",
