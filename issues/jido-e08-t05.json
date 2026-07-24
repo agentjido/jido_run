@@ -26,7 +26,7 @@
     }
   ],
   "priority": 1,
-  "status": "open",
+  "status": "deferred",
   "title": "E08-T05 — Add maturity filters.",
   "type": "task",
   "updated_at": "2026-07-24T16:16:55Z"
