@@ -11,9 +11,15 @@
     "epic-e09"
   ],
   "parent": "jido-e09",
+  "comments": [
+    {
+      "text": "Open: Runic copy alignment not yet swept.",
+      "timestamp": "2026-07-24T12:52:43Z"
+    }
+  ],
   "priority": 1,
   "status": "open",
   "title": "E09-T31 — Align Runic copy with DAG, Signal-Fact, Strategy, and provenance roles.",
   "type": "task",
-  "updated_at": "2026-07-23T12:06:20Z"
+  "updated_at": "2026-07-24T12:52:43Z"
 }
