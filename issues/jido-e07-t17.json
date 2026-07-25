@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-25T21:31:01Z",
   "created": "2026-07-23T12:04:29Z",
   "description": "Backlog task: E07-T17\n\nWork area: Failure and recovery cases\n\nMain targets: Signal or workflow guide\n\nComplete when: Failed work can be inspected and replayed.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e07-t17",
@@ -22,7 +23,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E07-T17 — Document poison work and dead-letter handling.",
   "type": "task",
   "updated_at": "2026-07-25T21:31:01Z"
