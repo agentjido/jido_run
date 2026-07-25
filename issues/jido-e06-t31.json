@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-25T02:06:59Z",
   "created": "2026-07-23T12:04:06Z",
   "description": "Backlog task: E06-T31\n\nWork area: Operational-control content\n\nMain targets: Guide template\n\nComplete when: Each guide states what Jido supplies, what an application must supply, and what evidence remains after execution.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e06-t31",
@@ -23,7 +24,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E06-T31 — Add a control-boundary block to relevant guides.",
   "type": "task",
   "updated_at": "2026-07-25T02:06:59Z"
