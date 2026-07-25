@@ -15,11 +15,15 @@
     {
       "text": "Open: poison-work/dead-letter handling needs the reference app.",
       "timestamp": "2026-07-24T12:50:34Z"
+    },
+    {
+      "text": "Accepted by the Zclaude Ralph supervisor. Commits: 8934e7a6. Verification: MIX_ENV=test mix compile \u0026\u0026 MIX_ENV=test mix format --check-formatted.",
+      "timestamp": "2026-07-25T21:31:01Z"
     }
   ],
   "priority": 1,
   "status": "in_progress",
   "title": "E07-T17 — Document poison work and dead-letter handling.",
   "type": "task",
-  "updated_at": "2026-07-25T21:21:12Z"
+  "updated_at": "2026-07-25T21:31:01Z"
 }
