@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-25T21:21:08Z",
   "created": "2026-07-23T12:04:28Z",
   "description": "Backlog task: E07-T16\n\nWork area: Failure and recovery cases\n\nMain targets: AI operations guide\n\nComplete when: The example has bounded retries and an explicit fallback rule.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e07-t16",
@@ -22,7 +23,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E07-T16 — Document a provider timeout and fallback.",
   "type": "task",
   "updated_at": "2026-07-25T21:21:08Z"
