@@ -15,11 +15,15 @@
     {
       "text": "Open: rate-limit/cost-budget guidance not yet a dedicated page.",
       "timestamp": "2026-07-24T12:50:35Z"
+    },
+    {
+      "text": "Accepted by the Zclaude Ralph supervisor. Commits: c1638a2b,9097feed. Verification: MIX_ENV=test mix compile \u0026\u0026 MIX_ENV=test mix format --check-formatted.",
+      "timestamp": "2026-07-25T22:06:23Z"
     }
   ],
   "priority": 1,
   "status": "in_progress",
   "title": "E07-T22 — Add rate-limit and cost-budget guidance.",
   "type": "task",
-  "updated_at": "2026-07-25T21:44:10Z"
+  "updated_at": "2026-07-25T22:06:23Z"
 }
