@@ -1,5 +1,5 @@
 {
-  "assignee": "",
+  "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:04:36Z",
@@ -18,8 +18,8 @@
     }
   ],
   "priority": 1,
-  "status": "open",
+  "status": "in_progress",
   "title": "E07-T24 — Add upgrade and migration guidance for `jido`, `jido_ai`, and ReqLLM.",
   "type": "task",
-  "updated_at": "2026-07-24T12:50:35Z"
+  "updated_at": "2026-07-25T22:06:27Z"
 }
