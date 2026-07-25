@@ -15,11 +15,15 @@
     {
       "text": "Open: Docs hub generated from the same records as source Markdown depends on T01.",
       "timestamp": "2026-07-24T12:49:39Z"
+    },
+    {
+      "text": "Accepted by the Zclaude Ralph supervisor. Commits: e63c8c7d. Verification: MIX_ENV=test mix compile \u0026\u0026 MIX_ENV=test mix format --check-formatted.",
+      "timestamp": "2026-07-25T01:17:40Z"
     }
   ],
   "priority": 1,
   "status": "in_progress",
   "title": "E06-T22 — Generate the Docs hub from the same content records as the source Markdown.",
   "type": "task",
-  "updated_at": "2026-07-25T01:02:47Z"
+  "updated_at": "2026-07-25T01:17:40Z"
 }
