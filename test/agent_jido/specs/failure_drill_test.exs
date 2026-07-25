@@ -37,6 +37,7 @@ defmodule AgentJido.Specs.FailureDrillTest do
              "scripts/failure_drill.sh must exist — it is the one command that runs the documented failures"
 
       mode = File.stat!(@script_path).mode
+
       assert Bitwise.band(mode, 0o111) != 0,
              "scripts/failure_drill.sh must be executable so it runs as one command"
     end
@@ -74,10 +75,12 @@ defmodule AgentJido.Specs.FailureDrillTest do
 
     test "the script runs the long-running reference application as the integration" do
       reference = reference_app_path()
+
       assert reference != nil,
              "the script must run the long-running reference application (Main target: Reference app)"
 
       resolved = Path.expand(reference, @repo_root)
+
       assert File.regular?(resolved),
              "the script's reference-application test does not exist: #{reference}"
     end
