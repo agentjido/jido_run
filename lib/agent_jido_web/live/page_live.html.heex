@@ -175,13 +175,47 @@
                     <h2 class="text-lg font-bold mb-5 flex items-center gap-2">
                       <span class="text-accent-yellow">#</span> Documentation
                     </h2>
+
+                    <%!-- Audience/outcome filter — a builder selects the work they're doing (E06-T25) --%>
+                    <div
+                      id="docs-work-filter"
+                      class="mb-5 flex flex-wrap items-center gap-2"
+                      role="group"
+                      aria-label="Filter documentation by the work you are doing"
+                    >
+                      <span class="mr-1 text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">
+                        I'm working on
+                      </span>
+                      <button
+                        type="button"
+                        phx-click="select_docs_filter"
+                        phx-value-work-type="all"
+                        aria-pressed={to_string(@docs_filter == :all)}
+                        class={AgentJidoWeb.PageLive.filter_chip_class(@docs_filter == :all)}
+                      >
+                        All
+                      </button>
+                      <%= for work_type <- @docs_work_types do %>
+                        <button
+                          type="button"
+                          phx-click="select_docs_filter"
+                          phx-value-work-type={work_type.id}
+                          aria-pressed={to_string(@docs_filter == work_type.id)}
+                          class={AgentJidoWeb.PageLive.filter_chip_class(@docs_filter == work_type.id)}
+                        >
+                          {work_type.label}
+                        </button>
+                      <% end %>
+                    </div>
+
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                       <%= for section_page <- @docs_sections do %>
+                        <% section_slug = AgentJido.Pages.docs_section_for_path(AgentJido.Pages.route_for(section_page)) %>
                         <% color = AgentJidoWeb.PageLive.section_color(section_page) %>
                         <% count = AgentJidoWeb.PageLive.section_page_count(section_page) %>
                         <% status = AgentJido.Pages.content_status(section_page) %>
                         <% status_label = AgentJido.Pages.content_status_label(section_page) %>
-                        <.link navigate={AgentJido.Pages.route_for(section_page)} class="block group h-full">
+                        <.link navigate={AgentJido.Pages.route_for(section_page)} id={"docs-section-card-#{section_slug}"} class="block group h-full">
                           <div class={
                             "bg-card border border-border rounded-md p-5 h-full transition-all duration-200 hover:-translate-y-0.5 " <>
                             section_hover_class(color)

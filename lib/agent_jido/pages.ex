@@ -201,6 +201,50 @@ defmodule AgentJido.Pages do
               |> Enum.uniq()
               |> Enum.sort()
 
+  # Docs hub "audience/outcome" work-type lenses (E06-T25). A builder selects the
+  # kind of work they are doing — Elixir-native building, AI features, production
+  # operations, or evaluation — and the Docs hub narrows its section grid to the
+  # sections that serve that work. The lenses mirror the builder personas in
+  # specs/persona-journeys.md.
+  @docs_work_types [
+    %{id: :elixir, label: "Elixir"},
+    %{id: :ai, label: "AI"},
+    %{id: :operations, label: "Operations"},
+    %{id: :evaluation, label: "Evaluation"}
+  ]
+
+  @docs_work_type_ids Enum.map(@docs_work_types, & &1.id)
+
+  # Which docs section serves which work type. getting-started is the cross-cutting
+  # on-ramp, so it appears under every lens and is never hidden by a filter.
+  @docs_section_work_types %{
+    "getting-started" => [:elixir, :ai, :operations, :evaluation],
+    "concepts" => [:elixir],
+    "learn" => [:ai],
+    "guides" => [:ai, :elixir],
+    "contributors" => [:evaluation],
+    "reference" => [:elixir, :evaluation],
+    "operations" => [:operations]
+  }
+
+  for {section, work_types} <- @docs_section_work_types do
+    for work_type <- work_types do
+      unless work_type in @docs_work_type_ids do
+        raise ArgumentError,
+              "Docs section #{inspect(section)} maps to unknown work type " <>
+                "#{inspect(work_type)} (valid: #{inspect(@docs_work_type_ids)})"
+      end
+    end
+  end
+
+  for work_type <- @docs_work_type_ids do
+    unless Enum.any?(@docs_section_work_types, fn {_section, types} -> work_type in types end) do
+      raise ArgumentError,
+            "Docs work type #{inspect(work_type)} has no sections mapped; " <>
+              "the Docs hub filter would render an empty grid"
+    end
+  end
+
   # --- Error module ---
 
   defmodule NotFoundError do
@@ -520,6 +564,62 @@ defmodule AgentJido.Pages do
   """
   @spec content_statuses() :: [:published | :draft | :experimental]
   def content_statuses, do: @content_statuses
+
+  @doc """
+  Returns the Docs hub audience/outcome work-type lenses a builder can select.
+
+  Each lens narrows the Docs section grid to sections that serve that kind of
+  work (Elixir-native building, AI features, production operations, or
+  evaluation). See E06-T25.
+  """
+  @spec docs_work_types() :: [%{id: atom(), label: String.t()}]
+  def docs_work_types, do: @docs_work_types
+
+  @doc """
+  Returns the work-type atoms a builder can filter the Docs hub by.
+  """
+  @spec docs_work_type_ids() :: [atom()]
+  def docs_work_type_ids, do: @docs_work_type_ids
+
+  @doc """
+  Returns the human label for a work type, or `nil` when it is unknown.
+  """
+  @spec docs_work_type_label(atom()) :: String.t() | nil
+  def docs_work_type_label(work_type) when is_atom(work_type) do
+    Enum.find_value(@docs_work_types, fn %{id: id, label: label} ->
+      if id == work_type, do: label
+    end)
+  end
+
+  @doc """
+  Returns the work types a docs section serves.
+
+  Sections not present in the mapping serve every work type, so a new section is
+  never hidden by the filter until it is intentionally classified.
+  """
+  @spec docs_section_work_types(Page.t()) :: [atom()]
+  def docs_section_work_types(%Page{} = section_page) do
+    section = docs_section_for_path(route_for(section_page))
+    Map.get(@docs_section_work_types, section, @docs_work_type_ids)
+  end
+
+  @doc """
+  Returns the docs sections to display for a Docs hub filter value.
+
+  `:all` (the default) returns every section. A known work-type atom returns the
+  sections that serve that work. Unknown atoms fall back to `:all`, so the hub
+  can never render an empty grid from a bad filter value. See E06-T25.
+  """
+  @spec docs_sections_filtered(:all | atom()) :: [Page.t()]
+  def docs_sections_filtered(:all), do: docs_sections()
+
+  def docs_sections_filtered(work_type) when is_atom(work_type) do
+    if work_type in @docs_work_type_ids do
+      Enum.filter(docs_sections(), fn page -> work_type in docs_section_work_types(page) end)
+    else
+      docs_sections()
+    end
+  end
 
   # --- Private helpers ---
 

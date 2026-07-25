@@ -573,6 +573,97 @@ defmodule AgentJidoWeb.PageLiveTest do
     end
   end
 
+  describe "docs hub audience/outcome filters (jido-e06-t25)" do
+    # Acceptance: "A builder can select Elixir, AI, operations, or evaluation
+    # work." The Docs index renders a filter bar; selecting a lens narrows the
+    # Documentation section grid to the sections that serve that work.
+
+    @section_slugs ~w(getting-started concepts learn guides contributors reference operations)
+
+    test "the docs index renders a filter chip for each work type plus All", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/docs")
+
+      assert html =~ ~s(id="docs-work-filter")
+      assert html =~ ~s(phx-value-work-type="all")
+      assert html =~ ~s(phx-value-work-type="elixir")
+      assert html =~ ~s(phx-value-work-type="ai")
+      assert html =~ ~s(phx-value-work-type="operations")
+      assert html =~ ~s(phx-value-work-type="evaluation")
+    end
+
+    test "the default view shows every section card", %{conn: conn} do
+      {:ok, view, _html} = live(conn, "/docs")
+
+      for slug <- @section_slugs do
+        assert has_element?(view, "#docs-section-card-#{slug}"),
+               "expected section card for #{slug} in the default grid"
+      end
+    end
+
+    test "selecting the AI lens narrows the grid and marks the chip active", %{conn: conn} do
+      {:ok, view, _html} = live(conn, "/docs")
+
+      render_click(view, "select_docs_filter", %{"work_type" => "ai"})
+
+      assert has_element?(view, "#docs-section-card-learn")
+      assert has_element?(view, "#docs-section-card-guides")
+      refute has_element?(view, "#docs-section-card-operations")
+      refute has_element?(view, "#docs-section-card-concepts")
+
+      html = render(view)
+
+      # The AI chip is the active affordance; All is no longer pressed.
+      assert html =~ ~s(phx-value-work-type="ai" aria-pressed="true")
+      assert html =~ ~s(phx-value-work-type="all" aria-pressed="false")
+    end
+
+    test "selecting the Operations lens shows operations and hides AI sections", %{conn: conn} do
+      {:ok, view, _html} = live(conn, "/docs")
+
+      render_click(view, "select_docs_filter", %{"work_type" => "operations"})
+
+      assert has_element?(view, "#docs-section-card-operations")
+      refute has_element?(view, "#docs-section-card-learn")
+      refute has_element?(view, "#docs-section-card-concepts")
+    end
+
+    test "selecting the Evaluation lens surfaces reference and contributors", %{conn: conn} do
+      {:ok, view, _html} = live(conn, "/docs")
+
+      render_click(view, "select_docs_filter", %{"work_type" => "evaluation"})
+
+      assert has_element?(view, "#docs-section-card-reference")
+      assert has_element?(view, "#docs-section-card-contributors")
+      refute has_element?(view, "#docs-section-card-learn")
+    end
+
+    test "selecting All restores the full grid", %{conn: conn} do
+      {:ok, view, _html} = live(conn, "/docs")
+
+      render_click(view, "select_docs_filter", %{"work_type" => "ai"})
+      refute has_element?(view, "#docs-section-card-operations")
+
+      render_click(view, "select_docs_filter", %{"work_type" => "all"})
+
+      for slug <- @section_slugs do
+        assert has_element?(view, "#docs-section-card-#{slug}")
+      end
+    end
+
+    test "an unknown work type falls back to the full grid", %{conn: conn} do
+      {:ok, view, _html} = live(conn, "/docs")
+
+      render_click(view, "select_docs_filter", %{"work_type" => "ai"})
+      refute has_element?(view, "#docs-section-card-operations")
+
+      # "bogus" is not an existing atom, so it normalizes to :all.
+      render_click(view, "select_docs_filter", %{"work_type" => "bogus"})
+
+      assert has_element?(view, "#docs-section-card-operations")
+      assert has_element?(view, "#docs-section-card-learn")
+    end
+  end
+
   describe "disabled public routes" do
     test "training index route returns 404", %{conn: conn} do
       conn = get(conn, "/training")

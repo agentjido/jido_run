@@ -992,4 +992,87 @@ defmodule AgentJido.PagesTest do
       assert :published in Pages.content_statuses()
     end
   end
+
+  describe "docs work-type filters (jido-e06-t25)" do
+    # Acceptance: "A builder can select Elixir, AI, operations, or evaluation
+    # work." The four audience/outcome lenses narrow the Docs hub section grid
+    # to the sections that serve each kind of work.
+
+    test "docs_work_types/0 lists the Elixir, AI, Operations, and Evaluation lenses" do
+      ids = Pages.docs_work_type_ids()
+
+      assert ids == [:elixir, :ai, :operations, :evaluation]
+    end
+
+    test "each work type carries a human label; unknown yields nil" do
+      assert Pages.docs_work_type_label(:elixir) == "Elixir"
+      assert Pages.docs_work_type_label(:ai) == "AI"
+      assert Pages.docs_work_type_label(:operations) == "Operations"
+      assert Pages.docs_work_type_label(:evaluation) == "Evaluation"
+      assert Pages.docs_work_type_label(:nope) == nil
+    end
+
+    test "every published docs section is mapped to at least one work type" do
+      for section_page <- Pages.docs_sections() do
+        assert Pages.docs_section_work_types(section_page) != [],
+               "section #{inspect(Pages.route_for(section_page))} is not mapped to any work type"
+      end
+    end
+
+    test "getting-started serves every work type so the on-ramp is never hidden" do
+      getting_started = Pages.get_page_by_path("/docs/getting-started")
+
+      assert Pages.docs_section_work_types(getting_started) == Pages.docs_work_type_ids()
+    end
+
+    test "docs_sections_filtered(:all) returns the full inventory" do
+      assert Pages.docs_sections_filtered(:all) |> Enum.map(&Pages.route_for/1) ==
+               Pages.docs_sections() |> Enum.map(&Pages.route_for/1)
+    end
+
+    test "the AI lens narrows the grid to AI sections" do
+      routes = Pages.docs_sections_filtered(:ai) |> Enum.map(&Pages.route_for/1)
+
+      # getting-started is the cross-cutting on-ramp; learn + guides are the AI path.
+      assert "/docs/getting-started" in routes
+      assert "/docs/learn" in routes
+      assert "/docs/guides" in routes
+      refute "/docs/operations" in routes
+      refute "/docs/concepts" in routes
+    end
+
+    test "the Operations lens shows operations and hides unrelated sections" do
+      routes = Pages.docs_sections_filtered(:operations) |> Enum.map(&Pages.route_for/1)
+
+      assert "/docs/getting-started" in routes
+      assert "/docs/operations" in routes
+      refute "/docs/learn" in routes
+      refute "/docs/concepts" in routes
+    end
+
+    test "the Evaluation lens surfaces reference and contributors" do
+      routes = Pages.docs_sections_filtered(:evaluation) |> Enum.map(&Pages.route_for/1)
+
+      assert "/docs/getting-started" in routes
+      assert "/docs/reference" in routes
+      assert "/docs/contributors" in routes
+      refute "/docs/learn" in routes
+      refute "/docs/operations" in routes
+    end
+
+    test "the Elixir lens surfaces concepts and reference" do
+      routes = Pages.docs_sections_filtered(:elixir) |> Enum.map(&Pages.route_for/1)
+
+      assert "/docs/getting-started" in routes
+      assert "/docs/concepts" in routes
+      assert "/docs/reference" in routes
+      assert "/docs/guides" in routes
+      refute "/docs/operations" in routes
+    end
+
+    test "an unknown work type falls back to the full inventory" do
+      assert Pages.docs_sections_filtered(:bogus) |> Enum.map(&Pages.route_for/1) ==
+               Pages.docs_sections() |> Enum.map(&Pages.route_for/1)
+    end
+  end
 end

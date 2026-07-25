@@ -63,7 +63,8 @@ defmodule AgentJidoWeb.PageLive do
     secondary_tabs = docs_secondary_tabs()
     sidebar = sidebar_nav("/docs")
 
-    sections = Pages.docs_sections()
+    docs_filter = :all
+    sections = Pages.docs_sections_filtered(docs_filter)
 
     toc = [
       %{id: "get-started", title: "Get Started", level: 2},
@@ -84,6 +85,8 @@ defmodule AgentJidoWeb.PageLive do
        docs_secondary_tabs: secondary_tabs,
        docs_sidebar_nav: sidebar,
        docs_sections: sections,
+       docs_filter: docs_filter,
+       docs_work_types: Pages.docs_work_types(),
        page: nil,
        markdown_action: nil,
        toc: toc
@@ -429,6 +432,17 @@ defmodule AgentJidoWeb.PageLive do
 
   def status_badge_class(_), do: "bg-elevated text-muted-foreground"
 
+  # Docs hub audience/outcome filter chip — the selected lens reads as the
+  # primary affordance, the rest stay neutral. See E06-T25.
+  @doc false
+  def filter_chip_class(true = _active) do
+    "px-3 py-1.5 rounded-full text-[12px] font-semibold border border-primary bg-primary/10 text-primary transition-colors"
+  end
+
+  def filter_chip_class(false = _active) do
+    "px-3 py-1.5 rounded-full text-[12px] font-medium border border-border bg-card text-muted-foreground hover:border-border-strong hover:text-foreground transition-colors"
+  end
+
   @doc false
   def section_page_count(section_page) do
     section = Pages.docs_section_for_path(Pages.route_for(section_page))
@@ -621,6 +635,20 @@ defmodule AgentJidoWeb.PageLive do
     {:noreply, update(socket, :sidebar_open, &(!&1))}
   end
 
+  # Audience/outcome Docs hub filter (E06-T25). A builder selects the kind of
+  # work they are doing; the section grid narrows to the sections that serve it.
+  # `:all` restores the full inventory. Unknown values fall back to `:all` so a
+  # bad value can never empty the grid.
+  @impl true
+  def handle_event("select_docs_filter", %{"work_type" => work_type}, socket) do
+    docs_filter = normalize_docs_filter(work_type)
+
+    {:noreply,
+     socket
+     |> assign(:docs_filter, docs_filter)
+     |> assign(:docs_sections, Pages.docs_sections_filtered(docs_filter))}
+  end
+
   defp normalize_feedback_value(value) when is_binary(value) do
     case String.trim(value) do
       "helpful" -> "helpful"
@@ -642,6 +670,16 @@ defmodule AgentJidoWeb.PageLive do
   end
 
   defp normalize_feedback_note(_value), do: nil
+
+  defp normalize_docs_filter("all"), do: :all
+
+  defp normalize_docs_filter(work_type) when is_binary(work_type) do
+    normalized = String.to_existing_atom(work_type)
+
+    if normalized in Pages.docs_work_type_ids(), do: normalized, else: :all
+  rescue
+    ArgumentError -> :all
+  end
 
   defp docs_feedback_locked?(socket) do
     current_feedback = socket.assigns[:docs_feedback] || %{}
