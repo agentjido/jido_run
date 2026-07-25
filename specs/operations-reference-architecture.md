@@ -1,10 +1,15 @@
 # Long-Running Agent Reference Architecture
 
-Status: Spec (`jido-e07`, E07-T29..T51). Last updated: 2026-07-23.
+Status: Spec + reference application (`jido-e07`, E07-T29..T51). Last updated:
+2026-07-25.
 
-The reference **application** (a runnable, tested implementation of this
-architecture) is a follow-up build. This document fixes the architecture,
-control surfaces, failure drills, and threat model so the build is unambiguous.
+The reference **application** — a runnable, tested implementation of this
+architecture — is built (`jido-e07-t29`). It lives in
+`lib/agent_jido/demos/long_running_reference/` and is proven end to end by
+`test/agent_jido/demos/long_running_reference_test.exs`. This document fixes
+the architecture, control surfaces, failure drills, and threat model so the
+build is unambiguous; the sections below map each concern to where the
+reference app covers it.
 
 ## Goal
 
@@ -31,6 +36,29 @@ application, and deployment restarts — with explicit operational control.
 ## Linear path (what a builder follows)
 
 Define the agent → start it under a named Jido instance → add a tool → add scheduling or event input → add persistence → add retry and failure policy → add telemetry → add a health check → deploy → stop, restart, and recover.
+
+## Reference application (E07-T29)
+
+The runnable application under `lib/agent_jido/demos/long_running_reference/`
+covers every concern the linear path names, and `test/agent_jido/demos/long_running_reference_test.exs`
+proves each one — plus a final test that runs the whole path end to end against
+a single deployment.
+
+| Concern | Where it is covered |
+|---|---|
+| Supervision | `Supervisor` boots the `AgentServer` `:permanent`; a killed process is restarted by the surviving supervisor |
+| Scheduling | the agent declares a CRON schedule; `HandleCronTickAction` handles the `reference.cron` route |
+| Persistence | `Persistence` wraps `Jido.Persist.hibernate/thaw` over an ETS store; checkpoint then thaw round-trips state |
+| Retries | `StartRetryAction` / `HandleRetryAction` recover a transient failure through bounded schedule directives |
+| Telemetry | `IngestWorkAction` wraps work in a `Jido.Observe.with_span/3` span with redactable metadata |
+| Health | `Health` implements the process / dependency / work axes over `Jido.AgentServer.status/1` |
+| Deployment | `Supervisor` *is* the deployment; the whole tree is replaced on a redeploy and resumes from a checkpoint |
+
+Idempotency (duplicate `work_id` does not double-count) is folded into
+`IngestWorkAction`, satisfying the duplicate-delivery failure drill. The
+controlled-agent extension (authenticated ingress, `prepare_signal/2`,
+fail-closed `prepare_action/3`, durable Journal, approval) is the tracked
+follow-up `jido-e07-t35`, layered onto this same agent.
 
 ## Failure drills (each must have an expected observation)
 
