@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-25T21:00:29Z",
   "created": "2026-07-23T12:04:24Z",
   "description": "Backlog task: E07-T12\n\nWork area: Failure and recovery cases\n\nMain targets: Guide and example\n\nComplete when: The process restarts and the observed state result is explicit.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e07-t12",
@@ -22,7 +23,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E07-T12 — Document an AgentServer process crash.",
   "type": "task",
   "updated_at": "2026-07-25T21:00:29Z"
