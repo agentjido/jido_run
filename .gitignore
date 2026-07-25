@@ -28,6 +28,11 @@ agent_jido-*.tar
 # Ignore digested assets cache.
 /priv/static/cache_manifest.json
 
+# Ignore content-hashed font build artifacts. External font tooling emits
+# fingerprinted copies (name-weight-<32-hex>.woff2) that duplicate the tracked
+# source fonts in this directory; nothing references the hashed names.
+/priv/static/fonts/**/*-????????????????????????????????.woff2
+
 # Ignore Jido Studio storage
 /priv/jido_studio/
 
