@@ -334,7 +334,8 @@ in CI by `test/agent_jido/specs/operational_control_proof_test.exs`.
 - **Version:** jido 2.3.2, jido_ai 2.2.0 (Beta AI policies).
 - **Validation date:** 2026-07-24.
 
-The unit tests above prove each control in isolation. Claims that still require
-the long-running reference application (`specs/operations-reference-architecture.md`)
-for end-to-end public proof — e.g., the failure-drill runnable app — remain
-pending and must not be presented as public proof until that application exists.
+The unit tests above prove each control in isolation. The long-running reference
+application (`specs/operations-reference-architecture.md`, built in `jido-e07-t29`)
+is the end-to-end public proof: the seven documented failure drills run in one
+command via `scripts/failure_drill.sh` (`jido-e07-t31`), each against its focused
+test and then against the reference application end to end.

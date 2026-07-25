@@ -70,6 +70,14 @@ follow-up `jido-e07-t35`, layered onto this same agent.
 6. **Provider timeout + fallback:** bounded retries and an explicit fallback rule.
 7. **Poison work / dead-letter:** failed work is inspectable and replayable.
 
+Run them in one command with the failure-drill script (`jido-e07-t31`):
+
+    scripts/failure_drill.sh
+
+The script runs every documented failure against its focused test and then
+runs the reference application end to end, so each drill has an observable
+result.
+
 ## Controlled-agent extension
 
 The reference app extends to a controlled-agent architecture: ingress carries
