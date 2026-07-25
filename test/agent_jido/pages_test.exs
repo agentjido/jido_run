@@ -1003,6 +1003,116 @@ defmodule AgentJido.PagesTest do
     end
   end
 
+  describe "operations retries, timeouts, and provider failure page (jido-e07-t05)" do
+    # Acceptance: "It covers tool, HTTP, and model failures separately."
+    @retries_source Path.expand(
+                      "../../priv/pages/docs/operations/retries-timeouts-and-provider-failure.md",
+                      __DIR__
+                    )
+    @retries_route "/docs/operations/retries-timeouts-and-provider-failure"
+
+    test "the page is published and routable" do
+      page = Pages.get_page_by_path(@retries_route)
+
+      assert page != nil
+      assert page.category == :docs
+      assert page.draft == false
+      assert Pages.route_for(page) == @retries_route
+    end
+
+    test "the page is linked from the operations hub" do
+      hub = File.read!(Path.expand("../../priv/pages/docs/operations.md", __DIR__))
+
+      assert hub =~ @retries_route
+    end
+
+    test "tool, HTTP, and model failures are three separate sections" do
+      body = File.read!(@retries_source)
+
+      # The acceptance condition: each layer has its own dedicated heading.
+      assert has_h2?(body, "Tool failures")
+      assert has_h2?(body, "HTTP failures")
+      assert has_h2?(body, "Model failures")
+    end
+
+    test "it covers tool failures: Action results, retryable vs terminal" do
+      body = File.read!(@retries_source)
+
+      # Tool failures are framed at the Action run/2 boundary.
+      assert body =~ "run/2"
+      assert body =~ "{:ok, result}"
+
+      # The retryable/terminal split is named, not guessed.
+      assert body =~ ~r/retryable/i
+      assert body =~ ~r/terminal/i
+
+      # A real retry control surface is named (bounded by max_retries/backoff).
+      assert body =~ "max_retries"
+      assert body =~ "backoff"
+    end
+
+    test "it covers HTTP failures: transport, timeout, and fallback" do
+      body = File.read!(@retries_source)
+
+      # HTTP failures are framed as the transport layer with transient causes.
+      assert body =~ ~r/network error|connection reset|5xx/i
+      assert body =~ ~r/timeout/i
+    end
+
+    test "it covers model failures: provider response and fallback rule" do
+      body = File.read!(@retries_source)
+
+      # Model failures come from the provider response, with concrete causes.
+      assert body =~ ~r/rate limit|429/i
+      assert body =~ ~r/auth|permission|refusal/i
+
+      # The outcome status the application branches on is named.
+      assert body =~ ":completed"
+      assert body =~ ":failed"
+      assert body =~ ":timeout"
+    end
+
+    test "it commits to bounded retry and a fallback, not unbounded retry" do
+      body = File.read!(@retries_source)
+
+      # Provider failure has a defined fallback rule.
+      assert body =~ ~r/fallback/i
+      # The budget is bounded.
+      assert body =~ ~r/bounded/i
+
+      # It must not promise success or guarantee recovery.
+      refute body =~ ~r/no downtime/i
+      refute body =~ ~r/guaranteed success|guarantees success/i
+    end
+
+    test "it distinguishes call-layer retry from process-level recovery" do
+      body = File.read!(@retries_source)
+
+      # Retries recover calls; supervision recovers processes. Both are named,
+      # and the page links supervision as the process-recovery page.
+      assert body =~ ~r/process-level|process recovery/i
+      assert body =~ "/docs/operations/supervision-and-failure-boundaries"
+    end
+
+    test "the page source has no placeholder markers" do
+      body = File.read!(@retries_source)
+
+      placeholder_patterns = [
+        ~r/content coming soon/i,
+        ~r/\bcoming soon\b/i,
+        ~r/\bTODO\b/,
+        ~r/\bTBD\b/,
+        ~r/lorem ipsum/i
+      ]
+
+      assert body =~ "draft: false"
+
+      Enum.each(placeholder_patterns, fn pattern ->
+        refute body =~ pattern
+      end)
+    end
+  end
+
   describe "content_status/1 (jido-e06-t24)" do
     # Acceptance: "Draft or Experimental content cannot look complete." Hub cards
     # must be able to label a page by its content maturity, so a status distinct
@@ -1140,5 +1250,29 @@ defmodule AgentJido.PagesTest do
       assert Pages.docs_sections_filtered(:bogus) |> Enum.map(&Pages.route_for/1) ==
                Pages.docs_sections() |> Enum.map(&Pages.route_for/1)
     end
+  end
+
+  # True when the body has a `## <title>` heading (outside fenced code blocks).
+  defp has_h2?(body, title) do
+    pattern = ~r/\A##[[:space:]]+#{Regex.escape(title)}([[:space:]]|$)/
+
+    body
+    |> String.split("\n")
+    |> Enum.reduce({false, false}, fn line, {in_fence?, found?} ->
+      cond do
+        String.match?(line, ~r/\A(```|~~~)/) ->
+          {not in_fence?, found?}
+
+        in_fence? ->
+          {in_fence?, found?}
+
+        Regex.match?(pattern, line) ->
+          {in_fence?, true}
+
+        true ->
+          {in_fence?, found?}
+      end
+    end)
+    |> elem(1)
   end
 end

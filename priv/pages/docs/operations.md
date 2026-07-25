@@ -24,6 +24,7 @@ Operate a Jido agent system by working through this ordered path. Each step name
 ## Operations pages
 
 - [Supervision and failure boundaries](/docs/operations/supervision-and-failure-boundaries) - supervision topology, restart strategy, and restart intensity for bounding agent failure
+- [Retries, timeouts, and provider failure](/docs/operations/retries-timeouts-and-provider-failure) - separate retry, timeout, and fallback decisions for tool, HTTP, and model failures
 - [Production readiness checklist](/docs/operations/production-readiness-checklist) - pre-launch verification for supervision trees, config, telemetry, and resource limits
 - [Security and governance](/docs/operations/security-and-governance) - secret management, API key rotation, access controls, and data boundaries
 - [Incident playbooks](/docs/operations/incident-playbooks) - step-by-step response procedures for common failure modes
