@@ -164,6 +164,7 @@ Bounded retries and fallbacks recover calls. They do not, by themselves:
 
 ## Next steps
 
+- See the retry decision play out on one tool — retryable retried, terminal not — in the [Tool Error and Retry Decision](/docs/operations/tool-error-and-retry-decision) worked example.
 - Confirm your timeouts, retry budgets, and fallback rule against the [Production Readiness Checklist](/docs/operations/production-readiness-checklist).
 - Practice a provider-timeout-and-fallback drill with the [Incident playbooks](/docs/operations/incident-playbooks).
 - Pair the retry budget with process-level recovery in [Supervision and Failure Boundaries](/docs/operations/supervision-and-failure-boundaries).

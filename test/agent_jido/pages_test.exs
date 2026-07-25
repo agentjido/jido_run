@@ -1113,6 +1113,85 @@ defmodule AgentJido.PagesTest do
     end
   end
 
+  describe "operations tool error and retry decision page (jido-e07-t11)" do
+    # Acceptance: "The example shows retryable and terminal errors."
+    @tool_error_source Path.expand(
+                         "../../priv/pages/docs/operations/tool-error-and-retry-decision.md",
+                         __DIR__
+                       )
+    @tool_error_route "/docs/operations/tool-error-and-retry-decision"
+    @tool_error_demo "lib/agent_jido/demos/tool_error_retry/failing_tool_action.ex"
+    @tool_error_demo_test "test/agent_jido/demos/tool_error_retry_test.exs"
+
+    test "the page is published and routable" do
+      page = Pages.get_page_by_path(@tool_error_route)
+
+      assert page != nil
+      assert page.category == :docs
+      assert page.draft == false
+      assert Pages.route_for(page) == @tool_error_route
+    end
+
+    test "the page is linked from the operations hub" do
+      hub = File.read!(Path.expand("../../priv/pages/docs/operations.md", __DIR__))
+
+      assert hub =~ @tool_error_route
+    end
+
+    test "the example shows both retryable and terminal tool errors" do
+      body = File.read!(@tool_error_source)
+
+      # The acceptance condition: both error classes are named and shown.
+      assert has_h2?(body, "A retryable error is retried")
+      assert has_h2?(body, "A terminal error is not retried")
+      assert body =~ ~r/retryable/i
+      assert body =~ ~r/terminal/i
+
+      # The decision rule is by error type, with the concrete types named.
+      assert body =~ "TimeoutError"
+      assert body =~ "InvalidInputError"
+      assert body =~ "Jido.Action.Error.retryable?"
+    end
+
+    test "the example is runnable: the demo module and its test exist" do
+      # The worked example points at a real, tested demo — not a snippet alone.
+      assert File.regular?(@tool_error_demo)
+      assert File.regular?(@tool_error_demo_test)
+
+      body = File.read!(@tool_error_source)
+      assert body =~ @tool_error_demo
+      assert body =~ @tool_error_demo_test
+      # The bounded retry knobs the example exercises are named.
+      assert body =~ "max_retries"
+      assert body =~ "backoff"
+    end
+
+    test "it cross-links the retries guide and supervision (no isolated claims)" do
+      body = File.read!(@tool_error_source)
+
+      assert body =~ "/docs/operations/retries-timeouts-and-provider-failure"
+      assert body =~ "/docs/operations/supervision-and-failure-boundaries"
+    end
+
+    test "the page source has no placeholder markers" do
+      body = File.read!(@tool_error_source)
+
+      placeholder_patterns = [
+        ~r/content coming soon/i,
+        ~r/\bcoming soon\b/i,
+        ~r/\bTODO\b/,
+        ~r/\bTBD\b/,
+        ~r/lorem ipsum/i
+      ]
+
+      assert body =~ "draft: false"
+
+      Enum.each(placeholder_patterns, fn pattern ->
+        refute body =~ pattern
+      end)
+    end
+  end
+
   describe "operations scheduling and event input page (jido-e07-t06)" do
     # Acceptance: "It links to a working Schedule and Sensor example."
     @scheduling_source Path.expand(

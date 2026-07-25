@@ -25,6 +25,7 @@ Operate a Jido agent system by working through this ordered path. Each step name
 
 - [Supervision and failure boundaries](/docs/operations/supervision-and-failure-boundaries) - supervision topology, restart strategy, and restart intensity for bounding agent failure
 - [Retries, timeouts, and provider failure](/docs/operations/retries-timeouts-and-provider-failure) - separate retry, timeout, and fallback decisions for tool, HTTP, and model failures
+- [Tool error and retry decision](/docs/operations/tool-error-and-retry-decision) - a worked example: a retryable tool error is retried inside a bounded budget, a terminal tool error is not retried at all
 - [Scheduling and event input](/docs/operations/scheduling-and-event-input) - how timed work and external events enter an agent, and what survives a restart
 - [Telemetry and traces](/docs/operations/telemetry-and-traces) - the two observation layers: the `:telemetry` events `jido` core emits for free, and the separate, optional `jido_otel` exporter
 - [Health checks and readiness](/docs/operations/health-checks-and-readiness) - the three independent health axes a long-running agent exposes: process, dependency, and work health, plus repeatable post-deploy verification
