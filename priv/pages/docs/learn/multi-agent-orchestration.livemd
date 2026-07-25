@@ -11,6 +11,7 @@
     "Use the Skill registry to describe what each specialist can do"
   ],
   prerequisites: ["/docs/learn/parent-child-agent-hierarchies"],
+  last_validated: "2026-07-24",
   tested_with: %{jido: "2.3.2", jido_ai: "2.2.0"},
   livebook: %{
     runnable: true,

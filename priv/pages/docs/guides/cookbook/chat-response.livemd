@@ -13,6 +13,7 @@
     "Send a single chat request with Jido.AI.Actions.LLM.Chat",
     "Extract the returned text, model, and usage fields"
   ],
+  last_validated: "2026-07-24",
   tested_with: %{jido: "2.3.2", jido_ai: "2.2.0", req_llm: "1.17.1"},
   livebook: %{
     runnable: true,

@@ -6,6 +6,7 @@
   tags: [:docs, :learn, :fsm, :strategy, :livebook],
   draft: false,
   prerequisites: ["/docs/learn/plugins-and-composable-agents"],
+  last_validated: "2026-07-24",
   tested_with: %{jido: "2.3.2"},
   livebook: %{
     runnable: true,

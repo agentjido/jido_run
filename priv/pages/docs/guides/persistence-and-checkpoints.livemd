@@ -5,6 +5,7 @@
   tags: [:docs, :guides, :livebook],
   order: 173,
   draft: false,
+  last_validated: "2026-07-24",
   tested_with: %{jido: "2.3.2"},
   livebook: %{
     runnable: true,
