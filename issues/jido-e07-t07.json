@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-25T03:48:49Z",
   "created": "2026-07-23T12:04:19Z",
   "description": "Backlog task: E07-T07\n\nWork area: Core linear path\n\nMain targets: Operations docs\n\nComplete when: It distinguishes core observation events from `jido_otel`.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e07-t07",
@@ -22,7 +23,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E07-T07 — Publish “Telemetry and traces.”",
   "type": "task",
   "updated_at": "2026-07-25T03:48:49Z"
