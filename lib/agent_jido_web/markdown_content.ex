@@ -55,6 +55,21 @@ defmodule AgentJidoWeb.MarkdownContent do
     {:ok, docs_hub_markdown()}
   end
 
+  # The Build and Compare hubs render a generated grid from
+  # Pages.pages_by_category/1 in the browser (page_live.ex), but /build.md and
+  # /compare.md served the raw index.md source — including its `%{...}` Elixir
+  # frontmatter block, which is not valid Markdown. Generate a full Markdown
+  # hub from the same content records the browser hub uses (heading, intro, and
+  # an inventory of the leaf pages) so the browser and Markdown hubs stay
+  # aligned. See E06-T23.
+  defp resolve_from_pages("/build") do
+    {:ok, generic_hub_markdown(:build)}
+  end
+
+  defp resolve_from_pages("/compare") do
+    {:ok, generic_hub_markdown(:compare)}
+  end
+
   defp resolve_from_pages(path) do
     case Pages.resolve_page_for_path(path) do
       {:ok, _page, :legacy} ->
@@ -139,6 +154,80 @@ defmodule AgentJidoWeb.MarkdownContent do
 
   defp count_suffix(0), do: ""
   defp count_suffix(count), do: " (#{count} pages)"
+
+  # Mirrors the browser generic hub (page_live.ex handle_generic_index): the
+  # category's index page supplies the heading and intro, and each leaf page is
+  # listed with its title, description, and route — so the Markdown inventory
+  # matches the rendered grid instead of serving the raw index source.
+  defp generic_hub_markdown(category) when category in [:build, :compare] do
+    pages = Pages.pages_by_category(category)
+    %{title: title, intro: intro} = generic_hub_intro(category, pages)
+
+    inventory =
+      pages
+      |> Enum.reject(&hub_root_page?(&1, category))
+      |> Enum.map(&format_generic_hub_entry/1)
+      |> Enum.join("\n")
+
+    """
+    # #{title}
+
+    #{intro}
+
+    #{inventory}
+
+    ---
+
+    This inventory is generated from the same content records as the rendered #{title} hub.
+    """
+  end
+
+  defp generic_hub_intro(category, pages) do
+    root = Enum.find(pages, &hub_root_page?(&1, category))
+
+    title =
+      (root && map_get(root, :title)) ||
+        generic_hub_default_title(category)
+
+    intro =
+      root
+      |> map_get(:description)
+      |> to_string()
+      |> String.trim()
+      |> case do
+        "" -> generic_hub_default_intro(category)
+        value -> value
+      end
+
+    %{title: title, intro: intro}
+  end
+
+  defp hub_root_page?(page, category) do
+    map_get(page, :path) == "/#{category}"
+  end
+
+  defp format_generic_hub_entry(page) do
+    title = map_get(page, :title)
+    route = Pages.route_for(page)
+
+    description =
+      page
+      |> map_get(:description)
+      |> to_string()
+      |> String.trim()
+
+    if description == "",
+      do: "- [#{title}](#{route})",
+      else: "- [#{title}](#{route}) — #{description}"
+  end
+
+  defp generic_hub_default_title(category) do
+    category |> to_string() |> Phoenix.Naming.humanize()
+  end
+
+  defp generic_hub_default_intro(_category) do
+    "Explore practical resources for building and operating production systems with Jido."
+  end
 
   defp resolve_from_blog("/blog") do
     {:fallback, "Engineering Blog", "Product updates, release notes, and practical guides for building reliable AI agents in Elixir and on the BEAM."}

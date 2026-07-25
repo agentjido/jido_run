@@ -42,6 +42,65 @@ defmodule AgentJidoWeb.MarkdownContentTest do
     end
   end
 
+  describe "build and compare hub markdown equivalents (E06-T23)" do
+    # The Build and Compare hubs must serve a full Markdown equivalent
+    # generated from the same content records as the rendered browser hub —
+    # not the raw index.md source (which leaked its `%{...}` frontmatter) and
+    # not a short fallback stub.
+    @hub_categories [:build, :compare]
+
+    test "the build and compare hubs resolve to generated markdown, not fallbacks" do
+      for category <- @hub_categories do
+        path = "/#{category}"
+
+        assert {:ok, markdown} = MarkdownContent.resolve(path, "https://jido.run#{path}")
+
+        # Generated from content records, not a rendered-route fallback.
+        refute String.contains?(
+                 markdown,
+                 "generated from the rendered route when direct source markdown is not available"
+               ),
+               "#{path} markdown is a fallback stub"
+
+        assert String.contains?(
+                 markdown,
+                 "generated from the same content records as the rendered"
+               ),
+               "#{path} markdown is not generated from content records"
+      end
+    end
+
+    test "the build and compare hub markdown does not leak source frontmatter" do
+      for category <- @hub_categories do
+        path = "/#{category}"
+        {:ok, markdown} = MarkdownContent.resolve(path, "https://jido.run#{path}")
+
+        refute String.starts_with?(markdown, "%{"),
+               "#{path} markdown leaks the Elixir frontmatter map"
+      end
+    end
+
+    test "the build and compare hub markdown lists every leaf page in the category" do
+      for category <- @hub_categories do
+        path = "/#{category}"
+        {:ok, markdown} = MarkdownContent.resolve(path, "https://jido.run#{path}")
+
+        leaf_pages =
+          AgentJido.Pages.pages_by_category(category)
+          |> Enum.reject(&(&1.path == path))
+
+        assert leaf_pages != [], "#{path} category has no leaf pages to assert against"
+
+        for page <- leaf_pages do
+          route = AgentJido.Pages.route_for(page)
+
+          assert String.contains?(markdown, "[#{page.title}](#{route})"),
+                 "#{path} markdown is missing leaf page: #{inspect("[#{page.title}](#{route})")}"
+        end
+      end
+    end
+  end
+
   describe "docs hub markdown inventory (E06-T22)" do
     # The browser hub (`/docs`) and the Markdown hub (`/docs.md`) must list the
     # same inventory, both generated from the Pages content records.
