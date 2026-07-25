@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-25T23:39:33Z",
   "created": "2026-07-23T12:04:48Z",
   "description": "Backlog task: E07-T36\n\nWork area: Controlled-Agent reference path\n\nMain targets: Architecture diagram and guide\n\nComplete when: Jido does not appear to authenticate a user or service by itself.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e07-t36",
@@ -23,8 +24,8 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E07-T36 — Show authentication as an application or platform boundary.",
   "type": "task",
-  "updated_at": "2026-07-25T23:39:32Z"
+  "updated_at": "2026-07-25T23:39:33Z"
 }
