@@ -16,11 +16,15 @@
     {
       "text": "Open: control-boundary block in guide template not yet added.",
       "timestamp": "2026-07-24T12:49:41Z"
+    },
+    {
+      "text": "Accepted by the Zclaude Ralph supervisor. Commits: 6946f2e4. Verification: MIX_ENV=test mix compile \u0026\u0026 MIX_ENV=test mix format --check-formatted.",
+      "timestamp": "2026-07-25T02:06:59Z"
     }
   ],
   "priority": 1,
   "status": "in_progress",
   "title": "E06-T31 — Add a control-boundary block to relevant guides.",
   "type": "task",
-  "updated_at": "2026-07-25T01:52:50Z"
+  "updated_at": "2026-07-25T02:06:59Z"
 }
