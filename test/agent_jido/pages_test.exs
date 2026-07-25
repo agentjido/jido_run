@@ -901,5 +901,18 @@ defmodule AgentJido.PagesTest do
         refute body =~ pattern
       end)
     end
+
+    # Acceptance (jido-e05-t40): "The reader chooses an adapter and sees what
+    # survives restart."
+    test "the durable-history step has the reader choose an adapter and see what survives restart" do
+      body = File.read!(@operational_controls_source)
+
+      # The reader is told to choose an adapter...
+      assert body =~ ~r/choose a .* adapter/i
+      # ...shown what a restart keeps and drops.
+      assert body =~ "survives a restart"
+      # ...and that the default keeps nothing, so the contrast is explicit.
+      assert body =~ "not durable"
+    end
   end
 end

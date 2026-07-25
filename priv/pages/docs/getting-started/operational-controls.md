@@ -27,7 +27,7 @@ The lane is organized around the control surfaces a production agent touches:
 - **Fail-closed authorization.** The `prepare_action/3` plugin hook runs before an action executes. Implement it to deny a protected action when the required principal or tenant context is missing. It is fail-closed by design - a protected action never runs just because no hook is configured.
 - **AI tool and effect policy.** Through `jido_ai` plugins you can set tool allowlists, effect policies, prompt policies, and request or token quotas. A disallowed tool or effect is rejected before it runs.
 - **Correlated telemetry with redaction.** Jido emits telemetry and correlated spans for understanding your system. Define redaction rules so secrets, prompts, and principal data stay out of logs, telemetry, and error output. Telemetry is for observation - it is not an audit log.
-- **Optional durable history.** When you need causal history that survives a restart, configure a durable Signal Journal adapter and a retention policy. The default is not durable; nothing is retained until you choose an adapter.
+- **Optional durable history.** When you need causal history that survives a restart, choose a durable Signal Journal adapter and a retention policy. The default is not durable; nothing is retained until you choose an adapter, and what survives a restart is decided by that choice - the default keeps nothing, while a durable adapter keeps recorded signals across a journal restart.
 
 ## How to take this lane
 
@@ -38,7 +38,7 @@ Work the lane in this order, naming what Jido supplies and what your application
 1. Read [Security and governance](/docs/operations/security-and-governance) for the full claim boundaries and control-point list.
 2. Carry principal and tenant context on your incoming Signal so an operator can follow one unit of work across components.
 3. Implement `prepare_action/3` to reject one protected action, then permit an approved path. The [production readiness checklist](/docs/operations/production-readiness-checklist) states the fail-closed expectation.
-4. Decide what must survive a restart and add a [Persistence](/docs/concepts/persistence) or Signal Journal adapter for that slice of state.
+4. Choose a Signal Journal adapter and see what survives a restart. The default is not durable - a recorded signal is gone after a restart - so decide what must survive, then add a [Persistence](/docs/concepts/persistence) or Signal Journal adapter for that slice of state. The tested example behind this step contrasts the default with a durable adapter to show exactly what a restart keeps and drops.
 5. Add telemetry spans and redaction rules before you expose the agent to real traffic.
 
 ## What this lane does not do
