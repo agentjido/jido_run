@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-25T01:52:46Z",
   "created": "2026-07-23T12:04:00Z",
   "description": "Backlog task: E06-T25\n\nWork area: Hub and leaf alignment\n\nMain targets: Docs UI\n\nComplete when: A builder can select Elixir, AI, operations, or evaluation work.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e06-t25",
@@ -22,7 +23,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E06-T25 — Add audience and outcome filters to the Docs hub.",
   "type": "task",
   "updated_at": "2026-07-25T01:52:46Z"
