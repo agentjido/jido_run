@@ -50,3 +50,9 @@ A go-live gate for running Jido agents in production. Each item names the Jido c
 ## What this checklist is not
 
 This checklist helps you operate Jido agents deliberately. It is not a compliance certification, a tamper-evident audit, or a guarantee of no downtime. Authentication, durable retention, and compliance remain application and platform responsibilities — see [Security and governance](/docs/operations/security-and-governance).
+
+## Next steps
+
+- Map each control point above to your application's duties in [Security and governance](/docs/operations/security-and-governance).
+- Prepare for the failures you cannot prevent with the [Incident playbooks](/docs/operations/incident-playbooks).
+- Build the controls end to end from the [Operational controls](/docs/getting-started/operational-controls) onboarding lane.

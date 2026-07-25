@@ -25,6 +25,7 @@ Use this page as the canonical standard when writing or reviewing `.livemd` tuto
 - [ ] Runnable notebooks include `livebook:` metadata and a matching drift test under `test/livebooks/docs`
 - [ ] Runnable notebooks declare `tested_with` package/version pairs so version context renders on the page
 - [ ] Runnable notebooks declare a `last_validated` ISO date so the page shows when it was last confirmed
+- [ ] The notebook ends with a "Next steps" (or "What to try next") block so every reader leaves with a concrete next action
 
 ## Canonical Notebook Shape
 

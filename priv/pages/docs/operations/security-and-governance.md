@@ -40,3 +40,9 @@ Jido integrates with your existing systems; it does not replace them. Plan for a
 ## What to avoid claiming
 
 Do not state that Jido is "secure by default," "compliance-ready," an "enterprise governance" system, or provides a "complete audit trail" without separate, reviewed proof. These phrases are on the restricted-claim list in `specs/style-voice.md`.
+
+## Next steps
+
+- Confirm every control point is wired up with the [Production Readiness Checklist](/docs/operations/production-readiness-checklist).
+- Practice responding when a control fires using the [Incident playbooks](/docs/operations/incident-playbooks).
+- Build the controls end to end from the [Operational controls](/docs/getting-started/operational-controls) onboarding lane.

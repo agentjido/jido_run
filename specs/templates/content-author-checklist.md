@@ -29,7 +29,7 @@ and `specs/style-voice.md` so new content starts compliant.
 ## Metadata
 
 - [ ] `last_validated`, `tested_with`, and owner are set for executable content.
-- [ ] A "What to do next" link continues the path.
+- [ ] The page ends with a "What to do next" block (e.g. "Next steps" / "What to try next") so no reader hits a dead end.
 
 ## Before merge
 

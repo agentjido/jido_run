@@ -50,3 +50,9 @@ Short, repeatable response procedures for the failure modes long-running agent s
 ## After an incident
 
 Capture the request/run/Signal IDs that describe the incident, the control that contained it, and any gap where a control was missing. Turn real incidents into regression tests where possible.
+
+## Next steps
+
+- Confirm the controls these playbooks assume are wired up with the [Production Readiness Checklist](/docs/operations/production-readiness-checklist).
+- Map authorization, redaction, and durable-history duties in [Security and governance](/docs/operations/security-and-governance).
+- Make sure the [telemetry and correlation IDs](/docs/reference/telemetry-and-observability) each playbook follows are capturing the request/run/Signal chain.

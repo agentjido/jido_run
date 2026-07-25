@@ -219,3 +219,9 @@ For the deeper lineage behind this design, start with:
 - Joe Armstrong's thesis, [Making reliable distributed systems in the presence of software errors](https://kth.diva-portal.org/smash/record.jsf?pid=diva2:9492)
 
 You do not need either one to use Jido. They are useful if you want the historical and architectural background for this design.
+
+## Next steps
+
+- Put the model into code — build [Your first agent](/docs/getting-started/first-agent).
+- Extend it with [Actions](/docs/concepts/actions) and [Signals](/docs/concepts/signals).
+- Run an AI agent next in [Your first LLM agent](/docs/getting-started/first-llm-agent).
