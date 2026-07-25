@@ -23,8 +23,8 @@ rather than spawning a second one.
 
 | # | Element | Jido surface | In this demo | Where the rest is proven |
 |---|---|---|---|---|
-| 1 | Ingress | the incoming `Signal` | `ControlledAgent` routes `work.approve` | `jido-e07-t37` carries full principal/tenant/request/causation context |
-| 2 | Principal context | `Signal.source` | every Signal carries the caller's `source`; the hook inspects it | `jido-e07-t37` |
+| 1 | Ingress | the incoming `Signal` | `ControlledAgent` routes `work.approve`; `IncomingContext` carries principal/tenant/request/correlation/causation (`jido-e07-t37`) | `jido-e07-t38` enriches context via `prepare_signal/2` |
+| 2 | Principal context | `Signal.source` | every Signal carries the caller's `source`; the hook inspects it | `IncomingContext` (`jido-e07-t37`) |
 | 3 | Policy | `prepare_action/3` | `AuthorizationPlugin` is **fail-closed** (`["alice"]`) | `jido-e07-t38` enriches context via `prepare_signal/2` |
 | 4 | Actions | `Jido.Action` | `ApproveAction` advances the counter | — |
 | 5 | Effects | typed Actions + AI tool/effect/quota policies | (designed; not wired here) | focused demos `AiToolAllowlist`, `QuotaControlAgent` |
@@ -45,6 +45,47 @@ the sibling tasks named in the table.
 | **What was allowed** | `AuthorizationPlugin.prepare_action/3` is fail-closed: the Action runs only when the principal is in the allowlist. Run as `mallory` and the Action never executes. |
 | **What happened** | The `approved_count` counter and the control log record exactly what ran — approved work increments, denied work is rejected with a reason — and Signals carry correlation IDs you can follow. |
 | **How failure was handled** | The `AgentServer` runs under an OTP supervisor (`:permanent`, `max_restarts: 1000`). Crash it and supervision restarts a fresh process; approved state survives a full restart via hibernate/thaw. |
+
+## Incoming context (`jido-e07-t37`)
+
+An incoming controlled-agent Signal carries five context fields, defined once in
+`IncomingContext`. Each field has a **source** (the Signal location it rides
+on), a **validation rule**, and a **propagation test**
+(`controlled_agent_incoming_context_test.exs`) — locked by the task's
+acceptance: *each field has a source, validation rule, and propagation test.*
+
+| field | source | validation rule |
+|---|---|---|
+| `principal` | `Signal.source` | required, non-empty binary |
+| `tenant` | `Signal.extensions["tenant"]` | optional; when present, non-empty binary |
+| `request` | `Signal.extensions["request_id"]` | optional; when present, non-empty binary |
+| `correlation` | `Signal.extensions["correlation_id"]` | optional; when present, non-empty binary |
+| `causation` | `Signal.extensions["causation_id"]` | optional; when present, non-empty binary |
+
+```elixir
+alias AgentJido.Demos.ControlledAgent.IncomingContext
+
+attrs = IncomingContext.build(
+  principal: "alice",
+  tenant: "acme",
+  request: "req-7",
+  correlation: "trace-7",
+  causation: "sig-cause-7"
+)
+
+signal = Jido.Signal.new!("work.approve", %{note: "x"}, attrs)
+IncomingContext.validate(signal)   # => :ok
+IncomingContext.get(signal, :principal)   # => "alice"
+```
+
+`principal` is the already-authenticated caller, verified at the boundary in
+front of Jido (see [Authentication boundary](#authentication-boundary)). The
+other four are application-supplied context that same boundary attaches;
+`correlation` ties one unit of work across components and `causation` names the
+signal or request that caused this one. This module carries and validates the
+context — it does not verify identity (the boundary does) or authorize work (the
+`AuthorizationPlugin` does). Enriching the context onto the live path via
+`prepare_signal/2` is `jido-e07-t38`.
 
 ## Authentication boundary
 
@@ -95,6 +136,7 @@ here once a durable Journal and store are layered on.
 ```
 mix test test/agent_jido/demos/controlled_agent_test.exs
 mix test test/agent_jido/demos/controlled_agent_persistence_test.exs
+mix test test/agent_jido/demos/controlled_agent_incoming_context_test.exs
 ```
 
 The design coverage itself is locked by:
@@ -108,6 +150,7 @@ mix test test/agent_jido/demos/controlled_agent_design_test.exs
 ```
 controlled_agent/
 ├── controlled_agent.ex     # the agent: state schema, signal route, authorization plugin
+├── incoming_context.ex     # the five incoming-Signal context fields (sources + rules)
 ├── authorization_plugin.ex # fail-closed prepare_action/3 (the policy)
 ├── approve_action.ex       # the protected Action
 └── supervisor.ex           # the process-restart boundary
