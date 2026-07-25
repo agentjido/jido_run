@@ -46,6 +46,33 @@ the sibling tasks named in the table.
 | **What happened** | The `approved_count` counter and the control log record exactly what ran — approved work increments, denied work is rejected with a reason — and Signals carry correlation IDs you can follow. |
 | **How failure was handled** | The `AgentServer` runs under an OTP supervisor (`:permanent`, `max_restarts: 1000`). Crash it and supervision restarts a fresh process; approved state survives a full restart via hibernate/thaw. |
 
+## Authentication boundary
+
+Authentication is a boundary **in front of** Jido, not something this agent (or
+Jido) performs. The path has three stages, and only the middle one is Jido's:
+
+| Stage | Owner | In this demo |
+|---|---|---|
+| **Authenticate** | application / platform (outside Jido) | the caller's identity is verified and a principal issued before the Signal exists |
+| **Carry** | Jido | every `work.approve` Signal carries the caller on `Signal.source` |
+| **Authorize** | application policy via Jido's hook | `AuthorizationPlugin.prepare_action/3` allows `alice`, denies everyone else — fail-closed |
+
+```mermaid
+flowchart LR
+  C([Caller]) --> AUTH["AuthN / IAM\n(outside Jido)"]
+  AUTH -->|"verified principal"| SIG["Signal.source"]
+  SIG --> PA["prepare_action/3\nfail-closed"]
+  PA --> ACT[ApproveAction]
+```
+
+The allowlist (`["alice"]`) is the **Authorize** stage — a policy decision, not a
+login. `alice` is a principal the boundary in front of Jido already
+authenticated; the hook only decides whether that principal may run the Action.
+**Jido does not authenticate a user or service by itself.** The spec's
+[Authentication boundary][spec] section draws the same line, and
+[security and governance](/docs/operations/security-and-governance) owns the full
+claim-boundary model.
+
 ## Recovery in this demo
 
 Recovery has two layers here, matching the long-running spec's process and

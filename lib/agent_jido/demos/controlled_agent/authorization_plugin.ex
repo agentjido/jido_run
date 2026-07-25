@@ -5,6 +5,12 @@ defmodule AgentJido.Demos.ControlledAgent.AuthorizationPlugin do
   Denies an Action before it runs unless the incoming Signal's `source` is in
   the configured allowlist. Demonstrates `prepare_action/3` as a fail-closed
   authorization point: a missing or unknown principal never reaches the effect.
+
+  This is an **authorization** (allow/deny) decision, not authentication. The
+  `source` is an already-authenticated principal supplied by the boundary in
+  front of Jido; this hook never verifies a credential. Jido carries and honors
+  the principal — it does not authenticate a user or service by itself. See the
+  spec's "Authentication boundary" section (`jido-e07-t36`).
   """
   use Jido.Plugin,
     name: "authorization",

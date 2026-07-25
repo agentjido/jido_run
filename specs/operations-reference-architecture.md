@@ -22,7 +22,7 @@ application, node, and deployment restarts — with explicit operational control
 
 | Component | Jido surface | Application duty |
 |---|---|---|
-| Ingress | incoming Signal | Validate and attach principal/tenant/request/causation context |
+| Ingress | incoming Signal | Attach already-authenticated principal/tenant/request/causation context (verified at the boundary in front of Jido — see [Authentication boundary](#authentication-boundary-jido-e07-t36)) |
 | Runtime | `AgentServer` under OTP supervision | Restart strategy, intensity |
 | Agent logic | `Jido.Agent` + Actions | State schema, deterministic transitions |
 | Tools | typed Actions (pure or effectful) | Tool implementations, schemas |
@@ -213,6 +213,43 @@ Authentication, identity, audit, durable retention, and compliance are
 application or platform duties in front of and around Jido — Jido carries and
 honors a principal but never verifies one. See the explicit non-goals below and
 `/docs/operations/security-and-governance`.
+
+### Authentication boundary (`jido-e07-t36`)
+
+Authentication is an application or platform boundary **in front of** Jido, not
+something Jido performs. The reference path splits identity handling into three
+stages, and only the middle one is Jido's:
+
+| Stage | Who owns it | What happens |
+|---|---|---|
+| **Authenticate** | application / platform (outside Jido) | verify the caller — human or service — and issue a verified principal |
+| **Carry** | Jido | the incoming `Signal` carries that principal on `Signal.source` (with tenant/request/causation context); Jido propagates it but never verifies it |
+| **Authorize** | application policy via Jido's hook | `prepare_signal/2` / `prepare_action/3` decide allow or deny against the application's policy; **fail-closed** |
+
+```mermaid
+flowchart LR
+  subgraph outside["Application / platform — outside Jido"]
+    C([Caller: user or service])
+    AUTH["Authentication and IAM\nverifies identity, issues principal"]
+  end
+  C --> AUTH
+  AUTH -->|"verified principal\n(application-supplied)"| SIG
+  subgraph jido["Jido — carries and honors the principal, never verifies it"]
+    SIG["incoming Signal\nsource: principal"]
+    PS["prepare_signal/2\nverify/enrich context"]
+    PA["prepare_action/3\nfail-closed policy"]
+    ACT["Action then effect"]
+    SIG --> PS --> PA --> ACT
+  end
+  ACT -.->|"principal and correlation\nin telemetry and Journal"| OBS([Operator])
+```
+
+The controlled-agent demo's allowlist (`source in ["alice"]`) is the
+**Authorize** stage — a policy decision, not a login. `alice` is a principal the
+boundary in front of Jido already authenticated; the hook only decides whether
+that principal may run the Action. **Jido does not authenticate a user or
+service by itself.** See `/docs/operations/security-and-governance` for the full
+claim-boundary model.
 
 ## Threat and control model (E07-T50)
 
