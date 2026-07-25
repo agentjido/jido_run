@@ -1333,6 +1333,129 @@ defmodule AgentJido.PagesTest do
     end
   end
 
+  describe "operations health checks and readiness page (jido-e07-t08)" do
+    # Acceptance: "It defines process health, dependency health, and work health."
+    @health_source Path.expand(
+                     "../../priv/pages/docs/operations/health-checks-and-readiness.md",
+                     __DIR__
+                   )
+    @health_route "/docs/operations/health-checks-and-readiness"
+
+    test "the page is published and routable" do
+      page = Pages.get_page_by_path(@health_route)
+
+      assert page != nil
+      assert page.category == :docs
+      assert page.draft == false
+      assert Pages.route_for(page) == @health_route
+    end
+
+    test "the page is linked from the operations hub" do
+      hub = File.read!(Path.expand("../../priv/pages/docs/operations.md", __DIR__))
+
+      assert hub =~ @health_route
+    end
+
+    test "it defines process, dependency, and work health as separate sections" do
+      body = File.read!(@health_source)
+
+      # The acceptance condition: the three health axes each get their own
+      # dedicated heading, so they are presented as distinct things, not one.
+      assert has_h2?(body, "Process health")
+      assert has_h2?(body, "Dependency health")
+      assert has_h2?(body, "Work health")
+    end
+
+    test "process health ties liveness to the AgentServer status probe and supervision" do
+      body = File.read!(@health_source)
+
+      # Process health is observable through the real status API, not invented.
+      assert body =~ "Jido.AgentServer.status"
+      assert body =~ ":not_found"
+
+      # A restart loop is caught by the supervision restart-intensity budget.
+      assert body =~ "max_restarts"
+
+      # Liveness and responsiveness must not be conflated.
+      assert body =~ ~r/responsiveness/i
+    end
+
+    test "dependency health is stated as application-owned, not a Jido concept" do
+      body = File.read!(@health_source)
+
+      # Jido does not know the agent's dependencies; the application owns this.
+      assert body =~ ~r/not a Jido concept|Jido does not know your dependencies/i
+
+      # Dependency failure gates readiness rather than restarting the process.
+      assert body =~ ~r/readiness/i
+    end
+
+    test "work health cites the Status queue length and strategy state" do
+      body = File.read!(@health_source)
+
+      # Work health uses the real Status API, not invented metrics.
+      assert body =~ "Jido.AgentServer.Status.queue_length"
+      assert body =~ "max_queue_size"
+      assert body =~ ":queue_overflow"
+
+      # The strategy state distinguishes "draining" from "stuck waiting".
+      assert body =~ ":waiting"
+    end
+
+    test "it covers repeatable post-deploy verification" do
+      body = File.read!(@health_source)
+
+      # Post-deploy verification confirms the shipped build is serving.
+      assert body =~ ~r/build hash|deploy stamp/i
+      assert body =~ ~r/post-deploy/i
+
+      # It must not claim a guaranteed-clean deploy.
+      refute body =~ ~r/guaranteed deploy|no downtime/i
+    end
+
+    test "it links only to live operations, reference, and onboarding routes" do
+      body = File.read!(@health_source)
+
+      # Every internal link on the page must resolve to a published page.
+      internal_links =
+        Regex.scan(~r{\]\((/docs/[^)#]+)\)}, body, capture: :all_but_first)
+        |> List.flatten()
+        |> Enum.uniq()
+
+      assert internal_links != []
+
+      for path <- internal_links do
+        page = Pages.get_page_by_path(path)
+
+        assert page != nil, "health page links to a route that does not resolve: #{path}"
+        assert page.draft == false, "health page links to a draft page: #{path}"
+      end
+
+      # The three recovery/observation siblings and the go-live gate are linked.
+      assert body =~ "/docs/operations/supervision-and-failure-boundaries"
+      assert body =~ "/docs/operations/telemetry-and-traces"
+      assert body =~ "/docs/operations/production-readiness-checklist"
+    end
+
+    test "the page source has no placeholder markers" do
+      body = File.read!(@health_source)
+
+      placeholder_patterns = [
+        ~r/content coming soon/i,
+        ~r/\bcoming soon\b/i,
+        ~r/\bTODO\b/,
+        ~r/\bTBD\b/,
+        ~r/lorem ipsum/i
+      ]
+
+      assert body =~ "draft: false"
+
+      Enum.each(placeholder_patterns, fn pattern ->
+        refute body =~ pattern
+      end)
+    end
+  end
+
   describe "content_status/1 (jido-e06-t24)" do
     # Acceptance: "Draft or Experimental content cannot look complete." Hub cards
     # must be able to label a page by its content maturity, so a status distinct

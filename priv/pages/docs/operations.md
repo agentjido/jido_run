@@ -27,6 +27,7 @@ Operate a Jido agent system by working through this ordered path. Each step name
 - [Retries, timeouts, and provider failure](/docs/operations/retries-timeouts-and-provider-failure) - separate retry, timeout, and fallback decisions for tool, HTTP, and model failures
 - [Scheduling and event input](/docs/operations/scheduling-and-event-input) - how timed work and external events enter an agent, and what survives a restart
 - [Telemetry and traces](/docs/operations/telemetry-and-traces) - the two observation layers: the `:telemetry` events `jido` core emits for free, and the separate, optional `jido_otel` exporter
+- [Health checks and readiness](/docs/operations/health-checks-and-readiness) - the three independent health axes a long-running agent exposes: process, dependency, and work health, plus repeatable post-deploy verification
 - [Production readiness checklist](/docs/operations/production-readiness-checklist) - pre-launch verification for supervision trees, config, telemetry, and resource limits
 - [Security and governance](/docs/operations/security-and-governance) - secret management, API key rotation, access controls, and data boundaries
 - [Incident playbooks](/docs/operations/incident-playbooks) - step-by-step response procedures for common failure modes
