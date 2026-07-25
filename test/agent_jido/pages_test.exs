@@ -914,5 +914,26 @@ defmodule AgentJido.PagesTest do
       # ...and that the default keeps nothing, so the contrast is explicit.
       assert body =~ "not durable"
     end
+
+    # Acceptance (jido-e05-t41): "Authentication, retention, tamper evidence,
+    # and compliance remain named application concerns."
+    test "the control-boundary summary names authentication, retention, tamper evidence, and compliance as application concerns" do
+      body = File.read!(@operational_controls_source)
+
+      # The summary section exists at the end of the guide...
+      assert body =~ ~r/\#\# Control boundary summary/i
+
+      # ...and names all four concerns as application/platform-owned duties.
+      [_before, summary] = String.split(body, "## Control boundary summary", parts: 2)
+
+      assert summary =~ ~r/\bAuthentication\b/i
+      assert summary =~ ~r/\bretention\b/i
+      assert summary =~ ~r/tamper[ -]evident/i
+      assert summary =~ ~r/\bcompliance\b/i
+      # ...framed as application or platform concerns, not Jido features.
+      assert summary =~ ~r/application or platform concern/i
+      # ...and pointing to the full boundary on the Operations path.
+      assert summary =~ ~s(/docs/operations/security-and-governance)
+    end
   end
 end

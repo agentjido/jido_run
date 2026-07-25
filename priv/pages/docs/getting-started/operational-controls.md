@@ -47,6 +47,17 @@ Work the lane in this order, naming what Jido supplies and what your application
 - **It does not make telemetry tamper-evident.** Durable, tamper-evident audit history needs a configured Journal and a storage layer you operate.
 - **It does not block basic activation.** Every step here is optional. The core agent runs without any of it.
 
+## Control boundary summary
+
+This lane hands you control points; it does not take ownership of the concerns around them. The boundary is the same one the [Security and governance](/docs/operations/security-and-governance) page draws in full: Jido supplies the hooks and the causal context, and the following stay an application or platform concern, not a Jido feature.
+
+- **Authentication.** Jido carries the principal and tenant context you give it; verifying a human or service identity is an application or platform boundary in front of Jido.
+- **Retention.** Jido records signals only when you configure a Journal; how long that history is kept, and what is deleted, is a policy your storage layer enforces.
+- **Tamper evidence.** Telemetry is for observation and the default Journal is not durable; durable, tamper-evident audit history needs a configured Journal and a storage layer you operate.
+- **Compliance.** Jido is not a governance or compliance product; meeting a specific regulatory or audit regime is a claim your application and platform must support with the evidence they own.
+
+The full control-point map and claim boundaries are published on the [Operations](/docs/operations) path.
+
 ## Next steps
 
 - [Your first agent](/docs/getting-started/first-agent) - the working agent this lane builds on.
