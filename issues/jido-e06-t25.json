@@ -15,11 +15,15 @@
     {
       "text": "Open: audience/outcome filters on the Docs hub not yet added.",
       "timestamp": "2026-07-24T12:49:40Z"
+    },
+    {
+      "text": "Accepted by the Zclaude Ralph supervisor. Commits: b61c6b85. Verification: MIX_ENV=test mix compile \u0026\u0026 MIX_ENV=test mix format --check-formatted.",
+      "timestamp": "2026-07-25T01:52:46Z"
     }
   ],
   "priority": 1,
   "status": "in_progress",
   "title": "E06-T25 — Add audience and outcome filters to the Docs hub.",
   "type": "task",
-  "updated_at": "2026-07-25T01:41:22Z"
+  "updated_at": "2026-07-25T01:52:46Z"
 }
