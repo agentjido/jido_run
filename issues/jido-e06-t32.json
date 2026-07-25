@@ -16,11 +16,15 @@
     {
       "text": "Open: control-surface table on reference pages not yet added.",
       "timestamp": "2026-07-24T12:49:41Z"
+    },
+    {
+      "text": "Accepted by the Zclaude Ralph supervisor. Commits: 753cfe27. Verification: MIX_ENV=test mix compile \u0026\u0026 MIX_ENV=test mix format --check-formatted.",
+      "timestamp": "2026-07-25T02:22:16Z"
     }
   ],
   "priority": 1,
   "status": "in_progress",
   "title": "E06-T32 — Add a control-surface table to relevant reference pages.",
   "type": "task",
-  "updated_at": "2026-07-25T02:07:03Z"
+  "updated_at": "2026-07-25T02:22:16Z"
 }
