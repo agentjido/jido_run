@@ -940,9 +940,9 @@ defmodule AgentJido.PagesTest do
   describe "operations supervision and failure boundaries page (jido-e07-t02)" do
     # Acceptance: "It explains topology, restart strategy, and restart intensity."
     @supervision_source Path.expand(
-                           "../../priv/pages/docs/operations/supervision-and-failure-boundaries.md",
-                           __DIR__
-                         )
+                          "../../priv/pages/docs/operations/supervision-and-failure-boundaries.md",
+                          __DIR__
+                        )
 
     test "the page is published and routable" do
       page = Pages.get_page_by_path("/docs/operations/supervision-and-failure-boundaries")
