@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-25T20:49:46Z",
   "created": "2026-07-23T12:04:23Z",
   "description": "Backlog task: E07-T11\n\nWork area: Failure and recovery cases\n\nMain targets: Guide and example\n\nComplete when: The example shows retryable and terminal errors.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e07-t11",
@@ -22,8 +23,8 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E07-T11 — Document a tool error and retry decision.",
   "type": "task",
-  "updated_at": "2026-07-25T20:49:45Z"
+  "updated_at": "2026-07-25T20:49:46Z"
 }
