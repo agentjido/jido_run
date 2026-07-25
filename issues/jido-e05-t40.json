@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-25T00:26:18Z",
   "created": "2026-07-23T12:03:34Z",
   "description": "Backlog task: E05-T40\n\nWork area: Maintenance and validation\n\nMain targets: Controlled onboarding guide\n\nComplete when: The reader chooses an adapter and sees what survives restart.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e05-t40",
@@ -23,7 +24,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E05-T40 — Add an optional durable Signal Journal step.",
   "type": "task",
   "updated_at": "2026-07-25T00:26:18Z"
