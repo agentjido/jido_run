@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-25T22:56:29Z",
   "created": "2026-07-23T12:04:43Z",
   "description": "Backlog task: E07-T31\n\nWork area: Proof package\n\nMain targets: Reference app\n\nComplete when: One command runs the documented failures.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e07-t31",
@@ -22,7 +23,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E07-T31 — Add a failure-drill script.",
   "type": "task",
   "updated_at": "2026-07-25T22:56:29Z"
