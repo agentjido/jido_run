@@ -11,6 +11,7 @@
     "Resume unfinished work from agent state instead of rebuilding context"
   ],
   prerequisites: ["/docs/learn/first-workflow"],
+  tested_with: %{jido: "2.3.2"},
   livebook: %{
     runnable: true,
     required_env_vars: [],

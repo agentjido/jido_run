@@ -23,6 +23,7 @@ Use this page as the canonical standard when writing or reviewing `.livemd` tuto
 - [ ] The main path uses stable public APIs only
 - [ ] The first example shows success before inspection or debugging
 - [ ] Runnable notebooks include `livebook:` metadata and a matching drift test under `test/livebooks/docs`
+- [ ] Runnable notebooks declare `tested_with` package/version pairs so version context renders on the page
 
 ## Canonical Notebook Shape
 
@@ -144,6 +145,7 @@ Runnable notebooks should include Livebook-oriented metadata in the frontmatter:
 ```elixir
 %{
   tags: [:docs, :guides, :livebook],
+  tested_with: %{jido: "2.3.2", jido_ai: "2.2.0", req_llm: "1.17.1"},
   livebook: %{
     runnable: true,
     required_env_vars: ["OPENAI_API_KEY"],
@@ -154,6 +156,8 @@ Runnable notebooks should include Livebook-oriented metadata in the frontmatter:
 ```
 
 Use `required_env_vars` and `setup_instructions` to make external requirements explicit instead of burying them deep in the prose.
+
+`tested_with` is a map of package/version pairs the notebook was validated against. List every package the notebook installs (commonly `jido`, `jido_ai`, and `req_llm`) and pin the exact resolved version from `mix.lock`, not the version constraint. The docs shell renders it as "Tested with" in the page header so a reader can tell whether a notebook matches the packages they already have. Pair it with a `last_validated` ISO date when you record a validation run.
 
 ## Drift Tests
 

@@ -6,6 +6,7 @@
   tags: [:docs, :learn, :ai, :memory, :retrieval, :rag, :livebook],
   draft: false,
   prerequisites: ["/docs/learn/task-planning-and-execution"],
+  tested_with: %{jido: "2.3.2", jido_ai: "2.2.0", req_llm: "1.17.1"},
   livebook: %{
     runnable: true,
     required_env_vars: [],

@@ -6,6 +6,7 @@
   tags: [:docs, :learn, :sensors, :signals, :livebook],
   draft: false,
   prerequisites: ["/docs/learn/parent-child-agent-hierarchies"],
+  tested_with: %{jido: "2.3.2"},
   livebook: %{
     runnable: true,
     required_env_vars: [],

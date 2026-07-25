@@ -5,6 +5,7 @@
   tags: [:docs, :guides, :livebook],
   order: 170,
   draft: false,
+  tested_with: %{jido: "2.3.2", jido_ai: "2.2.0"},
   livebook: %{
     runnable: true,
     required_env_vars: [],

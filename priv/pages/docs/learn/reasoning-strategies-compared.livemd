@@ -11,6 +11,7 @@
     "Inspect which strategy an Adaptive agent selected at runtime"
   ],
   prerequisites: ["/docs/getting-started/first-llm-agent"],
+  tested_with: %{jido: "2.3.2", jido_ai: "2.2.0", req_llm: "1.17.1"},
   livebook: %{
     runnable: true,
     required_env_vars: ["OPENAI_API_KEY"],
