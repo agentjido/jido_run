@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-25T03:09:23Z",
   "created": "2026-07-23T12:04:17Z",
   "description": "Backlog task: E07-T05\n\nWork area: Core linear path\n\nMain targets: Operations docs\n\nComplete when: It covers tool, HTTP, and model failures separately.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e07-t05",
@@ -22,7 +23,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E07-T05 — Publish “Retries, timeouts, and provider failure.”",
   "type": "task",
   "updated_at": "2026-07-25T03:09:23Z"
