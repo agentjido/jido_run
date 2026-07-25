@@ -15,11 +15,15 @@
     {
       "text": "Open: the runnable end-to-end reference application is not yet built (architecture spec exists).",
       "timestamp": "2026-07-24T12:50:37Z"
+    },
+    {
+      "text": "Accepted by the Zclaude Ralph supervisor. Commits: 4a7b5400. Verification: MIX_ENV=test mix compile \u0026\u0026 MIX_ENV=test mix format --check-formatted.",
+      "timestamp": "2026-07-25T22:46:15Z"
     }
   ],
   "priority": 1,
   "status": "in_progress",
   "title": "E07-T29 — Create one end-to-end long-running reference application.",
   "type": "task",
-  "updated_at": "2026-07-25T22:14:49Z"
+  "updated_at": "2026-07-25T22:46:15Z"
 }
