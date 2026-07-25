@@ -28,6 +28,7 @@ Operate a Jido agent system by working through this ordered path. Each step name
 - [Deployment restart](/docs/operations/deployment-restart) - a worked example: the whole supervised tree is torn down and rebuilt, and the workflow safely restarts at a stated state — or resumes, when the application owns persistence
 - [Retries, timeouts, and provider failure](/docs/operations/retries-timeouts-and-provider-failure) - separate retry, timeout, and fallback decisions for tool, HTTP, and model failures
 - [Tool error and retry decision](/docs/operations/tool-error-and-retry-decision) - a worked example: a retryable tool error is retried inside a bounded budget, a terminal tool error is not retried at all
+- [Provider timeout and fallback](/docs/operations/provider-timeout-and-fallback) - a worked example: a transient provider timeout is retried inside a bounded budget, and an explicit fallback rule fires when the budget is exhausted or a terminal error occurs
 - [Scheduling and event input](/docs/operations/scheduling-and-event-input) - how timed work and external events enter an agent, and what survives a restart
 - [Telemetry and traces](/docs/operations/telemetry-and-traces) - the two observation layers: the `:telemetry` events `jido` core emits for free, and the separate, optional `jido_otel` exporter
 - [Health checks and readiness](/docs/operations/health-checks-and-readiness) - the three independent health axes a long-running agent exposes: process, dependency, and work health, plus repeatable post-deploy verification

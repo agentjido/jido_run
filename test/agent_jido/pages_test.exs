@@ -1391,6 +1391,98 @@ defmodule AgentJido.PagesTest do
     end
   end
 
+  describe "operations provider timeout and fallback page (jido-e07-t16)" do
+    # Acceptance: "The example has bounded retries and an explicit fallback rule."
+    @provider_source Path.expand(
+                       "../../priv/pages/docs/operations/provider-timeout-and-fallback.md",
+                       __DIR__
+                     )
+    @provider_route "/docs/operations/provider-timeout-and-fallback"
+    @provider_demo "lib/agent_jido/demos/provider_timeout_fallback/provider_timeout_fallback.ex"
+    @provider_demo_test "test/agent_jido/demos/provider_timeout_fallback_test.exs"
+
+    test "the page is published and routable" do
+      page = Pages.get_page_by_path(@provider_route)
+
+      assert page != nil
+      assert page.category == :docs
+      assert page.draft == false
+      assert Pages.route_for(page) == @provider_route
+    end
+
+    test "the page is linked from the operations hub" do
+      hub = File.read!(Path.expand("../../priv/pages/docs/operations.md", __DIR__))
+
+      assert hub =~ @provider_route
+    end
+
+    test "the example has bounded retries and an explicit fallback rule" do
+      body = File.read!(@provider_source)
+
+      # The acceptance condition: both halves are named and shown.
+      assert has_h2?(body, "A transient timeout is retried")
+      assert has_h2?(body, "The budget is bounded, then the fallback fires")
+
+      # Bounded retries: the budget is named and described as bounded.
+      assert body =~ "max_attempts"
+      assert body =~ ~r/bounded/i
+      assert body =~ "backoff"
+
+      # The explicit fallback rule: the fallback is named and its outcome is
+      # observable (the result is tagged with its source).
+      assert body =~ ~r/fallback/i
+      assert body =~ "source: :fallback"
+      assert body =~ "source: :primary"
+    end
+
+    test "it separates retryable from terminal provider errors" do
+      body = File.read!(@provider_source)
+
+      # A terminal error is not retried; the fallback fires immediately.
+      assert has_h2?(body, "A terminal error fires the fallback immediately")
+      assert body =~ ~r/retryable/i
+      assert body =~ ~r/terminal/i
+
+      # The outcome shape the application branches on is named.
+      assert body =~ ":completed"
+      assert body =~ ":timeout"
+    end
+
+    test "the example is runnable: the demo module and its test exist" do
+      # The worked example points at a real, tested demo — not a snippet alone.
+      assert File.regular?(@provider_demo)
+      assert File.regular?(@provider_demo_test)
+
+      body = File.read!(@provider_source)
+      assert body =~ @provider_demo
+      assert body =~ @provider_demo_test
+    end
+
+    test "it cross-links the retries guide (no isolated claims)" do
+      body = File.read!(@provider_source)
+
+      assert body =~ "/docs/operations/retries-timeouts-and-provider-failure"
+    end
+
+    test "the page source has no placeholder markers" do
+      body = File.read!(@provider_source)
+
+      placeholder_patterns = [
+        ~r/content coming soon/i,
+        ~r/\bcoming soon\b/i,
+        ~r/\bTODO\b/,
+        ~r/\bTBD\b/,
+        ~r/lorem ipsum/i
+      ]
+
+      assert body =~ "draft: false"
+
+      Enum.each(placeholder_patterns, fn pattern ->
+        refute body =~ pattern
+      end)
+    end
+  end
+
   describe "operations scheduling and event input page (jido-e07-t06)" do
     # Acceptance: "It links to a working Schedule and Sensor example."
     @scheduling_source Path.expand(
