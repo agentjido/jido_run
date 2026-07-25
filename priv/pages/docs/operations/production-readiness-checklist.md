@@ -24,7 +24,7 @@ A go-live gate for running Jido agents in production. Each item names the Jido c
 - [ ] Tool Actions are validated with compile-time schemas; effectful Actions are identified as such.
 - [ ] A `prepare_action/3` plugin enforces fail-closed authorization for any protected capability (missing or denied context never runs the effect).
 - [ ] AI tool and effect allowlists are configured where the agent can call external tools.
-- [ ] Request, token, and tool quotas are set for AI-backed work.
+- [ ] Request, token, and tool quotas are set for AI-backed work — see [Rate limits and cost budgets](/docs/operations/rate-limits-and-cost-budgets) for where each bound lives.
 
 ## Failure and recovery
 

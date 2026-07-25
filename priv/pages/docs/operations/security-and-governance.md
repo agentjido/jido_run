@@ -40,7 +40,7 @@ An ID lets you follow work; only an authenticated principal — verified at the 
 ## Control points to wire up
 
 - **Authorization:** implement `prepare_action/3` to deny protected Actions before they run when required principal or tenant context is missing. This is a fail-closed extension point, not a built-in RBAC product.
-- **AI controls:** configure tool allowlists, effect policies, prompt policies, and request/token quotas through `jido_ai` plugins. A disallowed tool or effect is rejected before execution.
+- **AI controls:** configure tool allowlists, effect policies, prompt policies, and request/token quotas through `jido_ai` plugins. A disallowed tool or effect is rejected before execution. The request/token quota side is covered in [Rate Limits and Cost Budgets](/docs/operations/rate-limits-and-cost-budgets).
 - **Context propagation:** carry principal, tenant, request, and causation context on the incoming Signal and propagate it through Actions and effects so an operator can follow one unit of work.
 - **Durable history:** when you need causal history that survives restart, configure a durable Signal Journal adapter and a retention policy. The default is not durable.
 - **Redaction:** define redaction rules for secrets, prompts, tool arguments, results, and principal data in logs, telemetry, Journal entries, and error output.

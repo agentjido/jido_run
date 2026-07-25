@@ -34,6 +34,7 @@ Operate a Jido agent system by working through this ordered path. Each step name
 - [Telemetry and traces](/docs/operations/telemetry-and-traces) - the two observation layers: the `:telemetry` events `jido` core emits for free, and the separate, optional `jido_otel` exporter
 - [Health checks and readiness](/docs/operations/health-checks-and-readiness) - the three independent health axes a long-running agent exposes: process, dependency, and work health, plus repeatable post-deploy verification
 - [Backpressure and queue limits](/docs/operations/backpressure-and-queue-limits) - the four limit surfaces a long-running system exposes — mailbox, bus, task, and provider — and, for each, where the bound lives and what happens when it is exceeded
+- [Rate limits and cost budgets](/docs/operations/rate-limits-and-cost-budgets) - the three budgets an AI workload must set deliberately — token, request, and tool — and, for each, where the bound lives and what happens when it is exceeded
 - [Production readiness checklist](/docs/operations/production-readiness-checklist) - pre-launch verification for supervision trees, config, telemetry, and resource limits
 - [Security and governance](/docs/operations/security-and-governance) - secret management, API key rotation, access controls, and data boundaries
 - [Incident playbooks](/docs/operations/incident-playbooks) - step-by-step response procedures for common failure modes

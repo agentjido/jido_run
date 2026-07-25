@@ -98,7 +98,7 @@ config :req_llm,
 
 The LLM call itself runs in a supervised task, not inside the agent's GenServer loop, so a slow provider does not block the agent process — but a flood of concurrent calls still lands on the pool and, beyond it, on the provider's 429.
 
-This is the surface most likely to need an application-owned bound. If your provider enforces a requests-per-minute or tokens-per-minute budget, add a semaphore or rate limiter upstream of the call (for example, gate the number of concurrent `ask` calls per tenant). Jido does not impose that limit for you, because the right budget is a property of your provider contract, not the framework.
+This is the surface most likely to need an application-owned bound. If your provider enforces a requests-per-minute or tokens-per-minute budget, add a semaphore or rate limiter upstream of the call (for example, gate the number of concurrent `ask` calls per tenant). Jido does not impose that limit for you, because the right budget is a property of your provider contract, not the framework — see [Rate Limits and Cost Budgets](/docs/operations/rate-limits-and-cost-budgets) for the opt-in Quota plugin that does the same job at the call boundary.
 
 ## Decide deliberately
 

@@ -1740,6 +1740,143 @@ defmodule AgentJido.PagesTest do
     end
   end
 
+  describe "operations rate limits and cost budgets page (jido-e07-t22)" do
+    # Acceptance: "It covers token, request, and tool budgets."
+    @rate_budget_source Path.expand(
+                          "../../priv/pages/docs/operations/rate-limits-and-cost-budgets.md",
+                          __DIR__
+                        )
+    @rate_budget_route "/docs/operations/rate-limits-and-cost-budgets"
+
+    test "the page is published and routable" do
+      page = Pages.get_page_by_path(@rate_budget_route)
+
+      assert page != nil
+      assert page.category == :docs
+      assert page.draft == false
+      assert Pages.route_for(page) == @rate_budget_route
+    end
+
+    test "the page is linked from the operations hub" do
+      hub = File.read!(Path.expand("../../priv/pages/docs/operations.md", __DIR__))
+
+      assert hub =~ @rate_budget_route
+    end
+
+    test "it covers all three budgets (the acceptance)" do
+      body = File.read!(@rate_budget_source)
+
+      # The acceptance condition: token, request, and tool each get a
+      # dedicated heading, so the three budgets are presented as distinct,
+      # named surfaces rather than mentioned in passing.
+      assert has_h2?(body, "Token budget: how many tokens a run may spend")
+      assert has_h2?(body, "Request budget: how many LLM calls may happen")
+      assert has_h2?(body, "Tool budget: how many tool calls a run may make")
+
+      # The summary names all three together so a reader sees the full budget
+      # map before the per-budget detail (the three bolded table rows appear
+      # in order; /s lets the match span the table's newlines).
+      assert body =~ ~r/\*\*Token\*\*.*\*\*Request\*\*.*\*\*Tool\*\*/s
+    end
+
+    test "each budget names its real default and key, not a vague mention" do
+      body = File.read!(@rate_budget_source)
+
+      # Token: the per-response cap and its default, the opt-in per-window
+      # budget plugin, and the denial it raises.
+      assert body =~ "max_tokens"
+      assert body =~ "4_096"
+      assert body =~ "Jido.AI.Plugins.Quota"
+      assert body =~ "max_total_tokens"
+      assert body =~ "window_ms"
+      assert body =~ ":quota_exceeded"
+
+      # Request: the per-window request budget, the in-flight pool, the
+      # per-agent rejection, and the reactive provider rate limit.
+      assert body =~ "max_requests"
+      assert body =~ "stream_pool_count"
+      assert body =~ ":busy"
+      assert body =~ "429"
+
+      # Tool: the iteration cap and its default, plus the per-tool exec block.
+      assert body =~ "max_iterations"
+      assert body =~ "10"
+      assert body =~ "tool_exec"
+    end
+
+    test "it states the central honesty point that budgets are off by default" do
+      body = File.read!(@rate_budget_source)
+
+      # The page must say plainly that token/request budgets are not enforced
+      # until opted in, so an operator is not misled into thinking Jido
+      # bounds spend out of the box.
+      assert body =~ ~r/does not enforce.*token or request budget/i
+      assert body =~ "Nil means no token budget is enforced"
+    end
+
+    test "it states the exceeded behavior and observable signal for each budget" do
+      body = File.read!(@rate_budget_source)
+
+      # Token: a capped response is truncated with a named finish reason.
+      assert body =~ ":length"
+
+      # Token/request: a budgeted call is denied before it reaches the provider.
+      assert body =~ "quota.status"
+
+      # Tool: the iteration cap completes the run with a named reason.
+      assert body =~ ":max_iterations"
+
+      # Tool: a tool that overruns its time is a named timeout error.
+      assert body =~ "TimeoutError"
+    end
+
+    test "it links only to live operations routes" do
+      body = File.read!(@rate_budget_source)
+
+      internal_links =
+        Regex.scan(~r{\]\((/docs/[^)#]+)\)}, body, capture: :all_but_first)
+        |> List.flatten()
+        |> Enum.uniq()
+
+      assert internal_links != []
+
+      for path <- internal_links do
+        page = Pages.get_page_by_path(path)
+
+        assert page != nil,
+               "rate-limits page links to a route that does not resolve: #{path}"
+
+        assert page.draft == false,
+               "rate-limits page links to a draft page: #{path}"
+      end
+
+      # The siblings each budget pairs with are cross-linked, so the budgets
+      # are not presented in isolation.
+      assert body =~ "/docs/operations/backpressure-and-queue-limits"
+      assert body =~ "/docs/operations/retries-timeouts-and-provider-failure"
+      assert body =~ "/docs/operations/security-and-governance"
+      assert body =~ "/docs/operations/production-readiness-checklist"
+    end
+
+    test "the page source has no placeholder markers" do
+      body = File.read!(@rate_budget_source)
+
+      placeholder_patterns = [
+        ~r/content coming soon/i,
+        ~r/\bcoming soon\b/i,
+        ~r/\bTODO\b/,
+        ~r/\bTBD\b/,
+        ~r/lorem ipsum/i
+      ]
+
+      assert body =~ "draft: false"
+
+      Enum.each(placeholder_patterns, fn pattern ->
+        refute body =~ pattern
+      end)
+    end
+  end
+
   describe "operations scheduling and event input page (jido-e07-t06)" do
     # Acceptance: "It links to a working Schedule and Sensor example."
     @scheduling_source Path.expand(
