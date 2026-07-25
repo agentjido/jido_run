@@ -937,6 +937,72 @@ defmodule AgentJido.PagesTest do
     end
   end
 
+  describe "operations supervision and failure boundaries page (jido-e07-t02)" do
+    # Acceptance: "It explains topology, restart strategy, and restart intensity."
+    @supervision_source Path.expand(
+                           "../../priv/pages/docs/operations/supervision-and-failure-boundaries.md",
+                           __DIR__
+                         )
+
+    test "the page is published and routable" do
+      page = Pages.get_page_by_path("/docs/operations/supervision-and-failure-boundaries")
+
+      assert page != nil
+      assert page.category == :docs
+      assert page.draft == false
+      assert Pages.route_for(page) == "/docs/operations/supervision-and-failure-boundaries"
+    end
+
+    test "it explains supervision topology" do
+      body = File.read!(@supervision_source)
+
+      # A topology section names where agents sit in the tree and how they isolate.
+      assert body =~ "## Topology"
+      assert body =~ "Jido.AgentServer"
+      assert body =~ ~r/own memory|own process|mailbox|failure boundary/is
+    end
+
+    test "it explains restart strategy" do
+      body = File.read!(@supervision_source)
+
+      assert body =~ "## Restart strategy"
+
+      # Both the supervisor strategy and the per-child restart type are covered.
+      assert body =~ ":one_for_one"
+      assert body =~ ":rest_for_one"
+      assert body =~ ":permanent"
+      assert body =~ ":transient"
+    end
+
+    test "it explains restart intensity" do
+      body = File.read!(@supervision_source)
+
+      assert body =~ "## Restart intensity"
+
+      # Intensity and period are named, with deliberate tuning guidance.
+      assert body =~ "max_restarts"
+      assert body =~ "max_seconds"
+    end
+
+    test "the page source has no placeholder markers" do
+      body = File.read!(@supervision_source)
+
+      placeholder_patterns = [
+        ~r/content coming soon/i,
+        ~r/\bcoming soon\b/i,
+        ~r/\bTODO\b/,
+        ~r/\bTBD\b/,
+        ~r/lorem ipsum/i
+      ]
+
+      assert body =~ "draft: false"
+
+      Enum.each(placeholder_patterns, fn pattern ->
+        refute body =~ pattern
+      end)
+    end
+  end
+
   describe "content_status/1 (jido-e06-t24)" do
     # Acceptance: "Draft or Experimental content cannot look complete." Hub cards
     # must be able to label a page by its content maturity, so a status distinct
