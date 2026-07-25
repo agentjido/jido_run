@@ -1,5 +1,5 @@
 {
-  "assignee": "",
+  "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:03:59Z",
@@ -18,8 +18,8 @@
     }
   ],
   "priority": 1,
-  "status": "open",
+  "status": "in_progress",
   "title": "E06-T24 — Add status labels to hub cards.",
   "type": "task",
-  "updated_at": "2026-07-24T12:49:40Z"
+  "updated_at": "2026-07-25T01:22:57Z"
 }
