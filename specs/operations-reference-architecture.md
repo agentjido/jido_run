@@ -56,9 +56,11 @@ a single deployment.
 
 Idempotency (duplicate `work_id` does not double-count) is folded into
 `IngestWorkAction`, satisfying the duplicate-delivery failure drill. The
-controlled-agent extension (authenticated ingress, `prepare_signal/2`,
-fail-closed `prepare_action/3`, durable Journal, approval) is the tracked
-follow-up `jido-e07-t35`, layered onto this same agent.
+controlled-agent extension — the nine-element design (ingress, principal
+context, policy, Actions, effects, Journal, telemetry, approval, recovery) — is
+specified in [Controlled-agent extension](#controlled-agent-extension) below
+(`jido-e07-t35`), layered onto this same agent rather than spawning a second
+one.
 
 ## Recovery boundaries (process, app, node, deploy)
 
@@ -166,11 +168,51 @@ result.
 
 ## Controlled-agent extension
 
-The reference app extends to a controlled-agent architecture: ingress carries
-authenticated application context; `prepare_signal/2` verifies/enriches it;
-`prepare_action/3` is fail-closed; AI tools/effects/quotas are configured; a
-durable Journal keeps causal history; correlated telemetry (with redaction)
-joins the trace; one high-impact effect requires human approval.
+The long-running reference app extends to a controlled-agent architecture. The
+design fixes **nine** control elements, each mapped to the Jido surface it rides
+on, the application duty that stays outside Jido, and where it is proven — in
+the integrated `controlled_agent` demo, in the focused demo that isolates it, or
+in the sibling task that builds it out. This section is the design the backlog
+row `jido-e07-t35` pins down: *Complete when the design includes ingress,
+principal context, policy, Actions, effects, Journal, telemetry, approval, and
+recovery.*
+
+| # | Element | Jido surface | Application duty | Where it is proven |
+|---|---|---|---|---|
+| 1 | **Ingress** | the incoming `Signal` (+ `prepare_signal/2`) | validate and attach principal/tenant/request/causation context at the boundary **in front of** Jido | `ControlledAgent` routes `work.approve`; `jido-e07-t37` carries the full context, `jido-e07-t38` enriches it |
+| 2 | **Principal context** | `Signal.source` (and carried metadata) | issue a verified principal at the auth/IAM boundary; Jido carries it, never authenticates it | `controlled_agent_test.exs` — every Signal carries a `source`; `jido-e07-t37` |
+| 3 | **Policy** | `prepare_signal/2`, `prepare_action/3` | the allow/deny decision is the application's; **fail-closed** | `AuthorizationPlugin` (`prepare_action/3`); `controlled_agent_test.exs` |
+| 4 | **Actions** | `Jido.Action` | state schema and deterministic transitions | `ApproveAction` |
+| 5 | **Effects** | typed Actions (pure or effectful) + AI tool/effect/quota policies | tool/effect implementations, allowlists, cost budgets | focused demos `AiToolAllowlist`, `QuotaControlAgent`; `jido-e07-t36`, `jido-e07-t38` |
+| 6 | **Journal** | durable Signal Journal adapter | adapter choice, retention, access, deletion | focused demo `DurableSignalJournal`; `jido-e07-t45` |
+| 7 | **Telemetry** | `Jido.Observe` (+ optional `jido_otel`) | capture, **redaction**, correlated-span export | focused demos `CorrelatedTelemetry`, `RedactedAction`; `jido-e07-t47`, `jido-e07-t48` |
+| 8 | **Approval** | an Action that gates one high-impact effect | the human-approval boundary (who approves, how long it holds) | focused demo `ApprovalBoundaryAgent`; sibling task |
+| 9 | **Recovery** | `AgentServer` under OTP supervision + persistence | restart strategy/intensity; state store; idempotency | `ControlledAgent.Supervisor` + `controlled_agent_persistence_test.exs`; the four recovery boundaries above |
+
+The integrated `controlled_agent` demo implements elements 1–4 and 9 today
+(authenticated ingress via `Signal.source`, the fail-closed policy hook, the
+protected Action, and supervised + persisted recovery). Elements 5–8 are
+isolated in their focused demos and built out under the sibling tasks named in
+the last column; the design layers each onto this same agent instead of
+spawning a second one.
+
+### Controlled-agent linear path
+
+A builder extends the long-running agent into a controlled agent in this order:
+
+carry principal context on the incoming Signal → verify/enrich it in
+`prepare_signal/2` → make `prepare_action/3` fail-closed against a policy →
+garden the Actions and effects behind allowlists and quotas → keep causal
+history in a durable Journal → join correlated, redacted telemetry → gate the
+one high-impact effect behind human approval → recover supervised state across a
+restart, with Journal history and telemetry surviving alongside it.
+
+### What stays outside Jido
+
+Authentication, identity, audit, durable retention, and compliance are
+application or platform duties in front of and around Jido — Jido carries and
+honors a principal but never verifies one. See the explicit non-goals below and
+`/docs/operations/security-and-governance`.
 
 ## Threat and control model (E07-T50)
 
