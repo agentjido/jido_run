@@ -140,8 +140,9 @@ defmodule AgentJidoWeb.MarkdownContent do
       |> String.trim()
 
     header =
-      "- **[#{label}](#{route})**#{count_suffix(length(section_pages))}" <>
-        if(description == "", do: "", else: " — #{description}")
+      ("- **[#{label}](#{route})**#{count_suffix(length(section_pages))}" <>
+         if(description == "", do: "", else: " — #{description}")) <>
+        status_suffix(section_page)
 
     child_lines =
       Enum.map(section_pages, fn page ->
@@ -216,9 +217,23 @@ defmodule AgentJidoWeb.MarkdownContent do
       |> to_string()
       |> String.trim()
 
-    if description == "",
-      do: "- [#{title}](#{route})",
-      else: "- [#{title}](#{route}) — #{description}"
+    base =
+      if description == "",
+        do: "- [#{title}](#{route})",
+        else: "- [#{title}](#{route}) — #{description}"
+
+    # Append a status tag so draft/experimental content cannot look complete in
+    # the Markdown inventory either (mirrors the browser hub card badge).
+    base <> status_suffix(page)
+  end
+
+  # Mirrors the browser hub card badge: a `(Draft)` / `(Experimental)` tag when
+  # the page is not yet stable, empty for published content. See E06-T24.
+  defp status_suffix(page) do
+    case Pages.content_status_label(page) do
+      nil -> ""
+      label -> " (#{label})"
+    end
   end
 
   defp generic_hub_default_title(category) do

@@ -179,6 +179,8 @@
                       <%= for section_page <- @docs_sections do %>
                         <% color = AgentJidoWeb.PageLive.section_color(section_page) %>
                         <% count = AgentJidoWeb.PageLive.section_page_count(section_page) %>
+                        <% status = AgentJido.Pages.content_status(section_page) %>
+                        <% status_label = AgentJido.Pages.content_status_label(section_page) %>
                         <.link navigate={AgentJido.Pages.route_for(section_page)} class="block group h-full">
                           <div class={
                             "bg-card border border-border rounded-md p-5 h-full transition-all duration-200 hover:-translate-y-0.5 " <>
@@ -188,9 +190,17 @@
                               <div class={"inline-flex items-center justify-center w-8 h-8 rounded-md " <> section_color_classes(color)}>
                                 <.icon name={AgentJidoWeb.PageLive.section_icon(section_page)} class={"h-4 w-4 " <> section_icon_color(color)} />
                               </div>
-                              <span :if={count > 0} class="text-[10px] px-2 py-0.5 rounded bg-elevated text-muted-foreground">
-                                {count} pages
-                              </span>
+                              <div class="flex items-center gap-1.5">
+                                <span
+                                  :if={status_label}
+                                  class={"text-[10px] px-2 py-0.5 rounded font-semibold uppercase tracking-wide " <> AgentJidoWeb.PageLive.status_badge_class(status)}
+                                >
+                                  {status_label}
+                                </span>
+                                <span :if={count > 0} class="text-[10px] px-2 py-0.5 rounded bg-elevated text-muted-foreground">
+                                  {count} pages
+                                </span>
+                              </div>
                             </div>
                             <div class="text-sm font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
                               {Map.get(section_page, :menu_label) || section_page.title}
@@ -547,7 +557,14 @@
           <h1 class="text-3xl font-bold mb-8">{Phoenix.Naming.humanize(@category)}</h1>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <%= for pg <- assigns[:pages] || [] do %>
+              <% status = AgentJido.Pages.content_status(pg) %>
+              <% status_label = AgentJido.Pages.content_status_label(pg) %>
               <.link navigate={AgentJido.Pages.route_for(pg)} class="feature-card group block">
+                <div :if={status_label} class="mb-2">
+                  <span class={"text-[10px] px-2 py-0.5 rounded font-semibold uppercase tracking-wide " <> AgentJidoWeb.PageLive.status_badge_class(status)}>
+                    {status_label}
+                  </span>
+                </div>
                 <h3 class="font-bold text-[15px] mb-2 group-hover:text-primary transition-colors">
                   {pg.title}
                 </h3>

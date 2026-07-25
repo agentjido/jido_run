@@ -29,6 +29,10 @@ defmodule AgentJido.Pages.Page do
   - `in_menu` - If false, page is hidden from navigation menu
   - `menu_label` - Override title in menu display
   - `legacy_paths` - Legacy URL aliases that should redirect to this page
+  - `status` - Content maturity (`:published`, `:draft`, `:experimental`). Distinct from
+    `draft` (which hides a page from public indexes): a *visible* page can still carry a
+    `:draft` or `:experimental` status so hub cards label it instead of letting it look
+    complete (E06-T24).
 
   ### Document metadata
   - `doc_type` - Document type (:guide, :reference, :tutorial, :explanation, :cookbook)
@@ -90,6 +94,15 @@ defmodule AgentJido.Pages.Page do
                 Zoi.boolean(description: "If false, page is hidden from navigation menu")
                 |> Zoi.default(true),
               menu_label: Zoi.string(description: "Override title in menu display") |> Zoi.optional(),
+              # Content maturity — distinct from the `draft` visibility boolean. A visible
+              # page (draft: false) can still be :draft or :experimental so hub cards label
+              # it instead of letting it look complete (E06-T24).
+              status:
+                Zoi.atom(
+                  description:
+                    "Content maturity (:published | :draft | :experimental). A visible page with :draft or :experimental is labeled on hub cards."
+                )
+                |> Zoi.default(:published),
               legacy_paths:
                 Zoi.any(description: "Legacy URL paths that should redirect to this page")
                 |> Zoi.default([]),

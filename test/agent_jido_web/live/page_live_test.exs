@@ -536,6 +536,43 @@ defmodule AgentJidoWeb.PageLiveTest do
     |> Map.fetch!(:docs_feedback)
   end
 
+  describe "hub card status labels (jido-e06-t24)" do
+    # Acceptance: "Draft or Experimental content cannot look complete." Hub cards
+    # render a status badge when a page's content status is draft or
+    # experimental; published content renders no badge.
+
+    test "status_badge_class/1 returns a distinct caution style per status" do
+      assert AgentJidoWeb.PageLive.status_badge_class(:draft) =~ "text-accent-yellow"
+      assert AgentJidoWeb.PageLive.status_badge_class(:experimental) =~ "text-accent-cyan"
+      # The fallback is neutral so it never reads as a status by itself.
+      refute AgentJidoWeb.PageLive.status_badge_class(:published) =~ "text-accent-"
+    end
+
+    test "published build pages carry no status label, so the hub renders no badges", %{conn: conn} do
+      for page <- Pages.pages_by_category(:build) do
+        assert Pages.content_status(page) == :published
+        assert Pages.content_status_label(page) == nil
+      end
+
+      # The hub still renders its cards (regression for the template edit), and
+      # because every build page is published the status-badge spans never
+      # render — the badge class is only emitted by status_badge_class/1 and
+      # only when a non-published status is present.
+      {:ok, _view, html} = live(conn, "/build")
+
+      assert html =~ "Build with Jido"
+      refute html =~ ~s(uppercase tracking-wide bg-accent-yellow/10 border border-accent-yellow/30)
+      refute html =~ ~s(uppercase tracking-wide bg-accent-cyan/10 border border-accent-cyan/30)
+    end
+
+    test "published docs section roots carry no status label" do
+      for section_page <- Pages.docs_sections() do
+        assert Pages.content_status(section_page) == :published
+        assert Pages.content_status_label(section_page) == nil
+      end
+    end
+  end
+
   describe "disabled public routes" do
     test "training index route returns 404", %{conn: conn} do
       conn = get(conn, "/training")

@@ -168,4 +168,46 @@ defmodule AgentJidoWeb.MarkdownContentTest do
       assert markdown_section_routes == browser_section_routes
     end
   end
+
+  describe "hub status labels (jido-e06-t24)" do
+    # Acceptance: "Draft or Experimental content cannot look complete." A status
+    # tag must only appear when a page is draft or experimental. Today every
+    # public page is published, so the generated hubs must carry no false tags —
+    # the positive (Draft)/(Experimental) tagging path is covered by the shared
+    # Pages.content_status_label/1 unit tests, which both the browser and
+    # Markdown hubs call.
+
+    @status_tag ~r/\((Draft|Experimental)\)/
+
+    test "the docs hub markdown adds no status tags for published content" do
+      {:ok, markdown} = MarkdownContent.resolve("/docs", "https://jido.run/docs")
+
+      refute Regex.match?(@status_tag, markdown),
+             "published docs hub content must not carry a draft/experimental tag"
+    end
+
+    test "the build and compare hub markdown add no status tags for published content" do
+      for path <- ["/build", "/compare"] do
+        {:ok, markdown} = MarkdownContent.resolve(path, "https://jido.run#{path}")
+
+        refute Regex.match?(@status_tag, markdown),
+               "published #{path} hub content must not carry a draft/experimental tag"
+      end
+    end
+
+    # Contract for the shared helper both hubs call: draft/experimental content
+    # must yield a visible label (so it cannot look complete); published yields
+    # none. Kept here (non-flaky) so the positive path runs in the default suite.
+    test "Pages.content_status_label/1 labels draft and experimental content" do
+      alias AgentJido.Pages.Page
+
+      draft = %Page{id: "d", path: "/docs/d", title: "D", category: :docs, status: :draft}
+      experimental = %Page{id: "e", path: "/docs/e", title: "E", category: :docs, status: :experimental}
+      published = %Page{id: "p", path: "/docs/p", title: "P", category: :docs}
+
+      assert AgentJido.Pages.content_status_label(draft) == "Draft"
+      assert AgentJido.Pages.content_status_label(experimental) == "Experimental"
+      assert AgentJido.Pages.content_status_label(published) == nil
+    end
+  end
 end

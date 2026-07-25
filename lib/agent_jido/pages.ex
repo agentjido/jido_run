@@ -486,6 +486,41 @@ defmodule AgentJido.Pages do
   def route_for(%Page{category: :community} = p), do: "/community/#{p.id}"
   def route_for(%Page{category: :compare} = p), do: "/compare/#{p.id}"
 
+  @content_statuses [:published, :draft, :experimental]
+
+  @doc """
+  Returns the content-maturity status for a page.
+
+  `status` is a page's content maturity — distinct from the `draft` boolean,
+  which only hides a page from public indexes. A *visible* page (`draft: false`)
+  can still carry a `:draft` or `:experimental` status so hub cards can label it
+  instead of letting it look complete. Unknown or missing values normalize to
+  `:published`. See E06-T24.
+  """
+  @spec content_status(Page.t()) :: :published | :draft | :experimental
+  def content_status(%Page{status: status}) when status in [:draft, :experimental], do: status
+  def content_status(_page), do: :published
+
+  @doc """
+  Returns a human label for a page's content status, or `nil` when the page is
+  stable (no label is needed). Hub cards use this so draft or experimental
+  content cannot look complete.
+  """
+  @spec content_status_label(Page.t()) :: String.t() | nil
+  def content_status_label(page) do
+    case content_status(page) do
+      :draft -> "Draft"
+      :experimental -> "Experimental"
+      :published -> nil
+    end
+  end
+
+  @doc """
+  Returns the supported content-maturity status atoms.
+  """
+  @spec content_statuses() :: [:published | :draft | :experimental]
+  def content_statuses, do: @content_statuses
+
   # --- Private helpers ---
 
   defp normalize_path_lookup(path) when is_binary(path) do

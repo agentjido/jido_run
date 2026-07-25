@@ -936,4 +936,60 @@ defmodule AgentJido.PagesTest do
       assert summary =~ ~s(/docs/operations/security-and-governance)
     end
   end
+
+  describe "content_status/1 (jido-e06-t24)" do
+    # Acceptance: "Draft or Experimental content cannot look complete." Hub cards
+    # must be able to label a page by its content maturity, so a status distinct
+    # from the `draft` visibility flag is exposed for the browser and Markdown
+    # hubs to render.
+
+    test "defaults to :published (stable content needs no label)" do
+      page = %Page{id: "p", path: "/docs/x", title: "X", category: :docs}
+
+      assert Pages.content_status(page) == :published
+      assert Pages.content_status_label(page) == nil
+    end
+
+    test "exposes a draft status and label" do
+      page = %Page{id: "p", path: "/docs/x", title: "X", category: :docs, status: :draft}
+
+      assert Pages.content_status(page) == :draft
+      assert Pages.content_status_label(page) == "Draft"
+    end
+
+    test "exposes an experimental status and label" do
+      page = %Page{id: "p", path: "/docs/x", title: "X", category: :docs, status: :experimental}
+
+      assert Pages.content_status(page) == :experimental
+      assert Pages.content_status_label(page) == "Experimental"
+    end
+
+    test "is independent of the draft visibility boolean" do
+      # A page can be hidden (draft: true) while still carrying a content status;
+      # and a visible page can be labeled draft/experimental without being hidden.
+      hidden_experimental = %Page{
+        id: "p",
+        path: "/docs/x",
+        title: "X",
+        category: :docs,
+        draft: true,
+        status: :experimental
+      }
+
+      assert Pages.content_status(hidden_experimental) == :experimental
+    end
+
+    test "all real published pages normalize to :published" do
+      for page <- Pages.all_pages() do
+        assert Pages.content_status(page) == :published
+        assert Pages.content_status_label(page) == nil
+      end
+    end
+
+    test "content_statuses/0 lists the supported maturity values" do
+      assert :draft in Pages.content_statuses()
+      assert :experimental in Pages.content_statuses()
+      assert :published in Pages.content_statuses()
+    end
+  end
 end

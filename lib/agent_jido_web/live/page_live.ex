@@ -418,6 +418,17 @@ defmodule AgentJidoWeb.PageLive do
 
   def difficulty_class(_), do: "bg-elevated border border-border text-muted-foreground"
 
+  # Status label styling for hub cards — draft/experimental content must read as
+  # not-yet-complete instead of blending in with stable cards. See E06-T24.
+  @doc false
+  def status_badge_class(:draft),
+    do: "bg-accent-yellow/10 border border-accent-yellow/30 text-accent-yellow"
+
+  def status_badge_class(:experimental),
+    do: "bg-accent-cyan/10 border border-accent-cyan/30 text-accent-cyan"
+
+  def status_badge_class(_), do: "bg-elevated text-muted-foreground"
+
   @doc false
   def section_page_count(section_page) do
     section = Pages.docs_section_for_path(Pages.route_for(section_page))
