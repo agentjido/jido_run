@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-25T23:20:44Z",
   "created": "2026-07-23T12:04:45Z",
   "description": "Backlog task: E07-T33\n\nWork area: Proof package\n\nMain targets: Reference app tests\n\nComplete when: Each recovery boundary has an automated or repeatable test.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e07-t33",
@@ -22,7 +23,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E07-T33 — Add a test matrix for process, app, node, and deploy restart.",
   "type": "task",
   "updated_at": "2026-07-25T23:20:44Z"
