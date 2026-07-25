@@ -15,11 +15,15 @@
     {
       "text": "Open: provider-timeout/fallback example needs the reference app.",
       "timestamp": "2026-07-24T12:50:34Z"
+    },
+    {
+      "text": "Accepted by the Zclaude Ralph supervisor. Commits: f58d56ef. Verification: MIX_ENV=test mix compile \u0026\u0026 MIX_ENV=test mix format --check-formatted.",
+      "timestamp": "2026-07-25T21:21:08Z"
     }
   ],
   "priority": 1,
   "status": "in_progress",
   "title": "E07-T16 — Document a provider timeout and fallback.",
   "type": "task",
-  "updated_at": "2026-07-25T21:12:07Z"
+  "updated_at": "2026-07-25T21:21:08Z"
 }
