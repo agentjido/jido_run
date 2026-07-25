@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-25T01:17:41Z",
   "created": "2026-07-23T12:03:57Z",
   "description": "Backlog task: E06-T22\n\nWork area: Hub and leaf alignment\n\nMain targets: Docs LiveView and content model\n\nComplete when: Browser and Markdown inventory agree.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e06-t22",
@@ -22,8 +23,8 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E06-T22 — Generate the Docs hub from the same content records as the source Markdown.",
   "type": "task",
-  "updated_at": "2026-07-25T01:17:40Z"
+  "updated_at": "2026-07-25T01:17:41Z"
 }
