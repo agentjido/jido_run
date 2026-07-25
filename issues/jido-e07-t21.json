@@ -15,11 +15,15 @@
     {
       "text": "Open: backpressure/queue-limit guidance not yet a dedicated page.",
       "timestamp": "2026-07-24T12:50:35Z"
+    },
+    {
+      "text": "Accepted by the Zclaude Ralph supervisor. Commits: 04913f01. Verification: MIX_ENV=test mix compile \u0026\u0026 MIX_ENV=test mix format --check-formatted.",
+      "timestamp": "2026-07-25T21:44:06Z"
     }
   ],
   "priority": 1,
   "status": "in_progress",
   "title": "E07-T21 — Add backpressure and queue-limit guidance.",
   "type": "task",
-  "updated_at": "2026-07-25T21:31:05Z"
+  "updated_at": "2026-07-25T21:44:06Z"
 }
