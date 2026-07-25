@@ -1212,6 +1212,127 @@ defmodule AgentJido.PagesTest do
     end
   end
 
+  describe "operations telemetry and traces page (jido-e07-t07)" do
+    # Acceptance: "It distinguishes core observation events from jido_otel."
+    @telemetry_source Path.expand(
+                        "../../priv/pages/docs/operations/telemetry-and-traces.md",
+                        __DIR__
+                      )
+    @telemetry_route "/docs/operations/telemetry-and-traces"
+    @reference_route "/docs/reference/telemetry-and-observability"
+    @otel_package_route "/ecosystem/jido_otel"
+
+    test "the page is published and routable" do
+      page = Pages.get_page_by_path(@telemetry_route)
+
+      assert page != nil
+      assert page.category == :docs
+      assert page.draft == false
+      assert Pages.route_for(page) == @telemetry_route
+    end
+
+    test "the page is linked from the operations hub" do
+      hub = File.read!(Path.expand("../../priv/pages/docs/operations.md", __DIR__))
+
+      assert hub =~ @telemetry_route
+    end
+
+    test "core observation events and jido_otel are separate sections" do
+      body = File.read!(@telemetry_source)
+
+      # The acceptance condition: the two layers each get their own dedicated
+      # heading, so they are presented as distinct things, not conflated.
+      assert has_h2?(body, "Core observation events")
+      assert body =~ ~r/jido_otel/i
+    end
+
+    test "it names the core observation surface as :telemetry from Jido.Observe" do
+      body = File.read!(@telemetry_source)
+
+      # Core observation is the :telemetry event stream emitted by Jido.Observe.
+      assert body =~ ":telemetry"
+      assert body =~ "Jido.Observe"
+
+      # The other core observation surfaces are named, not just jido_otel.
+      assert body =~ "Jido.Telemetry"
+      assert body =~ "Jido.AI.Observe"
+    end
+
+    test "it states core telemetry does not depend on jido_otel" do
+      body = File.read!(@telemetry_source)
+
+      # Core telemetry is observable without the tracing package.
+      assert body =~ ~r/no Jido tracing package installed/i
+
+      # A core reporter attaches without jido_otel.
+      assert body =~ "Jido.Telemetry.setup()"
+    end
+
+    test "it frames jido_otel as a separate, optional exporter, not built in" do
+      body = File.read!(@telemetry_source)
+
+      # jido_otel bridges to OpenTelemetry via the Tracer behaviour.
+      assert body =~ ~r/OpenTelemetry/i
+      assert body =~ "Jido.Observe.Tracer"
+
+      # It must not be presented as part of jido core.
+      assert body =~ ~r/separate package/i
+      assert body =~ ~r/not.*Hex|not on Hex/i
+    end
+
+    test "it separates core Stable maturity from experimental jido_otel" do
+      body = File.read!(@telemetry_source)
+
+      # The maturity table row separates Stable core from Experimental export.
+      assert body =~ ~r/Stable/i
+      assert body =~ ~r/Experimental/i
+    end
+
+    test "it links the reference catalog and the jido_otel package page" do
+      body = File.read!(@telemetry_source)
+
+      # The full event catalog lives on the reference page (a real route).
+      assert body =~ @reference_route
+      reference = Pages.get_page_by_path(@reference_route)
+      assert reference != nil
+      assert reference.draft == false
+
+      # The package page resolves through the ecosystem catalog, not a dead link.
+      assert body =~ @otel_package_route
+      otel_package = AgentJido.Ecosystem.get_package("jido_otel")
+      assert otel_package != nil
+    end
+
+    test "it frames telemetry as observation, not an audit log" do
+      body = File.read!(@telemetry_source)
+
+      # Observation is named; it is explicitly not a tamper-evident audit log.
+      assert body =~ ~r/observation/i
+      assert body =~ ~r/not.*audit log|not an audit/i
+
+      # It must not overclaim delivery or completeness.
+      refute body =~ ~r/guaranteed delivery|guarantees delivery/i
+    end
+
+    test "the page source has no placeholder markers" do
+      body = File.read!(@telemetry_source)
+
+      placeholder_patterns = [
+        ~r/content coming soon/i,
+        ~r/\bcoming soon\b/i,
+        ~r/\bTODO\b/,
+        ~r/\bTBD\b/,
+        ~r/lorem ipsum/i
+      ]
+
+      assert body =~ "draft: false"
+
+      Enum.each(placeholder_patterns, fn pattern ->
+        refute body =~ pattern
+      end)
+    end
+  end
+
   describe "content_status/1 (jido-e06-t24)" do
     # Acceptance: "Draft or Experimental content cannot look complete." Hub cards
     # must be able to label a page by its content maturity, so a status distinct
