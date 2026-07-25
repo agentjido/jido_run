@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-25T02:35:16Z",
   "created": "2026-07-23T12:04:08Z",
   "description": "Backlog task: E06-T33\n\nWork area: Operational-control content\n\nMain targets: Identity and Signals guide\n\nComplete when: Copy does not present Agent, Signal, user, or tenant IDs as authentication.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e06-t33",
@@ -23,8 +24,8 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E06-T33 — Add a page that distinguishes correlation IDs from authenticated principals.",
   "type": "task",
-  "updated_at": "2026-07-25T02:35:15Z"
+  "updated_at": "2026-07-25T02:35:16Z"
 }
