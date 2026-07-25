@@ -41,4 +41,72 @@ defmodule AgentJidoWeb.MarkdownContentTest do
       assert markdown =~ "Skills"
     end
   end
+
+  describe "docs hub markdown inventory (E06-T22)" do
+    # The browser hub (`/docs`) and the Markdown hub (`/docs.md`) must list the
+    # same inventory, both generated from the Pages content records.
+    test "the docs hub markdown is generated from the same content records as the browser hub" do
+      assert {:ok, markdown} = MarkdownContent.resolve("/docs", "https://jido.run/docs")
+
+      # Generated payload, not a fallback stub and not the hand-written index body.
+      refute String.contains?(
+               markdown,
+               "generated from the rendered route when direct source markdown is not available"
+             )
+
+      assert String.contains?(markdown, "generated from the same content records as the rendered Docs hub")
+
+      for section_page <- AgentJido.Pages.docs_sections() do
+        section = AgentJido.Pages.docs_section_for_path(AgentJido.Pages.route_for(section_page))
+
+        section_pages =
+          if section,
+            do:
+              section
+              |> AgentJido.Pages.docs_section_pages()
+              |> Enum.reject(&(&1.path == section_page.path)),
+            else: []
+
+        count = length(section_pages)
+        label = Map.get(section_page, :menu_label) || section_page.title
+        route = AgentJido.Pages.route_for(section_page)
+
+        # The section header agrees with the browser card: same label, route,
+        # and page count.
+        expected_header =
+          "**[#{label}](#{route})**" <>
+            if(count > 0, do: " (#{count} pages)", else: "")
+
+        assert String.contains?(markdown, expected_header),
+               "docs hub markdown is missing section header: #{inspect(expected_header)}"
+
+        # Every in-menu leaf page in the section is listed in the inventory.
+        for page <- section_pages do
+          page_label = Map.get(page, :menu_label) || page.title
+          page_route = AgentJido.Pages.route_for(page)
+
+          assert String.contains?(markdown, "[#{page_label}](#{page_route})"),
+                 "docs hub markdown is missing leaf page: #{inspect("[#{page_label}](#{page_route})")}"
+        end
+      end
+    end
+
+    test "the docs hub markdown lists exactly the same section routes as the browser hub" do
+      assert {:ok, markdown} = MarkdownContent.resolve("/docs", "https://jido.run/docs")
+
+      markdown_section_routes =
+        Regex.scan(~r"\*\*\[[^\]]+\]\((/docs/[^)]+)\)\*\*", markdown)
+        |> Enum.map(fn [_, route] -> route end)
+        |> Enum.uniq()
+        |> Enum.sort()
+
+      browser_section_routes =
+        AgentJido.Pages.docs_sections()
+        |> Enum.map(&AgentJido.Pages.route_for/1)
+        |> Enum.uniq()
+        |> Enum.sort()
+
+      assert markdown_section_routes == browser_section_routes
+    end
+  end
 end

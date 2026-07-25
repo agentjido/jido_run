@@ -15,7 +15,7 @@ defmodule AgentJidoWeb.LLMResponsePlugTest do
     assert link =~ "<#{AgentJidoWeb.Endpoint.url()}/docs.md>; rel=\"alternate\"; type=\"text/markdown\""
   end
 
-  test "markdown negotiation returns source markdown with discovery and SEO headers", %{conn: conn} do
+  test "markdown negotiation returns the generated docs hub inventory with discovery and SEO headers", %{conn: conn} do
     conn =
       conn
       |> put_req_header("accept", "text/markdown")
@@ -31,8 +31,11 @@ defmodule AgentJidoWeb.LLMResponsePlugTest do
     assert link =~ ~s(</llms.txt>; rel="alternate"; type="text/plain")
     assert link =~ "<#{AgentJidoWeb.Endpoint.url()}/docs.md>; rel=\"alternate\"; type=\"text/markdown\""
     assert link =~ "<#{AgentJidoWeb.Endpoint.url()}/docs>; rel=\"canonical\""
-    assert body =~ "title: \"Documentation\""
-    assert body =~ "## Find what you need"
+    # The hub markdown is generated from the same content records as the browser
+    # hub (E06-T22), not the hand-written index page body.
+    assert body =~ "# Documentation"
+    assert body =~ "generated from the same content records as the rendered Docs hub"
+    assert body =~ "**[Get Started](/docs/getting-started)**"
   end
 
   test "explicit .md routes return markdown without accept header", %{conn: conn} do
@@ -45,7 +48,8 @@ defmodule AgentJidoWeb.LLMResponsePlugTest do
     assert get_resp_header(conn, "x-robots-tag") == ["noindex"]
     assert link =~ "<#{AgentJidoWeb.Endpoint.url()}/docs.md>; rel=\"alternate\"; type=\"text/markdown\""
     assert link =~ "<#{AgentJidoWeb.Endpoint.url()}/docs>; rel=\"canonical\""
-    assert body =~ "title: \"Documentation\""
+    assert body =~ "# Documentation"
+    assert body =~ "generated from the same content records as the rendered Docs hub"
   end
 
   test "leaf docs .md routes return the underlying source markdown", %{conn: conn} do

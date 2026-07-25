@@ -47,6 +47,14 @@ defmodule AgentJidoWeb.MarkdownContent do
       :no_match
   end
 
+  # The Docs hub is generated from the same content records as the rendered
+  # browser hub (Pages.docs_sections/0 + docs_section_pages/1), so the browser
+  # and Markdown inventories agree instead of drifting against a hand-written
+  # index page. See E06-T22.
+  defp resolve_from_pages("/docs") do
+    {:ok, docs_hub_markdown()}
+  end
+
   defp resolve_from_pages(path) do
     case Pages.resolve_page_for_path(path) do
       {:ok, _page, :legacy} ->
@@ -70,6 +78,67 @@ defmodule AgentJidoWeb.MarkdownContent do
         nil
     end
   end
+
+  defp docs_hub_markdown do
+    section_blocks =
+      Pages.docs_sections()
+      |> Enum.map(&format_docs_hub_section/1)
+      |> Enum.reject(&(&1 in ["", nil]))
+      |> Enum.join("\n\n")
+
+    """
+    # Documentation
+
+    Everything you need to build and run multi-agent systems with Jido - from your first agent to production deployment.
+
+    ## Documentation
+
+    #{section_blocks}
+
+    ---
+
+    This inventory is generated from the same content records as the rendered Docs hub.
+    """
+  end
+
+  # Mirrors the browser hub (page_live.ex): a section root page's label, route,
+  # description, and the in-menu pages beneath it (excluding the root itself, so
+  # the count matches `section_page_count/1`).
+  defp format_docs_hub_section(section_page) do
+    section = Pages.docs_section_for_path(Pages.route_for(section_page))
+    label = map_get(section_page, :menu_label) || map_get(section_page, :title)
+    route = Pages.route_for(section_page)
+
+    section_pages =
+      if section do
+        section
+        |> Pages.docs_section_pages()
+        |> Enum.reject(&(&1.path == section_page.path))
+      else
+        []
+      end
+
+    description =
+      section_page
+      |> map_get(:description)
+      |> to_string()
+      |> String.trim()
+
+    header =
+      "- **[#{label}](#{route})**#{count_suffix(length(section_pages))}" <>
+        if(description == "", do: "", else: " — #{description}")
+
+    child_lines =
+      Enum.map(section_pages, fn page ->
+        page_label = map_get(page, :menu_label) || map_get(page, :title)
+        "  - [#{page_label}](#{Pages.route_for(page)})"
+      end)
+
+    Enum.join([header | child_lines], "\n")
+  end
+
+  defp count_suffix(0), do: ""
+  defp count_suffix(count), do: " (#{count} pages)"
 
   defp resolve_from_blog("/blog") do
     {:fallback, "Engineering Blog", "Product updates, release notes, and practical guides for building reliable AI agents in Elixir and on the BEAM."}
