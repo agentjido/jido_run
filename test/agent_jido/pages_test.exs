@@ -1483,6 +1483,135 @@ defmodule AgentJido.PagesTest do
     end
   end
 
+  describe "operations poison work and dead-letter handling page (jido-e07-t17)" do
+    # Acceptance: "Failed work can be inspected and replayed."
+    @poison_source Path.expand(
+                     "../../priv/pages/docs/operations/poison-work-and-dead-letter.md",
+                     __DIR__
+                   )
+    @poison_route "/docs/operations/poison-work-and-dead-letter"
+    @poison_demo "lib/agent_jido/demos/poison_work_dead_letter/poison_work_dead_letter.ex"
+    @poison_demo_test "test/agent_jido/demos/poison_work_dead_letter_test.exs"
+
+    test "the page is published and routable" do
+      page = Pages.get_page_by_path(@poison_route)
+
+      assert page != nil
+      assert page.category == :docs
+      assert page.draft == false
+      assert Pages.route_for(page) == @poison_route
+    end
+
+    test "the page is linked from the operations hub" do
+      hub = File.read!(Path.expand("../../priv/pages/docs/operations.md", __DIR__))
+
+      assert hub =~ @poison_route
+    end
+
+    test "failed work can be inspected and replayed (both halves of the acceptance)" do
+      body = File.read!(@poison_source)
+
+      # The acceptance condition: both halves get their own dedicated heading, so
+      # inspection and replay are presented as distinct, observable operations.
+      assert has_h2?(body, "Failed work can be inspected")
+      assert has_h2?(body, "Failed work can be replayed")
+
+      # The bounded retry budget that feeds the dead-letter path is named.
+      assert body =~ "max_attempts"
+      assert body =~ ~r/bounded/i
+
+      # The inspectable entry exposes what failed, why, and how many times.
+      assert body =~ "entry"
+      assert body =~ "reason"
+      assert body =~ "attempts"
+      assert body =~ "id"
+    end
+
+    test "poison work is bounded and dead-lettered, not retried forever" do
+      body = File.read!(@poison_source)
+
+      assert has_h2?(body, "Poison work is bounded, then dead-lettered")
+      assert body =~ ~r/poison/i
+
+      # The dead-letter store is named as the destination for exhausted work.
+      assert body =~ "dead-letter store"
+      assert body =~ "dead-lettered"
+    end
+
+    test "replay removes a fixed entry and updates a still-failing one (no duplicate)" do
+      body = File.read!(@poison_source)
+
+      # A successful replay empties the entry; a renewed failure updates the same
+      # one — the observable replay semantics.
+      assert body =~ "replay"
+      assert body =~ ~r/no duplicate|not.*duplicate|never.*duplicate/i
+    end
+
+    test "the example is runnable: the demo module and its test exist and are cited" do
+      # The worked example points at a real, tested demo — not a snippet alone.
+      assert File.regular?(@poison_demo)
+      assert File.regular?(@poison_demo_test)
+
+      body = File.read!(@poison_source)
+      assert body =~ @poison_demo
+      assert body =~ @poison_demo_test
+    end
+
+    test "it frames the dead-letter store as an application concern, not a Jido feature" do
+      body = File.read!(@poison_source)
+
+      # Jido does not ship a dead-letter queue; the Signal Journal is the closest
+      # durable-history surface, and the policy is application-owned.
+      assert body =~ ~r/application concern/i
+      assert body =~ ~r/Jido does not ship/i
+
+      # It is distinguished from the call-layer decisions that run before it.
+      assert body =~ "run/2"
+    end
+
+    test "it links only to live operations routes" do
+      body = File.read!(@poison_source)
+
+      internal_links =
+        Regex.scan(~r{\]\((/docs/[^)#]+)\)}, body, capture: :all_but_first)
+        |> List.flatten()
+        |> Enum.uniq()
+
+      assert internal_links != []
+
+      for path <- internal_links do
+        page = Pages.get_page_by_path(path)
+
+        assert page != nil, "poison-work page links to a route that does not resolve: #{path}"
+        assert page.draft == false, "poison-work page links to a draft page: #{path}"
+      end
+
+      # The retries guide (which feeds this path) and the call-layer siblings
+      # are cross-linked, so the claim is not isolated.
+      assert body =~ "/docs/operations/retries-timeouts-and-provider-failure"
+      assert body =~ "/docs/operations/tool-error-and-retry-decision"
+      assert body =~ "/docs/operations/provider-timeout-and-fallback"
+    end
+
+    test "the page source has no placeholder markers" do
+      body = File.read!(@poison_source)
+
+      placeholder_patterns = [
+        ~r/content coming soon/i,
+        ~r/\bcoming soon\b/i,
+        ~r/\bTODO\b/,
+        ~r/\bTBD\b/,
+        ~r/lorem ipsum/i
+      ]
+
+      assert body =~ "draft: false"
+
+      Enum.each(placeholder_patterns, fn pattern ->
+        refute body =~ pattern
+      end)
+    end
+  end
+
   describe "operations scheduling and event input page (jido-e07-t06)" do
     # Acceptance: "It links to a working Schedule and Sensor example."
     @scheduling_source Path.expand(
