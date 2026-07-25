@@ -16,11 +16,15 @@
     {
       "text": "Open: principal/tenant/causation context propagation depends on the reference app.",
       "timestamp": "2026-07-24T12:50:38Z"
+    },
+    {
+      "text": "Accepted by the Zclaude Ralph supervisor. Commits: 7f706106. Verification: MIX_ENV=test mix compile \u0026\u0026 MIX_ENV=test mix format --check-formatted.",
+      "timestamp": "2026-07-25T23:52:12Z"
     }
   ],
   "priority": 1,
   "status": "in_progress",
   "title": "E07-T37 — Carry principal, tenant, request, correlation, and causation context in the incoming Signal.",
   "type": "task",
-  "updated_at": "2026-07-25T23:39:36Z"
+  "updated_at": "2026-07-25T23:52:12Z"
 }
