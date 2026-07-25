@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-25T01:02:43Z",
   "created": "2026-07-23T12:03:49Z",
   "description": "Backlog task: E06-T14\n\nWork area: Content hygiene\n\nMain targets: Docs templates\n\nComplete when: No page ends without a next action.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e06-t14",
@@ -22,7 +23,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E06-T14 — Add one “What to do next” block to every page.",
   "type": "task",
   "updated_at": "2026-07-25T01:02:43Z"
