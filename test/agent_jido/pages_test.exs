@@ -1877,6 +1877,167 @@ defmodule AgentJido.PagesTest do
     end
   end
 
+  describe "migrations and upgrade paths page (jido-e07-t24)" do
+    # Acceptance: "Each supported upgrade path has a version range."
+    @upgrade_source Path.expand(
+                      "../../priv/pages/docs/reference/migrations-and-upgrade-paths.md",
+                      __DIR__
+                    )
+    @upgrade_route "/docs/reference/migrations-and-upgrade-paths"
+
+    test "the page is published and routable" do
+      page = Pages.get_page_by_path(@upgrade_route)
+
+      assert page != nil
+      assert page.category == :docs
+      assert page.draft == false
+      assert Pages.route_for(page) == @upgrade_route
+
+      # The legacy route resolves to the same page (legacy paths are served
+      # through the resolver, not the canonical-path lookup).
+      assert {:ok, legacy_page, :legacy} =
+               Pages.resolve_page_for_path("/docs/migrations-and-upgrade-paths")
+
+      assert legacy_page.path == "/docs/reference/migrations-and-upgrade-paths"
+    end
+
+    test "the page is linked from the reference hub" do
+      hub = File.read!(Path.expand("../../priv/pages/docs/reference.md", __DIR__))
+
+      assert hub =~ @upgrade_route
+    end
+
+    test "each supported upgrade path has a dedicated heading with a version range (the acceptance)" do
+      body = File.read!(@upgrade_source)
+
+      # The acceptance condition: each of the three supported upgrade paths
+      # (jido, jido_ai, req_llm) gets its own heading, and each heading carries
+      # an explicit version range so the path is stated, not implied.
+      assert has_h2?(body, "jido: 2.1.0 → 2.3.2")
+      assert has_h2?(body, "jido_ai: 2.0.0 → 2.2.0")
+      assert has_h2?(body, "req_llm: 1.7.0 → 1.17.1")
+
+      # The summary table names all three paths together with their ranges, so a
+      # reader sees the full upgrade map before the per-path detail.
+      assert body =~ "2.1.0"
+      assert body =~ "2.3.2"
+      assert body =~ "2.0.0"
+      assert body =~ "2.2.0"
+      assert body =~ "1.7.0"
+      assert body =~ "1.17.1"
+    end
+
+    test "each version range is grounded in the real declared band and current pin" do
+      body = File.read!(@upgrade_source)
+
+      # Each path states its ~> band (the Hex requirement) as well as the range,
+      # so the version range is tied to a real constraint, not a free-floating
+      # pair of numbers.
+      assert body =~ "~> 2.1"
+      assert body =~ "~> 2.0"
+      assert body =~ "~> 1.7"
+
+      # Each path names the current pin from mix.lock, so the range's ceiling is
+      # a real, installed version.
+      assert body =~ "jido` `2.3.2`"
+      assert body =~ "jido_ai` `2.2.0`"
+      assert body =~ "req_llm` `1.17.1`"
+    end
+
+    test "each path states the cross-package constraint that gates the move" do
+      body = File.read!(@upgrade_source)
+
+      # jido into 2.3.x needs jido_action and jido_signal floors.
+      assert body =~ "jido_action ~> 2.3"
+      assert body =~ "jido_signal ~> 2.2"
+
+      # jido_ai into 2.2.x needs jido and req_llm floors.
+      assert body =~ "jido ~> 2.3"
+      assert body =~ "req_llm ~> 1.12"
+
+      # req_llm past 1.12.0 needs llm_db.
+      assert body =~ "llm_db ~> 2026.7.0"
+    end
+
+    test "it states the central honesty point that Jido does not own the upgrade mechanics" do
+      body = File.read!(@upgrade_source)
+
+      # The page must say plainly that Hex resolves the version set while the
+      # deployment, data-migration, and rollback mechanics stay application-owned.
+      assert body =~ ~r/does not own.*deployment mechanics/i
+      assert body =~ "application-owned"
+    end
+
+    test "the upgrade order is bottom-up and names every package" do
+      body = File.read!(@upgrade_source)
+
+      assert has_h2?(body, "Upgrade in dependency order")
+
+      # Scope the order check to the order section itself, so "jido" appearing
+      # in the intro does not skew the position comparison.
+      [_before, at_and_after] = String.split(body, "## Upgrade in dependency order", parts: 2)
+
+      section =
+        case String.split(at_and_after, ~r/\n## /, parts: 2) do
+          [s, _rest] -> s
+          [s] -> s
+        end
+
+      {req_llm_pos, _} = :binary.match(section, "req_llm`")
+      {jido_ai_pos, _} = :binary.match(section, "jido_ai` last")
+
+      # req_llm (step 1) precedes jido_ai (step 3): the lower package is upgraded
+      # before the package that depends on it.
+      assert req_llm_pos < jido_ai_pos
+    end
+
+    test "it links only to live routes" do
+      body = File.read!(@upgrade_source)
+
+      internal_links =
+        Regex.scan(~r{\]\((/docs/[^)#]+)\)}, body, capture: :all_but_first)
+        |> List.flatten()
+        |> Enum.uniq()
+
+      assert internal_links != []
+
+      for path <- internal_links do
+        page = Pages.get_page_by_path(path)
+
+        assert page != nil,
+               "migrations page links to a route that does not resolve: #{path}"
+
+        assert page.draft == false,
+               "migrations page links to a draft page: #{path}"
+      end
+
+      # The sibling surfaces are cross-linked, so the version guidance is not
+      # presented in isolation from the operations it depends on.
+      assert body =~ "/docs/reference/req-llm-and-llmdb"
+      assert body =~ "/docs/reference/configuration"
+      assert body =~ "/docs/operations/production-readiness-checklist"
+      assert body =~ "/docs/operations/deployment-restart"
+    end
+
+    test "the page source has no placeholder markers" do
+      body = File.read!(@upgrade_source)
+
+      placeholder_patterns = [
+        ~r/content coming soon/i,
+        ~r/\bcoming soon\b/i,
+        ~r/\bTODO\b/,
+        ~r/\bTBD\b/,
+        ~r/lorem ipsum/i
+      ]
+
+      assert body =~ "draft: false"
+
+      Enum.each(placeholder_patterns, fn pattern ->
+        refute body =~ pattern
+      end)
+    end
+  end
+
   describe "operations scheduling and event input page (jido-e07-t06)" do
     # Acceptance: "It links to a working Schedule and Sensor example."
     @scheduling_source Path.expand(
