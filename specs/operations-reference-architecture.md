@@ -62,13 +62,75 @@ follow-up `jido-e07-t35`, layered onto this same agent.
 
 ## Failure drills (each must have an expected observation)
 
+Each drill lists four expected observations — **Logs**, **State**,
+**Telemetry**, and **Recovery** — so an operator can read the expected result
+before running the drill. They are derived from the reference application
+(where a concern is wired into the agent) and the focused demo each drill
+points at; the same observations are reproduced in the reference app
+[README](../lib/agent_jido/demos/long_running_reference/README.md) (`jido-e07-t32`).
+
 1. **Tool error + retry decision:** retryable vs terminal errors take different paths.
+
+   | Observation | Expected |
+   |---|---|
+   | Logs | An Action error is returned at the call boundary (`{:error, _}`), not logged as a crash — the `AgentServer` stays up. |
+   | State | The retry lane advances `attempts` up to `max_attempts`; `status` ends `:recovered`, `last_event` `"retry.recovered"`. |
+   | Telemetry | `Jido.Action.Error.retryable?/1` classifies the error (`true` timeout / `false` invalid input). |
+   | Recovery | Retryable recovers inside the budget (3 attempts, `max_retries: 3`); terminal is not retried (1 attempt). |
+
 2. **`AgentServer` crash:** supervisor restarts the process; observed state result is explicit.
+
+   | Observation | Expected |
+   |---|---|
+   | Logs | The OTP supervisor restarts the `:permanent` child; the logger reports the restart. |
+   | State | Post-restart state is the **initial** state (`processed` resets, e.g. `3 → 0`); in-memory state is lost. |
+   | Telemetry | `status/1` returns the new pid and same `agent_id`; `Health.process_health/1` goes `:process_down` then `:ok`. |
+   | Recovery | A fresh process reclaims the same logical id; identity carries, memory does not. |
+
 3. **Application restart:** required state is restored from a real store.
+
+   | Observation | Expected |
+   |---|---|
+   | Logs | `Persistence.checkpoint/2` writes via `hibernate`; `restore/2` reads via `thaw`. |
+   | State | The restored agent keeps `processed` and `seen_work` from the checkpoint. |
+   | Telemetry | `Health.dependency_health/2` returns `:ok` (store reachable, hit or miss). |
+   | Recovery | `restore/2` returns `{:ok, agent}` on a hit, `{:error, :not_found}` on a miss. |
+
 4. **Deployment restart:** the workflow resumes or safely restarts with stated semantics.
+
+   | Observation | Expected |
+   |---|---|
+   | Logs | `Supervisor.stop/1` tears down supervisor and agent together (no surviving parent); a fresh tree boots. |
+   | State | Without persistence → initial state; with persistence → resumed (`processed` and `seen_work` preserved). |
+   | Telemetry | `whereis(agent_id)` resolves to the new pid; `status/1` reports the reclaimed identity. |
+   | Recovery | The whole tree is replaced and either safely restarts or resumes — the two semantics are stated. |
+
 5. **Duplicate Signal delivery:** the Action demonstrates idempotency.
+
+   | Observation | Expected |
+   |---|---|
+   | Logs | `last_event` reads `"work.duplicate:<work_id>"` on the repeat. |
+   | State | `processed` advances once; `seen_work` lists the `work_id` once. |
+   | Telemetry | The `IngestWork` span still fires (start/stop carry the `work_id`). |
+   | Recovery | No double-application — a duplicate delivery is a no-op. |
+
 6. **Provider timeout + fallback:** bounded retries and an explicit fallback rule.
+
+   | Observation | Expected |
+   |---|---|
+   | Logs | The wrapper runs a bounded retry loop; the fallback fires on budget exhaustion. |
+   | State | The attempt counter recovers inside the budget; a persistent timeout exhausts at exactly `max_attempts`. |
+   | Telemetry | Result tagged `source: :primary` (recovered) or `source: :fallback` with a `reason`. |
+   | Recovery | Fallback rule fires on exhaustion/terminal error, or the Signal fails; never unbounded. |
+
 7. **Poison work / dead-letter:** failed work is inspectable and replayable.
+
+   | Observation | Expected |
+   |---|---|
+   | Logs | Poison work is moved to the `DeadLetterStore` after the budget is exhausted. |
+   | State | The entry carries `id`, original `work`, `reason`, `attempts` (== `max_attempts`), `replay_attempts`. |
+   | Telemetry | `DeadLetterStore.entries/1` lists every item — inspectable, not dropped. |
+   | Recovery | `replay/3` after a fix succeeds and removes the entry; a failed replay updates the same entry, not a duplicate. |
 
 Run them in one command with the failure-drill script (`jido-e07-t31`):
 
