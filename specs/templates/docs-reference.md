@@ -89,6 +89,22 @@
 
 ---
 
+## Control surface
+
+<!-- For reference pages that document a control-bearing primitive or package
+     (Agent, Action, Signal, Plugin, AI, Observe), draw the control surface as a
+     table so a reader sees the control points it supplies at a glance. Each table
+     names the hook, input, decision, output, failure behavior, and evidence
+     (E06-T32). State the limit plainly and link to Security and governance for the
+     full control-point map. Omit this section for reference pages that carry no
+     control surface (e.g. a glossary). -->
+
+| Hook | Input | Decision | Output | Failure behavior | Evidence |
+|----------|-------|----------|--------|-------------------|----------|
+| `[HOOK]` | `[INPUT]` | `[DECISION]` | `[OUTPUT]` | `[FAILURE BEHAVIOR]` | `[EVIDENCE + LIMIT]` |
+
+---
+
 ## Related Modules
 
 <!-- Link to other reference pages for modules that are commonly used together. -->

@@ -143,6 +143,16 @@ Plugins can declare `schedules` for cron-style periodic execution. Each schedule
 schedules: [{"*/5 * * * *", MyApp.Actions.SyncMessages}]
 ```
 
+## Control surface
+
+A plugin's control surface is its lifecycle hooks — the integration points where an application verifies, enriches, or authorizes work. The table names each control point. Jido supplies the hooks; the **policy decisions** (verifying a principal, authorizing an action) stay with your application. `prepare_action/3` is the fail-closed authorization point used by the controlled-Agent path. See [Security and governance](/docs/operations/security-and-governance) for the full control-point map.
+
+| Hook | Input | Decision | Output | Failure behavior | Evidence |
+| --- | --- | --- | --- | --- | --- |
+| `prepare_signal/2` | incoming signal | Verify or enrich runtime context | Enriched signal | No-op pass-through by default | Signal context after enrichment |
+| `prepare_action/3` | action + params + context | Permit or deny the action | `:ok` or `{:halt, reason}` | Fail-closed when implemented — a protected action does not run without an allow | Deny or allow outcome; the action never executes on a deny |
+| Plugin config schema | plugin options | Validate at compile time | Configured plugin | Compile error on invalid options | Compile-time validation result |
+
 ## Next steps
 
 - [Actions](/docs/concepts/actions) - understand the building blocks that plugins bundle together

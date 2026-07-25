@@ -37,6 +37,18 @@ Start with a minimal example, then a realistic example with production-oriented 
 ## Failure Modes and Operational Boundaries
 List failure scenarios, guardrails, and how to verify safe behavior in production.
 
+## Control surface
+For control-bearing primitives (Agent, Action, Signal, Plugin, and the like), draw the
+control surface as a table so a reader can see the control points this primitive supplies.
+Each row is one control point; each table names the hook, input, decision, output, failure
+behavior, and evidence (E06-T32). State the limit plainly — correlation IDs are not
+authenticated principals, telemetry is not an audit log, nothing is durable until a Journal
+adapter is configured. Link to Security and governance for the full control-point map.
+
+| Hook | Input | Decision | Output | Failure behavior | Evidence |
+| --- | --- | --- | --- | --- | --- |
+| `[HOOK]` | `[INPUT]` | `[DECISION]` | `[OUTPUT]` | `[FAILURE BEHAVIOR]` | `[EVIDENCE + LIMIT]` |
+
 ## Reference and Next Steps
 - Link to relevant APIs in `/docs/reference`.
 - Link to operations guidance in `/docs/operations`.

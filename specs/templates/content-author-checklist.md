@@ -19,6 +19,7 @@ and `specs/style-voice.md` so new content starts compliant.
 - [ ] "control" names the exact type: lifecycle / capability / authorization / quota / trace / recovery.
 - [ ] Telemetry is not an audit log. Agent/Signal/request IDs are correlation, not authenticated principals.
 - [ ] Guides draw the control boundary: a `## Control boundary` block states what Jido supplies, what the application must supply, and what evidence remains after execution (E06-T31).
+- [ ] Reference pages for control-bearing primitives (Agent, Action, Signal, Plugin, AI, Observe) carry a `## Control surface` table whose columns name the hook, input, decision, output, failure behavior, and evidence (E06-T32).
 
 ## Surfaces and parity
 

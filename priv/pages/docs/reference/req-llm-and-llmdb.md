@@ -72,6 +72,17 @@ LLMDB.list(provider: :anthropic, supports: :tool_calling)
 
 → [LLMDB web interface](https://llmdb.xyz) · [GitHub](https://github.com/agentjido/llmdb)
 
+## Control surface
+
+These LLM calls are the surface that `jido_ai` control plugins gate. The table names each AI control point. Jido supplies optional scoped controls — tool allowlists, effect policies, prompt policies, and quotas — but a complete authorization or cost-governance product is an application concern. ReqLLM handles transient transport failure; fallback policy and circuit breakers are an application duty. See [Security and governance](/docs/operations/security-and-governance) for the full control-point map.
+
+| Hook | Input | Decision | Output | Failure behavior | Evidence |
+| --- | --- | --- | --- | --- | --- |
+| `jido_ai` tool allowlist | tool-call request | Allow or reject the tool | Permitted tool or rejection | A disallowed tool is rejected before it runs | Reject reason; tool never executes |
+| `jido_ai` effect policy | proposed effect | Allow or reject the effect | Permitted effect or rejection | Effect rejected before execution | Policy decision |
+| `jido_ai` prompt / quota policy | request and token budget | Allow or throttle | Proceed or deny | Request denied when the budget is exceeded | Deny plus remaining budget state |
+| ReqLLM retry / backoff | LLM HTTP call | Retry transient failures | Response | Provider failure routes to fallback or circuit breaker (application duty) | Retry and timeout events (transport, not authorization) |
+
 ## Next steps
 
 - [Configuration](/docs/reference/configuration) - set up model aliases and LLM defaults

@@ -235,6 +235,16 @@ LLMs return arguments as string-keyed JSON. Jido handles the mismatch automatica
 
 Some providers (OpenAI structured outputs) require `additionalProperties: false` on every object in the schema. Pass `strict: true` to `from_actions/2` or define a `strict?/0` callback on your Action to opt in per-action. The adapter recursively enforces the constraint across nested objects.
 
+## Control surface
+
+An action's control surface is its validated contract plus the fail-closed hook that gates whether it runs. The table names each control point. Param validation checks data shape — it is **not** an authorization decision. Authorization belongs in `prepare_action/3`, which is fail-closed by design: a protected action never runs just because no hook is configured. See [Security and governance](/docs/operations/security-and-governance) for the full control-point map.
+
+| Hook | Input | Decision | Output | Failure behavior | Evidence |
+| --- | --- | --- | --- | --- | --- |
+| `Jido.Action` param schema | params map | Validate args against the schema | Validated params | `{:error, validation}` returned before `run/2` | Validation result (a data check, not an authorization decision) |
+| `prepare_action/3` (plugin hook) | validated params + context | Permit or deny the action | `:ok` or `{:halt, reason}` | Fail-closed — a protected action does not run without an explicit allow | Deny reason; the action never executes |
+| `run/2` | validated params + context | Execute the pure computation | result | Typed error tuple; optional output-schema validation | Result value and any output-validation error |
+
 ## Next steps
 
 - [Agents](/docs/concepts/agents) - see how agents execute actions through `cmd/2`

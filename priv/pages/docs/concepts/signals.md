@@ -163,6 +163,16 @@ For high-throughput scenarios, `dispatch_batch/3` processes large volumes of dis
 Dispatch.dispatch_batch(signal, configs, max_concurrency: 20)
 ```
 
+## Control surface
+
+A signal's control surface is the correlation context it carries and the durability of the record it leaves behind. The table names each control point. Signal `id`, request, run, and trace IDs are **correlation** metadata — not authenticated principals — and telemetry is observation, **not** an audit log. Nothing is durable until you configure a Journal adapter; the default keeps nothing across a restart. See [Security and governance](/docs/operations/security-and-governance) for the full control-point map.
+
+| Hook | Input | Decision | Output | Failure behavior | Evidence |
+| --- | --- | --- | --- | --- | --- |
+| `Jido.Signal` id / trace | event payload | Stamp correlation and causation IDs | CloudEvents envelope | Dropped if unprocessable | `id` and trace IDs (correlation, not principal identity) |
+| Signal Journal | recorded signal | Persist if a durable adapter is configured | Journal entry | Nothing durable by default — a recorded signal is lost on restart | Entry exists only with a configured durable adapter and a retention policy |
+| Dispatch routing | signal + dispatch config | Route to handlers | Outbound directives | Route miss is a no-op; no audit record is produced | Emitted directives; routing is observable, not tamper-evident |
+
 ## Next steps
 
 - [Actions](/docs/concepts/actions) - learn how actions transform agent state in response to signals

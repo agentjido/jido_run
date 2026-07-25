@@ -178,6 +178,16 @@ Jido keeps those failures bounded:
 
 Operationally, this is where `AgentServer` and supervision matter. Supervisors handle process lifecycle; your agent contract handles state correctness and effect intent.
 
+## Control surface
+
+An agent's control surface is its lifecycle state and the command boundary around it. The table names each control point: the hook where it lives, what it takes in, what it decides, what it produces, how it fails, and what evidence remains. The Agent `id` is correlation/profile state, **not** an authenticated principal — verifying a human or service identity is an application or platform boundary in front of Jido. See [Security and governance](/docs/operations/security-and-governance) for the full control-point map.
+
+| Hook | Input | Decision | Output | Failure behavior | Evidence |
+| --- | --- | --- | --- | --- | --- |
+| `Jido.Agent.new/1` | `id` + schema-validated state | Accept the agent profile | Agent struct | Validation error before the struct exists | Agent `id` in telemetry and Journal records (correlation, not principal) |
+| `Agent.cmd/2` | instruction + params | Validate params, then run the action | New agent struct + directives | Typed error directive; invalid input is a validation error | State diff and emitted directives |
+| Supervision restart (AgentServer) | Process exit | Restart per child spec | Fresh agent struct | State resets to last persisted state; nothing else is durable | Restart only — no durable history unless a Journal adapter is configured |
+
 ## Next steps
 
 - [Agent runtime](/docs/concepts/agent-runtime) - run agents under OTP supervision with process management

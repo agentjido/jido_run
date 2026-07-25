@@ -212,6 +212,16 @@ Jido's telemetry events are standard `:telemetry` events, which means they can b
 
 For most development and early production use, the built-in telemetry logging and metrics described above are sufficient.
 
+## Control surface
+
+The observe control surface is the stream of spans and events Jido emits for understanding your system. The table names each control point. Telemetry is **observation, not an audit log** — it is an ephemeral stream with no built-in retention, and trace/correlation IDs are not authenticated principals. Define redaction rules so secrets, prompts, and principal data stay out of events, logs, and error output. See [Security and governance](/docs/operations/security-and-governance) for the full control-point map.
+
+| Hook | Input | Decision | Output | Failure behavior | Evidence |
+| --- | --- | --- | --- | --- | --- |
+| `Jido.Observe` / `Jido.Telemetry` | agent lifecycle and action events | Emit a span or `:telemetry` event | Telemetry event | Ephemeral stream; nothing is retained | Event stream (observation, not an audit record) |
+| `jido_signal` tracing | signal causation chain | Stamp trace context | Correlated spans | Context lost if no collector receives it | Correlated spans (causation, not identity) |
+| `jido_otel` OTel export | Jido spans | Bridge to OpenTelemetry | OTel traces | Experimental; events may drop without a collector | Exported traces only when a collector is configured |
+
 ## Next steps
 
 - [Configuration](/docs/reference/configuration) - tune log levels, thresholds, and filtering
