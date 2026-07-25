@@ -24,6 +24,7 @@ Operate a Jido agent system by working through this ordered path. Each step name
 ## Operations pages
 
 - [Supervision and failure boundaries](/docs/operations/supervision-and-failure-boundaries) - supervision topology, restart strategy, and restart intensity for bounding agent failure
+- [Process crash and restart](/docs/operations/process-crash-and-restart) - a worked example: an AgentServer process crashes, the supervisor restarts it, and the observed state result is explicit
 - [Retries, timeouts, and provider failure](/docs/operations/retries-timeouts-and-provider-failure) - separate retry, timeout, and fallback decisions for tool, HTTP, and model failures
 - [Tool error and retry decision](/docs/operations/tool-error-and-retry-decision) - a worked example: a retryable tool error is retried inside a bounded budget, a terminal tool error is not retried at all
 - [Scheduling and event input](/docs/operations/scheduling-and-event-input) - how timed work and external events enter an agent, and what survives a restart

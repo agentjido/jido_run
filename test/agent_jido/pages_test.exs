@@ -1003,6 +1003,103 @@ defmodule AgentJido.PagesTest do
     end
   end
 
+  describe "operations process crash and restart page (jido-e07-t12)" do
+    # Acceptance: "The process restarts and the observed state result is explicit."
+    @crash_source Path.expand(
+                    "../../priv/pages/docs/operations/process-crash-and-restart.md",
+                    __DIR__
+                  )
+    @crash_route "/docs/operations/process-crash-and-restart"
+    @crash_demo_agent "lib/agent_jido/demos/agent_server_crash/agent_server_crash_agent.ex"
+    @crash_demo_supervisor "lib/agent_jido/demos/agent_server_crash/supervisor.ex"
+    @crash_demo_test "test/agent_jido/demos/agent_server_crash_test.exs"
+
+    test "the page is published and routable" do
+      page = Pages.get_page_by_path(@crash_route)
+
+      assert page != nil
+      assert page.category == :docs
+      assert page.draft == false
+      assert Pages.route_for(page) == @crash_route
+    end
+
+    test "the page is linked from the operations hub" do
+      hub = File.read!(Path.expand("../../priv/pages/docs/operations.md", __DIR__))
+
+      assert hub =~ @crash_route
+    end
+
+    test "it documents both halves of the acceptance: restart and observed state" do
+      body = File.read!(@crash_source)
+
+      # The acceptance condition: both halves get their own dedicated heading,
+      # so process recovery and the observed result are presented distinctly.
+      assert has_h2?(body, "The process restarts")
+      assert has_h2?(body, "The observed state result is explicit")
+    end
+
+    test "the observed state is read through the real AgentServer APIs, not assumed" do
+      body = File.read!(@crash_source)
+
+      # The observed result is read explicitly through status/1 and state/1.
+      assert body =~ "Jido.AgentServer.status"
+      assert body =~ "Jido.AgentServer.state"
+      assert body =~ ":not_found"
+
+      # The before/after contrast is what makes the result explicit.
+      assert body =~ "agent_before"
+      assert body =~ "agent_after"
+    end
+
+    test "it separates process recovery from Action-error handling and state recovery" do
+      body = File.read!(@crash_source)
+
+      # A process crash is distinguished from an Action error (call boundary).
+      assert body =~ "run/2"
+      assert body =~ "Process.exit"
+
+      # Process recovery is explicitly not state recovery.
+      assert body =~ ~r/process recovery is not state recovery/i
+      assert body =~ ~r/did not recover/i
+    end
+
+    test "the example is runnable: the demo modules and their test exist and are cited" do
+      # The worked example points at a real, tested demo — not a snippet alone.
+      assert File.regular?(@crash_demo_agent)
+      assert File.regular?(@crash_demo_supervisor)
+      assert File.regular?(@crash_demo_test)
+
+      body = File.read!(@crash_source)
+      assert body =~ "lib/agent_jido/demos/agent_server_crash/"
+      assert body =~ @crash_demo_test
+    end
+
+    test "it cross-links supervision and the call-boundary pages (no isolated claims)" do
+      body = File.read!(@crash_source)
+
+      assert body =~ "/docs/operations/supervision-and-failure-boundaries"
+      assert body =~ "/docs/operations/tool-error-and-retry-decision"
+    end
+
+    test "the page source has no placeholder markers" do
+      body = File.read!(@crash_source)
+
+      placeholder_patterns = [
+        ~r/content coming soon/i,
+        ~r/\bcoming soon\b/i,
+        ~r/\bTODO\b/,
+        ~r/\bTBD\b/,
+        ~r/lorem ipsum/i
+      ]
+
+      assert body =~ "draft: false"
+
+      Enum.each(placeholder_patterns, fn pattern ->
+        refute body =~ pattern
+      end)
+    end
+  end
+
   describe "operations retries, timeouts, and provider failure page (jido-e07-t05)" do
     # Acceptance: "It covers tool, HTTP, and model failures separately."
     @retries_source Path.expand(
