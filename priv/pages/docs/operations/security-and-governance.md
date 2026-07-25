@@ -23,7 +23,19 @@ Keep these distinctions visible to anyone evaluating Jido for governed environme
 | Audit | An optional durable Signal Journal when explicitly configured | Retention, access control, tamper evidence, export, compliance |
 | Observability | Jido telemetry, correlated spans, optional OTel export | Durable audit evidence, incident response, SIEM integration |
 
-Agent IDs, Signal IDs, and trace IDs are **correlation metadata**, not authenticated principals.
+## Correlation IDs are not authentication
+
+A correlation ID lets an operator follow one unit of work across components. It is never a credential, and it never grants or proves access. The identifiers Jido stamps or carries are correlation metadata, not authenticated principals:
+
+- **Agent ID** — names an agent's lifecycle and profile state so you can find it in telemetry and Journal records.
+- **Signal ID** — together with its `trace_id`, `span_id`, and `causation_id`, lets you follow one signal from ingress through its actions and effects.
+- **Request, run, and tool-call IDs** — correlate an LLM request and each step of work back to the signal that caused it.
+
+None of these authenticate anyone. Verifying a human or service identity — and the IAM and credential issuance behind it — is an application or platform boundary in front of Jido, not something Jido performs.
+
+The same rule covers a **user ID** or **tenant ID** your application attaches to a Signal. Jido carries that context and propagates it through actions, but it does **not** verify it. A `user_id` or `tenant_id` on a Signal is a claim about who the work is for, supplied and verified at the boundary in front of Jido — treat it as propagated context, not as proof the caller is that user or tenant. Wire `prepare_action/3` to deny a protected action when the required principal or tenant context is missing.
+
+An ID lets you follow work; only an authenticated principal — verified at the application or platform boundary — authorizes it.
 
 ## Control points to wire up
 

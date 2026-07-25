@@ -44,7 +44,7 @@ UUID v7 is an intentional choice over UUID v4. The embedded timestamp means sign
 | `dataschema` | URI pointing to a schema for the data |
 | `data` | The event payload |
 
-Beyond the core spec, signals support a flexible extension system through `Jido.Signal.Ext` for attaching custom metadata like authentication context or tracing information.
+Beyond the core spec, signals support a flexible extension system through `Jido.Signal.Ext` for attaching custom metadata — for example, a verified principal or tenant reference your application supplies, or tracing information. Jido carries this metadata and propagates it; it does not authenticate it. A `user_id` or `tenant_id` on a Signal is supplied and verified at the boundary in front of Jido, so treat it as correlation context, not as a credential Jido issues or checks. See [Security and governance](/docs/operations/security-and-governance) for the dedicated distinction between correlation IDs and authenticated principals.
 
 ### Type naming conventions
 
