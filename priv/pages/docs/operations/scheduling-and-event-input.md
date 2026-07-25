@@ -106,7 +106,7 @@ For each agent class, write down the ingress contract:
 
 - **Recoverability.** What scheduled or pending work survives an agent restart, and what does not? Declare recurring cadences as `Directive.Cron`; do not depend on a one-shot `Directive.Schedule` surviving a crash.
 - **Idempotency.** A restarted agent may re-run a cron tick, and an external source may redeliver an event. Treat Signals as idempotent — use Signal IDs or idempotency keys before relying on a schedule firing exactly once. See [Retries, Timeouts, and Provider Failure](/docs/operations/retries-timeouts-and-provider-failure).
-- **Backpressure.** Delivery is via `cast/2`, which is fire-and-forget: the agent's mailbox is the only buffer between a fast external source and the agent. A source that outpaces the agent fills the mailbox; size the source, batch, or shed load before it does.
+- **Backpressure.** Delivery is via `cast/2`, which is fire-and-forget: the agent's mailbox is the only buffer between a fast external source and the agent. A source that outpaces the agent fills the mailbox; size the source, batch, or shed load before it does. See [Backpressure and Queue Limits](/docs/operations/backpressure-and-queue-limits) for the four limit surfaces and where each bound lives.
 - **One sensor per source.** Give each external source its own sensor so a format change or protocol drift touches one module, not agent logic.
 
 | Source | Ingress path | Survives an agent restart? |
@@ -122,7 +122,7 @@ These paths deliver work. They do not, by themselves:
 
 - **Deliver each event once.** A restarted agent can re-run a cron tick, and an external source can redeliver an event. Single-delivery semantics are an application contract you build with idempotency keys and Signal IDs — the ingress path delivers, it does not deduplicate.
 - **Recover state.** Re-delivering a Signal replays it against the agent's current state; it does not reconstruct state lost to a crash. State recovery is an application choice — see [Supervision and Failure Boundaries](/docs/operations/supervision-and-failure-boundaries).
-- **Bound a flooding source for you.** `cast/2` does not apply backpressure. A source that outpaces the agent fills the mailbox; shed or throttle at the source.
+- **Bound a flooding source for you.** `cast/2` does not apply backpressure. A source that outpaces the agent fills the mailbox; shed or throttle at the source — see [Backpressure and Queue Limits](/docs/operations/backpressure-and-queue-limits).
 - **Serve as an audit trail.** Signals and the telemetry they emit are system understanding, not a tamper-evident audit log — see [Security and Governance](/docs/operations/security-and-governance).
 
 ## Next steps

@@ -1612,6 +1612,134 @@ defmodule AgentJido.PagesTest do
     end
   end
 
+  describe "operations backpressure and queue limits page (jido-e07-t21)" do
+    # Acceptance: "It names mailbox, bus, task, and provider limits."
+    @backpressure_source Path.expand(
+                           "../../priv/pages/docs/operations/backpressure-and-queue-limits.md",
+                           __DIR__
+                         )
+    @backpressure_route "/docs/operations/backpressure-and-queue-limits"
+
+    test "the page is published and routable" do
+      page = Pages.get_page_by_path(@backpressure_route)
+
+      assert page != nil
+      assert page.category == :docs
+      assert page.draft == false
+      assert Pages.route_for(page) == @backpressure_route
+    end
+
+    test "the page is linked from the operations hub" do
+      hub = File.read!(Path.expand("../../priv/pages/docs/operations.md", __DIR__))
+
+      assert hub =~ @backpressure_route
+    end
+
+    test "it names all four limit surfaces (the acceptance)" do
+      body = File.read!(@backpressure_source)
+
+      # The acceptance condition: each limit surface gets its own dedicated
+      # heading, so mailbox, bus, task, and provider are presented as distinct,
+      # named surfaces rather than mentioned in passing.
+      assert has_h2?(body, "Mailbox: the AgentServer process mailbox")
+      assert has_h2?(body, "Bus: the Signal Bus subscription capacity")
+      assert has_h2?(body, "Task: the directive queue and the task supervisors")
+      assert has_h2?(body, "Provider: the LLM HTTP pool and the provider rate limit")
+
+      # A summary names all four together so a reader sees the full surface map
+      # before the per-surface detail (the four bolded table rows appear in
+      # order; /s lets the match span the table's newlines).
+      assert body =~ ~r/\*\*Mailbox\*\*.*\*\*Bus\*\*.*\*\*Task\*\*.*\*\*Provider\*\*/s
+    end
+
+    test "each limit names its real default and key, not a vague mention" do
+      body = File.read!(@backpressure_source)
+
+      # Mailbox: the unbounded-by-default honesty point, plus the call/cast
+      # admission choice that is the actual backpressure lever.
+      assert body =~ "cast/2"
+      assert body =~ "call/3"
+      assert body =~ "max_heap_size"
+
+      # Bus: the two persistent-subscription capacity knobs and their defaults.
+      assert body =~ "max_in_flight"
+      assert body =~ "max_pending"
+
+      # Task: the directive-queue ceiling and the instance task-supervisor cap.
+      assert body =~ "max_queue_size"
+      assert body =~ "max_tasks"
+
+      # Provider: the connection pool default and the provider's own rate limit.
+      assert body =~ "stream_pool_count"
+      assert body =~ "429"
+    end
+
+    test "it states the exceeded behavior and observable signal for each surface" do
+      body = File.read!(@backpressure_source)
+
+      # Mailbox: explicitly unbounded — the bound is application-owned.
+      assert body =~ ~r/without limit/i
+
+      # Bus: saturated subscriptions fail back or drop, with named telemetry.
+      assert body =~ ":queue_full"
+      assert body =~ ~r/\[:jido, :signal, :subscription, :backpressure\]/
+
+      # Task: directive overflow is named with its telemetry event.
+      assert body =~ ":queue_overflow"
+      assert body =~ ~r/\[:jido, :agent_server, :queue, :overflow\]/
+
+      # Provider: the 429 is reactive, and the pool default is named.
+      assert body =~ ~r/reactive/i
+    end
+
+    test "it links only to live operations routes" do
+      body = File.read!(@backpressure_source)
+
+      internal_links =
+        Regex.scan(~r{\]\((/docs/[^)#]+)\)}, body, capture: :all_but_first)
+        |> List.flatten()
+        |> Enum.uniq()
+
+      assert internal_links != []
+
+      for path <- internal_links do
+        page = Pages.get_page_by_path(path)
+
+        assert page != nil,
+               "backpressure page links to a route that does not resolve: #{path}"
+
+        assert page.draft == false,
+               "backpressure page links to a draft page: #{path}"
+      end
+
+      # The siblings each surface pairs with are cross-linked, so the limits are
+      # not presented in isolation.
+      assert body =~ "/docs/operations/scheduling-and-event-input"
+      assert body =~ "/docs/operations/health-checks-and-readiness"
+      assert body =~ "/docs/operations/telemetry-and-traces"
+      assert body =~ "/docs/operations/retries-timeouts-and-provider-failure"
+      assert body =~ "/docs/operations/production-readiness-checklist"
+    end
+
+    test "the page source has no placeholder markers" do
+      body = File.read!(@backpressure_source)
+
+      placeholder_patterns = [
+        ~r/content coming soon/i,
+        ~r/\bcoming soon\b/i,
+        ~r/\bTODO\b/,
+        ~r/\bTBD\b/,
+        ~r/lorem ipsum/i
+      ]
+
+      assert body =~ "draft: false"
+
+      Enum.each(placeholder_patterns, fn pattern ->
+        refute body =~ pattern
+      end)
+    end
+  end
+
   describe "operations scheduling and event input page (jido-e07-t06)" do
     # Acceptance: "It links to a working Schedule and Sensor example."
     @scheduling_source Path.expand(
