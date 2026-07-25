@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-25T02:50:47Z",
   "created": "2026-07-23T12:04:14Z",
   "description": "Backlog task: E07-T02\n\nWork area: Core linear path\n\nMain targets: Operations docs\n\nComplete when: It explains topology, restart strategy, and restart intensity.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e07-t02",
@@ -22,8 +23,8 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E07-T02 — Publish “Supervision and failure boundaries.”",
   "type": "task",
-  "updated_at": "2026-07-25T02:50:46Z"
+  "updated_at": "2026-07-25T02:50:47Z"
 }
