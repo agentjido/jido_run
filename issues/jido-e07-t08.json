@@ -15,11 +15,15 @@
     {
       "text": "Open: dedicated 'Health checks and readiness' page not yet published.",
       "timestamp": "2026-07-24T12:50:32Z"
+    },
+    {
+      "text": "Accepted by the Zclaude Ralph supervisor. Commits: e75f01ce. Verification: MIX_ENV=test mix compile \u0026\u0026 MIX_ENV=test mix format --check-formatted.",
+      "timestamp": "2026-07-25T04:03:09Z"
     }
   ],
   "priority": 1,
   "status": "in_progress",
   "title": "E07-T08 — Publish “Health checks and readiness.”",
   "type": "task",
-  "updated_at": "2026-07-25T03:48:53Z"
+  "updated_at": "2026-07-25T04:03:09Z"
 }
