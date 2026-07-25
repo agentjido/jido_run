@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-25T22:46:15Z",
   "created": "2026-07-23T12:04:41Z",
   "description": "Backlog task: E07-T29\n\nWork area: Proof package\n\nMain targets: Workbench or dedicated example repo\n\nComplete when: It covers supervision, scheduling, persistence, retries, telemetry, health, and deployment.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e07-t29",
@@ -22,7 +23,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E07-T29 — Create one end-to-end long-running reference application.",
   "type": "task",
   "updated_at": "2026-07-25T22:46:15Z"
