@@ -59,3 +59,8 @@ _build_19_27/
 
 # Local research notes (not committed)
 /docs/
+
+# Local agent skills (installed into the working tree by the dev environment,
+# not part of the project — gitignored so the verification gate sees a clean tree)
+/.agents/
+/skills-lock.json
