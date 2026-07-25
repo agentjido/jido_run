@@ -3,7 +3,7 @@
 The single runnable agent the [long-running reference architecture][spec]
 calls for. It runs under supervision, takes scheduled and request-driven
 work, persists state, retries transient failure, emits telemetry, exposes a
-health check, and recovers across a process, application, and deployment
+health check, and recovers across a process, application, node, and deployment
 restart — every concern wired into **one agent at the same time**, not seven
 separate demos.
 
@@ -26,6 +26,31 @@ runtime is required — so the whole path runs in a normal `mix test` process.
 
 Idempotency (a duplicate `work_id` does not double-count) is folded into
 `IngestWorkAction`, satisfying the duplicate-delivery failure drill.
+
+## Recovery boundaries
+
+A long-running agent recovers across four distinct restart boundaries. They
+differ by what dies and what survives, so each has its own automated test
+(`jido-e07-t33`):
+
+| Boundary | What dies | What survives | Test tag |
+|---|---|---|---|
+| Process | the `AgentServer` process only | identity — a surviving supervisor restarts it; in-memory state is lost | `:supervision` |
+| Application | the running agent; state is replayed from a store on boot | checkpointed state (`hibernate`/`thaw`) | `:persistence` |
+| Node | the entire BEAM, incl. the in-memory store's owner | only durable (disk-backed) state; in-memory state is lost | `:node_restart` |
+| Deployment | the whole deployment tree (no surviving parent) | resumed state with a checkpoint; otherwise a safe restart | `:deployment` |
+
+Each row is a tagged `describe` block in
+`test/agent_jido/demos/long_running_reference_test.exs`; the whole matrix runs
+with the command in [Run it](#run-it).
+
+Process and deployment restarts share a supervisor but sit at different levels:
+the same in-memory checkpoint that **resumes** across a deployment restart
+(its owner lives in `Jido.Supervisor`) is **lost** across a node restart,
+which kills the owner too. That is why the node boundary needs a durable
+(disk-backed) store — `Persistence.storage_config(:durable)` over
+`Jido.Storage.File` — and `Persistence.simulate_node_restart/1` makes the loss
+observable in one test process.
 
 ## Run it
 

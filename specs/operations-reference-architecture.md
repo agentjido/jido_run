@@ -16,7 +16,7 @@ reference app covers it.
 One minimal, deployable Jido application that proves the long-running claim:
 an agent that runs under supervision, takes scheduled and request-driven work,
 persists state, retries failure, emits telemetry, and recovers across process,
-application, and deployment restarts — with explicit operational control.
+application, node, and deployment restarts — with explicit operational control.
 
 ## Components
 
@@ -59,6 +59,30 @@ Idempotency (duplicate `work_id` does not double-count) is folded into
 controlled-agent extension (authenticated ingress, `prepare_signal/2`,
 fail-closed `prepare_action/3`, durable Journal, approval) is the tracked
 follow-up `jido-e07-t35`, layered onto this same agent.
+
+## Recovery boundaries (process, app, node, deploy)
+
+A long-running agent recovers across four distinct restart boundaries. They
+differ by **what dies** and **what survives**, so each has its own automated
+test in the reference app (`jido-e07-t33`: "Each recovery boundary has an
+automated or repeatable test"):
+
+| Boundary | What dies | What survives | Automated test |
+|---|---|---|---|
+| Process | the `AgentServer` process only | identity — a surviving parent supervisor restarts it; in-memory state is lost | `:supervision` |
+| Application | the running agent; required state is replayed from a store on boot | checkpointed state (`hibernate`/`thaw` round-trip) | `:persistence` |
+| Node | the entire BEAM, including the in-memory store's owning process | only durable (disk-backed) state; in-memory state is lost | `:node_restart` |
+| Deployment | the whole deployment tree — no surviving parent | resumed state when a checkpoint is restored; otherwise a safe restart at the initial state | `:deployment` |
+
+Process and deployment restarts share a supervisor but sit at different levels:
+a process restart leaves the supervisor (and the in-memory store's owner in
+`Jido.Supervisor`) alive, so the same in-memory checkpoint that **resumes**
+across a deployment restart is **lost** across a node restart — node restart
+kills the owner too. That is why the node boundary needs a durable (disk-backed)
+store, and why the reference app exposes both media
+(`Persistence.storage_config(:memory | :durable)`) plus
+`Persistence.simulate_node_restart/1` to make the loss observable in one test
+process.
 
 ## Failure drills (each must have an expected observation)
 

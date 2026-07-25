@@ -367,6 +367,91 @@ defmodule AgentJido.Demos.LongRunningReferenceTest do
   end
 
   # ---------------------------------------------------------------------------
+  # Node restart (the fourth recovery boundary, jido-e07-t33)
+  # ---------------------------------------------------------------------------
+  #
+  # Process, application, and deployment restarts are covered above (supervision,
+  # persistence, and deployment). A node restart is one boundary higher: the
+  # whole BEAM dies, so the in-memory store dies with it — ETS is process-owned.
+  # Only a durable (disk-backed) store bridges a node restart. These tests prove
+  # that boundary, which is what makes node restart distinct from deployment
+  # restart: the same in-memory store that resumes across a redeploy (the
+  # deployment test above, whose owner lives in `Jido.Supervisor`) is lost across
+  # a node restart.
+  describe "node restart: only a durable store bridges a whole-node loss" do
+    @tag :node_restart
+    test "an in-memory checkpoint is lost across a node restart" do
+      memory = Persistence.storage_config(:memory)
+      agent_id = agent_id()
+
+      {:ok, deploy1} = ReferenceSupervisor.start_link(agent_id: agent_id)
+      agent1 = ReferenceSupervisor.agent_server_pid(deploy1)
+
+      {:ok, _} =
+        AgentServer.call(
+          agent1,
+          Signal.new!("reference.work", %{work_id: "w-node-mem"}, source: "/test")
+        )
+
+      {:ok, %{agent: before}} = AgentServer.state(agent1)
+      :ok = Persistence.checkpoint(memory, before)
+
+      # Sanity: the checkpoint is present before the restart.
+      assert {:ok, present} = Persistence.restore(memory, agent_id)
+      assert present.state.processed == 1
+
+      # Node restart: the BEAM and its process-owned tables die together. The
+      # in-memory store is gone — `restore/2` then reads an empty store.
+      assert Persistence.simulate_node_restart(memory) == :lost
+      assert {:error, :not_found} = Persistence.restore(memory, agent_id)
+
+      Supervisor.stop(deploy1)
+    end
+
+    @tag :node_restart
+    test "a durable checkpoint survives a node restart and resumes a new deployment" do
+      durable = Persistence.storage_config(:durable)
+      # The durable store writes to a tmp directory; remove it after the test.
+      on_exit(fn -> Persistence.cleanup(durable) end)
+      agent_id = agent_id()
+
+      {:ok, deploy1} = ReferenceSupervisor.start_link(agent_id: agent_id)
+      agent1 = ReferenceSupervisor.agent_server_pid(deploy1)
+
+      Enum.each(["w-node-1", "w-node-2"], fn work_id ->
+        AgentServer.call(
+          agent1,
+          Signal.new!("reference.work", %{work_id: work_id}, source: "/test")
+        )
+      end)
+
+      {:ok, %{agent: before}} = AgentServer.state(agent1)
+      assert before.state.processed == 2
+      :ok = Persistence.checkpoint(durable, before)
+
+      # Node restart: the whole node (and the deployment) dies; any in-memory
+      # store dies with it. A disk-backed store is independent of any node.
+      :ok = Supervisor.stop(deploy1)
+      assert Persistence.simulate_node_restart(durable) == :survived
+
+      # A new node boots: a fresh deployment restores from the durable
+      # checkpoint and resumes — it does not start over.
+      assert {:ok, restored} = Persistence.restore(durable, agent_id)
+      assert restored.state.processed == 2
+      assert restored.state.seen_work == ["w-node-1", "w-node-2"]
+
+      {:ok, deploy2} = ReferenceSupervisor.start_link(agent_id: agent_id, agent: restored)
+      agent2 = ReferenceSupervisor.agent_server_pid(deploy2)
+
+      {:ok, %{agent: after_node}} = AgentServer.state(agent2)
+      assert after_node.state.processed == 2
+      assert after_node.state.seen_work == ["w-node-1", "w-node-2"]
+
+      Supervisor.stop(deploy2)
+    end
+  end
+
+  # ---------------------------------------------------------------------------
   # The full linear path, end to end
   # ---------------------------------------------------------------------------
   describe "the linear path: one deployment through every concern" do
