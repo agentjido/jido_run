@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-25T02:22:16Z",
   "created": "2026-07-23T12:04:07Z",
   "description": "Backlog task: E06-T32\n\nWork area: Operational-control content\n\nMain targets: Agent, Plugin, Signal, Action, AI, and Observe references\n\nComplete when: Each table names the hook, input, decision, output, failure behavior, and evidence.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e06-t32",
@@ -23,7 +24,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E06-T32 — Add a control-surface table to relevant reference pages.",
   "type": "task",
   "updated_at": "2026-07-25T02:22:16Z"
