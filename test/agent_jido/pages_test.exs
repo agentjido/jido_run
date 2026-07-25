@@ -1113,6 +1113,105 @@ defmodule AgentJido.PagesTest do
     end
   end
 
+  describe "operations scheduling and event input page (jido-e07-t06)" do
+    # Acceptance: "It links to a working Schedule and Sensor example."
+    @scheduling_source Path.expand(
+                         "../../priv/pages/docs/operations/scheduling-and-event-input.md",
+                         __DIR__
+                       )
+    @scheduling_route "/docs/operations/scheduling-and-event-input"
+    @schedule_example_route "/examples/schedule-directive-agent"
+    @sensor_guide_route "/docs/learn/sensors-and-real-time-events"
+
+    test "the page is published and routable" do
+      page = Pages.get_page_by_path(@scheduling_route)
+
+      assert page != nil
+      assert page.category == :docs
+      assert page.draft == false
+      assert Pages.route_for(page) == @scheduling_route
+    end
+
+    test "the page is linked from the operations hub" do
+      hub = File.read!(Path.expand("../../priv/pages/docs/operations.md", __DIR__))
+
+      assert hub =~ @scheduling_route
+    end
+
+    test "scheduling and event input are separate sections" do
+      body = File.read!(@scheduling_source)
+
+      # Both ingress paths get their own dedicated heading.
+      assert has_h2?(body, "Scheduling")
+      assert has_h2?(body, "Event input")
+    end
+
+    test "it links to a working Schedule example" do
+      body = File.read!(@scheduling_source)
+
+      # The acceptance condition: the page links a real, runnable Schedule example.
+      assert body =~ @schedule_example_route
+
+      # The example is a live route in the examples catalog, not a dead link.
+      # get_example/1 returns only status == :live examples.
+      schedule_example = AgentJido.Examples.get_example("schedule-directive-agent")
+      assert schedule_example != nil
+      assert schedule_example.status == :live
+    end
+
+    test "it links to a working Sensor example" do
+      body = File.read!(@scheduling_source)
+
+      # The acceptance condition: the page links a real, runnable Sensor example.
+      assert body =~ @sensor_guide_route
+
+      # The guide is a published, routable docs page, not a dead link.
+      sensor_guide = Pages.get_page_by_path(@sensor_guide_route)
+      assert sensor_guide != nil
+      assert sensor_guide.draft == false
+    end
+
+    test "it frames what survives a restart, not a tutorial" do
+      body = File.read!(@scheduling_source)
+
+      # The operational angle: recoverability across an agent restart is named.
+      assert body =~ ~r/restart/i
+      assert body =~ "Directive.Cron"
+      assert body =~ "Directive.Schedule"
+
+      # The named control surfaces for recurring vs one-shot work.
+      assert body =~ "job_id"
+    end
+
+    test "it commits to idempotent delivery, not a delivery guarantee" do
+      body = File.read!(@scheduling_source)
+
+      assert body =~ ~r/idempoten/i
+
+      # It must not promise guaranteed delivery or no downtime.
+      refute body =~ ~r/guaranteed delivery|guarantees delivery/i
+      refute body =~ ~r/no downtime/i
+    end
+
+    test "the page source has no placeholder markers" do
+      body = File.read!(@scheduling_source)
+
+      placeholder_patterns = [
+        ~r/content coming soon/i,
+        ~r/\bcoming soon\b/i,
+        ~r/\bTODO\b/,
+        ~r/\bTBD\b/,
+        ~r/lorem ipsum/i
+      ]
+
+      assert body =~ "draft: false"
+
+      Enum.each(placeholder_patterns, fn pattern ->
+        refute body =~ pattern
+      end)
+    end
+  end
+
   describe "content_status/1 (jido-e06-t24)" do
     # Acceptance: "Draft or Experimental content cannot look complete." Hub cards
     # must be able to label a page by its content maturity, so a status distinct
