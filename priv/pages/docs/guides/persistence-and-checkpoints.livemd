@@ -253,6 +253,16 @@ The `%Jido.Thread{}` struct contains:
 
 Both adapters implement the `Jido.Storage` behaviour, so you can swap between them by changing a single config line. For production systems with high concurrency or replication needs, implement a custom adapter backed by PostgreSQL, Redis, or another durable store.
 
+## Control boundary
+
+This guide saves and restores agent state. After a restart, the control boundary is the same one the [Security and governance](/docs/operations/security-and-governance) page draws in full.
+
+**What Jido supplies.** The `Jido.Storage` behaviour and the ETS and File adapters for agent state, plus the optional Signal Journal for causal history.
+
+**What your application must supply.** The choice of adapter, the retention policy for how long history is kept, and — for production scale or durability — a custom adapter (Postgres, Redis, or another durable store) plus the storage layer you operate and back up.
+
+**What evidence remains after execution.** Whatever the chosen adapter persists. Limit: the default is not durable — a recorded signal or in-memory state is gone after a BEAM stop unless you choose a durable adapter; tamper evidence and retention are a storage-layer concern, not a Jido feature.
+
 ## Next steps
 
 Now that you can save and restore agent state, explore related topics.

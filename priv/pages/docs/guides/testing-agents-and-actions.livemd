@@ -408,6 +408,16 @@ defmodule MyApp.CounterServerTest do
 end
 ```
 
+## Control boundary
+
+This guide runs an agent under test. After it runs, the control boundary is the same one the [Security and governance](/docs/operations/security-and-governance) page draws in full.
+
+**What Jido supplies.** The test entry points (`Jido.start_agent/2`, `Jido.AgentServer.call/2`, `Jido.Signal.new!/3`), typed-Action validation, and the deterministic Signal dispatch model that lets you assert on agent state without hidden async surprises.
+
+**What your application must supply.** The test fixtures, setup and teardown, and the assertions that define "done." Any policy or provider behaviour you want to exercise must be wired up by the test; Jido does not assert business correctness for you.
+
+**What evidence remains after execution.** The test results, plus whatever telemetry the agent emitted during the run (Signal, request, and trace IDs). Limit: those IDs are correlation metadata, not authenticated principals; telemetry is for observation, not a tamper-evident audit log; nothing is durable until you configure a Signal Journal adapter.
+
 ## Next steps
 
 Now that you have test patterns for agents and actions, explore related topics.

@@ -18,6 +18,7 @@ and `specs/style-voice.md` so new content starts compliant.
 - [ ] Qualifiers (reliable, durable, scale, safe, etc.) name the tested behavior or package maturity.
 - [ ] "control" names the exact type: lifecycle / capability / authorization / quota / trace / recovery.
 - [ ] Telemetry is not an audit log. Agent/Signal/request IDs are correlation, not authenticated principals.
+- [ ] Guides draw the control boundary: a `## Control boundary` block states what Jido supplies, what the application must supply, and what evidence remains after execution (E06-T31).
 
 ## Surfaces and parity
 

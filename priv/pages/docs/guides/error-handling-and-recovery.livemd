@@ -206,6 +206,16 @@ Error policies handle expected failures - actions that return `{:error, reason}`
 
 Keep this distinction clear: use error policies for application-level failures you can anticipate, and rely on supervision for infrastructure-level crashes you cannot.
 
+## Control boundary
+
+This guide recovers an agent from failure. After a restart, the control boundary is the same one the [Security and governance](/docs/operations/security-and-governance) page draws in full.
+
+**What Jido supplies.** Per-action error policies for anticipated `{:error, reason}` results, and OTP supervision (`DynamicSupervisor`, `:one_for_one`) that restarts a crashed `AgentServer` process.
+
+**What your application must supply.** The restart strategy and the durable state a restart must restore. Error policies cover anticipated action failures, not infrastructure-level crashes, and in-memory state is lost on a crash unless you persist it — see [Persistence and checkpoints](/docs/guides/persistence-and-checkpoints).
+
+**What evidence remains after execution.** The supervisor's restart events and the telemetry around the failed action. Limit: IDs and telemetry are correlation, not authenticated principals or proof; nothing is durable until you configure a Signal Journal adapter.
+
 ## Next steps
 
 Now that you know how to handle failures, explore related patterns.

@@ -252,6 +252,16 @@ Application.put_env(:my_app, MyApp.Jido, debug: :verbose)
 
 Jido calls `Jido.Debug.maybe_enable_from_config/2` during instance initialization. The config value maps directly: `true` enables `:on` level, `:verbose` enables `:verbose` level, and any other value (or absence) keeps debug off.
 
+## Control boundary
+
+This guide inspects a running agent. After you debug it, the control boundary is the same one the [Security and governance](/docs/operations/security-and-governance) page draws in full.
+
+**What Jido supplies.** Debug modes, the in-memory event buffer, structured diagnostics, and the correlated telemetry spans that let you follow one unit of work across components.
+
+**What your application must supply.** Where diagnostics and logs are surfaced (your log backend or UI) and the redaction rules that keep secrets, prompts, and principal data out of that output before it reaches an operator.
+
+**What evidence remains after execution.** The diagnostic output and telemetry captured while debugging. Limit: telemetry and the Agent/Signal/trace IDs are correlation, not authenticated principals; this is observation, not a tamper-evident audit trail; nothing is durable until you configure a Signal Journal adapter.
+
 ## Next steps
 
 Now that you can inspect agent internals, explore related operational topics.

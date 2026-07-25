@@ -99,6 +99,27 @@ graph LR
 
 ---
 
+## Control boundary
+
+<!-- E06-T31: every guide draws the control boundary in one place, in this
+     order, so a reader can tell where Jido ends and their application begins.
+     State each part concretely for THIS guide — do not paste generic text.
+     1) What Jido supplies: the primitives or control points this guide used.
+     2) What an application must supply: the duties that stay on the
+        application or platform (policy, identity, deployment, storage).
+     3) What evidence remains after execution — and its limit. Telemetry and
+        Agent/Signal/request/trace IDs are correlation, not authenticated
+        principals; telemetry is for observation, not a tamper-evident audit
+        log; nothing is durable until a Journal adapter is configured. -->
+
+**What Jido supplies.** [THE PRIMITIVES OR CONTROL POINTS THIS GUIDE USED — e.g. typed, validated Actions; the Signal dispatch model; OTP supervision; the fail-closed `prepare_action/3` hook; `jido_ai` tool/effect/prompt/quota policies.]
+
+**What your application must supply.** [THE DUTIES THAT STAY ON THE APPLICATION OR PLATFORM — e.g. authentication and verified identity in front of Jido; the authorization policy a plugin consults; the storage layer for durable history; deployment and restart strategy.]
+
+**What evidence remains after execution.** [WHAT THIS GUIDE'S EXAMPLE LEAVES BEHIND — e.g. telemetry spans and Signal/trace IDs for correlating one unit of work — AND THE LIMIT: those IDs are correlation, not authenticated principals; telemetry is observation, not a tamper-evident audit log; nothing is durable until you configure a Signal Journal adapter. See [Security and governance](/docs/operations/security-and-governance).]
+
+---
+
 ## Next Steps
 
 <!-- Cross-links required (content-outline.md §5, §6).
@@ -139,4 +160,5 @@ graph LR
   [ ] All setup steps tested against current package versions
   [ ] Prerequisites are listed completely
   [ ] Steps are runnable in sequence — each builds on the previous
+  [ ] Control boundary block states what Jido supplies, what the application supplies, and what evidence remains (E06-T31)
 -->

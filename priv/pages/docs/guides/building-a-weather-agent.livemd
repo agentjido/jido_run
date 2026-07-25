@@ -386,6 +386,16 @@ Common failure modes include:
 - Weather endpoint errors from Nominatim or the NWS API
 - Hitting `max_iterations` without reaching a final answer
 
+## Control boundary
+
+This guide builds a tool-calling agent that reaches external APIs. After it runs, the control boundary is the same one the [Security and governance](/docs/operations/security-and-governance) page draws in full.
+
+**What Jido supplies.** Typed, validated Actions; the tool-calling loop; and the `jido_ai` control points (tool allowlists, effect and prompt policies, request and token quotas) plus the fail-closed `prepare_action/3` hook that runs before a protected action.
+
+**What your application must supply.** The provider key, the authorization policy that decides which tools and effects may run, and the verified principal and tenant context carried on the incoming Signal. Authentication is a boundary in front of Jido, not something Jido performs.
+
+**What evidence remains after execution.** The request and trace IDs and the telemetry spans for each tool call, so an operator can follow one unit of work. Limit: those IDs are correlation, not authenticated principals; telemetry is observation, not a tamper-evident audit log; nothing is durable until you configure a Signal Journal adapter.
+
 ## Next steps
 
 - Continue to [Build an AI Chat Agent](/docs/learn/ai-chat-agent) for multi-turn conversation on the same agent process.
