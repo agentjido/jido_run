@@ -1100,6 +1100,108 @@ defmodule AgentJido.PagesTest do
     end
   end
 
+  describe "operations deployment restart page (jido-e07-t14)" do
+    # Acceptance: "The workflow resumes or safely restarts with stated semantics."
+    @deploy_source Path.expand(
+                     "../../priv/pages/docs/operations/deployment-restart.md",
+                     __DIR__
+                   )
+    @deploy_route "/docs/operations/deployment-restart"
+    @deploy_demo_agent "lib/agent_jido/demos/deployment_restart/deployment_restart_agent.ex"
+    @deploy_demo_supervisor "lib/agent_jido/demos/deployment_restart/supervisor.ex"
+    @deploy_demo_test "test/agent_jido/demos/deployment_restart_test.exs"
+
+    test "the page is published and routable" do
+      page = Pages.get_page_by_path(@deploy_route)
+
+      assert page != nil
+      assert page.category == :docs
+      assert page.draft == false
+      assert Pages.route_for(page) == @deploy_route
+    end
+
+    test "the page is linked from the operations hub" do
+      hub = File.read!(Path.expand("../../priv/pages/docs/operations.md", __DIR__))
+
+      assert hub =~ @deploy_route
+    end
+
+    test "it states both resume and safely-restart outcomes with their semantics" do
+      body = File.read!(@deploy_source)
+
+      # The acceptance condition: both outcomes are named and the decision is
+      # stated explicitly, not left implicit.
+      assert has_h2?(body, "Stated semantics: safely restart, not resume")
+      assert body =~ ~r/safely restart/i
+      assert body =~ ~r/resume/i
+
+      # The decision rule is stated: resume needs persistence outside the
+      # BEAM; safely restart is the default (no persistence wired in).
+      assert body =~ ~r/persist/i
+      assert body =~ ~r/initial state/i
+    end
+
+    test "it distinguishes a deployment restart from a process crash" do
+      body = File.read!(@deploy_source)
+
+      # The differentiator: a deployment restart replaces the whole tree and
+      # has no surviving parent, unlike a process crash.
+      assert body =~ ~r/no surviving parent/i
+      assert body =~ ~r/whole tree/i
+
+      # The whole tree is torn down and rebuilt through the supervisor lifecycle.
+      assert body =~ "Supervisor.stop"
+      assert body =~ "Process.alive?"
+    end
+
+    test "the observed result is read through the real AgentServer APIs" do
+      body = File.read!(@deploy_source)
+
+      assert body =~ "Jido.AgentServer.status"
+      assert body =~ "Jido.AgentServer.state"
+
+      # The registry rebind (same logical identity, new process) is observable.
+      assert body =~ "AgentJido.Jido.whereis"
+    end
+
+    test "the example is runnable: the demo modules and their test exist and are cited" do
+      # The worked example points at a real, tested demo — not a snippet alone.
+      assert File.regular?(@deploy_demo_agent)
+      assert File.regular?(@deploy_demo_supervisor)
+      assert File.regular?(@deploy_demo_test)
+
+      body = File.read!(@deploy_source)
+      assert body =~ "lib/agent_jido/demos/deployment_restart/"
+      assert body =~ @deploy_demo_test
+    end
+
+    test "it cross-links supervision, the process-crash example, and the readiness drill" do
+      body = File.read!(@deploy_source)
+
+      assert body =~ "/docs/operations/supervision-and-failure-boundaries"
+      assert body =~ "/docs/operations/process-crash-and-restart"
+      assert body =~ "/docs/operations/production-readiness-checklist"
+    end
+
+    test "the page source has no placeholder markers" do
+      body = File.read!(@deploy_source)
+
+      placeholder_patterns = [
+        ~r/content coming soon/i,
+        ~r/\bcoming soon\b/i,
+        ~r/\bTODO\b/,
+        ~r/\bTBD\b/,
+        ~r/lorem ipsum/i
+      ]
+
+      assert body =~ "draft: false"
+
+      Enum.each(placeholder_patterns, fn pattern ->
+        refute body =~ pattern
+      end)
+    end
+  end
+
   describe "operations retries, timeouts, and provider failure page (jido-e07-t05)" do
     # Acceptance: "It covers tool, HTTP, and model failures separately."
     @retries_source Path.expand(
