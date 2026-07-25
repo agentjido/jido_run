@@ -21,11 +21,9 @@ defmodule AgentJido.ExecutableVersionMetadataTest do
   alias AgentJido.Pages
 
   # An executable page is a runnable Livebook notebook.
-  @executable_pages (
-    Pages.all_pages()
-    |> Enum.filter(& &1.is_livebook)
-    |> Enum.filter(&(Map.get(&1.livebook || %{}, :runnable) == true))
-  )
+  @executable_pages Pages.all_pages()
+                    |> Enum.filter(& &1.is_livebook)
+                    |> Enum.filter(&(Map.get(&1.livebook || %{}, :runnable) == true))
 
   describe "every executable page declares a tested-version field (jido-e06-t11)" do
     test "there is at least one executable page to check" do
