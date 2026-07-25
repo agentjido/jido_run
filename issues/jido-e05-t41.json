@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-25T00:31:56Z",
   "created": "2026-07-23T12:03:35Z",
   "description": "Backlog task: E05-T41\n\nWork area: Maintenance and validation\n\nMain targets: End of controlled onboarding guide\n\nComplete when: Authentication, retention, tamper evidence, and compliance remain named application concerns.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e05-t41",
@@ -23,8 +24,8 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E05-T41 — Add a control-boundary summary.",
   "type": "task",
-  "updated_at": "2026-07-25T00:31:55Z"
+  "updated_at": "2026-07-25T00:31:56Z"
 }
