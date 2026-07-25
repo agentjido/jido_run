@@ -15,11 +15,15 @@
     {
       "text": "Open: dedicated 'Supervision and failure boundaries' operations page not yet published (covered as checklist items).",
       "timestamp": "2026-07-24T12:50:31Z"
+    },
+    {
+      "text": "Accepted by the Zclaude Ralph supervisor. Commits: 8eaed69d,1cb7f132. Verification: MIX_ENV=test mix compile \u0026\u0026 MIX_ENV=test mix format --check-formatted.",
+      "timestamp": "2026-07-25T02:50:46Z"
     }
   ],
   "priority": 1,
   "status": "in_progress",
   "title": "E07-T02 — Publish “Supervision and failure boundaries.”",
   "type": "task",
-  "updated_at": "2026-07-25T02:35:20Z"
+  "updated_at": "2026-07-25T02:50:46Z"
 }
