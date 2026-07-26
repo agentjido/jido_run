@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-26T12:01:48Z",
   "created": "2026-07-23T12:06:44Z",
   "description": "Backlog task: E10-T05\n\nWork area: Search\n\nMain targets: Search configuration\n\nComplete when: Old terms lead to active Docs pages.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e10-t05",
@@ -22,8 +23,8 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E10-T05 — Add redirects or synonyms for retired Training terms.",
   "type": "task",
-  "updated_at": "2026-07-26T12:01:47Z"
+  "updated_at": "2026-07-26T12:01:48Z"
 }
