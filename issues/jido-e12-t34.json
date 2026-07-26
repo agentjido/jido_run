@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-26T19:44:04Z",
   "created": "2026-07-23T12:08:15Z",
   "description": "Backlog task: E12-T34\n\nWork area: Governance\n\nMain targets: PR checklist\n\nComplete when: Route changes update content outline, content system, and taxonomy.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e12-t34",
@@ -22,8 +23,8 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E12-T34 — Require IA specs in any route or navigation PR.",
   "type": "task",
-  "updated_at": "2026-07-26T19:44:03Z"
+  "updated_at": "2026-07-26T19:44:04Z"
 }
