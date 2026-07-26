@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-26T09:07:29Z",
   "created": "2026-07-23T12:06:33Z",
   "description": "Backlog task: E09-T44\n\nWork area: Operational-control stack and boundaries\n\nMain targets: `jido_signal` page and stack guide\n\nComplete when: The page identifies default, durable adapter, restart behavior, retention, and replay limits.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e09-t44",
@@ -23,7 +24,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E09-T44 — Document Signal Journal storage choices and durability.",
   "type": "task",
   "updated_at": "2026-07-26T09:07:29Z"
