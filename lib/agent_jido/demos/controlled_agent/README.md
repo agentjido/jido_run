@@ -23,9 +23,9 @@ rather than spawning a second one.
 
 | # | Element | Jido surface | In this demo | Where the rest is proven |
 |---|---|---|---|---|
-| 1 | Ingress | the incoming `Signal` | `ControlledAgent` routes `work.approve`; `IncomingContext` carries principal/tenant/request/correlation/causation (`jido-e07-t37`) | `jido-e07-t38` enriches context via `prepare_signal/2` |
+| 1 | Ingress | the incoming `Signal` | `ControlledAgent` routes `work.approve`; `IncomingContext` carries principal/tenant/request/correlation/causation (`jido-e07-t37`); `IngressPlugin` verifies/enriches them in `prepare_signal/2` (`jido-e07-t38`) | — |
 | 2 | Principal context | `Signal.source` | every Signal carries the caller's `source`; the hook inspects it | `IncomingContext` (`jido-e07-t37`) |
-| 3 | Policy | `prepare_action/3` | `AuthorizationPlugin` is **fail-closed** (`["alice"]`) | `jido-e07-t38` enriches context via `prepare_signal/2` |
+| 3 | Policy | `prepare_action/3` | `AuthorizationPlugin` is **fail-closed** (`["alice"]`) | — |
 | 4 | Actions | `Jido.Action` | `ApproveAction` advances the counter | — |
 | 5 | Effects | typed Actions + AI tool/effect/quota policies | (designed; not wired here) | focused demos `AiToolAllowlist`, `QuotaControlAgent` |
 | 6 | Journal | durable Signal Journal adapter | (designed; not wired here) | focused demo `DurableSignalJournal`; `jido-e07-t45` |
@@ -43,6 +43,7 @@ the sibling tasks named in the table.
 |---|---|
 | **Who initiated work** | Every `work.approve` Signal carries a `source` principal; the hook inspects it, so each piece of work is attributable to the caller, not the agent. |
 | **What was allowed** | `AuthorizationPlugin.prepare_action/3` is fail-closed: the Action runs only when the principal is in the allowlist. Run as `mallory` and the Action never executes. |
+| **What context was required** | `IngressPlugin.prepare_signal/2` validates the incoming context at the earliest hook: a malformed or missing required field stops the signal before routing, the policy hook, or the Action. Run with a malformed `tenant` (even as `alice`) and the Action never executes. |
 | **What happened** | The `approved_count` counter and the control log record exactly what ran — approved work increments, denied work is rejected with a reason — and Signals carry correlation IDs you can follow. |
 | **How failure was handled** | The `AgentServer` runs under an OTP supervisor (`:permanent`, `max_restarts: 1000`). Crash it and supervision restarts a fresh process; approved state survives a full restart via hibernate/thaw. |
 
@@ -84,8 +85,31 @@ other four are application-supplied context that same boundary attaches;
 `correlation` ties one unit of work across components and `causation` names the
 signal or request that caused this one. This module carries and validates the
 context — it does not verify identity (the boundary does) or authorize work (the
-`AuthorizationPlugin` does). Enriching the context onto the live path via
-`prepare_signal/2` is `jido-e07-t38`.
+`AuthorizationPlugin` does). Wiring that validation onto the live path via
+`prepare_signal/2` is the [Ingress gate](#ingress-gate-prepare_signal2) below.
+
+## Ingress gate (`prepare_signal/2`)
+
+`IngressPlugin` (`jido-e07-t38`) is the architecture spec's middle step — it
+runs `IncomingContext.validate/1` in `prepare_signal/2`, the earliest Jido hook,
+**before** routing, the policy hook (`prepare_action/3`), and the Action. The
+controlled-agent linear path is: carry context on the incoming Signal →
+verify/enrich it in `prepare_signal/2` → make `prepare_action/3` fail-closed
+against a policy.
+
+| outcome | what the gate does |
+|---|---|
+| **context valid** | returns `{:ok, signal, delta}`, where `delta[:incoming_context]` enriches later phases with the five verified fields |
+| **context invalid or required field missing** | returns `{:error, {:invalid_context, {field, reason}}}`, which Jido turns into an error directive that **stops the signal before Agent processing** |
+
+`field` is one of `IncomingContext.fields/0` and `reason` is `:missing` (a
+required principal is absent) or `:malformed` (a present value is not a
+non-empty binary). Only `principal` is required; the other four reject when
+present-but-malformed. The gate does not authorize work (the `AuthorizationPlugin`
+does) — it only checks that required context is present and well-formed, so a
+malformed-context signal from an *allowed* principal is still stopped before the
+Action runs. The acceptance is locked by `controlled_agent_ingress_test.exs`:
+*Invalid or missing required context stops before Agent processing.*
 
 ## Authentication boundary
 
@@ -137,6 +161,7 @@ here once a durable Journal and store are layered on.
 mix test test/agent_jido/demos/controlled_agent_test.exs
 mix test test/agent_jido/demos/controlled_agent_persistence_test.exs
 mix test test/agent_jido/demos/controlled_agent_incoming_context_test.exs
+mix test test/agent_jido/demos/controlled_agent_ingress_test.exs
 ```
 
 The design coverage itself is locked by:
@@ -149,8 +174,9 @@ mix test test/agent_jido/demos/controlled_agent_design_test.exs
 
 ```
 controlled_agent/
-├── controlled_agent.ex     # the agent: state schema, signal route, authorization plugin
+├── controlled_agent.ex     # the agent: state schema, signal route, ingress + authorization plugins
 ├── incoming_context.ex     # the five incoming-Signal context fields (sources + rules)
+├── ingress_plugin.ex       # prepare_signal/2 verify/enrich gate (the ingress)
 ├── authorization_plugin.ex # fail-closed prepare_action/3 (the policy)
 ├── approve_action.ex       # the protected Action
 └── supervisor.ex           # the process-restart boundary

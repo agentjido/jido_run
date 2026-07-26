@@ -179,7 +179,7 @@ recovery.*
 
 | # | Element | Jido surface | Application duty | Where it is proven |
 |---|---|---|---|---|
-| 1 | **Ingress** | the incoming `Signal` (+ `prepare_signal/2`) | validate and attach principal/tenant/request/causation context at the boundary **in front of** Jido | `ControlledAgent` routes `work.approve`; `IncomingContext` carries principal/tenant/request/correlation/causation with a source, rule, and propagation test each (`jido-e07-t37`); `jido-e07-t38` enriches it via `prepare_signal/2` |
+| 1 | **Ingress** | the incoming `Signal` (+ `prepare_signal/2`) | validate and attach principal/tenant/request/causation context at the boundary **in front of** Jido | `ControlledAgent` routes `work.approve`; `IncomingContext` carries principal/tenant/request/correlation/causation with a source, rule, and propagation test each (`jido-e07-t37`); `IngressPlugin` verifies/enriches it in `prepare_signal/2` so invalid or missing required context stops before Agent processing (`jido-e07-t38`) |
 | 2 | **Principal context** | `Signal.source` (and carried metadata) | issue a verified principal at the auth/IAM boundary; Jido carries it, never authenticates it | `controlled_agent_test.exs` — every Signal carries a `source`; `IncomingContext` (`jido-e07-t37`) |
 | 3 | **Policy** | `prepare_signal/2`, `prepare_action/3` | the allow/deny decision is the application's; **fail-closed** | `AuthorizationPlugin` (`prepare_action/3`); `controlled_agent_test.exs` |
 | 4 | **Actions** | `Jido.Action` | state schema and deterministic transitions | `ApproveAction` |

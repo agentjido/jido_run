@@ -18,8 +18,9 @@ defmodule AgentJido.Demos.ControlledAgentIncomingContextTest do
       ingress/policy point (`AuthorizationPlugin.prepare_action/3`) and, for the
       principal, through the full `AgentServer` path.
 
-  Wiring the validation into `prepare_signal/2` is `jido-e07-t38`; this task is
-  the carrying contract.
+  Wiring that validation onto the live path is `jido-e07-t38` — the
+  `IngressPlugin` runs `validate/1` in `prepare_signal/2`, locked by
+  `controlled_agent_ingress_test.exs`. This task is the carrying contract.
   """
 
   use ExUnit.Case, async: true

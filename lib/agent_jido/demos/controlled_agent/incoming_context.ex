@@ -31,7 +31,10 @@ defmodule AgentJido.Demos.ControlledAgent.IncomingContext do
   that caused this one. They align with Jido's native trace extension
   (`Jido.Signal.Trace`: `trace_id` / `causation_id`); this module carries them as
   plain, named, uniformly validated fields so the ingress contract is explicit.
-  Enriching them onto the live path via `prepare_signal/2` is `jido-e07-t38`.
+  Enriching them onto the live path via `prepare_signal/2` is the
+  `IngressPlugin` (`jido-e07-t38`), which runs `validate/1` as the earliest
+  Jido hook and stops invalid or missing required context before Agent
+  processing.
 
   This module carries and validates context only — it does not verify identity
   (the boundary in front of Jido does) and does not authorize work (the
