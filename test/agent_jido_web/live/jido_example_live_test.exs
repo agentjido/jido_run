@@ -1621,8 +1621,7 @@ defmodule AgentJidoWeb.JidoExampleLiveTest do
       assert Repo.aggregate(
                from(
                  e in AnalyticsEvent,
-                 where:
-                   e.event == "controlled_agent_engagement" and e.section_id == "start"
+                 where: e.event == "controlled_agent_engagement" and e.section_id == "start"
                ),
                :count,
                :id
