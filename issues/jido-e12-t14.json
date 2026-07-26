@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-26T17:22:24Z",
   "created": "2026-07-23T12:07:55Z",
   "description": "Backlog task: E12-T14\n\nWork area: Freshness and ownership\n\nMain targets: Content schema\n\nComplete when: Missing metadata blocks publication.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e12-t14",
@@ -22,7 +23,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E12-T14 — Require `last_validated`, `tested_with`, and `owner` metadata for executable content.",
   "type": "task",
   "updated_at": "2026-07-26T17:22:24Z"
