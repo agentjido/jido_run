@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-26T18:26:48Z",
   "created": "2026-07-23T12:08:05Z",
   "description": "Backlog task: E12-T24\n\nWork area: Measurement\n\nMain targets: Tutorial event\n\nComplete when: Provider setup problems are categorized.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e12-t24",
@@ -22,8 +23,8 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E12-T24 — Measure first LLM request success and failure reason.",
   "type": "task",
-  "updated_at": "2026-07-26T18:26:47Z"
+  "updated_at": "2026-07-26T18:26:48Z"
 }
