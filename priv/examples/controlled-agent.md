@@ -25,6 +25,7 @@
     "lib/agent_jido/demos/controlled_agent/controlled_agent.ex",
     "lib/agent_jido/demos/controlled_agent/approve_action.ex",
     "lib/agent_jido/demos/controlled_agent/authorization_plugin.ex",
+    "lib/agent_jido/demos/controlled_agent/correlated_trace.ex",
     "lib/agent_jido/demos/controlled_agent/supervisor.ex",
     "lib/agent_jido_web/examples/controlled_agent_live.ex"
   ],
@@ -113,6 +114,39 @@ children = [
 
 Supervisor.init(children, strategy: :one_for_one, max_restarts: 1000, max_seconds: 1)
 ```
+
+### One correlated operational trace
+
+The control path is only legible when one unit of work can be followed across
+every element it touches. `CorrelatedTrace` runs one `work.approve` through the
+real agent and returns a single trace joining the six elements an operator
+follows — **principal, request, Signal, Action, policy result, and effect** —
+each stamped with the one correlation id seeded from the incoming Signal:
+
+```elixir
+alias AgentJido.Demos.ControlledAgent.CorrelatedTrace
+
+{:ok, trace} = CorrelatedTrace.run(principal: "alice", request: "req-42")
+
+trace.correlation_id   # the id shared by all six elements
+trace.principal        # "alice"
+trace.request          # "req-42"
+trace.signal           # "work.approve"
+trace.policy_result    # :allowed
+trace.effect           # %{approved_count: 1, delta: 1}
+
+denied = CorrelatedTrace.run!(principal: "mallory")
+denied.policy_result   # {:denied, :unauthorized}
+denied.effect          # :no_effect
+```
+
+The policy decision and effect are real — the fail-closed hook either lets the
+Action run (counter advances) or denies it before it runs (no effect). The whole
+unit of work is also emitted as one `Jido.Observe` trace (the observation
+backend) whose spans each carry the shared `jido_trace_id`, so an operator — or a
+`jido_otel` exporter attached to the same `:telemetry` events — follows one unit
+of work from who initiated it, through the request and signal, to the policy
+decision and the effect it produced.
 
 ## Key concepts
 

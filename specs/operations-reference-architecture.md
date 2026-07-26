@@ -185,7 +185,7 @@ recovery.*
 | 4 | **Actions** | `Jido.Action` | state schema and deterministic transitions | `ApproveAction` |
 | 5 | **Effects** | typed Actions (pure or effectful) + AI tool/effect/quota policies | tool/effect implementations, allowlists, cost budgets | focused demos `AiToolAllowlist`, `QuotaControlAgent`; `jido-e07-t36`, `jido-e07-t38` |
 | 6 | **Journal** | durable Signal Journal adapter | adapter choice, retention, access, deletion | focused demo `DurableSignalJournal`; `jido-e07-t45` |
-| 7 | **Telemetry** | `Jido.Observe` (+ optional `jido_otel`) | capture, **redaction**, correlated-span export | `CorrelatedTelemetry.joined_trace/2` joins Agent → Signal → Action → tool → external-effect work into one trace through `Jido.Observe` (`jido-e07-t47`, see [Correlated telemetry](#correlated-telemetry-jido-e07-t47)); `ControlledAgent.Redaction` redacts a defined fixture across telemetry, logs, Journal entries, and error output via `Jido.Observe.redact/2` (`jido-e07-t48`, see [Redaction](#redaction-jido-e07-t48)) |
+| 7 | **Telemetry** | `Jido.Observe` (+ optional `jido_otel`) | capture, **redaction**, correlated-span export | `ControlledAgent.CorrelatedTrace.run/1` joins principal → request → Signal → Action → policy result → effect for one unit of controlled-agent work into one trace on a shared correlation id (`jido-e08-t43`, see [Correlated operational trace](#correlated-operational-trace-jido-e08-t43)); `CorrelatedTelemetry.joined_trace/2` joins Agent → Signal → Action → tool → external-effect work into one trace through `Jido.Observe` (`jido-e07-t47`, see [Correlated telemetry](#correlated-telemetry-jido-e07-t47)); `ControlledAgent.Redaction` redacts a defined fixture across telemetry, logs, Journal entries, and error output via `Jido.Observe.redact/2` (`jido-e07-t48`, see [Redaction](#redaction-jido-e07-t48)) |
 | 8 | **Approval** | an Action that gates one high-impact effect | the human-approval boundary (who approves, how long it holds) | focused demo `ApprovalBoundaryAgent`; sibling task |
 | 9 | **Recovery** | `AgentServer` under OTP supervision + persistence | restart strategy/intensity; state store; idempotency | `ControlledAgent.Supervisor` + `controlled_agent_persistence_test.exs`; the four recovery boundaries above |
 
@@ -206,6 +206,38 @@ garden the Actions and effects behind allowlists and quotas → keep causal
 history in a durable Journal → join correlated, redacted telemetry → gate the
 one high-impact effect behind human approval → recover supervised state across a
 restart, with Journal history and telemetry surviving alongside it.
+
+### Correlated operational trace (`jido-e08-t43`)
+
+Element 7's acceptance for the controlled-agent example — *principal context,
+request, Signal, Action, policy result, and effect share documented
+correlation* — is proven by `AgentJido.Demos.ControlledAgent.CorrelatedTrace`.
+It runs one unit of `work.approve` work through a real supervised
+`ControlledAgent` `AgentServer` and returns a single trace that joins the six
+elements an operator follows, each stamped with the one correlation id
+(`jido_trace_id`) seeded from the incoming Signal (`ensure_from_signal/1`):
+
+| element         | source                                              |
+|-----------------|-----------------------------------------------------|
+| `principal`     | `Signal.source` — the already-authenticated caller  |
+| `request`       | the `request_id` incoming-context field             |
+| `signal`        | the routed `Signal.type`                            |
+| `action`        | the route table's `Jido.Action` module              |
+| `policy_result` | the fail-closed `AuthorizationPlugin` decision      |
+| `effect`        | the state change the Action produced (or none)      |
+
+The policy decision and effect are real, not asserted: the allowed path records
+`:allowed` with a counter delta; the denied path records `{:denied,
+:unauthorized}` with `:no_effect`. The whole unit of work is also emitted as one
+`Jido.Observe` trace (the observation backend) whose six spans each carry the
+shared `jido_trace_id`, so an operator — or a `jido_otel` exporter attached to
+the same `:telemetry` events — follows one unit of work across all six elements.
+This is the controlled-agent-specific view; the layer-agnostic Agent → Signal →
+Action → tool → effect join is the next section.
+
+`controlled_agent_correlated_trace_test.exs` locks the acceptance: the six
+elements share one correlation id for both the allowed and the denied path, and
+every emitted observation span carries the same `jido_trace_id`.
 
 ### Correlated telemetry (`jido-e07-t47`)
 
