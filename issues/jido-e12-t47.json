@@ -12,9 +12,15 @@
     "slice-12"
   ],
   "parent": "jido-e12",
+  "comments": [
+    {
+      "text": "Accepted by the Zclaude Ralph supervisor. Commits: 25b47d24,25d0cab9. Verification: MIX_ENV=test mix compile \u0026\u0026 MIX_ENV=test mix format --check-formatted.",
+      "timestamp": "2026-07-26T21:08:40Z"
+    }
+  ],
   "priority": 1,
   "status": "in_progress",
   "title": "E12-T47 — Measure completion of the controlled-Agent example.",
   "type": "task",
-  "updated_at": "2026-07-26T20:30:48Z"
+  "updated_at": "2026-07-26T21:08:40Z"
 }
