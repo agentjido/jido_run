@@ -555,6 +555,44 @@ defmodule AgentJido.ContentAssistant.RetrievalTest do
     end
   end
 
+  describe "query/2 retired training terms" do
+    # The public Training section was retired; an old Training term must lead to
+    # the active Docs page that replaced it (jido-e10-t05 acceptance condition:
+    # "Old terms lead to active Docs pages"). The mapping mirrors
+    # AgentJidoWeb.LegacyRedirects. The local fallback serves these (backend
+    # unavailable), so the old terms work regardless of which search path serves
+    # the query; the canonical Docs page wins via alias rerank priority plus the
+    # alias indexed into its searchable text.
+    for {term, canonical_url, canonical_title} <- [
+          {"training", "/docs/getting-started", "Getting started"},
+          {"agent fundamentals", "/docs/getting-started/first-agent", "Your first agent"},
+          {"actions validation", "/docs/concepts/actions", "Actions"},
+          {"signals routing", "/docs/concepts/signals", "Signals"},
+          {"directives scheduling", "/docs/concepts/directives", "Directives"},
+          {"liveview integration", "/docs/getting-started/elixir-developers", "I know Elixir"},
+          {"production readiness", "/docs/guides/error-handling-and-recovery", "Error Handling"}
+        ] do
+      test "returns #{inspect(term)} -> #{canonical_url} as the top result via fallback" do
+        search_fun = fn _query, _opts -> {:error, :backend_down} end
+
+        assert {:ok, [top | _rest]} = Retrieval.query(unquote(term), search_fun: search_fun)
+
+        assert top.url == unquote(canonical_url)
+        assert top.title == unquote(canonical_title)
+        assert top.source_type == :docs
+      end
+    end
+
+    test "an old Training term embedded in a longer query still finds the replacement" do
+      search_fun = fn _query, _opts -> {:error, :backend_down} end
+
+      assert {:ok, [top | _rest]} =
+               Retrieval.query("where did the training section go", search_fun: search_fun)
+
+      assert top.url == "/docs/getting-started"
+    end
+  end
+
   describe "query_with_status/2" do
     test "returns success status for normal backend responses" do
       search_fun = fn _query, _opts -> {:ok, []} end

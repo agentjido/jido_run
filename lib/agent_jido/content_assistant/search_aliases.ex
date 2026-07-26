@@ -4,8 +4,11 @@ defmodule AgentJido.ContentAssistant.SearchAliases do
 
   A search for a colloquial term — "agent server", "function calling",
   "durable" — should surface the authoritative page, not whichever page
-  happens to mention the word most. This module is the single source of
-  truth for those term→page mappings, and both search paths consume it:
+  happens to mention the word most. It also covers retired route terms:
+  the public Training section was retired, so an old term like "training"
+  or "signals routing" must lead to the active Docs page that replaced it
+  (jido-e10-t05). This module is the single source of truth for those
+  term→page mappings, and both search paths consume it:
 
     * `AgentJido.ContentIngest.Inventory` appends a page's aliases to the
       document text it builds for Arcana, so the backend indexes them and
@@ -23,12 +26,25 @@ defmodule AgentJido.ContentAssistant.SearchAliases do
   """
 
   @aliases %{
+    # Colloquial user terms -> canonical page (jido-e10-t04).
     "/docs/concepts/agent-runtime" => ["agent server", "AgentServer", "long-running"],
     "/docs/operations/supervision-and-failure-boundaries" => ["supervision"],
     "/docs/operations/process-crash-and-restart" => ["restart"],
     "/docs/concepts/persistence" => ["durable", "durability"],
     "/features/tools" => ["tools"],
-    "/docs/learn/ai-agent-with-tools" => ["function calling", "tool use", "tool-use"]
+    "/docs/learn/ai-agent-with-tools" => ["function calling", "tool use", "tool-use"],
+    # Retired /training route terms -> the active Docs page each one redirected
+    # to (jido-e10-t05). The public Training section was retired; these are the
+    # old slugs a returning user still searches for. The mapping mirrors the
+    # path-to-path table in `AgentJidoWeb.LegacyRedirects`, so a search for an
+    # old term lands on the same active Docs page the HTTP redirect serves.
+    "/docs/getting-started" => ["training"],
+    "/docs/getting-started/first-agent" => ["agent fundamentals"],
+    "/docs/concepts/actions" => ["actions validation"],
+    "/docs/concepts/signals" => ["signals routing"],
+    "/docs/concepts/directives" => ["directives scheduling"],
+    "/docs/getting-started/elixir-developers" => ["liveview integration"],
+    "/docs/guides/error-handling-and-recovery" => ["production readiness"]
   }
 
   @doc """

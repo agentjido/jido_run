@@ -82,6 +82,49 @@ defmodule AgentJido.ContentIngest.InventoryTest do
       assert persistence.text =~ "durability"
     end
 
+    test "indexes retired Training terms into their replacement Docs sources" do
+      # The public Training section was retired; each old /training slug is
+      # indexed into the active Docs page that replaced it so an Arcana query for
+      # the old term retrieves the active page (jido-e10-t05). The compound
+      # slugs ("agent fundamentals", "signals routing", ...) never appear in the
+      # replacement pages' own bodies, so their presence proves alias indexing;
+      # "training" can also occur in body copy, but indexing it as an alias keeps
+      # the retired section name retrievable regardless.
+      sources = Inventory.build(only: [:docs])
+
+      getting_started = Enum.find(sources, &(&1.source_id == "docs:/docs/getting-started"))
+      assert getting_started != nil
+      assert getting_started.text =~ "training"
+
+      first_agent = Enum.find(sources, &(&1.source_id == "docs:/docs/getting-started/first-agent"))
+      assert first_agent != nil
+      assert first_agent.text =~ "agent fundamentals"
+
+      actions = Enum.find(sources, &(&1.source_id == "docs:/docs/concepts/actions"))
+      assert actions != nil
+      assert actions.text =~ "actions validation"
+
+      signals = Enum.find(sources, &(&1.source_id == "docs:/docs/concepts/signals"))
+      assert signals != nil
+      assert signals.text =~ "signals routing"
+
+      directives = Enum.find(sources, &(&1.source_id == "docs:/docs/concepts/directives"))
+      assert directives != nil
+      assert directives.text =~ "directives scheduling"
+
+      elixir_devs =
+        Enum.find(sources, &(&1.source_id == "docs:/docs/getting-started/elixir-developers"))
+
+      assert elixir_devs != nil
+      assert elixir_devs.text =~ "liveview integration"
+
+      error_handling =
+        Enum.find(sources, &(&1.source_id == "docs:/docs/guides/error-handling-and-recovery"))
+
+      assert error_handling != nil
+      assert error_handling.text =~ "production readiness"
+    end
+
     test "supports examples-only scope with one source per public example" do
       sources = Inventory.build(only: [:examples])
 
