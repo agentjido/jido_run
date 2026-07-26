@@ -4,6 +4,7 @@ defmodule AgentJidoWeb.JidoEcosystemLive do
   alias AgentJido.Ecosystem
   alias AgentJido.Ecosystem.Bookmarks, as: EcosystemBookmarks
   alias AgentJido.Ecosystem.Layering
+  alias AgentJido.Ecosystem.Stacks, as: EcosystemStacks
   alias AgentJido.Ecosystem.SupportLevel
   alias AgentJido.GithubStarsTracker
   alias AgentJidoWeb.Jido.Nav
@@ -33,6 +34,7 @@ defmodule AgentJidoWeb.JidoEcosystemLive do
        package_count: 0,
        layer_count: 0,
        support_levels: Ecosystem.support_levels(),
+       stack_matrix: EcosystemStacks.matrix(),
        orbit_payload_json: Jason.encode!(build_orbit_payload([])),
        structured_data: [ecosystem_item_list(public_packages)]
      )}
@@ -177,6 +179,90 @@ defmodule AgentJidoWeb.JidoEcosystemLive do
               </button>
             <% end %>
           </div>
+        </section>
+
+        <section id="stack-compatibility" class="mb-16 scroll-mt-24">
+          <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between mb-5">
+            <div>
+              <span class="text-sm font-bold tracking-wider">STACK COMPATIBILITY</span>
+              <p class="copy-measure text-sm leading-relaxed text-secondary-foreground mt-2">
+                The three recommended starting stacks with the explicit supported package range for every
+                package — the same ranges the home dependency blocks install. Each range is derived from the
+                registry, so it tracks the package's published Hex major or its unreleased GitHub repo.
+              </p>
+            </div>
+            <span class="text-[11px] text-muted-foreground">
+              {length(@stack_matrix)} stacks · {stack_matrix_package_count(@stack_matrix)} packages
+            </span>
+          </div>
+
+          <section class="code-block overflow-hidden">
+            <div class="code-header">
+              <span class="text-[10px] text-muted-foreground">ecosystem_stack_compatibility.md</span>
+              <span class="text-[10px] text-muted-foreground">
+                {stack_matrix_package_count(@stack_matrix)} packages
+              </span>
+            </div>
+
+            <div class="overflow-x-auto">
+              <table class="w-full min-w-[720px] text-xs table-fixed">
+                <colgroup>
+                  <col class="w-[34%]" />
+                  <col class="w-[22%]" />
+                  <col class="w-[22%]" />
+                  <col class="w-[22%]" />
+                </colgroup>
+                <thead class="bg-elevated text-muted-foreground uppercase tracking-wider">
+                  <tr>
+                    <th class="text-left font-semibold px-3 py-3">Package</th>
+                    <th class="text-left font-semibold px-3 py-3">Supported range</th>
+                    <th class="text-left font-semibold px-3 py-3">Source</th>
+                    <th class="text-left font-semibold px-3 py-3">Support level</th>
+                  </tr>
+                </thead>
+                <%= for stack <- @stack_matrix do %>
+                  <tbody id={"stack-compatibility-#{stack.key}"} data-stack={stack.key}>
+                    <tr class="border-t border-border bg-elevated/40">
+                      <th colspan="4" scope="rowgroup" class="text-left px-3 py-2">
+                        <span class="text-foreground font-bold">{stack.name}</span>
+                        <span class="text-muted-foreground font-normal ml-2">— {stack.purpose}</span>
+                      </th>
+                    </tr>
+                    <%= for pkg <- stack.packages do %>
+                      <tr
+                        id={"stack-compatibility-#{stack.key}-#{pkg.name}"}
+                        class="border-t border-border align-top"
+                        data-stack-package={pkg.name}
+                      >
+                        <td class="px-3 py-3">
+                          <.link
+                            navigate={pkg.path}
+                            class="font-semibold text-foreground hover:text-primary transition-colors"
+                          >
+                            {pkg.name}
+                          </.link>
+                          <div class="text-muted-foreground mt-1 break-words">{pkg.role}</div>
+                        </td>
+                        <td class="px-3 py-3">
+                          <code class="text-[11px] text-foreground" data-supported-range={pkg.range}>
+                            {pkg.range}
+                          </code>
+                        </td>
+                        <td class="px-3 py-3">
+                          <span class={"text-[11px] font-semibold #{stack_source_class(pkg.source)}"}>
+                            {pkg.source_label}
+                          </span>
+                        </td>
+                        <td class="px-3 py-3">
+                          <.support_level_badge level={pkg.support_level} />
+                        </td>
+                      </tr>
+                    <% end %>
+                  </tbody>
+                <% end %>
+              </table>
+            </div>
+          </section>
         </section>
 
         <section class="mb-16">
@@ -434,6 +520,17 @@ defmodule AgentJidoWeb.JidoEcosystemLive do
     |> Enum.uniq()
     |> length()
   end
+
+  defp stack_matrix_package_count(stacks) when is_list(stacks) do
+    stacks
+    |> Enum.map(& &1.packages)
+    |> List.flatten()
+    |> length()
+  end
+
+  defp stack_source_class(:hex), do: "text-primary"
+  defp stack_source_class(:github), do: "text-accent-yellow"
+  defp stack_source_class(_source), do: "text-muted-foreground"
 
   defp build_explorer_packages(packages, title_by_id, stars_by_package) do
     packages

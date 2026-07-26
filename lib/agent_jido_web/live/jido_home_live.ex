@@ -5,6 +5,7 @@ defmodule AgentJidoWeb.JidoHomeLive do
   import AgentJidoWeb.Jido.MarketingLayouts
 
   alias AgentJido.Ecosystem
+  alias AgentJido.Ecosystem.Stacks, as: EcosystemStacks
   alias AgentJido.Ecosystem.SupportLevel
   alias AgentJido.Examples.UseCases
 
@@ -329,65 +330,59 @@ defmodule AgentJidoWeb.JidoHomeLive do
   # failure with supervision, AI -> rate and cost budgets, Operate -> telemetry
   # and traces), so the three destinations are distinct rather than one shared
   # link to the operations hub.
+  #
+  # Stack composition (key, name, purpose, packages, roles) and the explicit
+  # supported package ranges live in `AgentJido.Ecosystem.Stacks` (jido-e09-t36),
+  # the single source of truth shared with the Ecosystem compatibility matrix.
+  # The home-specific overlays here — visual tone, the "start here" badge, the
+  # negative-fit note, and the production-next-step link — are presentation, not
+  # composition, so they stay local and are merged onto the shared definition.
+  @home_stack_overlays %{
+    "core" => %{
+      tone: "core",
+      start: true,
+      do_not_use_when:
+        "you expect built-in LLM calls or production tooling. Core is the supervised runtime — add the AI stack for model reasoning or the Operate stack for observability and integrations.",
+      next_step: %{
+        label: "Bound failure in production",
+        href: "/docs/operations/supervision-and-failure-boundaries"
+      }
+    },
+    "ai" => %{
+      tone: "ai",
+      do_not_use_when:
+        "no agent in your system calls an LLM. The AI stack adds model providers, reasoning, and tool use — and the cost of an LLM dependency — so add it only when an agent actually reasons over a model.",
+      next_step: %{
+        label: "Set rate and cost budgets",
+        href: "/docs/operations/rate-limits-and-cost-budgets"
+      }
+    },
+    "operate" => %{
+      tone: "operate",
+      do_not_use_when:
+        "you are not yet shipping to production. Operate adds observability, messaging, and Ash integration; pulling it in before there is an agent to operate only adds dependencies you do not yet need.",
+      next_step: %{
+        label: "Wire telemetry and traces",
+        href: "/docs/operations/telemetry-and-traces"
+      }
+    }
+  }
+
   defp ecosystem_section(assigns) do
     stacks =
-      [
-        %{
-          key: "core",
-          name: "Core",
-          tone: "core",
-          start: true,
-          purpose: "The runtime every Jido system runs on — agents, typed Actions, and Signals.",
-          do_not_use_when:
-            "you expect built-in LLM calls or production tooling. Core is the supervised runtime — add the AI stack for model reasoning or the Operate stack for observability and integrations.",
-          next_step: %{
-            label: "Bound failure in production",
-            href: "/docs/operations/supervision-and-failure-boundaries"
-          },
-          packages: [
-            %{name: "jido", role: "Agent state, the supervised AgentServer, and Directives."},
-            %{name: "jido_action", role: "Typed, validated commands and tools an agent runs."},
-            %{name: "jido_signal", role: "CloudEvents messages agents send, route, and replay."}
-          ]
-        },
-        %{
-          key: "ai",
-          name: "AI",
-          tone: "ai",
-          purpose: "Add LLM-backed agents, provider choice, and model metadata when you need AI.",
-          do_not_use_when:
-            "no agent in your system calls an LLM. The AI stack adds model providers, reasoning, and tool use — and the cost of an LLM dependency — so add it only when an agent actually reasons over a model.",
-          next_step: %{
-            label: "Set rate and cost budgets",
-            href: "/docs/operations/rate-limits-and-cost-budgets"
-          },
-          packages: [
-            %{name: "jido_ai", role: "Reasoning strategies, tool use, and accuracy over LLM calls."},
-            %{name: "req_llm", role: "Model requests across Anthropic, OpenAI, Google, and more."},
-            %{name: "llm_db", role: "Offline model metadata and capability catalog."}
-          ]
-        },
-        %{
-          key: "operate",
-          name: "Operate",
-          tone: "operate",
-          purpose: "Ship to production — observability, messaging, and framework integration.",
-          do_not_use_when:
-            "you are not yet shipping to production. Operate adds observability, messaging, and Ash integration; pulling it in before there is an agent to operate only adds dependencies you do not yet need.",
-          next_step: %{
-            label: "Wire telemetry and traces",
-            href: "/docs/operations/telemetry-and-traces"
-          },
-          packages: [
-            %{name: "ash_jido", role: "Turns Ash resources into typed Jido Actions."},
-            %{name: "jido_messaging", role: "Chat channels (Slack, Discord, Telegram) for agents."},
-            %{name: "jido_otel", role: "Exports Jido telemetry as OpenTelemetry spans."}
-          ]
-        }
-      ]
+      EcosystemStacks.stacks()
       |> Enum.map(fn stack ->
+        overlay = Map.fetch!(@home_stack_overlays, stack.key)
         packages = Enum.map(stack.packages, &with_support_level/1)
-        Map.merge(stack, %{packages: packages, dependency_block: build_dependency_block(stack.packages)})
+
+        Map.merge(stack, %{
+          tone: overlay.tone,
+          start: overlay[:start],
+          do_not_use_when: overlay.do_not_use_when,
+          next_step: overlay[:next_step],
+          packages: packages,
+          dependency_block: EcosystemStacks.dependency_block(stack.packages)
+        })
       end)
 
     assigns = assign(assigns, :stacks, stacks)
@@ -504,10 +499,11 @@ defmodule AgentJidoWeb.JidoHomeLive do
 
   # Each recommended stack ships a copyable mix.exs dependency block
   # (jido-e09-t08) so a builder can paste the stack into a project and
-  # `mix deps.get` resolves. The block is derived from the authoritative
-  # ecosystem registry at render time — the same derive-from-source approach
-  # the support-level badges use (jido-e04-t26) — so it never drifts into a
-  # hardcoded copy.
+  # `mix deps.get` resolves. The block — and the explicit supported package
+  # range each line encodes — is derived from the authoritative ecosystem
+  # registry by `AgentJido.Ecosystem.Stacks` (jido-e09-t36), the single shared
+  # source for both the home dependency blocks and the Ecosystem compatibility
+  # matrix, so neither drifts into a hardcoded copy.
   #
   # A package published to Hex pins to its published MAJOR (`~> X.0`) rather
   # than an exact version. The registry records each package's version
@@ -517,55 +513,6 @@ defmodule AgentJidoWeb.JidoHomeLive do
   # which is what makes the block actually install — the task's acceptance bar.
   # A package not yet on Hex falls back to its public GitHub repo, which also
   # resolves on `mix deps.get`.
-  defp build_dependency_block(packages) when is_list(packages) do
-    lines =
-      packages
-      |> Enum.map(&stack_dependency_line/1)
-      |> Enum.reject(&is_nil/1)
-
-    if lines == [] do
-      nil
-    else
-      body = Enum.map_join(lines, ",\n", &"      #{&1}")
-      "defp deps do\n  [\n#{body}\n  ]\nend"
-    end
-  end
-
-  defp stack_dependency_line(%{name: name}) do
-    case Ecosystem.get_public_package(name) do
-      %{hex_status: hex_status} = pkg when is_binary(hex_status) ->
-        cond do
-          published_hex_major(hex_status) != nil ->
-            "{:#{name}, \"~> #{published_hex_major(hex_status)}.0\"}"
-
-          github_repo_path(pkg) != nil ->
-            "{:#{name}, github: \"#{github_repo_path(pkg)}\"}"
-
-          true ->
-            nil
-        end
-
-      _other ->
-        nil
-    end
-  end
-
-  defp stack_dependency_line(_package), do: nil
-
-  # The leading major of a recorded published Hex version, or nil when the
-  # package is not published (hex_status is "unreleased" or non-version text).
-  defp published_hex_major(hex_status) do
-    case Regex.run(~r/^(\d+)\./, hex_status || "") do
-      [_, major] -> major
-      _ -> nil
-    end
-  end
-
-  defp github_repo_path(%{github_org: org, github_repo: repo})
-       when is_binary(org) and org != "" and is_binary(repo) and repo != "",
-       do: "#{org}/#{repo}"
-
-  defp github_repo_path(_package), do: nil
 
   defp why_elixir_otp_section(assigns) do
     features = [
