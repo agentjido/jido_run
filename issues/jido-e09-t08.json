@@ -1,5 +1,5 @@
 {
-  "assignee": "",
+  "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:05:57Z",
@@ -18,8 +18,8 @@
     }
   ],
   "priority": 1,
-  "status": "open",
+  "status": "in_progress",
   "title": "E09-T08 — Give each stack a copyable dependency block.",
   "type": "task",
-  "updated_at": "2026-07-24T12:52:37Z"
+  "updated_at": "2026-07-26T06:29:54Z"
 }
