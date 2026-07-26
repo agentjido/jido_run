@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-26T19:35:36Z",
   "created": "2026-07-23T12:08:08Z",
   "description": "Backlog task: E12-T27\n\nWork area: Measurement\n\nMain targets: Docs analytics\n\nComplete when: The long-running path has a conversion measure.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e12-t27",
@@ -22,7 +23,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E12-T27 — Measure movement from onboarding to Operate.",
   "type": "task",
   "updated_at": "2026-07-26T19:35:36Z"
