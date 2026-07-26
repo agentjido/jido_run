@@ -78,6 +78,7 @@ Jido's deterministic `cmd/2` model reinforces this: agent state transitions are 
 
 ## What to explore next
 
+- **Integrated control proof:** [Controlled Agent](/examples/controlled-agent) - one supervised agent that proves supervision, fail-closed authorization, and the complete control path in a single run
 - **Agent foundations:** [How Jido agents work](/features/how-agents-work)
 - **Coordination:** [Agents that work together](/features/multi-agent-coordination)
 - **Observability:** [Observe everything](/features/observe-everything)

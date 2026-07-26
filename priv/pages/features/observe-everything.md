@@ -87,6 +87,7 @@ This exposes agent execution metrics alongside your existing Phoenix and Ecto da
 
 ## What to explore next
 
+- **Integrated control proof:** [Controlled Agent](/examples/controlled-agent) - one supervised agent whose correlated trace you can follow across principal, signal, action, and effect in a single run
 - **Agent foundations:** [How Jido agents work](/features/how-agents-work)
 - **Fault tolerance:** [Agents that self-heal](/features/agents-that-self-heal)
 - **Coordination:** [Agents that work together](/features/multi-agent-coordination)

@@ -937,6 +937,58 @@ defmodule AgentJido.PagesTest do
     end
   end
 
+  describe "operational-control hubs link the integrated controlled-Agent example (jido-e08-t46)" do
+    # Acceptance: "Each operational-control claim has a direct route to the
+    # integrated proof." The home hub already routes to the example
+    # (jido-e04-t41); this task adds the same direct route from the Features,
+    # Docs, and Operate hubs so no operational-control claim is left pointing
+    # only at separate doc destinations.
+    @example_route "/examples/controlled-agent"
+    @operate_hub_source Path.expand("../../priv/pages/docs/operations.md", __DIR__)
+    @docs_controls_source Path.expand(
+                            "../../priv/pages/docs/getting-started/operational-controls.md",
+                            __DIR__
+                          )
+    @feature_self_heal_source Path.expand(
+                                "../../priv/pages/features/agents-that-self-heal.md",
+                                __DIR__
+                              )
+    @feature_observe_source Path.expand("../../priv/pages/features/observe-everything.md", __DIR__)
+
+    test "the destination is a live, published example (the integrated proof)" do
+      # The link must land on a real, live example — not a dead route.
+      example = AgentJido.Examples.get_example("controlled-agent")
+
+      assert example != nil
+      assert example.status == :live
+      assert example.live_view_module == "AgentJidoWeb.Examples.ControlledAgentLive"
+    end
+
+    test "the Operate hub links the controlled-Agent example" do
+      hub = File.read!(@operate_hub_source)
+
+      assert hub =~ @example_route
+    end
+
+    test "the Docs operational-controls lane links the controlled-Agent example" do
+      lane = File.read!(@docs_controls_source)
+
+      assert lane =~ @example_route
+    end
+
+    test "the Features self-heal page links the controlled-Agent example" do
+      body = File.read!(@feature_self_heal_source)
+
+      assert body =~ @example_route
+    end
+
+    test "the Features observe-everything page links the controlled-Agent example" do
+      body = File.read!(@feature_observe_source)
+
+      assert body =~ @example_route
+    end
+  end
+
   describe "operations supervision and failure boundaries page (jido-e07-t02)" do
     # Acceptance: "It explains topology, restart strategy, and restart intensity."
     @supervision_source Path.expand(

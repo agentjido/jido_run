@@ -31,7 +31,7 @@ The lane is organized around the control surfaces a production agent touches:
 
 ## How to take this lane
 
-This page is the onboarding entry point for the control path. The control surfaces above are documented today; a single end-to-end controlled-Agent reference - one application that carries principal and causal context from ingress through an allowed and a denied action - is being published on the [Operations](/docs/operations) path.
+This page is the onboarding entry point for the control path. The control surfaces above are documented today, and one end-to-end controlled-Agent reference - a single supervised agent that carries principal and causal context from ingress through an allowed and a denied action and a supervised restart - is published as the integrated [Controlled Agent](/examples/controlled-agent) example. Run it to see the complete control path in a single run, then follow the [Operations](/docs/operations) path for each surface in depth.
 
 Work the lane in this order, naming what Jido supplies and what your application owns at each step:
 

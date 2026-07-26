@@ -21,6 +21,8 @@ Operate a Jido agent system by working through this ordered path. Each step name
 4. **Schedule and observe.** Add scheduling or event input, then telemetry and traces. Telemetry is for system understanding — it is not an audit log.
 5. **Check health and deploy.** Define process, dependency, and work health; verify after every deploy.
 
+Each operational-control claim on this path resolves to one place: run the [Controlled Agent](/examples/controlled-agent) example to watch one supervised agent prove the complete control path in a single run — who initiated work, what was allowed, what happened, and how failure was handled. The pages below then open one surface of that path at a time.
+
 ## Operations pages
 
 - [Supervision and failure boundaries](/docs/operations/supervision-and-failure-boundaries) - supervision topology, restart strategy, and restart intensity for bounding agent failure
