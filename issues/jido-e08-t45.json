@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-26T06:21:52Z",
   "created": "2026-07-23T12:05:48Z",
   "description": "Backlog task: E08-T45\n\nWork area: Operational-control proof\n\nMain targets: Controlled-Agent example page\n\nComplete when: The page identifies external authentication, identity storage, retention, access control, and compliance duties.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e08-t45",
@@ -23,8 +24,8 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E08-T45 — Add an application-responsibility note.",
   "type": "task",
-  "updated_at": "2026-07-26T06:21:51Z"
+  "updated_at": "2026-07-26T06:21:52Z"
 }
