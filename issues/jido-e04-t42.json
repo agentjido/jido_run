@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-26T23:46:41Z",
   "created": "2026-07-23T12:02:54Z",
   "description": "Backlog task: E04-T42\n\nWork area: Use cases, ecosystem, and conversion\n\nMain targets: Home control section\n\nComplete when: The CTA opens the operational-control architecture and proof page.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e04-t42",
@@ -23,7 +24,7 @@
     }
   ],
   "priority": 2,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E04-T42 — Add a control-focused CTA for platform and SRE evaluators.",
   "type": "task",
   "updated_at": "2026-07-26T23:46:41Z"
