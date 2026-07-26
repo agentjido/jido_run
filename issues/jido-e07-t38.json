@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-26T00:04:17Z",
   "created": "2026-07-23T12:04:50Z",
   "description": "Backlog task: E07-T38\n\nWork area: Controlled-Agent reference path\n\nMain targets: Reference Plugin\n\nComplete when: Invalid or missing required context stops before Agent processing.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e07-t38",
@@ -23,7 +24,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E07-T38 — Use `prepare_signal/2` to verify or enrich runtime context.",
   "type": "task",
   "updated_at": "2026-07-26T00:04:17Z"
