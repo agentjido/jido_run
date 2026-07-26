@@ -29,7 +29,7 @@ rather than spawning a second one.
 | 4 | Actions | `Jido.Action` | `ApproveAction` advances the counter | — |
 | 5 | Effects | typed Actions + AI tool/effect/quota policies | (designed; not wired here) | focused demos `AiToolAllowlist`, `QuotaControlAgent` |
 | 6 | Journal | durable Signal Journal adapter | (designed; not wired here) | focused demo `DurableSignalJournal`; `jido-e07-t45` |
-| 7 | Telemetry | `Jido.Observe` (+ `jido_otel`) | Signals carry correlation IDs; `CorrelatedTelemetry.joined_trace/2` joins Agent → Signal → Action → tool → external-effect work into one trace (`jido-e07-t47`) | focused demos `CorrelatedTelemetry`, `RedactedAction` |
+| 7 | Telemetry | `Jido.Observe` (+ `jido_otel`) | Signals carry correlation IDs; `CorrelatedTelemetry.joined_trace/2` joins Agent → Signal → Action → tool → external-effect work into one trace (`jido-e07-t47`); `Redaction` keeps a defined fixture out of telemetry, logs, Journal entries, and error output (`jido-e07-t48`) | focused demos `CorrelatedTelemetry`, `RedactedAction` |
 | 8 | Approval | an Action that gates a high-impact effect | (designed; not wired here) | focused demo `ApprovalBoundaryAgent` |
 | 9 | Recovery | `AgentServer` under OTP supervision + persistence | `Supervisor` restarts the process; state recovers via hibernate/thaw | the four recovery boundaries in the long-running spec |
 
@@ -162,6 +162,7 @@ mix test test/agent_jido/demos/controlled_agent_test.exs
 mix test test/agent_jido/demos/controlled_agent_persistence_test.exs
 mix test test/agent_jido/demos/controlled_agent_incoming_context_test.exs
 mix test test/agent_jido/demos/controlled_agent_ingress_test.exs
+mix test test/agent_jido/demos/controlled_agent_redaction_test.exs
 ```
 
 The design coverage itself is locked by:
@@ -179,6 +180,7 @@ controlled_agent/
 ├── ingress_plugin.ex       # prepare_signal/2 verify/enrich gate (the ingress)
 ├── authorization_plugin.ex # fail-closed prepare_action/3 (the policy)
 ├── approve_action.ex       # the protected Action
+├── redaction.ex            # redacts a defined fixture across the four operational-data sinks
 └── supervisor.ex           # the process-restart boundary
 ```
 

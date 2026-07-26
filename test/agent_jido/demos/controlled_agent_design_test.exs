@@ -54,6 +54,7 @@ defmodule AgentJido.Demos.ControlledAgentDesignTest do
     {"DurableSignalJournal (Journal)", AgentJido.Demos.DurableSignalJournal},
     {"CorrelatedTelemetry (telemetry)", AgentJido.Demos.CorrelatedTelemetry},
     {"RedactedAction (telemetry/redaction)", AgentJido.Demos.Redaction.RedactedAction},
+    {"ControlledAgent.Redaction (telemetry/redaction)", AgentJido.Demos.ControlledAgent.Redaction},
     {"ApprovalBoundaryAgent (approval)", AgentJido.Demos.ApprovalBoundaryAgent}
   ]
 

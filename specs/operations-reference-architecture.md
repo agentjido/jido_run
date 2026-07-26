@@ -185,7 +185,7 @@ recovery.*
 | 4 | **Actions** | `Jido.Action` | state schema and deterministic transitions | `ApproveAction` |
 | 5 | **Effects** | typed Actions (pure or effectful) + AI tool/effect/quota policies | tool/effect implementations, allowlists, cost budgets | focused demos `AiToolAllowlist`, `QuotaControlAgent`; `jido-e07-t36`, `jido-e07-t38` |
 | 6 | **Journal** | durable Signal Journal adapter | adapter choice, retention, access, deletion | focused demo `DurableSignalJournal`; `jido-e07-t45` |
-| 7 | **Telemetry** | `Jido.Observe` (+ optional `jido_otel`) | capture, **redaction**, correlated-span export | `CorrelatedTelemetry.joined_trace/2` joins Agent → Signal → Action → tool → external-effect work into one trace through `Jido.Observe` (`jido-e07-t47`, see [Correlated telemetry](#correlated-telemetry-jido-e07-t47)); `RedactedAction` for redaction (`jido-e07-t48`) |
+| 7 | **Telemetry** | `Jido.Observe` (+ optional `jido_otel`) | capture, **redaction**, correlated-span export | `CorrelatedTelemetry.joined_trace/2` joins Agent → Signal → Action → tool → external-effect work into one trace through `Jido.Observe` (`jido-e07-t47`, see [Correlated telemetry](#correlated-telemetry-jido-e07-t47)); `ControlledAgent.Redaction` redacts a defined fixture across telemetry, logs, Journal entries, and error output via `Jido.Observe.redact/2` (`jido-e07-t48`, see [Redaction](#redaction-jido-e07-t48)) |
 | 8 | **Approval** | an Action that gates one high-impact effect | the human-approval boundary (who approves, how long it holds) | focused demo `ApprovalBoundaryAgent`; sibling task |
 | 9 | **Recovery** | `AgentServer` under OTP supervision + persistence | restart strategy/intensity; state store; idempotency | `ControlledAgent.Supervisor` + `controlled_agent_persistence_test.exs`; the four recovery boundaries above |
 
@@ -234,6 +234,31 @@ and depends on a deployed reference app (the supported surface is already in
 place — an exporter attaches to the events above). `correlated_telemetry_test.exs`
 locks the acceptance: every layer's span shares one trace id and the spans nest
 as one tree.
+
+### Redaction (`jido-e07-t48`)
+
+Element 7's redaction duty — *the defined sensitive fixtures do not appear in
+captured operational data* — is proven by `AgentJido.Demos.ControlledAgent.Redaction`.
+It defines the sensitive fixtures (provider keys), routes one through the
+controlled-agent observation path, and redacts it via `Jido.Observe.redact/2`
+at each of the four operational-data sinks an operator captures: telemetry,
+logs, the recorded Journal entry, and error output. With `:redact_sensitive`
+true the fixture becomes `"[REDACTED]"` everywhere; with it false the fixture
+passes through unchanged, proving the absence is the configured redaction and
+not a missing value.
+
+| Sink | How the fixture is kept out |
+|---|---|
+| Telemetry | redacted via `Jido.Observe.redact/2` before it enters span metadata |
+| Logs | redacted before it is written to the observation log |
+| Journal entry | redacted in the recorded Signal's data before it is persisted |
+| Error output | the fail-closed authorization hook rejects the signal without echoing the fixture |
+
+Jido supplies the redaction surface; the application owns the duty to apply it
+at each sink. Redaction is not tamper-proofing — it is an application duty, not
+a Jido guarantee (see the Journal retention, access, and deletion page,
+`jido-e07-t45`). `controlled_agent_redaction_test.exs` locks the acceptance: the
+defined fixtures are absent from every captured sink.
 
 ### What stays outside Jido
 
