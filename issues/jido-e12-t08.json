@@ -15,11 +15,15 @@
     {
       "text": "Open: framework/runtime/platform vocabulary review rules not yet automated.",
       "timestamp": "2026-07-24T12:54:58Z"
+    },
+    {
+      "text": "Accepted by the Zclaude Ralph supervisor. Commits: 5762d06b. Verification: MIX_ENV=test mix compile \u0026\u0026 MIX_ENV=test mix format --check-formatted.",
+      "timestamp": "2026-07-26T16:44:46Z"
     }
   ],
   "priority": 1,
   "status": "in_progress",
   "title": "E12-T08 — Add framework/runtime/platform vocabulary review rules.",
   "type": "task",
-  "updated_at": "2026-07-26T16:37:29Z"
+  "updated_at": "2026-07-26T16:44:46Z"
 }
