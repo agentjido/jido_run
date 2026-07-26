@@ -60,6 +60,34 @@ defmodule AgentJido.MCP.ServerTest do
     assert state.initialized?
   end
 
+  test "initialize instructions state the v1 docs-only scope explicitly" do
+    request = %{
+      "jsonrpc" => "2.0",
+      "id" => 1,
+      "method" => "initialize",
+      "params" => %{"protocolVersion" => "2025-11-25"}
+    }
+
+    {:reply, response, _state} = Server.handle_message(request, Server.new(), tools_module: StubTools)
+
+    instructions = response["result"]["instructions"]
+
+    # Product copy and tool scope must agree (jido-e10-t17): the public
+    # description returned to every MCP client must state the docs-only scope.
+    assert instructions =~ "docs only"
+    assert instructions =~ "search_docs, get_doc, list_sections"
+    assert instructions =~ "examples"
+    assert instructions =~ "/docs/**"
+  end
+
+  test "instructions/0 is the single docs-only scope source of truth" do
+    instructions = Server.instructions()
+
+    assert instructions =~ "docs only"
+    assert instructions =~ "/docs/**"
+    assert instructions =~ "Available tools: search_docs, get_doc, list_sections"
+  end
+
   test "tools/list requires initialization on stateful transports" do
     request = %{"jsonrpc" => "2.0", "id" => 2, "method" => "tools/list", "params" => %{}}
 

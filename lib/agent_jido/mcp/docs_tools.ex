@@ -21,7 +21,8 @@ defmodule AgentJido.MCP.DocsTools do
     [
       %{
         "name" => "search_docs",
-        "description" => "Search Agent Jido documentation pages with citation-friendly snippets.",
+        "description" =>
+          "Search published Agent Jido documentation pages (/docs/**) with citation-friendly snippets. v1 is docs only — examples, skills, ecosystem packages, blog, and compare pages are not indexed.",
         "inputSchema" => search_docs_input_schema(),
         "outputSchema" => search_docs_output_schema()
       },

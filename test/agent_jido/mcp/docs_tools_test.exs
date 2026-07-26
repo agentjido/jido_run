@@ -51,6 +51,22 @@ defmodule AgentJido.MCP.DocsToolsTest do
              DocsTools.search_docs(%{"query" => "   "}, retrieval_module: RetrievalStub)
   end
 
+  test "tool descriptions state the v1 docs-only scope" do
+    # Product copy and tool scope must agree (jido-e10-t17): every public tool
+    # description must keep examples/skills/ecosystem out of the promised scope.
+    by_name = Map.new(DocsTools.tools(), &{&1["name"], &1["description"]})
+
+    search_description = by_name["search_docs"]
+    assert search_description =~ "/docs/**"
+    assert search_description =~ "docs only"
+    assert search_description =~ "examples"
+
+    for name <- ~w(get_doc list_sections) do
+      description = by_name[name]
+      assert description =~ "documentation", "expected #{name} to stay docs-scoped"
+    end
+  end
+
   test "get_doc resolves legacy docs routes to canonical markdown" do
     assert {:ok, result} = DocsTools.get_doc(%{"path" => "/docs/chat-response"}, [])
 

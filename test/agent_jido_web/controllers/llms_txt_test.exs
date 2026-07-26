@@ -14,6 +14,9 @@ defmodule AgentJidoWeb.LLMSTxtTest do
     assert body =~ "#{endpoint_url}/sitemap.xml"
     assert body =~ "#{endpoint_url}/mcp/docs"
     assert body =~ "search_docs, get_doc, list_sections"
+    # Product copy and tool scope must agree (jido-e10-t17): the MCP scope line
+    # must state the v1 docs-only scope explicitly.
+    assert body =~ "Scope: v1 is docs only (/docs/**)"
     assert body =~ "If source markdown is unavailable"
   end
 end

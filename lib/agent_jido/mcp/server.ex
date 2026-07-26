@@ -32,6 +32,23 @@ defmodule AgentJido.MCP.Server do
     %State{protocol_version: Keyword.get(opts, :protocol_version, MCP.protocol_version())}
   end
 
+  @doc """
+  Public description returned to MCP clients on `initialize`.
+
+  The v1 tool surface is intentionally docs-only. This string is the single
+  source of truth for that scope claim so product copy and tool scope stay in
+  agreement (jido-e10-t17). Examples, skills, and ecosystem retrieval are
+  tracked as separate scope-expansion tasks (jido-e10-t18, jido-e10-t19).
+  """
+  @spec instructions() :: String.t()
+  def instructions do
+    "Read-only documentation MCP server for Agent Jido. " <>
+      "v1 scope is docs only — search_docs, get_doc, and list_sections operate " <>
+      "on published documentation pages (/docs/**) and exclude examples, skills, " <>
+      "ecosystem packages, blog, and compare pages. " <>
+      "Available tools: search_docs, get_doc, list_sections."
+  end
+
   @spec handle_message(map(), State.t(), keyword()) :: response_tuple()
   def handle_message(message, state, opts \\ [])
 
@@ -96,7 +113,7 @@ defmodule AgentJido.MCP.Server do
         "name" => MCP.server_name(),
         "version" => MCP.server_version()
       },
-      "instructions" => "Read-only documentation MCP server for Agent Jido. Available tools: search_docs, get_doc, list_sections."
+      "instructions" => instructions()
     }
 
     {:reply, success_response(id, result), next_state}

@@ -47,7 +47,7 @@ defmodule AgentJidoWeb.LLMSTxtController do
     MCP docs server
     - HTTP endpoint: #{endpoint_url}/mcp/docs
     - Tools: search_docs, get_doc, list_sections
-    - Scope: published docs only
+    - Scope: v1 is docs only (/docs/**). Examples, skills, ecosystem packages, blog, and compare pages are not indexed.
 
     Rendered fallback pattern
     - If source markdown is unavailable, request the canonical route with:

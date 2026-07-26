@@ -59,7 +59,7 @@ The workbench now ships a read-only MCP docs server for the published documentat
 - public HTTP endpoint: `POST /mcp/docs`
 - local question helper: `mix run scripts/ask_mcp_docs.exs -- "How do plugins work?"`
 - v1 tools: `search_docs`, `get_doc`, `list_sections`
-- v1 scope: docs only
+- v1 scope: docs only (`/docs/**`). Examples, skills, ecosystem packages, blog, and compare pages are **not** indexed in v1. Example and ecosystem retrieval are tracked as scope-expansion tasks (`jido-e10-t18`, `jido-e10-t19`).
 
 Notes:
 
