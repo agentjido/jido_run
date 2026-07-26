@@ -12,12 +12,13 @@ defmodule AgentJido.ContentAssistant.Retrieval do
   alias AgentJido.Examples
   alias AgentJido.Examples.Taxonomy
   alias AgentJido.Pages
+  alias AgentJido.UpstreamSkillCatalog
   alias Arcana.Collection
   alias Arcana.Document
 
   @default_limit 10
   @default_mode :hybrid
-  @collections ["site_docs", "site_blog", "site_ecosystem", "site_ecosystem_docs", "site_examples"]
+  @collections ["site_docs", "site_blog", "site_ecosystem", "site_ecosystem_docs", "site_examples", "site_skills"]
   @snippet_max_length 320
   @disabled_route_prefixes ["/training", "/search"]
   @broad_package_phrases [
@@ -32,6 +33,7 @@ defmodule AgentJido.ContentAssistant.Retrieval do
     "overview"
   ]
   @example_intent_terms ["example", "examples", "demo", "walkthrough", "sample"]
+  @skill_intent_terms ["skill", "skills"]
   @api_intent_terms [
     "module",
     "function",
@@ -275,12 +277,16 @@ defmodule AgentJido.ContentAssistant.Retrieval do
         Examples.all_examples()
         |> Enum.map(&build_example_fallback_result(&1, terms, query_downcase))
 
+      skill_results =
+        UpstreamSkillCatalog.package_entries()
+        |> Enum.map(&build_skill_fallback_result(&1, terms, query_downcase))
+
       # Return every scored, non-disabled candidate. The caller
       # (`fallback_response`) reranks (intent boosts can reorder results) and
       # then applies the result limit, so truncating here by raw lexical score
       # would cut low-raw-score-but-high-intent matches (e.g. an example for an
       # "<topic> example" query) before reranking ever sees them.
-      (page_results ++ blog_results ++ ecosystem_results ++ example_results)
+      (page_results ++ blog_results ++ ecosystem_results ++ example_results ++ skill_results)
       |> Enum.reject(&is_nil/1)
       |> Enum.sort_by(&(&1.score || 0.0), :desc)
       |> Enum.reject(&disabled_result?/1)
@@ -430,6 +436,35 @@ defmodule AgentJido.ContentAssistant.Retrieval do
       }
     end
   end
+
+  defp build_skill_fallback_result(entry, terms, query_downcase) do
+    title = normalize_string(entry.title || entry.name) || default_title(:skills)
+    description = normalize_string(entry.description)
+
+    # Rank skills on identity + discriminating fields (title, name, ecosystem
+    # package id, description). A package skill query ("<package> skill") should
+    # surface the matching card, and the package id is the most discriminating
+    # term for that intent.
+    searchable_text =
+      join_searchable_text([entry.title, entry.name, entry.ecosystem_package_id, description])
+
+    score = lexical_score(title, searchable_text, terms, query_downcase)
+
+    if score > 0 do
+      %Result{
+        title: title,
+        snippet: snippet_for(description || title, query_downcase),
+        url: URL.normalize_href(skill_card_url(entry.id)) || "/",
+        source_type: :skills,
+        score: score
+      }
+    end
+  end
+
+  # The package skills catalog renders one card per skill at /skills. Anchor a
+  # result to the card's DOM id so a hit lands on the matching skill (jido-e10
+  # E10-T03).
+  defp skill_card_url(skill_id), do: "/skills#skill-card-#{skill_id}"
 
   defp tokenize_query(query) when is_binary(query) do
     query
@@ -637,6 +672,7 @@ defmodule AgentJido.ContentAssistant.Retrieval do
       "site_ecosystem" -> :ecosystem
       "site_ecosystem_docs" -> :ecosystem_docs
       "site_examples" -> :examples
+      "site_skills" -> :skills
       _ -> resolve_source_type_from_metadata(metadata)
     end
   end
@@ -649,6 +685,7 @@ defmodule AgentJido.ContentAssistant.Retrieval do
       "ecosystem" -> :ecosystem
       "ecosystem_docs" -> :ecosystem_docs
       "examples" -> :examples
+      "skills" -> :skills
       _ -> :docs
     end
   end
@@ -659,7 +696,17 @@ defmodule AgentJido.ContentAssistant.Retrieval do
       "site_blog" -> route_from_collection_id(metadata, source_id, "blog:", "/blog/")
       "site_ecosystem" -> route_from_collection_id(metadata, source_id, "ecosystem:", "/ecosystem/")
       "site_examples" -> route_from_collection_id(metadata, source_id, "examples:", "/examples/")
+      "site_skills" -> skills_route(metadata, source_id)
       _other -> nil
+    end
+  end
+
+  # Package skills live on a single /skills catalog page, one card per skill.
+  # Anchor the route to the matching card's DOM id (jido-e10 E10-T03).
+  defp skills_route(metadata, source_id) do
+    case string_value(metadata, :id) || source_id_suffix(source_id, "skills:") do
+      nil -> nil
+      id -> normalize_internal_url("/skills#skill-card-#{id}")
     end
   end
 
@@ -792,6 +839,7 @@ defmodule AgentJido.ContentAssistant.Retrieval do
   defp default_title(:ecosystem), do: "Ecosystem"
   defp default_title(:ecosystem_docs), do: "HexDocs"
   defp default_title(:examples), do: "Example"
+  defp default_title(:skills), do: "Skill"
 
   defp normalize_collection(value) when is_binary(value), do: String.trim(value)
   defp normalize_collection(value) when is_atom(value), do: Atom.to_string(value)
@@ -854,11 +902,13 @@ defmodule AgentJido.ContentAssistant.Retrieval do
     broad_package_query? = broad_package_query?(query)
     api_style_query? = api_style_query?(query) and not broad_package_query?
     example_intent_query? = example_intent_query?(query)
+    skill_intent_query? = skill_intent_query?(query)
 
     results
     |> Enum.with_index()
     |> Enum.sort_by(fn {%Result{} = result, index} ->
       {
+        skill_priority_group(result, skill_intent_query?),
         -(score_value(result.score) +
             ranking_bonus(result, broad_package_query?, api_style_query?, example_intent_query?)),
         index
@@ -907,6 +957,25 @@ defmodule AgentJido.ContentAssistant.Retrieval do
   end
 
   defp example_intent_query?(_query), do: false
+
+  # Package-skill queries ("<package> skill") should surface the matching skill
+  # card above docs/blog matches. The word "skill" is ubiquitous across doc
+  # bodies, so raw lexical scores inflate docs far above the skill card, which
+  # does not even contain "skill" in its identity fields. A flat additive
+  # boost cannot reliably overcome that, so skill-intent queries give skill
+  # cards structural priority in `rerank_results`: skills sort above non-skill
+  # results (group 0 before 1), ordered within by their own lexical score. The
+  # group is uniform for non-skill-intent queries, so other ranking is
+  # unchanged (jido-e10 E10-T03).
+  defp skill_priority_group(%Result{source_type: :skills}, true), do: 0
+  defp skill_priority_group(_result, _skill_intent_query?), do: 1
+
+  defp skill_intent_query?(query) when is_binary(query) do
+    query_downcase = String.downcase(String.trim(query))
+    Enum.any?(@skill_intent_terms, &String.contains?(query_downcase, &1))
+  end
+
+  defp skill_intent_query?(_query), do: false
 
   defp api_style_query?(query) when is_binary(query) do
     query_downcase = String.downcase(String.trim(query))

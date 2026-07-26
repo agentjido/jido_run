@@ -9,6 +9,7 @@ defmodule AgentJido.ContentIngest.Inventory do
   alias AgentJido.Examples
   alias AgentJido.Examples.Taxonomy
   alias AgentJido.Pages
+  alias AgentJido.UpstreamSkillCatalog
 
   @managed_by "agent_jido.content_ingest.local/v1"
 
@@ -16,7 +17,8 @@ defmodule AgentJido.ContentIngest.Inventory do
     docs: {"site_docs", "AgentJido documentation pages"},
     blog: {"site_blog", "AgentJido blog posts"},
     ecosystem: {"site_ecosystem", "AgentJido ecosystem package pages"},
-    examples: {"site_examples", "AgentJido public interactive examples"}
+    examples: {"site_examples", "AgentJido public interactive examples"},
+    skills: {"site_skills", "AgentJido public package skills"}
   }
   @excluded_doc_path_prefixes ["/build", "/training"]
 
@@ -27,7 +29,7 @@ defmodule AgentJido.ContentIngest.Inventory do
 
   ## Options
 
-    * `:only` - Scope list from `[:docs, :blog, :ecosystem, :examples]`
+    * `:only` - Scope list from `[:docs, :blog, :ecosystem, :examples, :skills]`
 
   """
   @spec build(keyword()) :: [Source.t()]
@@ -39,6 +41,7 @@ defmodule AgentJido.ContentIngest.Inventory do
     |> maybe_add_blog(scopes)
     |> maybe_add_ecosystem(scopes)
     |> maybe_add_examples(scopes)
+    |> maybe_add_skills(scopes)
   end
 
   @doc """
@@ -67,6 +70,10 @@ defmodule AgentJido.ContentIngest.Inventory do
 
   defp maybe_add_examples(acc, scopes) do
     if :examples in scopes, do: acc ++ build_examples(), else: acc
+  end
+
+  defp maybe_add_skills(acc, scopes) do
+    if :skills in scopes, do: acc ++ build_skills(), else: acc
   end
 
   defp build_docs do
@@ -262,6 +269,60 @@ defmodule AgentJido.ContentIngest.Inventory do
       }
     end
   end
+
+  defp build_skills do
+    {collection, description} = @doc_collections.skills
+
+    for entry <- UpstreamSkillCatalog.package_entries() do
+      skill_url = skill_card_url(entry.id)
+
+      metadata =
+        %{
+          "managed_by" => @managed_by,
+          "source_type" => "skills",
+          "id" => entry.id,
+          "name" => entry.name,
+          "title" => entry.title,
+          "description" => entry.description,
+          "category" => to_string(entry.category),
+          "url" => skill_url,
+          "source_path" => entry.skill_source_path,
+          "ecosystem_package_id" => entry.ecosystem_package_id,
+          "ecosystem_path" => entry.ecosystem_path,
+          "upstream_url" => entry.upstream_url
+        }
+        |> with_content_hash(
+          hash_payload([
+            entry.id,
+            entry.name,
+            entry.title,
+            entry.description,
+            skill_url,
+            entry.ecosystem_package_id
+          ])
+        )
+
+      %Source{
+        source_id: "skills:#{entry.id}",
+        collection: collection,
+        collection_description: description,
+        text:
+          compose_text([
+            entry.title,
+            entry.name,
+            entry.description,
+            entry.ecosystem_package_id,
+            skill_url
+          ]),
+        metadata: metadata
+      }
+    end
+  end
+
+  # The package skills catalog renders one card per skill at /skills. Anchor the
+  # search document to the card's DOM id so a hit lands on the matching skill
+  # rather than the top of the catalog (jido-e10 E10-T03).
+  defp skill_card_url(skill_id), do: "/skills#skill-card-#{skill_id}"
 
   defp normalize_scopes(nil), do: @valid_scopes
   defp normalize_scopes([]), do: @valid_scopes

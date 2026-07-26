@@ -7,6 +7,7 @@ defmodule AgentJido.ContentIngest.InventoryTest do
   alias AgentJido.Ecosystem
   alias AgentJido.Examples
   alias AgentJido.Pages
+  alias AgentJido.UpstreamSkillCatalog
 
   describe "build/1" do
     test "returns all managed sources with unique ids" do
@@ -17,7 +18,8 @@ defmodule AgentJido.ContentIngest.InventoryTest do
         length(docs_pages) +
           length(Blog.all_posts()) +
           length(Ecosystem.public_packages()) +
-          length(Examples.all_examples())
+          length(Examples.all_examples()) +
+          length(UpstreamSkillCatalog.package_entries())
 
       assert length(sources) == expected_count
       assert Enum.all?(sources, &match?(%Source{}, &1))
@@ -88,6 +90,34 @@ defmodule AgentJido.ContentIngest.InventoryTest do
       assert failure_drill != nil
       assert "recovery" in failure_drill.metadata["tasks"]
       assert failure_drill.text =~ "recovery"
+    end
+
+    test "supports skills-only scope with one source per public package skill" do
+      # Public package skills are indexed so a "<package> skill" query returns
+      # the matching card (jido-e10-t03).
+      sources = Inventory.build(only: [:skills])
+
+      assert length(sources) == length(UpstreamSkillCatalog.package_entries())
+
+      assert Enum.all?(sources, fn source ->
+               String.starts_with?(source.source_id, "skills:") and
+                 source.collection == "site_skills"
+             end)
+
+      signal = Enum.find(sources, &(&1.source_id == "skills:jido-signal"))
+
+      assert signal != nil
+      assert signal.metadata["title"] == "Jido Signal"
+      assert signal.metadata["source_type"] == "skills"
+      assert signal.metadata["category"] == "package"
+
+      # The skill's ecosystem package id is indexed so a package query matches.
+      assert signal.metadata["ecosystem_package_id"] == "jido_signal"
+
+      # A hit lands on the matching card's anchor, not the top of the catalog.
+      assert signal.metadata["url"] == "/skills#skill-card-jido-signal"
+      assert signal.text =~ "/skills#skill-card-jido-signal"
+      assert signal.text =~ "jido_signal"
     end
   end
 

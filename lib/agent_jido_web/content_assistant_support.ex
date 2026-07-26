@@ -35,6 +35,7 @@ defmodule AgentJidoWeb.ContentAssistantSupport do
   def source_label(:ecosystem), do: "Ecosystem"
   def source_label(:ecosystem_docs), do: "HexDocs"
   def source_label(:examples), do: "Example"
+  def source_label(:skills), do: "Skill"
   def source_label(_), do: "Content"
 
   def provider_label(:hexdocs), do: "HexDocs"

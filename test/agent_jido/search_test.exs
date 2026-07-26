@@ -293,6 +293,50 @@ defmodule AgentJido.ContentAssistant.RetrievalTest do
       assert signal_routing.source_type == :examples
     end
 
+    test "resolves package-skill rows from the site_skills collection to card anchors" do
+      rows = [%{document_id: "doc-skill", text: "skill snippet", score: 0.8}]
+      search_fun = fn _query, _opts -> {:ok, rows} end
+
+      document_lookup_fun = fn _rows, _repo ->
+        %{
+          "doc-skill" => %{
+            collection: "site_skills",
+            source_id: "skills:jido-signal",
+            metadata: %{
+              "title" => "Jido Signal",
+              "id" => "jido-signal"
+            }
+          }
+        }
+      end
+
+      assert {:ok, [%Result{} = result]} =
+               Retrieval.query("signal skill",
+                 search_fun: search_fun,
+                 document_lookup_fun: document_lookup_fun,
+                 repo: :repo
+               )
+
+      assert result.url == "/skills#skill-card-jido-signal"
+      assert result.source_type == :skills
+      assert result.external? == false
+    end
+
+    test "returns the matching skill card for a package-skill query via fallback" do
+      # Backend unavailable -> the local fallback must surface the matching
+      # package skill card. This is the jido-e10-t03 acceptance condition: a
+      # query for a package skill returns its card.
+      search_fun = fn _query, _opts -> {:error, :backend_down} end
+
+      assert {:ok, results} = Retrieval.query("jido_signal skill", search_fun: search_fun)
+
+      signal_skill = Enum.find(results, &(&1.url == "/skills#skill-card-jido-signal"))
+
+      assert signal_skill != nil
+      assert signal_skill.title == "Jido Signal"
+      assert signal_skill.source_type == :skills
+    end
+
     test "reranks package overviews above deep docs for broad package-intent queries" do
       rows = [
         %{document_id: "doc-overview", text: "overview snippet", score: 0.55},
