@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-26T07:25:26Z",
   "created": "2026-07-23T12:06:00Z",
   "description": "Backlog task: E09-T11\n\nWork area: Recommended stacks\n\nMain targets: Stack guides\n\nComplete when: A builder can move to Operate guidance.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e09-t11",
@@ -22,8 +23,8 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E09-T11 — Give each stack a production-next-step link.",
   "type": "task",
-  "updated_at": "2026-07-26T07:25:25Z"
+  "updated_at": "2026-07-26T07:25:26Z"
 }
