@@ -106,6 +106,11 @@
       description: "Choose when Jido is the right abstraction versus adjacent BEAM patterns."
     }
   ],
+  landing_best_example: %{
+    label: "Counter Agent example",
+    href: "/examples/counter-agent",
+    note: "The smallest runnable Jido agent — proves state, validated actions, and signal routing end to end."
+  },
   landing_related_packages: [
     %{
       id: "jido_action",

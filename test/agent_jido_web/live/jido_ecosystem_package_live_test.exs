@@ -100,6 +100,60 @@ defmodule AgentJidoWeb.JidoEcosystemPackageLiveTest do
     assert html =~ ~r/synced \d{4}-\d{2}-\d{2}/
   end
 
+  test "renders one best example — curated proof for jido (jido-e09-t19)", %{conn: conn} do
+    {:ok, _view, html} = live(conn, "/ecosystem/jido")
+
+    # Every package page surfaces a single best example section.
+    assert html =~ "ONE BEST EXAMPLE"
+
+    # jido has curated its best example to the canonical counter-agent.
+    assert html =~ "proof curated"
+    assert html =~ "Counter Agent example"
+    assert html =~ ~s(href="/examples/counter-agent")
+  end
+
+  test "auto-resolves one best example from the examples registry", %{conn: conn} do
+    # jido_signal has no curated best example, so the page auto-resolves the
+    # single published example that declares it (signal-routing-agent).
+    {:ok, _view, html} = live(conn, "/ecosystem/jido_signal")
+
+    assert html =~ "ONE BEST EXAMPLE"
+    assert html =~ "proof auto-resolved"
+    assert html =~ ~s(href="/examples/signal-routing-agent")
+  end
+
+  test "states proof is missing when no example exercises the package", %{conn: conn} do
+    # jido_chat is not exercised by any example, so the page must be explicit
+    # that proof is missing rather than silent.
+    {:ok, _view, html} = live(conn, "/ecosystem/jido_chat")
+
+    assert html =~ "ONE BEST EXAMPLE"
+    assert html =~ "proof missing"
+    refute html =~ "proof curated"
+    refute html =~ "proof auto-resolved"
+  end
+
+  # Direct expression of the E09-T19 contract: every public package page either
+  # points to proof (a /examples/... link) or explicitly states proof is missing.
+  # Uses a disconnected GET render (still runs mount + render) so all public
+  # packages can be checked without the connected-LiveView overhead.
+  @tag timeout: 120_000
+  test "every public package points to proof or states proof is missing (jido-e09-t19)", %{conn: conn} do
+    for package <- AgentJido.Ecosystem.public_packages() do
+      html = conn |> get("/ecosystem/#{package.id}") |> html_response(200)
+
+      assert html =~ "ONE BEST EXAMPLE",
+             "package #{package.id} is missing the ONE BEST EXAMPLE section"
+
+      has_proof_link = html =~ ~s(href="/examples/)
+      states_missing = html =~ "proof missing"
+
+      assert has_proof_link != states_missing,
+             "package #{package.id} must either link proof or state proof is missing " <>
+               "(proof_link=#{has_proof_link}, missing=#{states_missing})"
+    end
+  end
+
   test "renders curated seo metadata and structured data for package pages", %{conn: conn} do
     html =
       conn

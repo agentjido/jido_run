@@ -199,6 +199,39 @@ defmodule AgentJido.Examples do
     Enum.filter(source, &(tag in &1.tags))
   end
 
+  @doc """
+  Returns the published (status `:live`) examples that exercise the given
+  ecosystem package, matched by the example's `packages` list against the
+  package id.
+  """
+  @spec examples_by_package(String.t() | atom()) :: [Example.t()]
+  def examples_by_package(package_id) do
+    package_id = to_string(package_id)
+
+    Enum.filter(@examples, fn example ->
+      package_id in List.wrap(example.packages)
+    end)
+  end
+
+  @doc """
+  Returns the single best example that proves the given ecosystem package.
+
+  Picks the published example whose `packages` list includes `package_id`,
+  ordered by `sort_order` then `title` so the most beginner-friendly, canonical
+  example wins deterministically. Returns `nil` when no example exercises the
+  package — the package page then states that proof is missing.
+
+  Package pages use this to satisfy the "point to proof or state proof is
+  missing" contract without per-package curation.
+  """
+  @spec best_example_for_package(String.t() | atom()) :: Example.t() | nil
+  def best_example_for_package(package_id) do
+    package_id
+    |> examples_by_package()
+    |> Enum.sort_by(&{&1.sort_order, &1.title})
+    |> List.first()
+  end
+
   @spec example_count() :: non_neg_integer()
   def example_count, do: length(@examples)
 

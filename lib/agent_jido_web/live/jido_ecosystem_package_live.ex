@@ -4,6 +4,7 @@ defmodule AgentJidoWeb.JidoEcosystemPackageLive do
   alias AgentJido.Ecosystem
   alias AgentJido.Ecosystem.Layering
   alias AgentJido.Ecosystem.SupportLevel
+  alias AgentJido.Examples
   alias AgentJido.GithubStarsTracker
   alias AgentJidoWeb.MarkdownLinks
 
@@ -42,6 +43,7 @@ defmodule AgentJidoWeb.JidoEcosystemPackageLive do
        last_synced: package_last_synced(package),
        use_when: landing_use_when(package),
        not_for: landing_not_for(package),
+       best_example: best_example_for_page(package),
        resource_groups: resource_groups(package),
        cliff_notes: cliff_notes(package),
        major_components: major_components(package),
@@ -160,6 +162,50 @@ defmodule AgentJidoWeb.JidoEcosystemPackageLive do
               </ul>
             </article>
           </div>
+        </section>
+
+        <section class="mb-12">
+          <h2 class="text-sm font-bold tracking-wider mb-4">ONE BEST EXAMPLE</h2>
+          <%= if @best_example.status == :found do %>
+            <article class="bg-card border border-border rounded-md p-5">
+              <div class="text-[10px] uppercase tracking-wide text-muted-foreground mb-2">
+                proof {best_example_source_label(@best_example.source)}
+              </div>
+              <.link
+                :if={internal_path?(@best_example.href)}
+                navigate={@best_example.href}
+                class="text-sm font-semibold text-foreground hover:text-primary transition-colors"
+              >
+                {@best_example.label}
+              </.link>
+              <a
+                :if={!internal_path?(@best_example.href)}
+                href={@best_example.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-sm font-semibold text-foreground hover:text-primary transition-colors"
+              >
+                {@best_example.label}
+              </a>
+              <p :if={@best_example.note != ""} class="text-xs leading-relaxed text-muted-foreground mt-2">
+                {@best_example.note}
+              </p>
+              <a
+                :if={internal_path?(@best_example.href)}
+                href={@best_example.href}
+                class="inline-block mt-3 text-[10px] px-2 py-1 rounded bg-primary/10 text-primary hover:bg-primary/15 transition-colors font-semibold"
+              >
+                open example
+              </a>
+            </article>
+          <% else %>
+            <article class="bg-card border border-dashed border-border rounded-md p-5">
+              <div class="text-[10px] uppercase tracking-wide text-muted-foreground mb-2">proof missing</div>
+              <p class="text-xs leading-relaxed text-muted-foreground">
+                No runnable example exercises {@package.title} yet. This page will link to one as soon as a published example proves this package's behavior.
+              </p>
+            </article>
+          <% end %>
         </section>
 
         <section :if={@resource_groups != []} class="mb-12">
@@ -387,6 +433,65 @@ defmodule AgentJidoWeb.JidoEcosystemPackageLive do
       date -> date
     end
   end
+
+  # One best example that proves this package (jido-e09-t19). A curated
+  # landing_best_example wins; otherwise the single best published example that
+  # declares this package in its `packages` field is auto-resolved; when neither
+  # exists the page states that proof is missing. Every public package page
+  # therefore points to proof or is explicit that proof is missing.
+  defp best_example_for_page(pkg) do
+    case curated_best_example(pkg) do
+      nil ->
+        auto_resolved_best_example(pkg)
+
+      curated ->
+        %{
+          status: :found,
+          source: :curated,
+          label: curated.label,
+          href: curated.href,
+          note: curated.note
+        }
+    end
+  end
+
+  defp curated_best_example(pkg) do
+    label = pkg.landing_best_example |> get_key(:label, "") |> normalize_text()
+    href = pkg.landing_best_example |> get_key(:href, "") |> normalize_text()
+
+    if label == "" or href == "" do
+      nil
+    else
+      note = pkg.landing_best_example |> get_key(:note, "") |> normalize_text()
+      %{label: label, href: href, note: note}
+    end
+  end
+
+  defp auto_resolved_best_example(pkg) do
+    case Examples.best_example_for_package(pkg.id) do
+      nil ->
+        %{status: :missing}
+
+      example ->
+        note =
+          case normalize_text(example.outcome) do
+            "" -> normalize_text(example.description)
+            outcome -> outcome
+          end
+
+        %{
+          status: :found,
+          source: :example,
+          label: normalize_text(example.title),
+          href: "/examples/#{example.slug}",
+          note: note
+        }
+    end
+  end
+
+  defp best_example_source_label(:curated), do: "curated"
+  defp best_example_source_label(:example), do: "auto-resolved"
+  defp best_example_source_label(_source), do: "linked"
 
   defp package_page_title(pkg, summary) do
     case package_seo_value(pkg, :title) do

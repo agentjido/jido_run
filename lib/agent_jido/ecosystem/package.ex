@@ -54,6 +54,23 @@ defmodule AgentJido.Ecosystem.Package do
               landing_resources:
                 Zoi.any(description: "Curated internal or external resource links grouped for package landing pages")
                 |> Zoi.default([]),
+              landing_best_example:
+                Zoi.map(
+                  %{
+                    label:
+                      Zoi.string(description: "Display label for the single best example that proves this package")
+                      |> Zoi.optional(),
+                    href:
+                      Zoi.string(description: "Internal (/examples/...) or absolute URL to the best example")
+                      |> Zoi.optional(),
+                    note:
+                      Zoi.string(description: "Short note on what this example proves about the package")
+                      |> Zoi.optional()
+                  },
+                  description:
+                    "Curated single best example that proves this package (label/href/note). When absent the package page auto-resolves the best live example from the examples registry, or states that proof is missing."
+                )
+                |> Zoi.default(%{}),
               landing_related_packages:
                 Zoi.any(description: "Curated related package links grouped by relationship for landing pages")
                 |> Zoi.default([]),

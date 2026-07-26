@@ -166,4 +166,31 @@ defmodule AgentJido.ExamplesTest do
       assert contents =~ "ticks == 0"
     end
   end
+
+  describe "best_example_for_package/1 (jido-e09-t19)" do
+    test "returns the published examples that exercise a package" do
+      exercises_jido = Examples.examples_by_package("jido")
+
+      # Only published (status :live) examples are matched.
+      assert Enum.any?(exercises_jido, &(&1.slug == "counter-agent"))
+      assert Enum.all?(exercises_jido, &(&1.status == :live))
+    end
+
+    test "picks the single best example deterministically by sort order" do
+      # jido_signal has exactly one published example that declares it.
+      assert Examples.best_example_for_package("jido_signal").slug == "signal-routing-agent"
+
+      # jido_ai resolves to a published example exercising the package.
+      ai_example = Examples.best_example_for_package("jido_ai")
+      assert "jido_ai" in List.wrap(ai_example.packages)
+      assert ai_example.status == :live
+    end
+
+    test "returns nil when no example proves the package (proof is missing)" do
+      # jido_action is exercised transitively but no example declares it, so
+      # there is no auto-resolvable proof for it.
+      assert is_nil(Examples.best_example_for_package("jido_action"))
+      assert is_nil(Examples.best_example_for_package("definitely-not-a-package"))
+    end
+  end
 end
