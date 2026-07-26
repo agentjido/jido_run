@@ -318,6 +318,21 @@ defmodule AgentJidoWeb.JidoExamplesLiveTest do
       refute html =~ "Counter Agent"
     end
 
+    test "?use_case=documents lists the public document-processing example (jido-e08-t26)",
+         %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/examples?use_case=documents")
+
+      # The scoped hero names the use case.
+      assert html =~ "Document processing"
+      # A public document-processing example now exists, so the scoped
+      # destination lists it -- the home documents card has a direct destination.
+      assert html =~ "Document Processor"
+      # The scoped empty state is gone now that a documents example is public.
+      refute html =~ "No public examples for Document processing yet"
+      # An out-of-scope example stays hidden by the use-case scope.
+      refute html =~ "Counter Agent"
+    end
+
     test "an unknown use_case falls back to the unfiltered index", %{conn: conn} do
       {:ok, _view, html} = live(conn, "/examples?use_case=not-a-real-use-case")
 

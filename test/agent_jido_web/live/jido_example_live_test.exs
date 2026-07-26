@@ -1167,6 +1167,55 @@ defmodule AgentJidoWeb.JidoExampleLiveTest do
     end
   end
 
+  describe "/examples/document-processor (jido-e08-t26)" do
+    # Acceptance condition: "The home documents card has a direct destination."
+    # The documents card now routes to a real, runnable document-processing example.
+
+    test "is registered as a live runnable example with a real demo module" do
+      example = Examples.get_example!("document-processor")
+
+      assert example.status == :live
+      assert example.demo_mode == :real
+      assert example.live_view_module == "AgentJidoWeb.Examples.DocumentProcessorLive"
+      # The shared simulated showcase surface is reserved for drafts; this
+      # published example runs on its own real-runtime module instead.
+      refute example.live_view_module == "AgentJidoWeb.Examples.SimulatedShowcaseLive"
+      assert Enum.map(example.sources, & &1.path) == example.source_files
+      assert Enum.all?(example.source_files, &File.exists?/1)
+    end
+
+    test "is routable for public visitors and renders its demo", %{conn: conn} do
+      {:ok, view, html} = live(conn, "/examples/document-processor?tab=demo")
+
+      assert html =~ "Document Processor"
+      refute html =~ "draft preview"
+
+      demo_view = find_live_child(view, "demo-document-processor")
+      demo_html = render(demo_view)
+
+      # The dedicated demo module renders the real-runtime document pipeline.
+      assert demo_html =~ "Document Processor Agent"
+      assert demo_html =~ "Load invoice"
+      assert demo_html =~ "Classify"
+      assert demo_html =~ "Route"
+    end
+
+    test "the demo runs the real classify step on a loaded document", %{conn: conn} do
+      {:ok, view, _html} = live(conn, "/examples/document-processor?tab=demo")
+
+      demo_view = find_live_child(view, "demo-document-processor")
+
+      # Load an invoice, then classify it on the real runtime.
+      render_click(demo_view, "load_invoice")
+      render_click(demo_view, "classify")
+
+      demo_html = render(demo_view)
+
+      # The real keyword-scored classification appears, not a canned label.
+      assert demo_html =~ "type: invoice"
+    end
+  end
+
   describe "/examples/failure-drill-agent" do
     test "renders explanation tab", %{conn: conn} do
       {:ok, _view, html} = live(conn, "/examples/failure-drill-agent?tab=explanation")
