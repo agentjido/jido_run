@@ -16,11 +16,15 @@
     {
       "text": "Open: controlled-Agent dependency set tested as one combination not yet done.",
       "timestamp": "2026-07-24T12:52:46Z"
+    },
+    {
+      "text": "Accepted by the Zclaude Ralph supervisor. Commits: 9b5aad84. Verification: MIX_ENV=test mix compile \u0026\u0026 MIX_ENV=test mix format --check-formatted.",
+      "timestamp": "2026-07-26T10:23:58Z"
     }
   ],
   "priority": 1,
   "status": "in_progress",
   "title": "E09-T50 — Test the controlled-Agent dependency set as one supported combination.",
   "type": "task",
-  "updated_at": "2026-07-26T10:13:00Z"
+  "updated_at": "2026-07-26T10:23:58Z"
 }
