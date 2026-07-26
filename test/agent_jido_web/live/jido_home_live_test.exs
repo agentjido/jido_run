@@ -1113,6 +1113,29 @@ defmodule AgentJidoWeb.JidoHomeLiveTest do
     end
   end
 
+  describe "home ecosystem stack minimal examples (jido-e09-t09)" do
+    # Acceptance condition: each stack has a tested minimal example. The
+    # example's stated packages must match the stack a visitor sees, so the
+    # example never drifts from the home card or its dependency block.
+
+    test "each home stack's packages match its minimal example's stated packages",
+         %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      home_packages =
+        home_ecosystem_stacks(html)
+        |> Map.new(fn {key, %{packages: packages}} -> {key, Map.keys(packages) |> Enum.sort()} end)
+
+      for %{key: key, module: module} <- AgentJido.Demos.StackExamples.stacks() do
+        example_packages = module.packages() |> Enum.sort()
+
+        assert Map.get(home_packages, key) == example_packages,
+               "the #{key} stack example's packages #{inspect(example_packages)} " <>
+                 "do not match the home card #{inspect(Map.get(home_packages, key))}"
+      end
+    end
+  end
+
   describe "home CTA and card destinations (jido-e04-t31)" do
     # Acceptance condition: all CTA and card routes resolve. The static link
     # audit already confirms zero unmatched links across the source files, but it
