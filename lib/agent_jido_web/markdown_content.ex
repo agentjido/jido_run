@@ -6,6 +6,7 @@ defmodule AgentJidoWeb.MarkdownContent do
   alias AgentJido.Blog
   alias AgentJido.Community.Showcase
   alias AgentJido.Ecosystem
+  alias AgentJido.Ecosystem.ControlMatrix
   alias AgentJido.Examples
   alias AgentJido.Pages
   alias AgentJido.ReleaseCatalog
@@ -342,6 +343,12 @@ defmodule AgentJidoWeb.MarkdownContent do
 
     #{format_ecosystem_stacks(stacks)}
 
+    ## Operational control
+
+    Compare the nine operational-control dimensions across the packages that participate in the controlled-Agent stack and the host application that owns the rest. For each dimension and column the matrix states the boundary — whether the control is **Supplied** by the column, **Carried / preserved** with the host deciding, or **Application-owned** — and the clause that grounds it. Package columns link to their package page for the release version, support level, and proof behind each claim.
+
+    #{format_operational_control_section()}
+
     ## Package inventory
 
     The full public package set in canonical layer order. Each entry carries the package's layer, support level, and full link set — its package page, HexDocs, Hex.pm, and GitHub.
@@ -431,6 +438,87 @@ defmodule AgentJidoWeb.MarkdownContent do
   defp link_line(_label, nil), do: nil
   defp link_line(_label, ""), do: nil
   defp link_line(label, href), do: "  - #{label}: #{href}"
+
+  # Mirrors the browser OPERATIONAL CONTROL matrix (jido_ecosystem_live.ex) so a
+  # machine client receives the same qualified control claims a browser reader
+  # sees: the nine capabilities in comparison order, each with its description
+  # and one line per column carrying the cell's boundary role and grounding
+  # clause; a legend; and a release-basis note with the proof link. The roles,
+  # clauses, and column links come straight from ControlMatrix so the Markdown
+  # cannot drift from the browser's qualified claims. See jido-e10-t29.
+  defp format_operational_control_section do
+    matrix = ControlMatrix.matrix()
+    columns = ControlMatrix.columns()
+
+    [
+      format_control_matrix(matrix, columns),
+      control_matrix_legend(),
+      control_matrix_release_basis()
+    ]
+    |> Enum.join("\n\n")
+  end
+
+  defp format_control_matrix(matrix, columns) do
+    matrix
+    |> Enum.map(&format_control_row(&1, columns))
+    |> Enum.join("\n\n")
+  end
+
+  defp format_control_row(row, columns) do
+    description =
+      row
+      |> Map.get(:description)
+      |> to_string()
+      |> String.trim()
+
+    cell_lines =
+      columns
+      |> Enum.map(&format_control_cell(row, &1))
+      |> Enum.join("\n")
+
+    "### #{row.label}\n\n#{description}\n\n#{cell_lines}"
+  end
+
+  defp format_control_cell(row, column) do
+    cell = Map.fetch!(row.cells, column.key)
+
+    "- #{control_column_header(column)} — #{ControlMatrix.role_label(cell.role)}: #{cell.text}"
+  end
+
+  # Package columns link to their package page (the browser table draws the
+  # same link); the synthetic host column carries no link.
+  defp control_column_header(%{path: path, label: label})
+       when is_binary(path) and path != "" do
+    "**[#{label}](#{path})**"
+  end
+
+  defp control_column_header(%{label: label}) do
+    "**#{label}**"
+  end
+
+  # Mirrors the browser legend (jido_ecosystem_live.ex): one line per role so a
+  # machine reader sees the same boundary vocabulary the browser draws.
+  defp control_matrix_legend do
+    supplies = ControlMatrix.role_label(:supplies)
+    preserves = ControlMatrix.role_label(:preserves)
+    app = ControlMatrix.role_label(:app)
+
+    [
+      "Legend:",
+      "- **#{supplies}** — the column provides this control.",
+      "- **#{preserves}** — the column carries or preserves context but the host decides.",
+      "- **#{app}** — the application or platform owns this; the column does not supply it."
+    ]
+    |> Enum.join("\n")
+  end
+
+  # Mirrors the browser "Release basis" note (jido_ecosystem_live.ex): each
+  # package's release version, support level, and proof live on its package
+  # page; the full claim boundaries live on Security and governance. This is the
+  # proof link that qualifies the matrix claims.
+  defp control_matrix_release_basis do
+    "Release basis. Each package column's release version, support level, and proof are stated on its package page; experimental or unreleased packages describe their documented boundary here and do not back a general production claim. The full claim boundaries are on the [Security and governance](/docs/operations/security-and-governance) page."
+  end
 
   defp package_url(id, absolute_url) do
     "#{origin_from(absolute_url)}/ecosystem/#{id}"

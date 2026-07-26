@@ -425,4 +425,84 @@ defmodule AgentJidoWeb.MarkdownContentTest do
              "ecosystem hub markdown inventory drifted from the browser hub's public packages"
     end
   end
+
+  describe "ecosystem hub markdown operational-control matrix (jido-e10-t29)" do
+    # Acceptance: "Machine clients receive the same qualified control claims as
+    # browser clients." The browser Ecosystem hub renders an OPERATIONAL CONTROL
+    # matrix — nine capabilities x control packages + host, each cell carrying a
+    # boundary role and a grounding clause, a legend, and a release-basis proof
+    # link. The Markdown hub must carry the same control types, boundaries,
+    # limitations, and proof links so the machine surface agrees with the
+    # browser surface.
+    alias AgentJido.Ecosystem.ControlMatrix
+    @absolute_url "https://jido.run/ecosystem"
+
+    test "the ecosystem hub markdown carries the operational-control section" do
+      assert {:ok, markdown} = MarkdownContent.resolve("/ecosystem", @absolute_url)
+
+      assert String.contains?(markdown, "## Operational control"),
+             "ecosystem markdown is missing the Operational control section"
+    end
+
+    test "every control capability and its description appears" do
+      assert {:ok, markdown} = MarkdownContent.resolve("/ecosystem", @absolute_url)
+
+      for capability <- ControlMatrix.capabilities() do
+        assert String.contains?(markdown, "### #{capability.label}"),
+               "ecosystem markdown is missing the #{capability.key} capability heading"
+
+        assert String.contains?(markdown, capability.description),
+               "ecosystem markdown is missing the #{capability.key} capability description"
+      end
+    end
+
+    test "every matrix cell carries its boundary role and grounding clause" do
+      assert {:ok, markdown} = MarkdownContent.resolve("/ecosystem", @absolute_url)
+      matrix = ControlMatrix.matrix()
+      columns = ControlMatrix.columns()
+
+      for row <- matrix, column <- columns do
+        cell = Map.fetch!(row.cells, column.key)
+        role_label = ControlMatrix.role_label(cell.role)
+
+        # The boundary role label and the grounding clause both appear, so a
+        # machine reader sees the same qualified claim the browser cell draws.
+        assert String.contains?(markdown, "#{role_label}:"),
+               "ecosystem markdown is missing the #{role_label} role for #{row.key}/#{column.key}"
+
+        assert String.contains?(markdown, cell.text),
+               "ecosystem markdown is missing the #{row.key}/#{column.key} cell clause"
+      end
+    end
+
+    test "package columns link to their package page; the host column carries no link" do
+      assert {:ok, markdown} = MarkdownContent.resolve("/ecosystem", @absolute_url)
+
+      for column <- ControlMatrix.columns(), column.kind == :package do
+        assert String.contains?(markdown, "[#{column.label}](#{column.path})"),
+               "ecosystem markdown is missing the #{column.key} control column link"
+      end
+
+      # The host column is synthetic — it must appear as a plain bold label, not
+      # a link, mirroring the browser table.
+      refute String.contains?(markdown, "[Host application](/ecosystem/host)")
+    end
+
+    test "the legend and the release-basis proof link are present" do
+      assert {:ok, markdown} = MarkdownContent.resolve("/ecosystem", @absolute_url)
+
+      for role <- [:supplies, :preserves, :app] do
+        label = ControlMatrix.role_label(role)
+
+        assert String.contains?(markdown, "- **#{label}** —"),
+               "ecosystem markdown is missing the #{label} legend line"
+      end
+
+      assert String.contains?(
+               markdown,
+               "[Security and governance](/docs/operations/security-and-governance)"
+             ),
+             "ecosystem markdown is missing the Security and governance proof link"
+    end
+  end
 end
