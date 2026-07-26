@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-26T12:35:25Z",
   "created": "2026-07-23T12:06:52Z",
   "description": "Backlog task: E10-T13\n\nWork area: Markdown and agent delivery\n\nMain targets: Markdown content\n\nComplete when: Start, Build, Operate, Reference, Ecosystem, Contribute agree.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e10-t13",
@@ -26,7 +27,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E10-T13 — Give Docs hub Markdown the same section order as HTML.",
   "type": "task",
   "updated_at": "2026-07-26T12:35:25Z"
