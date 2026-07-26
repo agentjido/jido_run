@@ -224,6 +224,27 @@ defmodule AgentJidoWeb.JidoEcosystemPackageLiveTest do
     assert html =~ "Does not authenticate principals"
   end
 
+  # Direct expression of the E09-T42 contract: the jido package page states the
+  # current meaning of core Agent identity. An Agent's ID is Agent lifecycle or
+  # profile state (correlation metadata), and the page must say so in those
+  # terms rather than implying it is an authenticated principal identity. The
+  # authoritative phrasing lives on the Security and governance identity guide;
+  # this asserts the package page carries the same meaning.
+  test "states core Agent identity as lifecycle or profile state, not authenticated principal identity (jido-e09-t42)", %{conn: conn} do
+    {:ok, _view, html} = live(conn, "/ecosystem/jido")
+
+    # Positive meaning: the page names the Agent ID as lifecycle or profile state.
+    assert html =~ "Agent lifecycle or profile state",
+           "the jido package page must state that an Agent's core identity is " <>
+             "Agent lifecycle or profile state, not authenticated principal identity"
+
+    # Boundary: the page must distinguish that meaning from authenticated
+    # principal identity so an Agent ID cannot be mistaken for a verified caller.
+    assert html =~ "not authenticated principal identity",
+           "the jido package page must state core Agent identity is not " <>
+             "authenticated principal identity"
+  end
+
   test "states the control surface is not documented when neither field is set (jido-e09-t41)", %{conn: conn} do
     # jido_chat has no documented control surface, so the page must be explicit
     # about the gap rather than silent.

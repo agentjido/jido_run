@@ -52,7 +52,7 @@
     "Correlated telemetry — Jido.Observe and Jido.Telemetry emit lifecycle, action, and span events for observation."
   ],
   control_limitations: [
-    "Does not authenticate principals — Agent, Signal, request, and trace IDs are correlation metadata, not verified identity. The host application supplies the principal and tenant.",
+    "Does not authenticate principals — an Agent's core identity is Agent lifecycle or profile state: correlation metadata for following the agent in telemetry and Journal records, not authenticated principal identity. Signal, request, and trace IDs are correlation metadata too. The host application supplies and verifies the principal and tenant.",
     "Does not ship a built-in IAM or RBAC product — Jido supplies integration points like prepare_action/3, not authorization decisions.",
     "Does not retain tamper-evident audit history by default — durable, replayable history needs a configured durable Signal Journal adapter and a retention policy."
   ],
