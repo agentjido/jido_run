@@ -65,6 +65,8 @@ mix deps.get
 mix compile
 ```
 
+The exact supported range for every package — across the Core, AI, and Operate stacks — is listed in the [stack compatibility matrix](/ecosystem#stack-compatibility). Pin from those ranges so you do not have to infer which versions are compatible.
+
 ## Configure runtime
 
 Runtime configuration belongs in `config/runtime.exs`, not `config/config.exs`. That separation keeps secrets out of compiled artifacts.

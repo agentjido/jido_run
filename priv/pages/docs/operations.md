@@ -11,6 +11,8 @@
 
 You're shipping to production or already running there. Operations is the part of the Jido story that turns "it works on my machine" into "it keeps running." The pages below cover what you need before go-live, how to secure and observe your system, and what to do when things go wrong.
 
+Running the tested package set matters in production. The [stack compatibility matrix](/ecosystem#stack-compatibility) lists the explicit supported range for every package in each stack — the same ranges the onboarding dependency blocks install — so you can confirm your versions before go-live instead of inferring compatibility.
+
 ## The long-running agent path
 
 Operate a Jido agent system by working through this ordered path. Each step names the Jido control surface and the part your application owns. (This section is being filled in across the operations pages; see `specs/audits/control-inventory-2026-07-23.md` for the control-point map.)

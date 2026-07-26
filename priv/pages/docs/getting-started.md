@@ -20,6 +20,10 @@ Jido runs on the Elixir/OTP platform. To build with Jido you need:
 
 Phoenix is not required. Jido works in any Elixir project. If you want to build web interfaces for your agents, Phoenix LiveView integrates naturally - but the core tutorials work with plain `iex` sessions.
 
+## Compatible versions
+
+Each recommended starting stack — Core, AI, and Operate — ships an explicit supported package range, so you do not have to infer which versions work together. The [stack compatibility matrix](/ecosystem#stack-compatibility) lists the installable range for every package in each stack, derived from the registry: a Hex major pin (`~> X.0`) for published packages and a `github:` pin for unreleased ones. Check it before you pin versions in `mix.exs`.
+
 ## Choose your path
 
 Pick the track that matches your background. The first two paths lead to the same onboarding tutorials - they differ in how much context they provide before you start building. The third path is for builders who want a running Phoenix application instead of starting from a blank Mix project.

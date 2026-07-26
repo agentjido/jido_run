@@ -989,6 +989,56 @@ defmodule AgentJido.PagesTest do
     end
   end
 
+  describe "onboarding and Operate pages link the compatibility matrix (jido-e09-t37)" do
+    # Acceptance: "Builders do not need to infer compatible versions." The stack
+    # compatibility matrix (jido-e09-t36) lists the explicit supported package
+    # range for every package in each stack. This task surfaces that matrix from
+    # the onboarding and Operate entry points, so a builder reading those pages
+    # reaches the tested ranges directly instead of inferring which versions
+    # work together.
+    @compatibility_route "/ecosystem#stack-compatibility"
+    @ecosystem_live_source Path.expand(
+                             "../../lib/agent_jido_web/live/jido_ecosystem_live.ex",
+                             __DIR__
+                           )
+    @getting_started_hub_source Path.expand(
+                                  "../../priv/pages/docs/getting-started.md",
+                                  __DIR__
+                                )
+    @installation_source Path.expand(
+                           "../../priv/pages/docs/getting-started/installation.md",
+                           __DIR__
+                         )
+    @operate_hub_source Path.expand("../../priv/pages/docs/operations.md", __DIR__)
+
+    test "the destination anchor is a real section in the ecosystem LiveView" do
+      # The link must land on the live STACK COMPATIBILITY matrix, not a dead
+      # anchor. The matrix is rendered by the Ecosystem LiveView with this id.
+      source = File.read!(@ecosystem_live_source)
+
+      assert source =~ ~s(id="stack-compatibility"),
+             "the ecosystem LiveView must render the stack-compatibility anchor"
+    end
+
+    test "the Getting Started hub links the compatibility matrix" do
+      body = File.read!(@getting_started_hub_source)
+
+      assert body =~ @compatibility_route
+    end
+
+    test "the installation page links the compatibility matrix" do
+      body = File.read!(@installation_source)
+
+      assert body =~ @compatibility_route
+    end
+
+    test "the Operate hub links the compatibility matrix" do
+      body = File.read!(@operate_hub_source)
+
+      assert body =~ @compatibility_route
+    end
+  end
+
   describe "operations supervision and failure boundaries page (jido-e07-t02)" do
     # Acceptance: "It explains topology, restart strategy, and restart intensity."
     @supervision_source Path.expand(
