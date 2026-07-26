@@ -586,6 +586,33 @@ defmodule AgentJido.Pages do
   def route_for(%Page{category: :community} = p), do: "/community/#{p.id}"
   def route_for(%Page{category: :compare} = p), do: "/compare/#{p.id}"
 
+  @doc """
+  Returns the best available ISO8601 modification date for a page, or `nil`
+  when no freshness data is recorded.
+
+  The sitemap emits this as `<lastmod>` so search engines receive accurate
+  freshness data (E10-T22). Prefers the author-set `last_validated` date — the
+  same field the docs section uses for freshness — and falls back to the
+  `freshness` metadata timestamps. Empty or malformed values are skipped so a
+  missing date never produces a bogus `<lastmod>`.
+  """
+  @spec modification_date(Page.t()) :: String.t() | nil
+  def modification_date(%Page{} = page) do
+    freshness = page.freshness || %{}
+
+    [page.last_validated, freshness[:last_validated_at], freshness[:last_refreshed_at]]
+    |> Enum.find(&iso_date?/1)
+  end
+
+  defp iso_date?(nil), do: false
+  defp iso_date?(""), do: false
+
+  defp iso_date?(value) when is_binary(value) do
+    String.match?(value, ~r/^\d{4}-\d{2}-\d{2}/)
+  end
+
+  defp iso_date?(_), do: false
+
   @content_statuses [:published, :draft, :experimental]
 
   @doc """

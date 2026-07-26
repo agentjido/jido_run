@@ -5,7 +5,8 @@
   doc_type: :explanation,
   audience: :beginner,
   draft: false,
-  order: 20
+  order: 20,
+  last_validated: "2026-03-02"
 }
 ---
 ## CrewAI

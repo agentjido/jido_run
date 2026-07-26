@@ -5,7 +5,8 @@
   doc_type: :tutorial,
   audience: :beginner,
   draft: false,
-  order: 10
+  order: 10,
+  last_validated: "2026-07-24"
 }
 ---
 Use this page as a routing layer.

@@ -5,7 +5,8 @@
   doc_type: :guide,
   audience: :beginner,
   draft: false,
-  order: 1
+  order: 1,
+  last_validated: "2026-07-24"
 }
 ---
 Build is where you convert Jido concepts into workflows that can ship.

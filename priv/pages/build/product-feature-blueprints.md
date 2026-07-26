@@ -5,7 +5,8 @@
   doc_type: :guide,
   audience: :intermediate,
   draft: false,
-  order: 40
+  order: 40,
+  last_validated: "2026-03-16"
 }
 ---
 Product feature blueprints convert fuzzy requirements into shippable milestones.

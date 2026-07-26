@@ -5,7 +5,8 @@
   doc_type: :explanation,
   audience: :beginner,
   draft: false,
-  order: 1
+  order: 1,
+  last_validated: "2026-03-02"
 }
 ---
 Honest, technical comparisons with other agent frameworks. Different tools fit different needs.

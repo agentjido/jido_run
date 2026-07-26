@@ -491,6 +491,56 @@ defmodule AgentJido.PagesTest do
     end
   end
 
+  describe "modification_date/1" do
+    test "returns the last_validated date when set" do
+      page = %Page{id: "x", title: "X", category: :build, last_validated: "2026-07-24"}
+      assert Pages.modification_date(page) == "2026-07-24"
+    end
+
+    test "falls back to freshness.last_validated_at" do
+      page = %Page{
+        id: "x",
+        title: "X",
+        category: :compare,
+        last_validated: "",
+        freshness: %{last_validated_at: "2026-03-02"}
+      }
+
+      assert Pages.modification_date(page) == "2026-03-02"
+    end
+
+    test "falls back to freshness.last_refreshed_at" do
+      page = %Page{
+        id: "x",
+        title: "X",
+        category: :docs,
+        last_validated: "",
+        freshness: %{last_refreshed_at: "2026-01-15"}
+      }
+
+      assert Pages.modification_date(page) == "2026-01-15"
+    end
+
+    test "returns nil when no freshness date is recorded" do
+      page = %Page{id: "x", title: "X", category: :docs, last_validated: ""}
+      assert Pages.modification_date(page) == nil
+    end
+
+    test "skips malformed date strings" do
+      page = %Page{id: "x", title: "X", category: :docs, last_validated: "not-a-date"}
+      assert Pages.modification_date(page) == nil
+    end
+
+    test "every public Build and Compare page carries a modification date (E10-T22)" do
+      pages = Pages.pages_by_category(:build) ++ Pages.pages_by_category(:compare)
+
+      for page <- pages do
+        assert Pages.modification_date(page) != nil,
+               "Build/Compare page #{page.path} has no modification date"
+      end
+    end
+  end
+
   describe "page_count/0" do
     test "returns correct count" do
       assert Pages.page_count() == length(Pages.all_pages())

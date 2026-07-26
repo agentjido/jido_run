@@ -5,7 +5,8 @@
   doc_type: :reference,
   audience: :intermediate,
   draft: false,
-  order: 20
+  order: 20,
+  last_validated: "2026-07-24"
 }
 ---
 Reference architectures let you choose runtime boundaries before implementation details multiply.

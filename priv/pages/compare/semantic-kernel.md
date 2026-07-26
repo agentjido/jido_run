@@ -5,7 +5,8 @@
   doc_type: :explanation,
   audience: :beginner,
   draft: false,
-  order: 70
+  order: 70,
+  last_validated: "2026-03-02"
 }
 ---
 ## Semantic Kernel

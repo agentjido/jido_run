@@ -5,7 +5,8 @@
   doc_type: :guide,
   audience: :intermediate,
   draft: false,
-  order: 30
+  order: 30,
+  last_validated: "2026-02-21"
 }
 ---
 Mixed-stack integration works when Jido owns orchestration and external services keep domain delivery.

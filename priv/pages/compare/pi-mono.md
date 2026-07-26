@@ -5,7 +5,8 @@
   doc_type: :explanation,
   audience: :beginner,
   draft: false,
-  order: 80
+  order: 80,
+  last_validated: "2026-03-02"
 }
 ---
 ## Pi Mono

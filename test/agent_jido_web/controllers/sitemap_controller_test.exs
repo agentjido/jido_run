@@ -72,4 +72,39 @@ defmodule AgentJidoWeb.SitemapControllerTest do
     refute body =~ "/blog/introducing-req_llm"
     refute body =~ "/blog/jido_signal"
   end
+
+  test "includes public Build and Compare pages with accurate lastmod dates (E10-T22)", %{
+    conn: conn
+  } do
+    body =
+      conn
+      |> get("/sitemap.xml")
+      |> response(200)
+
+    pages = Pages.pages_by_category(:build) ++ Pages.pages_by_category(:compare)
+
+    for page <- pages do
+      route = Pages.route_for(page)
+      assert body =~ route, "missing sitemap entry for #{route}"
+
+      modification_date = Pages.modification_date(page)
+      assert modification_date != nil, "no modification date recorded for #{page.path}"
+
+      block = url_block_for(body, route)
+
+      assert block =~ "<lastmod>#{modification_date}</lastmod>",
+             "expected <lastmod>#{modification_date}</lastmod> in sitemap block for #{route}"
+    end
+  end
+
+  defp url_block_for(sitemap, route) do
+    case Regex.run(
+           ~r{<url>\s*<loc>[^<]*#{Regex.escape(route)}</loc>.*?</url>}s,
+           sitemap,
+           capture: :first
+         ) do
+      [block] -> block
+      nil -> ""
+    end
+  end
 end

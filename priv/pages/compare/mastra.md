@@ -5,7 +5,8 @@
   doc_type: :explanation,
   audience: :beginner,
   draft: false,
-  order: 10
+  order: 10,
+  last_validated: "2026-03-02"
 }
 ---
 ## Mastra

@@ -70,6 +70,7 @@
   <%= for page <- @pages, !Map.get(page.seo || %{}, :noindex, false) do %>
   <url>
     <loc><%= AgentJidoWeb.Endpoint.url() %><%= AgentJido.Pages.route_for(page) %></loc>
+    <%= if modification_date = AgentJido.Pages.modification_date(page), do: "<lastmod>#{modification_date}</lastmod>" %>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
