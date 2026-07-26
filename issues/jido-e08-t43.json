@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-26T06:14:06Z",
   "created": "2026-07-23T12:05:46Z",
   "description": "Backlog task: E08-T43\n\nWork area: Operational-control proof\n\nMain targets: Controlled-Agent example and observation backend\n\nComplete when: Principal context, request, Signal, Action, policy result, and effect share documented correlation.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e08-t43",
@@ -23,7 +24,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E08-T43 — Show one correlated operational trace.",
   "type": "task",
   "updated_at": "2026-07-26T06:14:06Z"
