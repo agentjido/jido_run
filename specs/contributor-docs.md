@@ -194,12 +194,17 @@ Before merging content/docs/spec changes:
 
 1. Confirm file/category placement is correct under `priv/`.
 2. Confirm route references match `lib/agent_jido_web/router.ex` (source rule).
-3. Confirm claim changes are reflected in `specs/proof.md` and the claim is at a
+3. If the PR adds, removes, renames, or reorders any route, nav entry, or
+   information-architecture section, update `specs/content-outline.md`,
+   `specs/content-system.md`, and `specs/taxonomy.md` in the same PR (source
+   rule; see § Enforce update coupling). Route/nav changes must not land without
+   all three IA specs current.
+4. Confirm claim changes are reflected in `specs/proof.md` and the claim is at a
    named proof level (proof rule).
-4. Confirm style/term consistency with `specs/style-voice.md`.
-5. Confirm the page meets ST-CONT-001 Definition of Done if `draft` is changing
+5. Confirm style/term consistency with `specs/style-voice.md`.
+6. Confirm the page meets ST-CONT-001 Definition of Done if `draft` is changing
    to `false`, and record reviewer sign-off and date (review rule).
-6. Run checks:
+7. Run checks:
 
 ```bash
 mix format --check-formatted
