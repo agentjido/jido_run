@@ -14,7 +14,7 @@ This page is for engineering managers, CTOs, and architecture leads evaluating w
 
 | Item | Summary |
 |---|---|
-| Strategic category | Runtime platform for reliable multi-agent systems |
+| Strategic category | Elixir framework for long-running agent systems |
 | Core differentiator | Elixir/OTP runtime semantics: isolation, supervision, and concurrency |
 | Intelligence posture | LLM integration is optional, not mandatory |
 | Adoption model | Bounded pilot -> measured expansion -> operations hardening |
