@@ -1272,6 +1272,93 @@ defmodule AgentJidoWeb.JidoHomeLiveTest do
     end
   end
 
+  describe "home control CTA for platform and SRE evaluators (jido-e04-t42)" do
+    # Acceptance condition: "The CTA opens the operational-control architecture
+    # and proof page." The operational-control section proves the control story
+    # for builders; this CTA is the conversion path for the control-evaluation
+    # audience — platform and SRE evaluators approving Jido for production — and
+    # routes them to the Operations hub (/docs/operations), the page that opens
+    # the long-running agent architecture and the worked examples that prove it.
+
+    test "renders a control-focused CTA inside the operational-control section", %{
+      conn: conn
+    } do
+      {:ok, _view, html} = live(conn, "/")
+
+      cta = operational_control_cta(html)
+
+      assert cta != nil, "expected a platform/SRE evaluator CTA in the operational-control section"
+
+      heading = cta |> Floki.find("h3") |> Floki.text() |> String.trim()
+      assert heading == "Evaluate the operational-control architecture"
+    end
+
+    test "the CTA is addressed to platform and SRE evaluators", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      cta = operational_control_cta(html)
+
+      # The eyebrow names the audience so a platform/SRE evaluator sees the CTA
+      # is for them.
+      eyebrow = cta |> Floki.find(".home-eyebrow-label") |> Floki.text() |> String.trim()
+      assert eyebrow == "For platform and SRE evaluators"
+    end
+
+    test "the CTA opens the operational-control architecture and proof page", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      cta = operational_control_cta(html)
+
+      link =
+        cta
+        |> Floki.find("a[data-analytics-section-id='operations-evaluation']")
+        |> List.first()
+
+      assert link != nil, "expected the platform/SRE CTA to carry a destination"
+
+      # Acceptance condition: the CTA opens the operational-control architecture
+      # and proof page — the Operations hub, which maps the long-running agent
+      # path (architecture) and lists the worked examples (proof).
+      assert Floki.attribute(link, "href") |> hd() == "/docs/operations"
+    end
+
+    test "the destination resolves to a real page, not the 404 fallback", %{conn: conn} do
+      # The acceptance condition is on the destination: it must reach the real
+      # operational-control architecture and proof page. A status in 200..399
+      # means it resolved to a real route; only the catch-all returns 404.
+      assert get(conn, "/docs/operations").status in 200..399
+    end
+
+    test "the CTA sits after the capstone controlled-agent card", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      # The CTA is the section's conversion closer, so it lands after the
+      # capstone integrated controlled-Agent card that proves the complete
+      # control path.
+      assert {card_idx, _} =
+               :binary.match(html, ~s(data-control-card="integrated-controlled-agent"))
+
+      assert {cta_idx, _} = :binary.match(html, ~s(data-control-cta="operations-evaluation"))
+
+      assert card_idx < cta_idx
+    end
+
+    test "the CTA fires cta_clicked carrying the operations-evaluation path", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      link =
+        html
+        |> Floki.parse_document!()
+        |> Floki.find("#operational-control a[data-analytics-section-id='operations-evaluation']")
+        |> List.first()
+
+      assert link != nil, "expected the platform/SRE CTA to be instrumented"
+      assert attr(link, "data-analytics-event") == "cta_clicked"
+      assert attr(link, "data-analytics-source") == "home"
+      assert attr(link, "data-analytics-target-url") == "/docs/operations"
+    end
+  end
+
   describe "home use-case cards (E04-T21)" do
     test "every card links to a unique scoped destination, not the unfiltered index", %{conn: conn} do
       {:ok, _view, html} = live(conn, "/")
@@ -2134,6 +2221,15 @@ defmodule AgentJidoWeb.JidoHomeLiveTest do
     html
     |> Floki.parse_document!()
     |> Floki.find("#operational-control div[data-control-note='#{slug}']")
+    |> List.first()
+  end
+
+  # The platform/SRE evaluator CTA that closes the operational-control section
+  # (jido-e04-t42). Returns the Floki node or nil.
+  defp operational_control_cta(html) do
+    html
+    |> Floki.parse_document!()
+    |> Floki.find("#operational-control [data-control-cta='operations-evaluation']")
     |> List.first()
   end
 

@@ -983,10 +983,13 @@ defmodule AgentJidoWeb.JidoHomeLive do
   # runnable example (/examples/controlled-agent) that proves the complete
   # control path — who initiated work, what was allowed, what happened, and
   # how failure was handled — in one supervised run, instead of leaving the
-  # four controls as separate doc destinations. The SRE CTA lands in a
-  # follow-up task (jido-e04-t42); this section establishes the control story,
-  # routes each control to its surface, and ties them together in one
-  # integrated example.
+  # four controls as separate doc destinations. A control-focused CTA for
+  # platform and SRE evaluators (jido-e04-t42) then closes the section:
+  # addressed to the control-evaluation audience, it routes them to the
+  # Operations hub (/docs/operations) — the page that opens the long-running
+  # agent architecture and the worked examples that prove each control surface —
+  # with the governance page carried as a secondary link for the security
+  # evaluator.
   defp operational_control_section(assigns) do
     controls = [
       %{
@@ -1393,13 +1396,40 @@ defmodule AgentJidoWeb.JidoHomeLive do
         </div>
       </article>
 
-      <div class="text-center mt-12">
-        <.link
-          navigate="/docs/operations/security-and-governance"
-          class="text-primary hover:underline text-[13px] font-semibold"
-        >
-          See the full control model →
-        </.link>
+      <div
+        id="home-operational-control-evaluation-cta"
+        class="mt-12 max-w-2xl mx-auto rounded-xl border border-primary/20 bg-primary/5 px-6 py-7 text-center"
+        data-control-cta="operations-evaluation"
+      >
+        <span class="home-eyebrow-label text-[11px] font-semibold tracking-widest uppercase">
+          For platform and SRE evaluators
+        </span>
+        <h3 class="text-2xl sm:text-3xl font-bold tracking-tight mt-3 mb-3">
+          Evaluate the operational-control architecture
+        </h3>
+        <p class="home-muted-copy text-[15px] leading-relaxed max-w-xl mx-auto mb-5">
+          If you are approving Jido for production, the Operations hub opens the full architecture and its proof. Follow the long-running agent path — supervision and failure boundaries, capability constraints, causal traces and telemetry — with a worked example at each step, before you sign off.
+        </p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+          <.link
+            navigate="/docs/operations"
+            class="bg-primary text-primary-foreground hover:bg-primary/90 text-[13px] font-bold px-7 py-4 rounded transition-colors"
+            data-analytics-event="cta_clicked"
+            data-analytics-source="home"
+            data-analytics-channel="home_operational_control"
+            data-analytics-section-id="operations-evaluation"
+            data-analytics-target-url="/docs/operations"
+          >
+            Open the operational-control architecture →
+          </.link>
+          <span class="home-muted-copy hidden sm:inline">·</span>
+          <.link
+            navigate="/docs/operations/security-and-governance"
+            class="text-primary hover:underline text-[13px] font-semibold"
+          >
+            See the full control model →
+          </.link>
+        </div>
       </div>
     </section>
     """
