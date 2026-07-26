@@ -16,11 +16,15 @@
     {
       "text": "Open: Ash actor/tenant/authorization explanation not yet on the ash_jido page.",
       "timestamp": "2026-07-24T12:52:46Z"
+    },
+    {
+      "text": "Accepted by the Zclaude Ralph supervisor. Commits: 5b8e6499. Verification: MIX_ENV=test mix compile \u0026\u0026 MIX_ENV=test mix format --check-formatted.",
+      "timestamp": "2026-07-26T09:21:03Z"
     }
   ],
   "priority": 1,
   "status": "in_progress",
   "title": "E09-T46 — Explain Ash actor, tenant, and authorization context.",
   "type": "task",
-  "updated_at": "2026-07-26T09:16:47Z"
+  "updated_at": "2026-07-26T09:21:03Z"
 }
