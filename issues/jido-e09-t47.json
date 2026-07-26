@@ -16,11 +16,15 @@
     {
       "text": "Open: control packages marked with version/support/evidence not yet done.",
       "timestamp": "2026-07-24T12:52:46Z"
+    },
+    {
+      "text": "Accepted by the Zclaude Ralph supervisor. Commits: a4a70620. Verification: MIX_ENV=test mix compile \u0026\u0026 MIX_ENV=test mix format --check-formatted.",
+      "timestamp": "2026-07-26T09:32:10Z"
     }
   ],
   "priority": 1,
   "status": "in_progress",
   "title": "E09-T47 — Mark each control package with released version, support level, and evidence.",
   "type": "task",
-  "updated_at": "2026-07-26T09:21:06Z"
+  "updated_at": "2026-07-26T09:32:10Z"
 }
