@@ -54,7 +54,8 @@
   control_limitations: [
     "Does not authenticate principals — an Agent's core identity is Agent lifecycle or profile state: correlation metadata for following the agent in telemetry and Journal records, not authenticated principal identity. Signal, request, and trace IDs are correlation metadata too. The host application supplies and verifies the principal and tenant.",
     "Does not supply a full authorization system — Jido is not a built-in IAM or RBAC product. Plugin hooks like prepare_signal/2 and prepare_action/3 are integration points where the host application makes authorization decisions; Jido supplies the hooks, not the decisions.",
-    "Does not retain audit history — core observation is an ephemeral event stream, not an audit log. Durable, replayable history is the separate jido_signal Signal Journal plus a retention policy you operate."
+    "Does not retain audit history — core observation is an ephemeral event stream, not an audit log. Durable, replayable history is the separate jido_signal Signal Journal plus a retention policy you operate.",
+    "Future identity package excluded from current proof — a separate jido_identity package that would factor identity storage and IAM out of core Jido is planned future work, not yet released or tested. Until it ships, identity storage, authentication, and IAM remain an application and platform responsibility, and no current operational-control claim rests on a jido_identity package."
   ],
   ecosystem_deps: ["jido_action", "jido_signal"],
   landing_use_when: [

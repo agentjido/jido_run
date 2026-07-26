@@ -245,6 +245,34 @@ defmodule AgentJidoWeb.JidoEcosystemPackageLiveTest do
              "authenticated principal identity"
   end
 
+  # Direct expression of the E09-T48 contract: the jido package page excludes a
+  # planned future identity package from the current operational-control proof
+  # and labels it as future work until released and tested. A separate
+  # `jido_identity` package that would factor identity storage and IAM out of
+  # core Jido is planned but not released or tested, so no current
+  # operational-control claim may rest on it. The label lives on the identity
+  # control-limitation line, alongside the "Does not authenticate principals"
+  # boundary the E09-T42 test pins.
+  test "labels the planned jido_identity package as future work excluded from current proof (jido-e09-t48)", %{conn: conn} do
+    {:ok, _view, html} = live(conn, "/ecosystem/jido")
+
+    # The page names the planned future identity package.
+    assert html =~ "jido_identity",
+           "the jido package page must name the planned jido_identity package"
+
+    assert html =~ "future work",
+           "the jido package page must label jido_identity as future work"
+
+    # The label states the package is not released or tested.
+    assert html =~ "not yet released or tested",
+           "the jido package page must state jido_identity is not yet released or tested"
+
+    # The label excludes the future package from the current operational-control
+    # proof so no claim rests on it.
+    assert html =~ "no current operational-control claim",
+           "the jido package page must exclude jido_identity from current operational-control proof"
+  end
+
   # Direct expression of the E09-T43 contract: the jido package page documents
   # Jido Plugin hooks as the integration points for authorization, and states
   # explicitly that Jido does not supply a full authorization system. The two

@@ -37,6 +37,12 @@ This page is about sequencing and emphasis. Use [Package Support Levels](/docs/c
 - ship the `jido_harness` family and CLI adapter stack
 - ship integration and runtime packages that are already close to release shape
 
+## Planned packages
+
+Some packages are planned but not yet released or tested. They are future work and do not support any current operational-control claim until they ship.
+
+- **`jido_identity`** — a separate package that would factor identity storage and IAM out of core Jido. It is planned future work, not yet released or tested; until it ships, identity storage, authentication, and IAM stay an application and platform responsibility. See the [Security and governance](/docs/operations/security-and-governance) identity boundary for what the current operational-control proof does and does not include.
+
 ## Active Epics
 
 ### Durability and Persistence
