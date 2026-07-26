@@ -169,6 +169,59 @@ defmodule AgentJidoWeb.MarkdownContentTest do
     end
   end
 
+  describe "docs hub markdown section order (jido-e10-t13)" do
+    # The browser Docs hub (`/docs`) renders its section grid by iterating
+    # Pages.docs_sections_filtered(:all) == Pages.docs_sections()/0 in list order
+    # (page_live.ex assigns docs_sections). The Markdown hub maps the same
+    # Pages.docs_sections()/0 in list order, so a machine reader and a browser
+    # reader walk the Docs hub in the SAME section ORDER — not merely the same
+    # set of sections.
+    #
+    # The backlog's literal six-section order (Start, Build, Operate, Reference,
+    # Ecosystem, Contribute) is the E06-T01 IA restructure, deferred for this
+    # iteration by an explicit product decision (current doc structure, URLs, and
+    # paths kept unchanged). So "same section order" here means the current
+    # docs_sections()/0 order shared by both surfaces. The E06-T22 test above
+    # asserts set parity (sorted); this test asserts in-order parity so the order
+    # cannot drift silently.
+
+    test "the markdown hub lists docs sections in the same order as the browser hub" do
+      assert {:ok, markdown} = MarkdownContent.resolve("/docs", "https://jido.run/docs")
+
+      # Section headers are the only `**[label](route)**` lines; child links are
+      # plain `[label](route)`, so this scan captures the section sequence in
+      # document order (not sorted).
+      markdown_section_routes =
+        Regex.scan(~r"\*\*\[[^\]]+\]\((/docs/[^)]+)\)\*\*", markdown)
+        |> Enum.map(fn [_, route] -> route end)
+        |> Enum.uniq()
+
+      browser_section_routes =
+        AgentJido.Pages.docs_sections()
+        |> Enum.map(&AgentJido.Pages.route_for/1)
+
+      assert markdown_section_routes == browser_section_routes,
+             "docs hub markdown section order drifted from the browser hub"
+    end
+
+    test "the markdown hub follows docs_sections()/0 adoption order, not alphabetical" do
+      # Guard against a regression that sorts the inventory alphabetically (which
+      # would still pass the set-parity test above but break the in-order
+      # agreement with the browser hub). The current docs_sections()/0 order is
+      # adoption order, which is not alphabetical.
+      assert {:ok, markdown} = MarkdownContent.resolve("/docs", "https://jido.run/docs")
+
+      markdown_section_routes =
+        Regex.scan(~r"\*\*\[[^\]]+\]\((/docs/[^)]+)\)\*\*", markdown)
+        |> Enum.map(fn [_, route] -> route end)
+        |> Enum.uniq()
+
+      refute markdown_section_routes == Enum.sort(markdown_section_routes),
+             "docs hub markdown sections are alphabetical; " <>
+               "they must follow docs_sections()/0 adoption order to match the browser hub"
+    end
+  end
+
   describe "hub status labels (jido-e06-t24)" do
     # Acceptance: "Draft or Experimental content cannot look complete." A status
     # tag must only appear when a page is draft or experimental. Today every

@@ -52,9 +52,10 @@ defmodule AgentJidoWeb.MarkdownContent do
   end
 
   # The Docs hub is generated from the same content records as the rendered
-  # browser hub (Pages.docs_sections/0 + docs_section_pages/1), so the browser
-  # and Markdown inventories agree instead of drifting against a hand-written
-  # index page. See E06-T22.
+  # browser hub (Pages.docs_sections/0 + docs_section_pages/1), iterated in that
+  # list's order, so the browser and Markdown hubs present the sections in the
+  # same ORDER — not just the same inventory — instead of drifting against a
+  # hand-written index page. See E06-T22 and E10-T13.
   defp resolve_from_pages("/docs") do
     {:ok, docs_hub_markdown()}
   end
