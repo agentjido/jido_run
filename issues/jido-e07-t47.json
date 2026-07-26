@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-26T00:26:24Z",
   "created": "2026-07-23T12:04:59Z",
   "description": "Backlog task: E07-T47\n\nWork area: Controlled-Agent reference path\n\nMain targets: `Jido.Observe`, optional `jido_otel`, and reference app\n\nComplete when: A trace joins Agent, Signal, Action, tool, and external-effect work.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e07-t47",
@@ -23,7 +24,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E07-T47 — Export correlated spans through the supported observation path.",
   "type": "task",
   "updated_at": "2026-07-26T00:26:24Z"
