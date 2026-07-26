@@ -15,11 +15,15 @@
     {
       "text": "Open: contributor guidance update not yet done.",
       "timestamp": "2026-07-24T12:55:03Z"
+    },
+    {
+      "text": "Accepted by the Zclaude Ralph supervisor. Commits: 6b1aca5c. Verification: MIX_ENV=test mix compile \u0026\u0026 MIX_ENV=test mix format --check-formatted.",
+      "timestamp": "2026-07-26T19:39:53Z"
     }
   ],
   "priority": 1,
   "status": "in_progress",
   "title": "E12-T33 — Update contributor guidance.",
   "type": "task",
-  "updated_at": "2026-07-26T19:35:40Z"
+  "updated_at": "2026-07-26T19:39:53Z"
 }
