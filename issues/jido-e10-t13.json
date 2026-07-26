@@ -15,11 +15,15 @@
     {
       "text": "Open: docs-hub Markdown same section order as HTML depends on the IA restructure.",
       "timestamp": "2026-07-24T12:53:34Z"
+    },
+    {
+      "text": "Done (in-scope): Markdown docs hub and HTML docs hub agree on section order — both iterate Pages.docs_sections()/0 in list order (Get Started, Concepts, Learn, Guides, Contributors, Reference, Operations), verified empirically. Locked the in-order parity with a new test (the prior E06-T22 test only checked the sorted set). Residual: the literal six-section order (Start/Build/Operate/Reference/Ecosystem/Contribute) is the deferred E06-T01 IA restructure; not done per the 2026-07-24 product decision to keep current doc structure unchanged. Commit aa4d9d87.",
+      "timestamp": "2026-07-26T12:35:11Z"
     }
   ],
   "priority": 1,
   "status": "in_progress",
   "title": "E10-T13 — Give Docs hub Markdown the same section order as HTML.",
   "type": "task",
-  "updated_at": "2026-07-26T12:27:34Z"
+  "updated_at": "2026-07-26T12:35:11Z"
 }
