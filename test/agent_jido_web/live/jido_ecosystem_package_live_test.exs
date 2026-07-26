@@ -276,6 +276,38 @@ defmodule AgentJidoWeb.JidoEcosystemPackageLiveTest do
            "the jido package page must state it is not a built-in IAM or RBAC product"
   end
 
+  # Direct expression of the E09-T46 contract: the ash_jido package page states
+  # the boundary between what AshJido preserves and what the host Ash
+  # application enforces. AshJido carries Ash's actor, tenant, and
+  # authorization context through to generated Jido actions so Ash policies
+  # and validations run unchanged; the host Ash application owns the
+  # authorization decisions and policies. Mirrors the canonical framing on the
+  # Security and governance operations page ("the host Ash application still
+  # enforces authorization") and the 2026-07-23 control-surface inventory.
+  test "states what ash_jido preserves and what the host Ash application enforces (jido-e09-t46)", %{conn: conn} do
+    {:ok, _view, html} = live(conn, "/ecosystem/ash_jido")
+
+    # Preserve side: AshJido carries the Ash actor, tenant, and authorization
+    # context through to generated actions.
+    assert html =~ "actor, tenant, and authorization context",
+           "the ash_jido package page must state it preserves the Ash actor, tenant, and authorization context"
+
+    assert html =~ "policies and validations run unchanged",
+           "the ash_jido package page must state Ash policies and validations run unchanged"
+
+    # Enforce side: the host Ash application owns the authorization decisions
+    # and policies; AshJido does not define or enforce them.
+    assert html =~ "host Ash application",
+           "the ash_jido package page must name the host Ash application as the enforcer"
+
+    assert html =~ "authorization decisions",
+           "the ash_jido package page must state authorization decisions are owned by the host Ash application"
+
+    # Boundary: the page states the preserve/enforce split in those terms.
+    assert html =~ "AshJido preserves what the host Ash application enforces",
+           "the ash_jido package page must state the preserve/enforce boundary"
+  end
+
   # Direct expression of the E09-T44 contract: the jido_signal page documents
   # Signal Journal storage choices and durability. It must identify, tied to
   # released behavior, the default adapter, the durable adapters, what happens

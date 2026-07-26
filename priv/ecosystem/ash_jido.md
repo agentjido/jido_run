@@ -26,10 +26,10 @@
     "Does not auto-discover Ash domains — requires explicit DSL configuration"
   ],
   control_capabilities: [
-    "Preserves Ash authorization — carries Ash actor, tenant, and authorization context through to generated Jido actions without bypassing policies or validations."
+    "Ash context preserved — carries the Ash actor, tenant, and authorization context through to generated Jido actions so Ash policies and validations run unchanged. AshJido preserves the context; it does not bypass it."
   ],
   control_limitations: [
-    "Does not define the Ash policies itself — authorization decisions are owned by the host Ash application; this bridge only preserves them.",
+    "Does not define or enforce Ash authorization — the host Ash application owns the policies, the actor, the tenant, and the authorization decisions; this bridge only preserves and carries the context. AshJido preserves what the host Ash application enforces.",
     "Not published to Hex — available only via GitHub dependency."
   ],
   ecosystem_deps: ["jido", "jido_action"],
