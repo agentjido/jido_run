@@ -1141,6 +1141,25 @@
     margin-top: 0.4rem;
   }
 
+  /* The "Do not use this when" caveat (jido-e09-t10) — the negative-fit half of
+     selection guidance. Sits directly under the positive purpose so a visitor
+     sees when to reach for a stack and when not to in one glance. Kept visually
+     subordinate to the purpose: smaller, muted, with a small label so it reads
+     as a caveat rather than another claim. */
+  #home-page .home-ecosystem-stack-negative-fit {
+    font-size: 0.78rem;
+    line-height: 1.5;
+    margin-top: 0.45rem;
+    color: hsl(var(--muted-foreground));
+  }
+
+  #home-page .home-ecosystem-stack-negative-fit-label {
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    margin-right: 0.3rem;
+    color: hsl(var(--foreground) / 0.7);
+  }
+
   #home-page .home-ecosystem-start-badge {
     @apply inline-flex items-center rounded-sm border;
     padding: 0.12rem 0.45rem;

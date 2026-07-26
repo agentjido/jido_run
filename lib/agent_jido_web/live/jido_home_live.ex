@@ -313,6 +313,13 @@ defmodule AgentJidoWeb.JidoHomeLive do
   # hardcoded copy that can drift. Each stack also carries a copyable, installable
   # mix.exs dependency block (jido-e09-t08); deeper stack detail such as runnable
   # examples remains a separate task.
+  #
+  # Each stack also carries a "Do not use this when" negative-fit note
+  # (jido-e09-t10) so a builder can tell when a stack is the wrong pick, not just
+  # when it is the right one. The note is the other half of selection guidance —
+  # the purpose says when to reach for the stack; the negative fit says when not
+  # to. Each note names a real reason that stack is the wrong choice for that
+  # situation, so the three notes are distinct and not the same caveat repeated.
   defp ecosystem_section(assigns) do
     stacks =
       [
@@ -322,6 +329,8 @@ defmodule AgentJidoWeb.JidoHomeLive do
           tone: "core",
           start: true,
           purpose: "The runtime every Jido system runs on — agents, typed Actions, and Signals.",
+          do_not_use_when:
+            "you expect built-in LLM calls or production tooling. Core is the supervised runtime — add the AI stack for model reasoning or the Operate stack for observability and integrations.",
           packages: [
             %{name: "jido", role: "Agent state, the supervised AgentServer, and Directives."},
             %{name: "jido_action", role: "Typed, validated commands and tools an agent runs."},
@@ -333,6 +342,8 @@ defmodule AgentJidoWeb.JidoHomeLive do
           name: "AI",
           tone: "ai",
           purpose: "Add LLM-backed agents, provider choice, and model metadata when you need AI.",
+          do_not_use_when:
+            "no agent in your system calls an LLM. The AI stack adds model providers, reasoning, and tool use — and the cost of an LLM dependency — so add it only when an agent actually reasons over a model.",
           packages: [
             %{name: "jido_ai", role: "Reasoning strategies, tool use, and accuracy over LLM calls."},
             %{name: "req_llm", role: "Model requests across Anthropic, OpenAI, Google, and more."},
@@ -344,6 +355,8 @@ defmodule AgentJidoWeb.JidoHomeLive do
           name: "Operate",
           tone: "operate",
           purpose: "Ship to production — observability, messaging, and framework integration.",
+          do_not_use_when:
+            "you are not yet shipping to production. Operate adds observability, messaging, and Ash integration; pulling it in before there is an agent to operate only adds dependencies you do not yet need.",
           packages: [
             %{name: "ash_jido", role: "Turns Ash resources into typed Jido Actions."},
             %{name: "jido_messaging", role: "Chat channels (Slack, Discord, Telegram) for agents."},
@@ -386,6 +399,11 @@ defmodule AgentJidoWeb.JidoHomeLive do
             </div>
 
             <p class="home-ecosystem-stack-purpose">{stack.purpose}</p>
+
+            <p class="home-ecosystem-stack-negative-fit" data-stack-negative-fit={stack.key}>
+              <span class="home-ecosystem-stack-negative-fit-label">Do not use this when</span>
+              <span class="home-ecosystem-stack-negative-fit-text">{stack.do_not_use_when}</span>
+            </p>
 
             <ul class="home-ecosystem-packages">
               <li

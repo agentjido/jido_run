@@ -1136,6 +1136,87 @@ defmodule AgentJidoWeb.JidoHomeLiveTest do
     end
   end
 
+  describe "home ecosystem stack negative-fit notes (E09-T10)" do
+    # Acceptance condition: selection guidance includes a negative fit. Each
+    # recommended stack already says what it is for (E04-T24); this adds the
+    # other half of selection guidance — a "Do not use this when" note per
+    # stack, so a builder can tell when a stack is the wrong pick, not just when
+    # it is the right one.
+
+    test "every stack carries a non-empty 'Do not use this when' note", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      notes = home_ecosystem_stack_negative_fits(html)
+
+      # All three recommended stacks carry a negative-fit note.
+      assert Map.keys(notes) |> MapSet.new() == MapSet.new(~w(core ai operate))
+
+      for {key, %{label: label, body: body}} <- notes do
+        assert label == "Do not use this when",
+               "expected the #{key} stack to carry a 'Do not use this when' label"
+
+        assert is_binary(body) and String.trim(body) != "",
+               "expected the #{key} stack to carry a non-empty negative-fit note"
+      end
+    end
+
+    test "each note sits inside its own stack card", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      notes =
+        html
+        |> Floki.parse_document!()
+        |> Floki.find("#home-ecosystem-section [data-stack-negative-fit]")
+        |> Map.new(fn note ->
+          key = Floki.attribute(note, "data-stack-negative-fit") |> hd()
+          {key, note}
+        end)
+
+      # The negative-fit note is attached to exactly one element per stack and
+      # the attribute matches the stack's key, so each note belongs to its own
+      # card rather than a shared caveat below the section.
+      assert Map.keys(notes) |> MapSet.new() == MapSet.new(~w(core ai operate))
+    end
+
+    test "each note follows its stack's purpose, so positive and negative fit read together",
+         %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      cards =
+        html
+        |> Floki.parse_document!()
+        |> Floki.find("#home-ecosystem-section article[data-stack]")
+        |> Map.new(fn card ->
+          {Floki.attribute(card, "data-stack") |> hd(), Floki.raw_html(card)}
+        end)
+
+      # The purpose (what to reach for) leads; the negative fit (when not to)
+      # follows it, before the package list — so the two halves of selection
+      # guidance sit together on each card.
+      for {key, card_html} <- cards do
+        {purpose_idx, _} = :binary.match(card_html, "home-ecosystem-stack-purpose")
+        {note_idx, _} = :binary.match(card_html, ~s(data-stack-negative-fit="#{key}"))
+        {packages_idx, _} = :binary.match(card_html, "home-ecosystem-packages")
+
+        assert purpose_idx < note_idx
+        assert note_idx < packages_idx
+      end
+    end
+
+    test "each note is distinct, so the negative fit is real per stack", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      bodies =
+        home_ecosystem_stack_negative_fits(html)
+        |> Map.values()
+        |> Enum.map(& &1.body)
+
+      # Three distinct notes — not the same caveat repeated three times — so each
+      # stack states a real reason it is the wrong pick for that situation.
+      assert length(Enum.uniq(bodies)) == 3
+    end
+  end
+
   describe "home CTA and card destinations (jido-e04-t31)" do
     # Acceptance condition: all CTA and card routes resolve. The static link
     # audit already confirms zero unmatched links across the source files, but it
@@ -1217,6 +1298,29 @@ defmodule AgentJidoWeb.JidoHomeLiveTest do
       label = row |> Floki.find(".home-ecosystem-support-level") |> Floki.text() |> String.trim()
 
       {name, %{level: level, label: label}}
+    end)
+  end
+
+  defp home_ecosystem_stack_negative_fits(html) do
+    html
+    |> Floki.parse_document!()
+    |> Floki.find("#home-ecosystem-section [data-stack-negative-fit]")
+    |> Map.new(fn note ->
+      key = Floki.attribute(note, "data-stack-negative-fit") |> hd()
+
+      label =
+        note
+        |> Floki.find(".home-ecosystem-stack-negative-fit-label")
+        |> Floki.text()
+        |> String.trim()
+
+      body =
+        note
+        |> Floki.find(".home-ecosystem-stack-negative-fit-text")
+        |> Floki.text()
+        |> String.trim()
+
+      {key, %{label: label, body: body}}
     end)
   end
 
