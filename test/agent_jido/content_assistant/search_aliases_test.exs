@@ -146,4 +146,57 @@ defmodule AgentJido.ContentAssistant.SearchAliasesTest do
       assert SearchAliases.routes_for_query("production") == []
     end
   end
+
+  describe "operational-control terms (jido-e10-t27)" do
+    # The nine dimensions a production agent touches — identity context,
+    # authorization, audit, observability, policy, quota, approval, redaction,
+    # and the controlled-Agent pattern — are one operational-control model, so
+    # each resolves to the canonical Security and Governance guide rather than
+    # whichever page mentions the word most. The controlled-Agent example
+    # names that page as "the full operational-control model."
+    @guide "/docs/operations/security-and-governance"
+
+    test "aliases_for_route/1 registers every control term on the canonical guide" do
+      assert SearchAliases.aliases_for_route(@guide) == [
+               "identity context",
+               "authorization",
+               "audit",
+               "observability",
+               "policy",
+               "quota",
+               "approval",
+               "redaction",
+               "controlled agent"
+             ]
+    end
+
+    test "routes_for_query/1 resolves each control term to the canonical guide" do
+      for term <-
+            ~w(authorization audit observability policy quota approval redaction) do
+        assert SearchAliases.routes_for_query(term) == [@guide],
+               "expected the single-token control term #{inspect(term)} to resolve to the guide"
+      end
+
+      # The two multi-word control terms resolve as phrases.
+      assert SearchAliases.routes_for_query("identity context") == [@guide]
+      assert SearchAliases.routes_for_query("controlled agent") == [@guide]
+    end
+
+    test "matches a control term embedded in a longer natural query" do
+      # "redaction" and "audit" are both single-token aliases on the same guide,
+      # so a query carrying either (or both) resolves to the guide once.
+      assert SearchAliases.routes_for_query("how do I add authorization to an action") == [@guide]
+
+      assert SearchAliases.routes_for_query("what does redaction cover in the audit trail") ==
+               [@guide]
+    end
+
+    test "does not match when only a proper subset of a multi-word term is present" do
+      # "identity" or "context" alone must not trigger the "identity context"
+      # alias; "agent" alone must not trigger "controlled agent".
+      assert SearchAliases.routes_for_query("identity") == []
+      assert SearchAliases.routes_for_query("context") == []
+      assert SearchAliases.routes_for_query("agent") == []
+    end
+  end
 end

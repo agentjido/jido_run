@@ -18,6 +18,12 @@ defmodule AgentJido.ContentAssistant.SearchAliases do
       priority in reranking, so it surfaces at the top regardless of which
       path serves the query.
 
+  It also covers operational-control terms: identity context, authorization,
+  audit, observability, policy, quota, approval, redaction, and the
+  controlled-Agent pattern are all dimensions of one control model, so each
+  resolves to the canonical Security and Governance guide rather than whichever
+  page mentions the word most (jido-e10-t27).
+
   Keys are canonical page routes — the value `AgentJido.Pages.route_for/1`
   returns and the inventory indexes as the document path. An alias matches
   a query when every token of an alias phrase is present in the query, so
@@ -44,7 +50,28 @@ defmodule AgentJido.ContentAssistant.SearchAliases do
     "/docs/concepts/signals" => ["signals routing"],
     "/docs/concepts/directives" => ["directives scheduling"],
     "/docs/getting-started/elixir-developers" => ["liveview integration"],
-    "/docs/guides/error-handling-and-recovery" => ["production readiness"]
+    "/docs/guides/error-handling-and-recovery" => ["production readiness"],
+    # Operational-control terms -> the canonical control guide (jido-e10-t27).
+    # The nine dimensions a production agent touches — identity context,
+    # authorization, audit, observability, policy, quota, approval, redaction,
+    # and the controlled-Agent pattern itself — all live on the Security and
+    # Governance page, which states what Jido supplies, what the application
+    # owns, and the proof for each. The page is the controlled-Agent example's
+    # documented "full operational-control model," so a search for any control
+    # term lands on the one guide that draws every boundary. The matching
+    # example and package surface alongside it through ordinary lexical search
+    # (the controlled-Agent example and the control packages carry these terms).
+    "/docs/operations/security-and-governance" => [
+      "identity context",
+      "authorization",
+      "audit",
+      "observability",
+      "policy",
+      "quota",
+      "approval",
+      "redaction",
+      "controlled agent"
+    ]
   }
 
   @doc """

@@ -593,6 +593,41 @@ defmodule AgentJido.ContentAssistant.RetrievalTest do
     end
   end
 
+  describe "query/2 operational-control terms" do
+    # Each operational-control term from jido-e10-t27 resolves to the canonical
+    # Security and Governance guide as the top result. The nine dimensions a
+    # production agent touches are one control model, and that guide draws every
+    # boundary, so a search for any control term lands on it rather than on
+    # whichever page mentions the word most. The local fallback serves these
+    # (backend unavailable), so the terms work regardless of which search path
+    # serves the query; the guide wins via alias rerank priority plus the alias
+    # phrases indexed into its searchable text. The matching example and package
+    # are returned alongside it through ordinary lexical search of the public
+    # examples and ecosystem packages that carry these terms.
+    for term <-
+          ~w(authorization audit observability policy quota approval redaction) ++
+            ["identity context", "controlled agent"] do
+      test "returns #{inspect(term)} -> the Security and Governance guide as the top result via fallback" do
+        search_fun = fn _query, _opts -> {:error, :backend_down} end
+
+        assert {:ok, [top | _rest]} = Retrieval.query(unquote(term), search_fun: search_fun)
+
+        assert top.url == "/docs/operations/security-and-governance"
+        assert top.title == "Security and Governance"
+        assert top.source_type == :docs
+      end
+    end
+
+    test "a control term embedded in a longer query still finds the guide" do
+      search_fun = fn _query, _opts -> {:error, :backend_down} end
+
+      assert {:ok, [top | _rest]} =
+               Retrieval.query("how do I wire authorization into a protected action", search_fun: search_fun)
+
+      assert top.url == "/docs/operations/security-and-governance"
+    end
+  end
+
   describe "query_with_status/2" do
     test "returns success status for normal backend responses" do
       search_fun = fn _query, _opts -> {:ok, []} end
