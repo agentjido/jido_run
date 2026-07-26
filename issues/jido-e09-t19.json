@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-26T07:51:48Z",
   "created": "2026-07-23T12:06:08Z",
   "description": "Backlog task: E09-T19\n\nWork area: Package-page contract\n\nMain targets: Package pages\n\nComplete when: Each public package points to proof or states that proof is missing.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e09-t19",
@@ -22,7 +23,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E09-T19 — Add one best example.",
   "type": "task",
   "updated_at": "2026-07-26T07:51:48Z"
