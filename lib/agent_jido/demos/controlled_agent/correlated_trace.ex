@@ -26,6 +26,11 @@ defmodule AgentJido.Demos.ControlledAgent.CorrelatedTrace do
   the same `:telemetry` events — follows the work from who initiated it, through
   the request and signal, to the policy decision and the effect it produced.
 
+  The incoming `causation` context value (`IncomingContext`'s `causation` field,
+  on `Signal.extensions["causation_id"]`) rides the same spans, so the
+  correlation **and** causation values an operator follows both remain connected
+  from ingress to effect (`jido-e12-t43`).
+
   The policy decision and the effect are **real**, not asserted: the controlled
   agent runs under its real `AgentServer` with its real fail-closed
   `AuthorizationPlugin`, so the trace records an actual allow or deny and the
@@ -55,7 +60,11 @@ defmodule AgentJido.Demos.ControlledAgent.CorrelatedTrace do
     :effect
   ]
 
-  defstruct @enforce_keys
+  # `causation_id` is optional (not every caller supplies a causing signal) so it
+  # is not enforced; it defaults to `nil`. It is the incoming `causation` context
+  # value carried from ingress to effect alongside the correlation id
+  # (`jido-e12-t43`).
+  defstruct @enforce_keys ++ [causation_id: nil]
 
   @type policy_result :: :allowed | {:denied, term()}
   @type effect :: %{approved_count: non_neg_integer(), delta: integer()} | :no_effect
@@ -67,7 +76,8 @@ defmodule AgentJido.Demos.ControlledAgent.CorrelatedTrace do
           signal: String.t(),
           action: module() | nil,
           policy_result: policy_result(),
-          effect: effect()
+          effect: effect(),
+          causation_id: String.t() | nil
         }
 
   # The six legs of one correlated operational trace, in the order an operator
@@ -152,7 +162,11 @@ defmodule AgentJido.Demos.ControlledAgent.CorrelatedTrace do
       signal: signal.type,
       action: action,
       policy_result: policy_result,
-      effect: effect
+      effect: effect,
+      # The incoming `causation` context value, carried from ingress so the
+      # correlation and causation values an operator follows both reach the
+      # effect end of the trace (`jido-e12-t43`).
+      causation_id: IncomingContext.get(signal, :causation)
     }
 
     # Emit the six legs as one correlated observation trace (the observation
@@ -260,22 +274,22 @@ defmodule AgentJido.Demos.ControlledAgent.CorrelatedTrace do
   end
 
   defp leg_metadata(:principal, trace),
-    do: %{correlation_id: trace.correlation_id, principal: trace.principal}
+    do: %{correlation_id: trace.correlation_id, causation_id: trace.causation_id, principal: trace.principal}
 
   defp leg_metadata(:request, trace),
-    do: %{correlation_id: trace.correlation_id, request: trace.request}
+    do: %{correlation_id: trace.correlation_id, causation_id: trace.causation_id, request: trace.request}
 
   defp leg_metadata(:signal, trace),
-    do: %{correlation_id: trace.correlation_id, signal_type: trace.signal}
+    do: %{correlation_id: trace.correlation_id, causation_id: trace.causation_id, signal_type: trace.signal}
 
   defp leg_metadata(:action, trace),
-    do: %{correlation_id: trace.correlation_id, action: inspect(trace.action)}
+    do: %{correlation_id: trace.correlation_id, causation_id: trace.causation_id, action: inspect(trace.action)}
 
   defp leg_metadata(:policy, trace),
-    do: %{correlation_id: trace.correlation_id, policy_result: policy_label(trace.policy_result)}
+    do: %{correlation_id: trace.correlation_id, causation_id: trace.causation_id, policy_result: policy_label(trace.policy_result)}
 
   defp leg_metadata(:effect, trace),
-    do: %{correlation_id: trace.correlation_id, effect: effect_label(trace.effect)}
+    do: %{correlation_id: trace.correlation_id, causation_id: trace.causation_id, effect: effect_label(trace.effect)}
 
   # Normalizes a denial off the Jido error the AgentServer returns when a
   # plugin fails, so the trace records the policy decision (e.g.
