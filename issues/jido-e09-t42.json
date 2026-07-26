@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-26T08:51:38Z",
   "created": "2026-07-23T12:06:31Z",
   "description": "Backlog task: E09-T42\n\nWork area: Operational-control stack and boundaries\n\nMain targets: `jido` package page and identity guide\n\nComplete when: The page calls it Agent lifecycle or profile state and not authenticated principal identity.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e09-t42",
@@ -23,8 +24,8 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E09-T42 — State the current meaning of core Agent identity.",
   "type": "task",
-  "updated_at": "2026-07-26T08:51:37Z"
+  "updated_at": "2026-07-26T08:51:38Z"
 }
