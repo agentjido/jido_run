@@ -39,6 +39,7 @@ Operate a Jido agent system by working through this ordered path. Each step name
 - [Security and governance](/docs/operations/security-and-governance) - secret management, API key rotation, access controls, and data boundaries
 - [Journal retention, access, and deletion](/docs/operations/journal-retention-access-and-deletion) - who owns the durable Signal Journal's retention duration, access, sensitive fields, and deletion process — and that Jido ships none of those rules
 - [Incident playbooks](/docs/operations/incident-playbooks) - step-by-step response procedures for common failure modes
+- [Operator investigation runbook](/docs/operations/operator-investigation-runbook) - follow one unit of work from a principal, request, trace, or Signal ID to the decisions and effects behind it
 
 > Backup and disaster-recovery guidance is not yet published. It is tracked as a follow-up rather than linked from this page.
 

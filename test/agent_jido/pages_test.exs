@@ -2014,6 +2014,193 @@ defmodule AgentJido.PagesTest do
     end
   end
 
+  describe "operations operator investigation runbook page (jido-e07-t49)" do
+    # Acceptance: "An operator can start with a principal, request, trace, or
+    # Signal ID and find the related decisions and effects."
+    @investigation_source Path.expand(
+                            "../../priv/pages/docs/operations/operator-investigation-runbook.md",
+                            __DIR__
+                          )
+    @investigation_route "/docs/operations/operator-investigation-runbook"
+    @controlled_agent_dir "lib/agent_jido/demos/controlled_agent"
+    @correlated_telemetry_module "lib/agent_jido/demos/correlated_telemetry/correlated_telemetry.ex"
+    @correlated_telemetry_test "test/agent_jido/demos/correlated_telemetry_test.exs"
+
+    test "the page is published and routable" do
+      page = Pages.get_page_by_path(@investigation_route)
+
+      assert page != nil
+      assert page.category == :docs
+      assert page.draft == false
+      assert Pages.route_for(page) == @investigation_route
+    end
+
+    test "the page is linked from the operations hub" do
+      hub = File.read!(Path.expand("../../priv/pages/docs/operations.md", __DIR__))
+
+      assert hub =~ @investigation_route
+    end
+
+    # The acceptance names four entry identifiers; each gets a dedicated heading
+    # so an operator can start from any one of them.
+    test "each entry identifier has a dedicated start section (the acceptance)" do
+      body = File.read!(@investigation_source)
+
+      assert has_h2?(body, "Start with a principal")
+      assert has_h2?(body, "Start with a request")
+      assert has_h2?(body, "Start with a trace")
+      assert has_h2?(body, "Start with a Signal")
+    end
+
+    # The acceptance names two outcomes; each gets a dedicated heading so
+    # decisions and effects are presented as distinct finds, not conflated.
+    test "decisions and effects are separate find sections (the acceptance)" do
+      body = File.read!(@investigation_source)
+
+      assert has_h2?(body, "Find the decisions")
+      assert has_h2?(body, "Find the effects")
+    end
+
+    test "each entry identifier names the real surface it rides on" do
+      body = File.read!(@investigation_source)
+
+      # Principal rides on Signal.source; a request rides on the request_id
+      # extension; a trace rides on jido_trace_id; a Signal carries its
+      # trace/span/causation fields.
+      assert body =~ "Signal.source"
+      assert body =~ ~s(extensions["request_id"])
+      assert body =~ "jido_trace_id"
+      assert body =~ "causation_id"
+    end
+
+    test "it names the real Journal and telemetry lookup surfaces" do
+      body = File.read!(@investigation_source)
+
+      # The durable Journal query surface with its source filter is the real
+      # lookup for principal- and Signal-led investigations.
+      assert body =~ "Jido.Signal.Journal.query/2"
+      assert body =~ "source"
+
+      # The five-layer trace is the real telemetry surface for a trace-led
+      # investigation: each layer's canonical event prefix is named.
+      assert body =~ "[:jido, :agent, :cmd]"
+      assert body =~ "[:jido, :agent_server, :signal]"
+      assert body =~ "[:jido, :agent, :action, :run]"
+      assert body =~ "[:jido, :ai, :tool, :execute]"
+      assert body =~ "[:jido, :ai, :llm]"
+    end
+
+    test "the decisions section names the real control points" do
+      body = File.read!(@investigation_source)
+
+      [_before, decisions] = String.split(body, "## Find the decisions", parts: 2)
+
+      # Allow/deny is the fail-closed hook; approval gates a high-impact effect;
+      # quota is the budget decision with its observable denial.
+      assert decisions =~ "prepare_action/3"
+      assert decisions =~ ~r/approval/i
+      assert decisions =~ ":quota_exceeded"
+    end
+
+    test "the effects section names the real action/tool/effect spans" do
+      body = File.read!(@investigation_source)
+
+      [_before, effects] = String.split(body, "## Find the effects", parts: 2)
+
+      # Each effect layer is the same canonical prefix a trace-led investigation
+      # reads, so decisions and effects join on one trace.
+      assert effects =~ "[:jido, :agent, :action, :run]"
+      assert effects =~ "[:jido, :ai, :tool, :execute]"
+      assert effects =~ "[:jido, :ai, :llm]"
+    end
+
+    test "the worked walkthrough is grounded in real, tested demo files" do
+      # The runbook cites the controlled-agent reference application and the
+      # correlated-telemetry demo it reads from — not snippets alone.
+      assert File.dir?(@controlled_agent_dir)
+      assert File.regular?(@correlated_telemetry_module)
+      assert File.regular?(@correlated_telemetry_test)
+
+      body = File.read!(@investigation_source)
+      assert body =~ @controlled_agent_dir
+      assert body =~ @correlated_telemetry_module
+      assert body =~ @correlated_telemetry_test
+    end
+
+    test "it separates the two stores an investigation reads" do
+      body = File.read!(@investigation_source)
+
+      # Telemetry (observation) and the durable Journal (causal history) are
+      # named as distinct stores, and the page states the default is not durable
+      # so an operator is not misled into assuming a durable record exists.
+      assert has_h2?(body, "The two stores an investigation reads")
+      assert body =~ ~r/telemetry stream/i
+      assert body =~ ~r/durable signal journal/i
+      assert body =~ ~r/not durable/i
+    end
+
+    test "it states the honesty points so the runbook does not overclaim" do
+      body = File.read!(@investigation_source)
+
+      # IDs are correlation, not authentication; neither store is tamper-evident;
+      # redaction may hide fields; cross-store joins need propagated context.
+      assert has_h2?(body, "Honesty points")
+      assert body =~ ~r/correlation, not credentials/i
+      assert body =~ ~r/tamper-evident/i
+      assert body =~ ~r/redaction/i
+      assert body =~ ~r/propagate.*context/i
+    end
+
+    test "it links only to live operations, reference, and onboarding routes" do
+      body = File.read!(@investigation_source)
+
+      internal_links =
+        Regex.scan(~r{\]\((/docs/[^)#]+)\)}, body, capture: :all_but_first)
+        |> List.flatten()
+        |> Enum.uniq()
+
+      assert internal_links != []
+
+      for path <- internal_links do
+        page = Pages.get_page_by_path(path)
+
+        assert page != nil,
+               "investigation runbook links to a route that does not resolve: #{path}"
+
+        assert page.draft == false,
+               "investigation runbook links to a draft page: #{path}"
+      end
+
+      # The sibling stores, the incident response path, the go-live gate, and
+      # the onboarding lane that builds these controls are cross-linked, so the
+      # procedure is not presented in isolation from the surfaces it reads.
+      assert body =~ "/docs/operations/security-and-governance"
+      assert body =~ "/docs/operations/telemetry-and-traces"
+      assert body =~ "/docs/operations/journal-retention-access-and-deletion"
+      assert body =~ "/docs/operations/incident-playbooks"
+      assert body =~ "/docs/operations/production-readiness-checklist"
+      assert body =~ "/docs/getting-started/operational-controls"
+    end
+
+    test "the page source has no placeholder markers" do
+      body = File.read!(@investigation_source)
+
+      placeholder_patterns = [
+        ~r/content coming soon/i,
+        ~r/\bcoming soon\b/i,
+        ~r/\bTODO\b/,
+        ~r/\bTBD\b/,
+        ~r/lorem ipsum/i
+      ]
+
+      assert body =~ "draft: false"
+
+      Enum.each(placeholder_patterns, fn pattern ->
+        refute body =~ pattern
+      end)
+    end
+  end
+
   describe "migrations and upgrade paths page (jido-e07-t24)" do
     # Acceptance: "Each supported upgrade path has a version range."
     @upgrade_source Path.expand(
