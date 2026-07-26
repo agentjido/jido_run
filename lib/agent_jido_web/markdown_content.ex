@@ -10,6 +10,10 @@ defmodule AgentJidoWeb.MarkdownContent do
   alias AgentJido.Pages
   alias AgentJido.ReleaseCatalog
 
+  # Mirrors the browser Examples hub (jido_examples_live.ex), which groups the
+  # live examples under these three category headings in this order.
+  @example_category_order [:core, :ai, :production]
+
   @doc """
   Returns true when the request path is in the markdown-enabled public route set.
   """
@@ -25,7 +29,7 @@ defmodule AgentJidoWeb.MarkdownContent do
   """
   @spec resolve(String.t(), String.t()) :: {:ok, String.t()} | :no_match
   def resolve(path, absolute_url) when is_binary(path) and is_binary(absolute_url) do
-    case resolve_path(path) do
+    case resolve_path(path, absolute_url) do
       {:ok, markdown} ->
         {:ok, markdown}
 
@@ -37,11 +41,11 @@ defmodule AgentJidoWeb.MarkdownContent do
     end
   end
 
-  defp resolve_path(path) do
+  defp resolve_path(path, absolute_url) do
     resolve_from_pages(path) ||
       resolve_from_blog(path) ||
       resolve_from_ecosystem(path) ||
-      resolve_from_examples(path) ||
+      resolve_from_examples(path, absolute_url) ||
       resolve_from_showcase(path) ||
       resolve_misc(path) ||
       :no_match
@@ -311,11 +315,17 @@ defmodule AgentJidoWeb.MarkdownContent do
 
   defp resolve_from_ecosystem(_path), do: nil
 
-  defp resolve_from_examples("/examples") do
-    {:fallback, "Jido Examples", "Interactive and production-oriented examples for agent workflows, orchestration, and reliability patterns."}
+  # The Examples hub (`/examples`) renders a category-grouped grid from the
+  # live Example records in the browser (jido_examples_live.ex), but `/examples.md`
+  # served a short fallback stub. Generate a full Markdown hub from the same
+  # records the browser hub uses so the browser and Markdown inventories agree,
+  # and so each entry carries the task, outcome, packages, maturity, and URL the
+  # machine-readable delivery needs. See E10-T11.
+  defp resolve_from_examples("/examples", absolute_url) do
+    {:ok, examples_hub_markdown(absolute_url)}
   end
 
-  defp resolve_from_examples("/examples/" <> slug_path) do
+  defp resolve_from_examples("/examples/" <> slug_path, _absolute_url) do
     if valid_single_segment?(slug_path) do
       slug_path
       |> String.trim()
@@ -326,7 +336,101 @@ defmodule AgentJidoWeb.MarkdownContent do
     end
   end
 
-  defp resolve_from_examples(_path), do: nil
+  defp resolve_from_examples(_path, _absolute_url), do: nil
+
+  # Mirrors the browser Examples hub (jido_examples_live.ex): the live examples
+  # grouped by category in canonical order, each rendered with the task it
+  # performs (its description), the outcome it proves, the Jido packages it
+  # exercises, the package maturity, and its absolute URL.
+  defp examples_hub_markdown(absolute_url) do
+    category_blocks =
+      @example_category_order
+      |> Enum.map(&format_examples_category_block(&1, absolute_url))
+      |> Enum.reject(&(&1 in ["", nil]))
+      |> Enum.join("\n\n")
+
+    """
+    # Jido Examples
+
+    Interactive and production-oriented examples for agent workflows, orchestration, and reliability patterns. Each entry lists the task it performs, the outcome it proves, the Jido packages it exercises, the package maturity, and its URL.
+
+    #{category_blocks}
+
+    ---
+
+    This inventory is generated from the same content records as the rendered Examples hub.
+    """
+  end
+
+  defp format_examples_category_block(category, absolute_url) do
+    entries =
+      category
+      |> Examples.examples_by_category()
+      |> Enum.map(&format_example_entry(&1, absolute_url))
+      |> Enum.join("\n")
+
+    if entries == "", do: nil, else: "## #{examples_category_heading(category)}\n\n#{entries}"
+  end
+
+  defp format_example_entry(example, absolute_url) do
+    slug = map_get(example, :slug)
+    route = "/examples/#{slug}"
+
+    [
+      "- **[#{map_get(example, :title)}](#{route})**",
+      "  - Task: #{field_or_dash(map_get(example, :description))}",
+      "  - Outcome: #{field_or_dash(map_get(example, :outcome))}",
+      "  - Packages: #{field_or_dash(join_list(map_get(example, :packages)))}",
+      "  - Maturity: #{field_or_dash(map_get(example, :package_maturity))}",
+      "  - URL: #{example_url(slug, absolute_url)}"
+    ]
+    |> Enum.join("\n")
+  end
+
+  # Mirrors the browser hub's category_heading/1 (jido_examples_live.ex) so the
+  # Markdown section labels match the rendered grid.
+  defp examples_category_heading(:core), do: "Getting Started"
+  defp examples_category_heading(:ai), do: "AI-Powered Agents"
+  defp examples_category_heading(:production), do: "Production Patterns"
+  defp examples_category_heading(category), do: Phoenix.Naming.humanize(category)
+
+  defp join_list(value) do
+    value
+    |> List.wrap()
+    |> Enum.map(&to_string/1)
+    |> Enum.join(", ")
+  end
+
+  defp field_or_dash(value) do
+    case value |> to_string() |> String.trim() do
+      "" -> "Not specified"
+      other -> other
+    end
+  end
+
+  defp example_url(slug, absolute_url) do
+    "#{origin_from(absolute_url)}/examples/#{slug}"
+  end
+
+  defp origin_from(absolute_url) do
+    parsed = URI.parse(absolute_url)
+
+    cond do
+      parsed.scheme != nil and parsed.host not in [nil, ""] ->
+        port_suffix =
+          case {parsed.scheme, parsed.port} do
+            {"https", 443} -> ""
+            {"http", 80} -> ""
+            {_, port} when is_integer(port) -> ":#{port}"
+            _ -> ""
+          end
+
+        "#{parsed.scheme}://#{parsed.host}#{port_suffix}"
+
+      true ->
+        String.trim_trailing(AgentJidoWeb.Endpoint.url(), "/")
+    end
+  end
 
   defp resolve_from_showcase("/community") do
     {:fallback, "Jido Community", "Build agents with us. Join Discord, collaborate on GitHub, and contribute across the Jido ecosystem."}

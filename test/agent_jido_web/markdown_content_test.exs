@@ -210,4 +210,80 @@ defmodule AgentJidoWeb.MarkdownContentTest do
       assert AgentJido.Pages.content_status_label(published) == nil
     end
   end
+
+  describe "examples hub markdown inventory (jido-e10-t11)" do
+    # The browser hub (`/examples`) and the Markdown hub (`/examples.md`) must
+    # list the same inventory, both generated from the live Example records, and
+    # every entry must carry the task, outcome, packages, maturity, and URL the
+    # machine-readable delivery needs.
+    @absolute_url "https://jido.run/examples"
+
+    test "the examples hub markdown is generated, not a fallback stub" do
+      assert {:ok, markdown} = MarkdownContent.resolve("/examples", @absolute_url)
+
+      refute String.contains?(
+               markdown,
+               "generated from the rendered route when direct source markdown is not available"
+             ),
+             "examples hub markdown is a fallback stub"
+
+      assert String.contains?(
+               markdown,
+               "generated from the same content records as the rendered Examples hub"
+             )
+    end
+
+    test "every live example appears with its route and absolute URL" do
+      assert {:ok, markdown} = MarkdownContent.resolve("/examples", @absolute_url)
+
+      for example <- AgentJido.Examples.all_examples() do
+        route = "/examples/#{example.slug}"
+        url = "https://jido.run/examples/#{example.slug}"
+
+        assert String.contains?(markdown, "(#{route})"),
+               "examples hub markdown is missing link for #{inspect(example.slug)}"
+
+        assert String.contains?(markdown, "URL: #{url}"),
+               "examples hub markdown is missing absolute URL for #{inspect(example.slug)}"
+      end
+    end
+
+    test "each entry includes task, outcome, packages, maturity, and URL labels" do
+      assert {:ok, markdown} = MarkdownContent.resolve("/examples", @absolute_url)
+
+      # The five required inventory fields are explicitly labeled per entry.
+      for label <- ~w(Task Outcome Packages Maturity URL) do
+        assert String.contains?(markdown, "#{label}:"),
+               "examples hub markdown is missing the #{label} field label"
+      end
+
+      # Spot-check one canonical entry carries all five fields together.
+      counter_block = """
+        - Task: #{AgentJido.Examples.get_example!("counter-agent").description}
+        - Outcome: #{AgentJido.Examples.get_example!("counter-agent").outcome}
+        - Packages: jido
+        - Maturity: Beta
+        - URL: https://jido.run/examples/counter-agent\
+      """
+
+      assert String.contains?(markdown, counter_block),
+             "examples hub markdown counter-agent entry is missing required fields"
+    end
+
+    test "the markdown inventory matches the browser hub's live example set" do
+      assert {:ok, markdown} = MarkdownContent.resolve("/examples", @absolute_url)
+
+      markdown_routes =
+        Regex.scan(~r"\(/examples/([a-z0-9-]+)\)", markdown)
+        |> Enum.map(fn [_, slug] -> slug end)
+        |> Enum.uniq()
+        |> Enum.sort()
+
+      browser_slugs =
+        AgentJido.Examples.all_examples() |> Enum.map(& &1.slug) |> Enum.uniq() |> Enum.sort()
+
+      assert markdown_routes == browser_slugs,
+             "examples hub markdown inventory drifted from the browser hub's live examples"
+    end
+  end
 end
