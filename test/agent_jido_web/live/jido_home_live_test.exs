@@ -295,6 +295,67 @@ defmodule AgentJidoWeb.JidoHomeLiveTest do
     end
   end
 
+  describe "home objection: why not just a GenServer? (jido-e04-t28)" do
+    # Acceptance condition: "It routes to the existing reference Livebook." The
+    # most common objection from experienced Elixir developers is handled in a
+    # home section that poses the objection honestly and routes the visitor to
+    # the published reference Livebook (/docs/reference/why-not-just-a-genserver)
+    # for the full side-by-side comparison.
+
+    test "renders an objection block posing the question", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      block =
+        html
+        |> Floki.parse_document!()
+        |> Floki.find("#home-why-not-genserver-objection")
+
+      assert block != [], "expected a why-not-a-genserver objection block"
+
+      heading = block |> Floki.find("h2") |> Floki.text() |> String.trim()
+      assert heading == "Why not just a GenServer?"
+    end
+
+    test "the block routes to the existing reference Livebook", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      link =
+        html
+        |> Floki.parse_document!()
+        |> Floki.find("a[data-objection-link='why-not-a-genserver-reference']")
+        |> List.first()
+
+      assert link != nil, "expected an objection link to the reference"
+
+      # Acceptance condition: the objection routes to the published reference
+      # Livebook, not a generic docs landing page.
+      assert Floki.attribute(link, "href") |> hd() ==
+               "/docs/reference/why-not-just-a-genserver"
+    end
+
+    test "the reference route resolves to a real page, not the 404 fallback", %{conn: conn} do
+      # The acceptance condition is on the destination: the route must reach the
+      # existing reference Livebook. A status in 200..399 means it resolved to a
+      # real route; only the catch-all returns 404.
+      assert get(conn, "/docs/reference/why-not-just-a-genserver").status in 200..399
+    end
+
+    test "the objection block sits after the Why-an-agent-framework-on-Elixir section",
+         %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      # The objection is the experienced-Elixir audience's follow-up question, so
+      # it lands directly after the section that already names GenServer and
+      # before the ecosystem section.
+      assert {why_otp_idx, _} = :binary.match(html, ~s(id="why-elixir-otp"))
+      assert {objection_idx, _} = :binary.match(html, ~s(id="why-not-a-genserver"))
+      assert {ecosystem_idx, _} = :binary.match(html, ~s(id="ecosystem"))
+
+      assert why_otp_idx < objection_idx
+      assert objection_idx < ecosystem_idx
+    end
+  end
+
   describe "home Agent model section (E04-T10)" do
     test "renders the four-part Agent model section after the first proof", %{conn: conn} do
       {:ok, _view, html} = live(conn, "/")

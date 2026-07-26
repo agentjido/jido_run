@@ -37,6 +37,7 @@ defmodule AgentJidoWeb.JidoHomeLive do
         <.operational_control_section />
         <.pillars_section />
         <.why_elixir_otp_section />
+        <.why_not_genserver_section />
         <.ecosystem_section />
         <.build_first_agent_cta />
       </div>
@@ -596,6 +597,45 @@ defmodule AgentJidoWeb.JidoHomeLive do
           class="home-why-otp-link-secondary"
         >
           Already an Elixir developer? →
+        </.link>
+      </div>
+    </section>
+    """
+  end
+
+  # "Why not just a GenServer?" objection block (jido-e04-t28). The most common
+  # objection from experienced Elixir developers lands directly after the "Why
+  # an agent framework on Elixir?" section, where that audience already gathers
+  # and where GenServer is already named. The block states the objection
+  # honestly — a plain GenServer is the right tool for many single-purpose
+  # processes — and names the design pressure where Jido earns its place (a
+  # callback that mixes validation, persistence, and side effects), then routes
+  # the visitor to the existing reference Livebook for the full side-by-side
+  # comparison and the honest "when GenServer is enough" call. The acceptance
+  # condition is the route: it must reach that reference page.
+  defp why_not_genserver_section(assigns) do
+    ~H"""
+    <section id="why-not-a-genserver" class="text-center mb-16 animate-fade-in">
+      <div
+        id="home-why-not-genserver-objection"
+        class="max-w-2xl mx-auto rounded-xl border border-primary/20 bg-primary/5 px-6 py-7"
+        data-objection="why-not-a-genserver"
+      >
+        <span class="home-eyebrow-label text-[11px] font-semibold tracking-widest uppercase">
+          Common question
+        </span>
+        <h2 class="text-2xl sm:text-3xl font-bold tracking-tight mt-3 mb-3">
+          Why not just a GenServer?
+        </h2>
+        <p class="home-muted-copy text-[15px] leading-relaxed max-w-xl mx-auto mb-5">
+          For many single-purpose processes, a plain GenServer is the right tool. Jido earns its place when a callback starts mixing validation, persistence, and side effects: it separates what an agent decides — pure Actions, typed Signals, and Directives — from how the runtime executes it under OTP supervision, so each piece stays testable and composable.
+        </p>
+        <.link
+          navigate="/docs/reference/why-not-just-a-genserver"
+          class="text-primary hover:underline text-[13px] font-semibold"
+          data-objection-link="why-not-a-genserver-reference"
+        >
+          Read the full comparison →
         </.link>
       </div>
     </section>
