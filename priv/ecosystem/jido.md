@@ -49,12 +49,12 @@
     "Authorization integration points — Jido Plugin hooks are where a host application enforces its own authorization: prepare_signal/2 runs before a signal routes, and prepare_action/3 is the fail-closed authorization point for the controlled-Agent path.",
     "Action contract validation — Jido.Action schema-validates params before an action runs.",
     "BEAM-native supervision — AgentServer restarts agents under OTP supervision trees with explicit error policies.",
-    "Correlated telemetry — Jido.Observe and Jido.Telemetry emit lifecycle, action, and span events for observation."
+    "Correlated telemetry — Jido.Observe and Jido.Telemetry emit the in-process :telemetry events that are the source of core observation: lifecycle, action, and span events any reporter can consume. Exporting them to a collector is the separate jido_otel package."
   ],
   control_limitations: [
     "Does not authenticate principals — an Agent's core identity is Agent lifecycle or profile state: correlation metadata for following the agent in telemetry and Journal records, not authenticated principal identity. Signal, request, and trace IDs are correlation metadata too. The host application supplies and verifies the principal and tenant.",
     "Does not supply a full authorization system — Jido is not a built-in IAM or RBAC product. Plugin hooks like prepare_signal/2 and prepare_action/3 are integration points where the host application makes authorization decisions; Jido supplies the hooks, not the decisions.",
-    "Does not retain tamper-evident audit history by default — durable, replayable history needs a configured durable Signal Journal adapter and a retention policy."
+    "Does not retain audit history — core observation is an ephemeral event stream, not an audit log. Durable, replayable history is the separate jido_signal Signal Journal plus a retention policy you operate."
   ],
   ecosystem_deps: ["jido_action", "jido_signal"],
   landing_use_when: [

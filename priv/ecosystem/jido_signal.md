@@ -29,11 +29,11 @@
   ],
   control_capabilities: [
     "Signal envelope and routing — CloudEvents-based signals with a trie router give deterministic, auditable dispatch.",
-    "Optional durable history — a configured durable Signal Journal adapter records signals for replay, and tracing carries causation and correlation IDs across components."
+    "Optional durable history — a configured durable Signal Journal adapter records signals as a durable, replayable record of what happened. Trace context (causation and correlation IDs) links each record to the rest of a trace, but is correlation metadata from core observation, not the record itself."
   ],
   control_limitations: [
     "Does not retain history by default — the default Journal is not durable, so a recorded signal is gone after a restart unless you choose a durable adapter.",
-    "Does not make telemetry tamper-evident — Signal IDs and trace context are correlation metadata, not an audit identity; durable tamper-evident audit needs a storage layer you operate."
+    "Does not prove tamper-evidence or authenticated audit identity — the Journal is a replayable history store, not a tamper-evident ledger. Signal and trace IDs are correlation metadata, not a verified caller; tamper-evidence and audit identity are application-owned."
   ],
   ecosystem_deps: [],
   key_features: [

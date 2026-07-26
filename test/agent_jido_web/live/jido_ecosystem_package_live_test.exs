@@ -328,6 +328,90 @@ defmodule AgentJidoWeb.JidoEcosystemPackageLiveTest do
            "the jido_signal page must state replay is not durable across a Bus restart"
   end
 
+  # Direct expression of the E09-T45 contract: the three operational-control
+  # roles — core observation (jido core), OpenTelemetry export (jido_otel), and
+  # audit history (jido_signal) — must not use interchangeable language on their
+  # package pages. Each page names its own role with distinct vocabulary and
+  # states the boundary to the other two, mirroring the canonical framing on the
+  # Telemetry and Traces operations page ("jido_otel is an exporter, not the
+  # source of observation"; "an audit trail is a separate, application-owned
+  # duty"). The old interchangeable phrases — jido_otel calling its output "for
+  # observation" and both jido_otel and jido_signal opening a limitation with the
+  # identical "Does not make telemetry tamper-evident" — must be gone.
+  test "separates core observation, jido_otel export, and audit history with distinct language (jido-e09-t45)", %{conn: conn} do
+    # Core observation (jido core): names itself the source of observation and
+    # states export and audit as separate packages.
+    {:ok, _view, jido_html} = live(conn, "/ecosystem/jido")
+
+    assert jido_html =~ "source of core observation",
+           "the jido page must name core observation as the source role"
+
+    assert jido_html =~ "the separate jido_otel package",
+           "the jido page must separate core observation from the jido_otel export role"
+
+    assert jido_html =~ "Does not retain audit history",
+           "the jido page must state the audit-history boundary"
+
+    assert jido_html =~ "the separate jido_signal Signal Journal",
+           "the jido page must separate core observation from the jido_signal audit role"
+
+    # OpenTelemetry export (jido_otel): names itself the exporter, explicitly
+    # not the source of observation (that is jido core), and not an audit record
+    # (that is jido_signal). The old "for observation, not an audit record" and
+    # "Does not make telemetry tamper-evident" interchangeable phrases are gone.
+    {:ok, _view, otel_html} = live(conn, "/ecosystem/jido_otel")
+
+    assert otel_html =~ "OpenTelemetry export",
+           "the jido_otel page must name its role as export"
+
+    assert otel_html =~ "exporter, not the source of observation",
+           "the jido_otel page must separate the export role from the core-observation role"
+
+    assert otel_html =~ "emitted by jido core",
+           "the jido_otel page must attribute the events it exports to jido core"
+
+    assert otel_html =~ "Does not serve as an audit record",
+           "the jido_otel page must state the audit boundary"
+
+    assert otel_html =~ "the separate jido_signal Signal Journal",
+           "the jido_otel page must separate the export role from the jido_signal audit role"
+
+    refute otel_html =~ "exported spans are for observation",
+           "the jido_otel page must not describe its export output as observation (that is the jido core role)"
+
+    refute otel_html =~ "Does not make telemetry tamper-evident",
+           "the jido_otel page must not reuse the jido_signal limitation opener"
+
+    # Audit history (jido_signal): names the Journal as a durable, replayable
+    # record and attributes trace context to core observation, not the record.
+    # The old "Does not make telemetry tamper-evident" opener — interchangeable
+    # with jido_otel — is gone, replaced by the precise audit boundary.
+    {:ok, _view, signal_html} = live(conn, "/ecosystem/jido_signal")
+
+    assert signal_html =~ "durable, replayable record",
+           "the jido_signal page must name the Journal's audit-history role"
+
+    assert signal_html =~ "correlation metadata from core observation",
+           "the jido_signal page must attribute trace context to core observation, not the audit record"
+
+    assert signal_html =~ "not a tamper-evident ledger",
+           "the jido_signal page must state the tamper-evidence boundary"
+
+    assert signal_html =~ "correlation metadata, not a verified caller",
+           "the jido_signal page must state the audit-identity boundary"
+
+    refute signal_html =~ "Does not make telemetry tamper-evident",
+           "the jido_signal page must not reuse the jido_otel limitation opener"
+
+    # The two export/audit pages no longer share an interchangeable limitation
+    # opener — their openers are now distinct.
+    refute otel_html =~ "Does not prove tamper-evidence or authenticated audit identity",
+           "the jido_otel page must not reuse the jido_signal audit-identity opener"
+
+    refute signal_html =~ "Does not serve as an audit record",
+           "the jido_signal page must not reuse the jido_otel audit-record opener"
+  end
+
   test "states the control surface is not documented when neither field is set (jido-e09-t41)", %{conn: conn} do
     # jido_chat has no documented control surface, so the page must be explicit
     # about the gap rather than silent.

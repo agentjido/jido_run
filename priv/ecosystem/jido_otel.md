@@ -27,10 +27,10 @@ limitations: [
 "Instrumentation defaults may evolve as tracing conventions stabilize"
 ],
 control_capabilities: [
-"OpenTelemetry bridge — maps Jido.Observe spans and events into OTel span names, attributes, and exception events for export to a collector you operate."
+"OpenTelemetry export — bridges Jido.Observe spans and events into OTel span names, attributes, and exception events and exports them over OTLP to a collector you operate. It is an exporter, not the source of observation — the events it exports are emitted by jido core."
 ],
 control_limitations: [
-"Does not make telemetry tamper-evident — exported spans are for observation, not an audit record.",
+"Does not serve as an audit record — exported spans are distributed traces for a collector, not tamper-evident history. Durable, replayable audit is the separate jido_signal Signal Journal.",
 "Experimental and not published to Hex — verify against your Jido version before relying on it in production."
 ],
 ecosystem_deps: ["jido"],
