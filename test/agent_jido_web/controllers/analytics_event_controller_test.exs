@@ -182,6 +182,34 @@ defmodule AgentJidoWeb.AnalyticsEventControllerTest do
     assert event.metadata["page"] == "operations"
   end
 
+  test "accepts the home control message to proof event (jido-e12-t46)", %{conn: conn} do
+    conn =
+      post(conn, ~p"/analytics/events", %{
+        "event" => "control_proof_viewed",
+        "properties" => %{
+          "source" => "home",
+          "channel" => "home_operational_control",
+          "path" => "/",
+          "section_id" => "supervision",
+          "target_url" => "/features/agents-that-self-heal",
+          "metadata" => %{
+            "surface" => "home_operational_control",
+            "claim" => "supervision"
+          }
+        }
+      })
+
+    assert json_response(conn, 202)["ok"]
+
+    event = Repo.one(from(e in AnalyticsEvent, order_by: [desc: e.inserted_at], limit: 1))
+    assert event.event == "control_proof_viewed"
+    assert event.source == "home"
+    assert event.channel == "home_operational_control"
+    assert event.section_id == "supervision"
+    assert event.target_url == "/features/agents-that-self-heal"
+    assert event.metadata["claim"] == "supervision"
+  end
+
   test "rejects invalid event names", %{conn: conn} do
     conn =
       post(conn, ~p"/analytics/events", %{

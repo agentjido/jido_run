@@ -785,4 +785,101 @@ defmodule AgentJido.AnalyticsTest do
       assert total == 2
     end
   end
+
+  describe "home control message to proof (jido-e12-t46)" do
+    test "dashboard snapshot surfaces which control claims visitors start evaluating (jido-e12-t46)" do
+      admin = admin_user_fixture()
+      admin_scope = Scope.for_user(admin)
+      actor = user_fixture()
+      scope = Scope.for_user(actor)
+
+      # Visitor A starts evaluating the supervision claim, then follows it again
+      # (the same claim), then starts evaluating the typed-actions claim. The
+      # repeat supervision follow never re-counts; the two distinct claims each
+      # count once for this visitor.
+      assert {:ok, _} =
+               Analytics.track_event(scope, %{
+                 event: "control_proof_viewed",
+                 source: "home",
+                 channel: "home_operational_control",
+                 path: "/",
+                 section_id: "supervision",
+                 target_url: "/features/agents-that-self-heal",
+                 visitor_id: "visitor-a",
+                 session_id: "session-a",
+                 metadata: %{surface: "home_operational_control", claim: "supervision"}
+               })
+
+      assert {:ok, _} =
+               Analytics.track_event(scope, %{
+                 event: "control_proof_viewed",
+                 source: "home",
+                 channel: "home_operational_control",
+                 path: "/",
+                 section_id: "supervision",
+                 target_url: "/features/agents-that-self-heal",
+                 visitor_id: "visitor-a",
+                 session_id: "session-a",
+                 metadata: %{surface: "home_operational_control", claim: "supervision"}
+               })
+
+      assert {:ok, _} =
+               Analytics.track_event(scope, %{
+                 event: "control_proof_viewed",
+                 source: "home",
+                 channel: "home_operational_control",
+                 path: "/",
+                 section_id: "typed-actions",
+                 target_url: "/docs/concepts/actions",
+                 visitor_id: "visitor-a",
+                 session_id: "session-a",
+                 metadata: %{surface: "home_operational_control", claim: "typed-actions"}
+               })
+
+      # Visitor B starts evaluating the supervision claim once.
+      assert {:ok, _} =
+               Analytics.track_event(scope, %{
+                 event: "control_proof_viewed",
+                 source: "home",
+                 channel: "home_operational_control",
+                 path: "/",
+                 section_id: "supervision",
+                 target_url: "/features/agents-that-self-heal",
+                 visitor_id: "visitor-b",
+                 session_id: "session-b",
+                 metadata: %{surface: "home_operational_control", claim: "supervision"}
+               })
+
+      # A home CTA click is not a control-claim evaluation, so it must never
+      # bleed into the control-proof breakdown.
+      assert {:ok, _} =
+               Analytics.track_event(scope, %{
+                 event: "cta_clicked",
+                 source: "home",
+                 channel: "home_hero",
+                 path: "/",
+                 section_id: "hero",
+                 target_url: "/docs/getting-started",
+                 visitor_id: "visitor-b",
+                 session_id: "session-b"
+               })
+
+      snapshot = Analytics.dashboard_snapshot(admin_scope, 7)
+
+      rows = Map.new(snapshot.control_proof_evaluation, fn row -> {row.claim, row.visitors} end)
+
+      # Supervision counts both visitors (A and B); typed-actions counts visitor
+      # A only. Visitor A's repeat supervision follow never re-counts.
+      assert rows["supervision"] == 2
+      assert rows["typed-actions"] == 1
+
+      # The home CTA click is excluded from the control-proof breakdown.
+      refute Map.has_key?(rows, "hero")
+
+      # Three first evaluations total across the two claims — visitor A's repeat
+      # supervision follow never re-counts as a new evaluation.
+      total = Enum.sum(Enum.map(snapshot.control_proof_evaluation, & &1.visitors))
+      assert total == 3
+    end
+  end
 end

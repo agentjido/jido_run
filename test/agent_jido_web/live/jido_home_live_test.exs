@@ -113,6 +113,92 @@ defmodule AgentJidoWeb.JidoHomeLiveTest do
     end
   end
 
+  describe "home control message to proof analytics (jido-e12-t46)" do
+    # Acceptance condition: "The team can see which control claims start
+    # evaluation." Every proof link in the home operational-control section
+    # fires a first-party `control_proof_viewed` event carrying the control
+    # claim (the proof link's slug) as section_id, so the team can see which
+    # claims visitors follow to proof — instead of only that the section was
+    # viewed. The global click handler in app.js reads these data-analytics-*
+    # attributes and posts the event; this test locks the attributes the
+    # handler depends on.
+
+    test "every control-proof link fires control_proof_viewed carrying its claim as section_id",
+         %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      links = control_proof_links(html)
+
+      # Sanity floor: the operational-control section routes more than one claim
+      # to proof, so the assertion below cannot pass vacuously.
+      assert length(links) >= 2,
+             "expected several control-proof links, got #{length(links)}"
+
+      for link <- links do
+        claim = Floki.attribute(link, "data-control-link") |> hd()
+        href = Floki.attribute(link, "href") |> hd()
+
+        # Each proof link fires control_proof_viewed from the home control
+        # message, carrying the claim slug as section_id and the proof surface
+        # as target_url — the attributes the click handler posts.
+        assert attr(link, "data-analytics-event") == "control_proof_viewed"
+        assert attr(link, "data-analytics-source") == "home"
+        assert attr(link, "data-analytics-channel") == "home_operational_control"
+        assert attr(link, "data-analytics-section-id") == claim
+        assert attr(link, "data-analytics-target-url") == href
+      end
+
+      # Each control claim is distinct — a visitor following two claims counts
+      # once in each, so no two proof links may share a section_id.
+      section_ids = Enum.map(links, &attr(&1, "data-analytics-section-id"))
+
+      assert length(Enum.uniq(section_ids)) == length(section_ids),
+             "expected distinct section_ids per control claim, got #{inspect(section_ids)}"
+    end
+
+    test "each control claim routes to its named proof surface", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      # The control claims the home operational-control section routes to proof:
+      # supervision and the failure drill, the five capability surfaces, the
+      # three traceability records, the five integration boundaries, and the
+      # capstone integrated controlled-Agent example.
+      expected = %{
+        "supervision" => "/features/agents-that-self-heal",
+        "failure-boundary-proof" => "/examples/failure-drill-agent",
+        "typed-actions" => "/docs/concepts/actions",
+        "tool-allowlists" => "/docs/operations/security-and-governance",
+        "policy-hooks" => "/docs/operations/security-and-governance",
+        "effects" => "/docs/concepts/directives",
+        "quotas" => "/docs/operations/security-and-governance",
+        "causal-signals" => "/docs/concepts/signals",
+        "journal-configuration" => "/docs/concepts/persistence",
+        "correlated-telemetry" => "/docs/reference/telemetry-and-observability",
+        "iam-boundary" => "/docs/operations/security-and-governance",
+        "ash-actor-tenant" => "/ecosystem/ash_jido",
+        "durable-storage" => "/docs/concepts/persistence",
+        "siem-integration" => "/docs/operations/security-and-governance",
+        "otel-export" => "/docs/reference/telemetry-and-observability",
+        "controlled-agent-example" => "/examples/controlled-agent"
+      }
+
+      actual =
+        control_proof_links(html)
+        |> Map.new(fn link ->
+          {attr(link, "data-analytics-section-id"), Floki.attribute(link, "href") |> hd()}
+        end)
+
+      assert Map.keys(actual) |> MapSet.new() == MapSet.new(Map.keys(expected)),
+             "expected proof links for #{inspect(Map.keys(expected))}, " <>
+               "got #{inspect(Map.keys(actual))}"
+
+      for {claim, href} <- expected do
+        assert actual[claim] == href,
+               "expected the #{claim} claim to route to #{href}, got #{inspect(actual[claim])}"
+      end
+    end
+  end
+
   describe "home adoption message (E04-T09)" do
     test "the lowest-risk adoption message appears directly after the hero", %{conn: conn} do
       {:ok, _view, html} = live(conn, "/")
@@ -1520,6 +1606,16 @@ defmodule AgentJidoWeb.JidoHomeLiveTest do
     html
     |> Floki.parse_document!()
     |> Floki.find("#home-page a[data-analytics-event='cta_clicked']")
+  end
+
+  # Every proof link in the home operational-control section — the links a
+  # visitor follows to start evaluating a control claim (jido-e12-t46). Each
+  # carries a data-control-link slug (the claim) and a control_proof_viewed
+  # analytics event.
+  defp control_proof_links(html) do
+    html
+    |> Floki.parse_document!()
+    |> Floki.find("#operational-control a[data-control-link]")
   end
 
   # A single home CTA looked up by its data-analytics-section-id. Returns the

@@ -50,7 +50,8 @@ defmodule AgentJido.Analytics do
           first_llm_request: [map()],
           example_filter: [map()],
           example_engagement: [map()],
-          long_running_path_entry: [map()]
+          long_running_path_entry: [map()],
+          control_proof_evaluation: [map()]
         }
 
   @doc """
@@ -147,7 +148,8 @@ defmodule AgentJido.Analytics do
         first_llm_request: first_llm_request_breakdown(days),
         example_filter: example_filter_breakdown(days),
         example_engagement: example_engagement_breakdown(days),
-        long_running_path_entry: long_running_path_entry_breakdown(days)
+        long_running_path_entry: long_running_path_entry_breakdown(days),
+        control_proof_evaluation: control_proof_evaluation_breakdown(days)
       }
     else
       unauthorized_snapshot(days)
@@ -661,6 +663,48 @@ defmodule AgentJido.Analytics do
         visitors: count(entry.visitor_id)
       },
       order_by: [desc: count(entry.visitor_id), asc: entry.section_id]
+    )
+    |> Repo.all()
+  end
+
+  # Movement from the home control message to proof (jido-e12-t46). The home
+  # operational-control section states four control claims, then routes each to
+  # the surface where a visitor can see it (supervision, typed Actions, causal
+  # Signals, the durable Journal, the integrated controlled-Agent example, and
+  # the rest). A visitor following one of those proof links is where evaluation
+  # of a control claim starts — not only a page view of the home section. The
+  # event carries the control claim (the proof link's slug) as section_id. A
+  # visitor can start evaluating more than one claim, so `DISTINCT ON (visitor_id,
+  # section_id)` keeps the earliest evaluation per visitor per claim — repeat
+  # follows of the same claim by the same visitor never re-count, while a visitor
+  # who evaluates two claims counts once in each. We then group the in-window
+  # first evaluations by claim (section_id), so the team can see which control
+  # claims visitors start evaluating from the home control message.
+  defp control_proof_evaluation_breakdown(days) do
+    since = since_naive(days)
+
+    first_evaluation_per_visitor_claim =
+      from(e in AnalyticsEvent,
+        where:
+          e.event == "control_proof_viewed" and
+            not is_nil(e.section_id),
+        order_by: [asc: e.visitor_id, asc: e.section_id, asc: e.inserted_at],
+        distinct: [e.visitor_id, e.section_id],
+        select: %{
+          visitor_id: e.visitor_id,
+          evaluated_at: e.inserted_at,
+          claim: e.section_id
+        }
+      )
+
+    from(ev in subquery(first_evaluation_per_visitor_claim),
+      where: ev.evaluated_at >= ^since,
+      group_by: ev.claim,
+      select: %{
+        claim: ev.claim,
+        visitors: count(ev.visitor_id)
+      },
+      order_by: [desc: count(ev.visitor_id), asc: ev.claim]
     )
     |> Repo.all()
   end
@@ -1467,7 +1511,8 @@ defmodule AgentJido.Analytics do
       first_llm_request: [],
       example_filter: [],
       example_engagement: [],
-      long_running_path_entry: []
+      long_running_path_entry: [],
+      control_proof_evaluation: []
     }
   end
 
@@ -1492,7 +1537,8 @@ defmodule AgentJido.Analytics do
       first_llm_request: [],
       example_filter: [],
       example_engagement: [],
-      long_running_path_entry: []
+      long_running_path_entry: [],
+      control_proof_evaluation: []
     }
   end
 

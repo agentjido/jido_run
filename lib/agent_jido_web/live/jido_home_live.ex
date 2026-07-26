@@ -915,6 +915,11 @@ defmodule AgentJidoWeb.JidoHomeLive do
               navigate="/features/agents-that-self-heal"
               class="home-pillar-link home-pillar-link-red"
               data-control-link="supervision"
+              data-analytics-event="control_proof_viewed"
+              data-analytics-source="home"
+              data-analytics-channel="home_operational_control"
+              data-analytics-section-id="supervision"
+              data-analytics-target-url="/features/agents-that-self-heal"
             >
               Read how supervision works →
             </.link>
@@ -923,6 +928,11 @@ defmodule AgentJidoWeb.JidoHomeLive do
               navigate="/examples/failure-drill-agent"
               class="home-pillar-link home-pillar-link-red"
               data-control-link="failure-boundary-proof"
+              data-analytics-event="control_proof_viewed"
+              data-analytics-source="home"
+              data-analytics-channel="home_operational_control"
+              data-analytics-section-id="failure-boundary-proof"
+              data-analytics-target-url="/examples/failure-drill-agent"
             >
               Run the failure drill →
             </.link>
@@ -948,6 +958,11 @@ defmodule AgentJidoWeb.JidoHomeLive do
               navigate="/docs/concepts/actions"
               class="home-pillar-link home-pillar-link-yellow"
               data-control-link="typed-actions"
+              data-analytics-event="control_proof_viewed"
+              data-analytics-source="home"
+              data-analytics-channel="home_operational_control"
+              data-analytics-section-id="typed-actions"
+              data-analytics-target-url="/docs/concepts/actions"
             >
               Typed Actions →
             </.link>
@@ -955,6 +970,11 @@ defmodule AgentJidoWeb.JidoHomeLive do
               navigate="/docs/operations/security-and-governance"
               class="home-pillar-link home-pillar-link-yellow"
               data-control-link="tool-allowlists"
+              data-analytics-event="control_proof_viewed"
+              data-analytics-source="home"
+              data-analytics-channel="home_operational_control"
+              data-analytics-section-id="tool-allowlists"
+              data-analytics-target-url="/docs/operations/security-and-governance"
             >
               Tool allowlists →
             </.link>
@@ -962,6 +982,11 @@ defmodule AgentJidoWeb.JidoHomeLive do
               navigate="/docs/operations/security-and-governance"
               class="home-pillar-link home-pillar-link-yellow"
               data-control-link="policy-hooks"
+              data-analytics-event="control_proof_viewed"
+              data-analytics-source="home"
+              data-analytics-channel="home_operational_control"
+              data-analytics-section-id="policy-hooks"
+              data-analytics-target-url="/docs/operations/security-and-governance"
             >
               Policy hooks →
             </.link>
@@ -969,6 +994,11 @@ defmodule AgentJidoWeb.JidoHomeLive do
               navigate="/docs/concepts/directives"
               class="home-pillar-link home-pillar-link-yellow"
               data-control-link="effects"
+              data-analytics-event="control_proof_viewed"
+              data-analytics-source="home"
+              data-analytics-channel="home_operational_control"
+              data-analytics-section-id="effects"
+              data-analytics-target-url="/docs/concepts/directives"
             >
               Effects →
             </.link>
@@ -976,6 +1006,11 @@ defmodule AgentJidoWeb.JidoHomeLive do
               navigate="/docs/operations/security-and-governance"
               class="home-pillar-link home-pillar-link-yellow"
               data-control-link="quotas"
+              data-analytics-event="control_proof_viewed"
+              data-analytics-source="home"
+              data-analytics-channel="home_operational_control"
+              data-analytics-section-id="quotas"
+              data-analytics-target-url="/docs/operations/security-and-governance"
             >
               Quotas →
             </.link>
@@ -1001,6 +1036,11 @@ defmodule AgentJidoWeb.JidoHomeLive do
               navigate="/docs/concepts/signals"
               class="home-pillar-link home-pillar-link-green"
               data-control-link="causal-signals"
+              data-analytics-event="control_proof_viewed"
+              data-analytics-source="home"
+              data-analytics-channel="home_operational_control"
+              data-analytics-section-id="causal-signals"
+              data-analytics-target-url="/docs/concepts/signals"
             >
               Causal Signals →
             </.link>
@@ -1008,6 +1048,11 @@ defmodule AgentJidoWeb.JidoHomeLive do
               navigate="/docs/concepts/persistence"
               class="home-pillar-link home-pillar-link-green"
               data-control-link="journal-configuration"
+              data-analytics-event="control_proof_viewed"
+              data-analytics-source="home"
+              data-analytics-channel="home_operational_control"
+              data-analytics-section-id="journal-configuration"
+              data-analytics-target-url="/docs/concepts/persistence"
             >
               Journal configuration →
             </.link>
@@ -1015,6 +1060,11 @@ defmodule AgentJidoWeb.JidoHomeLive do
               navigate="/docs/reference/telemetry-and-observability"
               class="home-pillar-link home-pillar-link-green"
               data-control-link="correlated-telemetry"
+              data-analytics-event="control_proof_viewed"
+              data-analytics-source="home"
+              data-analytics-channel="home_operational_control"
+              data-analytics-section-id="correlated-telemetry"
+              data-analytics-target-url="/docs/reference/telemetry-and-observability"
             >
               Correlated telemetry →
             </.link>
@@ -1040,6 +1090,11 @@ defmodule AgentJidoWeb.JidoHomeLive do
               navigate="/docs/operations/security-and-governance"
               class="home-pillar-link home-pillar-link-cyan"
               data-control-link="iam-boundary"
+              data-analytics-event="control_proof_viewed"
+              data-analytics-source="home"
+              data-analytics-channel="home_operational_control"
+              data-analytics-section-id="iam-boundary"
+              data-analytics-target-url="/docs/operations/security-and-governance"
             >
               IAM boundary →
             </.link>
@@ -1047,6 +1102,11 @@ defmodule AgentJidoWeb.JidoHomeLive do
               navigate="/ecosystem/ash_jido"
               class="home-pillar-link home-pillar-link-cyan"
               data-control-link="ash-actor-tenant"
+              data-analytics-event="control_proof_viewed"
+              data-analytics-source="home"
+              data-analytics-channel="home_operational_control"
+              data-analytics-section-id="ash-actor-tenant"
+              data-analytics-target-url="/ecosystem/ash_jido"
             >
               Ash actor/tenant →
             </.link>
@@ -1054,6 +1114,11 @@ defmodule AgentJidoWeb.JidoHomeLive do
               navigate="/docs/concepts/persistence"
               class="home-pillar-link home-pillar-link-cyan"
               data-control-link="durable-storage"
+              data-analytics-event="control_proof_viewed"
+              data-analytics-source="home"
+              data-analytics-channel="home_operational_control"
+              data-analytics-section-id="durable-storage"
+              data-analytics-target-url="/docs/concepts/persistence"
             >
               Durable storage →
             </.link>
@@ -1061,6 +1126,11 @@ defmodule AgentJidoWeb.JidoHomeLive do
               navigate="/docs/operations/security-and-governance"
               class="home-pillar-link home-pillar-link-cyan"
               data-control-link="siem-integration"
+              data-analytics-event="control_proof_viewed"
+              data-analytics-source="home"
+              data-analytics-channel="home_operational_control"
+              data-analytics-section-id="siem-integration"
+              data-analytics-target-url="/docs/operations/security-and-governance"
             >
               SIEM integration →
             </.link>
@@ -1068,6 +1138,11 @@ defmodule AgentJidoWeb.JidoHomeLive do
               navigate="/docs/reference/telemetry-and-observability"
               class="home-pillar-link home-pillar-link-cyan"
               data-control-link="otel-export"
+              data-analytics-event="control_proof_viewed"
+              data-analytics-source="home"
+              data-analytics-channel="home_operational_control"
+              data-analytics-section-id="otel-export"
+              data-analytics-target-url="/docs/reference/telemetry-and-observability"
             >
               OTel export →
             </.link>
@@ -1146,6 +1221,11 @@ defmodule AgentJidoWeb.JidoHomeLive do
             navigate="/examples/controlled-agent"
             class="home-pillar-link home-pillar-link-cyan"
             data-control-link="controlled-agent-example"
+            data-analytics-event="control_proof_viewed"
+            data-analytics-source="home"
+            data-analytics-channel="home_operational_control"
+            data-analytics-section-id="controlled-agent-example"
+            data-analytics-target-url="/examples/controlled-agent"
           >
             Run the integrated example →
           </.link>

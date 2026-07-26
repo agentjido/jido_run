@@ -307,6 +307,34 @@ defmodule AgentJidoWeb.AdminAnalyticsLive do
         </section>
 
         <section class="rounded-lg border border-border bg-card p-5">
+          <h2 class="text-lg font-semibold text-foreground">Home control message → proof</h2>
+          <p class="mt-1 text-sm text-muted-foreground">
+            Each visitor's first follow of a control claim from the home operational-control section to the surface that proves it — so the team can see which control claims visitors start evaluating, not only that the section was viewed.
+          </p>
+          <table class="mt-4 w-full text-sm">
+            <thead>
+              <tr class="text-left text-xs uppercase tracking-wide text-muted-foreground">
+                <th class="py-2 pr-4 font-semibold">Control claim</th>
+                <th class="py-2 pr-4 font-semibold">Proof link</th>
+                <th class="py-2 font-semibold">Visitors</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr :for={row <- @analytics_snapshot.control_proof_evaluation} class="border-t border-border/70">
+                <td class="py-2 pr-4 font-medium text-foreground">{control_claim_label(row.claim)}</td>
+                <td class="py-2 pr-4 text-muted-foreground">{row.claim}</td>
+                <td class="py-2 text-foreground">{row.visitors}</td>
+              </tr>
+              <tr :if={@analytics_snapshot.control_proof_evaluation == []}>
+                <td colspan="3" class="py-2 text-sm text-muted-foreground">
+                  No control claims followed to proof in this window yet.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="rounded-lg border border-border bg-card p-5">
           <div class="flex flex-wrap items-center justify-between gap-3">
             <h2 class="text-lg font-semibold text-foreground">Collector Health</h2>
             <span class="text-xs text-muted-foreground">Rows shown for the selected {@analytics_days}d window</span>
@@ -558,6 +586,7 @@ defmodule AgentJidoWeb.AdminAnalyticsLive do
       first_llm_request: [],
       example_engagement: [],
       long_running_path_entry: [],
+      control_proof_evaluation: [],
       local_search: %{
         summary: %{
           total_messages: 0,
@@ -805,6 +834,38 @@ defmodule AgentJidoWeb.AdminAnalyticsLive do
   end
 
   defp long_running_path_entry_label(_section_id), do: "-"
+
+  # Human-readable label for each control claim routed from the home
+  # operational-control section to its proof surface (jido-e12-t46). Maps the
+  # proof link's slug (carried as section_id / claim) to the control claim a
+  # builder recognizes — supervision, the capability surfaces, the traceability
+  # records, the integration boundaries, and the capstone integrated example.
+  # Any other slug falls back to a title-cased render.
+  defp control_claim_label("supervision"), do: "Supervision (self-heal)"
+  defp control_claim_label("failure-boundary-proof"), do: "Failure-boundary proof (failure drill)"
+  defp control_claim_label("typed-actions"), do: "Typed Actions"
+  defp control_claim_label("tool-allowlists"), do: "Tool allowlists"
+  defp control_claim_label("policy-hooks"), do: "Policy hooks"
+  defp control_claim_label("effects"), do: "Effects (Directives)"
+  defp control_claim_label("quotas"), do: "Quotas"
+  defp control_claim_label("causal-signals"), do: "Causal Signals"
+  defp control_claim_label("journal-configuration"), do: "Journal configuration"
+  defp control_claim_label("correlated-telemetry"), do: "Correlated telemetry"
+  defp control_claim_label("iam-boundary"), do: "IAM boundary"
+  defp control_claim_label("ash-actor-tenant"), do: "Ash actor/tenant"
+  defp control_claim_label("durable-storage"), do: "Durable storage"
+  defp control_claim_label("siem-integration"), do: "SIEM integration"
+  defp control_claim_label("otel-export"), do: "OTel export"
+  defp control_claim_label("controlled-agent-example"), do: "Integrated controlled-Agent example"
+
+  defp control_claim_label(claim) when is_binary(claim) do
+    claim
+    |> String.replace("-", " ")
+    |> String.split(" ")
+    |> Enum.map_join(" ", &String.capitalize/1)
+  end
+
+  defp control_claim_label(_claim), do: "-"
 
   defp feedback_badge_class("helpful") do
     "inline-flex rounded-full border border-accent-green/30 bg-accent-green/10 px-2 py-0.5 text-[11px] font-semibold text-accent-green"

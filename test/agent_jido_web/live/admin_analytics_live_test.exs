@@ -312,6 +312,60 @@ defmodule AgentJidoWeb.AdminAnalyticsLiveTest do
     assert html =~ "telemetry-and-traces"
   end
 
+  test "renders the home control message to proof section for admins (jido-e12-t46)",
+       %{admin_conn: admin_conn} do
+    actor = user_fixture()
+    scope = Scope.for_user(actor)
+
+    # Two visitors start evaluating the supervision claim, one starts evaluating
+    # the typed-actions claim, so both control claims render as rows.
+    Analytics.track_event_safe(scope, %{
+      event: "control_proof_viewed",
+      source: "home",
+      channel: "home_operational_control",
+      path: "/",
+      section_id: "supervision",
+      target_url: "/features/agents-that-self-heal",
+      visitor_id: "admin-control-a",
+      session_id: "admin-control-a-session",
+      metadata: %{surface: "home_operational_control", claim: "supervision"}
+    })
+
+    Analytics.track_event_safe(scope, %{
+      event: "control_proof_viewed",
+      source: "home",
+      channel: "home_operational_control",
+      path: "/",
+      section_id: "supervision",
+      target_url: "/features/agents-that-self-heal",
+      visitor_id: "admin-control-b",
+      session_id: "admin-control-b-session",
+      metadata: %{surface: "home_operational_control", claim: "supervision"}
+    })
+
+    Analytics.track_event_safe(scope, %{
+      event: "control_proof_viewed",
+      source: "home",
+      channel: "home_operational_control",
+      path: "/",
+      section_id: "typed-actions",
+      target_url: "/docs/concepts/actions",
+      visitor_id: "admin-control-c",
+      session_id: "admin-control-c-session",
+      metadata: %{surface: "home_operational_control", claim: "typed-actions"}
+    })
+
+    {:ok, view, html} = live(admin_conn, "/dashboard/analytics")
+
+    # The section is present and each control claim is visible as a row — the
+    # human-readable label and the proof-link slug both render.
+    assert has_element?(view, "h2", "Home control message → proof")
+    assert html =~ "Supervision (self-heal)"
+    assert html =~ "supervision"
+    assert html =~ "Typed Actions"
+    assert html =~ "typed-actions"
+  end
+
   defp seed_analytics_data do
     actor = user_fixture()
     scope = Scope.for_user(actor)
