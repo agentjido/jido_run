@@ -232,6 +232,46 @@ defmodule AgentJidoWeb.AdminAnalyticsLiveTest do
     assert html =~ "research"
   end
 
+  test "renders the example source and local-run engagement section for admins (jido-e12-t26)",
+       %{admin_conn: admin_conn} do
+    actor = user_fixture()
+    scope = Scope.for_user(actor)
+
+    # One visitor's first move into source, one into the local run (demo), so
+    # both surfaces render as rows.
+    Analytics.track_event_safe(scope, %{
+      event: "example_tab_viewed",
+      source: "examples",
+      channel: "example_tab",
+      path: "/examples/counter-agent",
+      section_id: "source",
+      visitor_id: "admin-engagement-source",
+      session_id: "admin-engagement-source-session",
+      metadata: %{surface: "example_show", example: "counter-agent", target: "source"}
+    })
+
+    Analytics.track_event_safe(scope, %{
+      event: "example_tab_viewed",
+      source: "examples",
+      channel: "example_tab",
+      path: "/examples/counter-agent",
+      section_id: "demo",
+      visitor_id: "admin-engagement-demo",
+      session_id: "admin-engagement-demo-session",
+      metadata: %{surface: "example_show", example: "counter-agent", target: "demo"}
+    })
+
+    {:ok, view, html} = live(admin_conn, "/dashboard/analytics")
+
+    # The section is present and each proof surface is visible as a row — the
+    # human-readable label and the target slug both render.
+    assert has_element?(view, "h2", "Example → source and local run")
+    assert html =~ "Source code"
+    assert html =~ "source"
+    assert html =~ "Interactive demo (local run)"
+    assert html =~ "demo"
+  end
+
   defp seed_analytics_data do
     actor = user_fixture()
     scope = Scope.for_user(actor)

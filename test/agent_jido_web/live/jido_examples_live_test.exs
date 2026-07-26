@@ -438,4 +438,79 @@ defmodule AgentJidoWeb.JidoExamplesLiveTest do
              ) == 0
     end
   end
+
+  describe "example show source/local-run analytics (E12-T26)" do
+    test "the source tab records an example_tab_viewed event keyed by source", %{conn: conn} do
+      {:ok, _view, _html} = live(conn, "/examples/counter-agent?tab=source")
+
+      [event] =
+        Repo.all(
+          from(e in AnalyticsEvent,
+            where: e.event == "example_tab_viewed",
+            order_by: [desc: e.inserted_at]
+          )
+        )
+
+      assert event.source == "examples"
+      assert event.channel == "example_tab"
+      assert event.section_id == "source"
+      assert event.path == "/examples/counter-agent"
+      assert event.metadata["target"] == "source"
+      assert event.metadata["example"] == "counter-agent"
+    end
+
+    test "the demo tab records an example_tab_viewed event keyed by demo (local run)", %{conn: conn} do
+      {:ok, _view, _html} = live(conn, "/examples/counter-agent?tab=demo")
+
+      [event] =
+        Repo.all(
+          from(e in AnalyticsEvent,
+            where: e.event == "example_tab_viewed" and e.section_id == "demo",
+            order_by: [desc: e.inserted_at]
+          )
+        )
+
+      assert event.channel == "example_tab"
+      assert event.section_id == "demo"
+      assert event.metadata["target"] == "demo"
+      assert event.metadata["example"] == "counter-agent"
+    end
+
+    test "the explanation tab records no example_tab_viewed event", %{conn: conn} do
+      {:ok, _view, _html} = live(conn, "/examples/counter-agent?tab=explanation")
+
+      assert Repo.aggregate(
+               from(e in AnalyticsEvent, where: e.event == "example_tab_viewed"),
+               :count,
+               :id
+             ) == 0
+    end
+
+    test "a same-tab re-patch never re-counts an engagement", %{conn: conn} do
+      {:ok, view, _html} = live(conn, "/examples/address-normalization-agent?tab=source")
+
+      # Landing on source records the engagement once.
+      assert Repo.aggregate(
+               from(
+                 e in AnalyticsEvent,
+                 where: e.event == "example_tab_viewed" and e.section_id == "source"
+               ),
+               :count,
+               :id
+             ) == 1
+
+      # Selecting another source file patches with tab=source (the same tab) —
+      # not a new movement into source — so it never re-counts.
+      view |> element("a", "execute_action.ex") |> render_click()
+
+      assert Repo.aggregate(
+               from(
+                 e in AnalyticsEvent,
+                 where: e.event == "example_tab_viewed" and e.section_id == "source"
+               ),
+               :count,
+               :id
+             ) == 1
+    end
+  end
 end

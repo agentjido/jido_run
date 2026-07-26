@@ -18,6 +18,7 @@ defmodule AgentJido.Analytics.AnalyticsEvent do
     "agent_run_succeeded",
     "llm_request_outcome",
     "example_filter_used",
+    "example_tab_viewed",
     "feedback_submitted"
   ]
 

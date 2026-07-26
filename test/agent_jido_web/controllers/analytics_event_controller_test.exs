@@ -128,6 +128,34 @@ defmodule AgentJidoWeb.AnalyticsEventControllerTest do
     assert event.metadata["label"] == "Coding agents"
   end
 
+  test "accepts the example tab movement event (jido-e12-t26)", %{conn: conn} do
+    conn =
+      post(conn, ~p"/analytics/events", %{
+        "event" => "example_tab_viewed",
+        "properties" => %{
+          "source" => "examples",
+          "channel" => "example_tab",
+          "path" => "/examples/counter-agent",
+          "section_id" => "source",
+          "metadata" => %{
+            "surface" => "example_show",
+            "example" => "counter-agent",
+            "target" => "source"
+          }
+        }
+      })
+
+    assert json_response(conn, 202)["ok"]
+
+    event = Repo.one(from(e in AnalyticsEvent, order_by: [desc: e.inserted_at], limit: 1))
+    assert event.event == "example_tab_viewed"
+    assert event.source == "examples"
+    assert event.channel == "example_tab"
+    assert event.section_id == "source"
+    assert event.metadata["target"] == "source"
+    assert event.metadata["example"] == "counter-agent"
+  end
+
   test "rejects invalid event names", %{conn: conn} do
     conn =
       post(conn, ~p"/analytics/events", %{

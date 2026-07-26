@@ -611,5 +611,98 @@ defmodule AgentJido.AnalyticsTest do
       total = Enum.sum(Enum.map(snapshot.example_filter, & &1.visitors))
       assert total == 2
     end
+
+    test "dashboard snapshot surfaces movement from examples to source and local run by target (jido-e12-t26)" do
+      admin = admin_user_fixture()
+      admin_scope = Scope.for_user(admin)
+      actor = user_fixture()
+      scope = Scope.for_user(actor)
+
+      # Visitor A moves from the counter-agent example into its source code,
+      # then re-opens source after poking at another source file — discovery of
+      # source starts on the first open; the repeat never re-counts. They also
+      # open the interactive demo (a local run), so they engage both surfaces.
+      assert {:ok, _} =
+               Analytics.track_event(scope, %{
+                 event: "example_tab_viewed",
+                 source: "examples",
+                 channel: "example_tab",
+                 path: "/examples/counter-agent",
+                 section_id: "source",
+                 visitor_id: "visitor-source-and-demo",
+                 session_id: "session-source-and-demo",
+                 metadata: %{surface: "example_show", example: "counter-agent", target: "source"}
+               })
+
+      assert {:ok, _} =
+               Analytics.track_event(scope, %{
+                 event: "example_tab_viewed",
+                 source: "examples",
+                 channel: "example_tab",
+                 path: "/examples/counter-agent",
+                 section_id: "source",
+                 visitor_id: "visitor-source-and-demo",
+                 session_id: "session-source-and-demo",
+                 metadata: %{surface: "example_show", example: "counter-agent", target: "source"}
+               })
+
+      assert {:ok, _} =
+               Analytics.track_event(scope, %{
+                 event: "example_tab_viewed",
+                 source: "examples",
+                 channel: "example_tab",
+                 path: "/examples/counter-agent",
+                 section_id: "demo",
+                 visitor_id: "visitor-source-and-demo",
+                 session_id: "session-source-and-demo",
+                 metadata: %{surface: "example_show", example: "counter-agent", target: "demo"}
+               })
+
+      # Visitor B only opens the interactive demo (a local run).
+      assert {:ok, _} =
+               Analytics.track_event(scope, %{
+                 event: "example_tab_viewed",
+                 source: "examples",
+                 channel: "example_tab",
+                 path: "/examples/counter-agent",
+                 section_id: "demo",
+                 visitor_id: "visitor-demo-only",
+                 session_id: "session-demo-only",
+                 metadata: %{surface: "example_show", example: "counter-agent", target: "demo"}
+               })
+
+      # An explanation-tab view (the default reading surface) is not movement to
+      # a proof surface, so it is never instrumented as engagement — represent it
+      # as a non-engagement event (a code copy) that must not bleed into the
+      # breakdown.
+      assert {:ok, _} =
+               Analytics.track_event(scope, %{
+                 event: "code_copied",
+                 source: "examples",
+                 channel: "copy_button",
+                 path: "/examples/counter-agent",
+                 visitor_id: "visitor-not-engagement",
+                 session_id: "session-not-engagement",
+                 metadata: %{surface: "example_show"}
+               })
+
+      snapshot = Analytics.dashboard_snapshot(admin_scope, 7)
+
+      rows = Map.new(snapshot.example_engagement, fn row -> {row.target, row.visitors} end)
+
+      # Source engagement counts visitor A once (their repeat source open never
+      # re-counts). The local-run (demo) engagement counts both visitor A and
+      # visitor B — a visitor who reaches both surfaces counts once in each.
+      assert rows["source"] == 1
+      assert rows["demo"] == 2
+
+      # The non-engagement event is excluded from the engagement breakdown.
+      refute Map.has_key?(rows, "code_copied")
+
+      # Three first engagements total across the two surfaces — visitor A's
+      # repeat source open never re-counts as a new engagement.
+      total = Enum.sum(Enum.map(snapshot.example_engagement, & &1.visitors))
+      assert total == 3
+    end
   end
 end

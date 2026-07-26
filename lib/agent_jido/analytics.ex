@@ -48,7 +48,8 @@ defmodule AgentJido.Analytics do
           first_livebook_open: [map()],
           first_core_agent_success: [map()],
           first_llm_request: [map()],
-          example_filter: [map()]
+          example_filter: [map()],
+          example_engagement: [map()]
         }
 
   @doc """
@@ -143,7 +144,8 @@ defmodule AgentJido.Analytics do
         first_livebook_open: first_livebook_open_breakdown(days),
         first_core_agent_success: first_core_agent_success_breakdown(days),
         first_llm_request: first_llm_request_breakdown(days),
-        example_filter: example_filter_breakdown(days)
+        example_filter: example_filter_breakdown(days),
+        example_engagement: example_engagement_breakdown(days)
       }
     else
       unauthorized_snapshot(days)
@@ -576,6 +578,47 @@ defmodule AgentJido.Analytics do
         visitors: count(f.visitor_id)
       },
       order_by: [desc: count(f.visitor_id), asc: f.use_case]
+    )
+    |> Repo.all()
+  end
+
+  # Movement from an example to its source code or local run (jido-e12-t26).
+  # The example show page's "Source Code" tab (the production implementation)
+  # and "Interactive Demo" tab (run the agent locally) are the proof surfaces a
+  # visitor can move into beyond reading the explanation — so a visitor opening
+  # either is where proof engagement starts, not only an example page view. The
+  # event carries the target surface (`source` or `demo`) as section_id. A
+  # visitor can engage with both surfaces, so `DISTINCT ON (visitor_id,
+  # section_id)` keeps the earliest row per visitor per target — repeat opens of
+  # the same surface by the same visitor never re-count, while a visitor who
+  # reaches both source and demo counts once in each. We then group the
+  # in-window first engagements by target (section_id), so the team sees how many
+  # visitors moved from examples to source and to a local run.
+  defp example_engagement_breakdown(days) do
+    since = since_naive(days)
+
+    first_engagement_per_visitor_target =
+      from(e in AnalyticsEvent,
+        where:
+          e.event == "example_tab_viewed" and
+            not is_nil(e.section_id),
+        order_by: [asc: e.visitor_id, asc: e.section_id, asc: e.inserted_at],
+        distinct: [e.visitor_id, e.section_id],
+        select: %{
+          visitor_id: e.visitor_id,
+          engaged_at: e.inserted_at,
+          target: e.section_id
+        }
+      )
+
+    from(eng in subquery(first_engagement_per_visitor_target),
+      where: eng.engaged_at >= ^since,
+      group_by: eng.target,
+      select: %{
+        target: eng.target,
+        visitors: count(eng.visitor_id)
+      },
+      order_by: [desc: count(eng.visitor_id), asc: eng.target]
     )
     |> Repo.all()
   end
@@ -1380,7 +1423,8 @@ defmodule AgentJido.Analytics do
       first_livebook_open: [],
       first_core_agent_success: [],
       first_llm_request: [],
-      example_filter: []
+      example_filter: [],
+      example_engagement: []
     }
   end
 
@@ -1403,7 +1447,8 @@ defmodule AgentJido.Analytics do
       first_livebook_open: [],
       first_core_agent_success: [],
       first_llm_request: [],
-      example_filter: []
+      example_filter: [],
+      example_engagement: []
     }
   end
 

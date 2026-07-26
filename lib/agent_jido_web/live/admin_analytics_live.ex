@@ -251,6 +251,34 @@ defmodule AgentJidoWeb.AdminAnalyticsLive do
         </section>
 
         <section class="rounded-lg border border-border bg-card p-5">
+          <h2 class="text-lg font-semibold text-foreground">Example → source and local run</h2>
+          <p class="mt-1 text-sm text-muted-foreground">
+            Where proof engagement starts — each visitor's first move from an example into its source code or a local run (the interactive demo), so the team sees how many visitors go beyond reading an example, not only example page traffic.
+          </p>
+          <table class="mt-4 w-full text-sm">
+            <thead>
+              <tr class="text-left text-xs uppercase tracking-wide text-muted-foreground">
+                <th class="py-2 pr-4 font-semibold">Surface</th>
+                <th class="py-2 pr-4 font-semibold">Target</th>
+                <th class="py-2 font-semibold">Visitors</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr :for={row <- @analytics_snapshot.example_engagement} class="border-t border-border/70">
+                <td class="py-2 pr-4 font-medium text-foreground">{example_engagement_label(row.target)}</td>
+                <td class="py-2 pr-4 text-muted-foreground">{row.target}</td>
+                <td class="py-2 text-foreground">{row.visitors}</td>
+              </tr>
+              <tr :if={@analytics_snapshot.example_engagement == []}>
+                <td colspan="3" class="py-2 text-sm text-muted-foreground">
+                  No example source or local-run engagement in this window yet.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="rounded-lg border border-border bg-card p-5">
           <div class="flex flex-wrap items-center justify-between gap-3">
             <h2 class="text-lg font-semibold text-foreground">Collector Health</h2>
             <span class="text-xs text-muted-foreground">Rows shown for the selected {@analytics_days}d window</span>
@@ -500,6 +528,7 @@ defmodule AgentJidoWeb.AdminAnalyticsLive do
       first_livebook_open: [],
       first_core_agent_success: [],
       first_llm_request: [],
+      example_engagement: [],
       local_search: %{
         summary: %{
           total_messages: 0,
@@ -709,6 +738,23 @@ defmodule AgentJidoWeb.AdminAnalyticsLive do
   end
 
   defp example_filter_label(_use_case), do: "-"
+
+  # Human-readable label for each example proof surface a visitor moved into
+  # (jido-e12-t26). Maps the target a first-engagement event carries (section_id)
+  # to the surface name a maintainer reads in the dashboard; an unknown target
+  # falls back to a title-cased slug so a newly instrumented surface is never
+  # blank.
+  defp example_engagement_label("source"), do: "Source code"
+  defp example_engagement_label("demo"), do: "Interactive demo (local run)"
+
+  defp example_engagement_label(target) when is_binary(target) do
+    target
+    |> String.replace("-", " ")
+    |> String.split(" ")
+    |> Enum.map_join(" ", &String.capitalize/1)
+  end
+
+  defp example_engagement_label(_target), do: "-"
 
   defp feedback_badge_class("helpful") do
     "inline-flex rounded-full border border-accent-green/30 bg-accent-green/10 px-2 py-0.5 text-[11px] font-semibold text-accent-green"

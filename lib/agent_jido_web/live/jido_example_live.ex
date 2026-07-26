@@ -13,6 +13,7 @@ defmodule AgentJidoWeb.JidoExampleLive do
 
   import AgentJidoWeb.Jido.MarketingLayouts
 
+  alias AgentJido.Analytics
   alias AgentJido.Examples
   alias AgentJido.Pages
 
@@ -40,6 +41,23 @@ defmodule AgentJidoWeb.JidoExampleLive do
       end
 
     {active_source, active_source_index} = resolve_active_source(example.sources, Map.get(params, "source"))
+
+    # Measure movement from an example to its source code or local run
+    # (jido-e12-t26) — the "Source Code" tab (the production implementation) and
+    # the "Interactive Demo" tab (run the agent locally) are the proof surfaces a
+    # visitor can move into beyond reading the explanation. Fire only on the
+    # connected mount (the static render would otherwise double-count) and only
+    # when the resolved tab actually changes, so re-selecting a source file
+    # within the source tab (a patch that keeps tab=source) or re-rendering the
+    # same tab never re-counts. The explanation tab records nothing — movement is
+    # only to source and local run. The per-visitor, per-target dedup in the
+    # dashboard breakdown then collapses repeat opens to one visitor per surface.
+    previous_tab = socket.assigns[:active_tab]
+
+    socket =
+      if connected?(socket),
+        do: maybe_track_example_engagement(socket, previous_tab, tab, example),
+        else: socket
 
     {:noreply,
      socket
@@ -293,6 +311,35 @@ defmodule AgentJidoWeb.JidoExampleLive do
   end
 
   # ── Helpers ─────────────────────────────────────────────────
+
+  # Records an `example_tab_viewed` event when a visitor moves from an example
+  # into its source code or local run (jido-e12-t26). Only the `source` (the
+  # production implementation) and `demo` (run the agent locally) tabs fire — the
+  # explanation tab records nothing — and only when the tab actually changes, so
+  # a patch that keeps the same tab (e.g. selecting another source file) never
+  # re-counts. Admin scopes are excluded by Analytics.track_event_safe, so admin
+  # preview traffic is never counted. The event carries the target surface
+  # (`source` or `demo`) as section_id; the per-visitor, per-target dedup in the
+  # dashboard breakdown collapses repeat opens to one visitor per surface.
+  defp maybe_track_example_engagement(socket, previous_tab, tab, example)
+       when tab in [:source, :demo] and tab != previous_tab do
+    target = Atom.to_string(tab)
+
+    Analytics.track_event_safe(socket.assigns.current_scope, %{
+      event: "example_tab_viewed",
+      source: "examples",
+      channel: "example_tab",
+      path: "/examples/#{example.slug}",
+      section_id: target,
+      visitor_id: socket.assigns.analytics_identity[:visitor_id],
+      session_id: socket.assigns.analytics_identity[:session_id],
+      metadata: %{surface: "example_show", example: example.slug, target: target}
+    })
+
+    socket
+  end
+
+  defp maybe_track_example_engagement(socket, _previous_tab, _tab, _example), do: socket
 
   defp resolve_active_source([], _source_param), do: {nil, nil}
 
