@@ -16,11 +16,15 @@
     {
       "text": "Open: controlled-Agent example links from home/Features/Docs/Operate depend on T37.",
       "timestamp": "2026-07-24T12:51:58Z"
+    },
+    {
+      "text": "Accepted by the Zclaude Ralph supervisor. Commits: e28c2848. Verification: MIX_ENV=test mix compile \u0026\u0026 MIX_ENV=test mix format --check-formatted.",
+      "timestamp": "2026-07-26T06:29:51Z"
     }
   ],
   "priority": 1,
   "status": "in_progress",
   "title": "E08-T46 — Link the controlled-Agent example from the home, Features, Docs, and Operate hubs.",
   "type": "task",
-  "updated_at": "2026-07-26T06:21:55Z"
+  "updated_at": "2026-07-26T06:29:51Z"
 }
