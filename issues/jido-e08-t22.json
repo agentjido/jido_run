@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-26T03:09:26Z",
   "created": "2026-07-23T12:05:25Z",
   "description": "Backlog task: E08-T22\n\nWork area: Required proof examples\n\nMain targets: Production example\n\nComplete when: It combines Schedule, persistence, and restart recovery.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e08-t22",
@@ -22,7 +23,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E08-T22 — Publish a long-running scheduled worker.",
   "type": "task",
   "updated_at": "2026-07-26T03:09:26Z"
