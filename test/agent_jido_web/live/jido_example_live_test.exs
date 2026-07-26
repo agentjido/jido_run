@@ -1216,6 +1216,55 @@ defmodule AgentJidoWeb.JidoExampleLiveTest do
     end
   end
 
+  describe "/examples/support-triage-agent (jido-e08-t27)" do
+    # Acceptance condition: "The home support card has a direct destination."
+    # The support card now routes to a real, runnable support-triage example.
+
+    test "is registered as a live runnable example with a real demo module" do
+      example = Examples.get_example!("support-triage-agent")
+
+      assert example.status == :live
+      assert example.demo_mode == :real
+      assert example.live_view_module == "AgentJidoWeb.Examples.SupportTriageAgentLive"
+      # The shared simulated showcase surface is reserved for drafts; this
+      # published example runs on its own real-runtime module instead.
+      refute example.live_view_module == "AgentJidoWeb.Examples.SimulatedShowcaseLive"
+      assert Enum.map(example.sources, & &1.path) == example.source_files
+      assert Enum.all?(example.source_files, &File.exists?/1)
+    end
+
+    test "is routable for public visitors and renders its demo", %{conn: conn} do
+      {:ok, view, html} = live(conn, "/examples/support-triage-agent?tab=demo")
+
+      assert html =~ "Support Triage Agent"
+      refute html =~ "draft preview"
+
+      demo_view = find_live_child(view, "demo-support-triage-agent")
+      demo_html = render(demo_view)
+
+      # The dedicated demo module renders the real-runtime support triage.
+      assert demo_html =~ "Support Triage Agent"
+      assert demo_html =~ "Load billing"
+      assert demo_html =~ "Classify"
+      assert demo_html =~ "Respond"
+    end
+
+    test "the demo runs the real classify step on a loaded message", %{conn: conn} do
+      {:ok, view, _html} = live(conn, "/examples/support-triage-agent?tab=demo")
+
+      demo_view = find_live_child(view, "demo-support-triage-agent")
+
+      # Load a billing message, then classify it on the real runtime.
+      render_click(demo_view, "load_billing")
+      render_click(demo_view, "classify")
+
+      demo_html = render(demo_view)
+
+      # The real keyword-scored intent appears, not a canned label.
+      assert demo_html =~ "intent: billing"
+    end
+  end
+
   describe "/examples/failure-drill-agent" do
     test "renders explanation tab", %{conn: conn} do
       {:ok, _view, html} = live(conn, "/examples/failure-drill-agent?tab=explanation")
