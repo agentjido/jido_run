@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-26T16:37:26Z",
   "created": "2026-07-23T12:07:13Z",
   "description": "Backlog task: E10-T34\n\nWork area: Operational-control delivery\n\nMain targets: Delivery tests\n\nComplete when: No surface drops the limitation or changes a control term.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e10-t34",
@@ -23,8 +24,8 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E10-T34 — Add browser, Markdown, search, MCP, and Skills parity tests for control language.",
   "type": "task",
-  "updated_at": "2026-07-26T16:37:25Z"
+  "updated_at": "2026-07-26T16:37:26Z"
 }
