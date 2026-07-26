@@ -139,6 +139,34 @@ defmodule AgentJidoWeb.AdminAnalyticsLive do
         </section>
 
         <section class="rounded-lg border border-border bg-card p-5">
+          <h2 class="text-lg font-semibold text-foreground">First Livebook open</h2>
+          <p class="mt-1 text-sm text-muted-foreground">
+            Where activation starts — the surface each visitor first opened a Livebook from, so the team can see activation by entry point, not only total runs.
+          </p>
+          <table class="mt-4 w-full text-sm">
+            <thead>
+              <tr class="text-left text-xs uppercase tracking-wide text-muted-foreground">
+                <th class="py-2 pr-4 font-semibold">Activation surface</th>
+                <th class="py-2 pr-4 font-semibold">Source</th>
+                <th class="py-2 font-semibold">First opens</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr :for={row <- @analytics_snapshot.first_livebook_open} class="border-t border-border/70">
+                <td class="py-2 pr-4 font-medium text-foreground">{first_livebook_open_label(row.source)}</td>
+                <td class="py-2 pr-4 text-muted-foreground">{row.source}</td>
+                <td class="py-2 text-foreground">{row.activations}</td>
+              </tr>
+              <tr :if={@analytics_snapshot.first_livebook_open == []}>
+                <td colspan="3" class="py-2 text-sm text-muted-foreground">
+                  No first Livebook opens in this window yet.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="rounded-lg border border-border bg-card p-5">
           <div class="flex flex-wrap items-center justify-between gap-3">
             <h2 class="text-lg font-semibold text-foreground">Collector Health</h2>
             <span class="text-xs text-muted-foreground">Rows shown for the selected {@analytics_days}d window</span>
@@ -385,6 +413,7 @@ defmodule AgentJidoWeb.AdminAnalyticsLive do
       recent_feedback: [],
       recent_negative_feedback: [],
       home_conversion: [],
+      first_livebook_open: [],
       local_search: %{
         summary: %{
           total_messages: 0,
@@ -521,6 +550,22 @@ defmodule AgentJidoWeb.AdminAnalyticsLive do
   end
 
   defp home_conversion_label(_section_id), do: "-"
+
+  # Human-readable label for each Livebook activation surface (jido-e12-t22).
+  # Maps the source a first-open event carries to the surface name a maintainer
+  # reads in the dashboard; an unknown source falls back to a title-cased slug
+  # so a newly instrumented surface is never blank.
+  defp first_livebook_open_label("docs"), do: "Docs — Run in Livebook CTA"
+  defp first_livebook_open_label("example"), do: "Example — companion notebook"
+
+  defp first_livebook_open_label(source) when is_binary(source) do
+    source
+    |> String.replace("-", " ")
+    |> String.split(" ")
+    |> Enum.map_join(" ", &String.capitalize/1)
+  end
+
+  defp first_livebook_open_label(_source), do: "-"
 
   defp feedback_badge_class("helpful") do
     "inline-flex rounded-full border border-accent-green/30 bg-accent-green/10 px-2 py-0.5 text-[11px] font-semibold text-accent-green"

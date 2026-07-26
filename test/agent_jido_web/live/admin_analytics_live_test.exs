@@ -90,6 +90,41 @@ defmodule AgentJidoWeb.AdminAnalyticsLiveTest do
     assert html =~ "Quick start"
   end
 
+  test "renders the first Livebook open section for admins (jido-e12-t22)", %{
+    admin_conn: admin_conn
+  } do
+    actor = user_fixture()
+    scope = Scope.for_user(actor)
+
+    # A first Livebook open on each activation surface so both rows render.
+    Analytics.track_event_safe(scope, %{
+      event: "livebook_run_clicked",
+      source: "docs",
+      channel: "quick_links",
+      path: "/docs/concepts/agents",
+      target_url: "https://example.com/docs-livebook",
+      visitor_id: "admin-open-docs",
+      session_id: "admin-open-docs-session"
+    })
+
+    Analytics.track_event_safe(scope, %{
+      event: "livebook_run_clicked",
+      source: "example",
+      channel: "related_livebook",
+      path: "/examples/counter-agent",
+      target_url: "https://example.com/example-livebook",
+      visitor_id: "admin-open-example",
+      session_id: "admin-open-example-session"
+    })
+
+    {:ok, view, html} = live(admin_conn, "/dashboard/analytics")
+
+    # The section is present and each activation surface is visible as a row.
+    assert has_element?(view, "h2", "First Livebook open")
+    assert html =~ "Docs — Run in Livebook CTA"
+    assert html =~ "Example — companion notebook"
+  end
+
   defp seed_analytics_data do
     actor = user_fixture()
     scope = Scope.for_user(actor)

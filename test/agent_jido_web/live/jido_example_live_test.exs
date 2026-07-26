@@ -126,6 +126,31 @@ defmodule AgentJidoWeb.JidoExampleLiveTest do
       assert html =~ "livebook.dev/run?url="
     end
 
+    test "the companion Livebook link fires the first-open activation event (jido-e12-t22)",
+         %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/examples/counter-agent?tab=explanation")
+
+      # The global click handler in app.js fires `livebook_run_clicked` for any
+      # [data-livebook-run='true'] anchor, so the companion notebook opened
+      # from an example page counts as a distinct activation surface ("example")
+      # alongside the docs "Run in Livebook" CTA. This locks the datasets the
+      # handler reads; only the Livebook resource carries them.
+      livebook_link =
+        html
+        |> Floki.parse_document!()
+        |> Floki.find("a[data-livebook-run='true']")
+        |> List.first()
+
+      assert livebook_link != nil,
+             "expected the companion Livebook resource to be instrumented for first-open analytics"
+
+      href = Floki.attribute(livebook_link, "href") |> hd()
+      assert href =~ "livebook.dev/run?url="
+      assert Floki.attribute(livebook_link, "data-analytics-source") |> hd() == "example"
+      assert Floki.attribute(livebook_link, "data-analytics-channel") |> hd() == "related_livebook"
+      assert Floki.attribute(livebook_link, "data-analytics-target-url") |> hd() == href
+    end
+
     test "tabs patch cleanly for history navigation", %{conn: conn} do
       {:ok, view, _html} = live(conn, "/examples/counter-agent?tab=explanation")
 

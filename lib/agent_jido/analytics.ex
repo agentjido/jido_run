@@ -44,7 +44,8 @@ defmodule AgentJido.Analytics do
           recent_negative_feedback: [AnalyticsEvent.t()],
           local_search: map(),
           ingestion: map(),
-          home_conversion: [map()]
+          home_conversion: [map()],
+          first_livebook_open: [map()]
         }
 
   @doc """
@@ -135,7 +136,8 @@ defmodule AgentJido.Analytics do
         recent_negative_feedback: recent_negative_feedback(days, feedback_limit),
         local_search: local_search_snapshot(days, search_message_limit),
         ingestion: ingestion_snapshot(days),
-        home_conversion: home_conversion_breakdown(days)
+        home_conversion: home_conversion_breakdown(days),
+        first_livebook_open: first_livebook_open_breakdown(days)
       }
     else
       unauthorized_snapshot(days)
@@ -393,6 +395,41 @@ defmodule AgentJido.Analytics do
   defp reformulation_transition?(previous, current) do
     NaiveDateTime.diff(current.inserted_at, previous.inserted_at, :second) <= 120 and
       previous.query_hash != current.query_hash
+  end
+
+  # First Livebook open — where activation starts (jido-e12-t22). A visitor's
+  # first-ever `livebook_run_clicked` is the moment they first open a Livebook,
+  # so we take, per visitor, their earliest Livebook engagement and then group
+  # the activations that fell inside the window by the surface they started on
+  # (the docs "Run in Livebook" CTA vs. an example-page companion notebook).
+  # `DISTINCT ON (visitor_id)` keeps one row per visitor — the earliest, because
+  # inserted_at is ordered ascending within each visitor group — so repeat
+  # opens by the same visitor never re-count as a new activation.
+  defp first_livebook_open_breakdown(days) do
+    since = since_naive(days)
+
+    first_open_per_visitor =
+      from(e in AnalyticsEvent,
+        where: e.event == "livebook_run_clicked" and not is_nil(e.source),
+        order_by: [asc: e.visitor_id, asc: e.inserted_at],
+        distinct: e.visitor_id,
+        select: %{
+          visitor_id: e.visitor_id,
+          opened_at: e.inserted_at,
+          source: e.source
+        }
+      )
+
+    from(o in subquery(first_open_per_visitor),
+      where: o.opened_at >= ^since,
+      group_by: o.source,
+      select: %{
+        source: o.source,
+        activations: count(o.visitor_id)
+      },
+      order_by: [desc: count(o.visitor_id), asc: o.source]
+    )
+    |> Repo.all()
   end
 
   # Home -> onboarding conversion (jido-e12-t21). Groups `cta_clicked` events
@@ -1216,7 +1253,8 @@ defmodule AgentJido.Analytics do
       recent_negative_feedback: [],
       local_search: empty_local_search(),
       ingestion: empty_ingestion_snapshot(),
-      home_conversion: []
+      home_conversion: [],
+      first_livebook_open: []
     }
   end
 
@@ -1235,7 +1273,8 @@ defmodule AgentJido.Analytics do
       recent_negative_feedback: [],
       local_search: empty_local_search(),
       ingestion: empty_ingestion_snapshot(),
-      home_conversion: []
+      home_conversion: [],
+      first_livebook_open: []
     }
   end
 

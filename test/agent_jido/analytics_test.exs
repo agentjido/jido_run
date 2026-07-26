@@ -269,5 +269,92 @@ defmodule AgentJido.AnalyticsTest do
       refute Map.has_key?(rows, "docs")
       assert Enum.all?(snapshot.home_conversion, fn row -> row.clicks >= 1 end)
     end
+
+    test "dashboard snapshot surfaces where first Livebook open happens (jido-e12-t22)" do
+      admin = admin_user_fixture()
+      admin_scope = Scope.for_user(admin)
+      actor = user_fixture()
+      scope = Scope.for_user(actor)
+
+      # Visitor A first opens a Livebook from the docs CTA, then later from an
+      # example page — activation starts on docs (their earliest surface).
+      assert {:ok, _} =
+               Analytics.track_event(scope, %{
+                 event: "livebook_run_clicked",
+                 source: "docs",
+                 channel: "quick_links",
+                 path: "/docs/concepts/agents",
+                 target_url: "https://example.com/docs-livebook",
+                 visitor_id: "visitor-first-docs",
+                 session_id: "session-first-docs"
+               })
+
+      assert {:ok, _} =
+               Analytics.track_event(scope, %{
+                 event: "livebook_run_clicked",
+                 source: "example",
+                 channel: "related_livebook",
+                 path: "/examples/counter-agent",
+                 target_url: "https://example.com/example-livebook",
+                 visitor_id: "visitor-first-docs",
+                 session_id: "session-first-docs"
+               })
+
+      # Visitor B's first (and only) open is from an example page.
+      assert {:ok, _} =
+               Analytics.track_event(scope, %{
+                 event: "livebook_run_clicked",
+                 source: "example",
+                 channel: "related_livebook",
+                 path: "/examples/counter-agent",
+                 target_url: "https://example.com/example-livebook",
+                 visitor_id: "visitor-first-example",
+                 session_id: "session-first-example"
+               })
+
+      # Visitor C opens the docs Livebook twice — still a single activation on
+      # docs. Repeat opens by the same visitor must never re-count as a new
+      # activation.
+      for _ <- 1..2 do
+        assert {:ok, _} =
+                 Analytics.track_event(scope, %{
+                   event: "livebook_run_clicked",
+                   source: "docs",
+                   channel: "quick_links",
+                   path: "/docs/concepts/agents",
+                   target_url: "https://example.com/docs-livebook",
+                   visitor_id: "visitor-repeat-docs",
+                   session_id: "session-repeat-docs"
+                 })
+      end
+
+      # A non-Livebook event must not bleed into the activation breakdown.
+      assert {:ok, _} =
+               Analytics.track_event(scope, %{
+                 event: "cta_clicked",
+                 source: "home",
+                 channel: "home_hero",
+                 path: "/",
+                 section_id: "hero",
+                 target_url: "/docs/getting-started",
+                 visitor_id: "visitor-not-livebook",
+                 session_id: "session-not-livebook"
+               })
+
+      snapshot = Analytics.dashboard_snapshot(admin_scope, 7)
+
+      rows = Map.new(snapshot.first_livebook_open, fn row -> {row.source, row.activations} end)
+
+      # Activation starts on docs for visitor A (their earliest surface) and
+      # visitor C (a repeat), and on example for visitor B — one activation per
+      # visitor, attributed to where they first opened a Livebook.
+      assert rows["docs"] == 2
+      assert rows["example"] == 1
+
+      # Three distinct visitors opened a Livebook, so there are exactly three
+      # first opens total — the repeat and the non-Livebook event are excluded.
+      total = Enum.sum(Enum.map(snapshot.first_livebook_open, & &1.activations))
+      assert total == 3
+    end
   end
 end

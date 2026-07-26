@@ -254,10 +254,15 @@ defmodule AgentJidoWeb.JidoExampleLive do
   defp resource_link(assigns) do
     ~H"""
     <%= if @resource.external do %>
+      <% livebook = livebook_resource?(@resource) %>
       <a
         href={@resource.href}
         target="_blank"
         rel="noopener noreferrer"
+        data-livebook-run={livebook && "true"}
+        data-analytics-source={livebook && "example"}
+        data-analytics-channel={livebook && "related_livebook"}
+        data-analytics-target-url={livebook && @resource.href}
         class="block rounded-md border border-border bg-elevated/40 p-3 hover:border-primary/30 hover:bg-primary/5 transition-colors"
       >
         <div class="flex items-start gap-3">
@@ -400,6 +405,14 @@ defmodule AgentJidoWeb.JidoExampleLive do
   end
 
   defp maybe_docs_livebook_resource(_path, _resource, false), do: nil
+
+  # True when an expanded related resource is the companion Livebook notebook
+  # (jido-e12-t22). The resource_link component uses this to attach the
+  # data-livebook-run / data-analytics-* datasets so the global click handler
+  # fires `livebook_run_clicked` and the open counts as a distinct activation
+  # surface alongside the docs "Run in Livebook" CTA.
+  defp livebook_resource?(%{kind: "Livebook"}), do: true
+  defp livebook_resource?(_resource), do: false
 
   defp external_resource(resource) do
     href = resource_value(resource, :href, resource_value(resource, :url))
