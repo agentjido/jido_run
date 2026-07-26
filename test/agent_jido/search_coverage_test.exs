@@ -40,10 +40,8 @@ defmodule AgentJido.SearchCoverageTest do
   # docs page, add the rule here AND keep the inventory prefix in lockstep — the
   # gate proves the two cannot drift.
   @doc_exclusion_rules [
-    {"/build",
-     "preview/blueprint page tree — public routes but intentionally not search targets"},
-    {"/training",
-     "retired Training section — /training routes redirect to active Docs pages"}
+    {"/build", "preview/blueprint page tree — public routes but intentionally not search targets"},
+    {"/training", "retired Training section — /training routes redirect to active Docs pages"}
   ]
 
   # Blog posts, ecosystem packages, examples, and package skills are indexed in
