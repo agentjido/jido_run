@@ -74,6 +74,7 @@ defmodule AgentJidoWeb.JidoHomeLive do
           data-analytics-channel="home_hero"
           data-analytics-section-id="hero"
           data-analytics-target-url="/docs/getting-started"
+          data-analytics-card-type="hero_cta"
           class="bg-primary text-primary-foreground hover:bg-primary/90 text-[13px] font-bold px-7 py-5 rounded transition-colors"
         >
           BUILD YOUR FIRST AGENT →
@@ -81,6 +82,12 @@ defmodule AgentJidoWeb.JidoHomeLive do
         <.link
           id="home-failure-drill-cta"
           navigate="/examples/failure-drill-agent"
+          data-analytics-event="card_clicked"
+          data-analytics-source="home"
+          data-analytics-channel="home_failure_drill"
+          data-analytics-section-id="failure-drill"
+          data-analytics-target-url="/examples/failure-drill-agent"
+          data-analytics-card-type="failure_drill"
           class="home-subtle-link text-[13px] font-semibold transition-colors"
         >
           RUN A FAILURE DRILL →
@@ -212,6 +219,12 @@ defmodule AgentJidoWeb.JidoHomeLive do
               class="home-pillar-card group"
               data-use-case={card.slug}
               data-status={card.status}
+              data-analytics-event="card_clicked"
+              data-analytics-source="home"
+              data-analytics-channel="home_use_case"
+              data-analytics-section-id={card.slug}
+              data-analytics-target-url={card.link}
+              data-analytics-card-type="use_case_card"
             >
               <span class={card.status_class}>{card.status_label}</span>
               <h3 class="text-lg sm:text-xl font-bold mb-3 leading-tight group-hover:text-primary transition-colors duration-200">
@@ -487,6 +500,12 @@ defmodule AgentJidoWeb.JidoHomeLive do
               navigate={stack.next_step.href}
               class="home-ecosystem-stack-next-step"
               data-stack-next-step={stack.key}
+              data-analytics-event="card_clicked"
+              data-analytics-source="home"
+              data-analytics-channel="home_package_stack"
+              data-analytics-section-id={stack.key}
+              data-analytics-target-url={stack.next_step.href}
+              data-analytics-card-type="package_stack"
             >
               {stack.next_step.label} →
             </.link>

@@ -50,6 +50,36 @@ defmodule AgentJidoWeb.AnalyticsEventControllerTest do
     assert event.target_url == "/docs/getting-started"
   end
 
+  test "accepts the home card click event with destination and card type (jido-e04-t32)", %{
+    conn: conn
+  } do
+    # Acceptance condition: "Events include destination and card type." A click
+    # on a home card (use-case card, package stack, failure drill) posts a
+    # `card_clicked` event whose destination (target_url) and card type
+    # (metadata.card_type, mirrored from data-analytics-card-type) both persist.
+    conn =
+      post(conn, ~p"/analytics/events", %{
+        "event" => "card_clicked",
+        "properties" => %{
+          "source" => "home",
+          "channel" => "home_use_case",
+          "path" => "/",
+          "section_id" => "coding",
+          "target_url" => "/examples?use_case=coding",
+          "metadata" => %{"card_type" => "use_case_card"}
+        }
+      })
+
+    assert json_response(conn, 202)["ok"]
+
+    event = Repo.one(from(e in AnalyticsEvent, order_by: [desc: e.inserted_at], limit: 1))
+    assert event.event == "card_clicked"
+    assert event.source == "home"
+    assert event.section_id == "coding"
+    assert event.target_url == "/examples?use_case=coding"
+    assert event.metadata["card_type"] == "use_case_card"
+  end
+
   test "accepts the first core Agent success event (jido-e12-t23)", %{conn: conn} do
     conn =
       post(conn, ~p"/analytics/events", %{

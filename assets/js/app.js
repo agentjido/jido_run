@@ -271,7 +271,25 @@ function trackDatasetAnalyticsEvent(target) {
     package_version: analyticsNode.dataset.analyticsPackageVersion,
     page_kind: analyticsNode.dataset.analyticsPageKind,
     path: window.location.pathname,
+    metadata: buildDatasetAnalyticsMetadata(analyticsNode),
   });
+}
+
+// Collects the optional metadata dimensions carried on data-analytics-*
+// attributes (jido-e04-t32). Each home card / CTA carries a card_type so its
+// click event records what kind of card routed the visitor, alongside the
+// destination (target_url). Attributes that are absent are omitted so events
+// without these dimensions post an empty metadata object, unchanged from
+// prior behavior.
+function buildDatasetAnalyticsMetadata(analyticsNode) {
+  const metadata = {};
+  const cardType = analyticsNode.dataset.analyticsCardType;
+
+  if (cardType) {
+    metadata.card_type = cardType;
+  }
+
+  return metadata;
 }
 
 function isEditableTarget(target) {

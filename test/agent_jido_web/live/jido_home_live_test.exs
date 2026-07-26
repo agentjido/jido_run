@@ -270,6 +270,109 @@ defmodule AgentJidoWeb.JidoHomeLiveTest do
     end
   end
 
+  describe "home card analytics (jido-e04-t32)" do
+    # Acceptance condition: "Events include destination and card type." The hero
+    # CTA, the failure drill, every use-case card, and every package stack fire
+    # a first-party click event that carries a destination (data-analytics-
+    # target-url) and a card type (data-analytics-card-type). The global click
+    # handler in app.js reads these data-analytics-* attributes — card_type is
+    # mirrored into the event's metadata — so these tests lock the attributes
+    # the handler depends on.
+
+    test "the hero CTA event carries a destination and the hero_cta card type", %{
+      conn: conn
+    } do
+      {:ok, _view, html} = live(conn, "/")
+
+      cta = home_cta(html, "hero")
+
+      assert cta != nil, "expected the hero CTA to be instrumented"
+      assert attr(cta, "data-analytics-event") == "cta_clicked"
+      assert attr(cta, "data-analytics-target-url") == "/docs/getting-started"
+      assert attr(cta, "data-analytics-card-type") == "hero_cta"
+    end
+
+    test "the failure drill CTA fires card_clicked with destination and card type", %{
+      conn: conn
+    } do
+      {:ok, _view, html} = live(conn, "/")
+
+      link = failure_drill_link(html)
+
+      assert link != nil, "expected the hero failure-drill CTA to be instrumented"
+      assert attr(link, "data-analytics-event") == "card_clicked"
+      assert attr(link, "data-analytics-source") == "home"
+      assert attr(link, "data-analytics-section-id") == "failure-drill"
+      assert attr(link, "data-analytics-target-url") == "/examples/failure-drill-agent"
+      assert attr(link, "data-analytics-card-type") == "failure_drill"
+    end
+
+    test "every use-case card fires card_clicked with a destination and use_case_card type", %{
+      conn: conn
+    } do
+      {:ok, _view, html} = live(conn, "/")
+
+      cards = use_case_card_links(html)
+
+      # Sanity floor: all six cards are instrumented, so the assertion cannot
+      # pass vacuously.
+      assert length(cards) == 6,
+             "expected six instrumented use-case cards, got #{length(cards)}"
+
+      section_ids =
+        Enum.map(cards, fn card ->
+          # Acceptance condition: each card event includes a destination and a
+          # card type.
+          assert attr(card, "data-analytics-event") == "card_clicked"
+          assert attr(card, "data-analytics-source") == "home"
+          assert attr(card, "data-analytics-card-type") == "use_case_card"
+
+          target_url = attr(card, "data-analytics-target-url")
+          href = Floki.attribute(card, "href") |> hd()
+          assert target_url == href, "target_url should match the card destination"
+          assert String.starts_with?(target_url, "/examples?use_case=")
+
+          attr(card, "data-analytics-section-id")
+        end)
+
+      # Each card carries its own destination (a distinct scoped use case).
+      assert length(Enum.uniq(section_ids)) == 6
+
+      assert Enum.sort(section_ids) ==
+               Enum.sort(~w(coding research documents support devops data-pipelines))
+    end
+
+    test "every package stack fires card_clicked with a destination and package_stack type", %{
+      conn: conn
+    } do
+      {:ok, _view, html} = live(conn, "/")
+
+      stacks = package_stack_links(html)
+
+      # Sanity floor: all three stacks are instrumented.
+      assert length(stacks) == 3,
+             "expected three instrumented package stacks, got #{length(stacks)}"
+
+      section_ids =
+        Enum.map(stacks, fn stack ->
+          # Acceptance condition: each stack event includes a destination and a
+          # card type.
+          assert attr(stack, "data-analytics-event") == "card_clicked"
+          assert attr(stack, "data-analytics-source") == "home"
+          assert attr(stack, "data-analytics-card-type") == "package_stack"
+
+          target_url = attr(stack, "data-analytics-target-url")
+          href = Floki.attribute(stack, "href") |> hd()
+          assert target_url == href, "target_url should match the stack destination"
+          assert String.starts_with?(target_url, "/docs/operations/")
+
+          attr(stack, "data-analytics-section-id")
+        end)
+
+      assert Enum.sort(section_ids) == ~w(ai core operate)
+    end
+  end
+
   describe "home adoption message (E04-T09)" do
     test "the lowest-risk adoption message appears directly after the hero", %{conn: conn} do
       {:ok, _view, html} = live(conn, "/")
@@ -1950,6 +2053,32 @@ defmodule AgentJidoWeb.JidoHomeLiveTest do
     |> Floki.parse_document!()
     |> Floki.find("#home-page a[data-analytics-section-id='#{section_id}']")
     |> List.first()
+  end
+
+  # The hero's secondary "RUN A FAILURE DRILL" CTA (jido-e04-t32). Returns the
+  # Floki node or nil.
+  defp failure_drill_link(html) do
+    html
+    |> Floki.parse_document!()
+    |> Floki.find("#home-page a#home-failure-drill-cta")
+    |> List.first()
+  end
+
+  # Every use-case card primary link — the cards a visitor clicks to reach a
+  # scoped examples destination (jido-e04-t32). Each carries a use_case_card
+  # analytics event.
+  defp use_case_card_links(html) do
+    html
+    |> Floki.parse_document!()
+    |> Floki.find("#what-you-can-build a.home-pillar-card[data-analytics-event='card_clicked']")
+  end
+
+  # Every package stack's destination link (jido-e04-t32). Each stack's
+  # next-step link carries a package_stack analytics event.
+  defp package_stack_links(html) do
+    html
+    |> Floki.parse_document!()
+    |> Floki.find("#ecosystem a.home-ecosystem-stack-next-step[data-analytics-event='card_clicked']")
   end
 
   defp attr(node, name) do

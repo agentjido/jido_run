@@ -14,6 +14,7 @@ defmodule AgentJido.Analytics.AnalyticsEvent do
     "docs_section_viewed",
     "code_copied",
     "cta_clicked",
+    "card_clicked",
     "livebook_run_clicked",
     "agent_run_succeeded",
     "llm_request_outcome",
