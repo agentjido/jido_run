@@ -15,11 +15,15 @@
     {
       "text": "Open: public examples added to the search index not yet done.",
       "timestamp": "2026-07-24T12:53:31Z"
+    },
+    {
+      "text": "Accepted by the Zclaude Ralph supervisor. Commits: 8ba41c86. Verification: MIX_ENV=test mix compile \u0026\u0026 MIX_ENV=test mix format --check-formatted.",
+      "timestamp": "2026-07-26T10:46:51Z"
     }
   ],
   "priority": 1,
   "status": "in_progress",
   "title": "E10-T01 — Add public examples to the search index.",
   "type": "task",
-  "updated_at": "2026-07-26T10:24:02Z"
+  "updated_at": "2026-07-26T10:46:51Z"
 }
