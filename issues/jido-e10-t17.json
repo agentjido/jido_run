@@ -15,11 +15,15 @@
     {
       "text": "Open: examples in MCP search or explicit v1-Docs-only statement not yet done.",
       "timestamp": "2026-07-24T12:53:35Z"
+    },
+    {
+      "text": "Accepted by the Zclaude Ralph supervisor. Commits: 68246550. Verification: MIX_ENV=test mix compile \u0026\u0026 MIX_ENV=test mix format --check-formatted.",
+      "timestamp": "2026-07-26T12:39:48Z"
     }
   ],
   "priority": 1,
   "status": "in_progress",
   "title": "E10-T17 — Add Examples to MCP search or state that v1 is Docs-only in every public description.",
   "type": "task",
-  "updated_at": "2026-07-26T12:35:28Z"
+  "updated_at": "2026-07-26T12:39:48Z"
 }
