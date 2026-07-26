@@ -130,6 +130,13 @@ defmodule AgentJidoWeb.JidoHomeLive do
     # from the same example match, so a visitor can tell a runnable example from
     # a planned pattern (jido-e04-t22). Labels flip automatically when the
     # matching public example lands (jido-e08-t24…t29).
+    #
+    # When a use case has named one best entry point (jido-e08-t25), the card
+    # also surfaces a direct link to that single example beneath the scoped
+    # destination, so a visitor who wants the one best starting example can jump
+    # straight to it instead of picking it out of the scoped list. The scoped
+    # destination stays the card's primary link, so the E04-T21 invariant —
+    # every card links to its own scoped destination — still holds.
     descriptions = %{
       "coding" => "Agents that read, analyze, and refactor code across repositories.",
       "research" => "Multi-step research agents that find sources, verify facts, and produce reports.",
@@ -152,7 +159,8 @@ defmodule AgentJidoWeb.JidoHomeLive do
           link: "/examples?use_case=#{slug}",
           status: status,
           status_label: badge.label,
-          status_class: badge.class
+          status_class: badge.class,
+          entry_point: UseCases.entry_point(slug)
         }
       end)
 
@@ -173,20 +181,31 @@ defmodule AgentJidoWeb.JidoHomeLive do
 
       <div class="home-pillars-grid">
         <%= for card <- @cards do %>
-          <.link
-            navigate={card.link}
-            class="home-pillar-card group"
-            data-use-case={card.slug}
-            data-status={card.status}
-          >
-            <span class={card.status_class}>{card.status_label}</span>
-            <h3 class="text-lg sm:text-xl font-bold mb-3 leading-tight group-hover:text-primary transition-colors duration-200">
-              {card.title}
-            </h3>
-            <p class="home-muted-copy text-[15px] leading-relaxed max-w-md mx-auto">
-              {card.desc}
-            </p>
-          </.link>
+          <div class="home-use-case-card" data-use-case-card={card.slug}>
+            <.link
+              navigate={card.link}
+              class="home-pillar-card group"
+              data-use-case={card.slug}
+              data-status={card.status}
+            >
+              <span class={card.status_class}>{card.status_label}</span>
+              <h3 class="text-lg sm:text-xl font-bold mb-3 leading-tight group-hover:text-primary transition-colors duration-200">
+                {card.title}
+              </h3>
+              <p class="home-muted-copy text-[15px] leading-relaxed max-w-md mx-auto">
+                {card.desc}
+              </p>
+            </.link>
+            <.link
+              :if={card.entry_point}
+              navigate={card.entry_point.href}
+              class="home-use-case-entry-point"
+              data-use-case-entry-point={card.slug}
+              data-entry-point={card.entry_point.slug}
+            >
+              Start with {card.entry_point.title} →
+            </.link>
+          </div>
         <% end %>
       </div>
     </section>

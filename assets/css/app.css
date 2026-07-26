@@ -1050,6 +1050,15 @@
     background: hsl(var(--surface) / 0.5);
   }
 
+  #home-page .home-use-case-card {
+    @apply flex flex-col;
+  }
+
+  #home-page .home-use-case-entry-point {
+    @apply self-center mt-5 text-[13px] font-semibold text-primary hover:underline transition-colors;
+    text-underline-offset: 0.22em;
+  }
+
   #home-page .home-ecosystem-section {
     border: none;
     border-radius: 0;

@@ -14,9 +14,23 @@ defmodule AgentJido.Examples.UseCases do
 
   # Order here is the order the cards render on the home page. A use case matches
   # an example when the example carries any of the use case's tags.
+  #
+  # A use case may also name one `entry_point` — the single example a visitor
+  # should start with for that job. The home card links straight to that best
+  # entry point alongside its scoped destination, so a visitor who wants the one
+  # best starting example does not have to pick it out of the scoped list
+  # (jido-e08-t25). The entry point is validated at lookup time, so a missing or
+  # out-of-scope slug yields no link instead of a broken one.
   @use_cases [
     {"coding", %{label: "Coding agents", tags: ~w(coding)}},
-    {"research", %{label: "Research and synthesis", tags: ~w(runic research)}},
+    {"research",
+     %{
+       label: "Research and synthesis",
+       tags: ~w(runic research),
+       # The canonical, complete research workflow: a real deterministic
+       # Jido.Runic.Strategy pipeline a visitor can run with no provider key.
+       entry_point: "runic-ai-research-studio"
+     }},
     {"documents", %{label: "Document processing", tags: ~w(documents document policy)}},
     {"support", %{label: "Customer support", tags: ~w(support ticket triage)}},
     {"devops",
@@ -40,15 +54,45 @@ defmodule AgentJido.Examples.UseCases do
   end
 
   @doc """
-  Look up a single use case by slug. Returns `%{label:, tags:}` or `nil`.
+  Look up a single use case by slug. Returns `%{label:, tags:, entry_point:}` or
+  `nil`. `entry_point` is the designated best-entry-point example slug, or `nil`
+  when the use case has not named one.
 
   Unknown slugs return `nil` so callers can fall back to the unfiltered index.
   """
-  @spec fetch(binary()) :: %{label: String.t(), tags: [String.t()]} | nil
+  @spec fetch(binary()) ::
+          %{label: String.t(), tags: [String.t()], entry_point: String.t() | nil} | nil
   def fetch(slug) when is_binary(slug) do
     case Map.get(@by_slug, slug) do
-      nil -> nil
-      %{label: label, tags: tags} -> %{label: label, tags: tags}
+      nil ->
+        nil
+
+      %{label: label, tags: tags} = config ->
+        %{label: label, tags: tags, entry_point: Map.get(config, :entry_point)}
+    end
+  end
+
+  @doc """
+  Resolve a use case's single best entry-point example, when one is designated
+  and published within the use case's scope.
+
+  The designation is only honored when it resolves to a real public (non-draft)
+  example that matches the use case's tags, so a home card can link a visitor
+  straight to one best entry point instead of only to the scoped list
+  (jido-e08-t25). Returns `%{slug:, title:, href:}`, or `nil` when no entry
+  point is designated, the designated example is missing or unpublished, or it
+  falls outside the use case's scope.
+  """
+  @spec entry_point(binary()) ::
+          %{slug: String.t(), title: String.t(), href: String.t()} | nil
+  def entry_point(slug) when is_binary(slug) do
+    with %{tags: tags, entry_point: designated} when is_binary(designated) <- fetch(slug),
+         %Example{slug: ^designated, title: title} = example <-
+           Examples.get_example(designated),
+         true <- scope([example], %{tags: tags}) != [] do
+      %{slug: designated, title: title, href: "/examples/#{designated}"}
+    else
+      _ -> nil
     end
   end
 

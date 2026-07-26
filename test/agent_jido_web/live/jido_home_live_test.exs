@@ -784,6 +784,60 @@ defmodule AgentJidoWeb.JidoHomeLiveTest do
     end
   end
 
+  describe "home use-case best entry point (E08-T25)" do
+    # Acceptance condition: "The home research card links to one best entry
+    # point." The research card keeps its scoped destination (E04-T21) and gains
+    # a direct link to the single best research example, so a visitor can start
+    # with one example instead of picking it out of the scoped list.
+
+    test "the research card links directly to one best entry-point example", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      entry_points =
+        html
+        |> Floki.parse_document!()
+        |> Floki.find("#what-you-can-build a.home-use-case-entry-point")
+        |> Map.new(fn link ->
+          use_case = Floki.attribute(link, "data-use-case-entry-point") |> hd()
+          slug = Floki.attribute(link, "data-entry-point") |> hd()
+          href = Floki.attribute(link, "href") |> hd()
+          {use_case, %{slug: slug, href: href}}
+        end)
+
+      # Only the research use case has named a best entry point today, so the
+      # link is gated to the use cases that actually have one.
+      assert Map.keys(entry_points) == ["research"]
+
+      # The entry point is the canonical, runnable Runic research example.
+      assert entry_points["research"].slug == "runic-ai-research-studio"
+      assert entry_points["research"].href == "/examples/runic-ai-research-studio"
+    end
+
+    test "the research entry point is a single example, not the scoped list", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      doc = Floki.parse_document!(html)
+
+      scoped =
+        doc
+        |> Floki.find("#what-you-can-build a.home-pillar-card[data-use-case=research]")
+        |> Floki.attribute("href")
+        |> hd()
+
+      entry =
+        doc
+        |> Floki.find("#what-you-can-build a.home-use-case-entry-point[data-use-case-entry-point=research]")
+        |> Floki.attribute("href")
+        |> hd()
+
+      # The card still links to its scoped destination (E04-T21 invariant)...
+      assert scoped == "/examples?use_case=research"
+      # ...and surfaces a direct link to one best entry-point example alongside it.
+      assert entry == "/examples/runic-ai-research-studio"
+      assert scoped != entry
+    end
+  end
+
   describe "home ecosystem starting stacks (E04-T24)" do
     # Acceptance condition: the first view is Core, AI, and Operate — three
     # named, explained starting stacks — not nine unexplained package names.
