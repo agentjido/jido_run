@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-26T06:56:37Z",
   "created": "2026-07-23T12:05:57Z",
   "description": "Backlog task: E09-T08\n\nWork area: Recommended stacks\n\nMain targets: Stack guides\n\nComplete when: The block installs successfully.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e09-t08",
@@ -22,7 +23,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E09-T08 — Give each stack a copyable dependency block.",
   "type": "task",
   "updated_at": "2026-07-26T06:56:37Z"
