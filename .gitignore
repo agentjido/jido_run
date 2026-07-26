@@ -64,3 +64,8 @@ _build_19_27/
 # not part of the project — gitignored so the verification gate sees a clean tree)
 /.agents/
 /skills-lock.json
+
+# Local Codex/zclaude CLI config (per-developer tooling written into the working
+# tree by the agent harness, not project content — gitignored so the verification
+# gate sees a clean tree)
+/.codex/
