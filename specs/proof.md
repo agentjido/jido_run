@@ -60,7 +60,7 @@ Primary inputs: `specs/positioning.md` §11 (Canon), `specs/audits/control-inven
 | Content plan brief | Schema-Validated Actions feature page | `priv/content_plan/docs/learn/actions-validation.md` | 🟡 partial | Brief exists; page not built |
 | Ecosystem doc | `jido_signal` — signal routing primitives | `priv/ecosystem/jido_signal.md` | ✅ exists | |
 | Ecosystem doc | `jido_action` — typed action model | `priv/ecosystem/jido_action.md` | ✅ exists | |
-| Runnable example | **Signal routing demo** — two agents passing structured signals | _TODO: create_ | ❌ missing | Key proof gap |
+| Runnable example | **Signal routing demo** — two agents passing structured signals | `lib/agent_jido/demos/signal_trace/` + `test/agent_jido/demos/signal_trace_test.exs` | ✅ exists | Proves a Signal trace across two Agents: Agent A (`EmitterAgent`) emits a `work.ready` cause, Agent B (`FulfillmentAgent`) routes it to `FulfillAction` and records the result. The trace shows all four legs — cause, route, Action, result (`jido-e08-t19`). |
 | Runnable example | **Directive composition demo** — chain/parallel/conditional | _TODO: create_ | ❌ missing | Shows "reasonability" claim |
 | Operational demo | **Workflow trace visualization** — step-by-step signal/action flow | _TODO: create_ | ❌ missing | Could pair with telemetry pillar |
 | Code snippet | Signal schema definition + dispatch example | _TODO: create or extract_ | ❌ missing | |
@@ -263,7 +263,7 @@ _Sourced from positioning.md §7 — Persona-level promise map._
 _Ranked by positioning impact × effort._
 
 1. ✅ **Failure drill demo** (Pillar 1) — Published as `failure-drill-agent`; proves restart without claiming state recovery (`jido-e08-t17`)
-2. ❌ **Signal routing multi-agent demo** (Pillar 2) — Proves coordination is real
+2. ✅ **Signal routing multi-agent demo** (Pillar 2) — Published as `signal_trace`; the trace shows cause, route, Action, and result across two Agents (`jido-e08-t19`)
 3. ❌ **Dashboard instrumentation walkthrough** (Pillar 3) — Proves observability is real
 4. ❌ **Package matrix** (Pillar 4) — Foundational reference for composability claim
 5. ❌ **Minimal-stack quickstart** (Pillar 4) — Proves incremental adoption
