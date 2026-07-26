@@ -436,5 +436,95 @@ defmodule AgentJido.AnalyticsTest do
       total = Enum.sum(Enum.map(snapshot.first_core_agent_success, & &1.successes))
       assert total == 2
     end
+
+    test "dashboard snapshot surfaces first LLM request outcome by categorized reason (jido-e12-t24)" do
+      admin = admin_user_fixture()
+      admin_scope = Scope.for_user(admin)
+      actor = user_fixture()
+      scope = Scope.for_user(actor)
+
+      # Visitor A's first LLM request fails because the provider is not
+      # configured — a provider setup problem. They retry and succeed; the
+      # retry never re-counts (their first outcome is the failure).
+      assert {:ok, _} =
+               Analytics.track_event(scope, %{
+                 event: "llm_request_outcome",
+                 source: "content_assistant",
+                 channel: "content_assistant_page",
+                 path: "/search",
+                 visitor_id: "visitor-setup-failure",
+                 session_id: "session-setup-failure",
+                 metadata: %{surface: "content_assistant_page", outcome: "failed", reason: "provider_unconfigured"}
+               })
+
+      assert {:ok, _} =
+               Analytics.track_event(scope, %{
+                 event: "llm_request_outcome",
+                 source: "content_assistant",
+                 channel: "content_assistant_page",
+                 path: "/search",
+                 visitor_id: "visitor-setup-failure",
+                 session_id: "session-setup-failure",
+                 metadata: %{surface: "content_assistant_page", outcome: "succeeded", reason: "succeeded"}
+               })
+
+      # Visitor B's first (and only) request succeeds.
+      assert {:ok, _} =
+               Analytics.track_event(scope, %{
+                 event: "llm_request_outcome",
+                 source: "content_assistant",
+                 channel: "content_assistant_page",
+                 path: "/search",
+                 visitor_id: "visitor-succeeded",
+                 session_id: "session-succeeded",
+                 metadata: %{surface: "content_assistant_page", outcome: "succeeded", reason: "succeeded"}
+               })
+
+      # Visitor C's first request fails for a different setup reason (quota).
+      assert {:ok, _} =
+               Analytics.track_event(scope, %{
+                 event: "llm_request_outcome",
+                 source: "content_assistant",
+                 channel: "content_assistant_page",
+                 path: "/search",
+                 visitor_id: "visitor-quota",
+                 session_id: "session-quota",
+                 metadata: %{surface: "content_assistant_page", outcome: "failed", reason: "provider_quota"}
+               })
+
+      # A non-LLM event (a core Agent success) must not bleed into the first LLM
+      # request breakdown — the outcome does not depend on other events.
+      assert {:ok, _} =
+               Analytics.track_event(scope, %{
+                 event: "agent_run_succeeded",
+                 source: "example",
+                 channel: "interactive_demo",
+                 path: "/examples/counter-agent",
+                 section_id: "counter-agent",
+                 target_url: "/examples/counter-agent",
+                 visitor_id: "visitor-not-llm",
+                 session_id: "session-not-llm",
+                 metadata: %{surface: "example_demo", example: "counter-agent", action: "IncrementAction"}
+               })
+
+      snapshot = Analytics.dashboard_snapshot(admin_scope, 7)
+
+      rows = Map.new(snapshot.first_llm_request, fn row -> {row.reason, row.requests} end)
+
+      # Provider setup problems are categorized distinctly: visitor A's
+      # unconfigured failure and visitor C's quota failure land in their own
+      # reason buckets, separate from the generic success and from each other.
+      assert rows["provider_unconfigured"] == 1
+      assert rows["provider_quota"] == 1
+      assert rows["succeeded"] == 1
+
+      # The core Agent success visitor is excluded from the LLM request breakdown.
+      refute Map.has_key?(rows, "counter-agent")
+
+      # Exactly three first LLM requests total — visitor A's retry never
+      # re-counts as a new first request.
+      total = Enum.sum(Enum.map(snapshot.first_llm_request, & &1.requests))
+      assert total == 3
+    end
   end
 end

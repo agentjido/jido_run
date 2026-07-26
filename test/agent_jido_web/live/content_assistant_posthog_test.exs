@@ -132,6 +132,32 @@ defmodule AgentJidoWeb.ContentAssistantPostHogTest do
     assert completed.properties["surface"] == "content_assistant_modal"
   end
 
+  test "captures the categorized first LLM request outcome (jido-e12-t24)", %{conn: conn} do
+    enable_posthog_server()
+    {:ok, view, _html} = live_isolated(conn, ModalHarnessLive)
+
+    view
+    |> form("form[phx-submit='submit']", assistant: %{q: "agents"})
+    |> render_submit()
+
+    assert_eventually(fn ->
+      updated_html = render(view)
+      updated_html =~ ~s(id="primary-nav-content-assistant-modal-answer")
+    end)
+
+    assert_eventually(fn ->
+      lifecycle_event("llm_request_outcome", "content-assistant-test-visitor")
+    end)
+
+    # A deterministic success (the "agents" stub) categorizes as a succeeded
+    # first LLM request — proving the modal tracks the categorized outcome.
+    outcome = lifecycle_event("llm_request_outcome", "content-assistant-test-visitor")
+
+    assert outcome.properties["outcome"] == "succeeded"
+    assert outcome.properties["reason"] == "succeeded"
+    assert outcome.properties["surface"] == "content_assistant_modal"
+  end
+
   test "captures no-results lifecycle events for modal searches", %{conn: conn} do
     enable_posthog_server()
     {:ok, view, _html} = live_isolated(conn, ModalHarnessLive)

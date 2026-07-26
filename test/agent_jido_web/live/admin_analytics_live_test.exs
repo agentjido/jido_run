@@ -152,6 +152,45 @@ defmodule AgentJidoWeb.AdminAnalyticsLiveTest do
     assert html =~ "counter-agent"
   end
 
+  test "renders the first LLM request outcome section for admins (jido-e12-t24)", %{
+    admin_conn: admin_conn
+  } do
+    actor = user_fixture()
+    scope = Scope.for_user(actor)
+
+    # A first LLM request that fails because the provider is not configured, and
+    # one that succeeds, so both rows render.
+    Analytics.track_event_safe(scope, %{
+      event: "llm_request_outcome",
+      source: "content_assistant",
+      channel: "content_assistant_page",
+      path: "/search",
+      visitor_id: "admin-llm-unconfigured",
+      session_id: "admin-llm-unconfigured-session",
+      metadata: %{surface: "content_assistant_page", outcome: "failed", reason: "provider_unconfigured"}
+    })
+
+    Analytics.track_event_safe(scope, %{
+      event: "llm_request_outcome",
+      source: "content_assistant",
+      channel: "content_assistant_page",
+      path: "/search",
+      visitor_id: "admin-llm-succeeded",
+      session_id: "admin-llm-succeeded-session",
+      metadata: %{surface: "content_assistant_page", outcome: "succeeded", reason: "succeeded"}
+    })
+
+    {:ok, view, html} = live(admin_conn, "/dashboard/analytics")
+
+    # The section is present and each categorized outcome is visible as a row —
+    # the provider setup problem stays distinct from the generic success.
+    assert has_element?(view, "h2", "First LLM request outcome")
+    assert html =~ "Provider not configured"
+    assert html =~ "provider_unconfigured"
+    assert html =~ "Succeeded"
+    assert html =~ "succeeded"
+  end
+
   defp seed_analytics_data do
     actor = user_fixture()
     scope = Scope.for_user(actor)

@@ -20,6 +20,7 @@ defmodule AgentJidoWeb.ContentAssistantLive do
       config_value: 3,
       content_assistant_config: 0,
       llm_enabled?: 1,
+      llm_request_outcome: 1,
       maybe_apply_search_response_mode: 2,
       maybe_wait_for_progressive_dwell: 1,
       monotonic_ms: 0,
@@ -854,6 +855,7 @@ defmodule AgentJidoWeb.ContentAssistantLive do
       latency_ms = elapsed_since_query_start(socket)
       emit_query_outcome(response, response.query, latency_ms)
       capture_posthog_query_outcome(socket, response, latency_ms)
+      track_llm_request_outcome(socket, response)
     end
 
     socket
@@ -1217,6 +1219,32 @@ defmodule AgentJidoWeb.ContentAssistantLive do
       results_count: length(response.citations || []),
       latency_ms: max(latency_ms, 0),
       metadata: analytics_metadata(response, %{surface: "content_assistant_page", origin: "submit"})
+    })
+  end
+
+  # Categorized first-LLM-request outcome (jido-e12-t24). Records, for a
+  # user-initiated content assistant query, whether the request succeeded or
+  # failed and a categorized reason — provider setup problems
+  # (`provider_unconfigured`/`provider_quota`/`verification_required`) stay
+  # distinct from a generic error so the team can see where provider setup
+  # blocks a visitor's first LLM request. `outcome` and `reason` come from the
+  # shared categorization in `ContentAssistantSupport`.
+  defp track_llm_request_outcome(socket, %Response{} = response) do
+    %{outcome: outcome, reason: reason} = llm_request_outcome(response)
+
+    analytics_module().track_event_safe(socket.assigns.current_scope, %{
+      event: "llm_request_outcome",
+      source: "content_assistant",
+      channel: "content_assistant_page",
+      path: socket.assigns.analytics_identity[:path] || "/search",
+      query_log_id: socket.assigns.last_query_log_id || response.query_log_id,
+      visitor_id: socket.assigns.analytics_identity[:visitor_id],
+      session_id: socket.assigns.analytics_identity[:session_id],
+      metadata: %{
+        surface: "content_assistant_page",
+        outcome: outcome,
+        reason: reason
+      }
     })
   end
 

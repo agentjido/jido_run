@@ -217,4 +217,61 @@ defmodule AgentJidoWeb.ContentAssistantSupport do
   end
 
   def llm_enabled?(_opts), do: false
+
+  # Categorized first-LLM-request outcomes (jido-e12-t24). The content
+  # assistant is the surface where a visitor makes their first LLM request, and
+  # its `Response` already carries the signals we need to categorize WHY a
+  # request succeeded or failed. Provider setup problems get distinct reasons —
+  # `enhancement_blocked_reason` is exactly "the LLM could not run because of
+  # setup/capacity" — so a missing provider key, an exhausted quota, or an
+  # incomplete verification gate never collapse into a generic "error".
+  #
+  # The enhancement-block reason wins over `answer_mode`: a visitor may still be
+  # served a grounded deterministic answer while the LLM request itself failed
+  # for a setup reason, and that failure is what we categorize here.
+  @llm_request_outcome_reasons [
+    "succeeded",
+    "provider_unconfigured",
+    "provider_quota",
+    "verification_required",
+    "no_results",
+    "error"
+  ]
+
+  @doc """
+  Accepted first-LLM-request outcome reason categories.
+  """
+  @spec llm_request_outcome_reasons() :: [String.t()]
+  def llm_request_outcome_reasons, do: @llm_request_outcome_reasons
+
+  @doc """
+  Maps a content assistant `Response` to a categorized first-LLM-request
+  outcome (`%{outcome: "succeeded" | "failed", reason: category}`).
+
+  Provider setup problems are categorized distinctly:
+    * `provider_unconfigured` — no LLM provider/key configured (`:llm_unconfigured`)
+    * `provider_quota`        — provider quota/budget exhausted (`:budget`)
+    * `verification_required` — verification gate incomplete (`:turnstile`)
+  """
+  @spec llm_request_outcome(Response.t() | nil) :: %{outcome: String.t(), reason: String.t()}
+  def llm_request_outcome(%Response{enhancement_blocked_reason: :llm_unconfigured}),
+    do: %{outcome: "failed", reason: "provider_unconfigured"}
+
+  def llm_request_outcome(%Response{enhancement_blocked_reason: :budget}),
+    do: %{outcome: "failed", reason: "provider_quota"}
+
+  def llm_request_outcome(%Response{enhancement_blocked_reason: :turnstile}),
+    do: %{outcome: "failed", reason: "verification_required"}
+
+  def llm_request_outcome(%Response{answer_mode: :error}),
+    do: %{outcome: "failed", reason: "error"}
+
+  def llm_request_outcome(%Response{answer_mode: :no_results}),
+    do: %{outcome: "failed", reason: "no_results"}
+
+  def llm_request_outcome(%Response{}),
+    do: %{outcome: "succeeded", reason: "succeeded"}
+
+  def llm_request_outcome(_response),
+    do: %{outcome: "failed", reason: "error"}
 end

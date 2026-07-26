@@ -16,6 +16,7 @@ defmodule AgentJidoWeb.ContentAssistantModalComponent do
       analytics_value: 1,
       analytics_metadata: 2,
       llm_enabled?: 1,
+      llm_request_outcome: 1,
       maybe_apply_search_response_mode: 2,
       maybe_wait_for_progressive_dwell: 1,
       monotonic_ms: 0,
@@ -551,6 +552,7 @@ defmodule AgentJidoWeb.ContentAssistantModalComponent do
 
     finalize_query_log(socket.assigns.query_log_id, query_status, results_count, latency_ms)
     capture_posthog_query_outcome(socket, response, socket.assigns.query_log_id, latency_ms)
+    track_llm_request_outcome(socket, response)
 
     assign(socket,
       query: query,
@@ -573,6 +575,7 @@ defmodule AgentJidoWeb.ContentAssistantModalComponent do
     latency_ms = query_latency_ms(socket.assigns.assistant_started_at)
     finalize_query_log(socket.assigns.query_log_id, "error", 0, latency_ms)
     capture_posthog_query_error(socket, query, socket.assigns.query_log_id, latency_ms)
+    track_llm_request_outcome(socket, nil)
 
     assign(socket,
       query: query,
@@ -958,6 +961,29 @@ defmodule AgentJidoWeb.ContentAssistantModalComponent do
       results_count: 0,
       latency_ms: max(latency_ms, 0),
       metadata: %{surface: "content_assistant_modal", origin: "submit", retrieval_status: "failure", answer_mode: "error"}
+    })
+  end
+
+  # Categorized first-LLM-request outcome (jido-e12-t24). Mirrors the page
+  # LiveView: records the categorized outcome/reason for a visitor's content
+  # assistant query so provider setup problems stay distinct from a generic
+  # error. A nil `response` (task crash) categorizes as `error`.
+  defp track_llm_request_outcome(socket, response) do
+    %{outcome: outcome, reason: reason} = llm_request_outcome(response)
+
+    analytics_module().track_event_safe(socket.assigns.current_scope, %{
+      event: "llm_request_outcome",
+      source: "content_assistant",
+      channel: "content_assistant_modal",
+      path: socket.assigns.analytics_identity[:path] || "/",
+      query_log_id: socket.assigns.query_log_id,
+      visitor_id: socket.assigns.analytics_identity[:visitor_id],
+      session_id: socket.assigns.analytics_identity[:session_id],
+      metadata: %{
+        surface: "content_assistant_modal",
+        outcome: outcome,
+        reason: reason
+      }
     })
   end
 

@@ -74,6 +74,32 @@ defmodule AgentJidoWeb.AnalyticsEventControllerTest do
     assert event.metadata["example"] == "counter-agent"
   end
 
+  test "accepts the first LLM request outcome event (jido-e12-t24)", %{conn: conn} do
+    conn =
+      post(conn, ~p"/analytics/events", %{
+        "event" => "llm_request_outcome",
+        "properties" => %{
+          "source" => "content_assistant",
+          "channel" => "content_assistant_page",
+          "path" => "/search",
+          "metadata" => %{
+            "surface" => "content_assistant_page",
+            "outcome" => "failed",
+            "reason" => "provider_unconfigured"
+          }
+        }
+      })
+
+    assert json_response(conn, 202)["ok"]
+
+    event = Repo.one(from(e in AnalyticsEvent, order_by: [desc: e.inserted_at], limit: 1))
+    assert event.event == "llm_request_outcome"
+    assert event.source == "content_assistant"
+    assert event.channel == "content_assistant_page"
+    assert event.metadata["outcome"] == "failed"
+    assert event.metadata["reason"] == "provider_unconfigured"
+  end
+
   test "rejects invalid event names", %{conn: conn} do
     conn =
       post(conn, ~p"/analytics/events", %{

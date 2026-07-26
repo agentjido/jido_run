@@ -195,6 +195,34 @@ defmodule AgentJidoWeb.AdminAnalyticsLive do
         </section>
 
         <section class="rounded-lg border border-border bg-card p-5">
+          <h2 class="text-lg font-semibold text-foreground">First LLM request outcome</h2>
+          <p class="mt-1 text-sm text-muted-foreground">
+            Where a visitor's first LLM request (a content assistant query) succeeded or failed and why — provider setup problems stay distinct from a generic error, so the team sees where setup blocks a first request.
+          </p>
+          <table class="mt-4 w-full text-sm">
+            <thead>
+              <tr class="text-left text-xs uppercase tracking-wide text-muted-foreground">
+                <th class="py-2 pr-4 font-semibold">Outcome</th>
+                <th class="py-2 pr-4 font-semibold">Reason</th>
+                <th class="py-2 font-semibold">First requests</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr :for={row <- @analytics_snapshot.first_llm_request} class="border-t border-border/70">
+                <td class="py-2 pr-4 font-medium text-foreground">{first_llm_request_label(row.reason)}</td>
+                <td class="py-2 pr-4 text-muted-foreground">{row.reason}</td>
+                <td class="py-2 text-foreground">{row.requests}</td>
+              </tr>
+              <tr :if={@analytics_snapshot.first_llm_request == []}>
+                <td colspan="3" class="py-2 text-sm text-muted-foreground">
+                  No first LLM requests in this window yet.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="rounded-lg border border-border bg-card p-5">
           <div class="flex flex-wrap items-center justify-between gap-3">
             <h2 class="text-lg font-semibold text-foreground">Collector Health</h2>
             <span class="text-xs text-muted-foreground">Rows shown for the selected {@analytics_days}d window</span>
@@ -443,6 +471,7 @@ defmodule AgentJidoWeb.AdminAnalyticsLive do
       home_conversion: [],
       first_livebook_open: [],
       first_core_agent_success: [],
+      first_llm_request: [],
       local_search: %{
         summary: %{
           total_messages: 0,
@@ -611,6 +640,26 @@ defmodule AgentJidoWeb.AdminAnalyticsLive do
   end
 
   defp first_core_agent_success_label(_section_id), do: "-"
+
+  # Human-readable label for each categorized first-LLM-request outcome reason
+  # (jido-e12-t24). The reason a first LLM request landed on, named for a
+  # maintainer; an unknown reason falls back to a title-cased slug so a newly
+  # added category is never blank.
+  defp first_llm_request_label("succeeded"), do: "Succeeded"
+  defp first_llm_request_label("provider_unconfigured"), do: "Provider not configured"
+  defp first_llm_request_label("provider_quota"), do: "Provider quota exhausted"
+  defp first_llm_request_label("verification_required"), do: "Verification required"
+  defp first_llm_request_label("no_results"), do: "No results"
+  defp first_llm_request_label("error"), do: "Error"
+
+  defp first_llm_request_label(reason) when is_binary(reason) do
+    reason
+    |> String.replace("_", " ")
+    |> String.split(" ")
+    |> Enum.map_join(" ", &String.capitalize/1)
+  end
+
+  defp first_llm_request_label(_reason), do: "-"
 
   defp feedback_badge_class("helpful") do
     "inline-flex rounded-full border border-accent-green/30 bg-accent-green/10 px-2 py-0.5 text-[11px] font-semibold text-accent-green"

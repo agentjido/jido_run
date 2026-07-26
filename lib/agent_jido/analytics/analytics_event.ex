@@ -16,6 +16,7 @@ defmodule AgentJido.Analytics.AnalyticsEvent do
     "cta_clicked",
     "livebook_run_clicked",
     "agent_run_succeeded",
+    "llm_request_outcome",
     "feedback_submitted"
   ]
 

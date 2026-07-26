@@ -46,7 +46,8 @@ defmodule AgentJido.Analytics do
           ingestion: map(),
           home_conversion: [map()],
           first_livebook_open: [map()],
-          first_core_agent_success: [map()]
+          first_core_agent_success: [map()],
+          first_llm_request: [map()]
         }
 
   @doc """
@@ -139,7 +140,8 @@ defmodule AgentJido.Analytics do
         ingestion: ingestion_snapshot(days),
         home_conversion: home_conversion_breakdown(days),
         first_livebook_open: first_livebook_open_breakdown(days),
-        first_core_agent_success: first_core_agent_success_breakdown(days)
+        first_core_agent_success: first_core_agent_success_breakdown(days),
+        first_llm_request: first_llm_request_breakdown(days)
       }
     else
       unauthorized_snapshot(days)
@@ -468,6 +470,46 @@ defmodule AgentJido.Analytics do
         successes: count(s.visitor_id)
       },
       order_by: [desc: count(s.visitor_id), asc: s.section_id]
+    )
+    |> Repo.all()
+  end
+
+  # First LLM request outcome (jido-e12-t24). The content assistant is where a
+  # visitor makes their first LLM request. A visitor's first-ever
+  # `llm_request_outcome` is the moment that request resolved, so outcome does
+  # not depend only on page views. `DISTINCT ON (visitor_id)` keeps one row per
+  # visitor — the earliest outcome, because inserted_at is ordered ascending
+  # within each visitor group — so repeat requests by the same visitor never
+  # re-count. We then group the in-window first outcomes by their categorized
+  # `reason` (carried in metadata), so the team sees where first LLM requests
+  # succeed and — critically — where provider setup problems
+  # (`provider_unconfigured`/`provider_quota`/`verification_required`) block
+  # them, distinct from a generic error.
+  defp first_llm_request_breakdown(days) do
+    since = since_naive(days)
+
+    first_outcome_per_visitor =
+      from(e in AnalyticsEvent,
+        where:
+          e.event == "llm_request_outcome" and
+            not is_nil(e.visitor_id),
+        order_by: [asc: e.visitor_id, asc: e.inserted_at],
+        distinct: e.visitor_id,
+        select: %{
+          visitor_id: e.visitor_id,
+          occurred_at: e.inserted_at,
+          reason: fragment("COALESCE(?->>'reason', 'unknown')", e.metadata)
+        }
+      )
+
+    from(o in subquery(first_outcome_per_visitor),
+      where: o.occurred_at >= ^since,
+      group_by: o.reason,
+      select: %{
+        reason: o.reason,
+        requests: count(o.visitor_id)
+      },
+      order_by: [desc: count(o.visitor_id), asc: o.reason]
     )
     |> Repo.all()
   end
@@ -1295,7 +1337,8 @@ defmodule AgentJido.Analytics do
       ingestion: empty_ingestion_snapshot(),
       home_conversion: [],
       first_livebook_open: [],
-      first_core_agent_success: []
+      first_core_agent_success: [],
+      first_llm_request: []
     }
   end
 
@@ -1316,7 +1359,8 @@ defmodule AgentJido.Analytics do
       ingestion: empty_ingestion_snapshot(),
       home_conversion: [],
       first_livebook_open: [],
-      first_core_agent_success: []
+      first_core_agent_success: [],
+      first_llm_request: []
     }
   end
 
