@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-26T10:46:51Z",
   "created": "2026-07-23T12:06:40Z",
   "description": "Backlog task: E10-T01\n\nWork area: Search\n\nMain targets: Search ingestion\n\nComplete when: A query for “persistence example” returns the matching example.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e10-t01",
@@ -22,7 +23,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E10-T01 — Add public examples to the search index.",
   "type": "task",
   "updated_at": "2026-07-26T10:46:51Z"
