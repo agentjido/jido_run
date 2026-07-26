@@ -1,5 +1,5 @@
 {
-  "assignee": "",
+  "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:07:12Z",
@@ -19,8 +19,8 @@
     }
   ],
   "priority": 1,
-  "status": "open",
+  "status": "in_progress",
   "title": "E10-T33 — Add the control overview and controlled-Agent example to the sitemap.",
   "type": "task",
-  "updated_at": "2026-07-24T12:53:38Z"
+  "updated_at": "2026-07-26T16:08:19Z"
 }
