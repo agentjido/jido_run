@@ -1316,6 +1316,58 @@ defmodule AgentJidoWeb.JidoExampleLiveTest do
     end
   end
 
+  describe "/examples/data-pipeline-agent (jido-e08-t29)" do
+    # Acceptance condition: "The home data card has a direct destination." The
+    # data-pipelines card's scoped destination now lands on a real, runnable
+    # collect -> validate -> transform -> load -> summarize pipeline.
+
+    test "is registered as a live runnable example with a real demo module" do
+      example = Examples.get_example!("data-pipeline-agent")
+
+      assert example.status == :live
+      assert example.demo_mode == :real
+      assert example.live_view_module == "AgentJidoWeb.Examples.DataPipelineAgentLive"
+      # The shared simulated showcase surface is reserved for drafts; this
+      # published example runs on its own real-runtime module instead.
+      refute example.live_view_module == "AgentJidoWeb.Examples.SimulatedShowcaseLive"
+      assert Enum.map(example.sources, & &1.path) == example.source_files
+      assert Enum.all?(example.source_files, &File.exists?/1)
+    end
+
+    test "is routable for public visitors and renders its demo", %{conn: conn} do
+      {:ok, view, html} = live(conn, "/examples/data-pipeline-agent?tab=demo")
+
+      assert html =~ "Data Pipeline Agent"
+      refute html =~ "draft preview"
+
+      demo_view = find_live_child(view, "demo-data-pipeline-agent")
+      demo_html = render(demo_view)
+
+      # The dedicated demo module renders the real-runtime ETL workflow.
+      assert demo_html =~ "Data Pipeline Agent"
+      assert demo_html =~ "Collect all sources"
+      assert demo_html =~ "Validate"
+      assert demo_html =~ "Transform"
+      assert demo_html =~ "Load"
+      assert demo_html =~ "Summarize"
+    end
+
+    test "the demo runs the real validate step on a collected batch", %{conn: conn} do
+      {:ok, view, _html} = live(conn, "/examples/data-pipeline-agent?tab=demo")
+
+      demo_view = find_live_child(view, "demo-data-pipeline-agent")
+
+      # Collect all sources, then validate on the real runtime.
+      render_click(demo_view, "ingest_all")
+      render_click(demo_view, "validate")
+
+      demo_html = render(demo_view)
+
+      # The real schema check rejects the malformed records, not a canned label.
+      assert demo_html =~ "reject: orders record missing customer"
+    end
+  end
+
   describe "/examples/failure-drill-agent" do
     test "renders explanation tab", %{conn: conn} do
       {:ok, _view, html} = live(conn, "/examples/failure-drill-agent?tab=explanation")

@@ -361,6 +361,19 @@ defmodule AgentJidoWeb.JidoExamplesLiveTest do
       refute html =~ "Counter Agent"
     end
 
+    test "?use_case=data-pipelines lists a runnable ETL workflow (jido-e08-t29)",
+         %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/examples?use_case=data-pipelines")
+
+      # The scoped hero names the use case.
+      assert html =~ "Data pipelines"
+      # The home data card's scoped destination now lands on a real, runnable
+      # collect -> validate -> transform -> load -> summarize pipeline.
+      assert html =~ "Data Pipeline Agent"
+      # An out-of-scope example stays hidden by the use-case scope.
+      refute html =~ "Counter Agent"
+    end
+
     test "an unknown use_case falls back to the unfiltered index", %{conn: conn} do
       {:ok, _view, html} = live(conn, "/examples?use_case=not-a-real-use-case")
 

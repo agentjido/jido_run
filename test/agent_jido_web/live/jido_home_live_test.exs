@@ -728,9 +728,13 @@ defmodule AgentJidoWeb.JidoHomeLiveTest do
       statuses = Map.values(status_by_use_case)
 
       assert Enum.all?(statuses, &(&1 in ~w(runnable planned)))
-      # Both kinds are visible, so the two states are distinguishable on the page.
+      # Each card's status is derived from available?/1 (verified in the next
+      # test), so a planned card reappears the moment a use case without a
+      # public example is added. E08-T29 published the last missing home
+      # use-case example (data-pipelines), so every card now reads runnable --
+      # including the data card the task landed.
       assert "runnable" in statuses
-      assert "planned" in statuses
+      assert status_by_use_case["data-pipelines"] == "runnable"
     end
 
     test "the status matches whether a public example exists", %{conn: conn} do
@@ -774,13 +778,12 @@ defmodule AgentJidoWeb.JidoHomeLiveTest do
         assert label_by_use_case[slug] == expected
       end
 
-      # Both labels are present on the page, so the two states are distinguishable.
-      labels = MapSet.new(Map.values(label_by_use_case))
-
-      assert MapSet.subset?(
-               MapSet.new(["Runnable example", "Planned pattern"]),
-               labels
-             )
+      # Distinguishability holds because each card's label is derived from
+      # available?/1 (the loop above): a runnable card reads "Runnable example"
+      # and a planned card reads "Planned pattern", so the two never collide.
+      # E08-T29 promoted the last planned card, so every card -- including the
+      # data-pipelines card it landed -- now reads "Runnable example".
+      assert label_by_use_case["data-pipelines"] == "Runnable example"
     end
   end
 
