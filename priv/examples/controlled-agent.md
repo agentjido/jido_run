@@ -52,7 +52,8 @@
     :policy,
     :observation,
     :redaction
-  ]
+  ],
+  last_validated: "2026-07-24"
 }
 ---
 

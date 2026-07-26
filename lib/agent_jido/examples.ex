@@ -240,6 +240,30 @@ defmodule AgentJido.Examples do
     if include_drafts?(opts), do: length(@all_examples), else: length(@examples)
   end
 
+  @doc """
+  Returns the best available ISO8601 modification date for an example, or `nil`
+  when no freshness data is recorded.
+
+  The sitemap emits this as `<lastmod>` so search engines receive accurate
+  freshness data for the canonical proof routes (jido-e10-t33). Mirrors
+  `AgentJido.Pages.modification_date/1`: prefers the example's `last_validated`
+  date and skips empty or malformed values so a missing date never produces a
+  bogus `<lastmod>`.
+  """
+  @spec modification_date(Example.t()) :: String.t() | nil
+  def modification_date(%Example{} = example) do
+    if iso_date?(example.last_validated), do: example.last_validated
+  end
+
+  defp iso_date?(nil), do: false
+  defp iso_date?(""), do: false
+
+  defp iso_date?(value) when is_binary(value) do
+    String.match?(value, ~r/^\d{4}-\d{2}-\d{2}/)
+  end
+
+  defp iso_date?(_), do: false
+
   # Validation staleness (jido-e08-t15).
   #
   # The Example card contract exposes `last_validated` (ISO date the example was

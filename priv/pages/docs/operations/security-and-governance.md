@@ -5,6 +5,7 @@
   legacy_paths: ["/docs/security-and-governance", "/docs/reference/security-and-governance"],
   tags: [:docs, :operations],
   order: 370,
+  last_validated: "2026-07-24",
   draft: false
 }
 ---

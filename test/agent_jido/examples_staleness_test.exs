@@ -26,8 +26,9 @@ defmodule AgentJido.ExamplesStalenessTest do
     test "stale_examples/0 surfaces examples that lack validation metadata" do
       stale_slugs = Examples.stale_examples() |> Enum.map(& &1.slug)
 
-      # No shipped example has declared last_validated or tested_with yet, so
-      # every published example is currently stale — and findable.
+      # Only the controlled-agent example declares a last_validated date so far,
+      # and no shipped example declares a tested_with version set yet, so every
+      # published example is still stale — and findable.
       assert length(stale_slugs) == Examples.example_count()
       assert @live_slug in stale_slugs
     end

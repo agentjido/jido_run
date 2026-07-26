@@ -97,6 +97,36 @@ defmodule AgentJidoWeb.SitemapControllerTest do
     end
   end
 
+  test "includes the canonical control overview and controlled-Agent example with accurate lastmod dates (E10-T33)",
+       %{conn: conn} do
+    body =
+      conn
+      |> get("/sitemap.xml")
+      |> response(200)
+
+    # The control overview is the canonical operational-control docs page — the
+    # route the home control message, search aliases, and MCP all point at.
+    overview = Pages.get_page_by_path!("/docs/operations/security-and-governance")
+
+    overview_block = url_block_for(body, "/docs/operations/security-and-governance")
+    refute overview_block == "", "control overview route missing from sitemap"
+
+    assert overview_block =~ "<lastmod>#{Pages.modification_date(overview)}</lastmod>",
+           "control overview must carry an accurate <lastmod> so search engines " <>
+             "receive the route with a correct date"
+
+    # The controlled-Agent example is the canonical operational-control proof
+    # route — the single run that proves the complete control path.
+    example = Examples.get_example!("controlled-agent")
+
+    example_block = url_block_for(body, "/examples/controlled-agent")
+    refute example_block == "", "controlled-Agent example route missing from sitemap"
+
+    assert example_block =~ "<lastmod>#{Examples.modification_date(example)}</lastmod>",
+           "controlled-Agent example must carry an accurate <lastmod> so search " <>
+             "engines receive the route with a correct date"
+  end
+
   defp url_block_for(sitemap, route) do
     case Regex.run(
            ~r{<url>\s*<loc>[^<]*#{Regex.escape(route)}</loc>.*?</url>}s,
