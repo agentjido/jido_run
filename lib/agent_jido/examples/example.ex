@@ -110,6 +110,12 @@ defmodule AgentJido.Examples.Example do
               tested_with:
                 Zoi.any(description: "Card contract: map of tested package/version pairs")
                 |> Zoi.default(%{}),
+              control_types:
+                Zoi.any(
+                  description:
+                    "Card contract: operational-control types this example proves (canonical set in AgentJido.Examples.Taxonomy.control_types/0)"
+                )
+                |> Zoi.default([]),
               sort_order:
                 Zoi.integer(description: "Sort order within category")
                 |> Zoi.default(100),

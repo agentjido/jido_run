@@ -44,7 +44,14 @@
   package_maturity: "Beta",
   prerequisites: ["Elixir 1.18+", "OTP 27+", "Jido installed"],
   expected_result: "An allowed principal runs the protected Action; an unauthorized principal is denied before it runs; crashing the process restarts it under supervision. No API key required.",
-  run_command: "Run the interactive demo on /examples/controlled-agent, or: mix test test/agent_jido/demos/controlled_agent_test.exs"
+  run_command: "Run the interactive demo on /examples/controlled-agent, or: mix test test/agent_jido/demos/controlled_agent_test.exs",
+  control_types: [
+    :identity_context,
+    :authorization,
+    :policy,
+    :observation,
+    :redaction
+  ]
 }
 ---
 

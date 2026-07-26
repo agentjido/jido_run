@@ -36,6 +36,22 @@ defmodule AgentJido.Examples.Taxonomy do
 
   @evidence_surfaces [:package, :runnable_example, :training_module, :docs_reference, :runbook, :case_study]
 
+  # Operational-control types a public example can prove it exercises (jido-e08
+  # E08-T35). Each example may list any subset of these in its card contract;
+  # the example frontmatter value is normalized to this canonical set. The
+  # acceptance fixes the eight members: identity context, authorization, policy,
+  # quota, approval, history, observation, and redaction.
+  @control_types [
+    :identity_context,
+    :authorization,
+    :policy,
+    :quota,
+    :approval,
+    :history,
+    :observation,
+    :redaction
+  ]
+
   # Task-oriented labels that describe the user job an example proves, intended
   # to replace internal taxonomy terms on public cards (jido-e08 E08-T01).
   @tasks [
@@ -61,6 +77,7 @@ defmodule AgentJido.Examples.Taxonomy do
           capability_theme: atom(),
           evidence_surface: atom(),
           demo_mode: atom(),
+          control_types: [atom()],
           tasks: [atom()]
         }
 
@@ -87,6 +104,9 @@ defmodule AgentJido.Examples.Taxonomy do
 
   @spec evidence_surfaces() :: [atom()]
   def evidence_surfaces, do: @evidence_surfaces
+
+  @spec control_types() :: [atom()]
+  def control_types, do: @control_types
 
   @spec tasks() :: [atom()]
   def tasks, do: @tasks
@@ -151,6 +171,11 @@ defmodule AgentJido.Examples.Taxonomy do
       |> normalize_enum(@demo_modes, nil)
       |> Kernel.||(infer_demo_mode(tags, category))
 
+    control_types =
+      attrs
+      |> value_for(:control_types)
+      |> normalize_control_types()
+
     %{
       status: status,
       published: status == :live,
@@ -160,7 +185,8 @@ defmodule AgentJido.Examples.Taxonomy do
       content_intent: content_intent,
       capability_theme: capability_theme,
       evidence_surface: evidence_surface,
-      demo_mode: demo_mode
+      demo_mode: demo_mode,
+      control_types: control_types
     }
   end
 
@@ -183,6 +209,34 @@ defmodule AgentJido.Examples.Taxonomy do
   end
 
   defp normalize_enum(_value, _allowed, default), do: default
+
+  # The card-contract control_types field is a list; normalize each member to the
+  # canonical set, dropping unknowns and duplicates so the published contract
+  # only ever carries a clean subset of AgentJido.Examples.Taxonomy.control_types/0.
+  defp normalize_control_types(nil), do: []
+
+  defp normalize_control_types(values) when is_list(values) do
+    values
+    |> Enum.map(&to_control_type/1)
+    |> Enum.reject(&is_nil/1)
+    |> Enum.uniq()
+  end
+
+  defp normalize_control_types(value), do: normalize_control_types([value])
+
+  defp to_control_type(value) when is_atom(value) do
+    if value in @control_types, do: value
+  end
+
+  defp to_control_type(value) when is_binary(value) do
+    normalized = value |> String.trim() |> String.downcase()
+
+    Enum.find(@control_types, fn candidate ->
+      Atom.to_string(candidate) == normalized
+    end)
+  end
+
+  defp to_control_type(_), do: nil
 
   defp infer_scenario_cluster(slug, tags, category) do
     cond do
