@@ -15,11 +15,15 @@
     {
       "text": "Open: home-to-onboarding conversion analytics not yet instrumented.",
       "timestamp": "2026-07-24T12:55:00Z"
+    },
+    {
+      "text": "Accepted by the Zclaude Ralph supervisor. Commits: 4c3347ca. Verification: MIX_ENV=test mix compile \u0026\u0026 MIX_ENV=test mix format --check-formatted.",
+      "timestamp": "2026-07-26T17:43:39Z"
     }
   ],
   "priority": 1,
   "status": "in_progress",
   "title": "E12-T21 — Measure home-to-onboarding conversion.",
   "type": "task",
-  "updated_at": "2026-07-26T17:33:06Z"
+  "updated_at": "2026-07-26T17:43:39Z"
 }
