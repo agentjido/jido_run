@@ -23,4 +23,26 @@ defmodule AgentJidoWeb.LLMSTxtTest do
     assert body =~ "Scope: v1 is docs only (/docs/**)"
     assert body =~ "If source markdown is unavailable"
   end
+
+  test "GET /llms.txt states the qualified operational-control position and links to boundaries and proof",
+       %{conn: conn} do
+    conn = get(conn, "/llms.txt")
+    body = response(conn, 200)
+    endpoint_url = AgentJidoWeb.Endpoint.url()
+
+    # The canonical qualified position (the "release basis" line mirrored by the
+    # browser, Markdown, and MCP surfaces) must appear verbatim so a machine
+    # client receives the same bounded claim a reader sees (jido-e10-t32).
+    assert body =~
+             "experimental or unreleased packages describe their documented boundary only and do not back a general production claim"
+
+    # The position links to the boundary overview and to the proof pages that
+    # ground each control claim.
+    assert body =~ "#{endpoint_url}/docs/operations/security-and-governance"
+    assert body =~ "#{endpoint_url}/docs/operations/rate-limits-and-cost-budgets"
+    assert body =~ "#{endpoint_url}/docs/operations/journal-retention-access-and-deletion"
+    assert body =~ "#{endpoint_url}/docs/operations/production-readiness-checklist"
+    assert body =~ "#{endpoint_url}/docs/operations/incident-playbooks"
+    assert body =~ "#{endpoint_url}/docs/getting-started/operational-controls"
+  end
 end

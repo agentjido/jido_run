@@ -50,6 +50,17 @@ defmodule AgentJidoWeb.LLMSTxtController do
     - Scope: v1 is docs only (/docs/**). Examples, skills, ecosystem packages, blog, and compare pages are not indexed.
     - get_operational_control retrieves the canonical operational-control overview (the Security and governance page) and its proof by name, so a client does not need to guess a control term with search_docs.
 
+    Operational control
+    - Qualified position (release basis): each package's release version, support level, and proof are stated on its package page; experimental or unreleased packages describe their documented boundary only and do not back a general production claim.
+    - Boundaries (the full claim boundaries): #{endpoint_url}/docs/operations/security-and-governance
+    - Proof pages that ground each control claim:
+      - #{endpoint_url}/docs/operations/rate-limits-and-cost-budgets
+      - #{endpoint_url}/docs/operations/journal-retention-access-and-deletion
+      - #{endpoint_url}/docs/operations/production-readiness-checklist
+      - #{endpoint_url}/docs/operations/incident-playbooks
+      - #{endpoint_url}/docs/getting-started/operational-controls
+    - A client may also retrieve this overview and its proof by name through get_operational_control on the MCP docs server above.
+
     Rendered fallback pattern
     - If source markdown is unavailable, request the canonical route with:
       - Accept: text/markdown
