@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-26T11:53:24Z",
   "created": "2026-07-23T12:06:43Z",
   "description": "Backlog task: E10-T04\n\nWork area: Search\n\nMain targets: Search configuration\n\nComplete when: Common user terms find canonical pages.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e10-t04",
@@ -22,7 +23,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E10-T04 — Add common aliases: agent server, AgentServer, supervision, restart, durable, long-running, tools, and function calling.",
   "type": "task",
   "updated_at": "2026-07-26T11:53:24Z"
