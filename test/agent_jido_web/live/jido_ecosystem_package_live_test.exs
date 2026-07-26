@@ -260,8 +260,10 @@ defmodule AgentJidoWeb.JidoEcosystemPackageLiveTest do
     # points, naming both released hooks.
     assert html =~ "Authorization integration points",
            "the jido package page must document plugin hooks as the integration points for authorization"
+
     assert html =~ "prepare_signal/2",
            "the jido package page must name prepare_signal/2 as an authorization integration point"
+
     assert html =~ "prepare_action/3",
            "the jido package page must name prepare_action/3 as an authorization integration point"
 
@@ -269,6 +271,7 @@ defmodule AgentJidoWeb.JidoEcosystemPackageLiveTest do
     # system; it states the boundary explicitly.
     assert html =~ "Does not supply a full authorization system",
            "the jido package page must state it does not supply a full authorization system"
+
     assert html =~ "not a built-in IAM or RBAC product",
            "the jido package page must state it is not a built-in IAM or RBAC product"
   end
