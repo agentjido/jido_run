@@ -15,11 +15,15 @@
     {
       "text": "Open: copyable dependency block per stack that installs successfully not yet verified/rendered on the hub.",
       "timestamp": "2026-07-24T12:52:37Z"
+    },
+    {
+      "text": "Accepted by the Zclaude Ralph supervisor. Commits: c7e9a6b2. Verification: MIX_ENV=test mix compile \u0026\u0026 MIX_ENV=test mix format --check-formatted.",
+      "timestamp": "2026-07-26T06:56:37Z"
     }
   ],
   "priority": 1,
   "status": "in_progress",
   "title": "E09-T08 — Give each stack a copyable dependency block.",
   "type": "task",
-  "updated_at": "2026-07-26T06:29:54Z"
+  "updated_at": "2026-07-26T06:56:37Z"
 }
