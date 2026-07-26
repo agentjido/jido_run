@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-26T20:17:46Z",
   "created": "2026-07-23T12:08:26Z",
   "description": "Backlog task: E12-T45\n\nWork area: Operational-control quality gates\n\nMain targets: Release process\n\nComplete when: A reviewer checks the four control questions, claim limits, and proof links.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e12-t45",
@@ -23,7 +24,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E12-T45 — Add an operational-control copy review to the release punch list.",
   "type": "task",
   "updated_at": "2026-07-26T20:17:46Z"
