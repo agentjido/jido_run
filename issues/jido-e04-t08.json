@@ -16,11 +16,15 @@
     {
       "text": "Open: collapsing non-Elixir evaluation to a single secondary hero link is a minor hero refactor, not yet done.",
       "timestamp": "2026-07-24T12:46:29Z"
+    },
+    {
+      "text": "Accepted by the Zclaude Ralph supervisor. Commits: a37d995a. Verification: MIX_ENV=test mix compile \u0026\u0026 MIX_ENV=test mix format --check-formatted.",
+      "timestamp": "2026-07-26T23:10:47Z"
     }
   ],
   "priority": 2,
   "status": "in_progress",
   "title": "E04-T08 — Move non-Elixir evaluation to one secondary link.",
   "type": "task",
-  "updated_at": "2026-07-26T22:46:45Z"
+  "updated_at": "2026-07-26T23:10:47Z"
 }
