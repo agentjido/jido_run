@@ -320,6 +320,15 @@ defmodule AgentJidoWeb.JidoHomeLive do
   # the purpose says when to reach for the stack; the negative fit says when not
   # to. Each note names a real reason that stack is the wrong choice for that
   # situation, so the three notes are distinct and not the same caveat repeated.
+  #
+  # Each stack also carries a production-next-step link (jido-e09-t11) — the last
+  # selection step. The purpose, negative fit, and dependency block let a builder
+  # choose and install a stack; this link moves them from "installed" into the
+  # Operate guidance that stack needs in production. Each stack routes to the
+  # operations page that covers its own production concern (Core -> bounding
+  # failure with supervision, AI -> rate and cost budgets, Operate -> telemetry
+  # and traces), so the three destinations are distinct rather than one shared
+  # link to the operations hub.
   defp ecosystem_section(assigns) do
     stacks =
       [
@@ -331,6 +340,10 @@ defmodule AgentJidoWeb.JidoHomeLive do
           purpose: "The runtime every Jido system runs on — agents, typed Actions, and Signals.",
           do_not_use_when:
             "you expect built-in LLM calls or production tooling. Core is the supervised runtime — add the AI stack for model reasoning or the Operate stack for observability and integrations.",
+          next_step: %{
+            label: "Bound failure in production",
+            href: "/docs/operations/supervision-and-failure-boundaries"
+          },
           packages: [
             %{name: "jido", role: "Agent state, the supervised AgentServer, and Directives."},
             %{name: "jido_action", role: "Typed, validated commands and tools an agent runs."},
@@ -344,6 +357,10 @@ defmodule AgentJidoWeb.JidoHomeLive do
           purpose: "Add LLM-backed agents, provider choice, and model metadata when you need AI.",
           do_not_use_when:
             "no agent in your system calls an LLM. The AI stack adds model providers, reasoning, and tool use — and the cost of an LLM dependency — so add it only when an agent actually reasons over a model.",
+          next_step: %{
+            label: "Set rate and cost budgets",
+            href: "/docs/operations/rate-limits-and-cost-budgets"
+          },
           packages: [
             %{name: "jido_ai", role: "Reasoning strategies, tool use, and accuracy over LLM calls."},
             %{name: "req_llm", role: "Model requests across Anthropic, OpenAI, Google, and more."},
@@ -357,6 +374,10 @@ defmodule AgentJidoWeb.JidoHomeLive do
           purpose: "Ship to production — observability, messaging, and framework integration.",
           do_not_use_when:
             "you are not yet shipping to production. Operate adds observability, messaging, and Ash integration; pulling it in before there is an agent to operate only adds dependencies you do not yet need.",
+          next_step: %{
+            label: "Wire telemetry and traces",
+            href: "/docs/operations/telemetry-and-traces"
+          },
           packages: [
             %{name: "ash_jido", role: "Turns Ash resources into typed Jido Actions."},
             %{name: "jido_messaging", role: "Chat channels (Slack, Discord, Telegram) for agents."},
@@ -441,6 +462,15 @@ defmodule AgentJidoWeb.JidoHomeLive do
                 <pre class="home-ecosystem-stack-deps-code">{stack.dependency_block}</pre>
               </div>
             </div>
+
+            <.link
+              :if={stack[:next_step]}
+              navigate={stack.next_step.href}
+              class="home-ecosystem-stack-next-step"
+              data-stack-next-step={stack.key}
+            >
+              {stack.next_step.label} →
+            </.link>
           </article>
         </div>
       </div>

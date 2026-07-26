@@ -1350,6 +1350,27 @@
     border-color: hsl(var(--foreground) / 0.4);
   }
 
+  /* Production-next-step link per stack (jido-e09-t11) — the bridge from
+     selecting and installing a stack to operating it. Sits at the bottom of each
+     stack card, after the dependency block, so a builder who has installed a
+     stack has one obvious move into Operate guidance. Each stack routes to the
+     operations page that covers its own production concern, so the three links
+     stay distinct. */
+  #home-page .home-ecosystem-stack-next-step {
+    display: inline-block;
+    margin-top: 0.85rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: hsl(var(--foreground) / 0.78);
+    transition: color 150ms ease;
+  }
+
+  #home-page .home-ecosystem-stack-next-step:hover {
+    color: hsl(var(--primary));
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
   #home-page .home-ecosystem-package-link {
     color: hsl(var(--muted-foreground));
     transition: color 150ms ease;

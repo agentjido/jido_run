@@ -1217,6 +1217,67 @@ defmodule AgentJidoWeb.JidoHomeLiveTest do
     end
   end
 
+  describe "home ecosystem stack production-next-step links (E09-T11)" do
+    # Acceptance condition: a builder can move to Operate guidance. Each
+    # recommended stack already explains what it is for (E04-T24), when not to
+    # use it (E09-T10), and how to install it (E09-T08); this adds the final
+    # selection step — one link per stack into the operations guidance that
+    # stack needs to run in production.
+
+    test "every stack carries a production-next-step link into Operate guidance", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      steps = home_ecosystem_stack_next_steps(html)
+
+      # All three recommended stacks carry a next-step link.
+      assert Map.keys(steps) |> MapSet.new() == MapSet.new(~w(core ai operate))
+
+      for {key, %{href: href, label: label}} <- steps do
+        # The link routes into the operations guidance hub (/docs/operations),
+        # so a builder who picked the stack has a single move into Operate
+        # guidance.
+        assert String.starts_with?(href, "/docs/operations/"),
+               "expected the #{key} next-step link to route into Operate guidance, got #{inspect(href)}"
+
+        # The link carries a non-empty label a builder can read.
+        assert is_binary(label) and label != "",
+               "expected the #{key} next-step link to carry a non-empty label"
+      end
+    end
+
+    test "the next-step link sits after the dependency block on each card", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      cards =
+        html
+        |> Floki.parse_document!()
+        |> Floki.find("#home-ecosystem-section article[data-stack]")
+        |> Map.new(fn card ->
+          {Floki.attribute(card, "data-stack") |> hd(), Floki.raw_html(card)}
+        end)
+
+      # The next-step link is the last move on the card: it follows the
+      # installable dependency block, so a builder who has installed a stack sees
+      # the move into Operate guidance.
+      for {key, card_html} <- cards do
+        {deps_idx, _} = :binary.match(card_html, "home-ecosystem-stack-deps")
+        {step_idx, _} = :binary.match(card_html, ~s(data-stack-next-step="#{key}"))
+
+        assert deps_idx < step_idx
+      end
+    end
+
+    test "each stack routes to a distinct operations page", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      hrefs = home_ecosystem_stack_next_steps(html) |> Map.values() |> Enum.map(& &1.href)
+
+      # Three distinct destinations — each stack routes to the operations page
+      # that covers its own production concern, not a shared link to the hub.
+      assert length(Enum.uniq(hrefs)) == 3
+    end
+  end
+
   describe "home CTA and card destinations (jido-e04-t31)" do
     # Acceptance condition: all CTA and card routes resolve. The static link
     # audit already confirms zero unmatched links across the source files, but it
@@ -1321,6 +1382,18 @@ defmodule AgentJidoWeb.JidoHomeLiveTest do
         |> String.trim()
 
       {key, %{label: label, body: body}}
+    end)
+  end
+
+  defp home_ecosystem_stack_next_steps(html) do
+    html
+    |> Floki.parse_document!()
+    |> Floki.find("#home-ecosystem-section [data-stack-next-step]")
+    |> Map.new(fn link ->
+      key = Floki.attribute(link, "data-stack-next-step") |> hd()
+      href = Floki.attribute(link, "href") |> hd()
+      label = Floki.text(link) |> String.trim()
+      {key, %{href: href, label: label}}
     end)
   end
 
