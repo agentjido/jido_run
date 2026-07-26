@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-26T18:04:44Z",
   "created": "2026-07-23T12:08:04Z",
   "description": "Backlog task: E12-T23\n\nWork area: Measurement\n\nMain targets: Tutorial event or explicit completion\n\nComplete when: Success does not depend only on page views.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e12-t23",
@@ -22,7 +23,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E12-T23 — Measure first core Agent success.",
   "type": "task",
   "updated_at": "2026-07-26T18:04:44Z"
