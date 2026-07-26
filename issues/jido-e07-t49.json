@@ -16,11 +16,15 @@
     {
       "text": "Open: operator-investigation runbook not yet a dedicated page.",
       "timestamp": "2026-07-24T12:50:41Z"
+    },
+    {
+      "text": "Accepted by the Zclaude Ralph supervisor. Commits: 00bf01b3. Verification: MIX_ENV=test mix compile \u0026\u0026 MIX_ENV=test mix format --check-formatted.",
+      "timestamp": "2026-07-26T01:19:20Z"
     }
   ],
   "priority": 1,
   "status": "in_progress",
   "title": "E07-T49 — Publish an operator investigation runbook.",
   "type": "task",
-  "updated_at": "2026-07-26T01:10:06Z"
+  "updated_at": "2026-07-26T01:19:20Z"
 }
