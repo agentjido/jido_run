@@ -16,11 +16,15 @@
     {
       "text": "Open: block proof depending on unreleased/unsupported packages not yet enforced.",
       "timestamp": "2026-07-24T12:55:05Z"
+    },
+    {
+      "text": "Accepted by the Zclaude Ralph supervisor. Commits: 3ab5862d. Verification: MIX_ENV=test mix compile \u0026\u0026 MIX_ENV=test mix format --check-formatted.",
+      "timestamp": "2026-07-26T20:12:10Z"
     }
   ],
   "priority": 1,
   "status": "in_progress",
   "title": "E12-T44 — Block proof that depends on an unreleased or unsupported package.",
   "type": "task",
-  "updated_at": "2026-07-26T20:00:25Z"
+  "updated_at": "2026-07-26T20:12:10Z"
 }
