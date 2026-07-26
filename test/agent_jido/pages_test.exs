@@ -1877,6 +1877,143 @@ defmodule AgentJido.PagesTest do
     end
   end
 
+  describe "operations journal retention, access, and deletion page (jido-e07-t45)" do
+    # Acceptance: "The page states owner, duration, sensitive fields, and deletion process."
+    @journal_source Path.expand(
+                      "../../priv/pages/docs/operations/journal-retention-access-and-deletion.md",
+                      __DIR__
+                    )
+    @journal_route "/docs/operations/journal-retention-access-and-deletion"
+
+    test "the page is published and routable" do
+      page = Pages.get_page_by_path(@journal_route)
+
+      assert page != nil
+      assert page.category == :docs
+      assert page.draft == false
+      assert Pages.route_for(page) == @journal_route
+    end
+
+    test "the page is linked from the operations hub" do
+      hub = File.read!(Path.expand("../../priv/pages/docs/operations.md", __DIR__))
+
+      assert hub =~ @journal_route
+    end
+
+    test "it states all four duties as dedicated sections (the acceptance)" do
+      body = File.read!(@journal_source)
+
+      # The acceptance condition: owner, duration, sensitive fields, and deletion
+      # process each get their own dedicated heading, so the four duties are
+      # presented as distinct, named duties rather than mentioned in passing.
+      assert has_h2?(body, "Owner: the application, not Jido")
+      assert has_h2?(body, "Duration: none is shipped")
+      assert has_h2?(body, "Sensitive fields")
+      assert has_h2?(body, "Deletion process")
+    end
+
+    test "it frames owner as application/platform-owned, not a Jido feature" do
+      body = File.read!(@journal_source)
+
+      # Jido ships the adapter surface; the application or platform owns the duties.
+      assert body =~ ~r/adapter surface/i
+      assert body =~ ~r/application or platform duty/i
+
+      # The default is honestly stated as not durable.
+      assert body =~ ~r/not durable/i
+    end
+
+    test "it names the real adapter and query surfaces (no invented retention)" do
+      body = File.read!(@journal_source)
+
+      # The three real adapters are named.
+      assert body =~ "InMemory"
+      assert body =~ "ETS"
+      assert body =~ "Mnesia"
+
+      # query/2 is the real time-filter surface, named as a filter, not a rule.
+      assert body =~ "Jido.Signal.Journal.query/2"
+      assert body =~ "after"
+      assert body =~ "before"
+
+      # The central honesty point: no retention policy ships.
+      assert body =~ ~r/no retention policy/i
+    end
+
+    test "it names the sensitive fields a recorded Signal carries verbatim" do
+      body = File.read!(@journal_source)
+
+      # The four sensitive fields are named, and the Journal redacts none.
+      assert body =~ ~r/`source`/
+      assert body =~ ~r/`data`/
+      assert body =~ ~r/`extensions`/
+      assert body =~ ~r/`subject`/
+
+      # Redaction is an application-defined rule, not a Journal feature.
+      assert body =~ ~r/redact/i
+    end
+
+    test "it states the deletion process and that no signal-deletion ships" do
+      body = File.read!(@journal_source)
+
+      # The acceptance: the deletion process is stated. Jido ships only checkpoint
+      # and dead-letter deletion — there is no delete_signal surface.
+      assert body =~ "delete_checkpoint"
+      assert body =~ "delete_dlq_entry"
+      assert body =~ "clear_dlq"
+      assert body =~ "delete_signal"
+
+      # A tamper-evident audit store is an explicit non-goal.
+      assert body =~ ~r/explicit non-goal/i
+    end
+
+    test "it links only to live operations routes" do
+      body = File.read!(@journal_source)
+
+      internal_links =
+        Regex.scan(~r{\]\((/docs/[^)#]+)\)}, body, capture: :all_but_first)
+        |> List.flatten()
+        |> Enum.uniq()
+
+      assert internal_links != []
+
+      for path <- internal_links do
+        page = Pages.get_page_by_path(path)
+
+        assert page != nil,
+               "journal-retention page links to a route that does not resolve: #{path}"
+
+        assert page.draft == false,
+               "journal-retention page links to a draft page: #{path}"
+      end
+
+      # The audit/observation siblings are cross-linked, so the duties are not
+      # presented in isolation from the surfaces they govern.
+      assert body =~ "/docs/operations/security-and-governance"
+      assert body =~ "/docs/operations/telemetry-and-traces"
+      assert body =~ "/docs/operations/poison-work-and-dead-letter"
+      assert body =~ "/docs/operations/production-readiness-checklist"
+    end
+
+    test "the page source has no placeholder markers" do
+      body = File.read!(@journal_source)
+
+      placeholder_patterns = [
+        ~r/content coming soon/i,
+        ~r/\bcoming soon\b/i,
+        ~r/\bTODO\b/,
+        ~r/\bTBD\b/,
+        ~r/lorem ipsum/i
+      ]
+
+      assert body =~ "draft: false"
+
+      Enum.each(placeholder_patterns, fn pattern ->
+        refute body =~ pattern
+      end)
+    end
+  end
+
   describe "migrations and upgrade paths page (jido-e07-t24)" do
     # Acceptance: "Each supported upgrade path has a version range."
     @upgrade_source Path.expand(

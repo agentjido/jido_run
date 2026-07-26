@@ -37,6 +37,7 @@ Operate a Jido agent system by working through this ordered path. Each step name
 - [Rate limits and cost budgets](/docs/operations/rate-limits-and-cost-budgets) - the three budgets an AI workload must set deliberately — token, request, and tool — and, for each, where the bound lives and what happens when it is exceeded
 - [Production readiness checklist](/docs/operations/production-readiness-checklist) - pre-launch verification for supervision trees, config, telemetry, and resource limits
 - [Security and governance](/docs/operations/security-and-governance) - secret management, API key rotation, access controls, and data boundaries
+- [Journal retention, access, and deletion](/docs/operations/journal-retention-access-and-deletion) - who owns the durable Signal Journal's retention duration, access, sensitive fields, and deletion process — and that Jido ships none of those rules
 - [Incident playbooks](/docs/operations/incident-playbooks) - step-by-step response procedures for common failure modes
 
 > Backup and disaster-recovery guidance is not yet published. It is tracked as a follow-up rather than linked from this page.
