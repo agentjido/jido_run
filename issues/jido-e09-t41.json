@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-26T08:45:06Z",
   "created": "2026-07-23T12:06:30Z",
   "description": "Backlog task: E09-T41\n\nWork area: Operational-control stack and boundaries\n\nMain targets: Ecosystem schema and template\n\nComplete when: A page states the control surface that the package supplies and the control result that it does not supply.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e09-t41",
@@ -23,7 +24,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E09-T41 — Add control capability and limitation fields to each package page.",
   "type": "task",
   "updated_at": "2026-07-26T08:45:06Z"
