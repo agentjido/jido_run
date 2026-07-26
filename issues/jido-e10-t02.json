@@ -1,5 +1,5 @@
 {
-  "assignee": "",
+  "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:06:41Z",
@@ -18,8 +18,8 @@
     }
   ],
   "priority": 1,
-  "status": "open",
+  "status": "in_progress",
   "title": "E10-T02 — Add example tasks, packages, and outcomes to indexed fields.",
   "type": "task",
-  "updated_at": "2026-07-24T12:53:31Z"
+  "updated_at": "2026-07-26T10:46:55Z"
 }
