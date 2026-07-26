@@ -245,6 +245,28 @@ defmodule AgentJido.Pages do
     end
   end
 
+  # 90-day review queue scope (jido-e12-t15).
+  #
+  # "Critical" content is the onboarding ramp (docs/getting-started) and the
+  # operations runbook set (docs/operations) — the pages a new builder or an
+  # on-call operator must trust. These get a 90-day review cadence, independent
+  # of the executable-metadata gate (E12-T14), which only enforces the
+  # last_validated/tested_with/owner trio on runnable notebooks. A plain-Markdown
+  # critical page can therefore ship without a validation date; the review queue
+  # makes that drift findable. The window mirrors the Example staleness query
+  # (jido-e08-t15) and the quarterly operational-control proof audit (E12-T49).
+  @critical_review_sections ~w(getting-started operations)
+
+  for section <- @critical_review_sections do
+    unless Map.has_key?(@docs_section_shape, section) do
+      raise ArgumentError,
+            "Critical review section #{inspect(section)} has no docs pages; " <>
+              "the 90-day review queue would be empty (jido-e12-t15)"
+    end
+  end
+
+  @default_critical_review_days 90
+
   # --- Error module ---
 
   defmodule NotFoundError do
@@ -704,6 +726,115 @@ defmodule AgentJido.Pages do
     end
   end
 
+  # --- 90-day critical review queue (jido-e12-t15) ---
+  #
+  # "Critical" content = onboarding (getting-started) + operations runbooks.
+  # These pages are reviewed on a 90-day cadence so a stale critical page
+  # becomes assigned work (attributed to its owner) instead of rotting
+  # unnoticed. See the @critical_review_sections guard above.
+
+  @doc """
+  Returns the docs section slugs on the 90-day critical review queue — the
+  onboarding ramp and the operations runbooks. See E12-T15.
+  """
+  @spec critical_review_sections() :: [String.t()]
+  def critical_review_sections, do: @critical_review_sections
+
+  @doc """
+  Returns the default review window (in days) a critical page's
+  `last_validated` date stays fresh before the page joins the queue.
+  """
+  @spec default_critical_review_days() :: pos_integer()
+  def default_critical_review_days, do: @default_critical_review_days
+
+  @doc """
+  Returns the published pages in the critical review sections (onboarding +
+  operations). These are the pages reviewed on a 90-day cadence regardless of
+  whether they are executable notebooks. See E12-T15.
+  """
+  @spec critical_pages() :: [Page.t()]
+  def critical_pages do
+    :docs
+    |> pages_by_category()
+    |> Enum.filter(&(docs_section_for_page(&1) in @critical_review_sections))
+  end
+
+  @doc """
+  Returns `true` when the given page is stale enough to join the critical
+  review queue.
+
+  A page is stale when its `last_validated` date is missing, blank, malformed,
+  or older than the review window. Blank or missing dates always count as stale:
+  plain-Markdown critical pages (which the E12-T14 executable gate does not
+  cover) therefore join the queue until they declare a validation date.
+
+  ## Options
+
+    * `:stale_after_days` — review window in days
+      (default `#{inspect(@default_critical_review_days)}`).
+    * `:today` — a `Date.t()` to evaluate against (defaults to `Date.utc_today/0`),
+      so the check is deterministic under test.
+  """
+  @spec stale?(Page.t(), keyword()) :: boolean()
+  def stale?(%Page{} = page, opts \\ []) when is_list(opts) do
+    stale_after_days = Keyword.get(opts, :stale_after_days, @default_critical_review_days)
+    today = Keyword.get(opts, :today, Date.utc_today())
+
+    outdated_validation?(page.last_validated, stale_after_days, today)
+  end
+
+  @doc """
+  Returns the 90-day critical review queue — every onboarding and operations
+  page whose `last_validated` date falls outside the review window (or is
+  missing). These are the stale critical pages that create assigned work.
+
+  Each entry is a review-work map attributed to the page's owner so a stale
+  page is actionable, not merely findable:
+
+    * `:page` — the stale `Page.t()`.
+    * `:owner` — the accountable owner (empty when the page has none; executable
+      pages always carry one via the E12-T14 gate).
+    * `:section` — the docs section slug (onboarding or operations).
+    * `:last_validated` — the page's `last_validated` string, or `nil` when
+      none is recorded.
+    * `:days_since_validation` — whole days since `last_validated`, or `nil`
+      when the page has never been validated (the strongest staleness signal).
+
+  ## Options
+
+    * `:stale_after_days` — review window in days
+      (default `#{inspect(@default_critical_review_days)}`).
+    * `:today` — a `Date.t()` to evaluate against (defaults to `Date.utc_today/0`),
+      so the queue is deterministic under test.
+
+  See E12-T15.
+  """
+  @spec critical_review_queue(keyword()) :: [
+          %{
+            page: Page.t(),
+            owner: String.t(),
+            section: String.t(),
+            last_validated: String.t() | nil,
+            days_since_validation: non_neg_integer() | nil
+          }
+        ]
+  def critical_review_queue(opts \\ []) when is_list(opts) do
+    stale_after_days = Keyword.get(opts, :stale_after_days, @default_critical_review_days)
+    today = Keyword.get(opts, :today, Date.utc_today())
+
+    critical_pages()
+    |> Enum.filter(&stale?(&1, stale_after_days: stale_after_days, today: today))
+    |> Enum.map(fn page ->
+      %{
+        page: page,
+        owner: page.owner,
+        section: docs_section_for_page(page),
+        last_validated: normalize_last_validated(page.last_validated),
+        days_since_validation: days_since_validation(page.last_validated, today)
+      }
+    end)
+  end
+
   # --- Private helpers ---
 
   defp normalize_path_lookup(path) when is_binary(path) do
@@ -790,5 +921,30 @@ defmodule AgentJido.Pages do
       }
     end)
     |> Enum.sort_by(fn %MenuNode{order: order, slug: slug} -> {order, slug} end)
+  end
+
+  # Critical review queue helpers (jido-e12-t15). Blank, missing, or malformed
+  # last_validated dates always count as stale — plain-Markdown critical pages
+  # (not covered by the E12-T14 executable gate) join the queue until they
+  # declare a validation date.
+  defp outdated_validation?(last_validated, stale_after_days, today) do
+    case Date.from_iso8601(to_string(last_validated)) do
+      {:ok, validated_on} ->
+        Date.diff(today, validated_on) > stale_after_days
+
+      {:error, _} ->
+        true
+    end
+  end
+
+  defp normalize_last_validated(""), do: nil
+  defp normalize_last_validated(last_validated) when is_binary(last_validated), do: last_validated
+  defp normalize_last_validated(_), do: nil
+
+  defp days_since_validation(last_validated, today) do
+    case Date.from_iso8601(to_string(last_validated)) do
+      {:ok, validated_on} -> max(0, Date.diff(today, validated_on))
+      {:error, _} -> nil
+    end
   end
 end
