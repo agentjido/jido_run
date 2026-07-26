@@ -148,6 +148,27 @@ backend) whose spans each carry the shared `jido_trace_id`, so an operator — o
 of work from who initiated it, through the request and signal, to the policy
 decision and the effect it produced.
 
+## Application responsibilities
+
+This example proves the control path *inside* Jido — the fail-closed hook, the
+supervised lifecycle, and the correlated trace. The duties that frame that path
+live outside Jido, at your application and platform boundary. Jido integrates
+with those systems; it does not provide them. Each one is an application or
+platform responsibility, not something this agent (or Jido) performs:
+
+| Duty | What your application/platform owns |
+|---|---|
+| **External authentication** | Verifying the caller (human or service) and issuing the principal **before** the Signal exists. Jido does not authenticate — the `source` principal this example carries is already-authenticated context supplied by the boundary in front of Jido. |
+| **Identity storage** | The durable identity and IAM store (credentials, verified identity, issuance) behind that authentication boundary. |
+| **Retention** | The retention window for any durable history. The default Signal Journal is **not** durable; a retention policy is application-defined. |
+| **Access control** | Access to that history, plus the policy decision the hook consults. The `["alice"]` allowlist here is a policy decision, not a login or a built-in RBAC product. |
+| **Compliance duties** | Tamper evidence, export, and compliance reporting for governed environments. Jido is not a compliance product. |
+
+See [security and governance](/docs/operations/security-and-governance) for the
+full claim-boundary model, and [Journal retention, access, and
+deletion](/docs/operations/journal-retention-access-and-deletion) for the
+retention and access duties a durable history adds.
+
 ## Key concepts
 
 **The hook is an integration point, not an IAM product.** Jido does not
