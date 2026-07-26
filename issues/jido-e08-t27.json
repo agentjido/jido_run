@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-26T04:40:43Z",
   "created": "2026-07-23T12:05:30Z",
   "description": "Backlog task: E08-T27\n\nWork area: Home-page use cases\n\nMain targets: Current draft or new example\n\nComplete when: The home support card has a direct destination.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e08-t27",
@@ -22,8 +23,8 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E08-T27 — Publish one support Agent example.",
   "type": "task",
-  "updated_at": "2026-07-26T04:40:42Z"
+  "updated_at": "2026-07-26T04:40:43Z"
 }
