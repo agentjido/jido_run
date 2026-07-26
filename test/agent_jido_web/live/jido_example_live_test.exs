@@ -3,8 +3,11 @@ defmodule AgentJidoWeb.JidoExampleLiveTest do
 
   import Phoenix.ConnTest
   import Phoenix.LiveViewTest
+  import Ecto.Query
 
+  alias AgentJido.Analytics.AnalyticsEvent
   alias AgentJido.Examples
+  alias AgentJido.Repo
 
   @endpoint AgentJidoWeb.Endpoint
   setup_all do
@@ -1563,6 +1566,131 @@ defmodule AgentJidoWeb.JidoExampleLiveTest do
       assert render(demo_view) =~ "approved work reset to 0"
       assert element_cell(demo_view, "controlled-agent-approved") =~ ~r/>\s*0\s*</
       assert element_cell(demo_view, "controlled-agent-restarts") =~ ~r/>\s*1\s*</
+    end
+  end
+
+  describe "/examples/controlled-agent completion analytics (E12-T47)" do
+    # The controlled-agent demo starts a real runtime, and these tests read the
+    # fired analytics events from the database, so each gets its own SQL sandbox
+    # owner in shared mode — the LiveView (a separate process) writes the events
+    # on the test's connection.
+    setup do
+      pid = Ecto.Adapters.SQL.Sandbox.start_owner!(AgentJido.Repo, shared: true)
+      on_exit(fn -> Ecto.Adapters.SQL.Sandbox.stop_owner(pid) end)
+      :ok
+    end
+
+    test "opening the source tab records the source_open completion step", %{conn: conn} do
+      {:ok, _view, _html} = live(conn, "/examples/controlled-agent?tab=source")
+
+      [event] =
+        Repo.all(
+          from(e in AnalyticsEvent,
+            where:
+              e.event == "controlled_agent_engagement" and
+                e.section_id == "source_open",
+            order_by: [desc: e.inserted_at]
+          )
+        )
+
+      assert event.source == "examples"
+      assert event.channel == "controlled_agent_example"
+      assert event.path == "/examples/controlled-agent"
+      assert event.metadata["step"] == "source_open"
+      assert event.metadata["example"] == "controlled-agent"
+    end
+
+    test "opening the demo tab records the local_run completion step", %{conn: conn} do
+      {:ok, _view, _html} = live(conn, "/examples/controlled-agent?tab=demo")
+
+      assert Repo.aggregate(
+               from(
+                 e in AnalyticsEvent,
+                 where:
+                   e.event == "controlled_agent_engagement" and
+                     e.section_id == "local_run"
+               ),
+               :count,
+               :id
+             ) == 1
+    end
+
+    test "starting the demo records the start completion step", %{conn: conn} do
+      {:ok, _view, _html} = live(conn, "/examples/controlled-agent?tab=demo")
+
+      assert Repo.aggregate(
+               from(
+                 e in AnalyticsEvent,
+                 where:
+                   e.event == "controlled_agent_engagement" and e.section_id == "start"
+               ),
+               :count,
+               :id
+             ) == 1
+    end
+
+    test "running the allowed and denied paths records each completion step", %{conn: conn} do
+      {:ok, view, _html} = live(conn, "/examples/controlled-agent?tab=demo")
+      demo_view = find_live_child(view, "demo-controlled-agent")
+
+      # Allowed path: an authorized principal runs the protected Action.
+      demo_view |> element("#controlled-agent-approve-allowed") |> render_click()
+
+      assert Repo.aggregate(
+               from(
+                 e in AnalyticsEvent,
+                 where:
+                   e.event == "controlled_agent_engagement" and
+                     e.section_id == "allowed_path"
+               ),
+               :count,
+               :id
+             ) == 1
+
+      # Denied path: an unauthorized principal is rejected before the Action runs.
+      demo_view |> element("#controlled-agent-approve-denied") |> render_click()
+
+      assert Repo.aggregate(
+               from(
+                 e in AnalyticsEvent,
+                 where:
+                   e.event == "controlled_agent_engagement" and
+                     e.section_id == "denied_path"
+               ),
+               :count,
+               :id
+             ) == 1
+    end
+
+    test "a same-tab re-patch never re-counts a completion step", %{conn: conn} do
+      {:ok, view, _html} = live(conn, "/examples/controlled-agent?tab=source")
+
+      # Landing on source records the source_open step once.
+      assert Repo.aggregate(
+               from(
+                 e in AnalyticsEvent,
+                 where:
+                   e.event == "controlled_agent_engagement" and
+                     e.section_id == "source_open"
+               ),
+               :count,
+               :id
+             ) == 1
+
+      # Selecting another source file patches with tab=source (the same tab) —
+      # not a new completion step — so it never re-counts.
+      view |> element("a", "controlled_agent.ex") |> render_click()
+
+      assert Repo.aggregate(
+               from(
+                 e in AnalyticsEvent,
+                 where:
+                   e.event == "controlled_agent_engagement" and
+                     e.section_id == "source_open"
+               ),
+               :count,
+               :id
+             ) == 1
     end
   end
 end

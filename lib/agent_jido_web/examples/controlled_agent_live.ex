@@ -13,6 +13,7 @@ defmodule AgentJidoWeb.Examples.ControlledAgentLive do
 
   use AgentJidoWeb, :live_view
 
+  alias AgentJido.Analytics
   alias AgentJido.Demos.ControlledAgent.Supervisor, as: ControlledSupervisor
   alias Jido.AgentServer
   alias Jido.Signal
@@ -22,13 +23,20 @@ defmodule AgentJidoWeb.Examples.ControlledAgentLive do
   @poll_interval_ms 500
 
   @impl true
-  def mount(_params, _session, socket) do
+  def mount(_params, session, socket) do
     # A fallback agent for the static (disconnected) render, before the
     # supervised runtime is started.
     fallback_agent = AgentJido.Demos.ControlledAgent.new(id: "controlled-agent-preview")
 
+    # The current scope for analytics is forwarded from the parent show page
+    # (jido-e12-t47): a child LiveView does not inherit the parent's assigns, so
+    # without this the demo could not exclude admin preview traffic. Falls back
+    # to the child's own scope when nothing was forwarded.
+    analytics_scope = session["analytics_scope"] || socket.assigns.current_scope
+
     socket =
       socket
+      |> assign(:analytics_scope, analytics_scope)
       |> assign(:allowed_principal, @allowed_principal)
       |> assign(:denied_principal, @denied_principal)
       |> assign(:sup_pid, nil)
@@ -43,6 +51,13 @@ defmodule AgentJidoWeb.Examples.ControlledAgentLive do
       if connected?(socket) do
         case start_runtime() do
           {:ok, sup_pid, server_pid, agent} ->
+            # Measure completion of the controlled-Agent example (jido-e12-t47):
+            # starting the demo's local runtime is the first step. A start is a
+            # real run, so it fires only once the supervised runtime actually
+            # came up — not when the static render mounts. Admin preview traffic
+            # is excluded by Analytics.track_event_safe.
+            track_controlled_agent_step(socket, "start")
+
             Process.send_after(self(), :poll_state, @poll_interval_ms)
 
             socket
@@ -233,6 +248,31 @@ defmodule AgentJidoWeb.Examples.ControlledAgentLive do
 
   # ── Helpers ─────────────────────────────────────────────────
 
+  # Records a `controlled_agent_engagement` event for one completion step of the
+  # controlled-Agent example (jido-e12-t47): `start` when the local runtime
+  # comes up, `allowed_path` when an authorized principal runs the protected
+  # Action, and `denied_path` when the fail-closed hook rejects an unauthorized
+  # one. The step is carried as section_id; the per-visitor, per-step dedup in
+  # the dashboard breakdown collapses repeat runs to one visitor per step. Admin
+  # preview traffic is excluded by Analytics.track_event_safe via the scope
+  # forwarded from the parent show page.
+  defp track_controlled_agent_step(socket, step) do
+    identity = Map.get(socket.assigns, :analytics_identity, %{})
+
+    Analytics.track_event_safe(socket.assigns.analytics_scope, %{
+      event: "controlled_agent_engagement",
+      source: "examples",
+      channel: "controlled_agent_demo",
+      path: "/examples/controlled-agent",
+      section_id: step,
+      visitor_id: identity[:visitor_id],
+      session_id: identity[:session_id],
+      metadata: %{surface: "controlled_agent_demo", example: "controlled-agent", step: step}
+    })
+
+    socket
+  end
+
   defp dispatch(socket, principal) do
     signal = Signal.new!("work.approve", %{note: "demo"}, source: principal)
 
@@ -240,6 +280,11 @@ defmodule AgentJidoWeb.Examples.ControlledAgentLive do
          result <- AgentServer.call(pid, signal) do
       case result do
         {:ok, agent} ->
+          # The allowed path completed (jido-e12-t47): the principal reached the
+          # effect. Measure only the completed allowed path, never a click that
+          # did not run (e.g. the runtime down), so it fires inside this branch.
+          socket = track_controlled_agent_step(socket, "allowed_path")
+
           {:noreply,
            socket
            |> assign(:agent, agent)
@@ -251,6 +296,12 @@ defmodule AgentJidoWeb.Examples.ControlledAgentLive do
            |> append_log("approved", "principal '#{principal}' allowed; approved work -> #{agent.state.approved_count}")}
 
         {:error, reason} ->
+          # The denied path completed (jido-e12-t47): the fail-closed hook
+          # rejected the principal before the effect. Measure only the completed
+          # denied path, so it fires inside this branch and not when the runtime
+          # is down (the `else` below).
+          socket = track_controlled_agent_step(socket, "denied_path")
+
           approved = socket.assigns.agent.state.approved_count
 
           {:noreply,

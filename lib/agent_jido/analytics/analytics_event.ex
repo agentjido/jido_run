@@ -21,6 +21,7 @@ defmodule AgentJido.Analytics.AnalyticsEvent do
     "example_tab_viewed",
     "long_running_path_entered",
     "control_proof_viewed",
+    "controlled_agent_engagement",
     "feedback_submitted"
   ]
 

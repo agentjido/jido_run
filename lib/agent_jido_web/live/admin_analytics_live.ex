@@ -335,6 +335,34 @@ defmodule AgentJidoWeb.AdminAnalyticsLive do
         </section>
 
         <section class="rounded-lg border border-border bg-card p-5">
+          <h2 class="text-lg font-semibold text-foreground">Controlled-Agent example completion</h2>
+          <p class="mt-1 text-sm text-muted-foreground">
+            How far visitors get through the integrated controlled-Agent example — the home operational-control section's capstone proof — measured by each visitor's first reach of five steps: starting the demo, running the allowed path, running the denied path, opening the source code, and opening the local run.
+          </p>
+          <table class="mt-4 w-full text-sm">
+            <thead>
+              <tr class="text-left text-xs uppercase tracking-wide text-muted-foreground">
+                <th class="py-2 pr-4 font-semibold">Step</th>
+                <th class="py-2 pr-4 font-semibold">Slug</th>
+                <th class="py-2 font-semibold">Visitors</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr :for={row <- @analytics_snapshot.controlled_agent_completion} class="border-t border-border/70">
+                <td class="py-2 pr-4 font-medium text-foreground">{controlled_agent_step_label(row.step)}</td>
+                <td class="py-2 pr-4 text-muted-foreground">{row.step}</td>
+                <td class="py-2 text-foreground">{row.visitors}</td>
+              </tr>
+              <tr :if={@analytics_snapshot.controlled_agent_completion == []}>
+                <td colspan="3" class="py-2 text-sm text-muted-foreground">
+                  No controlled-Agent example completion in this window yet.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="rounded-lg border border-border bg-card p-5">
           <div class="flex flex-wrap items-center justify-between gap-3">
             <h2 class="text-lg font-semibold text-foreground">Collector Health</h2>
             <span class="text-xs text-muted-foreground">Rows shown for the selected {@analytics_days}d window</span>
@@ -587,6 +615,7 @@ defmodule AgentJidoWeb.AdminAnalyticsLive do
       example_engagement: [],
       long_running_path_entry: [],
       control_proof_evaluation: [],
+      controlled_agent_completion: [],
       local_search: %{
         summary: %{
           total_messages: 0,
@@ -866,6 +895,26 @@ defmodule AgentJidoWeb.AdminAnalyticsLive do
   end
 
   defp control_claim_label(_claim), do: "-"
+
+  # Human-readable label for each controlled-Agent example completion step
+  # (jido-e12-t47). Maps the step a `controlled_agent_engagement` event carries
+  # (section_id) to the stage a maintainer reads in the dashboard; an unknown
+  # step falls back to a title-cased slug so a newly instrumented step is never
+  # blank.
+  defp controlled_agent_step_label("start"), do: "Started the demo"
+  defp controlled_agent_step_label("allowed_path"), do: "Ran the allowed path"
+  defp controlled_agent_step_label("denied_path"), do: "Ran the denied path"
+  defp controlled_agent_step_label("source_open"), do: "Opened source code"
+  defp controlled_agent_step_label("local_run"), do: "Opened the local run"
+
+  defp controlled_agent_step_label(step) when is_binary(step) do
+    step
+    |> String.replace("_", " ")
+    |> String.split(" ")
+    |> Enum.map_join(" ", &String.capitalize/1)
+  end
+
+  defp controlled_agent_step_label(_step), do: "-"
 
   defp feedback_badge_class("helpful") do
     "inline-flex rounded-full border border-accent-green/30 bg-accent-green/10 px-2 py-0.5 text-[11px] font-semibold text-accent-green"

@@ -882,4 +882,92 @@ defmodule AgentJido.AnalyticsTest do
       assert total == 3
     end
   end
+
+  describe "controlled-Agent example completion (jido-e12-t47)" do
+    test "dashboard snapshot surfaces each completion step, deduped per visitor per step (jido-e12-t47)" do
+      admin = admin_user_fixture()
+      admin_scope = Scope.for_user(admin)
+      actor = user_fixture()
+      scope = Scope.for_user(actor)
+
+      # Visitor A reaches every step: starts the demo, runs the allowed path,
+      # runs the denied path, opens source, and opens the local run. They run the
+      # allowed path twice — the repeat never re-counts.
+      for step <- ~w(start allowed_path denied_path source_open local_run) do
+        assert {:ok, _} =
+                 Analytics.track_event(scope, %{
+                   event: "controlled_agent_engagement",
+                   source: "examples",
+                   channel: "controlled_agent_demo",
+                   path: "/examples/controlled-agent",
+                   section_id: step,
+                   visitor_id: "visitor-a",
+                   session_id: "session-a",
+                   metadata: %{surface: "controlled_agent_demo", example: "controlled-agent", step: step}
+                 })
+      end
+
+      assert {:ok, _} =
+               Analytics.track_event(scope, %{
+                 event: "controlled_agent_engagement",
+                 source: "examples",
+                 channel: "controlled_agent_demo",
+                 path: "/examples/controlled-agent",
+                 section_id: "allowed_path",
+                 visitor_id: "visitor-a",
+                 session_id: "session-a",
+                 metadata: %{surface: "controlled_agent_demo", example: "controlled-agent", step: "allowed_path"}
+               })
+
+      # Visitor B starts the demo and runs the allowed path only.
+      for step <- ~w(start allowed_path) do
+        assert {:ok, _} =
+                 Analytics.track_event(scope, %{
+                   event: "controlled_agent_engagement",
+                   source: "examples",
+                   channel: "controlled_agent_demo",
+                   path: "/examples/controlled-agent",
+                   section_id: step,
+                   visitor_id: "visitor-b",
+                   session_id: "session-b",
+                   metadata: %{surface: "controlled_agent_demo", example: "controlled-agent", step: step}
+                 })
+      end
+
+      # An example tab movement for another example (jido-e12-t26) is not a
+      # controlled-Agent completion step, so it must never bleed into this
+      # breakdown.
+      assert {:ok, _} =
+               Analytics.track_event(scope, %{
+                 event: "example_tab_viewed",
+                 source: "examples",
+                 channel: "example_tab",
+                 path: "/examples/counter-agent",
+                 section_id: "source",
+                 visitor_id: "visitor-b",
+                 session_id: "session-b",
+                 metadata: %{surface: "example_show", example: "counter-agent", target: "source"}
+               })
+
+      snapshot = Analytics.dashboard_snapshot(admin_scope, 7)
+
+      rows = Map.new(snapshot.controlled_agent_completion, fn row -> {row.step, row.visitors} end)
+
+      # Every step is present. Visitor A's repeat allowed_path run never
+      # re-counts, so each step A reached counts them once.
+      assert rows["start"] == 2
+      assert rows["allowed_path"] == 2
+      assert rows["denied_path"] == 1
+      assert rows["source_open"] == 1
+      assert rows["local_run"] == 1
+
+      # The unrelated example tab movement is excluded.
+      refute Map.has_key?(rows, "source")
+
+      # Seven first completions total across the five steps — visitor A's repeat
+      # allowed_path run never re-counts as a new completion.
+      total = Enum.sum(Enum.map(snapshot.controlled_agent_completion, & &1.visitors))
+      assert total == 7
+    end
+  end
 end

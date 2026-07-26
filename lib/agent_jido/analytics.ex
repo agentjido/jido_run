@@ -51,7 +51,8 @@ defmodule AgentJido.Analytics do
           example_filter: [map()],
           example_engagement: [map()],
           long_running_path_entry: [map()],
-          control_proof_evaluation: [map()]
+          control_proof_evaluation: [map()],
+          controlled_agent_completion: [map()]
         }
 
   @doc """
@@ -149,7 +150,8 @@ defmodule AgentJido.Analytics do
         example_filter: example_filter_breakdown(days),
         example_engagement: example_engagement_breakdown(days),
         long_running_path_entry: long_running_path_entry_breakdown(days),
-        control_proof_evaluation: control_proof_evaluation_breakdown(days)
+        control_proof_evaluation: control_proof_evaluation_breakdown(days),
+        controlled_agent_completion: controlled_agent_completion_breakdown(days)
       }
     else
       unauthorized_snapshot(days)
@@ -705,6 +707,50 @@ defmodule AgentJido.Analytics do
         visitors: count(ev.visitor_id)
       },
       order_by: [desc: count(ev.visitor_id), asc: ev.claim]
+    )
+    |> Repo.all()
+  end
+
+  # Completion of the integrated controlled-Agent example (jido-e12-t47). The
+  # example is the home operational-control section's capstone proof — one
+  # supervised run that answers every control question — so the team measures
+  # how far visitors get through it, not only that the page was viewed. Five
+  # steps mark that progress: starting the demo's local runtime (`start`),
+  # running the allowed path (`allowed_path`), running the denied path
+  # (`denied_path`), opening the example's source code (`source_open`), and
+  # opening the local run — the interactive demo tab (`local_run`). Each step
+  # fires a single `controlled_agent_engagement` event carrying the step as
+  # section_id. A visitor can reach several steps, so `DISTINCT ON (visitor_id,
+  # section_id)` keeps the earliest row per visitor per step — repeat runs of the
+  # same step by the same visitor never re-count, while a visitor who reaches
+  # both paths counts once in each. We then group the in-window first completions
+  # by step (section_id), so the team sees how many visitors reached each stage
+  # of the controlled-Agent example.
+  defp controlled_agent_completion_breakdown(days) do
+    since = since_naive(days)
+
+    first_completion_per_visitor_step =
+      from(e in AnalyticsEvent,
+        where:
+          e.event == "controlled_agent_engagement" and
+            not is_nil(e.section_id),
+        order_by: [asc: e.visitor_id, asc: e.section_id, asc: e.inserted_at],
+        distinct: [e.visitor_id, e.section_id],
+        select: %{
+          visitor_id: e.visitor_id,
+          completed_at: e.inserted_at,
+          step: e.section_id
+        }
+      )
+
+    from(c in subquery(first_completion_per_visitor_step),
+      where: c.completed_at >= ^since,
+      group_by: c.step,
+      select: %{
+        step: c.step,
+        visitors: count(c.visitor_id)
+      },
+      order_by: [desc: count(c.visitor_id), asc: c.step]
     )
     |> Repo.all()
   end
@@ -1512,7 +1558,8 @@ defmodule AgentJido.Analytics do
       example_filter: [],
       example_engagement: [],
       long_running_path_entry: [],
-      control_proof_evaluation: []
+      control_proof_evaluation: [],
+      controlled_agent_completion: []
     }
   end
 
@@ -1538,7 +1585,8 @@ defmodule AgentJido.Analytics do
       example_filter: [],
       example_engagement: [],
       long_running_path_entry: [],
-      control_proof_evaluation: []
+      control_proof_evaluation: [],
+      controlled_agent_completion: []
     }
   end
 

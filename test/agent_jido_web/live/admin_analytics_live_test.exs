@@ -366,6 +366,59 @@ defmodule AgentJidoWeb.AdminAnalyticsLiveTest do
     assert html =~ "typed-actions"
   end
 
+  test "renders the controlled-Agent example completion section for admins (jido-e12-t47)",
+       %{admin_conn: admin_conn} do
+    actor = user_fixture()
+    scope = Scope.for_user(actor)
+
+    # One visitor starts the demo and runs the allowed path; another opens source
+    # and the local run, so several completion steps render as rows.
+    Analytics.track_event_safe(scope, %{
+      event: "controlled_agent_engagement",
+      source: "examples",
+      channel: "controlled_agent_demo",
+      path: "/examples/controlled-agent",
+      section_id: "start",
+      visitor_id: "admin-controlled-start",
+      session_id: "admin-controlled-start-session",
+      metadata: %{surface: "controlled_agent_demo", example: "controlled-agent", step: "start"}
+    })
+
+    Analytics.track_event_safe(scope, %{
+      event: "controlled_agent_engagement",
+      source: "examples",
+      channel: "controlled_agent_demo",
+      path: "/examples/controlled-agent",
+      section_id: "allowed_path",
+      visitor_id: "admin-controlled-start",
+      session_id: "admin-controlled-start-session",
+      metadata: %{surface: "controlled_agent_demo", example: "controlled-agent", step: "allowed_path"}
+    })
+
+    Analytics.track_event_safe(scope, %{
+      event: "controlled_agent_engagement",
+      source: "examples",
+      channel: "controlled_agent_example",
+      path: "/examples/controlled-agent",
+      section_id: "source_open",
+      visitor_id: "admin-controlled-source",
+      session_id: "admin-controlled-source-session",
+      metadata: %{surface: "controlled_agent_example", example: "controlled-agent", step: "source_open"}
+    })
+
+    {:ok, view, html} = live(admin_conn, "/dashboard/analytics")
+
+    # The section is present and each completion step is visible as a row — the
+    # human-readable label and the step slug both render.
+    assert has_element?(view, "h2", "Controlled-Agent example completion")
+    assert html =~ "Started the demo"
+    assert html =~ "start"
+    assert html =~ "Ran the allowed path"
+    assert html =~ "allowed_path"
+    assert html =~ "Opened source code"
+    assert html =~ "source_open"
+  end
+
   defp seed_analytics_data do
     actor = user_fixture()
     scope = Scope.for_user(actor)

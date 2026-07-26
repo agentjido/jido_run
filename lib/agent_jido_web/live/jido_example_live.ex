@@ -59,6 +59,19 @@ defmodule AgentJidoWeb.JidoExampleLive do
         do: maybe_track_example_engagement(socket, previous_tab, tab, example),
         else: socket
 
+    # Measure completion of the integrated controlled-Agent example (jido-e12-t47).
+    # Opening the example's source code (`source_open`) or local run — the
+    # interactive demo tab (`local_run`) — are two of the example's five
+    # completion steps, fired only for the controlled-agent slug and only when the
+    # tab actually changes (a re-patch that keeps the same tab never re-counts),
+    # mirroring the example-engagement tracking above. The per-visitor, per-step
+    # dedup in the dashboard breakdown then collapses repeat opens to one visitor
+    # per step. Admin scopes are excluded by Analytics.track_event_safe.
+    socket =
+      if connected?(socket),
+        do: maybe_track_controlled_agent_completion(socket, previous_tab, tab, example),
+        else: socket
+
     {:noreply,
      socket
      |> assign(:example, example)
@@ -181,7 +194,7 @@ defmodule AgentJidoWeb.JidoExampleLive do
               This example uses deterministic fixture data. No live LLM, browser, or network calls are executed.
             </div>
           </div>
-          {live_render(@socket, @demo_module, id: "demo-#{@example.slug}", session: %{"example_slug" => @example.slug})}
+          {live_render(@socket, @demo_module, id: "demo-#{@example.slug}", session: demo_session(@example.slug, @analytics_identity, @current_scope))}
         </div>
 
         <%!-- Explanation tab --%>
@@ -340,6 +353,51 @@ defmodule AgentJidoWeb.JidoExampleLive do
   end
 
   defp maybe_track_example_engagement(socket, _previous_tab, _tab, _example), do: socket
+
+  # Session handed to the embedded demo LiveView (jido-e12-t47). A child
+  # LiveView does not inherit the parent's assigns, so the demo's own analytics
+  # (e.g. the controlled-agent demo's start / allowed / denied steps) need the
+  # visitor identity and the current scope forwarded explicitly. The identity
+  # populates the child's `analytics_identity` (read by AnalyticsOnMount); the
+  # scope preserves admin-exclusion through Analytics.track_event_safe.
+  defp demo_session(slug, analytics_identity, current_scope) do
+    %{
+      "example_slug" => slug,
+      "analytics_identity" => analytics_identity,
+      "analytics_scope" => current_scope
+    }
+  end
+
+  # Records `controlled_agent_engagement` events for the controlled-Agent
+  # example's source-open and local-run completion steps (jido-e12-t47). Only the
+  # `source` tab (the production implementation) and the `demo` tab (run the
+  # agent locally) fire, only for the controlled-agent slug, and only when the
+  # tab actually changes — so a re-patch that keeps the same tab never re-counts.
+  # Admin scopes are excluded by Analytics.track_event_safe, so admin preview
+  # traffic is never counted. The event carries the completion step as
+  # section_id; the per-visitor, per-step dedup in the dashboard breakdown
+  # collapses repeat opens to one visitor per step.
+  defp maybe_track_controlled_agent_completion(socket, previous_tab, tab, example)
+       when tab in [:source, :demo] and tab != previous_tab do
+    if example.slug == "controlled-agent" do
+      step = if tab == :source, do: "source_open", else: "local_run"
+
+      Analytics.track_event_safe(socket.assigns.current_scope, %{
+        event: "controlled_agent_engagement",
+        source: "examples",
+        channel: "controlled_agent_example",
+        path: "/examples/controlled-agent",
+        section_id: step,
+        visitor_id: socket.assigns.analytics_identity[:visitor_id],
+        session_id: socket.assigns.analytics_identity[:session_id],
+        metadata: %{surface: "controlled_agent_example", example: "controlled-agent", step: step}
+      })
+    end
+
+    socket
+  end
+
+  defp maybe_track_controlled_agent_completion(socket, _previous_tab, _tab, _example), do: socket
 
   defp resolve_active_source([], _source_param), do: {nil, nil}
 

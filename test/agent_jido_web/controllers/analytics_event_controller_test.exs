@@ -156,6 +156,34 @@ defmodule AgentJidoWeb.AnalyticsEventControllerTest do
     assert event.metadata["example"] == "counter-agent"
   end
 
+  test "accepts the controlled-Agent completion step event (jido-e12-t47)", %{conn: conn} do
+    conn =
+      post(conn, ~p"/analytics/events", %{
+        "event" => "controlled_agent_engagement",
+        "properties" => %{
+          "source" => "examples",
+          "channel" => "controlled_agent_demo",
+          "path" => "/examples/controlled-agent",
+          "section_id" => "allowed_path",
+          "metadata" => %{
+            "surface" => "controlled_agent_demo",
+            "example" => "controlled-agent",
+            "step" => "allowed_path"
+          }
+        }
+      })
+
+    assert json_response(conn, 202)["ok"]
+
+    event = Repo.one(from(e in AnalyticsEvent, order_by: [desc: e.inserted_at], limit: 1))
+    assert event.event == "controlled_agent_engagement"
+    assert event.source == "examples"
+    assert event.channel == "controlled_agent_demo"
+    assert event.section_id == "allowed_path"
+    assert event.metadata["step"] == "allowed_path"
+    assert event.metadata["example"] == "controlled-agent"
+  end
+
   test "accepts the onboarding to Operate long-running path entry event (jido-e12-t27)", %{conn: conn} do
     conn =
       post(conn, ~p"/analytics/events", %{
