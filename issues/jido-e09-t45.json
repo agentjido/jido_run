@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-26T09:16:43Z",
   "created": "2026-07-23T12:06:34Z",
   "description": "Backlog task: E09-T45\n\nWork area: Operational-control stack and boundaries\n\nMain targets: `jido`, `jido_otel`, and `jido_signal` pages\n\nComplete when: The three roles do not use interchangeable language.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e09-t45",
@@ -23,7 +24,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E09-T45 — Separate core observation, `jido_otel` export, and audit history.",
   "type": "task",
   "updated_at": "2026-07-26T09:16:43Z"
