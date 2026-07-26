@@ -207,6 +207,68 @@ defmodule AgentJido.Examples do
     if include_drafts?(opts), do: length(@all_examples), else: length(@examples)
   end
 
+  # Validation staleness (jido-e08-t15).
+  #
+  # The Example card contract exposes `last_validated` (ISO date the example was
+  # last run against its `tested_with` versions) and `tested_with` (the version
+  # set). Neither field is required to ship an example, so staleness must be
+  # *findable* rather than asserted by a build-time gate. The default review
+  # window mirrors the 90-day operations/onboarding review queue (E12-T15) and
+  # the quarterly operational-control proof audit (E12-T49).
+  @default_stale_after_days 90
+
+  @doc """
+  Returns the examples whose validation metadata is stale.
+
+  An example is stale when it carries no `last_validated` date, when that date
+  falls outside the configured review window, or when its `tested_with` version
+  set is empty. This is the single query that lets stale examples be found
+  across the Example card contract.
+
+  ## Options
+
+    * `:stale_after_days` — days a `last_validated` date stays fresh before the
+      example is considered stale (default `#{@default_stale_after_days}`).
+    * `:include_unpublished` / `:include_drafts` — include draft examples
+      (default `false`), forwarded through `all_examples/1` filtering.
+  """
+  @spec stale_examples(keyword()) :: [Example.t()]
+  def stale_examples(opts \\ []) when is_list(opts) do
+    opts
+    |> base_examples()
+    |> Enum.filter(&stale?(&1, opts))
+  end
+
+  @doc """
+  Returns `true` when the given example's validation metadata is stale.
+
+  See `stale_examples/1` for the staleness rules and supported options.
+  """
+  @spec stale?(Example.t(), keyword()) :: boolean()
+  def stale?(%Example{} = example, opts \\ []) when is_list(opts) do
+    stale_after_days = Keyword.get(opts, :stale_after_days, @default_stale_after_days)
+
+    missing_version_set?(example.tested_with) or
+      outdated_validation?(example.last_validated, stale_after_days)
+  end
+
+  defp missing_version_set?(tested_with) when is_map(tested_with) do
+    map_size(tested_with) == 0
+  end
+
+  defp missing_version_set?(_tested_with), do: true
+
+  defp outdated_validation?(last_validated, stale_after_days) do
+    case Date.from_iso8601(to_string(last_validated)) do
+      {:ok, validated_on} ->
+        Date.diff(Date.utc_today(), validated_on) > stale_after_days
+
+      {:error, _} ->
+        # Blank, missing, or malformed dates always count as stale.
+        true
+    end
+  end
+
   @spec taxonomy_enums() :: map()
   def taxonomy_enums do
     %{
