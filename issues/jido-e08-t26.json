@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-26T04:27:56Z",
   "created": "2026-07-23T12:05:29Z",
   "description": "Backlog task: E08-T26\n\nWork area: Home-page use cases\n\nMain targets: Current draft or new example\n\nComplete when: The home documents card has a direct destination.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e08-t26",
@@ -22,7 +23,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E08-T26 — Publish one document-processing example.",
   "type": "task",
   "updated_at": "2026-07-26T04:27:56Z"
