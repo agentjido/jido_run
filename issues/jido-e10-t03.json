@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-26T11:29:00Z",
   "created": "2026-07-23T12:06:42Z",
   "description": "Backlog task: E10-T03\n\nWork area: Search\n\nMain targets: Search ingestion\n\nComplete when: A query for a package skill returns its card.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e10-t03",
@@ -22,7 +23,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E10-T03 — Add public Skills to the search index after the catalog is fixed.",
   "type": "task",
   "updated_at": "2026-07-26T11:29:00Z"
