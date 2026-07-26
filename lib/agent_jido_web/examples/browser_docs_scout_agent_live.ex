@@ -44,8 +44,17 @@ defmodule AgentJidoWeb.Examples.BrowserDocsScoutAgentLive do
             Plugin-backed browser session using a deterministic simulated adapter
           </div>
         </div>
-        <div class="text-[10px] font-mono text-muted-foreground bg-elevated px-2 py-1 rounded border border-border">
-          {if @session, do: "session: " <> String.slice(@session.id, 0, 8) <> "…", else: "session: idle"}
+        <div class="flex flex-col items-end gap-1">
+          <div
+            id="browser-demo-simulated-label"
+            class="text-[10px] px-2 py-1 rounded border border-accent-cyan/30 bg-accent-cyan/10 text-accent-cyan font-semibold uppercase tracking-wider"
+            title="This panel replays a deterministic browser trace. No live browser binaries or network calls run here."
+          >
+            simulated
+          </div>
+          <div class="text-[10px] font-mono text-muted-foreground bg-elevated px-2 py-1 rounded border border-border">
+            {if @session, do: "session: " <> String.slice(@session.id, 0, 8) <> "…", else: "session: idle"}
+          </div>
         </div>
       </div>
 

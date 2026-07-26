@@ -604,6 +604,18 @@ defmodule AgentJidoWeb.JidoExampleLiveTest do
       assert html =~ "session: idle"
     end
 
+    test "demo panel carries a clear simulated-mode label (jido-e08-t16)", %{conn: conn} do
+      {:ok, view, _html} = live(conn, "/examples/jido-ai-browser-web-workflow?tab=demo")
+
+      demo_view = find_live_child(view, "demo-jido-ai-browser-web-workflow")
+      panel_html = render(demo_view)
+
+      # The browser panel self-labels its simulated output so the deterministic
+      # fixture trace is never read as a live provider/browser result.
+      assert panel_html =~ ~s(id="browser-demo-simulated-label")
+      assert panel_html =~ "simulated"
+    end
+
     test "example registry metadata resolves new browser source files", %{conn: _conn} do
       example = Examples.get_example!("jido-ai-browser-web-workflow")
 
@@ -618,6 +630,28 @@ defmodule AgentJidoWeb.JidoExampleLiveTest do
              ]
 
       assert Enum.map(example.sources, & &1.path) == example.source_files
+    end
+  end
+
+  describe "simulated-mode labeling (jido-e08-t16)" do
+    test "every live simulated example labels its demo so output is never read as a live provider result",
+         %{conn: conn} do
+      # Only public (live) examples can present output to a visitor, so the
+      # contract is enforced over Examples.all_examples/0, which is already
+      # filtered to status == :live.
+      live_simulated =
+        Examples.all_examples()
+        |> Enum.filter(&(&1.demo_mode == :simulated))
+
+      assert live_simulated != [],
+             "expected at least one live simulated example to exercise the simulated-mode label"
+
+      for example <- live_simulated do
+        {:ok, _view, html} = live(conn, "/examples/#{example.slug}?tab=demo")
+
+        assert html =~ "Simulated demo",
+               "live simulated example #{inspect(example.slug)} must label its demo as simulated"
+      end
     end
   end
 
