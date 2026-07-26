@@ -3,6 +3,7 @@ defmodule AgentJidoWeb.JidoEcosystemLive do
 
   alias AgentJido.Ecosystem
   alias AgentJido.Ecosystem.Bookmarks, as: EcosystemBookmarks
+  alias AgentJido.Ecosystem.ControlMatrix, as: EcosystemControlMatrix
   alias AgentJido.Ecosystem.Layering
   alias AgentJido.Ecosystem.Stacks, as: EcosystemStacks
   alias AgentJido.Ecosystem.SupportLevel
@@ -35,6 +36,8 @@ defmodule AgentJidoWeb.JidoEcosystemLive do
        layer_count: 0,
        support_levels: Ecosystem.support_levels(),
        stack_matrix: EcosystemStacks.matrix(),
+       control_matrix: EcosystemControlMatrix.matrix(),
+       control_columns: EcosystemControlMatrix.columns(),
        orbit_payload_json: Jason.encode!(build_orbit_payload([])),
        structured_data: [ecosystem_item_list(public_packages)]
      )}
@@ -145,6 +148,12 @@ defmodule AgentJidoWeb.JidoEcosystemLive do
               class="text-xs text-primary hover:text-primary/80 transition-colors font-semibold"
             >
               COMPARE PACKAGES ↓
+            </a>
+            <a
+              href="#operational-control"
+              class="text-xs text-primary hover:text-primary/80 transition-colors font-semibold"
+            >
+              OPERATIONAL CONTROL ↓
             </a>
           </div>
         </section>
@@ -263,6 +272,104 @@ defmodule AgentJidoWeb.JidoEcosystemLive do
               </table>
             </div>
           </section>
+        </section>
+
+        <section id="operational-control" class="mb-16 scroll-mt-24">
+          <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between mb-5">
+            <div>
+              <span class="text-sm font-bold tracking-wider">OPERATIONAL CONTROL</span>
+              <p class="copy-measure text-sm leading-relaxed text-secondary-foreground mt-2">
+                Compare the nine operational-control dimensions across the packages that participate in the
+                controlled-Agent stack and the host application that owns the rest. A reader can see, for each
+                dimension, whether the control comes from core Jido, an optional Jido package, or the host
+                application — and where the boundary falls.
+              </p>
+            </div>
+            <span class="text-[11px] text-muted-foreground">
+              {length(@control_matrix)} dimensions · {length(@control_columns)} columns
+            </span>
+          </div>
+
+          <section class="code-block overflow-hidden">
+            <div class="code-header">
+              <span class="text-[10px] text-muted-foreground">ecosystem_operational_control.md</span>
+              <span class="text-[10px] text-muted-foreground">capability matrix</span>
+            </div>
+
+            <div class="overflow-x-auto">
+              <table class="w-full min-w-[960px] text-xs table-fixed">
+                <colgroup>
+                  <col class="w-[16%]" />
+                  <%= for _column <- @control_columns do %>
+                    <col />
+                  <% end %>
+                </colgroup>
+                <thead class="bg-elevated text-muted-foreground uppercase tracking-wider">
+                  <tr>
+                    <th class="text-left font-semibold px-3 py-3">Capability</th>
+                    <%= for column <- @control_columns do %>
+                      <th class="text-left font-semibold px-3 py-3">
+                        <%= if column.path do %>
+                          <.link
+                            navigate={column.path}
+                            class="font-semibold text-foreground hover:text-primary transition-colors"
+                          >
+                            {column.label}
+                          </.link>
+                        <% else %>
+                          <span class="text-foreground">{column.label}</span>
+                        <% end %>
+                      </th>
+                    <% end %>
+                  </tr>
+                </thead>
+                <tbody>
+                  <%= for row <- @control_matrix do %>
+                    <tr id={"control-row-#{row.key}"} class="border-t border-border align-top" data-capability={row.key}>
+                      <th scope="row" class="px-3 py-3 text-left">
+                        <span class="font-semibold text-foreground">{row.label}</span>
+                        <div class="text-muted-foreground mt-1 break-words">{row.description}</div>
+                      </th>
+                      <%= for column <- @control_columns do %>
+                        <% cell = Map.fetch!(row.cells, column.key) %>
+                        <td
+                          class="px-3 py-3"
+                          data-control-column={column.key}
+                          data-control-role={cell.role}
+                        >
+                          <span class={"text-[11px] font-semibold #{control_role_class(cell.role)}"}>
+                            {EcosystemControlMatrix.role_label(cell.role)}
+                          </span>
+                          <p class="text-muted-foreground mt-1 break-words leading-relaxed">{cell.text}</p>
+                        </td>
+                      <% end %>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <div class="flex flex-wrap items-center gap-4 mt-4">
+            <span class="text-[11px] text-muted-foreground">Legend:</span>
+            <%= for role <- [:supplies, :preserves, :app] do %>
+              <span class="inline-flex items-center gap-1.5 text-[11px] text-muted-foreground">
+                <span class={"inline-block h-2.5 w-2.5 rounded-sm #{control_role_dot_class(role)}"}></span>
+                {EcosystemControlMatrix.role_label(role)}
+              </span>
+            <% end %>
+          </div>
+
+          <p class="copy-measure text-xs leading-relaxed text-muted-foreground mt-4">
+            <span class="font-semibold text-foreground">Release basis.</span>
+            Each package column's release version, support level, and proof are stated on its package page —
+            experimental or unreleased packages describe their documented boundary here and do not back a
+            general production claim. The full claim boundaries are on the
+            <.link navigate="/docs/operations/security-and-governance" class="text-primary hover:text-primary/80 transition-colors font-semibold">
+              Security and governance
+            </.link>
+            page.
+          </p>
         </section>
 
         <section class="mb-16">
@@ -531,6 +638,19 @@ defmodule AgentJidoWeb.JidoEcosystemLive do
   defp stack_source_class(:hex), do: "text-primary"
   defp stack_source_class(:github), do: "text-accent-yellow"
   defp stack_source_class(_source), do: "text-muted-foreground"
+
+  # Operational-control matrix role colors (jido-e09-t49). A package that
+  # supplies a control reads primary; one that carries or preserves context but
+  # leaves the decision to the host reads yellow; an application-owned cell
+  # reads muted so the host boundary stays visible without overstating a
+  # package's control surface.
+  defp control_role_class(:supplies), do: "text-primary"
+  defp control_role_class(:preserves), do: "text-accent-yellow"
+  defp control_role_class(:app), do: "text-muted-foreground"
+
+  defp control_role_dot_class(:supplies), do: "bg-primary"
+  defp control_role_dot_class(:preserves), do: "bg-accent-yellow"
+  defp control_role_dot_class(:app), do: "bg-muted-foreground/50"
 
   defp build_explorer_packages(packages, title_by_id, stars_by_package) do
     packages

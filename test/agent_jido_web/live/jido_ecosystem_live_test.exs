@@ -4,7 +4,7 @@ defmodule AgentJidoWeb.JidoEcosystemLiveTest do
   import Phoenix.LiveViewTest
 
   alias AgentJido.Ecosystem
-  alias AgentJido.Ecosystem.{Layering, Stacks, SupportLevel}
+  alias AgentJido.Ecosystem.{ControlMatrix, Layering, Stacks, SupportLevel}
 
   test "renders ecosystem package directory and links all public packages", %{conn: conn} do
     {:ok, _view, html} = live(conn, "/ecosystem")
@@ -243,6 +243,106 @@ defmodule AgentJidoWeb.JidoEcosystemLiveTest do
         end
       end
     end
+  end
+
+  describe "operational-control capability matrix (jido-e09-t49)" do
+    # Acceptance condition: a reader can compare context, authorization hooks,
+    # policy, quotas, history, observation, export, approval, and integration
+    # duties. The matrix is the one consolidated view that exposes all nine
+    # dimensions as rows across the control packages and the host application,
+    # with a grounded role on every cell.
+
+    test "renders the nine dimensions and every column in one comparison view", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/ecosystem")
+
+      assert html =~ "OPERATIONAL CONTROL"
+      assert html =~ "capability matrix"
+
+      # Every dimension the backlog names is a row.
+      for capability <- ControlMatrix.capabilities() do
+        assert html =~ ~s(id="control-row-#{capability.key}")
+        assert html =~ capability.label
+      end
+    end
+
+    test "package columns link to their ecosystem page; the host column does not", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/ecosystem")
+
+      for column <- ControlMatrix.columns(), column.kind == :package do
+        assert html =~ ~s(href="#{column.path}"),
+               "expected the #{column.key} column header to link to #{column.path}"
+      end
+
+      assert html =~ "Host application"
+    end
+
+    test "every cell renders a grounded role tag, in order per row", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/ecosystem")
+      rows = control_matrix_rows(html)
+
+      # One row per capability, keyed by capability atom.
+      assert Map.keys(rows) |> MapSet.new() == MapSet.new(ControlMatrix.capability_keys())
+
+      for matrix_row <- ControlMatrix.matrix() do
+        row = Map.fetch!(rows, matrix_row.key)
+
+        # One cell per column, in display order, each carrying its role.
+        roles =
+          row
+          |> Floki.find("td[data-control-role]")
+          |> Enum.map(&(Floki.attribute(&1, "data-control-role") |> List.first()))
+
+        assert roles ==
+                 Enum.map(ControlMatrix.columns(), fn column ->
+                   matrix_row.cells[column.key].role |> to_string()
+                 end)
+      end
+    end
+
+    test "approval is entirely application-owned — no package overstates an approval control", %{
+      conn: conn
+    } do
+      {:ok, _view, html} = live(conn, "/ecosystem")
+      rows = control_matrix_rows(html)
+      approval = Map.fetch!(rows, :approval)
+
+      for cell <- Floki.find(approval, "td[data-control-role]") do
+        assert Floki.attribute(cell, "data-control-role") |> List.first() == "app"
+      end
+    end
+
+    test "the legend names all three roles", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/ecosystem")
+
+      assert html =~ "Legend:"
+      assert html =~ ControlMatrix.role_label(:supplies)
+      assert html =~ ControlMatrix.role_label(:preserves)
+      assert html =~ ControlMatrix.role_label(:app)
+    end
+
+    test "links the claim boundaries and states the release-basis caveat", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/ecosystem")
+
+      assert html =~ ~s(href="/docs/operations/security-and-governance")
+      assert html =~ "Release basis."
+    end
+
+    test "the hero deep-links to the matrix", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/ecosystem")
+
+      assert html =~ ~s(href="#operational-control")
+      assert html =~ "OPERATIONAL CONTROL ↓"
+    end
+  end
+
+  defp control_matrix_rows(html) do
+    html
+    |> Floki.parse_document!()
+    |> Floki.find("#operational-control tr[data-capability]")
+    |> Map.new(fn row ->
+      capability = Floki.attribute(row, "data-capability") |> List.first() |> String.to_atom()
+      {capability, row}
+    end)
   end
 
   defp stack_matrix_rows(html) do
