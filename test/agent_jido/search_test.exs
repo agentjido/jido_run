@@ -263,6 +263,36 @@ defmodule AgentJido.ContentAssistant.RetrievalTest do
       assert persistence.source_type == :examples
     end
 
+    test "returns the example that proves a task for a task query via fallback" do
+      # failure-drill-agent carries no "recovery" term in its own
+      # slug/tags/description/outcome/packages; it surfaces only because the
+      # search document model indexes the canonical :recovery task label
+      # (jido-e10-t02). This is the "task queries work" acceptance condition.
+      search_fun = fn _query, _opts -> {:error, :backend_down} end
+
+      assert {:ok, results} = Retrieval.query("recovery example", search_fun: search_fun)
+
+      failure_drill = Enum.find(results, &(&1.url == "/examples/failure-drill-agent"))
+
+      assert failure_drill != nil
+      assert failure_drill.source_type == :examples
+    end
+
+    test "returns the example that uses a package for a package query via fallback" do
+      # signal-routing-agent is the only public example whose packages contract
+      # lists jido_signal; the search document model indexes example packages
+      # so a package query surfaces it. This is the "package queries work"
+      # acceptance condition (jido-e10-t02).
+      search_fun = fn _query, _opts -> {:error, :backend_down} end
+
+      assert {:ok, results} = Retrieval.query("jido_signal example", search_fun: search_fun)
+
+      signal_routing = Enum.find(results, &(&1.url == "/examples/signal-routing-agent"))
+
+      assert signal_routing != nil
+      assert signal_routing.source_type == :examples
+    end
+
     test "reranks package overviews above deep docs for broad package-intent queries" do
       rows = [
         %{document_id: "doc-overview", text: "overview snippet", score: 0.55},

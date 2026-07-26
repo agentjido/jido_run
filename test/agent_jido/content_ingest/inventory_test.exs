@@ -74,6 +74,20 @@ defmodule AgentJido.ContentIngest.InventoryTest do
       assert persistence.metadata["source_type"] == "examples"
 
       assert persistence.text =~ "/examples/persistence-storage-agent"
+
+      # Example tasks/packages/outcomes are indexed fields (jido-e10-t02).
+      assert "persistence" in persistence.metadata["tasks"]
+      assert persistence.metadata["packages"] == ["jido"]
+      assert persistence.metadata["outcome"] =~ "hibernate/thaw"
+      assert persistence.text =~ "persistence"
+
+      # failure-drill-agent carries no "recovery" term in its own
+      # tags/description/outcome/body; the canonical :recovery task label is
+      # the sole source of the term, so its presence proves task indexing.
+      failure_drill = Enum.find(sources, &(&1.source_id == "examples:failure-drill-agent"))
+      assert failure_drill != nil
+      assert "recovery" in failure_drill.metadata["tasks"]
+      assert failure_drill.text =~ "recovery"
     end
   end
 

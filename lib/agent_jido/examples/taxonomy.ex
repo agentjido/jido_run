@@ -67,6 +67,25 @@ defmodule AgentJido.Examples.Taxonomy do
     :observability
   ]
 
+  # Tag keywords that map an example's tags onto the canonical task labels
+  # above. The search document model (jido-e10 E10-T02) uses this to index the
+  # user job each example proves, so a "<task> example" query surfaces the
+  # matching example even when the task word is not itself a tag. Canonical
+  # card display of these labels is jido-e08 E08-T01; this is the search-index
+  # derivation only.
+  @task_keywords [
+    persistence: ["persistence", "storage"],
+    recovery: ["restart", "recovery", "supervision", "reliability", "retry", "dead-letter"],
+    scheduling: ["scheduling", "schedule", "cron"],
+    observability: ["observability", "telemetry", "slo", "incident", "audit"],
+    coordination: ["coordination", "orchestration", "workflow", "multi-agent", "swarm"],
+    coding: ["coding", "pr-review", "changelog", "license", "release-notes"],
+    research: ["research", "runic"],
+    browser_work: ["browser"],
+    chat_and_support: ["support", "triage", "ticket", "chat"],
+    data_and_documents: ["data", "pipeline", "etl", "document", "documents", "csv", "sql", "catalog"]
+  ]
+
   @type metadata :: %{
           status: atom(),
           published: boolean(),
@@ -110,6 +129,23 @@ defmodule AgentJido.Examples.Taxonomy do
 
   @spec tasks() :: [atom()]
   def tasks, do: @tasks
+
+  @doc """
+  Derives the canonical task labels an example proves from its tags.
+
+  Returns a deduplicated subset of `tasks/0` in canonical order. The search
+  document model indexes the result so a "<task> example" query surfaces the
+  matching example even when the task word is not itself a tag (jido-e10
+  E10-T02).
+  """
+  @spec tasks_for([String.t() | atom()]) :: [atom()]
+  def tasks_for(tags) do
+    wrapped = List.wrap(tags)
+
+    Enum.filter(@tasks, fn task ->
+      has_any?(wrapped, Keyword.get(@task_keywords, task, []))
+    end)
+  end
 
   @spec metadata(keyword() | map()) :: metadata()
   def metadata(attrs) when is_list(attrs), do: attrs |> Map.new() |> metadata()

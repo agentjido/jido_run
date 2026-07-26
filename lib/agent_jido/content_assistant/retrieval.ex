@@ -10,6 +10,7 @@ defmodule AgentJido.ContentAssistant.Retrieval do
   alias AgentJido.ContentAssistant.URL
   alias AgentJido.Ecosystem
   alias AgentJido.Examples
+  alias AgentJido.Examples.Taxonomy
   alias AgentJido.Pages
   alias Arcana.Collection
   alias Arcana.Document
@@ -395,14 +396,21 @@ defmodule AgentJido.ContentAssistant.Retrieval do
     tags = Enum.join(example.tags || [], " ")
     packages = Enum.join(List.wrap(example.packages), " ")
 
+    tasks =
+      example.tags
+      |> Taxonomy.tasks_for()
+      |> Enum.map_join(" ", fn task ->
+        task |> Atom.to_string() |> String.replace("_", " ")
+      end)
+
     # Rank examples on their identity + curated topic fields (title, slug,
-    # tags, description, outcome, packages). The rendered body is prose and
-    # source code where the word "example" is ubiquitous; scoring against it
-    # lets a generic term drown out the discriminating topic term (the slug),
-    # so a "<topic> example" query ranks the wrong example. The body still
-    # feeds the snippet below.
+    # tags, tasks, description, outcome, packages). The rendered body is prose
+    # and source code where the word "example" is ubiquitous; scoring against
+    # it lets a generic term drown out the discriminating topic term (the
+    # slug), so a "<topic> example" query ranks the wrong example. The body
+    # still feeds the snippet below.
     searchable_text =
-      join_searchable_text([example.slug, tags, description, outcome, packages])
+      join_searchable_text([example.slug, tags, tasks, description, outcome, packages])
 
     score = lexical_score(title, searchable_text, terms, query_downcase)
 

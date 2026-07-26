@@ -7,6 +7,7 @@ defmodule AgentJido.ContentIngest.Inventory do
   alias AgentJido.ContentIngest.Source
   alias AgentJido.Ecosystem
   alias AgentJido.Examples
+  alias AgentJido.Examples.Taxonomy
   alias AgentJido.Pages
 
   @managed_by "agent_jido.content_ingest.local/v1"
@@ -228,7 +229,8 @@ defmodule AgentJido.ContentIngest.Inventory do
           "category" => to_string(example.category),
           "tags" => Enum.map(example.tags || [], &to_string/1),
           "packages" => Enum.map(List.wrap(example.packages), &to_string/1),
-          "outcome" => example.outcome
+          "outcome" => example.outcome,
+          "tasks" => Enum.map(Taxonomy.tasks_for(example.tags), &Atom.to_string/1)
         }
         |> with_content_hash(
           hash_payload([
@@ -253,6 +255,7 @@ defmodule AgentJido.ContentIngest.Inventory do
             example_url,
             example.outcome,
             Enum.join(example.tags || [], " "),
+            task_text(example),
             body_text
           ]),
         metadata: metadata
@@ -304,6 +307,16 @@ defmodule AgentJido.ContentIngest.Inventory do
     |> Enum.map(&String.trim/1)
     |> Enum.reject(&(&1 == ""))
     |> Enum.join("\n\n")
+  end
+
+  # Human-readable canonical task labels an example proves, so "<task> example"
+  # queries match the example document (jido-e10 E10-T02).
+  defp task_text(example) do
+    example.tags
+    |> Taxonomy.tasks_for()
+    |> Enum.map_join(" ", fn task ->
+      task |> Atom.to_string() |> String.replace("_", " ")
+    end)
   end
 
   defp html_to_text(nil), do: ""
