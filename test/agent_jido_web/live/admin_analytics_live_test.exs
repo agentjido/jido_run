@@ -52,6 +52,44 @@ defmodule AgentJidoWeb.AdminAnalyticsLiveTest do
     assert has_element?(view, "a[href='/dashboard/analytics/export/feedback.csv?days=7']", "Export feedback CSV")
   end
 
+  test "renders the home-to-onboarding conversion section for admins (jido-e12-t21)", %{
+    admin_conn: admin_conn
+  } do
+    actor = user_fixture()
+    scope = Scope.for_user(actor)
+
+    # Seed clicks on the hero and a section CTA so the paths render as rows.
+    Analytics.track_event_safe(scope, %{
+      event: "cta_clicked",
+      source: "home",
+      channel: "home_hero",
+      path: "/",
+      section_id: "hero",
+      target_url: "/docs/getting-started",
+      visitor_id: "admin-conv-visitor",
+      session_id: "admin-conv-session"
+    })
+
+    Analytics.track_event_safe(scope, %{
+      event: "cta_clicked",
+      source: "home",
+      channel: "home_quickstart",
+      path: "/",
+      section_id: "quick-start",
+      target_url: "/docs/getting-started",
+      visitor_id: "admin-conv-visitor",
+      session_id: "admin-conv-session"
+    })
+
+    {:ok, view, html} = live(admin_conn, "/dashboard/analytics")
+
+    # The section is present and the hero CTA path is visible as a labeled row.
+    assert has_element?(view, "h2", "Home → onboarding conversion")
+    assert html =~ "Hero CTA"
+    assert html =~ "hero"
+    assert html =~ "Quick start"
+  end
+
   defp seed_analytics_data do
     actor = user_fixture()
     scope = Scope.for_user(actor)

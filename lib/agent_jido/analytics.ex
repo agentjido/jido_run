@@ -43,7 +43,8 @@ defmodule AgentJido.Analytics do
           recent_feedback: [map()],
           recent_negative_feedback: [AnalyticsEvent.t()],
           local_search: map(),
-          ingestion: map()
+          ingestion: map(),
+          home_conversion: [map()]
         }
 
   @doc """
@@ -133,7 +134,8 @@ defmodule AgentJido.Analytics do
         recent_feedback: recent_feedback(days, feedback_limit),
         recent_negative_feedback: recent_negative_feedback(days, feedback_limit),
         local_search: local_search_snapshot(days, search_message_limit),
-        ingestion: ingestion_snapshot(days)
+        ingestion: ingestion_snapshot(days),
+        home_conversion: home_conversion_breakdown(days)
       }
     else
       unauthorized_snapshot(days)
@@ -391,6 +393,31 @@ defmodule AgentJido.Analytics do
   defp reformulation_transition?(previous, current) do
     NaiveDateTime.diff(current.inserted_at, previous.inserted_at, :second) <= 120 and
       previous.query_hash != current.query_hash
+  end
+
+  # Home -> onboarding conversion (jido-e12-t21). Groups `cta_clicked` events
+  # fired from the home page (`source: "home"`) by their `section_id` so the
+  # team can see each CTA path — the hero CTA and every section CTA — instead
+  # of only page traffic. Each instrumented home CTA carries a distinct
+  # section_id (hero, start-with-one-agent, quick-start, agent-model,
+  # build-first-agent); rows are ordered by clicks so the strongest path leads.
+  defp home_conversion_breakdown(days) do
+    since = since_naive(days)
+
+    from(e in AnalyticsEvent,
+      where:
+        e.inserted_at >= ^since and
+          e.event == "cta_clicked" and
+          e.source == "home" and
+          not is_nil(e.section_id),
+      group_by: e.section_id,
+      select: %{
+        section_id: e.section_id,
+        clicks: count(e.id)
+      },
+      order_by: [desc: count(e.id), asc: e.section_id]
+    )
+    |> Repo.all()
   end
 
   defp feedback_breakdown(days, limit) do
@@ -1188,7 +1215,8 @@ defmodule AgentJido.Analytics do
       recent_feedback: [],
       recent_negative_feedback: [],
       local_search: empty_local_search(),
-      ingestion: empty_ingestion_snapshot()
+      ingestion: empty_ingestion_snapshot(),
+      home_conversion: []
     }
   end
 
@@ -1206,7 +1234,8 @@ defmodule AgentJido.Analytics do
       recent_feedback: [],
       recent_negative_feedback: [],
       local_search: empty_local_search(),
-      ingestion: empty_ingestion_snapshot()
+      ingestion: empty_ingestion_snapshot(),
+      home_conversion: []
     }
   end
 

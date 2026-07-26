@@ -28,6 +28,28 @@ defmodule AgentJidoWeb.AnalyticsEventControllerTest do
     assert event.metadata["surface"] == "docs_page"
   end
 
+  test "accepts the home-to-onboarding CTA click event (jido-e12-t21)", %{conn: conn} do
+    conn =
+      post(conn, ~p"/analytics/events", %{
+        "event" => "cta_clicked",
+        "properties" => %{
+          "source" => "home",
+          "channel" => "home_hero",
+          "path" => "/",
+          "section_id" => "hero",
+          "target_url" => "/docs/getting-started"
+        }
+      })
+
+    assert json_response(conn, 202)["ok"]
+
+    event = Repo.one(from(e in AnalyticsEvent, order_by: [desc: e.inserted_at], limit: 1))
+    assert event.event == "cta_clicked"
+    assert event.source == "home"
+    assert event.section_id == "hero"
+    assert event.target_url == "/docs/getting-started"
+  end
+
   test "rejects invalid event names", %{conn: conn} do
     conn =
       post(conn, ~p"/analytics/events", %{

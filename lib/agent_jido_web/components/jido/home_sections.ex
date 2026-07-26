@@ -28,7 +28,15 @@ defmodule AgentJidoWeb.Jido.HomeSections do
         <p class="home-build-agent-copy">{@description}</p>
 
         <div class="home-build-agent-actions">
-          <.link navigate={@primary_path} class="home-build-agent-primary">
+          <.link
+            navigate={@primary_path}
+            class="home-build-agent-primary"
+            data-analytics-event="cta_clicked"
+            data-analytics-source="home"
+            data-analytics-channel="home_build_cta"
+            data-analytics-section-id="build-first-agent"
+            data-analytics-target-url={@primary_path}
+          >
             {@primary_label}
           </.link>
           <.link navigate={@secondary_path} class="home-build-agent-secondary">

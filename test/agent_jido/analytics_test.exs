@@ -198,5 +198,76 @@ defmodule AgentJido.AnalyticsTest do
 
       refute RateLimiter.allow?(visitor_id, event)
     end
+
+    test "dashboard snapshot surfaces home-to-onboarding CTA paths (jido-e12-t21)" do
+      admin = admin_user_fixture()
+      admin_scope = Scope.for_user(admin)
+      actor = user_fixture()
+      scope = Scope.for_user(actor)
+
+      # Two clicks on the hero CTA, one on a section CTA — the home ->
+      # onboarding conversion paths the acceptance condition wants visible.
+      for _ <- 1..2 do
+        assert {:ok, _} =
+                 Analytics.track_event(scope, %{
+                   event: "cta_clicked",
+                   source: "home",
+                   channel: "home_hero",
+                   path: "/",
+                   section_id: "hero",
+                   target_url: "/docs/getting-started",
+                   visitor_id: "visitor-conversion",
+                   session_id: "session-conversion"
+                 })
+      end
+
+      assert {:ok, _} =
+               Analytics.track_event(scope, %{
+                 event: "cta_clicked",
+                 source: "home",
+                 channel: "home_quickstart",
+                 path: "/",
+                 section_id: "quick-start",
+                 target_url: "/docs/getting-started",
+                 visitor_id: "visitor-conversion",
+                 session_id: "session-conversion"
+               })
+
+      # A non-home CTA and a non-CTA event must not bleed into the home funnel.
+      assert {:ok, _} =
+               Analytics.track_event(scope, %{
+                 event: "cta_clicked",
+                 source: "docs",
+                 channel: "docs_hero",
+                 path: "/docs",
+                 section_id: "hero",
+                 target_url: "/docs/getting-started",
+                 visitor_id: "visitor-conversion",
+                 session_id: "session-conversion"
+               })
+
+      assert {:ok, _} =
+               Analytics.track_event(scope, %{
+                 event: "code_copied",
+                 source: "home",
+                 channel: "copy_button",
+                 path: "/",
+                 visitor_id: "visitor-conversion",
+                 session_id: "session-conversion",
+                 metadata: %{surface: "docs_page"}
+               })
+
+      snapshot = Analytics.dashboard_snapshot(admin_scope, 7)
+
+      # The hero and section CTA paths are visible as rows in the snapshot.
+      rows = Map.new(snapshot.home_conversion, fn row -> {row.section_id, row.clicks} end)
+
+      assert rows["hero"] == 2
+      assert rows["quick-start"] == 1
+      # Only home-sourced cta_clicked events count — the docs-sourced CTA and
+      # the code_copied event are excluded.
+      refute Map.has_key?(rows, "docs")
+      assert Enum.all?(snapshot.home_conversion, fn row -> row.clicks >= 1 end)
+    end
   end
 end

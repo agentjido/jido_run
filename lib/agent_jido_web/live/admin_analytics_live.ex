@@ -111,6 +111,34 @@ defmodule AgentJidoWeb.AdminAnalyticsLive do
         </section>
 
         <section class="rounded-lg border border-border bg-card p-5">
+          <h2 class="text-lg font-semibold text-foreground">Home → onboarding conversion</h2>
+          <p class="mt-1 text-sm text-muted-foreground">
+            Clicks on each home call-to-action, so the hero and section CTA paths into onboarding are visible — not only page traffic.
+          </p>
+          <table class="mt-4 w-full text-sm">
+            <thead>
+              <tr class="text-left text-xs uppercase tracking-wide text-muted-foreground">
+                <th class="py-2 pr-4 font-semibold">CTA path</th>
+                <th class="py-2 pr-4 font-semibold">Section</th>
+                <th class="py-2 font-semibold">Clicks</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr :for={row <- @analytics_snapshot.home_conversion} class="border-t border-border/70">
+                <td class="py-2 pr-4 font-medium text-foreground">{home_conversion_label(row.section_id)}</td>
+                <td class="py-2 pr-4 text-muted-foreground">{row.section_id}</td>
+                <td class="py-2 text-foreground">{row.clicks}</td>
+              </tr>
+              <tr :if={@analytics_snapshot.home_conversion == []}>
+                <td colspan="3" class="py-2 text-sm text-muted-foreground">
+                  No home CTA clicks in this window yet.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="rounded-lg border border-border bg-card p-5">
           <div class="flex flex-wrap items-center justify-between gap-3">
             <h2 class="text-lg font-semibold text-foreground">Collector Health</h2>
             <span class="text-xs text-muted-foreground">Rows shown for the selected {@analytics_days}d window</span>
@@ -356,6 +384,7 @@ defmodule AgentJidoWeb.AdminAnalyticsLive do
       feedback_breakdown: [],
       recent_feedback: [],
       recent_negative_feedback: [],
+      home_conversion: [],
       local_search: %{
         summary: %{
           total_messages: 0,
@@ -473,6 +502,25 @@ defmodule AgentJidoWeb.AdminAnalyticsLive do
   defp feedback_label("helpful"), do: "Helpful"
   defp feedback_label("not_helpful"), do: "Not helpful"
   defp feedback_label(_value), do: "-"
+
+  # Human-readable label for each instrumented home -> onboarding CTA path
+  # (jido-e12-t21). Maps the section_id each CTA carries to the path name a
+  # maintainer reads in the dashboard; an unknown section falls back to a
+  # title-cased slug so a newly added CTA is never blank.
+  defp home_conversion_label("hero"), do: "Hero CTA"
+  defp home_conversion_label("start-with-one-agent"), do: "Start with one agent"
+  defp home_conversion_label("quick-start"), do: "Quick start"
+  defp home_conversion_label("agent-model"), do: "Agent model"
+  defp home_conversion_label("build-first-agent"), do: "Build first agent"
+
+  defp home_conversion_label(section_id) when is_binary(section_id) do
+    section_id
+    |> String.replace("-", " ")
+    |> String.split(" ")
+    |> Enum.map_join(" ", &String.capitalize/1)
+  end
+
+  defp home_conversion_label(_section_id), do: "-"
 
   defp feedback_badge_class("helpful") do
     "inline-flex rounded-full border border-accent-green/30 bg-accent-green/10 px-2 py-0.5 text-[11px] font-semibold text-accent-green"

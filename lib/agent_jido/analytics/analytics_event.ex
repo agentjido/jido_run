@@ -13,6 +13,7 @@ defmodule AgentJido.Analytics.AnalyticsEvent do
     "content_assistant_restored",
     "docs_section_viewed",
     "code_copied",
+    "cta_clicked",
     "livebook_run_clicked",
     "feedback_submitted"
   ]

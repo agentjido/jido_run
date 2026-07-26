@@ -64,7 +64,13 @@ defmodule AgentJidoWeb.JidoHomeLive do
 
       <div class="flex items-center gap-4 justify-center mb-12">
         <.link
+          id="home-hero-cta"
           navigate="/docs/getting-started"
+          data-analytics-event="cta_clicked"
+          data-analytics-source="home"
+          data-analytics-channel="home_hero"
+          data-analytics-section-id="hero"
+          data-analytics-target-url="/docs/getting-started"
           class="bg-primary text-primary-foreground hover:bg-primary/90 text-[13px] font-bold px-7 py-5 rounded transition-colors"
         >
           BUILD YOUR FIRST AGENT →
@@ -115,6 +121,11 @@ defmodule AgentJidoWeb.JidoHomeLive do
         </p>
         <.link
           navigate="/features/start-small"
+          data-analytics-event="cta_clicked"
+          data-analytics-source="home"
+          data-analytics-channel="home_adoption"
+          data-analytics-section-id="start-with-one-agent"
+          data-analytics-target-url="/features/start-small"
           class="text-primary hover:underline text-[13px] font-semibold"
         >
           How to start with one agent →
@@ -621,7 +632,15 @@ defmodule AgentJidoWeb.JidoHomeLive do
             Open source. Core packages are Beta. No separate runtime service is required.
           </p>
         </div>
-        <.link navigate="/docs/getting-started" class="home-quickstart-guide-link">
+        <.link
+          navigate="/docs/getting-started"
+          class="home-quickstart-guide-link"
+          data-analytics-event="cta_clicked"
+          data-analytics-source="home"
+          data-analytics-channel="home_quickstart"
+          data-analytics-section-id="quick-start"
+          data-analytics-target-url="/docs/getting-started"
+        >
           full getting started guide →
         </.link>
       </div>
@@ -741,7 +760,15 @@ defmodule AgentJidoWeb.JidoHomeLive do
       </div>
 
       <div class="text-center mt-12">
-        <.link navigate="/docs/getting-started" class="text-primary hover:underline text-[13px] font-semibold">
+        <.link
+          navigate="/docs/getting-started"
+          class="text-primary hover:underline text-[13px] font-semibold"
+          data-analytics-event="cta_clicked"
+          data-analytics-source="home"
+          data-analytics-channel="home_agent_model"
+          data-analytics-section-id="agent-model"
+          data-analytics-target-url="/docs/getting-started"
+        >
           Learn the model in the getting started guide →
         </.link>
       </div>

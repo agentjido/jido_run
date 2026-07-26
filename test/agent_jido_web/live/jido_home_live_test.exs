@@ -36,6 +36,83 @@ defmodule AgentJidoWeb.JidoHomeLiveTest do
     end
   end
 
+  describe "home-to-onboarding conversion analytics (jido-e12-t21)" do
+    # Acceptance condition: "Hero and section CTA paths are visible." Every CTA
+    # that routes the home page into onboarding fires a first-party
+    # `cta_clicked` event carrying a distinct section_id, so the team can see
+    # each path — the hero CTA and each section CTA — instead of only page
+    # traffic. The global click handler in app.js reads these data-analytics-*
+    # attributes and posts the event; this test locks the attributes the
+    # handler depends on.
+
+    test "the hero CTA fires cta_clicked with the hero section_id into onboarding", %{
+      conn: conn
+    } do
+      {:ok, _view, html} = live(conn, "/")
+
+      cta = home_cta(html, "hero")
+
+      # The hero CTA is the primary home -> onboarding entry.
+      assert cta != nil, "expected a hero CTA carrying cta_clicked analytics"
+      assert Floki.attribute(cta, "href") |> hd() == "/docs/getting-started"
+      assert attr(cta, "data-analytics-event") == "cta_clicked"
+      assert attr(cta, "data-analytics-source") == "home"
+      assert attr(cta, "data-analytics-target-url") == "/docs/getting-started"
+    end
+
+    test "every onboarding CTA carries a distinct, non-empty section_id", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      ctas = home_ctas(html)
+
+      # Sanity floor: the hero CTA plus at least the named section CTAs are
+      # instrumented, so the assertion below cannot pass vacuously.
+      assert length(ctas) >= 2,
+             "expected at least the hero and one section CTA, got #{length(ctas)}"
+
+      section_ids = Enum.map(ctas, &attr(&1, "data-analytics-section-id"))
+
+      # Acceptance condition: each CTA path is visible on its own — every
+      # section_id is present, non-empty, and distinct.
+      for cta <- ctas do
+        assert attr(cta, "data-analytics-event") == "cta_clicked"
+        assert attr(cta, "data-analytics-source") == "home"
+        assert attr(cta, "data-analytics-section-id") != nil
+        assert attr(cta, "data-analytics-target-url") != nil
+      end
+
+      assert length(Enum.uniq(section_ids)) == length(section_ids),
+             "expected distinct section_ids for each CTA, got #{inspect(section_ids)}"
+    end
+
+    test "the hero and each section CTA route into onboarding or the start-small path", %{
+      conn: conn
+    } do
+      {:ok, _view, html} = live(conn, "/")
+
+      # The home -> onboarding conversion paths: the hero CTA and the section
+      # CTAs that move a visitor toward building their first agent.
+      expected = %{
+        "hero" => "/docs/getting-started",
+        "quick-start" => "/docs/getting-started",
+        "agent-model" => "/docs/getting-started",
+        "build-first-agent" => "/docs/getting-started",
+        "start-with-one-agent" => "/features/start-small"
+      }
+
+      actual =
+        home_ctas(html)
+        |> Map.new(fn cta ->
+          {attr(cta, "data-analytics-section-id"), Floki.attribute(cta, "href") |> hd()}
+        end)
+
+      for {section_id, href} <- expected do
+        assert actual[section_id] == href,
+               "expected the #{section_id} CTA to route to #{href}, got #{inspect(actual[section_id])}"
+      end
+    end
+  end
+
   describe "home adoption message (E04-T09)" do
     test "the lowest-risk adoption message appears directly after the hero", %{conn: conn} do
       {:ok, _view, html} = live(conn, "/")
@@ -1433,6 +1510,31 @@ defmodule AgentJidoWeb.JidoHomeLiveTest do
 
       true ->
         nil
+    end
+  end
+
+  # All home CTAs instrumented with the home -> onboarding cta_clicked event
+  # (jido-e12-t21). Returns the Floki anchor nodes carrying
+  # data-analytics-event="cta_clicked".
+  defp home_ctas(html) do
+    html
+    |> Floki.parse_document!()
+    |> Floki.find("#home-page a[data-analytics-event='cta_clicked']")
+  end
+
+  # A single home CTA looked up by its data-analytics-section-id. Returns the
+  # Floki node or nil.
+  defp home_cta(html, section_id) do
+    html
+    |> Floki.parse_document!()
+    |> Floki.find("#home-page a[data-analytics-section-id='#{section_id}']")
+    |> List.first()
+  end
+
+  defp attr(node, name) do
+    case Floki.attribute(node, name) do
+      [value | _] -> value
+      [] -> nil
     end
   end
 
