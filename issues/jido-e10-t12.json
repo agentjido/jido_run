@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-26T12:27:30Z",
   "created": "2026-07-23T12:06:51Z",
   "description": "Backlog task: E10-T12\n\nWork area: Markdown and agent delivery\n\nMain targets: Markdown content\n\nComplete when: It is more than a short fallback.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e10-t12",
@@ -22,7 +23,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E10-T12 — Give Ecosystem hub Markdown recommended stacks and full package links.",
   "type": "task",
   "updated_at": "2026-07-26T12:27:30Z"
