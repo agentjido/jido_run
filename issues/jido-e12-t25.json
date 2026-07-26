@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-26T18:40:36Z",
   "created": "2026-07-23T12:08:06Z",
   "description": "Backlog task: E12-T25\n\nWork area: Measurement\n\nMain targets: Examples analytics\n\nComplete when: Missing task categories are visible.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e12-t25",
@@ -22,7 +23,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E12-T25 — Measure example filter and search use.",
   "type": "task",
   "updated_at": "2026-07-26T18:40:36Z"
