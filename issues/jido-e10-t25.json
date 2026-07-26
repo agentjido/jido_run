@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-26T13:56:43Z",
   "created": "2026-07-23T12:07:04Z",
   "description": "Backlog task: E10-T25\n\nWork area: Sitemap and Skills\n\nMain targets: Ecosystem pages\n\nComplete when: Package evaluation can continue into builder assistance.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e10-t25",
@@ -22,7 +23,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E10-T25 — Link ecosystem package pages to matching Skills.",
   "type": "task",
   "updated_at": "2026-07-26T13:56:43Z"
