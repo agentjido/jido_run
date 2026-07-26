@@ -15,11 +15,15 @@
     {
       "text": "Open: examples-to-source/local-run analytics not yet instrumented.",
       "timestamp": "2026-07-24T12:55:01Z"
+    },
+    {
+      "text": "Accepted by the Zclaude Ralph supervisor. Commits: 6be04131. Verification: MIX_ENV=test mix compile \u0026\u0026 MIX_ENV=test mix format --check-formatted.",
+      "timestamp": "2026-07-26T18:53:00Z"
     }
   ],
   "priority": 1,
   "status": "in_progress",
   "title": "E12-T26 — Measure movement from examples to source and local run.",
   "type": "task",
-  "updated_at": "2026-07-26T18:40:39Z"
+  "updated_at": "2026-07-26T18:53:00Z"
 }
