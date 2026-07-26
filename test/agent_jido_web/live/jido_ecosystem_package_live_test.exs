@@ -477,6 +477,99 @@ defmodule AgentJidoWeb.JidoEcosystemPackageLiveTest do
     end
   end
 
+  # Direct expression of the E09-T47 contract: each control package is marked
+  # with its released version, support level, and proof, and the production claim
+  # is gated so experimental or unreleased work cannot support a general
+  # production claim. ash_jido is unreleased (GitHub-only), so its
+  # operational-control claims must state they do not support a general
+  # production claim; jido is released and stable, so its claims are backed by
+  # the released and tested package.
+  test "marks the released version, support level, and evidence for each control package (jido-e09-t47)", %{conn: conn} do
+    # ash_jido is unreleased — its control claims cannot support a general
+    # production claim.
+    {:ok, _view, ash_html} = live(conn, "/ecosystem/ash_jido")
+
+    assert ash_html =~ "Release basis",
+           "the ash_jido page must mark the release basis for its control claims"
+
+    assert ash_html =~ "Unreleased (GitHub-only)",
+           "the ash_jido page must mark its released version (unreleased)"
+
+    assert ash_html =~ "support",
+           "the ash_jido page must mark its support level"
+
+    assert ash_html =~ "proof",
+           "the ash_jido page must mark the evidence for its control claims"
+
+    assert ash_html =~ "do not support a general production claim",
+           "the ash_jido page must gate its control claims — it is unreleased"
+
+    # jido is released and stable — its control claims are backed by the released
+    # and tested package, and must not carry the gating phrase.
+    {:ok, _view, jido_html} = live(conn, "/ecosystem/jido")
+
+    assert jido_html =~ "Release basis",
+           "the jido page must mark the release basis for its control claims"
+
+    assert jido_html =~ ~r/Released \d+\.\d+/,
+           "the jido page must mark its released version"
+
+    assert jido_html =~ "backed by the released and tested package",
+           "the jido page must back its control claims — it is released and stable"
+
+    refute jido_html =~ "do not support a general production claim",
+           "the jido page must not gate its control claims — it is released and stable"
+  end
+
+  # Direct expression of the E09-T47 contract: every public package that
+  # documents an operational-control surface is marked with its released version,
+  # support level, and proof, and the production claim is gated so experimental
+  # or unreleased work cannot support a general production claim. A package
+  # published to Hex at stable or beta support backs the claim; anything
+  # experimental or unreleased states it does not support a general production
+  # claim yet. Uses a disconnected GET render (still runs mount + render) so all
+  # control packages can be checked.
+  @tag timeout: 120_000
+  test "every control package marks release basis and gates production claims (jido-e09-t47)", %{conn: conn} do
+    control_packages =
+      AgentJido.Ecosystem.public_packages()
+      |> Enum.filter(fn p -> p.control_capabilities != [] or p.control_limitations != [] end)
+
+    assert control_packages != [],
+           "expected at least one package with a documented control surface"
+
+    for package <- control_packages do
+      html = conn |> get("/ecosystem/#{package.id}") |> html_response(200)
+
+      # Every control package marks the release basis with a released version,
+      # a support level, and the evidence (proof).
+      assert html =~ "Release basis",
+             "control package #{package.id} must mark the release basis"
+
+      assert html =~ "support",
+             "control package #{package.id} must mark its support level"
+
+      assert html =~ "proof",
+             "control package #{package.id} must mark the evidence for its control claims"
+
+      # Experimental or unreleased control packages cannot support a general
+      # production claim; released, stable-or-beta packages back the claim.
+      published? = Regex.match?(~r/^\d+\./, package.hex_status || "")
+      backs_production = published? and package.support_level in [:stable, :beta]
+
+      if backs_production do
+        assert html =~ "backed by the released and tested package",
+               "released control package #{package.id} must back its control claims"
+
+        refute html =~ "do not support a general production claim",
+               "released control package #{package.id} must not gate its control claims"
+      else
+        assert html =~ "do not support a general production claim",
+               "experimental or unreleased control package #{package.id} must gate its control claims"
+      end
+    end
+  end
+
   test "renders curated seo metadata and structured data for package pages", %{conn: conn} do
     html =
       conn

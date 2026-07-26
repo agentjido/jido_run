@@ -26,6 +26,7 @@ defmodule AgentJidoWeb.JidoEcosystemPackageLive do
     package_hero_summary = hero_summary(package)
     faq_items = faq_items(package)
     keywords = package_meta_keywords(package)
+    best_example = best_example_for_page(package)
 
     {:ok,
      assign(socket,
@@ -46,8 +47,9 @@ defmodule AgentJidoWeb.JidoEcosystemPackageLive do
        not_for: landing_not_for(package),
        control_capabilities: control_capabilities(package),
        control_limitations: control_limitations(package),
-       best_example: best_example_for_page(package),
+       best_example: best_example,
        best_guide: best_guide_for_page(package),
+       control_release_basis: control_release_basis(package, best_example),
        resource_groups: resource_groups(package),
        cliff_notes: cliff_notes(package),
        major_components: major_components(package),
@@ -170,6 +172,13 @@ defmodule AgentJidoWeb.JidoEcosystemPackageLive do
 
         <section class="mb-12">
           <h2 class="text-sm font-bold tracking-wider mb-4">OPERATIONAL CONTROL</h2>
+          <p
+            :if={@control_capabilities != [] or @control_limitations != []}
+            class="copy-measure-wide mb-4 text-xs leading-relaxed text-muted-foreground"
+          >
+            <span class="font-semibold text-foreground">Release basis.</span>
+            {@control_release_basis}
+          </p>
           <div :if={@control_capabilities != [] or @control_limitations != []} class="grid gap-4 md:grid-cols-2">
             <article :if={@control_capabilities != []} class="bg-card border border-border rounded-md p-5">
               <div class="text-[10px] uppercase tracking-wide text-muted-foreground mb-3">Control surface it supplies</div>
@@ -724,6 +733,48 @@ defmodule AgentJidoWeb.JidoEcosystemPackageLive do
   # explicit about the gap rather than silent.
   defp control_capabilities(pkg), do: normalize_string_list(pkg.control_capabilities)
   defp control_limitations(pkg), do: normalize_string_list(pkg.control_limitations)
+
+  # Release basis for the operational-control claims (jido-e09-t47). Each control
+  # package is marked with its released version, support level, and proof, and
+  # the production claim is gated so experimental or unreleased work cannot
+  # support a general production claim. A package published to Hex at stable or
+  # beta support backs the claim; anything experimental or unreleased states the
+  # claim does not yet support general production use.
+  defp control_release_basis(pkg, best_example) do
+    published? = hex_published?(pkg)
+    backs_production = published? and pkg.support_level in [:stable, :beta]
+    support_label = SupportLevel.label(pkg.support_level) || "Experimental"
+
+    version_mark =
+      if published?,
+        do: "Released #{pkg.hex_status}",
+        else: "Unreleased (GitHub-only)"
+
+    conclusion =
+      if backs_production do
+        "These operational-control claims are backed by the released and tested package."
+      else
+        "This package is experimental or unreleased, so its operational-control claims do not support a general production claim until it is released and tested."
+      end
+
+    "#{version_mark} · #{support_label} support · #{release_evidence(best_example)}. #{conclusion}"
+  end
+
+  defp release_evidence(%{status: :found, source: source}),
+    do: "proof #{best_example_source_label(source)}"
+
+  defp release_evidence(%{status: :missing}),
+    do: "proof not yet published"
+
+  # A package is published to Hex when its hex_status records a version rather
+  # than the "unreleased" marker (or non-version text). Mirrors the publication
+  # check in AgentJido.Ecosystem.Stacks.published_hex_major/1.
+  defp hex_published?(pkg) do
+    case normalize_optional_text(pkg.hex_status) do
+      nil -> false
+      status -> Regex.match?(~r/^\d+\./, status)
+    end
+  end
 
   defp cliff_notes(pkg) do
     custom_notes = normalize_string_list(pkg.landing_cliff_notes) |> Enum.take(@max_cliff_notes)
