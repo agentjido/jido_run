@@ -1265,6 +1265,57 @@ defmodule AgentJidoWeb.JidoExampleLiveTest do
     end
   end
 
+  describe "/examples/operations-agent (jido-e08-t28)" do
+    # Acceptance condition: "The home operations card links to a scoped, safe
+    # workflow." The operations (devops) card's scoped destination now lands on a
+    # real, runnable, safe operations-remediation workflow.
+
+    test "is registered as a live runnable example with a real demo module" do
+      example = Examples.get_example!("operations-agent")
+
+      assert example.status == :live
+      assert example.demo_mode == :real
+      assert example.live_view_module == "AgentJidoWeb.Examples.OpsRemediationAgentLive"
+      # The shared simulated showcase surface is reserved for drafts; this
+      # published example runs on its own real-runtime module instead.
+      refute example.live_view_module == "AgentJidoWeb.Examples.SimulatedShowcaseLive"
+      assert Enum.map(example.sources, & &1.path) == example.source_files
+      assert Enum.all?(example.source_files, &File.exists?/1)
+    end
+
+    test "is routable for public visitors and renders its demo", %{conn: conn} do
+      {:ok, view, html} = live(conn, "/examples/operations-agent?tab=demo")
+
+      assert html =~ "Operations Remediation Agent"
+      refute html =~ "draft preview"
+
+      demo_view = find_live_child(view, "demo-operations-agent")
+      demo_html = render(demo_view)
+
+      # The dedicated demo module renders the real-runtime operations workflow.
+      assert demo_html =~ "Operations Remediation Agent"
+      assert demo_html =~ "Load latency spike"
+      assert demo_html =~ "Detect"
+      assert demo_html =~ "Remediate"
+      assert demo_html =~ "Verify"
+    end
+
+    test "the demo runs the real detect step on a loaded snapshot", %{conn: conn} do
+      {:ok, view, _html} = live(conn, "/examples/operations-agent?tab=demo")
+
+      demo_view = find_live_child(view, "demo-operations-agent")
+
+      # Load a latency spike, then detect it on the real runtime.
+      render_click(demo_view, "load_latency")
+      render_click(demo_view, "detect")
+
+      demo_html = render(demo_view)
+
+      # The real threshold-breached status appears, not a canned label.
+      assert demo_html =~ "status: degraded"
+    end
+  end
+
   describe "/examples/failure-drill-agent" do
     test "renders explanation tab", %{conn: conn} do
       {:ok, _view, html} = live(conn, "/examples/failure-drill-agent?tab=explanation")

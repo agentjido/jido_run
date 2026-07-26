@@ -348,6 +348,19 @@ defmodule AgentJidoWeb.JidoExamplesLiveTest do
       refute html =~ "Counter Agent"
     end
 
+    test "?use_case=devops lists a scoped, safe operations workflow (jido-e08-t28)",
+         %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/examples?use_case=devops")
+
+      # The scoped hero names the use case.
+      assert html =~ "DevOps and monitoring"
+      # The home operations card's scoped destination now lands on a real,
+      # runnable, safe operations-remediation workflow -- no LLM, no crashes.
+      assert html =~ "Operations Remediation Agent"
+      # An out-of-scope example stays hidden by the use-case scope.
+      refute html =~ "Counter Agent"
+    end
+
     test "an unknown use_case falls back to the unfiltered index", %{conn: conn} do
       {:ok, _view, html} = live(conn, "/examples?use_case=not-a-real-use-case")
 
