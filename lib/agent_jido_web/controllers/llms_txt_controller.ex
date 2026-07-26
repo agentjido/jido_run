@@ -46,8 +46,9 @@ defmodule AgentJidoWeb.LLMSTxtController do
 
     MCP docs server
     - HTTP endpoint: #{endpoint_url}/mcp/docs
-    - Tools: search_docs, get_doc, list_sections
+    - Tools: search_docs, get_doc, list_sections, get_operational_control
     - Scope: v1 is docs only (/docs/**). Examples, skills, ecosystem packages, blog, and compare pages are not indexed.
+    - get_operational_control retrieves the canonical operational-control overview (the Security and governance page) and its proof by name, so a client does not need to guess a control term with search_docs.
 
     Rendered fallback pattern
     - If source markdown is unavailable, request the canonical route with:

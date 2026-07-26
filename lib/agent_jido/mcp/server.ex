@@ -39,14 +39,22 @@ defmodule AgentJido.MCP.Server do
   source of truth for that scope claim so product copy and tool scope stay in
   agreement (jido-e10-t17). Examples, skills, and ecosystem retrieval are
   tracked as separate scope-expansion tasks (jido-e10-t18, jido-e10-t19).
+
+  get_operational_control (jido-e10-t30) retrieves the canonical control
+  overview — a docs page — and proof pointers, including links to the ecosystem
+  package pages that carry each package's release version and proof; it does not
+  retrieve those package pages, so the docs-only retrieval scope is preserved.
   """
   @spec instructions() :: String.t()
   def instructions do
     "Read-only documentation MCP server for Agent Jido. " <>
-      "v1 scope is docs only — search_docs, get_doc, and list_sections operate " <>
-      "on published documentation pages (/docs/**) and exclude examples, skills, " <>
-      "ecosystem packages, blog, and compare pages. " <>
-      "Available tools: search_docs, get_doc, list_sections."
+      "v1 scope is docs only — search_docs, get_doc, list_sections, and " <>
+      "get_operational_control operate on published documentation pages (/docs/**) " <>
+      "and exclude examples, skills, ecosystem packages, blog, and compare pages. " <>
+      "get_operational_control returns the canonical operational-control overview " <>
+      "(a docs page) with proof, so a client can retrieve it by name instead of " <>
+      "guessing a control term. " <>
+      "Available tools: search_docs, get_doc, list_sections, get_operational_control."
   end
 
   @spec handle_message(map(), State.t(), keyword()) :: response_tuple()

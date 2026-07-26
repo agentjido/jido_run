@@ -68,6 +68,33 @@ defmodule AgentJido.MCP.DocsCLITest do
          }
        }}
     end
+
+    def get_operational_control(_endpoint, _opts) do
+      {:ok,
+       %{
+         "structuredContent" => %{
+           "overview" => %{
+             "title" => "Security and Governance",
+             "path" => "/docs/operations/security-and-governance",
+             "canonical_url" => "http://localhost:4001/docs/operations/security-and-governance",
+             "markdown" => "# Security and Governance\n\nControl boundaries."
+           },
+           "dimensions" => [
+             %{"key" => "context", "label" => "Context", "description" => "Principal and trace context."},
+             %{"key" => "approval", "label" => "Approval", "description" => "A sign-off before work proceeds."}
+           ],
+           "proof" => %{
+             "related_pages" => [
+               %{"title" => "Production Readiness Checklist", "path" => "/docs/operations/production-readiness-checklist"}
+             ],
+             "matrix_packages" => [
+               %{"label" => "jido", "path" => "/ecosystem/jido"}
+             ],
+             "release_basis" => "Each package's release version and proof live on its package page."
+           }
+         }
+       }}
+    end
   end
 
   test "run/2 renders search results and previews" do
@@ -98,6 +125,26 @@ defmodule AgentJido.MCP.DocsCLITest do
     assert output =~ "Documentation sections: 1"
     assert output =~ "Learn (learn)"
     assert output =~ "/docs/learn/ai-chat-agent"
+  end
+
+  test "run/2 supports the operational-control query path (--control)" do
+    # jido-e10-t30: a client retrieves the canonical control overview and proof
+    # by name, without a broad text guess.
+    assert {:ok, output} = DocsCLI.run(["--control"], client_module: ClientStub)
+
+    assert output =~ "Operational control overview: Security and Governance"
+    assert output =~ "/docs/operations/security-and-governance"
+    assert output =~ "Control dimensions: 2"
+    assert output =~ "Context: Principal and trace context."
+    assert output =~ "Proof pages:"
+    assert output =~ "Production Readiness Checklist"
+    assert output =~ "Package proof:"
+    assert output =~ "Release basis:"
+  end
+
+  test "run/2 rejects --control combined with a query" do
+    assert {:error, output} = DocsCLI.run(["--control", "authorization"], client_module: ClientStub)
+    assert output =~ "--control cannot be combined"
   end
 
   test "run/2 returns usage when no command is provided" do

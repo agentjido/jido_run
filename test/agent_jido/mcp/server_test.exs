@@ -86,6 +86,10 @@ defmodule AgentJido.MCP.ServerTest do
     assert instructions =~ "docs only"
     assert instructions =~ "/docs/**"
     assert instructions =~ "Available tools: search_docs, get_doc, list_sections"
+    # The operational-control query path is advertised by name so a client
+    # knows it can retrieve the control overview without a text guess
+    # (jido-e10-t30).
+    assert instructions =~ "get_operational_control"
   end
 
   test "tools/list requires initialization on stateful transports" do

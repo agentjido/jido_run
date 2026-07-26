@@ -52,7 +52,13 @@ defmodule AgentJido.MCP.StdioTest do
     })
 
     tools_response = receive_json(port)
-    assert Enum.map(tools_response["result"]["tools"], & &1["name"]) == ["search_docs", "get_doc", "list_sections"]
+
+    assert Enum.map(tools_response["result"]["tools"], & &1["name"]) == [
+             "search_docs",
+             "get_doc",
+             "list_sections",
+             "get_operational_control"
+           ]
   end
 
   defp send_json(port, payload) do

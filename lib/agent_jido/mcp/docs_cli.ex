@@ -35,10 +35,11 @@ defmodule AgentJido.MCP.DocsCLI do
           read: :integer,
           json: :boolean,
           sections: :boolean,
+          control: :boolean,
           get: :string,
           help: :boolean
         ],
-        aliases: [e: :endpoint, l: :limit, r: :read, j: :json, s: :sections, g: :get, h: :help]
+        aliases: [e: :endpoint, l: :limit, r: :read, j: :json, s: :sections, c: :control, g: :get, h: :help]
       )
 
     with :ok <- validate_invalid(invalid),
@@ -88,6 +89,9 @@ defmodule AgentJido.MCP.DocsCLI do
       switches[:sections] && (is_binary(switches[:get]) || positional != []) ->
         "--sections cannot be combined with a query or --get"
 
+      switches[:control] && (switches[:sections] || is_binary(switches[:get]) || positional != []) ->
+        "--control cannot be combined with a query, --sections, or --get"
+
       switches[:get] && positional != [] ->
         "--get cannot be combined with a free-form query"
 
@@ -104,6 +108,9 @@ defmodule AgentJido.MCP.DocsCLI do
       switches[:sections] ->
         {:ok, :sections}
 
+      switches[:control] ->
+        {:ok, :control}
+
       is_binary(switches[:get]) ->
         {:ok, {:get, switches[:get]}}
 
@@ -113,7 +120,7 @@ defmodule AgentJido.MCP.DocsCLI do
   end
 
   defp resolve_search_command(positional) when positional != [], do: {:ok, {:search, Enum.join(positional, " ")}}
-  defp resolve_search_command(_positional), do: {:error, "Pass a question, or use --sections, or use --get /docs/..."}
+  defp resolve_search_command(_positional), do: {:error, "Pass a question, or use --sections, --control, or --get /docs/..."}
 
   defp validate_numeric_bounds(switches) do
     case switches[:limit] do
@@ -131,6 +138,10 @@ defmodule AgentJido.MCP.DocsCLI do
 
   defp execute(:sections, endpoint, _switches, client_module) do
     client_module.list_sections(endpoint, [])
+  end
+
+  defp execute(:control, endpoint, _switches, client_module) do
+    client_module.get_operational_control(endpoint, [])
   end
 
   defp execute({:get, path}, endpoint, _switches, client_module) do
@@ -238,6 +249,49 @@ defmodule AgentJido.MCP.DocsCLI do
     {:ok, Enum.join(lines, "\n")}
   end
 
+  defp render_plain(result, :control) do
+    structured = structured_content(result)
+    overview = Map.get(structured, "overview", %{})
+    dimensions = Map.get(structured, "dimensions", [])
+    proof = Map.get(structured, "proof", %{})
+
+    lines =
+      [
+        "Operational control overview: #{overview["title"]}",
+        "Path: #{overview["path"]}",
+        "Canonical URL: #{overview["canonical_url"]}",
+        "",
+        "Control dimensions: #{length(dimensions)}"
+      ] ++
+        Enum.flat_map(dimensions, fn dimension ->
+          ["  - #{dimension["label"]}: #{dimension["description"]}"]
+        end) ++
+        render_control_proof(proof) ++
+        ["", "Overview preview:", markdown_preview(overview["markdown"])]
+
+    {:ok, Enum.join(lines, "\n")}
+  end
+
+  defp render_control_proof(%{"related_pages" => related, "matrix_packages" => packages, "release_basis" => release_basis}) do
+    related_lines =
+      case related do
+        [] -> []
+        _ -> ["", "Proof pages:"] ++ Enum.map(related, &"  - #{&1["title"]} (#{&1["path"]})")
+      end
+
+    package_lines =
+      case packages do
+        [] -> []
+        _ -> ["", "Package proof:"] ++ Enum.map(packages, &"  - #{&1["label"]} (#{&1["path"]})")
+      end
+
+    basis_lines = if is_binary(release_basis) and release_basis != "", do: ["", "Release basis: #{release_basis}"], else: []
+
+    related_lines ++ package_lines ++ basis_lines
+  end
+
+  defp render_control_proof(_proof), do: []
+
   defp render_search_results([]), do: ["No matching documentation pages found."]
 
   defp render_search_results(results) do
@@ -326,6 +380,7 @@ defmodule AgentJido.MCP.DocsCLI do
         "  mix run scripts/ask_mcp_docs.exs -- \"How do plugins work?\"",
         "  mix run scripts/ask_mcp_docs.exs -- --get /docs/learn/ai-chat-agent",
         "  mix run scripts/ask_mcp_docs.exs -- --sections",
+        "  mix run scripts/ask_mcp_docs.exs -- --control",
         "",
         "Options:",
         "  -e, --endpoint URL   MCP docs endpoint (default: #{@default_endpoint})",
@@ -333,6 +388,7 @@ defmodule AgentJido.MCP.DocsCLI do
         "  -r, --read N         Fetch previews for the top N search hits (default: #{@default_read_count})",
         "  -g, --get PATH       Fetch one docs page by canonical or legacy path",
         "  -s, --sections       List documentation sections and child pages",
+        "  -c, --control        Retrieve the canonical operational-control overview and proof",
         "  -j, --json           Print JSON instead of formatted text",
         "  -h, --help           Show this message"
       ]

@@ -32,6 +32,11 @@ defmodule AgentJido.MCP.HTTPClient do
     rpc(endpoint, "tools/call", %{"name" => "list_sections", "arguments" => %{}}, opts)
   end
 
+  @spec get_operational_control(String.t(), keyword()) :: {:ok, json_map()} | {:error, String.t()}
+  def get_operational_control(endpoint, opts \\ []) when is_binary(endpoint) and is_list(opts) do
+    rpc(endpoint, "tools/call", %{"name" => "get_operational_control", "arguments" => %{}}, opts)
+  end
+
   defp rpc(endpoint, method, params, opts) do
     request_id = System.unique_integer([:positive])
 

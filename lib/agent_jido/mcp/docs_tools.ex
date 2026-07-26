@@ -6,11 +6,39 @@ defmodule AgentJido.MCP.DocsTools do
   alias AgentJido.ContentAssistant.Result
   alias AgentJido.ContentAssistant.Retrieval
   alias AgentJido.ContentAssistant.URL
+  alias AgentJido.Ecosystem.ControlMatrix
   alias AgentJido.MCP
   alias AgentJido.Pages
   alias AgentJidoWeb.MarkdownContent
 
   @docs_collection ["site_docs"]
+
+  # The canonical operational-control overview: the Security and governance guide,
+  # the one docs page that draws every control boundary (what Jido supplies, what
+  # the application/platform owns, and the proof for each). A client retrieves it
+  # by name through get_operational_control rather than guessing a control term in
+  # search_docs (jido-e10-t30).
+  @control_overview_path "/docs/operations/security-and-governance"
+
+  # The docs pages the canonical control overview cites as the proof/grounding for
+  # its claims — the rate-limit/quota surface, the journal retention/access surface,
+  # the production readiness checklist, the incident playbooks, and the operational
+  # controls onboarding lane. Mirrors the links in security-and-governance.md so a
+  # client receives the same proof pointers a browser reader follows. See
+  # jido-e10-t30.
+  @control_proof_pages [
+    "/docs/operations/rate-limits-and-cost-budgets",
+    "/docs/operations/journal-retention-access-and-deletion",
+    "/docs/operations/production-readiness-checklist",
+    "/docs/operations/incident-playbooks",
+    "/docs/getting-started/operational-controls"
+  ]
+
+  # Mirrors the browser and ecosystem-markdown "Release basis" note: each
+  # package's release version, support level, and proof live on its package page,
+  # and the full claim boundaries live on the overview. This qualifies every
+  # control claim the tool returns (jido-e10-t30).
+  @control_release_basis "Each package's release version, support level, and proof are stated on its package page; experimental or unreleased packages describe their documented boundary only and do not back a general production claim. The full claim boundaries are on the Security and governance overview."
 
   @type tool_result :: %{
           required(String.t()) => term()
@@ -37,6 +65,13 @@ defmodule AgentJido.MCP.DocsTools do
         "description" => "List the published documentation sections and their visible child pages.",
         "inputSchema" => list_sections_input_schema(),
         "outputSchema" => list_sections_output_schema()
+      },
+      %{
+        "name" => "get_operational_control",
+        "description" =>
+          "Retrieve the canonical operational-control overview and its proof without a text search. Returns the Security and governance documentation page (the overview that draws every control boundary), the nine control dimensions, the documentation pages that ground each claim, and the package columns whose package pages carry release version, support level, and proof. Use this instead of guessing an operational-control term (identity, authorization, audit, policy, quota, approval, redaction) in search_docs.",
+        "inputSchema" => get_operational_control_input_schema(),
+        "outputSchema" => get_operational_control_output_schema()
       }
     ]
   end
@@ -45,6 +80,7 @@ defmodule AgentJido.MCP.DocsTools do
   def call_tool("search_docs", arguments, opts), do: search_docs(arguments, opts)
   def call_tool("get_doc", arguments, opts), do: get_doc(arguments, opts)
   def call_tool("list_sections", arguments, opts), do: list_sections(arguments, opts)
+  def call_tool("get_operational_control", arguments, opts), do: get_operational_control(arguments, opts)
 
   def call_tool(name, _arguments, _opts) do
     {:error, %{"code" => "unknown_tool", "message" => "Unknown tool #{inspect(name)}"}}
@@ -166,6 +202,68 @@ defmodule AgentJido.MCP.DocsTools do
 
   def list_sections(_arguments, _opts) do
     {:error, %{"code" => "invalid_arguments", "message" => "list_sections expects an object argument"}}
+  end
+
+  @spec get_operational_control(map(), keyword()) :: {:ok, tool_result()} | {:error, map()}
+  def get_operational_control(arguments, opts) when is_map(arguments) and is_list(opts) do
+    # Deterministic query path (jido-e10-t30): no query argument. A client calls
+    # this tool by name to retrieve the canonical control overview and its proof
+    # instead of guessing an operational-control term in search_docs.
+    if map_size(arguments) > 0 do
+      {:error, %{"code" => "invalid_arguments", "message" => "get_operational_control does not accept arguments"}}
+    else
+      pages_module = Keyword.get(opts, :pages_module, Pages)
+      control_matrix_module = Keyword.get(opts, :control_matrix_module, ControlMatrix)
+
+      with {:ok, page, resolution} <- resolve_docs_page(@control_overview_path, opts),
+           {:ok, markdown} <- resolve_markdown(Pages.route_for(page), opts) do
+        canonical_path = Pages.route_for(page)
+
+        overview =
+          %{
+            "title" => page.title,
+            "path" => canonical_path,
+            "canonical_url" => MCP.canonical_url(canonical_path),
+            "section" => Pages.docs_section_for_path(canonical_path),
+            "markdown" => markdown,
+            "legacy_resolution" => legacy_resolution_payload(@control_overview_path, canonical_path, resolution)
+          }
+          |> Enum.reject(fn {_key, value} -> is_nil(value) end)
+          |> Map.new()
+
+        dimensions =
+          control_matrix_module.capabilities()
+          |> Enum.map(fn capability ->
+            %{
+              "key" => to_string(capability.key),
+              "label" => capability.label,
+              "description" => capability.description
+            }
+          end)
+
+        proof = %{
+          "related_pages" => control_proof_pages(pages_module),
+          "matrix_packages" => control_matrix_packages(control_matrix_module),
+          "release_basis" => @control_release_basis
+        }
+
+        structured = %{
+          "overview" => overview,
+          "dimensions" => dimensions,
+          "proof" => proof
+        }
+
+        {:ok,
+         tool_result(
+           "Returned the canonical operational-control overview (#{page.title}) with #{length(dimensions)} control dimensions and proof.",
+           structured
+         )}
+      end
+    end
+  end
+
+  def get_operational_control(_arguments, _opts) do
+    {:error, %{"code" => "invalid_arguments", "message" => "get_operational_control expects an object argument"}}
   end
 
   defp tool_result(text, structured_content) do
@@ -291,6 +389,43 @@ defmodule AgentJido.MCP.DocsTools do
       "resolved_path" => canonical_path,
       "resolution" => to_string(resolution)
     }
+  end
+
+  # The docs pages the overview cites as proof, resolved to their titles through
+  # the page registry so a client gets a stable, human-readable pointer for each.
+  defp control_proof_pages(pages_module) do
+    @control_proof_pages
+    |> Enum.map(fn path ->
+      case pages_module.get_page_by_path(path) do
+        %{title: title} ->
+          %{
+            "title" => title,
+            "path" => path,
+            "canonical_url" => MCP.canonical_url(path)
+          }
+
+        nil ->
+          nil
+      end
+    end)
+    |> Enum.reject(&is_nil/1)
+  end
+
+  # The control packages whose package pages carry release version, support level,
+  # and proof. Comes from ControlMatrix so the pointers cannot drift from the
+  # browser and ecosystem-markdown matrix (jido-e10-t29).
+  defp control_matrix_packages(control_matrix_module) do
+    control_matrix_module.package_columns()
+    |> Enum.map(fn column ->
+      %{
+        "key" => column.key,
+        "label" => column.label,
+        "path" => column.path,
+        "canonical_url" => MCP.canonical_url(column.path)
+      }
+      |> Enum.reject(fn {_key, value} -> is_nil(value) end)
+      |> Map.new()
+    end)
   end
 
   defp require_non_empty_string(arguments, key, max_length \\ nil) when is_map(arguments) and is_binary(key) do
@@ -503,6 +638,79 @@ defmodule AgentJido.MCP.DocsTools do
                 }
               }
             }
+          }
+        }
+      }
+    }
+  end
+
+  defp get_operational_control_input_schema do
+    %{
+      "type" => "object",
+      "additionalProperties" => false,
+      "properties" => %{}
+    }
+  end
+
+  defp get_operational_control_output_schema do
+    %{
+      "type" => "object",
+      "required" => ["overview", "dimensions", "proof"],
+      "properties" => %{
+        "overview" => %{
+          "type" => "object",
+          "required" => ["title", "path", "canonical_url", "section", "markdown"],
+          "properties" => %{
+            "title" => %{"type" => "string"},
+            "path" => %{"type" => "string"},
+            "canonical_url" => %{"type" => "string"},
+            "section" => %{"type" => "string"},
+            "markdown" => %{"type" => "string"},
+            "legacy_resolution" => %{"type" => "object"}
+          }
+        },
+        "dimensions" => %{
+          "type" => "array",
+          "items" => %{
+            "type" => "object",
+            "required" => ["key", "label", "description"],
+            "properties" => %{
+              "key" => %{"type" => "string"},
+              "label" => %{"type" => "string"},
+              "description" => %{"type" => "string"}
+            }
+          }
+        },
+        "proof" => %{
+          "type" => "object",
+          "required" => ["related_pages", "matrix_packages", "release_basis"],
+          "properties" => %{
+            "related_pages" => %{
+              "type" => "array",
+              "items" => %{
+                "type" => "object",
+                "required" => ["title", "path", "canonical_url"],
+                "properties" => %{
+                  "title" => %{"type" => "string"},
+                  "path" => %{"type" => "string"},
+                  "canonical_url" => %{"type" => "string"}
+                }
+              }
+            },
+            "matrix_packages" => %{
+              "type" => "array",
+              "items" => %{
+                "type" => "object",
+                "required" => ["key", "label"],
+                "properties" => %{
+                  "key" => %{"type" => "string"},
+                  "label" => %{"type" => "string"},
+                  "path" => %{"type" => "string"},
+                  "canonical_url" => %{"type" => "string"}
+                }
+              }
+            },
+            "release_basis" => %{"type" => "string"}
           }
         }
       }

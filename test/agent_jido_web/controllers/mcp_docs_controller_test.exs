@@ -72,7 +72,12 @@ defmodule AgentJidoWeb.MCPDocsControllerTest do
 
     response = json_response(conn, 200)
 
-    assert Enum.map(response["result"]["tools"], & &1["name"]) == ["search_docs", "get_doc", "list_sections"]
+    assert Enum.map(response["result"]["tools"], & &1["name"]) == [
+             "search_docs",
+             "get_doc",
+             "list_sections",
+             "get_operational_control"
+           ]
   end
 
   test "POST /mcp/docs search_docs returns structured docs results", %{conn: conn} do
