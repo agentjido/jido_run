@@ -503,6 +503,58 @@ defmodule AgentJido.ContentAssistant.RetrievalTest do
     end
   end
 
+  describe "query/2 common-term aliases" do
+    # Each common user term from jido-e10-t04 resolves to its canonical page as
+    # the top result. The local fallback serves these (backend unavailable), so
+    # the terms work regardless of which search path serves the query. Raw
+    # lexical scores are unreliable for these terms ("function" and "tools"
+    # inflate unrelated doc bodies), so the canonical page wins via alias
+    # rerank priority plus the aliases indexed into its searchable text.
+    for {term, canonical_url, canonical_title} <- [
+          {"agent server", "/docs/concepts/agent-runtime", "Agent Runtime"},
+          {"AgentServer", "/docs/concepts/agent-runtime", "Agent Runtime"},
+          {"supervision", "/docs/operations/supervision-and-failure-boundaries", "Supervision and Failure Boundaries"},
+          {"restart", "/docs/operations/process-crash-and-restart", "Process Crash and Restart"},
+          {"durable", "/docs/concepts/persistence", "Persistence"},
+          {"long-running", "/docs/concepts/agent-runtime", "Agent Runtime"},
+          {"tools", "/features/tools", "Give agents tools"},
+          {"function calling", "/docs/learn/ai-agent-with-tools", "AI agent with tools"}
+        ] do
+      test "returns #{inspect(term)} -> #{canonical_url} as the top result via fallback" do
+        search_fun = fn _query, _opts -> {:error, :backend_down} end
+
+        assert {:ok, [top | _rest]} = Retrieval.query(unquote(term), search_fun: search_fun)
+
+        assert top.url == unquote(canonical_url)
+        assert top.title == unquote(canonical_title)
+      end
+    end
+
+    test "a colloquial term embedded in a longer query still finds the canonical page" do
+      search_fun = fn _query, _opts -> {:error, :backend_down} end
+
+      assert {:ok, [top | _rest]} =
+               Retrieval.query("how does the agent server route signals", search_fun: search_fun)
+
+      assert top.url == "/docs/concepts/agent-runtime"
+    end
+
+    test "a non-alias query is not displaced by alias reranking" do
+      # "persistence example" must still return the persistence example (not the
+      # persistence concept page that "durable" aliases to). "persistence" is not
+      # an alias, so alias reranking does not engage.
+      search_fun = fn _query, _opts -> {:error, :backend_down} end
+
+      assert {:ok, results} = Retrieval.query("persistence example", search_fun: search_fun)
+
+      persistence_example =
+        Enum.find(results, &(&1.url == "/examples/persistence-storage-agent"))
+
+      assert persistence_example != nil
+      assert persistence_example.source_type == :examples
+    end
+  end
+
   describe "query_with_status/2" do
     test "returns success status for normal backend responses" do
       search_fun = fn _query, _opts -> {:ok, []} end

@@ -59,6 +59,29 @@ defmodule AgentJido.ContentIngest.InventoryTest do
       refute Enum.any?(sources, &String.starts_with?(&1.source_id, "docs:/training"))
     end
 
+    test "indexes common user-term aliases into canonical docs sources" do
+      # A colloquial term (e.g. "function calling") that never appears in a
+      # canonical page's own body is indexed into its search document so an
+      # Arcana query for the term retrieves the page (jido-e10-t04).
+      sources = Inventory.build(only: [:docs])
+
+      agent_runtime = Enum.find(sources, &(&1.source_id == "docs:/docs/concepts/agent-runtime"))
+      assert agent_runtime != nil
+      # "agent server" (two words) and "long-running" are absent from the page
+      # body, so their presence proves alias indexing.
+      assert agent_runtime.text =~ "agent server"
+      assert agent_runtime.text =~ "AgentServer"
+      assert agent_runtime.text =~ "long-running"
+
+      tool_use = Enum.find(sources, &(&1.source_id == "docs:/docs/learn/ai-agent-with-tools"))
+      assert tool_use != nil
+      assert tool_use.text =~ "function calling"
+
+      persistence = Enum.find(sources, &(&1.source_id == "docs:/docs/concepts/persistence"))
+      assert persistence != nil
+      assert persistence.text =~ "durability"
+    end
+
     test "supports examples-only scope with one source per public example" do
       sources = Inventory.build(only: [:examples])
 

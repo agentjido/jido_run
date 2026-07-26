@@ -4,6 +4,7 @@ defmodule AgentJido.ContentIngest.Inventory do
   """
 
   alias AgentJido.Blog
+  alias AgentJido.ContentAssistant.SearchAliases
   alias AgentJido.ContentIngest.Source
   alias AgentJido.Ecosystem
   alias AgentJido.Examples
@@ -81,6 +82,11 @@ defmodule AgentJido.ContentIngest.Inventory do
 
     for doc <- Pages.all_pages(), include_docs_page?(doc) do
       body_text = html_to_text(doc.body)
+      # Common user terms that should find this canonical page (jido-e10
+      # E10-T04). Indexed into the document text so an Arcana query for a
+      # colloquial term retrieves the page, and folded into the content hash
+      # so an alias change triggers reingestion.
+      aliases_text = page_aliases_text(doc.path)
 
       metadata =
         %{
@@ -95,13 +101,21 @@ defmodule AgentJido.ContentIngest.Inventory do
           "category" => to_string(doc.category),
           "tags" => Enum.map(doc.tags || [], &to_string/1)
         }
-        |> with_content_hash(hash_payload(doc.title, doc.description, doc.path, body_text, doc.tags))
+        |> with_content_hash(hash_payload([doc.title, doc.description, doc.path, body_text, doc.tags, aliases_text]))
 
       %Source{
         source_id: "docs:#{doc.path}",
         collection: collection,
         collection_description: description,
-        text: compose_text([doc.title, doc.description, doc.path, Enum.join(doc.tags || [], " "), body_text]),
+        text:
+          compose_text([
+            doc.title,
+            doc.description,
+            doc.path,
+            Enum.join(doc.tags || [], " "),
+            aliases_text,
+            body_text
+          ]),
         metadata: metadata
       }
     end
@@ -359,6 +373,17 @@ defmodule AgentJido.ContentIngest.Inventory do
   defp hash_payload(a, b, c, d, e), do: hash_payload([a, b, c, d, e])
 
   defp with_content_hash(metadata, hash), do: Map.put(metadata, "content_hash", hash)
+
+  # Common user terms (aliases) registered for a canonical page route, joined
+  # into one block of text so each phrase stays an intact searchable substring.
+  # Returns nil when the page has no aliases so compose_text drops it (jido-e10
+  # E10-T04).
+  defp page_aliases_text(path) do
+    case SearchAliases.aliases_for_route(path) do
+      [] -> nil
+      aliases -> Enum.join(aliases, "\n")
+    end
+  end
 
   defp compose_text(parts) do
     parts

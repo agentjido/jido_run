@@ -7,6 +7,7 @@ defmodule AgentJido.ContentAssistant.Retrieval do
 
   alias AgentJido.Blog
   alias AgentJido.ContentAssistant.Result
+  alias AgentJido.ContentAssistant.SearchAliases
   alias AgentJido.ContentAssistant.URL
   alias AgentJido.Ecosystem
   alias AgentJido.Examples
@@ -320,7 +321,10 @@ defmodule AgentJido.ContentAssistant.Retrieval do
     title = normalize_string(page.title) || default_title(:docs)
     description = normalize_string(page.description)
     body_text = strip_html(page.body)
-    searchable_text = join_searchable_text([description, body_text])
+    # Include the page's registered aliases so a colloquial term (e.g.
+    # "function calling") retrieves the canonical page even when the term
+    # never appears in its own body (jido-e10 E10-T04).
+    searchable_text = join_searchable_text([description, body_text, page_aliases_text(page)])
     score = lexical_score(title, searchable_text, terms, query_downcase)
 
     if score > 0 do
@@ -465,6 +469,16 @@ defmodule AgentJido.ContentAssistant.Retrieval do
   # result to the card's DOM id so a hit lands on the matching skill (jido-e10
   # E10-T03).
   defp skill_card_url(skill_id), do: "/skills#skill-card-#{skill_id}"
+
+  # Registered aliases for a page, joined so each phrase stays searchable. The
+  # fallback scores a page on this text alongside its description and body
+  # (jido-e10 E10-T04).
+  defp page_aliases_text(page) do
+    case page |> Pages.route_for() |> SearchAliases.aliases_for_route() do
+      [] -> nil
+      aliases -> Enum.join(aliases, " ")
+    end
+  end
 
   defp tokenize_query(query) when is_binary(query) do
     query
@@ -903,11 +917,13 @@ defmodule AgentJido.ContentAssistant.Retrieval do
     api_style_query? = api_style_query?(query) and not broad_package_query?
     example_intent_query? = example_intent_query?(query)
     skill_intent_query? = skill_intent_query?(query)
+    alias_routes = MapSet.new(SearchAliases.routes_for_query(query))
 
     results
     |> Enum.with_index()
     |> Enum.sort_by(fn {%Result{} = result, index} ->
       {
+        alias_priority_group(result, alias_routes),
         skill_priority_group(result, skill_intent_query?),
         -(score_value(result.score) +
             ranking_bonus(result, broad_package_query?, api_style_query?, example_intent_query?)),
@@ -918,6 +934,29 @@ defmodule AgentJido.ContentAssistant.Retrieval do
   end
 
   defp rerank_results(results, _query), do: results
+
+  # A query that matches a registered alias (e.g. "agent server",
+  # "function calling") should surface the canonical page above every other
+  # result. Raw lexical scores are unreliable here — "function" inflates
+  # code-heavy pages far above the tool-use guide, and "tools" appears across
+  # most doc bodies — so, like the skill-intent path, an alias match gets
+  # structural priority: the canonical page sorts into group 0 (above all
+  # non-alias results), ordered within by its own score. The set is empty for
+  # queries that match no alias, so other ranking is unchanged (jido-e10
+  # E10-T04).
+  defp alias_priority_group(%Result{url: url}, alias_routes) when is_binary(url) do
+    if MapSet.member?(alias_routes, alias_route_key(url)), do: 0, else: 1
+  end
+
+  defp alias_priority_group(_result, _alias_routes), do: 1
+
+  defp alias_route_key(url) do
+    # Match the alias route keys (canonical page paths) by stripping any
+    # fragment/query and trailing slash. /skills#skill-card-... collapses to
+    # "/skills", which is not an alias route, so skill results are unaffected.
+    path = URI.parse(url).path || url
+    String.trim_trailing(path, "/")
+  end
 
   defp ranking_bonus(%Result{source_type: :ecosystem}, true, _api_style_query?, _example_intent?),
     do: 25.0
