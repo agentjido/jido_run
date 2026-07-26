@@ -189,6 +189,36 @@ Hooks.ScrollShrink = {
   },
 };
 
+// CoreAgentRun — forwards a successful core Agent action (the explicit success
+// signal the demo proves after Jido.Agent.cmd/2 returns) to first-party
+// analytics as `agent_run_succeeded` (jido-e12-t23). Attached to a demo root
+// via phx-hook="CoreAgentRun"; the demo pushes "agent-run-succeeded" only after
+// a real action completes, so the event represents success, not a page view.
+Hooks.CoreAgentRun = {
+  mounted() {
+    this.handleEvent("agent-run-succeeded", (payload) => {
+      if (typeof window.__agentJidoTrackEvent !== "function") {
+        return;
+      }
+
+      const example = payload?.example || "core-agent";
+
+      window.__agentJidoTrackEvent("agent_run_succeeded", {
+        source: "example",
+        channel: "interactive_demo",
+        section_id: example,
+        target_url: window.location.pathname,
+        path: window.location.pathname,
+        metadata: {
+          surface: "example_demo",
+          example: example,
+          action: payload?.action,
+        },
+      });
+    });
+  },
+};
+
 const csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content");
 
 function shouldConnectLiveSocket() {

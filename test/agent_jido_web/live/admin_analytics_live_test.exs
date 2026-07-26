@@ -125,6 +125,33 @@ defmodule AgentJidoWeb.AdminAnalyticsLiveTest do
     assert html =~ "Example — companion notebook"
   end
 
+  test "renders the first core Agent success section for admins (jido-e12-t23)", %{
+    admin_conn: admin_conn
+  } do
+    actor = user_fixture()
+    scope = Scope.for_user(actor)
+
+    # A first core Agent success on the Counter Agent demo so the row renders.
+    Analytics.track_event_safe(scope, %{
+      event: "agent_run_succeeded",
+      source: "example",
+      channel: "interactive_demo",
+      path: "/examples/counter-agent",
+      section_id: "counter-agent",
+      target_url: "/examples/counter-agent",
+      visitor_id: "admin-agent-visitor",
+      session_id: "admin-agent-session",
+      metadata: %{surface: "example_demo", example: "counter-agent", action: "IncrementAction"}
+    })
+
+    {:ok, view, html} = live(admin_conn, "/dashboard/analytics")
+
+    # The section is present and the Counter Agent success is visible as a row.
+    assert has_element?(view, "h2", "First core Agent success")
+    assert html =~ "Counter Agent"
+    assert html =~ "counter-agent"
+  end
+
   defp seed_analytics_data do
     actor = user_fixture()
     scope = Scope.for_user(actor)

@@ -50,6 +50,30 @@ defmodule AgentJidoWeb.AnalyticsEventControllerTest do
     assert event.target_url == "/docs/getting-started"
   end
 
+  test "accepts the first core Agent success event (jido-e12-t23)", %{conn: conn} do
+    conn =
+      post(conn, ~p"/analytics/events", %{
+        "event" => "agent_run_succeeded",
+        "properties" => %{
+          "source" => "example",
+          "channel" => "interactive_demo",
+          "path" => "/examples/counter-agent",
+          "section_id" => "counter-agent",
+          "target_url" => "/examples/counter-agent",
+          "metadata" => %{"surface" => "example_demo", "example" => "counter-agent", "action" => "IncrementAction"}
+        }
+      })
+
+    assert json_response(conn, 202)["ok"]
+
+    event = Repo.one(from(e in AnalyticsEvent, order_by: [desc: e.inserted_at], limit: 1))
+    assert event.event == "agent_run_succeeded"
+    assert event.source == "example"
+    assert event.channel == "interactive_demo"
+    assert event.section_id == "counter-agent"
+    assert event.metadata["example"] == "counter-agent"
+  end
+
   test "rejects invalid event names", %{conn: conn} do
     conn =
       post(conn, ~p"/analytics/events", %{

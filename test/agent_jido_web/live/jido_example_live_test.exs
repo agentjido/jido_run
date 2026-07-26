@@ -168,6 +168,33 @@ defmodule AgentJidoWeb.JidoExampleLiveTest do
       assert URI.parse(patched).path == "/examples/counter-agent"
       assert URI.parse(patched).query |> URI.decode_query() == %{"source" => "1", "tab" => "source"}
     end
+
+    test "a successful action pushes the first core Agent success signal (jido-e12-t23)",
+         %{conn: conn} do
+      {:ok, view, html} = live(conn, "/examples/counter-agent?tab=demo")
+
+      demo_view = find_live_child(view, "demo-counter-agent")
+
+      # The demo root carries the CoreAgentRun hook that forwards the success
+      # signal to first-party analytics.
+      root =
+        html
+        |> Floki.parse_document!()
+        |> Floki.find("#counter-agent-demo")
+        |> List.first()
+
+      assert root != nil, "expected the counter-agent demo root to be instrumented"
+      assert Floki.attribute(root, "phx-hook") |> hd() == "CoreAgentRun"
+
+      # A successful Jido.Agent.cmd/2 (the increment action) is the explicit
+      # success the demo can prove — it must push agent-run-succeeded so the
+      # CoreAgentRun hook forwards it as `agent_run_succeeded`, not a page view.
+      demo_view
+      |> element("#counter-agent-demo button[phx-click='increment']")
+      |> render_click()
+
+      assert_push_event(demo_view, "agent-run-succeeded", %{example: "counter-agent"})
+    end
   end
 
   describe "/examples/runic-ai-research-studio" do

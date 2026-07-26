@@ -136,6 +136,8 @@ defmodule AgentJido.Analytics.PostHog do
   defp browser_captured_event?(%AnalyticsEvent{event: "code_copied"}), do: true
   defp browser_captured_event?(%AnalyticsEvent{event: "livebook_run_clicked"}), do: true
 
+  defp browser_captured_event?(%AnalyticsEvent{event: "agent_run_succeeded"}), do: true
+
   defp browser_captured_event?(%AnalyticsEvent{
          event: "content_assistant_reference_clicked",
          channel: "content_assistant_page"

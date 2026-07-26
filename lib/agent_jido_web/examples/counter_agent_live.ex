@@ -24,7 +24,11 @@ defmodule AgentJidoWeb.Examples.CounterAgentLive do
   @impl true
   def render(assigns) do
     ~H"""
-    <div class="rounded-lg border border-border bg-card p-6 space-y-6">
+    <div
+      id="counter-agent-demo"
+      phx-hook="CoreAgentRun"
+      class="rounded-lg border border-border bg-card p-6 space-y-6"
+    >
       <%!-- Header --%>
       <div class="flex items-center justify-between">
         <div class="flex items-center gap-2">
@@ -173,17 +177,25 @@ defmodule AgentJidoWeb.Examples.CounterAgentLive do
 
     new_count = new_agent.state.count
 
+    action_name = action_module |> Module.split() |> List.last()
+
     entry = %{
       signal_type: signal_type,
-      action: action_module |> Module.split() |> List.last(),
+      action: action_name,
       params: params,
       from: old_count,
       to: new_count,
       at: DateTime.utc_now()
     }
 
+    # A successful cmd/2 is a real core Agent operation completing — the
+    # explicit success signal this demo can prove (jido-e12-t23). The
+    # CoreAgentRun hook forwards it to first-party analytics as
+    # `agent_run_succeeded` so the team measures first core Agent success,
+    # not only page views of the example.
     socket
     |> assign(:agent, new_agent)
     |> assign(:history, [entry | socket.assigns.history])
+    |> push_event("agent-run-succeeded", %{example: "counter-agent", action: action_name})
   end
 end

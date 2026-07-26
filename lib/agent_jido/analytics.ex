@@ -45,7 +45,8 @@ defmodule AgentJido.Analytics do
           local_search: map(),
           ingestion: map(),
           home_conversion: [map()],
-          first_livebook_open: [map()]
+          first_livebook_open: [map()],
+          first_core_agent_success: [map()]
         }
 
   @doc """
@@ -137,7 +138,8 @@ defmodule AgentJido.Analytics do
         local_search: local_search_snapshot(days, search_message_limit),
         ingestion: ingestion_snapshot(days),
         home_conversion: home_conversion_breakdown(days),
-        first_livebook_open: first_livebook_open_breakdown(days)
+        first_livebook_open: first_livebook_open_breakdown(days),
+        first_core_agent_success: first_core_agent_success_breakdown(days)
       }
     else
       unauthorized_snapshot(days)
@@ -428,6 +430,44 @@ defmodule AgentJido.Analytics do
         activations: count(o.visitor_id)
       },
       order_by: [desc: count(o.visitor_id), asc: o.source]
+    )
+    |> Repo.all()
+  end
+
+  # First core Agent success (jido-e12-t23). A visitor's first-ever
+  # `agent_run_succeeded` is the moment they first completed a real core Agent
+  # operation (a Jido.Agent.cmd/2 returned in an interactive demo), so success
+  # does not depend only on page views. `DISTINCT ON (visitor_id)` keeps one row
+  # per visitor — the earliest success, because inserted_at is ordered ascending
+  # within each visitor group — so repeat successes by the same visitor never
+  # re-count. We then group the in-window first successes by the example
+  # (section_id) the visitor succeeded on, so the team sees which core Agent a
+  # visitor first ran to completion.
+  defp first_core_agent_success_breakdown(days) do
+    since = since_naive(days)
+
+    first_success_per_visitor =
+      from(e in AnalyticsEvent,
+        where:
+          e.event == "agent_run_succeeded" and
+            not is_nil(e.section_id),
+        order_by: [asc: e.visitor_id, asc: e.inserted_at],
+        distinct: e.visitor_id,
+        select: %{
+          visitor_id: e.visitor_id,
+          succeeded_at: e.inserted_at,
+          section_id: e.section_id
+        }
+      )
+
+    from(s in subquery(first_success_per_visitor),
+      where: s.succeeded_at >= ^since,
+      group_by: s.section_id,
+      select: %{
+        section_id: s.section_id,
+        successes: count(s.visitor_id)
+      },
+      order_by: [desc: count(s.visitor_id), asc: s.section_id]
     )
     |> Repo.all()
   end
@@ -1254,7 +1294,8 @@ defmodule AgentJido.Analytics do
       local_search: empty_local_search(),
       ingestion: empty_ingestion_snapshot(),
       home_conversion: [],
-      first_livebook_open: []
+      first_livebook_open: [],
+      first_core_agent_success: []
     }
   end
 
@@ -1274,7 +1315,8 @@ defmodule AgentJido.Analytics do
       local_search: empty_local_search(),
       ingestion: empty_ingestion_snapshot(),
       home_conversion: [],
-      first_livebook_open: []
+      first_livebook_open: [],
+      first_core_agent_success: []
     }
   end
 

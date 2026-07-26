@@ -356,5 +356,85 @@ defmodule AgentJido.AnalyticsTest do
       total = Enum.sum(Enum.map(snapshot.first_livebook_open, & &1.activations))
       assert total == 3
     end
+
+    test "dashboard snapshot surfaces first core Agent success by example (jido-e12-t23)" do
+      admin = admin_user_fixture()
+      admin_scope = Scope.for_user(admin)
+      actor = user_fixture()
+      scope = Scope.for_user(actor)
+
+      # Visitor A's first core Agent success is on the Counter Agent demo; they
+      # then run another action successfully — still a single first success.
+      assert {:ok, _} =
+               Analytics.track_event(scope, %{
+                 event: "agent_run_succeeded",
+                 source: "example",
+                 channel: "interactive_demo",
+                 path: "/examples/counter-agent",
+                 section_id: "counter-agent",
+                 target_url: "/examples/counter-agent",
+                 visitor_id: "visitor-first-counter",
+                 session_id: "session-first-counter",
+                 metadata: %{surface: "example_demo", example: "counter-agent", action: "IncrementAction"}
+               })
+
+      for action <- ["DecrementAction", "ResetAction"] do
+        assert {:ok, _} =
+                 Analytics.track_event(scope, %{
+                   event: "agent_run_succeeded",
+                   source: "example",
+                   channel: "interactive_demo",
+                   path: "/examples/counter-agent",
+                   section_id: "counter-agent",
+                   target_url: "/examples/counter-agent",
+                   visitor_id: "visitor-first-counter",
+                   session_id: "session-first-counter",
+                   metadata: %{surface: "example_demo", example: "counter-agent", action: action}
+                 })
+      end
+
+      # Visitor B's first (and only) success is also on the Counter Agent.
+      assert {:ok, _} =
+               Analytics.track_event(scope, %{
+                 event: "agent_run_succeeded",
+                 source: "example",
+                 channel: "interactive_demo",
+                 path: "/examples/counter-agent",
+                 section_id: "counter-agent",
+                 target_url: "/examples/counter-agent",
+                 visitor_id: "visitor-single-counter",
+                 session_id: "session-single-counter",
+                 metadata: %{surface: "example_demo", example: "counter-agent", action: "IncrementAction"}
+               })
+
+      # A non-agent event (a Livebook open) must not bleed into the success
+      # breakdown — success does not depend only on page views or other events.
+      assert {:ok, _} =
+               Analytics.track_event(scope, %{
+                 event: "livebook_run_clicked",
+                 source: "example",
+                 channel: "related_livebook",
+                 path: "/examples/counter-agent",
+                 target_url: "https://example.com/example-livebook",
+                 visitor_id: "visitor-not-agent-success",
+                 session_id: "session-not-agent-success"
+               })
+
+      snapshot = Analytics.dashboard_snapshot(admin_scope, 7)
+
+      rows = Map.new(snapshot.first_core_agent_success, fn row -> {row.section_id, row.successes} end)
+
+      # Two distinct visitors reached a first core Agent success on the Counter
+      # Agent — visitor A's repeat successes never re-count as a new success.
+      assert rows["counter-agent"] == 2
+
+      # The Livebook-open visitor is excluded from the success breakdown.
+      refute Map.has_key?(rows, "livebook")
+
+      # Exactly two first successes total — the repeats and non-agent event are
+      # excluded.
+      total = Enum.sum(Enum.map(snapshot.first_core_agent_success, & &1.successes))
+      assert total == 2
+    end
   end
 end

@@ -167,6 +167,34 @@ defmodule AgentJidoWeb.AdminAnalyticsLive do
         </section>
 
         <section class="rounded-lg border border-border bg-card p-5">
+          <h2 class="text-lg font-semibold text-foreground">First core Agent success</h2>
+          <p class="mt-1 text-sm text-muted-foreground">
+            Where visitors first completed a real core Agent action — a successful run in an interactive demo, not only a page view — grouped by the example they ran.
+          </p>
+          <table class="mt-4 w-full text-sm">
+            <thead>
+              <tr class="text-left text-xs uppercase tracking-wide text-muted-foreground">
+                <th class="py-2 pr-4 font-semibold">Example</th>
+                <th class="py-2 pr-4 font-semibold">Slug</th>
+                <th class="py-2 font-semibold">First successes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr :for={row <- @analytics_snapshot.first_core_agent_success} class="border-t border-border/70">
+                <td class="py-2 pr-4 font-medium text-foreground">{first_core_agent_success_label(row.section_id)}</td>
+                <td class="py-2 pr-4 text-muted-foreground">{row.section_id}</td>
+                <td class="py-2 text-foreground">{row.successes}</td>
+              </tr>
+              <tr :if={@analytics_snapshot.first_core_agent_success == []}>
+                <td colspan="3" class="py-2 text-sm text-muted-foreground">
+                  No first core Agent successes in this window yet.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="rounded-lg border border-border bg-card p-5">
           <div class="flex flex-wrap items-center justify-between gap-3">
             <h2 class="text-lg font-semibold text-foreground">Collector Health</h2>
             <span class="text-xs text-muted-foreground">Rows shown for the selected {@analytics_days}d window</span>
@@ -414,6 +442,7 @@ defmodule AgentJidoWeb.AdminAnalyticsLive do
       recent_negative_feedback: [],
       home_conversion: [],
       first_livebook_open: [],
+      first_core_agent_success: [],
       local_search: %{
         summary: %{
           total_messages: 0,
@@ -566,6 +595,22 @@ defmodule AgentJidoWeb.AdminAnalyticsLive do
   end
 
   defp first_livebook_open_label(_source), do: "-"
+
+  # Human-readable label for the example a visitor first ran a core Agent action
+  # to completion in (jido-e12-t23). Maps the section_id (the example slug the
+  # demo carried) to the name a maintainer reads in the dashboard; an unknown
+  # slug falls back to a title-cased slug so a newly instrumented example is
+  # never blank.
+  defp first_core_agent_success_label("counter-agent"), do: "Counter Agent"
+
+  defp first_core_agent_success_label(section_id) when is_binary(section_id) do
+    section_id
+    |> String.replace("-", " ")
+    |> String.split(" ")
+    |> Enum.map_join(" ", &String.capitalize/1)
+  end
+
+  defp first_core_agent_success_label(_section_id), do: "-"
 
   defp feedback_badge_class("helpful") do
     "inline-flex rounded-full border border-accent-green/30 bg-accent-green/10 px-2 py-0.5 text-[11px] font-semibold text-accent-green"
