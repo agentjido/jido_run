@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-26T01:19:20Z",
   "created": "2026-07-23T12:05:01Z",
   "description": "Backlog task: E07-T49\n\nWork area: Controlled-Agent reference path\n\nMain targets: Operate docs\n\nComplete when: An operator can start with a principal, request, trace, or Signal ID and find the related decisions and effects.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e07-t49",
@@ -23,7 +24,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E07-T49 — Publish an operator investigation runbook.",
   "type": "task",
   "updated_at": "2026-07-26T01:19:20Z"
