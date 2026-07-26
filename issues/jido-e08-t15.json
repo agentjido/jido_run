@@ -15,11 +15,15 @@
     {
       "text": "Open: last-validated date/version set per example not yet added.",
       "timestamp": "2026-07-24T12:51:52Z"
+    },
+    {
+      "text": "Accepted by the Zclaude Ralph supervisor. Commits: fed1b27b. Verification: MIX_ENV=test mix compile \u0026\u0026 MIX_ENV=test mix format --check-formatted.",
+      "timestamp": "2026-07-26T01:25:16Z"
     }
   ],
   "priority": 1,
   "status": "in_progress",
   "title": "E08-T15 — Add a last-validated date and version set.",
   "type": "task",
-  "updated_at": "2026-07-26T01:19:23Z"
+  "updated_at": "2026-07-26T01:25:16Z"
 }
