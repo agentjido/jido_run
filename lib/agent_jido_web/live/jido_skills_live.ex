@@ -70,11 +70,25 @@ defmodule AgentJidoWeb.JidoSkillsLive do
               </div>
               <h2 class="text-xl font-bold text-foreground mb-2">{entry.title}</h2>
               <p class="text-sm text-secondary-foreground leading-relaxed mb-5">{entry.description}</p>
-              <div class="grid gap-3 md:grid-cols-3 mb-5">
-                <div class="rounded-md border border-border bg-card/70 p-4">
-                  <div class="text-[10px] uppercase tracking-wider text-muted-foreground mb-1">Source</div>
-                  <div class="text-[11px] text-foreground break-all">{entry.skill_source_path}</div>
+              <dl class="space-y-2 text-[11px] mb-5">
+                <div :if={entry.task} class="flex gap-2">
+                  <dt class="w-24 shrink-0 text-muted-foreground uppercase tracking-wider">Use for</dt>
+                  <dd class="text-foreground">{entry.task}</dd>
                 </div>
+                <div :if={entry.use_when != []} class="flex gap-2">
+                  <dt class="w-24 shrink-0 text-muted-foreground uppercase tracking-wider">Triggers</dt>
+                  <dd class="text-foreground">{Enum.map_join(entry.use_when, ", ", & &1)}</dd>
+                </div>
+                <div :if={entry.maturity_note} class="flex gap-2">
+                  <dt class="w-24 shrink-0 text-muted-foreground uppercase tracking-wider">Maturity</dt>
+                  <dd class="text-foreground">{entry.maturity_note}</dd>
+                </div>
+                <div class="flex gap-2">
+                  <dt class="w-24 shrink-0 text-muted-foreground uppercase tracking-wider">Source</dt>
+                  <dd class="text-foreground break-all">{entry.skill_source_path}</dd>
+                </div>
+              </dl>
+              <div class="grid gap-3 md:grid-cols-2 mb-5">
                 <div class="rounded-md border border-border bg-card/70 p-4">
                   <div class="text-[10px] uppercase tracking-wider text-muted-foreground mb-1">Agent Files</div>
                   <div class="text-sm font-semibold text-foreground">{length(entry.agent_files)}</div>
@@ -125,11 +139,37 @@ defmodule AgentJidoWeb.JidoSkillsLive do
 
                 <p class="text-sm text-secondary-foreground leading-relaxed mb-4">{entry.description}</p>
 
-                <div class="space-y-2 text-[11px] text-muted-foreground mb-5">
-                  <div>skill source: <span class="text-foreground break-all">{entry.skill_source_path}</span></div>
-                  <div>support files: <span class="text-foreground">{length(entry.agent_files) + length(entry.reference_files)}</span></div>
-                  <div :if={entry.ecosystem_package_id}>ecosystem id: <span class="text-foreground">{entry.ecosystem_package_id}</span></div>
-                </div>
+                <dl class="space-y-2 text-[11px] mb-5">
+                  <div class="flex gap-2">
+                    <dt class="w-24 shrink-0 text-muted-foreground uppercase tracking-wider">Package</dt>
+                    <dd class="text-foreground">
+                      <span class="font-mono break-all">{entry.package_name || "—"}</span>
+                      <span :if={entry.package_title && entry.package_title != entry.title} class="text-muted-foreground">
+                        ({entry.package_title})
+                      </span>
+                    </dd>
+                  </div>
+                  <div :if={entry.task} class="flex gap-2">
+                    <dt class="w-24 shrink-0 text-muted-foreground uppercase tracking-wider">Use for</dt>
+                    <dd class="text-foreground">{entry.task}</dd>
+                  </div>
+                  <div :if={entry.use_when != []} class="flex gap-2">
+                    <dt class="w-24 shrink-0 text-muted-foreground uppercase tracking-wider">Triggers</dt>
+                    <dd class="text-foreground">{Enum.map_join(entry.use_when, ", ", & &1)}</dd>
+                  </div>
+                  <div :if={entry.maturity_note} class="flex gap-2">
+                    <dt class="w-24 shrink-0 text-muted-foreground uppercase tracking-wider">Maturity</dt>
+                    <dd class="text-foreground">{entry.maturity_note}</dd>
+                  </div>
+                  <div class="flex gap-2">
+                    <dt class="w-24 shrink-0 text-muted-foreground uppercase tracking-wider">Source</dt>
+                    <dd class="text-foreground break-all">{entry.skill_source_path}</dd>
+                  </div>
+                  <div class="flex gap-2">
+                    <dt class="w-24 shrink-0 text-muted-foreground uppercase tracking-wider">Files</dt>
+                    <dd class="text-foreground">{length(entry.agent_files) + length(entry.reference_files)}</dd>
+                  </div>
+                </dl>
 
                 <div class="mt-auto flex flex-wrap gap-2">
                   <a
@@ -139,6 +179,24 @@ defmodule AgentJidoWeb.JidoSkillsLive do
                     class="text-xs font-semibold px-3 py-2 rounded border border-accent-cyan/30 bg-accent-cyan/10 text-accent-cyan hover:bg-accent-cyan/15 transition-colors"
                   >
                     Open Upstream Skill
+                  </a>
+                  <a
+                    :if={entry.hexdocs_url}
+                    href={entry.hexdocs_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-xs font-semibold px-3 py-2 rounded border border-border text-muted-foreground hover:text-foreground hover:border-foreground/40 transition-colors"
+                  >
+                    HexDocs
+                  </a>
+                  <a
+                    :if={entry.hex_url}
+                    href={entry.hex_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-xs font-semibold px-3 py-2 rounded border border-border text-muted-foreground hover:text-foreground hover:border-foreground/40 transition-colors"
+                  >
+                    Hex
                   </a>
                   <.link
                     :if={entry.ecosystem_path}

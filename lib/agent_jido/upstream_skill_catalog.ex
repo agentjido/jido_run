@@ -1,15 +1,40 @@
 defmodule AgentJido.UpstreamSkillCatalog do
   @moduledoc """
   Static catalog for the vendored `arrowcircle/jido-skills` package skills.
+
+  Each entry surfaces enough detail — the upstream package it serves, the task
+  it covers, the package maturity, and the source links — for a contributor to
+  pick a skill from the catalog page without opening every `SKILL.md`
+  (jido-e10 E10-T24).
   """
 
   alias Jido.AI.Skill.Loader
+
+  alias AgentJido.Ecosystem
+  alias AgentJido.Ecosystem.SupportLevel
 
   @catalog_root Application.app_dir(:agent_jido, "priv/skills/arrowcircle-jido-skills")
   @skills_root Path.join(@catalog_root, "skills")
   @repo_url "https://github.com/arrowcircle/jido-skills"
   @readme_source_path "priv/skills/arrowcircle-jido-skills/README.md"
   @source_prompt_source_path "priv/skills/arrowcircle-jido-skills/source/prompts.md"
+  @manifest_source_path "priv/skills/arrowcircle-jido-skills/skills/jido-skill-router/references/skill-manifest.yaml"
+
+  # Machine-readable routing manifest. Parsed at compile time so the catalog
+  # page can show each skill's task ("role") and triggers ("use_when") without
+  # re-reading the file per request. Falls back to an empty map if the file is
+  # absent so a partial checkout still compiles.
+  @manifest_path Path.join(@catalog_root, "skills/jido-skill-router/references/skill-manifest.yaml")
+
+  @manifest_skills (if File.exists?(@manifest_path) do
+                      @manifest_path
+                      |> YamlElixir.read_from_file!()
+                      |> Map.get("skills", [])
+                      |> Enum.map(fn entry -> {entry["skill"], entry} end)
+                      |> Map.new()
+                    else
+                      %{}
+                    end)
 
   @catalog_files Path.wildcard(Path.join(@catalog_root, "**/*"))
                  |> Enum.filter(&File.regular?/1)
@@ -30,7 +55,20 @@ defmodule AgentJido.UpstreamSkillCatalog do
           ecosystem_package_id: String.t() | nil,
           ecosystem_path: String.t() | nil,
           agent_files: [String.t()],
-          reference_files: [String.t()]
+          reference_files: [String.t()],
+          # Package the skill serves (Hex name + display title).
+          package_name: String.t() | nil,
+          package_title: String.t() | nil,
+          # Task the skill covers — the manifest "role" plus its "use_when" triggers.
+          task: String.t() | nil,
+          use_when: [String.t()],
+          # Package maturity, resolved from the public Ecosystem package.
+          maturity_label: String.t() | nil,
+          maturity_note: String.t() | nil,
+          # Package source links (absent for unreleased packages).
+          hex_url: String.t() | nil,
+          hexdocs_url: String.t() | nil,
+          github_url: String.t() | nil
         }
 
   @spec all_entries() :: [entry()]
@@ -67,6 +105,9 @@ defmodule AgentJido.UpstreamSkillCatalog do
   @spec source_prompt_source_path() :: String.t()
   def source_prompt_source_path, do: @source_prompt_source_path
 
+  @spec manifest_source_path() :: String.t()
+  def manifest_source_path, do: @manifest_source_path
+
   @spec skills_root_source_path() :: String.t()
   def skills_root_source_path, do: "priv/skills/arrowcircle-jido-skills/skills"
 
@@ -85,6 +126,7 @@ defmodule AgentJido.UpstreamSkillCatalog do
     category = if id == "jido-skill-router", do: :router, else: :package
     ecosystem_package_id = ecosystem_package_id(id, category)
     ecosystem_path = ecosystem_path(ecosystem_package_id)
+    package = Ecosystem.get_public_package(ecosystem_package_id)
 
     %{
       id: id,
@@ -97,7 +139,16 @@ defmodule AgentJido.UpstreamSkillCatalog do
       ecosystem_package_id: ecosystem_package_id,
       ecosystem_path: ecosystem_path,
       agent_files: support_files(skill_dir, "agents"),
-      reference_files: support_files(skill_dir, "references")
+      reference_files: support_files(skill_dir, "references"),
+      package_name: package_name(id, package),
+      package_title: if(package, do: package.title),
+      task: task_for(id, category),
+      use_when: use_when_for(id, category),
+      maturity_label: maturity_label(package),
+      maturity_note: maturity_note(package, category),
+      hex_url: if(package, do: package.hex_url),
+      hexdocs_url: if(package, do: package.hexdocs_url),
+      github_url: if(package, do: package.github_url)
     }
   end
 
@@ -139,6 +190,69 @@ defmodule AgentJido.UpstreamSkillCatalog do
     id
     |> String.split("-")
     |> Enum.map_join(" ", &String.capitalize/1)
+  end
+
+  # The manifest carries the authoritative package each skill serves plus its
+  # role/triggers. For every package skill the manifest `upstream_package`
+  # matches the resolved Ecosystem package id; we prefer the Ecosystem package
+  # title/name so the card shows the curated display name, and fall back to the
+  # manifest only when the package is not in the public catalog.
+  defp package_name(_id, %{name: name}), do: name
+  defp package_name(id, nil), do: manifest_field(id, "upstream_package")
+
+  defp task_for("jido-skill-router", :router),
+    do: "Routes a task to the right package skill when the boundary is unclear or the work crosses packages."
+
+  defp task_for(id, :package), do: manifest_field(id, "role")
+
+  defp use_when_for("jido-skill-router", :router),
+    do: ["unclear package boundary", "task spans multiple packages"]
+
+  defp use_when_for(id, :package) do
+    case Map.get(@manifest_skills, id) do
+      %{"use_when" => triggers} when is_list(triggers) -> triggers
+      _ -> []
+    end
+  end
+
+  defp maturity_label(%{support_level: level}), do: SupportLevel.label(level)
+  defp maturity_label(nil), do: nil
+
+  # Self-contained "maturity note" combining the support-level label/summary
+  # with the package's API-stability detail, so a contributor can judge whether
+  # a skill's package is safe to build on without opening its files.
+  defp maturity_note(nil, :router),
+    do: "Generated meta-skill — hand off to the matching package skill rather than loading every skill."
+
+  defp maturity_note(_package, :router), do: maturity_note(nil, :router)
+
+  defp maturity_note(nil, :package), do: nil
+
+  defp maturity_note(package, :package) do
+    case SupportLevel.definition(package.support_level) do
+      %{label: label, summary: summary} ->
+        api = package.api_stability |> to_string() |> String.trim()
+
+        redundant? =
+          api in ["", "not yet defined"] or
+            String.downcase(api) == String.downcase(label)
+
+        if redundant? do
+          "#{label} — #{summary}"
+        else
+          "#{label} — #{summary} (#{api})"
+        end
+
+      _ ->
+        nil
+    end
+  end
+
+  defp manifest_field(id, key) do
+    case Map.get(@manifest_skills, id) do
+      %{^key => value} when is_binary(value) -> value
+      _ -> nil
+    end
   end
 
   defp relative_to_cwd(path), do: Path.relative_to(path, Application.app_dir(:agent_jido))
