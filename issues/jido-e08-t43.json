@@ -16,11 +16,15 @@
     {
       "text": "Open: correlated operational trace example depends on T37.",
       "timestamp": "2026-07-24T12:51:58Z"
+    },
+    {
+      "text": "Accepted by the Zclaude Ralph supervisor. Commits: 2f977b42. Verification: MIX_ENV=test mix compile \u0026\u0026 MIX_ENV=test mix format --check-formatted.",
+      "timestamp": "2026-07-26T06:14:06Z"
     }
   ],
   "priority": 1,
   "status": "in_progress",
   "title": "E08-T43 — Show one correlated operational trace.",
   "type": "task",
-  "updated_at": "2026-07-26T06:04:35Z"
+  "updated_at": "2026-07-26T06:14:06Z"
 }
