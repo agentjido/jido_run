@@ -2,7 +2,10 @@ defmodule AgentJido.MCP.DocsToolsTest do
   use ExUnit.Case, async: true
 
   alias AgentJido.ContentAssistant.Result
+  alias AgentJido.MCP
   alias AgentJido.MCP.DocsTools
+  alias AgentJido.Pages
+  alias AgentJidoWeb.MarkdownContent
 
   defmodule RetrievalStub do
     def query_with_status(_query, _opts) do
@@ -88,5 +91,59 @@ defmodule AgentJido.MCP.DocsToolsTest do
     assert learn_section["path"] == "/docs/learn"
     assert learn_section["page_count"] > 1
     assert Enum.any?(learn_section["pages"], &(&1["path"] == "/docs/learn/ai-chat-agent"))
+  end
+
+  describe "MCP markdown parity with public Markdown (jido-e10-t20)" do
+    # Acceptance: "MCP returns the same expanded code as public Markdown." MCP
+    # get_doc delegates to MarkdownContent.resolve/2 (the same resolver the public
+    # .md endpoint / LLMResponse plug serves), so the two surfaces must agree
+    # byte-for-byte on every docs page. This is locked here so the parity cannot
+    # drift silently — e.g. if get_doc ever stopped expanding {{mix_dep:*}}
+    # tokens, the public `.md` payload (which expands them) would diverge.
+
+    test "get_doc returns byte-identical markdown to the public Markdown endpoint for every docs page" do
+      docs_routes =
+        Pages.pages_by_category(:docs)
+        |> Enum.map(&Pages.route_for/1)
+        |> Enum.uniq()
+
+      assert docs_routes != [], "no docs routes to assert MCP/Markdown parity against"
+
+      for path <- docs_routes do
+        assert {:ok, %{"structuredContent" => %{"markdown" => mcp_markdown}}} =
+                 DocsTools.get_doc(%{"path" => path}, []),
+               "MCP get_doc could not serve docs page #{path}"
+
+        assert {:ok, public_markdown} =
+                 MarkdownContent.resolve(path, MCP.canonical_url(path)),
+               "public Markdown endpoint could not serve docs page #{path}"
+
+        assert mcp_markdown == public_markdown,
+               "MCP get_doc markdown drifted from the public Markdown endpoint for #{inspect(path)}"
+      end
+    end
+
+    test "the canonical placeholder page carries expanded code, not raw tokens, on both surfaces" do
+      # The first-LLM-agent page source carries {{mix_dep:jido}}, {{mix_dep:jido_ai}},
+      # and {{mix_dep:req_llm}} tokens. Both MCP get_doc and the public Markdown
+      # endpoint must return the EXPANDED dependency tuples, never the raw tokens.
+      path = "/docs/getting-started/first-llm-agent"
+
+      assert {:ok, %{"structuredContent" => %{"markdown" => mcp_markdown}}} =
+               DocsTools.get_doc(%{"path" => path}, [])
+
+      {:ok, public_markdown} = MarkdownContent.resolve(path, MCP.canonical_url(path))
+
+      # The two surfaces agree byte-for-byte.
+      assert mcp_markdown == public_markdown,
+             "MCP get_doc markdown drifted from the public Markdown endpoint for #{inspect(path)}"
+
+      # And that shared payload is the expanded code, not the raw {{...}} tokens.
+      refute mcp_markdown =~ ~r/\{\{/,
+             "MCP markdown carries unresolved {{...}} placeholders"
+
+      assert mcp_markdown =~ "{:jido,"
+      assert mcp_markdown =~ "{:jido_ai,"
+    end
   end
 end
