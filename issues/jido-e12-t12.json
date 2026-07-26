@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-26T17:12:44Z",
   "created": "2026-07-23T12:07:53Z",
   "description": "Backlog task: E12-T12\n\nWork area: Content lint and release gates\n\nMain targets: Search tests\n\nComplete when: A new public item must be indexed or explicitly excluded.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e12-t12",
@@ -22,7 +23,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E12-T12 — Add public-content search coverage checks.",
   "type": "task",
   "updated_at": "2026-07-26T17:12:44Z"
