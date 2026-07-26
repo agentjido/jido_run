@@ -705,4 +705,84 @@ defmodule AgentJido.AnalyticsTest do
       assert total == 3
     end
   end
+
+  describe "onboarding to Operate long-running path entry (jido-e12-t27)" do
+    test "dashboard snapshot surfaces first movement into the long-running path by entry page (jido-e12-t27)" do
+      admin = admin_user_fixture()
+      admin_scope = Scope.for_user(admin)
+      actor = user_fixture()
+      scope = Scope.for_user(actor)
+
+      # Visitor A first steps onto the long-running path at the operations hub,
+      # then later opens the telemetry page. Their first entry is the hub, so the
+      # later operations page never re-counts as a second conversion.
+      assert {:ok, _} =
+               Analytics.track_event(scope, %{
+                 event: "long_running_path_entered",
+                 source: "operate",
+                 channel: "long_running_path",
+                 path: "/docs/operations",
+                 section_id: "operations",
+                 visitor_id: "visitor-hub-then-telemetry",
+                 session_id: "session-hub-then-telemetry",
+                 metadata: %{surface: "operations", page: "operations"}
+               })
+
+      assert {:ok, _} =
+               Analytics.track_event(scope, %{
+                 event: "long_running_path_entered",
+                 source: "operate",
+                 channel: "long_running_path",
+                 path: "/docs/operations/telemetry-and-traces",
+                 section_id: "telemetry-and-traces",
+                 visitor_id: "visitor-hub-then-telemetry",
+                 session_id: "session-hub-then-telemetry",
+                 metadata: %{surface: "operations", page: "telemetry-and-traces"}
+               })
+
+      # Visitor B enters the long-running path directly on the telemetry page.
+      assert {:ok, _} =
+               Analytics.track_event(scope, %{
+                 event: "long_running_path_entered",
+                 source: "operate",
+                 channel: "long_running_path",
+                 path: "/docs/operations/telemetry-and-traces",
+                 section_id: "telemetry-and-traces",
+                 visitor_id: "visitor-telemetry-only",
+                 session_id: "session-telemetry-only",
+                 metadata: %{surface: "operations", page: "telemetry-and-traces"}
+               })
+
+      # A non-entry docs event (a docs section view) is not movement into the
+      # long-running path, so it must never bleed into the conversion breakdown.
+      assert {:ok, _} =
+               Analytics.track_event(scope, %{
+                 event: "docs_section_viewed",
+                 source: "docs",
+                 channel: "docs_sidebar",
+                 path: "/docs",
+                 section_id: "get-started",
+                 visitor_id: "visitor-not-entry",
+                 session_id: "session-not-entry",
+                 metadata: %{surface: "docs_index"}
+               })
+
+      snapshot = Analytics.dashboard_snapshot(admin_scope, 7)
+
+      rows = Map.new(snapshot.long_running_path_entry, fn row -> {row.section_id, row.visitors} end)
+
+      # The hub counts visitor A once (their later telemetry view never re-counts
+      # as a new conversion). The telemetry page counts visitor B once.
+      assert rows["operations"] == 1
+      assert rows["telemetry-and-traces"] == 1
+
+      # The non-entry docs event is excluded from the long-running path breakdown.
+      refute Map.has_key?(rows, "get-started")
+
+      # Two first conversions total — visitor A's repeat operations-page view
+      # never re-counts as a new conversion.
+      total = Enum.sum(Enum.map(snapshot.long_running_path_entry, & &1.visitors))
+      assert total == 2
+    end
+  end
 end

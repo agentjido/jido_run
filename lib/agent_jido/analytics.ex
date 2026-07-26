@@ -49,7 +49,8 @@ defmodule AgentJido.Analytics do
           first_core_agent_success: [map()],
           first_llm_request: [map()],
           example_filter: [map()],
-          example_engagement: [map()]
+          example_engagement: [map()],
+          long_running_path_entry: [map()]
         }
 
   @doc """
@@ -145,7 +146,8 @@ defmodule AgentJido.Analytics do
         first_core_agent_success: first_core_agent_success_breakdown(days),
         first_llm_request: first_llm_request_breakdown(days),
         example_filter: example_filter_breakdown(days),
-        example_engagement: example_engagement_breakdown(days)
+        example_engagement: example_engagement_breakdown(days),
+        long_running_path_entry: long_running_path_entry_breakdown(days)
       }
     else
       unauthorized_snapshot(days)
@@ -619,6 +621,46 @@ defmodule AgentJido.Analytics do
         visitors: count(eng.visitor_id)
       },
       order_by: [desc: count(eng.visitor_id), asc: eng.target]
+    )
+    |> Repo.all()
+  end
+
+  # Movement from onboarding into the Operate / long-running path (jido-e12-t27).
+  # The operations hub and its runbooks are the "long-running agent path" — where
+  # a visitor moves from onboarding (building a first agent) toward running it in
+  # production. A visitor's first-ever `long_running_path_entered` is the moment
+  # they first step onto that path, so conversion into Operate does not depend
+  # only on page traffic. `DISTINCT ON (visitor_id)` keeps one row per visitor —
+  # the earliest entry, because inserted_at is ordered ascending within each
+  # visitor group — so repeat operations-page views by the same visitor never
+  # re-count as a new conversion. We then group the in-window first entries by
+  # the operations page the visitor first reached (section_id), so the team sees
+  # which surface of the long-running path visitors move into from onboarding.
+  defp long_running_path_entry_breakdown(days) do
+    since = since_naive(days)
+
+    first_entry_per_visitor =
+      from(e in AnalyticsEvent,
+        where:
+          e.event == "long_running_path_entered" and
+            not is_nil(e.section_id),
+        order_by: [asc: e.visitor_id, asc: e.inserted_at],
+        distinct: e.visitor_id,
+        select: %{
+          visitor_id: e.visitor_id,
+          entered_at: e.inserted_at,
+          section_id: e.section_id
+        }
+      )
+
+    from(entry in subquery(first_entry_per_visitor),
+      where: entry.entered_at >= ^since,
+      group_by: entry.section_id,
+      select: %{
+        section_id: entry.section_id,
+        visitors: count(entry.visitor_id)
+      },
+      order_by: [desc: count(entry.visitor_id), asc: entry.section_id]
     )
     |> Repo.all()
   end
@@ -1424,7 +1466,8 @@ defmodule AgentJido.Analytics do
       first_core_agent_success: [],
       first_llm_request: [],
       example_filter: [],
-      example_engagement: []
+      example_engagement: [],
+      long_running_path_entry: []
     }
   end
 
@@ -1448,7 +1491,8 @@ defmodule AgentJido.Analytics do
       first_core_agent_success: [],
       first_llm_request: [],
       example_filter: [],
-      example_engagement: []
+      example_engagement: [],
+      long_running_path_entry: []
     }
   end
 

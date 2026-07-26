@@ -146,6 +146,15 @@ defmodule AgentJidoWeb.PageLive do
          |> push_navigate(to: fallback_path(path))}
 
       page ->
+        # Measure movement from onboarding into the Operate / long-running path
+        # (jido-e12-t27) — the operations hub and its runbooks are the
+        # "long-running agent path" a visitor steps onto after building a first
+        # agent. Fire only on the connected mount (the static render would
+        # otherwise double-count) and only for an operations page. The
+        # per-visitor dedup in the dashboard breakdown collapses repeat
+        # operations-page views to one conversion.
+        maybe_track_long_running_path_entry(socket, path)
+
         body_with_heading_ids = ensure_heading_ids(page.body)
         page = %{page | body: body_with_heading_ids}
         toc = build_toc(page.body)
@@ -746,4 +755,41 @@ defmodule AgentJidoWeb.PageLive do
   defp analytics_module do
     Application.get_env(:agent_jido, :analytics_module, Analytics)
   end
+
+  # Records a `long_running_path_entered` event when a connected visitor lands on
+  # an operations page — the Operate / long-running path (jido-e12-t27). The dead
+  # render never fires (it would double-count), and only `/docs/operations` pages
+  # fire, so a non-operations docs page records nothing. Admin scopes are excluded
+  # by Analytics.track_event_safe, so admin preview traffic is never counted. The
+  # event carries the operations page slug as section_id; the per-visitor dedup in
+  # the dashboard breakdown collapses repeat operations-page views to one
+  # conversion per visitor.
+  defp maybe_track_long_running_path_entry(socket, path) when is_binary(path) do
+    if connected?(socket) and operations_path?(path) do
+      slug = long_running_path_section_id(path)
+
+      analytics_module().track_event_safe(socket.assigns.current_scope, %{
+        event: "long_running_path_entered",
+        source: "operate",
+        channel: "long_running_path",
+        path: path,
+        section_id: slug,
+        visitor_id: get_in(socket.assigns, [:analytics_identity, :visitor_id]),
+        session_id: get_in(socket.assigns, [:analytics_identity, :session_id]),
+        metadata: %{surface: "operations", page: slug}
+      })
+    end
+
+    socket
+  end
+
+  defp maybe_track_long_running_path_entry(socket, _path), do: socket
+
+  defp operations_path?("/docs/operations"), do: true
+  defp operations_path?("/docs/operations/" <> _), do: true
+  defp operations_path?(_), do: false
+
+  defp long_running_path_section_id("/docs/operations"), do: "operations"
+  defp long_running_path_section_id("/docs/operations/" <> slug), do: slug
+  defp long_running_path_section_id(path) when is_binary(path), do: path
 end

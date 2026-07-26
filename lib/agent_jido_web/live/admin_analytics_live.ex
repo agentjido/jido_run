@@ -279,6 +279,34 @@ defmodule AgentJidoWeb.AdminAnalyticsLive do
         </section>
 
         <section class="rounded-lg border border-border bg-card p-5">
+          <h2 class="text-lg font-semibold text-foreground">Onboarding → Operate (long-running path)</h2>
+          <p class="mt-1 text-sm text-muted-foreground">
+            Each visitor's first step from onboarding into the Operate long-running path — the operations hub and runbooks that turn a first agent into a system that keeps running — so the team measures movement into production, not only page traffic.
+          </p>
+          <table class="mt-4 w-full text-sm">
+            <thead>
+              <tr class="text-left text-xs uppercase tracking-wide text-muted-foreground">
+                <th class="py-2 pr-4 font-semibold">Entry surface</th>
+                <th class="py-2 pr-4 font-semibold">Page</th>
+                <th class="py-2 font-semibold">Visitors</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr :for={row <- @analytics_snapshot.long_running_path_entry} class="border-t border-border/70">
+                <td class="py-2 pr-4 font-medium text-foreground">{long_running_path_entry_label(row.section_id)}</td>
+                <td class="py-2 pr-4 text-muted-foreground">{row.section_id}</td>
+                <td class="py-2 text-foreground">{row.visitors}</td>
+              </tr>
+              <tr :if={@analytics_snapshot.long_running_path_entry == []}>
+                <td colspan="3" class="py-2 text-sm text-muted-foreground">
+                  No movement into the long-running path in this window yet.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="rounded-lg border border-border bg-card p-5">
           <div class="flex flex-wrap items-center justify-between gap-3">
             <h2 class="text-lg font-semibold text-foreground">Collector Health</h2>
             <span class="text-xs text-muted-foreground">Rows shown for the selected {@analytics_days}d window</span>
@@ -529,6 +557,7 @@ defmodule AgentJidoWeb.AdminAnalyticsLive do
       first_core_agent_success: [],
       first_llm_request: [],
       example_engagement: [],
+      long_running_path_entry: [],
       local_search: %{
         summary: %{
           total_messages: 0,
@@ -755,6 +784,27 @@ defmodule AgentJidoWeb.AdminAnalyticsLive do
   end
 
   defp example_engagement_label(_target), do: "-"
+
+  # Human-readable label for each entry surface on the Operate long-running path
+  # (jido-e12-t27). Maps the operations page slug a first-entry event carries
+  # (section_id) to the surface name a builder recognizes; the home stack
+  # production-next-step destinations (supervision, telemetry, rate limits) and
+  # the hub are named, and any other slug falls back to a title-cased render.
+  defp long_running_path_entry_label("operations"), do: "Operations hub"
+  defp long_running_path_entry_label("supervision-and-failure-boundaries"), do: "Supervision and failure boundaries"
+  defp long_running_path_entry_label("telemetry-and-traces"), do: "Telemetry and traces"
+  defp long_running_path_entry_label("rate-limits-and-cost-budgets"), do: "Rate limits and cost budgets"
+  defp long_running_path_entry_label("production-readiness-checklist"), do: "Production readiness checklist"
+  defp long_running_path_entry_label("health-checks-and-readiness"), do: "Health checks and readiness"
+
+  defp long_running_path_entry_label(section_id) when is_binary(section_id) do
+    section_id
+    |> String.replace("-", " ")
+    |> String.split(" ")
+    |> Enum.map_join(" ", &String.capitalize/1)
+  end
+
+  defp long_running_path_entry_label(_section_id), do: "-"
 
   defp feedback_badge_class("helpful") do
     "inline-flex rounded-full border border-accent-green/30 bg-accent-green/10 px-2 py-0.5 text-[11px] font-semibold text-accent-green"

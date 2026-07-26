@@ -156,6 +156,32 @@ defmodule AgentJidoWeb.AnalyticsEventControllerTest do
     assert event.metadata["example"] == "counter-agent"
   end
 
+  test "accepts the onboarding to Operate long-running path entry event (jido-e12-t27)", %{conn: conn} do
+    conn =
+      post(conn, ~p"/analytics/events", %{
+        "event" => "long_running_path_entered",
+        "properties" => %{
+          "source" => "operate",
+          "channel" => "long_running_path",
+          "path" => "/docs/operations",
+          "section_id" => "operations",
+          "metadata" => %{
+            "surface" => "operations",
+            "page" => "operations"
+          }
+        }
+      })
+
+    assert json_response(conn, 202)["ok"]
+
+    event = Repo.one(from(e in AnalyticsEvent, order_by: [desc: e.inserted_at], limit: 1))
+    assert event.event == "long_running_path_entered"
+    assert event.source == "operate"
+    assert event.channel == "long_running_path"
+    assert event.section_id == "operations"
+    assert event.metadata["page"] == "operations"
+  end
+
   test "rejects invalid event names", %{conn: conn} do
     conn =
       post(conn, ~p"/analytics/events", %{

@@ -19,6 +19,7 @@ defmodule AgentJido.Analytics.AnalyticsEvent do
     "llm_request_outcome",
     "example_filter_used",
     "example_tab_viewed",
+    "long_running_path_entered",
     "feedback_submitted"
   ]
 

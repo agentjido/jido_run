@@ -272,6 +272,46 @@ defmodule AgentJidoWeb.AdminAnalyticsLiveTest do
     assert html =~ "demo"
   end
 
+  test "renders the onboarding to Operate long-running path section for admins (jido-e12-t27)",
+       %{admin_conn: admin_conn} do
+    actor = user_fixture()
+    scope = Scope.for_user(actor)
+
+    # One visitor's first step onto the long-running path at the operations hub,
+    # one entering directly on the telemetry page, so both surfaces render.
+    Analytics.track_event_safe(scope, %{
+      event: "long_running_path_entered",
+      source: "operate",
+      channel: "long_running_path",
+      path: "/docs/operations",
+      section_id: "operations",
+      visitor_id: "admin-operate-hub",
+      session_id: "admin-operate-hub-session",
+      metadata: %{surface: "operations", page: "operations"}
+    })
+
+    Analytics.track_event_safe(scope, %{
+      event: "long_running_path_entered",
+      source: "operate",
+      channel: "long_running_path",
+      path: "/docs/operations/telemetry-and-traces",
+      section_id: "telemetry-and-traces",
+      visitor_id: "admin-operate-telemetry",
+      session_id: "admin-operate-telemetry-session",
+      metadata: %{surface: "operations", page: "telemetry-and-traces"}
+    })
+
+    {:ok, view, html} = live(admin_conn, "/dashboard/analytics")
+
+    # The section is present and each entry surface is visible as a row — the
+    # human-readable label and the page slug both render.
+    assert has_element?(view, "h2", "Onboarding → Operate (long-running path)")
+    assert html =~ "Operations hub"
+    assert html =~ "operations"
+    assert html =~ "Telemetry and traces"
+    assert html =~ "telemetry-and-traces"
+  end
+
   defp seed_analytics_data do
     actor = user_fixture()
     scope = Scope.for_user(actor)
