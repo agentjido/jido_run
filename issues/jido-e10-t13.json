@@ -1,5 +1,5 @@
 {
-  "assignee": "",
+  "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:06:52Z",
@@ -18,8 +18,8 @@
     }
   ],
   "priority": 1,
-  "status": "open",
+  "status": "in_progress",
   "title": "E10-T13 — Give Docs hub Markdown the same section order as HTML.",
   "type": "task",
-  "updated_at": "2026-07-24T12:53:34Z"
+  "updated_at": "2026-07-26T12:27:34Z"
 }
