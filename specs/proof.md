@@ -96,6 +96,7 @@ Primary inputs: `specs/positioning.md` §11 (Canon), `specs/audits/control-inven
 | Ecosystem doc | `jido_live_dashboard` — agent dashboard plugin | `priv/ecosystem/jido_live_dashboard.md` | ✅ exists | Key proof package |
 | Operational demo | **Dashboard instrumentation walkthrough** — metrics, counters, traces | _TODO: create_ | ❌ missing | Highest-priority proof for this pillar |
 | Operational demo | **Trace narrative** — "follow a request through 3 agents" | _TODO: create_ | ❌ missing | Story-driven proof |
+| Runnable example | **OpenTelemetry export** — verified OTel trace via the `jido_otel` bridge | `lib/agent_jido/demos/open_telemetry_export/` + `test/agent_jido/demos/open_telemetry_export_test.exs` | ✅ exists | States **Experimental** maturity and exports a verified trace: a `Jido.Observe.Tracer` bridge (the contract `jido_otel` consumes) is wired as the configured tracer, one unit of work runs through `Jido.Observe`, and the bridge exports one shared-trace-id, parent-linked span tree with OTel span names and attributes. `jido_otel` is unreleased/Experimental, so the bridge ships in the demo rather than as a hard dependency (`jido-e08-t20`). |
 | Reference doc | **SRE checklist** — deploy, monitor, alert, respond | _TODO: create_ | ❌ missing | Maps to SRE persona |
 | Reference doc | **Telemetry event catalog** — all emitted events, fields, units | _TODO: create_ | ❌ missing | Reference-grade proof |
 | Code snippet | `:telemetry` handler setup for agent events | _TODO: create or extract_ | ❌ missing | |
@@ -319,7 +320,7 @@ in CI by `test/agent_jido/specs/operational_control_proof_test.exs`.
 ### Correlated telemetry
 - **Control point:** `Jido.Observe` / `Jido.Telemetry` correlated spans; optional `jido_otel` export.
 - **Configuration:** `:telemetry` handlers attached to Action and lifecycle events.
-- **Test:** `test/agent_jido/demos/redaction_test.exs` (action telemetry emits the action module only; a secret action param is excluded from metadata).
+- **Test:** `test/agent_jido/demos/redaction_test.exs` (action telemetry emits the action module only; a secret action param is excluded from metadata) and `test/agent_jido/demos/open_telemetry_export_test.exs` (the `jido_otel` bridge exports a verified trace — one shared trace id adopted from the incoming signal and one parent-linked span tree, Experimental maturity).
 - **Limitation:** Telemetry is not an audit log; OTel export is Experimental.
 - **Owner:** Platform owner.
 - **Version:** jido 2.3.2 (Stable); jido_otel Experimental.
