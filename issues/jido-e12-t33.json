@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-26T19:39:53Z",
   "created": "2026-07-23T12:08:14Z",
   "description": "Backlog task: E12-T33\n\nWork area: Governance\n\nMain targets: `specs/contributor-docs.md`, `specs/README.md`\n\nComplete when: Contributors know the source, review, and proof rules.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e12-t33",
@@ -22,7 +23,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E12-T33 — Update contributor guidance.",
   "type": "task",
   "updated_at": "2026-07-26T19:39:53Z"
