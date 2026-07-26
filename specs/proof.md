@@ -283,6 +283,78 @@ _This document is a living inventory. Update status columns as assets are create
 
 ---
 
+## Public Example Proof Map (`jido-e08-t32`)
+
+Every example surfaced publicly (`status: :live`) is a proof asset. This map is
+the authoritative per-example registry — each row ties a public example to the
+major positioning or operational-control claim it proves. It supersedes the
+per-pillar tables above for example coverage: if an example is public, it is
+listed here, and each major claim points to at least one example. The set is
+gated in CI by `test/agent_jido/specs/public_example_proof_map_test.exs`, which
+reads the live examples from `AgentJido.Examples` so a newly published example
+with no map row fails the build.
+
+Claim tokens (backtick-wrapped in the `Backs` column):
+
+- `P1` — Pillar 1: Reliability by Architecture (fail safe, recover predictably)
+- `P2` — Pillar 2: Multi-Agent Coordination you can reason about (explicit, testable)
+- `P3` — Pillar 3: Production Operations and Observability
+- `P4` — Pillar 4: Composable Ecosystem / incremental adoption
+- `Cross` — Cross-cutting AI intelligence (LLM, tools, reasoning)
+- `Control` — Operational-control claims (supervised lifecycle, fail-closed
+  authorization, causal history, correlated telemetry, cost/quota)
+
+| Example | Category | Capability theme | Backs | Packages |
+|---|---|---|---|---|
+| `priv/examples/address-normalization-agent.md` | core | runtime-foundations | `P2` | jido |
+| `priv/examples/counter-agent.md` | core | runtime-foundations | `P2` `P4` | jido |
+| `priv/examples/demand-tracker-agent.md` | core | runtime-foundations | `P2` | jido |
+| `priv/examples/document-processor.md` | core | runtime-foundations | `P2` | jido |
+| `priv/examples/emit-directive-agent.md` | core | runtime-foundations | `P2` | jido |
+| `priv/examples/plugin-basics-agent.md` | core | coordination-orchestration | `P2` | jido |
+| `priv/examples/signal-routing-agent.md` | core | runtime-foundations | `P2` | jido, jido_signal |
+| `priv/examples/state-ops-agent.md` | core | runtime-foundations | `P2` | jido |
+| `priv/examples/support-triage-agent.md` | core | runtime-foundations | `P2` | jido |
+| `priv/examples/coding-assistant.md` | ai | ai-intelligence | `Cross` `P2` | jido |
+| `priv/examples/jido-ai-actions-runtime-demos.md` | ai | ai-intelligence | `Cross` | jido, jido_ai, req_llm |
+| `priv/examples/jido-ai-browser-web-workflow.md` | ai | ai-intelligence | `Cross` | jido, jido_ai, req_llm |
+| `priv/examples/jido-ai-operational-agents-pack.md` | ai | operations-observability | `P3` `Cross` | jido, jido_ai, req_llm |
+| `priv/examples/jido-ai-skills-multi-agent-orchestration.md` | ai | coordination-orchestration | `P2` `Cross` | jido, jido_ai, req_llm |
+| `priv/examples/jido-ai-skills-runtime-foundations.md` | ai | ai-intelligence | `Cross` | jido, jido_ai, req_llm |
+| `priv/examples/jido-ai-task-execution-workflow.md` | ai | coordination-orchestration | `P2` `Cross` | jido, jido_ai, req_llm |
+| `priv/examples/jido-ai-weather-multi-turn-context.md` | ai | ai-intelligence | `Cross` | jido, jido_ai, req_llm |
+| `priv/examples/jido-ai-weather-reasoning-strategy-suite.md` | ai | ai-intelligence | `Cross` | jido, jido_ai, req_llm |
+| `priv/examples/runic-adaptive-researcher.md` | ai | ai-intelligence | `Cross` `P2` | jido, jido_ai, req_llm |
+| `priv/examples/runic-ai-research-studio.md` | ai | ai-intelligence | `Cross` `P2` | jido, jido_ai, req_llm |
+| `priv/examples/runic-ai-research-studio-step-mode.md` | ai | ai-intelligence | `Cross` `P2` | jido, jido_ai, req_llm |
+| `priv/examples/runic-delegating-orchestrator.md` | ai | coordination-orchestration | `P2` `Cross` | jido, jido_ai, req_llm |
+| `priv/examples/runic-structured-llm-branching.md` | ai | ai-intelligence | `Cross` `P2` | jido, jido_ai, req_llm |
+| `priv/examples/controlled-agent.md` | production | reliability-architecture | `P1` `P3` `Control` | jido |
+| `priv/examples/data-pipeline-agent.md` | production | execution-tooling | `P4` `P2` | jido |
+| `priv/examples/failure-drill-agent.md` | production | reliability-architecture | `P1` | jido |
+| `priv/examples/operations-agent.md` | production | operations-observability | `P3` | jido |
+| `priv/examples/persistence-storage-agent.md` | production | operations-observability | `P1` `P3` | jido |
+| `priv/examples/schedule-directive-agent.md` | production | coordination-orchestration | `P2` | jido |
+
+**Major-claim coverage** — every major claim points to at least one example
+(the `jido-e08-t32` acceptance):
+
+- `P1` — controlled-agent, failure-drill-agent, persistence-storage-agent
+- `P2` — address-normalization-agent, counter-agent, demand-tracker-agent, document-processor, emit-directive-agent, plugin-basics-agent, signal-routing-agent, state-ops-agent, support-triage-agent, coding-assistant, data-pipeline-agent, jido-ai-skills-multi-agent-orchestration, jido-ai-task-execution-workflow, runic-adaptive-researcher, runic-ai-research-studio, runic-ai-research-studio-step-mode, runic-delegating-orchestrator, runic-structured-llm-branching
+- `P3` — operations-agent, jido-ai-operational-agents-pack, controlled-agent, persistence-storage-agent
+- `P4` — counter-agent, data-pipeline-agent
+- `Cross` — coding-assistant, jido-ai-actions-runtime-demos, jido-ai-browser-web-workflow, jido-ai-operational-agents-pack, jido-ai-skills-multi-agent-orchestration, jido-ai-skills-runtime-foundations, jido-ai-task-execution-workflow, jido-ai-weather-multi-turn-context, jido-ai-weather-reasoning-strategy-suite, runic-adaptive-researcher, runic-ai-research-studio, runic-ai-research-studio-step-mode, runic-delegating-orchestrator, runic-structured-llm-branching
+- `Control` — controlled-agent
+
+The `Control` claim is backed end-to-end by `controlled-agent`; the isolated
+control points (supervised lifecycle, fail-closed authorization, causal history,
+correlated telemetry, cost/quota) each have their own proof fields and tests in
+the Control Proof Fields section below. Package maturity, `last_validated`, and
+`tested_with` for each example live on the example's published card contract
+(`jido-e08-t33`), not in this map.
+
+---
+
 ## Control Proof Fields (`jido-e02` T44, `jido-e12` T38)
 
 Every operational-control claim names seven proof fields, all required before
