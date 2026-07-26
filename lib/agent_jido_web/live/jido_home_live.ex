@@ -39,6 +39,7 @@ defmodule AgentJidoWeb.JidoHomeLive do
         <.why_elixir_otp_section />
         <.why_not_genserver_section />
         <.ecosystem_section />
+        <.do_i_need_ai_section />
         <.build_first_agent_cta />
       </div>
     </.marketing_layout>
@@ -637,6 +638,56 @@ defmodule AgentJidoWeb.JidoHomeLive do
         >
           Read the full comparison →
         </.link>
+      </div>
+    </section>
+    """
+  end
+
+  # "Do I need AI?" objection block (jido-e04-t29). A visitor who hears "agent
+  # framework" often assumes an LLM is required and that they need a model
+  # provider and API key before they can start. The block lands directly after
+  # the ecosystem section, which is where the Core and AI stacks are introduced
+  # side by side, so the objection reads as the natural follow-up to "there are
+  # two stacks." The acceptance condition is the answer plus the two routes: the
+  # answer is "No" — the Core runtime is supervised agents with typed Actions
+  # and Signals, no model, no API key — and the visitor is routed to the core
+  # path (start with one agent, no AI) and to the AI path (any model, any
+  # provider) for the agents that do reason over a model. Reach for the AI stack
+  # only then; keep it out of every agent that does not.
+  defp do_i_need_ai_section(assigns) do
+    ~H"""
+    <section id="do-i-need-ai" class="text-center mb-16 animate-fade-in">
+      <div
+        id="home-do-i-need-ai-objection"
+        class="max-w-2xl mx-auto rounded-xl border border-primary/20 bg-primary/5 px-6 py-7"
+        data-objection="do-i-need-ai"
+      >
+        <span class="home-eyebrow-label text-[11px] font-semibold tracking-widest uppercase">
+          Common question
+        </span>
+        <h2 class="text-2xl sm:text-3xl font-bold tracking-tight mt-3 mb-3">
+          Do I need AI?
+        </h2>
+        <p class="home-muted-copy text-[15px] leading-relaxed max-w-xl mx-auto mb-5">
+          No. Jido's Core runtime is supervised agents with typed Actions and Signals — no model, no API key, no LLM dependency. The quick start runs a counter without ever calling a model. Reach for the AI stack only when an agent needs to reason over a model, and keep it out of every agent that does not.
+        </p>
+        <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
+          <.link
+            navigate="/features/start-small"
+            class="text-primary hover:underline text-[13px] font-semibold"
+            data-objection-link="do-i-need-ai-core"
+          >
+            Start without AI →
+          </.link>
+          <span class="home-muted-copy">·</span>
+          <.link
+            navigate="/features/llm-support"
+            class="text-primary hover:underline text-[13px] font-semibold"
+            data-objection-link="do-i-need-ai-ai"
+          >
+            When you do want AI →
+          </.link>
+        </div>
       </div>
     </section>
     """

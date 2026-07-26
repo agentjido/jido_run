@@ -356,6 +356,93 @@ defmodule AgentJidoWeb.JidoHomeLiveTest do
     end
   end
 
+  describe "home objection: do I need AI? (jido-e04-t29)" do
+    # Acceptance condition: "The answer is 'No,' with core and AI routes." A
+    # visitor who assumes an agent framework requires an LLM gets a home section
+    # that poses "Do I need AI?" and answers "No" — the Core runtime is
+    # supervised agents with typed Actions and Signals, no model, no API key —
+    # then routes them to the core path (start without AI) and the AI path (any
+    # model, any provider) for the agents that do reason over a model.
+
+    test "renders an objection block posing the question and answering No", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      block =
+        html
+        |> Floki.parse_document!()
+        |> Floki.find("#home-do-i-need-ai-objection")
+
+      assert block != [], "expected a do-i-need-ai objection block"
+
+      heading = block |> Floki.find("h2") |> Floki.text() |> String.trim()
+      assert heading == "Do I need AI?"
+
+      # Acceptance condition: the answer is "No." The answer paragraph leads
+      # with it so a skimmer reads it before the explanation.
+      answer =
+        block
+        |> Floki.find("p")
+        |> List.first()
+        |> Floki.text()
+        |> String.trim()
+
+      assert String.starts_with?(answer, "No")
+    end
+
+    test "routes to the core path", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      link =
+        html
+        |> Floki.parse_document!()
+        |> Floki.find("a[data-objection-link='do-i-need-ai-core']")
+        |> List.first()
+
+      assert link != nil, "expected a core route link"
+
+      # Acceptance condition: a core route — start without AI.
+      assert Floki.attribute(link, "href") |> hd() == "/features/start-small"
+    end
+
+    test "routes to the AI path", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      link =
+        html
+        |> Floki.parse_document!()
+        |> Floki.find("a[data-objection-link='do-i-need-ai-ai']")
+        |> List.first()
+
+      assert link != nil, "expected an AI route link"
+
+      # Acceptance condition: an AI route — when you do want AI.
+      assert Floki.attribute(link, "href") |> hd() == "/features/llm-support"
+    end
+
+    test "both routes resolve to real pages, not the 404 fallback", %{conn: conn} do
+      # The acceptance condition is on the destinations: the core and AI routes
+      # must each reach a real page. A status in 200..399 means it resolved to a
+      # real route; only the catch-all returns 404.
+      assert get(conn, "/features/start-small").status in 200..399
+      assert get(conn, "/features/llm-support").status in 200..399
+    end
+
+    test "the objection block sits after the ecosystem section and before the build CTA",
+         %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      # The objection is the follow-up to the ecosystem section, which is where
+      # the Core and AI stacks are introduced side by side, and it lands before
+      # the closing build-CTA.
+      assert {ecosystem_idx, _} = :binary.match(html, ~s(id="ecosystem"))
+      assert {objection_idx, _} = :binary.match(html, ~s(id="do-i-need-ai"))
+      assert {cta_idx, _} = :binary.match(html, ~s(id="home-build-agent-cta"))
+
+      assert ecosystem_idx < objection_idx
+      assert objection_idx < cta_idx
+    end
+  end
+
   describe "home Agent model section (E04-T10)" do
     test "renders the four-part Agent model section after the first proof", %{conn: conn} do
       {:ok, _view, html} = live(conn, "/")
