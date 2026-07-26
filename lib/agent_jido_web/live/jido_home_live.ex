@@ -46,7 +46,7 @@ defmodule AgentJidoWeb.JidoHomeLive do
 
   defp hero_section(assigns) do
     ~H"""
-    <section class="text-center mb-16 animate-fade-in">
+    <section id="home-hero" class="text-center mb-16 animate-fade-in">
       <div class="inline-block bg-primary/10 border border-primary/30 px-4 py-2 rounded mb-6">
         <span class="home-eyebrow-label text-[11px] font-semibold tracking-widest">
           OPEN-SOURCE ELIXIR FRAMEWORK
@@ -84,6 +84,13 @@ defmodule AgentJidoWeb.JidoHomeLive do
         </.link>
       </div>
 
+      <%!-- Primary audience first (jido-e04-t07): Elixir engineers get a fast-lane
+           to the expert guide. Non-Elixir evaluation collapses to a single
+           secondary link below (jido-e04-t08) — an expansion route, not a co-equal
+           peer persona — so the first viewport no longer splits attention across
+           three personas. The "New to Elixir?" peer persona that used to sit
+           beside this link has left the first viewport; it remains reachable lower
+           on the page in the "Why an agent framework on Elixir?" section. --%>
       <p class="home-muted-copy text-[11px] leading-relaxed max-w-xl mx-auto -mt-6">
         Already an Elixir developer?
         <.link
@@ -93,13 +100,16 @@ defmodule AgentJidoWeb.JidoHomeLive do
         >
           Jump to the expert guide.
         </.link>
-        <span class="mx-2">•</span>
-        New to Elixir?
+      </p>
+
+      <p class="home-muted-copy text-[11px] leading-relaxed max-w-xl mx-auto mt-3">
         <.link
-          navigate="/docs/getting-started/new-to-elixir"
-          class="text-primary hover:underline font-semibold ml-1"
+          id="home-non-elixir-evaluation-link"
+          navigate="/features/beam-for-ai-builders"
+          class="text-primary hover:underline font-semibold"
+          data-hero-audience="non-elixir-evaluation"
         >
-          Start here.
+          Coming from Python or TypeScript? →
         </.link>
       </p>
     </section>

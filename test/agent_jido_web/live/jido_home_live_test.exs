@@ -36,6 +36,77 @@ defmodule AgentJidoWeb.JidoHomeLiveTest do
     end
   end
 
+  describe "home hero non-Elixir evaluation (jido-e04-t08)" do
+    # Acceptance condition: "The first viewport does not split attention across
+    # three personas." The hero previously presented a dual peer persona-fork —
+    # an Elixir-expert link and a "New to Elixir?" link side by side — which,
+    # with the primary CTA, split the first viewport across three personas
+    # (per docs/Jido Positioning Review 2026-07-23.md: the two audience links
+    # gave both groups equal weight). Non-Elixir evaluation now collapses to a
+    # single secondary link — an expansion route to the beam-for-ai-builders
+    # on-ramp named in specs/persona-journeys.md — so the first viewport leads
+    # with one primary path and routes the non-Elixir evaluator through one
+    # secondary link instead of a co-equal peer persona.
+
+    test "routes non-Elixir evaluation through one secondary link", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      hero = hero_section(html)
+
+      # Exactly one non-Elixir evaluation link in the hero — a single secondary
+      # link, not one of two peers in a fork.
+      links = Floki.find(hero, "a[data-hero-audience='non-elixir-evaluation']")
+      assert length(links) == 1
+
+      # The single secondary link routes to the canonical non-Elixir evaluator
+      # on-ramp, not the learn-Elixir page.
+      assert Floki.attribute(hd(links), "href") |> hd() == "/features/beam-for-ai-builders"
+    end
+
+    test "the peer persona-fork has left the first viewport", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      hero = hero_section(html)
+
+      # The "New to Elixir?" peer persona route is out of the first viewport —
+      # it remains reachable lower on the page in the "Why an agent framework on
+      # Elixir?" section. Its absence from the hero is what collapses the
+      # three-persona split.
+      assert Floki.find(hero, "a[href='/docs/getting-started/new-to-elixir']") == []
+
+      # The non-Elixir route is no longer framed as a peer persona question in
+      # the first viewport.
+      refute Floki.text(hero) =~ "New to Elixir?"
+    end
+
+    test "the Elixir-expert fast-lane stays and leads the non-Elixir route", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      hero = hero_section(html)
+
+      # The primary audience (Elixir engineers) keeps its fast-lane (jido-e04-t07).
+      expert = hero |> Floki.find("#home-elixir-expert-guide-link") |> List.first()
+      assert expert != nil
+      assert Floki.attribute(expert, "href") |> hd() == "/docs/getting-started/elixir-developers"
+
+      # The Elixir-expert route precedes the non-Elixir secondary link in reading
+      # order, so the primary audience stays first (jido-e04-t07 invariant).
+      {expert_idx, _} = :binary.match(html, ~s(id="home-elixir-expert-guide-link"))
+      {non_elixir_idx, _} = :binary.match(html, ~s(id="home-non-elixir-evaluation-link"))
+      assert expert_idx < non_elixir_idx
+    end
+
+    test "the primary CTA still leads the first viewport", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      hero = hero_section(html)
+
+      primary = hero |> Floki.find("#home-hero-cta") |> List.first()
+      assert primary != nil
+      assert Floki.attribute(primary, "href") |> hd() == "/docs/getting-started"
+    end
+  end
+
   describe "home-to-onboarding conversion analytics (jido-e12-t21)" do
     # Acceptance condition: "Hero and section CTA paths are visible." Every CTA
     # that routes the home page into onboarding fires a first-party
@@ -1632,6 +1703,15 @@ defmodule AgentJidoWeb.JidoHomeLiveTest do
       [value | _] -> value
       [] -> nil
     end
+  end
+
+  # The hero <section> rendered in the first viewport (jido-e04-t08). Returns
+  # the parsed section node so persona-routing assertions can scope Floki
+  # selectors and text checks to the first viewport instead of the whole page.
+  defp hero_section(html) do
+    html
+    |> Floki.parse_document!()
+    |> Floki.find("#home-hero")
   end
 
   defp use_case_statuses(html) do
