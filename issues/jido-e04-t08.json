@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-26T23:10:48Z",
   "created": "2026-07-23T12:02:20Z",
   "description": "Backlog task: E04-T08\n\nWork area: Hero and first viewport\n\nMain targets: Home hero\n\nComplete when: The first viewport does not split attention across three personas.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e04-t08",
@@ -23,8 +24,8 @@
     }
   ],
   "priority": 2,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E04-T08 — Move non-Elixir evaluation to one secondary link.",
   "type": "task",
-  "updated_at": "2026-07-26T23:10:47Z"
+  "updated_at": "2026-07-26T23:10:48Z"
 }
