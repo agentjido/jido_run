@@ -9,6 +9,12 @@ defmodule AgentJido.Ecosystem.SupportLevel do
 
   @levels [:stable, :beta, :experimental]
 
+  # Support levels that may satisfy a public claim (jido-e12-t44). Stable and
+  # Beta are supported — ongoing maintenance, or public iteration with feedback.
+  # Experimental carries no stability guarantee, so it cannot back a public
+  # claim; it is the "unsupported" level the release gate blocks.
+  @approved_levels [:stable, :beta]
+
   @definitions %{
     stable: %{
       id: :stable,
@@ -78,6 +84,24 @@ defmodule AgentJido.Ecosystem.SupportLevel do
       _other -> nil
     end
   end
+
+  @doc """
+  Returns the support levels that may satisfy a public claim, in display order.
+
+  Stable and Beta are supported (maintenance or public iteration); Experimental
+  is not, so it cannot carry a public claim (`jido-e12-t44`).
+  """
+  @spec approved_levels() :: [t()]
+  def approved_levels, do: @approved_levels
+
+  @doc """
+  Returns true when a support level may satisfy a public claim.
+
+  The approved support-level half of the public-claim release gate
+  (`jido-e12-t44`): only a Stable or Beta level can satisfy a public claim.
+  """
+  @spec approved?(t() | String.t() | nil) :: boolean()
+  def approved?(level), do: normalize(level) in @approved_levels
 
   @doc """
   Normalizes a support-level token from atoms or strings.

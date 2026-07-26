@@ -122,6 +122,37 @@ defmodule AgentJido.Ecosystem do
   @spec support_levels() :: [SupportLevel.definition()]
   def support_levels, do: SupportLevel.all()
 
+  @doc """
+  Returns true when a package carries a published Hex version — i.e. an
+  approved version exists in the release catalog.
+
+  `hex_status` holds the version published to Hex.pm, or `"unreleased"` when the
+  package is not yet published. This is the approved-version half of the
+  public-claim release gate (`jido-e12-t44`): only a released package can
+  satisfy a public claim.
+  """
+  @spec released?(Package.t() | String.t()) :: boolean()
+  def released?(%Package{hex_status: hex_status}) do
+    is_binary(hex_status) and
+      String.downcase(String.trim(hex_status)) not in ["", "unreleased"]
+  end
+
+  def released?(id) when is_binary(id) do
+    case get_package(id) do
+      nil -> false
+      pkg -> released?(pkg)
+    end
+  end
+
+  @doc """
+  The public release catalog: public packages that carry a published Hex version.
+
+  These are the packages an approved version and support level can be cited from
+  to satisfy a public claim (`jido-e12-t44`).
+  """
+  @spec released_public_packages() :: [Package.t()]
+  def released_public_packages, do: Enum.filter(public_packages(), &released?/1)
+
   @spec ecosystem_deps(String.t()) :: [String.t()]
   def ecosystem_deps(id) do
     case get_package(id) do

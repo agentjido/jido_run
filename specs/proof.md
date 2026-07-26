@@ -396,9 +396,9 @@ in CI by `test/agent_jido/specs/operational_control_proof_test.exs`.
 - **Control point:** `Jido.Observe` / `Jido.Telemetry` correlated spans; optional `jido_otel` export.
 - **Configuration:** `:telemetry` handlers attached to Action and lifecycle events.
 - **Test:** `test/agent_jido/demos/redaction_test.exs` (action telemetry emits the action module only; a secret action param is excluded from metadata) and `test/agent_jido/demos/open_telemetry_export_test.exs` (the `jido_otel` bridge exports a verified trace — one shared trace id adopted from the incoming signal and one parent-linked span tree, Experimental maturity).
-- **Limitation:** Telemetry is not an audit log; OTel export is Experimental.
+- **Limitation:** Telemetry is not an audit log; OTel export is Experimental and unreleased, so the optional `jido_otel` export cannot satisfy this public claim (`jido-e12-t44`). The proof basis is the correlated `Jido.Observe` spans carried by the released, Stable `jido` package.
 - **Owner:** Platform owner.
-- **Version:** jido 2.3.2 (Stable); jido_otel Experimental.
+- **Version:** jido 2.3.2 (Stable).
 - **Validation date:** 2026-07-24.
 
 ### Cost/quota control
