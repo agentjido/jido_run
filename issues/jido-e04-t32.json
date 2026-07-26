@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-26T23:38:00Z",
   "created": "2026-07-23T12:02:44Z",
   "description": "Backlog task: E04-T32\n\nWork area: Use cases, ecosystem, and conversion\n\nMain targets: Analytics hooks\n\nComplete when: Events include destination and card type.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e04-t32",
@@ -23,7 +24,7 @@
     }
   ],
   "priority": 2,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E04-T32 — Add analytics events for hero CTA, failure drill, use-case cards, and package stacks.",
   "type": "task",
   "updated_at": "2026-07-26T23:38:00Z"
