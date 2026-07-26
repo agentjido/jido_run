@@ -16,11 +16,15 @@
     {
       "text": "Open: qualified operational-control position in llms.txt not yet added.",
       "timestamp": "2026-07-24T12:53:38Z"
+    },
+    {
+      "text": "Accepted by the Zclaude Ralph supervisor. Commits: 2da4a706. Verification: MIX_ENV=test mix compile \u0026\u0026 MIX_ENV=test mix format --check-formatted.",
+      "timestamp": "2026-07-26T16:08:15Z"
     }
   ],
   "priority": 1,
   "status": "in_progress",
   "title": "E10-T32 — Add the qualified operational-control position to `llms.txt`.",
   "type": "task",
-  "updated_at": "2026-07-26T16:04:30Z"
+  "updated_at": "2026-07-26T16:08:15Z"
 }
