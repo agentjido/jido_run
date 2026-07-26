@@ -1,5 +1,5 @@
 {
-  "assignee": "",
+  "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:06:51Z",
@@ -18,8 +18,8 @@
     }
   ],
   "priority": 1,
-  "status": "open",
+  "status": "in_progress",
   "title": "E10-T12 — Give Ecosystem hub Markdown recommended stacks and full package links.",
   "type": "task",
-  "updated_at": "2026-07-24T12:53:34Z"
+  "updated_at": "2026-07-26T12:12:04Z"
 }
