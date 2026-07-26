@@ -87,6 +87,21 @@ defmodule AgentJido.UpstreamSkillCatalog do
     Enum.filter(all_entries(), &(&1.category == :router))
   end
 
+  @doc """
+  Resolves the package skill entry that serves the given public Ecosystem
+  package id, or `nil` when no vendored skill covers the package.
+
+  The reverse of each entry's `ecosystem_package_id`, so an Ecosystem package
+  page can link back to its matching builder skill and package evaluation can
+  continue into builder assistance (jido-e10-t25).
+  """
+  @spec entry_for_ecosystem_package(String.t() | nil) :: entry() | nil
+  def entry_for_ecosystem_package(nil), do: nil
+
+  def entry_for_ecosystem_package(package_id) when is_binary(package_id) do
+    Enum.find(package_entries(), &(&1.ecosystem_package_id == package_id))
+  end
+
   @spec count() :: non_neg_integer()
   def count, do: length(all_entries())
 

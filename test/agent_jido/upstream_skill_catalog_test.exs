@@ -98,4 +98,35 @@ defmodule AgentJido.UpstreamSkillCatalogTest do
                "priv/skills/arrowcircle-jido-skills/skills/jido-skill-router/references/skill-manifest.yaml"
     end
   end
+
+  # jido-e10 E10-T25: an Ecosystem package page links back to its matching
+  # builder skill. The catalog resolves the package skill that serves a given
+  # public Ecosystem package id (the reverse of each entry's
+  # ecosystem_package_id), so package evaluation can continue into builder
+  # assistance.
+  describe "ecosystem package -> skill reverse lookup (jido-e10-t25)" do
+    test "resolves the package skill for a public ecosystem package id" do
+      entry = UpstreamSkillCatalog.entry_for_ecosystem_package("jido_action")
+
+      assert entry.id == "jido-action"
+      assert entry.category == :package
+      assert entry.ecosystem_package_id == "jido_action"
+    end
+
+    test "returns nil for a package with no vendored skill" do
+      assert is_nil(UpstreamSkillCatalog.entry_for_ecosystem_package("jido_chat"))
+    end
+
+    test "returns nil for nil or unknown ids" do
+      assert is_nil(UpstreamSkillCatalog.entry_for_ecosystem_package(nil))
+      assert is_nil(UpstreamSkillCatalog.entry_for_ecosystem_package("does_not_exist"))
+    end
+
+    test "every package skill is reachable from its ecosystem package id" do
+      for entry <- UpstreamSkillCatalog.package_entries(),
+          not is_nil(entry.ecosystem_package_id) do
+        assert UpstreamSkillCatalog.entry_for_ecosystem_package(entry.ecosystem_package_id) == entry
+      end
+    end
+  end
 end

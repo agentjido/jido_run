@@ -188,6 +188,54 @@ defmodule AgentJidoWeb.JidoEcosystemPackageLiveTest do
     refute html =~ "guide auto-resolved"
   end
 
+  # jido-e10 E10-T25: each Ecosystem package page links to its matching builder
+  # skill so package evaluation can continue into builder assistance. The link
+  # deep-links to the skill card on the public Skills catalog.
+  test "links the matching builder skill when one exists (jido-e10-t25)", %{conn: conn} do
+    {:ok, _view, html} = live(conn, "/ecosystem/jido_action")
+
+    assert html =~ "BUILDER SKILL"
+    assert html =~ "skill jido-action"
+    assert html =~ ~s(href="/skills#skill-card-jido-action")
+    assert html =~ "open skill"
+  end
+
+  test "omits the builder skill section when no skill matches", %{conn: conn} do
+    # jido_chat has no vendored builder skill, so the page must not surface the
+    # section rather than link to nothing.
+    {:ok, _view, html} = live(conn, "/ecosystem/jido_chat")
+
+    refute html =~ "BUILDER SKILL"
+    refute html =~ "href=\"/skills#skill-card-"
+  end
+
+  # Direct expression of the E10-T25 contract: every public package that has a
+  # vendored builder skill links to it from its package page, so package
+  # evaluation can continue into builder assistance. Uses a disconnected GET
+  # render (still runs mount + render) so all matching packages are checked.
+  @tag timeout: 120_000
+  test "every public package with a skill links it (jido-e10-t25)", %{conn: conn} do
+    alias AgentJido.UpstreamSkillCatalog
+
+    packages_with_skill =
+      AgentJido.Ecosystem.public_packages()
+      |> Enum.filter(&(UpstreamSkillCatalog.entry_for_ecosystem_package(&1.id) != nil))
+
+    assert packages_with_skill != [],
+           "expected at least one public package with a matching builder skill"
+
+    for package <- packages_with_skill do
+      entry = UpstreamSkillCatalog.entry_for_ecosystem_package(package.id)
+      html = conn |> get("/ecosystem/#{package.id}") |> html_response(200)
+
+      assert html =~ "BUILDER SKILL",
+             "package #{package.id} has a matching skill but is missing the BUILDER SKILL section"
+
+      assert html =~ "href=\"/skills#skill-card-#{entry.id}\"",
+             "package #{package.id} must deep-link to its matching skill card on /skills"
+    end
+  end
+
   # Direct expression of the E09-T20 contract: every public package page either
   # links a maintained learning path (a /docs/... guide link) or explicitly
   # states that a guide is missing. Uses a disconnected GET render (still runs

@@ -7,6 +7,7 @@ defmodule AgentJidoWeb.JidoEcosystemPackageLive do
   alias AgentJido.Examples
   alias AgentJido.GithubStarsTracker
   alias AgentJido.Pages
+  alias AgentJido.UpstreamSkillCatalog
   alias AgentJidoWeb.MarkdownLinks
 
   import AgentJidoWeb.Jido.MarketingCards
@@ -49,6 +50,7 @@ defmodule AgentJidoWeb.JidoEcosystemPackageLive do
        control_limitations: control_limitations(package),
        best_example: best_example,
        best_guide: best_guide_for_page(package),
+       builder_skill: builder_skill_for(package),
        control_release_basis: control_release_basis(package, best_example),
        resource_groups: resource_groups(package),
        cliff_notes: cliff_notes(package),
@@ -292,6 +294,30 @@ defmodule AgentJidoWeb.JidoEcosystemPackageLive do
               </p>
             </article>
           <% end %>
+        </section>
+
+        <section :if={@builder_skill} class="mb-12">
+          <h2 class="text-sm font-bold tracking-wider mb-4">BUILDER SKILL</h2>
+          <article class="bg-card border border-border rounded-md p-5">
+            <div class="text-[10px] uppercase tracking-wide text-muted-foreground mb-2">
+              skill {@builder_skill.name}
+            </div>
+            <.link
+              navigate={@builder_skill.href}
+              class="text-sm font-semibold text-foreground hover:text-primary transition-colors"
+            >
+              {@builder_skill.title}
+            </.link>
+            <p :if={@builder_skill.task} class="text-xs leading-relaxed text-muted-foreground mt-2">
+              {@builder_skill.task}
+            </p>
+            <.link
+              navigate={@builder_skill.href}
+              class="inline-block mt-3 text-[10px] px-2 py-1 rounded bg-primary/10 text-primary hover:bg-primary/15 transition-colors font-semibold"
+            >
+              open skill
+            </.link>
+          </article>
         </section>
 
         <section :if={@resource_groups != []} class="mb-12">
@@ -637,6 +663,25 @@ defmodule AgentJidoWeb.JidoEcosystemPackageLive do
   defp best_guide_source_label(:curated), do: "curated"
   defp best_guide_source_label(:guide), do: "auto-resolved"
   defp best_guide_source_label(_source), do: "linked"
+
+  # The vendored builder skill that serves this package (jido-e10-t25). Each
+  # Skills catalog entry already resolves the public Ecosystem package it serves;
+  # this is the reverse lookup so a package page can hand evaluation off to
+  # builder assistance. Packages without a matching skill simply omit the link.
+  defp builder_skill_for(pkg) do
+    case UpstreamSkillCatalog.entry_for_ecosystem_package(pkg.id) do
+      nil ->
+        nil
+
+      entry ->
+        %{
+          name: entry.name,
+          title: entry.title,
+          task: entry.task,
+          href: "/skills#skill-card-#{entry.id}"
+        }
+    end
+  end
 
   defp package_page_title(pkg, summary) do
     case package_seo_value(pkg, :title) do
