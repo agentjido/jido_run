@@ -27,7 +27,7 @@ Primary inputs: `specs/positioning.md` §11 (Canon), `specs/audits/control-inven
 | Content plan brief | Incident Playbooks | `priv/content_plan/docs/operations/incident-playbooks.md` | 🟡 partial | Brief exists; page not built |
 | Content plan brief | Production Readiness Checklist | `priv/content_plan/docs/operations/production-readiness-checklist.md` | 🟡 partial | Brief exists; page not built |
 | Ecosystem doc | `jido` core package — supervision primitives | `priv/ecosystem/jido.md` | ✅ exists | TODO: Verify supervision API coverage |
-| Runnable example | **Failure drill demo** — kill agent, watch recovery | _TODO: create_ | ❌ missing | High priority. Best single proof for this pillar |
+| Runnable example | **Failure drill demo** — kill agent, watch OTP restart it | `priv/examples/failure-drill-agent.md` + `test/agent_jido/demos/failure_drill_agent_test.exs` | ✅ exists | Proves restart behavior without claiming state recovery: the in-memory counter resets to 0 after the supervisor restarts the process (`jido-e08-t17`). Companion operations guide: `priv/pages/docs/operations/process-crash-and-restart.md` |
 | Operational demo | **Supervision tree visualization** — LiveDashboard showing agent restarts | _TODO: create_ | ❌ missing | Could use `jido_live_dashboard` |
 | Code snippet | Supervisor config for multi-agent tree | _TODO: create or extract_ | ❌ missing | Short, copy-pasteable snippet |
 | Reference doc | **Production runbook** — restart procedures, escalation paths | _TODO: create_ | ❌ missing | Maps to SRE persona need |
@@ -262,7 +262,7 @@ _Sourced from positioning.md §7 — Persona-level promise map._
 
 _Ranked by positioning impact × effort._
 
-1. ❌ **Failure drill demo** (Pillar 1) — Single most impactful proof for reliability claim
+1. ✅ **Failure drill demo** (Pillar 1) — Published as `failure-drill-agent`; proves restart without claiming state recovery (`jido-e08-t17`)
 2. ❌ **Signal routing multi-agent demo** (Pillar 2) — Proves coordination is real
 3. ❌ **Dashboard instrumentation walkthrough** (Pillar 3) — Proves observability is real
 4. ❌ **Package matrix** (Pillar 4) — Foundational reference for composability claim

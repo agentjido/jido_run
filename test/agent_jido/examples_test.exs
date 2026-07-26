@@ -121,4 +121,49 @@ defmodule AgentJido.ExamplesTest do
 
     assert Enum.all?(simulator_backed_examples, &(&1.status == :draft))
   end
+
+  describe "failure-drill-agent: crash-and-restart proof (jido-e08-t17)" do
+    # Acceptance: "It proves restart behavior without claiming state recovery."
+
+    test "is a published, real-runtime example" do
+      example = Examples.get_example!("failure-drill-agent")
+
+      assert example.status == :live
+      assert example.demo_mode == :real
+      assert example.evidence_surface == :runnable_example
+    end
+
+    test "its card contract proves restart behavior without claiming state recovery" do
+      example = Examples.get_example!("failure-drill-agent")
+
+      # Restart is the behavior the example proves.
+      assert example.outcome =~ ~r/restart/i,
+             "outcome must prove restart behavior"
+
+      # The expected result makes non-recovery explicit: the in-memory counter
+      # resets to its initial value after the restart, so state is not carried
+      # across the crash.
+      assert example.expected_result =~ ~r/resets? to 0/i,
+             "expected_result must state the counter resets to 0"
+
+      # The outcome -- the one sentence stating what this example proves -- must
+      # not claim agent state is recovered across the crash.
+      refute example.outcome =~ ~r/state.{0,24}recover|recover.{0,24}state/i,
+             "outcome must not claim state recovery: #{inspect(example.outcome)}"
+    end
+
+    test "its runnable proof test encodes restart and the state reset" do
+      example = Examples.get_example!("failure-drill-agent")
+
+      assert example.run_command =~ "failure_drill_agent_test.exs",
+             "run_command must point at the runnable proof test"
+
+      {:ok, contents} = File.read("test/agent_jido/demos/failure_drill_agent_test.exs")
+
+      # The proof test asserts the supervisor restarts the process and that the
+      # restarted process comes back at its initial state (ticks == 0).
+      assert contents =~ "restart"
+      assert contents =~ "ticks == 0"
+    end
+  end
 end
