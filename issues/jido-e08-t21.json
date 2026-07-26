@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-26T02:40:14Z",
   "created": "2026-07-23T12:05:24Z",
   "description": "Backlog task: E08-T21\n\nWork area: Required proof examples\n\nMain targets: AI example\n\nComplete when: It shows bounded retry and a defined fallback.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e08-t21",
@@ -22,7 +23,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E08-T21 — Publish a provider-fallback example.",
   "type": "task",
   "updated_at": "2026-07-26T02:40:14Z"
