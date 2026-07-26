@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-26T16:08:15Z",
   "created": "2026-07-23T12:07:11Z",
   "description": "Backlog task: E10-T32\n\nWork area: Operational-control delivery\n\nMain targets: LLM text controller\n\nComplete when: The file uses the canonical line and links to boundaries and proof.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e10-t32",
@@ -23,7 +24,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E10-T32 — Add the qualified operational-control position to `llms.txt`.",
   "type": "task",
   "updated_at": "2026-07-26T16:08:15Z"
