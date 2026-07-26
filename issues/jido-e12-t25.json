@@ -1,5 +1,5 @@
 {
-  "assignee": "",
+  "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:08:06Z",
@@ -18,8 +18,8 @@
     }
   ],
   "priority": 1,
-  "status": "open",
+  "status": "in_progress",
   "title": "E12-T25 — Measure example filter and search use.",
   "type": "task",
-  "updated_at": "2026-07-24T12:55:01Z"
+  "updated_at": "2026-07-26T18:26:51Z"
 }
