@@ -15,11 +15,15 @@
     {
       "text": "Open: examples added to the proof inventory (specs/proof.md control-proof section added; full per-example mapping pending).",
       "timestamp": "2026-07-24T12:51:55Z"
+    },
+    {
+      "text": "Accepted by the Zclaude Ralph supervisor. Commits: 1d22e7ea. Verification: MIX_ENV=test mix compile \u0026\u0026 MIX_ENV=test mix format --check-formatted.",
+      "timestamp": "2026-07-26T05:51:36Z"
     }
   ],
   "priority": 1,
   "status": "in_progress",
   "title": "E08-T32 — Add every public example to the proof inventory.",
   "type": "task",
-  "updated_at": "2026-07-26T05:27:21Z"
+  "updated_at": "2026-07-26T05:51:36Z"
 }
