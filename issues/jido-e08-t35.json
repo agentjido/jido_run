@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-26T06:04:31Z",
   "created": "2026-07-23T12:05:38Z",
   "description": "Backlog task: E08-T35\n\nWork area: Operational-control proof\n\nMain targets: Example schema and cards\n\nComplete when: Each example can list identity context, authorization, policy, quota, approval, history, observation, and redaction.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e08-t35",
@@ -23,7 +24,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E08-T35 — Add control types to the public example contract.",
   "type": "task",
   "updated_at": "2026-07-26T06:04:31Z"
