@@ -1296,6 +1296,41 @@
     background: hsl(var(--surface) / 0.5);
   }
 
+  /* Copyable mix.exs dependency block per stack (jido-e09-t08). The block
+     reuses the shared .code-block / .code-header chrome; only the code pane
+     and the compact Copy button are stack-specific. */
+  #home-page .home-ecosystem-stack-deps {
+    margin-top: 0.85rem;
+  }
+
+  #home-page .home-ecosystem-stack-deps-code {
+    font-family: var(--font-mono, ui-monospace, monospace);
+    font-size: 0.78rem;
+    line-height: 1.55;
+    padding: 0.85rem 1rem;
+    margin: 0;
+    color: hsl(var(--foreground) / 0.92);
+    overflow-x: auto;
+    white-space: pre;
+  }
+
+  #home-page .home-ecosystem-deps-copy {
+    border-radius: 0.25rem;
+    border: 1px solid hsl(var(--border));
+    background: hsl(var(--background) / 0.6);
+    padding: 0.15rem 0.55rem;
+    font-size: 0.66rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: hsl(var(--muted-foreground));
+    transition: color 150ms ease, border-color 150ms ease;
+  }
+
+  #home-page .home-ecosystem-deps-copy:hover {
+    color: hsl(var(--foreground));
+    border-color: hsl(var(--foreground) / 0.4);
+  }
+
   #home-page .home-ecosystem-package-link {
     color: hsl(var(--muted-foreground));
     transition: color 150ms ease;

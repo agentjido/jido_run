@@ -1012,6 +1012,107 @@ defmodule AgentJidoWeb.JidoHomeLiveTest do
     end
   end
 
+  describe "home ecosystem stack dependency blocks (E09-T08)" do
+    # Acceptance condition: each recommended stack has a copyable dependency
+    # block that installs. The block is derived from the authoritative
+    # ecosystem registry — a published package pins to its published Hex MAJOR
+    # (`~> X.0`) so the resolver can pick a compatible within-major set, and a
+    # package not yet on Hex falls back to its public GitHub repo. Both forms
+    # resolve on `mix deps.get`, which is the install bar. (Major pins are used
+    # because the registry records each package's version independently, so
+    # exact per-package pins can be mutually incompatible.)
+
+    test "every stack renders a dependency block", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      blocks = home_ecosystem_stack_deps(html)
+
+      # All three recommended stacks carry a block.
+      assert Map.keys(blocks) |> MapSet.new() == MapSet.new(~w(core ai operate))
+
+      for {_key, %{snippet: snippet}} <- blocks do
+        assert is_binary(snippet) and String.trim(snippet) != "",
+               "expected each stack to render a non-empty dependency block"
+      end
+    end
+
+    test "each block is a copyable mix.exs deps function with matching copy content",
+         %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      for {_key, %{snippet: snippet, copy_content: copy_content}} <-
+            home_ecosystem_stack_deps(html) do
+        # Well-formed mix deps function a visitor can paste into mix.exs.
+        assert String.starts_with?(snippet, "defp deps do")
+        assert String.ends_with?(snippet, "end")
+        assert snippet =~ "["
+        assert snippet =~ "]"
+
+        # Copyable: the copy button carries the verbatim block text, so pasting
+        # reproduces exactly what is shown.
+        assert copy_content == snippet,
+               "expected the copy button data-content to match the rendered block"
+      end
+    end
+
+    test "each block lists exactly its stack's packages and nothing else", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      stacks = home_ecosystem_stacks(html)
+      blocks = home_ecosystem_stack_deps(html)
+
+      for {key, %{packages: packages}} <- stacks do
+        snippet = Map.fetch!(blocks, key).snippet
+        names = Map.keys(packages)
+
+        # Every package in the stack appears as a dep atom in the block.
+        for name <- names do
+          assert snippet =~ "{:#{name},",
+                 "expected the #{key} block to include the #{name} dependency"
+        end
+
+        # The dep count matches the package count — no extra or missing lines.
+        dep_count = Regex.scan(~r/\{:[a-z0-9_]+,/, snippet) |> length()
+
+        assert dep_count == length(names),
+               "expected #{length(names)} deps in the #{key} block, got #{dep_count}"
+      end
+    end
+
+    test "published packages pin to the registry major; unreleased fall back to GitHub",
+         %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      stacks = home_ecosystem_stacks(html)
+      blocks = home_ecosystem_stack_deps(html)
+
+      for {key, %{packages: packages}} <- stacks do
+        snippet = Map.fetch!(blocks, key).snippet
+
+        for name <- Map.keys(packages) do
+          assert snippet =~ expected_dependency_line(name),
+                 "expected the #{key} block to derive #{name} from the registry, got:\n#{snippet}"
+        end
+      end
+    end
+
+    test "every dep line resolves: a valid Hex pin or a public GitHub repo", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      for {_key, %{snippet: snippet}} <- home_ecosystem_stack_deps(html) do
+        # Each line is either a Hex major version requirement or a GitHub
+        # dependency — the two forms `mix deps.get` resolves, which is the
+        # install bar.
+        for line <- Regex.scan(~r/\{:[a-z0-9_]+,[^}]+\}/, snippet) do
+          line = hd(line)
+
+          assert line =~ ~r/"~> \d+\.0"/ or line =~ ~r/github: "[a-z0-9_\-]+\/[a-z0-9_\-]+"/,
+                 "expected an installable dep line, got: #{inspect(line)}"
+        end
+      end
+    end
+  end
+
   describe "home CTA and card destinations (jido-e04-t31)" do
     # Acceptance condition: all CTA and card routes resolve. The static link
     # audit already confirms zero unmatched links across the source files, but it
@@ -1094,6 +1195,45 @@ defmodule AgentJidoWeb.JidoHomeLiveTest do
 
       {name, %{level: level, label: label}}
     end)
+  end
+
+  defp home_ecosystem_stack_deps(html) do
+    html
+    |> Floki.parse_document!()
+    |> Floki.find("#home-ecosystem-section article[data-stack]")
+    |> Map.new(fn card ->
+      key = Floki.attribute(card, "data-stack") |> hd()
+
+      snippet =
+        card |> Floki.find(".home-ecosystem-stack-deps-code") |> Floki.text() |> String.trim()
+
+      copy_content =
+        case card |> Floki.find("[data-copy-button]") do
+          [btn | _] -> Floki.attribute(btn, "data-content") |> List.first()
+          _ -> nil
+        end
+
+      {key, %{snippet: snippet, copy_content: copy_content}}
+    end)
+  end
+
+  # Mirrors the render-time derivation in JidoHomeLive so the test asserts the
+  # block tracks the authoritative registry instead of a hardcoded copy.
+  defp expected_dependency_line(name) do
+    pkg = AgentJido.Ecosystem.get_public_package(name)
+    hex_status = Map.get(pkg, :hex_status)
+
+    cond do
+      is_binary(hex_status) and Regex.run(~r/^(\d+)\./, hex_status) != nil ->
+        [_, major] = Regex.run(~r/^(\d+)\./, hex_status)
+        "{:#{name}, \"~> #{major}.0\"}"
+
+      is_binary(pkg.github_org) and is_binary(pkg.github_repo) ->
+        "{:#{name}, github: \"#{pkg.github_org}/#{pkg.github_repo}\""
+
+      true ->
+        nil
+    end
   end
 
   defp use_case_statuses(html) do

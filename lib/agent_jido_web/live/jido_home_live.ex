@@ -310,8 +310,9 @@ defmodule AgentJidoWeb.JidoHomeLive do
   # Each package also shows its public support level — Stable, Beta, or
   # Experimental — resolved from the authoritative ecosystem registry at render
   # time (jido-e04-t26), so the home badge tracks package maturity instead of a
-  # hardcoded copy that can drift. Deeper stack detail such as dependency blocks
-  # and examples (epic jido-e09) remains a separate task.
+  # hardcoded copy that can drift. Each stack also carries a copyable, installable
+  # mix.exs dependency block (jido-e09-t08); deeper stack detail such as runnable
+  # examples remains a separate task.
   defp ecosystem_section(assigns) do
     stacks =
       [
@@ -351,7 +352,8 @@ defmodule AgentJidoWeb.JidoHomeLive do
         }
       ]
       |> Enum.map(fn stack ->
-        %{stack | packages: Enum.map(stack.packages, &with_support_level/1)}
+        packages = Enum.map(stack.packages, &with_support_level/1)
+        Map.merge(stack, %{packages: packages, dependency_block: build_dependency_block(stack.packages)})
       end)
 
     assigns = assign(assigns, :stacks, stacks)
@@ -401,6 +403,26 @@ defmodule AgentJidoWeb.JidoHomeLive do
                 </span>
               </li>
             </ul>
+
+            <div :if={stack.dependency_block} class="home-ecosystem-stack-deps">
+              <div class="code-block overflow-hidden">
+                <div class="code-header">
+                  <span class="home-muted-copy text-[10px]">{stack.name} stack · mix.exs</span>
+                  <button
+                    type="button"
+                    data-copy-button
+                    data-content={stack.dependency_block}
+                    data-copy-success-label="Copied"
+                    data-analytics-source="home"
+                    data-analytics-channel="copy_stack_deps"
+                    class="home-ecosystem-deps-copy"
+                  >
+                    Copy
+                  </button>
+                </div>
+                <pre class="home-ecosystem-stack-deps-code">{stack.dependency_block}</pre>
+              </div>
+            </div>
           </article>
         </div>
       </div>
@@ -431,6 +453,71 @@ defmodule AgentJidoWeb.JidoHomeLive do
       _other -> :experimental
     end
   end
+
+  # Each recommended stack ships a copyable mix.exs dependency block
+  # (jido-e09-t08) so a builder can paste the stack into a project and
+  # `mix deps.get` resolves. The block is derived from the authoritative
+  # ecosystem registry at render time — the same derive-from-source approach
+  # the support-level badges use (jido-e04-t26) — so it never drifts into a
+  # hardcoded copy.
+  #
+  # A package published to Hex pins to its published MAJOR (`~> X.0`) rather
+  # than an exact version. The registry records each package's version
+  # independently, so exact per-package pins can be mutually incompatible
+  # (e.g. an older req_llm expects a different llm_db than llm_db's recorded
+  # version). A major pin lets the resolver pick a compatible within-major set,
+  # which is what makes the block actually install — the task's acceptance bar.
+  # A package not yet on Hex falls back to its public GitHub repo, which also
+  # resolves on `mix deps.get`.
+  defp build_dependency_block(packages) when is_list(packages) do
+    lines =
+      packages
+      |> Enum.map(&stack_dependency_line/1)
+      |> Enum.reject(&is_nil/1)
+
+    if lines == [] do
+      nil
+    else
+      body = Enum.map_join(lines, ",\n", &"      #{&1}")
+      "defp deps do\n  [\n#{body}\n  ]\nend"
+    end
+  end
+
+  defp stack_dependency_line(%{name: name}) do
+    case Ecosystem.get_public_package(name) do
+      %{hex_status: hex_status} = pkg when is_binary(hex_status) ->
+        cond do
+          published_hex_major(hex_status) != nil ->
+            "{:#{name}, \"~> #{published_hex_major(hex_status)}.0\"}"
+
+          github_repo_path(pkg) != nil ->
+            "{:#{name}, github: \"#{github_repo_path(pkg)}\"}"
+
+          true ->
+            nil
+        end
+
+      _other ->
+        nil
+    end
+  end
+
+  defp stack_dependency_line(_package), do: nil
+
+  # The leading major of a recorded published Hex version, or nil when the
+  # package is not published (hex_status is "unreleased" or non-version text).
+  defp published_hex_major(hex_status) do
+    case Regex.run(~r/^(\d+)\./, hex_status || "") do
+      [_, major] -> major
+      _ -> nil
+    end
+  end
+
+  defp github_repo_path(%{github_org: org, github_repo: repo})
+       when is_binary(org) and org != "" and is_binary(repo) and repo != "",
+       do: "#{org}/#{repo}"
+
+  defp github_repo_path(_package), do: nil
 
   defp why_elixir_otp_section(assigns) do
     features = [
