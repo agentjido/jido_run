@@ -1,5 +1,5 @@
 {
-  "assignee": "",
+  "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:05:49Z",
@@ -19,8 +19,8 @@
     }
   ],
   "priority": 1,
-  "status": "open",
+  "status": "in_progress",
   "title": "E08-T46 — Link the controlled-Agent example from the home, Features, Docs, and Operate hubs.",
   "type": "task",
-  "updated_at": "2026-07-24T12:51:58Z"
+  "updated_at": "2026-07-26T06:21:55Z"
 }
