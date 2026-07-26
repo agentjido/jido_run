@@ -40,6 +40,7 @@ defmodule AgentJidoWeb.JidoHomeLive do
         <.why_not_genserver_section />
         <.ecosystem_section />
         <.do_i_need_ai_section />
+        <.is_jido_a_separate_service_section />
         <.build_first_agent_cta />
       </div>
     </.marketing_layout>
@@ -688,6 +689,46 @@ defmodule AgentJidoWeb.JidoHomeLive do
             When you do want AI →
           </.link>
         </div>
+      </div>
+    </section>
+    """
+  end
+
+  # "Is Jido a separate service?" objection block (jido-e04-t30). A visitor
+  # evaluating adoption often assumes an "agent framework" means another process
+  # to deploy and operate alongside their app. The block lands after the other
+  # home objection blocks, forming a small FAQ cluster before the closing
+  # build-CTA. The acceptance condition is the answer: it must explain the
+  # library model (Jido is a dependency you add to the Elixir app you already
+  # run, not a separate service, sidecar, or platform) and the supervision-tree
+  # model (your agents start as children of your existing supervision tree —
+  # same release, same node, same restart rules — so there is no separate
+  # process to deploy or keep in sync). The route proves both: /features/start-small
+  # shows adding one agent directly to application.ex's supervisor.
+  defp is_jido_a_separate_service_section(assigns) do
+    ~H"""
+    <section id="is-jido-a-separate-service" class="text-center mb-16 animate-fade-in">
+      <div
+        id="home-is-jido-a-separate-service-objection"
+        class="max-w-2xl mx-auto rounded-xl border border-primary/20 bg-primary/5 px-6 py-7"
+        data-objection="is-jido-a-separate-service"
+      >
+        <span class="home-eyebrow-label text-[11px] font-semibold tracking-widest uppercase">
+          Common question
+        </span>
+        <h2 class="text-2xl sm:text-3xl font-bold tracking-tight mt-3 mb-3">
+          Is Jido a separate service?
+        </h2>
+        <p class="home-muted-copy text-[15px] leading-relaxed max-w-xl mx-auto mb-5">
+          No. Jido is a library, not a service. You add it as a dependency to the Elixir application you already run, and your agents start as children of your existing supervision tree — same release, same node, same restart rules. There is no separate process to deploy, operate, or keep in sync. Add one agent under your supervisor and it lives alongside your repo, endpoint, and queues.
+        </p>
+        <.link
+          navigate="/features/start-small"
+          class="text-primary hover:underline text-[13px] font-semibold"
+          data-objection-link="is-jido-a-separate-service-start-small"
+        >
+          See it in your supervision tree →
+        </.link>
       </div>
     </section>
     """

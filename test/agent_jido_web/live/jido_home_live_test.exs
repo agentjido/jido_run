@@ -443,6 +443,112 @@ defmodule AgentJidoWeb.JidoHomeLiveTest do
     end
   end
 
+  describe "home objection: is Jido a separate service? (jido-e04-t30)" do
+    # Acceptance condition: "The answer explains the library and supervision-tree
+    # model." A visitor evaluating adoption who assumes an "agent framework"
+    # means another process to deploy gets a home FAQ section that poses "Is
+    # Jido a separate service?" and answers "No" — Jido is a library you add as a
+    # dependency, and your agents start as children of your existing supervision
+    # tree (same release, same node, same restart rules) — then routes them to
+    # the one-agent integration that shows adding an agent directly to
+    # application.ex's supervisor.
+
+    test "renders an objection block posing the question and answering No", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      block =
+        html
+        |> Floki.parse_document!()
+        |> Floki.find("#home-is-jido-a-separate-service-objection")
+
+      assert block != [], "expected an is-jido-a-separate-service objection block"
+
+      heading = block |> Floki.find("h2") |> Floki.text() |> String.trim()
+      assert heading == "Is Jido a separate service?"
+
+      # Acceptance condition: the answer is "No." The answer paragraph leads
+      # with it so a skimmer reads it before the explanation.
+      answer =
+        block
+        |> Floki.find("p")
+        |> List.first()
+        |> Floki.text()
+        |> String.trim()
+
+      assert String.starts_with?(answer, "No")
+    end
+
+    test "the answer explains the library model", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      answer =
+        html
+        |> Floki.parse_document!()
+        |> Floki.find("#home-is-jido-a-separate-service-objection p")
+        |> List.first()
+        |> Floki.text()
+
+      # Acceptance condition, first half: Jido is a library — a dependency you
+      # add to the app you already run — not a separate service to deploy.
+      assert answer =~ "library"
+      assert answer =~ "dependency"
+      assert answer =~ "Elixir application"
+    end
+
+    test "the answer explains the supervision-tree model", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      answer =
+        html
+        |> Floki.parse_document!()
+        |> Floki.find("#home-is-jido-a-separate-service-objection p")
+        |> List.first()
+        |> Floki.text()
+
+      # Acceptance condition, second half: agents run as children of the
+      # application's own supervision tree, not a separate process.
+      assert answer =~ "supervision tree"
+      assert answer =~ "children"
+      assert answer =~ "restart rules"
+    end
+
+    test "routes to the one-agent integration page", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      link =
+        html
+        |> Floki.parse_document!()
+        |> Floki.find("a[data-objection-link='is-jido-a-separate-service-start-small']")
+        |> List.first()
+
+      assert link != nil, "expected a start-small route link"
+
+      # The destination proves both halves of the answer: it shows adding one
+      # agent directly to application.ex's supervisor.
+      assert Floki.attribute(link, "href") |> hd() == "/features/start-small"
+    end
+
+    test "the route resolves to a real page, not the 404 fallback", %{conn: conn} do
+      # A status in 200..399 means it resolved to a real route; only the
+      # catch-all returns 404.
+      assert get(conn, "/features/start-small").status in 200..399
+    end
+
+    test "the objection block sits after the do-I-need-AI block and before the build CTA",
+         %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      # The objection joins the home FAQ cluster, after the prior objection
+      # block and before the closing build-CTA.
+      assert {do_i_need_ai_idx, _} = :binary.match(html, ~s(id="do-i-need-ai"))
+      assert {objection_idx, _} = :binary.match(html, ~s(id="is-jido-a-separate-service"))
+      assert {cta_idx, _} = :binary.match(html, ~s(id="home-build-agent-cta"))
+
+      assert do_i_need_ai_idx < objection_idx
+      assert objection_idx < cta_idx
+    end
+  end
+
   describe "home Agent model section (E04-T10)" do
     test "renders the four-part Agent model section after the first proof", %{conn: conn} do
       {:ok, _view, html} = live(conn, "/")
