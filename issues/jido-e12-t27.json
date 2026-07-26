@@ -15,11 +15,15 @@
     {
       "text": "Open: onboarding-to-Operate analytics not yet instrumented.",
       "timestamp": "2026-07-24T12:55:02Z"
+    },
+    {
+      "text": "Accepted by the Zclaude Ralph supervisor. Commits: 124048b4. Verification: MIX_ENV=test mix compile \u0026\u0026 MIX_ENV=test mix format --check-formatted.",
+      "timestamp": "2026-07-26T19:35:36Z"
     }
   ],
   "priority": 1,
   "status": "in_progress",
   "title": "E12-T27 — Measure movement from onboarding to Operate.",
   "type": "task",
-  "updated_at": "2026-07-26T18:53:04Z"
+  "updated_at": "2026-07-26T19:35:36Z"
 }
