@@ -1,6 +1,6 @@
 # Specs Index (Contributor-Facing)
 
-Last updated: 2026-02-28
+Last updated: 2026-07-26
 
 This folder is the source of truth for site positioning, content rules, and contributor documentation standards.
 
@@ -37,13 +37,26 @@ If you are contributing content or docs, read these in order:
 
 ## Contributor rules
 
-- Treat `specs/` as policy and `priv/` as implementation.
-- `content-governance.md` includes the canonical ST-CONT-001 publish hard gate and must be enforced before publishing.
-- `mcp-security-hardening.md` is the normative security spec for the public docs MCP server.
-- If you change IA, routes, or nav: update `content-outline.md`, `content-system.md`, and `taxonomy.md` in the same PR.
-- If you change claims: update `proof.md` and ensure claim discipline still matches `positioning.md`.
-- If you change writing mechanics: update `style-voice.md` and confirm templates still align.
-- Do not introduce new references to retired paths such as `priv/documentation/*`.
+Contributors must know the **source, review, and proof rules** (defined in full
+in `contributor-docs.md`). Each rule family has one canonical owner:
+
+- **Source** — one named source of truth per fact. Treat `specs/` as policy and
+  `priv/` as implementation. If you change IA, routes, or nav: update
+  `content-outline.md`, `content-system.md`, and `taxonomy.md` in the same PR.
+  If you change writing mechanics: update `style-voice.md` and confirm templates
+  still align. Do not introduce new references to retired paths such as
+  `priv/documentation/*`.
+- **Review** — `content-governance.md` includes the canonical ST-CONT-001 publish hard gate
+  and must be enforced, with sign-off and date, before any page moves to `draft: false`.
+  `runbooks/release_punchlist.md` is the release operator checklist.
+- **Proof** — `proof.md` is the claim-to-evidence inventory; every
+  reliability/performance/adoption/production/control claim links to evidence at
+  a named proof level (`positioning.md` Positioning Canon: Claim policy and
+  proof levels; §13 Claim Discipline; §15 Required proof chain). If you change
+  claims: update `proof.md` and ensure claim discipline still matches
+  `positioning.md`.
+- `mcp-security-hardening.md` is the normative security spec for the public docs
+  MCP server.
 
 ## Folder map
 
