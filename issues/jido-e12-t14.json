@@ -15,11 +15,15 @@
     {
       "text": "Open: last_validated/tested_with/owner metadata required for executable content not yet enforced.",
       "timestamp": "2026-07-24T12:54:59Z"
+    },
+    {
+      "text": "Accepted by the Zclaude Ralph supervisor. Commits: 57c30536. Verification: MIX_ENV=test mix compile \u0026\u0026 MIX_ENV=test mix format --check-formatted.",
+      "timestamp": "2026-07-26T17:22:24Z"
     }
   ],
   "priority": 1,
   "status": "in_progress",
   "title": "E12-T14 — Require `last_validated`, `tested_with`, and `owner` metadata for executable content.",
   "type": "task",
-  "updated_at": "2026-07-26T17:12:48Z"
+  "updated_at": "2026-07-26T17:22:24Z"
 }
