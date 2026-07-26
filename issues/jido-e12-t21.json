@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-26T17:43:39Z",
   "created": "2026-07-23T12:08:02Z",
   "description": "Backlog task: E12-T21\n\nWork area: Measurement\n\nMain targets: Analytics\n\nComplete when: Hero and section CTA paths are visible.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e12-t21",
@@ -22,7 +23,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E12-T21 — Measure home-to-onboarding conversion.",
   "type": "task",
   "updated_at": "2026-07-26T17:43:39Z"
