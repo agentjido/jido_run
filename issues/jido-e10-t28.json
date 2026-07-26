@@ -16,11 +16,15 @@
     {
       "text": "Open: control search results labeled by type/proof level not yet done.",
       "timestamp": "2026-07-24T12:53:37Z"
+    },
+    {
+      "text": "Accepted by the Zclaude Ralph supervisor. Commits: 718b9bfa. Verification: MIX_ENV=test mix compile \u0026\u0026 MIX_ENV=test mix format --check-formatted.",
+      "timestamp": "2026-07-26T15:44:34Z"
     }
   ],
   "priority": 1,
   "status": "in_progress",
   "title": "E10-T28 — Label control search results by content type and proof level.",
   "type": "task",
-  "updated_at": "2026-07-26T15:00:38Z"
+  "updated_at": "2026-07-26T15:44:34Z"
 }
