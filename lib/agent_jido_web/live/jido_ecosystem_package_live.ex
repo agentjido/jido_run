@@ -6,6 +6,7 @@ defmodule AgentJidoWeb.JidoEcosystemPackageLive do
   alias AgentJido.Ecosystem.SupportLevel
   alias AgentJido.Examples
   alias AgentJido.GithubStarsTracker
+  alias AgentJido.Pages
   alias AgentJidoWeb.MarkdownLinks
 
   import AgentJidoWeb.Jido.MarketingCards
@@ -44,6 +45,7 @@ defmodule AgentJidoWeb.JidoEcosystemPackageLive do
        use_when: landing_use_when(package),
        not_for: landing_not_for(package),
        best_example: best_example_for_page(package),
+       best_guide: best_guide_for_page(package),
        resource_groups: resource_groups(package),
        cliff_notes: cliff_notes(package),
        major_components: major_components(package),
@@ -203,6 +205,50 @@ defmodule AgentJidoWeb.JidoEcosystemPackageLive do
               <div class="text-[10px] uppercase tracking-wide text-muted-foreground mb-2">proof missing</div>
               <p class="text-xs leading-relaxed text-muted-foreground">
                 No runnable example exercises {@package.title} yet. This page will link to one as soon as a published example proves this package's behavior.
+              </p>
+            </article>
+          <% end %>
+        </section>
+
+        <section class="mb-12">
+          <h2 class="text-sm font-bold tracking-wider mb-4">ONE BEST GUIDE</h2>
+          <%= if @best_guide.status == :found do %>
+            <article class="bg-card border border-border rounded-md p-5">
+              <div class="text-[10px] uppercase tracking-wide text-muted-foreground mb-2">
+                guide {best_guide_source_label(@best_guide.source)}
+              </div>
+              <.link
+                :if={internal_path?(@best_guide.href)}
+                navigate={@best_guide.href}
+                class="text-sm font-semibold text-foreground hover:text-primary transition-colors"
+              >
+                {@best_guide.label}
+              </.link>
+              <a
+                :if={!internal_path?(@best_guide.href)}
+                href={@best_guide.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-sm font-semibold text-foreground hover:text-primary transition-colors"
+              >
+                {@best_guide.label}
+              </a>
+              <p :if={@best_guide.note != ""} class="text-xs leading-relaxed text-muted-foreground mt-2">
+                {@best_guide.note}
+              </p>
+              <a
+                :if={internal_path?(@best_guide.href)}
+                href={@best_guide.href}
+                class="inline-block mt-3 text-[10px] px-2 py-1 rounded bg-primary/10 text-primary hover:bg-primary/15 transition-colors font-semibold"
+              >
+                open guide
+              </a>
+            </article>
+          <% else %>
+            <article class="bg-card border border-dashed border-border rounded-md p-5">
+              <div class="text-[10px] uppercase tracking-wide text-muted-foreground mb-2">guide missing</div>
+              <p class="text-xs leading-relaxed text-muted-foreground">
+                No maintained learning path teaches {@package.title} yet. This page will link to one as soon as a published guide covers this package's behavior.
               </p>
             </article>
           <% end %>
@@ -492,6 +538,65 @@ defmodule AgentJidoWeb.JidoEcosystemPackageLive do
   defp best_example_source_label(:curated), do: "curated"
   defp best_example_source_label(:example), do: "auto-resolved"
   defp best_example_source_label(_source), do: "linked"
+
+  # One best guide / maintained learning path for this package (jido-e09-t20).
+  # A curated landing_best_guide wins; otherwise the single best published guide
+  # whose `tested_with` set declares this package is auto-resolved; when neither
+  # exists the page states that no guide exists yet. Every public package page
+  # therefore links a learning path or is explicit that none exists yet.
+  defp best_guide_for_page(pkg) do
+    case curated_best_guide(pkg) do
+      nil ->
+        auto_resolved_best_guide(pkg)
+
+      curated ->
+        %{
+          status: :found,
+          source: :curated,
+          label: curated.label,
+          href: curated.href,
+          note: curated.note
+        }
+    end
+  end
+
+  defp curated_best_guide(pkg) do
+    label = pkg.landing_best_guide |> get_key(:label, "") |> normalize_text()
+    href = pkg.landing_best_guide |> get_key(:href, "") |> normalize_text()
+
+    if label == "" or href == "" do
+      nil
+    else
+      note = pkg.landing_best_guide |> get_key(:note, "") |> normalize_text()
+      %{label: label, href: href, note: note}
+    end
+  end
+
+  defp auto_resolved_best_guide(pkg) do
+    case Pages.best_guide_for_package(pkg.id) do
+      nil ->
+        %{status: :missing}
+
+      guide ->
+        note =
+          case normalize_text(guide.description) do
+            "" -> normalize_text(guide.title)
+            description -> description
+          end
+
+        %{
+          status: :found,
+          source: :guide,
+          label: normalize_text(guide.title),
+          href: Pages.route_for(guide),
+          note: note
+        }
+    end
+  end
+
+  defp best_guide_source_label(:curated), do: "curated"
+  defp best_guide_source_label(:guide), do: "auto-resolved"
+  defp best_guide_source_label(_source), do: "linked"
 
   defp package_page_title(pkg, summary) do
     case package_seo_value(pkg, :title) do

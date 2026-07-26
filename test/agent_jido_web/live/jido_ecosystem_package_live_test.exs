@@ -154,6 +154,61 @@ defmodule AgentJidoWeb.JidoEcosystemPackageLiveTest do
     end
   end
 
+  test "renders one best guide — curated learning path for jido (jido-e09-t20)", %{conn: conn} do
+    {:ok, _view, html} = live(conn, "/ecosystem/jido")
+
+    # Every package page surfaces a single best guide section.
+    assert html =~ "ONE BEST GUIDE"
+
+    # jido has curated its best guide to the canonical first learning path.
+    assert html =~ "guide curated"
+    assert html =~ "Your first agent"
+    assert html =~ ~s(href="/docs/getting-started/first-agent")
+  end
+
+  test "auto-resolves one best guide from the docs guides registry", %{conn: conn} do
+    # jido_ai has no curated best guide, so the page auto-resolves the
+    # lowest-order published guide whose tested_with declares it
+    # (testing-agents-and-actions, order 170).
+    {:ok, _view, html} = live(conn, "/ecosystem/jido_ai")
+
+    assert html =~ "ONE BEST GUIDE"
+    assert html =~ "guide auto-resolved"
+    assert html =~ ~s(href="/docs/guides/testing-agents-and-actions")
+  end
+
+  test "states a guide is missing when no guide covers the package", %{conn: conn} do
+    # jido_chat is not covered by any guide, so the page must be explicit that
+    # no learning path exists rather than silent.
+    {:ok, _view, html} = live(conn, "/ecosystem/jido_chat")
+
+    assert html =~ "ONE BEST GUIDE"
+    assert html =~ "guide missing"
+    refute html =~ "guide curated"
+    refute html =~ "guide auto-resolved"
+  end
+
+  # Direct expression of the E09-T20 contract: every public package page either
+  # links a maintained learning path (a /docs/... guide link) or explicitly
+  # states that a guide is missing. Uses a disconnected GET render (still runs
+  # mount + render) so all public packages can be checked.
+  @tag timeout: 120_000
+  test "every public package links a guide or states a guide is missing (jido-e09-t20)", %{conn: conn} do
+    for package <- AgentJido.Ecosystem.public_packages() do
+      html = conn |> get("/ecosystem/#{package.id}") |> html_response(200)
+
+      assert html =~ "ONE BEST GUIDE",
+             "package #{package.id} is missing the ONE BEST GUIDE section"
+
+      has_guide = html =~ "guide curated" or html =~ "guide auto-resolved"
+      states_missing = html =~ "guide missing"
+
+      assert has_guide != states_missing,
+             "package #{package.id} must either link a guide or state a guide is missing " <>
+               "(guide=#{has_guide}, missing=#{states_missing})"
+    end
+  end
+
   test "renders curated seo metadata and structured data for package pages", %{conn: conn} do
     html =
       conn

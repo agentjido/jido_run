@@ -2896,6 +2896,43 @@ defmodule AgentJido.PagesTest do
     end
   end
 
+  describe "best_guide_for_package/1 (jido-e09-t20)" do
+    test "returns the published guides whose tested_with set declares the package" do
+      guides_jido = Pages.guides_for_package("jido")
+
+      # Only published docs guides (doc_type :guide under /docs/guides/) are
+      # matched, and every one of them exercises jido.
+      assert Enum.all?(guides_jido, &(&1.category == :docs and &1.doc_type == :guide))
+      assert Enum.all?(guides_jido, &String.starts_with?(&1.path, "/docs/guides/"))
+
+      assert Enum.all?(guides_jido, fn page ->
+               Map.has_key?(page.tested_with, :jido) or Map.has_key?(page.tested_with, "jido")
+             end)
+
+      # jido_ai is declared by two guides.
+      guides_ai = Pages.guides_for_package("jido_ai")
+      assert length(guides_ai) == 2
+
+      assert Enum.all?(guides_ai, fn page ->
+               Map.has_key?(page.tested_with, :jido_ai) or Map.has_key?(page.tested_with, "jido_ai")
+             end)
+    end
+
+    test "picks the single best guide deterministically by order then path" do
+      # testing-agents-and-actions is the lowest-order guide that declares jido
+      # (order 170), so it wins for both jido and jido_ai.
+      assert Pages.best_guide_for_package("jido").id == "guides-testing-agents-and-actions"
+      assert Pages.best_guide_for_package("jido_ai").id == "guides-testing-agents-and-actions"
+    end
+
+    test "returns nil when no guide covers the package (no learning path)" do
+      # jido_action is not declared in any guide's tested_with set, so there is
+      # no auto-resolvable learning path for it.
+      assert is_nil(Pages.best_guide_for_package("jido_action"))
+      assert is_nil(Pages.best_guide_for_package("definitely-not-a-package"))
+    end
+  end
+
   # True when the body has a `## <title>` heading (outside fenced code blocks).
   defp has_h2?(body, title) do
     pattern = ~r/\A##[[:space:]]+#{Regex.escape(title)}([[:space:]]|$)/

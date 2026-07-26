@@ -71,6 +71,23 @@ defmodule AgentJido.Ecosystem.Package do
                     "Curated single best example that proves this package (label/href/note). When absent the package page auto-resolves the best live example from the examples registry, or states that proof is missing."
                 )
                 |> Zoi.default(%{}),
+              landing_best_guide:
+                Zoi.map(
+                  %{
+                    label:
+                      Zoi.string(description: "Display label for the single best guide / maintained learning path that teaches this package")
+                      |> Zoi.optional(),
+                    href:
+                      Zoi.string(description: "Internal (/docs/...) or absolute URL to the best guide")
+                      |> Zoi.optional(),
+                    note:
+                      Zoi.string(description: "Short note on what this guide teaches about the package")
+                      |> Zoi.optional()
+                  },
+                  description:
+                    "Curated single best guide / maintained learning path that teaches this package (label/href/note). When absent the package page auto-resolves the best published guide whose tested_with set declares this package, or states that no guide exists yet."
+                )
+                |> Zoi.default(%{}),
               landing_related_packages:
                 Zoi.any(description: "Curated related package links grouped by relationship for landing pages")
                 |> Zoi.default([]),

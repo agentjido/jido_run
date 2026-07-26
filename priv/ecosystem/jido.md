@@ -111,6 +111,11 @@
     href: "/examples/counter-agent",
     note: "The smallest runnable Jido agent — proves state, validated actions, and signal routing end to end."
   },
+  landing_best_guide: %{
+    label: "Your first agent",
+    href: "/docs/getting-started/first-agent",
+    note: "The maintained first learning path for Jido — build a working agent and run cmd/2 end to end."
+  },
   landing_related_packages: [
     %{
       id: "jido_action",

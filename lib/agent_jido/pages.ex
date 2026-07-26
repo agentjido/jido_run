@@ -427,6 +427,62 @@ defmodule AgentJido.Pages do
   @spec page_count() :: non_neg_integer()
   def page_count, do: length(@published_pages)
 
+  # One best guide per package (jido-e09-t20). A guide is a published docs page
+  # of `doc_type: :guide` in the `/docs/guides/` section — the same definition
+  # the guides-control-boundary test uses. A guide "covers" a package when the
+  # package id appears as a key in the guide's `tested_with` set, i.e. the guide
+  # is a maintained, version-pinned learning path that exercises the package.
+
+  @doc """
+  Returns the published docs guides whose `tested_with` set declares the given
+  ecosystem package — the maintained learning paths that exercise this package.
+
+  A guide is a published page with `category: :docs`, `doc_type: :guide`, under
+  `/docs/guides/`. Package coverage is matched by the guide's `tested_with` keys
+  (atom or string) against the package id.
+  """
+  @spec guides_for_package(String.t() | atom()) :: [Page.t()]
+  def guides_for_package(package_id) do
+    package_id = to_string(package_id)
+
+    :docs
+    |> pages_by_category()
+    |> Enum.filter(&guide?/1)
+    |> Enum.filter(&(package_id in tested_with_package_ids(&1)))
+  end
+
+  @doc """
+  Returns the single best guide / maintained learning path for the given
+  ecosystem package.
+
+  Picks the guide whose `tested_with` set declares `package_id`, ordered by
+  `order` then `path` so the most canonical guide wins deterministically. Returns
+  `nil` when no guide covers the package — the package page then states that no
+  guide exists yet.
+
+  Package pages use this to satisfy the "one best guide or state it is missing"
+  contract without per-package curation.
+  """
+  @spec best_guide_for_package(String.t() | atom()) :: Page.t() | nil
+  def best_guide_for_package(package_id) do
+    package_id
+    |> guides_for_package()
+    |> Enum.sort_by(&{&1.order, &1.path})
+    |> List.first()
+  end
+
+  defp guide?(%Page{category: :docs, doc_type: :guide, path: path}) do
+    String.starts_with?(path, "/docs/guides/")
+  end
+
+  defp guide?(_page), do: false
+
+  defp tested_with_package_ids(%Page{tested_with: tested_with}) when is_map(tested_with) do
+    tested_with |> Map.keys() |> Enum.map(&to_string/1)
+  end
+
+  defp tested_with_package_ids(_page), do: []
+
   @doc """
   Returns the full hierarchical menu tree for all published pages.
   """
