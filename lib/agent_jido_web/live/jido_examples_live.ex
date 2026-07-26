@@ -7,6 +7,7 @@ defmodule AgentJidoWeb.JidoExamplesLive do
 
   import AgentJidoWeb.Jido.MarketingLayouts
 
+  alias AgentJido.Analytics
   alias AgentJido.Examples
   alias AgentJido.Examples.UseCases
 
@@ -49,6 +50,20 @@ defmodule AgentJidoWeb.JidoExamplesLive do
       )
 
     use_case = resolve_use_case(params)
+
+    # Measure which use-case filter a visitor applies to the examples catalog
+    # (jido-e12-t25) — the only filter/search mechanism on the catalog — so the
+    # team measures filter use, not only page traffic. Fire only on the connected
+    # mount (the static render would otherwise double-count) and only when the
+    # resolved use-case scope actually changes, so toggling drafts on the same
+    # scope or re-rendering the same filter never re-counts. An unknown/absent
+    # use_case resolves to nil (UseCases.fetch returns nil), so the unfiltered
+    # index records nothing. The per-visitor dedup in the dashboard breakdown
+    # then collapses repeat visits to one visitor per filter.
+    socket =
+      if connected?(socket),
+        do: maybe_track_example_filter(socket, socket.assigns.use_case, use_case),
+        else: socket
 
     {:noreply,
      socket
@@ -223,6 +238,31 @@ defmodule AgentJidoWeb.JidoExamplesLive do
     """
   end
 
+  # Records an `example_filter_used` event when a visitor applies a use-case
+  # filter to the examples catalog (jido-e12-t25). Only a real, newly-applied
+  # use-case scope (a map that differs from the previously assigned scope)
+  # fires — so the same filter re-rendered (e.g. an admin toggling drafts on a
+  # scoped list) or an unknown/absent use_case (nil) records nothing. Admin
+  # scopes are excluded by Analytics.track_event_safe, so admin preview traffic
+  # is never counted.
+  defp maybe_track_example_filter(socket, previous_use_case, use_case)
+       when is_map(use_case) and use_case != previous_use_case do
+    Analytics.track_event_safe(socket.assigns.current_scope, %{
+      event: "example_filter_used",
+      source: "examples",
+      channel: "use_case_filter",
+      path: socket.assigns.analytics_identity[:path] || "/examples",
+      section_id: use_case.slug,
+      visitor_id: socket.assigns.analytics_identity[:visitor_id],
+      session_id: socket.assigns.analytics_identity[:session_id],
+      metadata: %{surface: "examples_catalog", use_case: use_case.slug, label: use_case.label}
+    })
+
+    socket
+  end
+
+  defp maybe_track_example_filter(socket, _previous_use_case, _use_case), do: socket
+
   defp load_examples(socket) do
     opts = if socket.assigns.include_drafts, do: [include_drafts: true], else: []
 
@@ -246,8 +286,16 @@ defmodule AgentJidoWeb.JidoExamplesLive do
 
   defp resolve_use_case(params) do
     case Map.get(params, "use_case") do
-      nil -> nil
-      slug -> UseCases.fetch(to_string(slug))
+      nil ->
+        nil
+
+      slug ->
+        slug = to_string(slug)
+
+        case UseCases.fetch(slug) do
+          nil -> nil
+          use_case -> Map.put(use_case, :slug, slug)
+        end
     end
   end
 

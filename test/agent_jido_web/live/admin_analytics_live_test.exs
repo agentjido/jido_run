@@ -191,6 +191,47 @@ defmodule AgentJidoWeb.AdminAnalyticsLiveTest do
     assert html =~ "succeeded"
   end
 
+  test "renders the example filter use section for admins (jido-e12-t25)", %{
+    admin_conn: admin_conn
+  } do
+    actor = user_fixture()
+    scope = Scope.for_user(actor)
+
+    # A first example filter on the coding use case and one on research, so both
+    # rows render.
+    Analytics.track_event_safe(scope, %{
+      event: "example_filter_used",
+      source: "examples",
+      channel: "use_case_filter",
+      path: "/examples",
+      section_id: "coding",
+      visitor_id: "admin-filter-coding",
+      session_id: "admin-filter-coding-session",
+      metadata: %{surface: "examples_catalog", use_case: "coding", label: "Coding agents"}
+    })
+
+    Analytics.track_event_safe(scope, %{
+      event: "example_filter_used",
+      source: "examples",
+      channel: "use_case_filter",
+      path: "/examples",
+      section_id: "research",
+      visitor_id: "admin-filter-research",
+      session_id: "admin-filter-research-session",
+      metadata: %{surface: "examples_catalog", use_case: "research", label: "Research and synthesis"}
+    })
+
+    {:ok, view, html} = live(admin_conn, "/dashboard/analytics")
+
+    # The section is present and each use-case filter is visible as a row — the
+    # human-readable label and the slug both render.
+    assert has_element?(view, "h2", "Example filter use")
+    assert html =~ "Coding agents"
+    assert html =~ "coding"
+    assert html =~ "Research and synthesis"
+    assert html =~ "research"
+  end
+
   defp seed_analytics_data do
     actor = user_fixture()
     scope = Scope.for_user(actor)

@@ -526,5 +526,90 @@ defmodule AgentJido.AnalyticsTest do
       total = Enum.sum(Enum.map(snapshot.first_llm_request, & &1.requests))
       assert total == 3
     end
+
+    test "dashboard snapshot surfaces example filter use by use case (jido-e12-t25)" do
+      admin = admin_user_fixture()
+      admin_scope = Scope.for_user(admin)
+      actor = user_fixture()
+      scope = Scope.for_user(actor)
+
+      # Visitor A first scopes the catalog to the coding use case, then later to
+      # research — discovery starts on coding (their earliest filter). The later
+      # research filter never re-counts as a new first filter.
+      assert {:ok, _} =
+               Analytics.track_event(scope, %{
+                 event: "example_filter_used",
+                 source: "examples",
+                 channel: "use_case_filter",
+                 path: "/examples",
+                 section_id: "coding",
+                 visitor_id: "visitor-coding-first",
+                 session_id: "session-coding-first",
+                 metadata: %{surface: "examples_catalog", use_case: "coding", label: "Coding agents"}
+               })
+
+      assert {:ok, _} =
+               Analytics.track_event(scope, %{
+                 event: "example_filter_used",
+                 source: "examples",
+                 channel: "use_case_filter",
+                 path: "/examples",
+                 section_id: "research",
+                 visitor_id: "visitor-coding-first",
+                 session_id: "session-coding-first",
+                 metadata: %{
+                   surface: "examples_catalog",
+                   use_case: "research",
+                   label: "Research and synthesis"
+                 }
+               })
+
+      # Visitor B's first (and only) filter is research.
+      assert {:ok, _} =
+               Analytics.track_event(scope, %{
+                 event: "example_filter_used",
+                 source: "examples",
+                 channel: "use_case_filter",
+                 path: "/examples",
+                 section_id: "research",
+                 visitor_id: "visitor-research",
+                 session_id: "session-research",
+                 metadata: %{
+                   surface: "examples_catalog",
+                   use_case: "research",
+                   label: "Research and synthesis"
+                 }
+               })
+
+      # A non-filter event (a code copy on an example page) must not bleed into
+      # the filter breakdown — filter use does not depend on other events.
+      assert {:ok, _} =
+               Analytics.track_event(scope, %{
+                 event: "code_copied",
+                 source: "examples",
+                 channel: "copy_button",
+                 path: "/examples/counter-agent",
+                 visitor_id: "visitor-not-filter",
+                 session_id: "session-not-filter",
+                 metadata: %{surface: "examples_catalog"}
+               })
+
+      snapshot = Analytics.dashboard_snapshot(admin_scope, 7)
+
+      rows = Map.new(snapshot.example_filter, fn row -> {row.use_case, row.visitors} end)
+
+      # Each visitor's first filter is counted once — coding (visitor A) and
+      # research (visitor B). Visitor A's later research filter never re-counts.
+      assert rows["coding"] == 1
+      assert rows["research"] == 1
+
+      # The code-copy event is excluded from the filter breakdown.
+      refute Map.has_key?(rows, "code_copied")
+
+      # Exactly two first filters total — visitor A's second filter never
+      # re-counts as a new first filter.
+      total = Enum.sum(Enum.map(snapshot.example_filter, & &1.visitors))
+      assert total == 2
+    end
   end
 end

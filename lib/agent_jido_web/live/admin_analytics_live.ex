@@ -223,6 +223,34 @@ defmodule AgentJidoWeb.AdminAnalyticsLive do
         </section>
 
         <section class="rounded-lg border border-border bg-card p-5">
+          <h2 class="text-lg font-semibold text-foreground">Example filter use</h2>
+          <p class="mt-1 text-sm text-muted-foreground">
+            Where example discovery starts — the use-case filter each visitor first scoped the examples catalog to, so the team sees which filters bring visitors in, not only catalog traffic.
+          </p>
+          <table class="mt-4 w-full text-sm">
+            <thead>
+              <tr class="text-left text-xs uppercase tracking-wide text-muted-foreground">
+                <th class="py-2 pr-4 font-semibold">Use case</th>
+                <th class="py-2 pr-4 font-semibold">Slug</th>
+                <th class="py-2 font-semibold">Visitors</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr :for={row <- @analytics_snapshot.example_filter} class="border-t border-border/70">
+                <td class="py-2 pr-4 font-medium text-foreground">{example_filter_label(row.use_case)}</td>
+                <td class="py-2 pr-4 text-muted-foreground">{row.use_case}</td>
+                <td class="py-2 text-foreground">{row.visitors}</td>
+              </tr>
+              <tr :if={@analytics_snapshot.example_filter == []}>
+                <td colspan="3" class="py-2 text-sm text-muted-foreground">
+                  No example filter use in this window yet.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="rounded-lg border border-border bg-card p-5">
           <div class="flex flex-wrap items-center justify-between gap-3">
             <h2 class="text-lg font-semibold text-foreground">Collector Health</h2>
             <span class="text-xs text-muted-foreground">Rows shown for the selected {@analytics_days}d window</span>
@@ -660,6 +688,27 @@ defmodule AgentJidoWeb.AdminAnalyticsLive do
   end
 
   defp first_llm_request_label(_reason), do: "-"
+
+  # Human-readable label for each example-catalog use-case filter (jido-e12-t25).
+  # Maps the use_case slug a first-filter event carries (section_id) to the name
+  # a maintainer reads in the dashboard; an unknown slug falls back to a
+  # title-cased slug so a newly added use case is never blank. The labels mirror
+  # Examples.UseCases so the dashboard and the home cards agree.
+  defp example_filter_label("coding"), do: "Coding agents"
+  defp example_filter_label("research"), do: "Research and synthesis"
+  defp example_filter_label("documents"), do: "Document processing"
+  defp example_filter_label("support"), do: "Customer support"
+  defp example_filter_label("devops"), do: "DevOps and monitoring"
+  defp example_filter_label("data-pipelines"), do: "Data pipelines"
+
+  defp example_filter_label(use_case) when is_binary(use_case) do
+    use_case
+    |> String.replace("-", " ")
+    |> String.split(" ")
+    |> Enum.map_join(" ", &String.capitalize/1)
+  end
+
+  defp example_filter_label(_use_case), do: "-"
 
   defp feedback_badge_class("helpful") do
     "inline-flex rounded-full border border-accent-green/30 bg-accent-green/10 px-2 py-0.5 text-[11px] font-semibold text-accent-green"

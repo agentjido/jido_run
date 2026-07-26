@@ -100,6 +100,34 @@ defmodule AgentJidoWeb.AnalyticsEventControllerTest do
     assert event.metadata["reason"] == "provider_unconfigured"
   end
 
+  test "accepts the example filter event (jido-e12-t25)", %{conn: conn} do
+    conn =
+      post(conn, ~p"/analytics/events", %{
+        "event" => "example_filter_used",
+        "properties" => %{
+          "source" => "examples",
+          "channel" => "use_case_filter",
+          "path" => "/examples",
+          "section_id" => "coding",
+          "metadata" => %{
+            "surface" => "examples_catalog",
+            "use_case" => "coding",
+            "label" => "Coding agents"
+          }
+        }
+      })
+
+    assert json_response(conn, 202)["ok"]
+
+    event = Repo.one(from(e in AnalyticsEvent, order_by: [desc: e.inserted_at], limit: 1))
+    assert event.event == "example_filter_used"
+    assert event.source == "examples"
+    assert event.channel == "use_case_filter"
+    assert event.section_id == "coding"
+    assert event.metadata["use_case"] == "coding"
+    assert event.metadata["label"] == "Coding agents"
+  end
+
   test "rejects invalid event names", %{conn: conn} do
     conn =
       post(conn, ~p"/analytics/events", %{

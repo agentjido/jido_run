@@ -3,8 +3,11 @@ defmodule AgentJidoWeb.JidoExamplesLiveTest do
 
   import AgentJido.AccountsFixtures
   import Phoenix.LiveViewTest
+  import Ecto.Query
 
+  alias AgentJido.Analytics.AnalyticsEvent
   alias AgentJido.Examples
+  alias AgentJido.Repo
 
   @hidden_slug "budget-guardrail-agent"
   @visible_slug "counter-agent"
@@ -393,6 +396,46 @@ defmodule AgentJidoWeb.JidoExamplesLiveTest do
       path = assert_patch(view)
       assert path =~ "use_case=research"
       assert path =~ "hide_drafts=true"
+    end
+  end
+
+  describe "example filter analytics (E12-T25)" do
+    test "?use_case=<slug> records an example_filter_used event keyed by the use case", %{conn: conn} do
+      {:ok, _view, _html} = live(conn, "/examples?use_case=coding")
+
+      [event] =
+        Repo.all(
+          from(e in AnalyticsEvent,
+            where: e.event == "example_filter_used",
+            order_by: [desc: e.inserted_at]
+          )
+        )
+
+      assert event.source == "examples"
+      assert event.channel == "use_case_filter"
+      assert event.section_id == "coding"
+      assert event.metadata["use_case"] == "coding"
+      assert event.metadata["label"] == "Coding agents"
+    end
+
+    test "the unfiltered index records no example_filter_used event", %{conn: conn} do
+      {:ok, _view, _html} = live(conn, "/examples")
+
+      assert Repo.aggregate(
+               from(e in AnalyticsEvent, where: e.event == "example_filter_used"),
+               :count,
+               :id
+             ) == 0
+    end
+
+    test "an unknown use_case records no example_filter_used event", %{conn: conn} do
+      {:ok, _view, _html} = live(conn, "/examples?use_case=not-a-real-use-case")
+
+      assert Repo.aggregate(
+               from(e in AnalyticsEvent, where: e.event == "example_filter_used"),
+               :count,
+               :id
+             ) == 0
     end
   end
 end

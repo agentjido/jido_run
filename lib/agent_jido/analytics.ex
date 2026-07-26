@@ -47,7 +47,8 @@ defmodule AgentJido.Analytics do
           home_conversion: [map()],
           first_livebook_open: [map()],
           first_core_agent_success: [map()],
-          first_llm_request: [map()]
+          first_llm_request: [map()],
+          example_filter: [map()]
         }
 
   @doc """
@@ -141,7 +142,8 @@ defmodule AgentJido.Analytics do
         home_conversion: home_conversion_breakdown(days),
         first_livebook_open: first_livebook_open_breakdown(days),
         first_core_agent_success: first_core_agent_success_breakdown(days),
-        first_llm_request: first_llm_request_breakdown(days)
+        first_llm_request: first_llm_request_breakdown(days),
+        example_filter: example_filter_breakdown(days)
       }
     else
       unauthorized_snapshot(days)
@@ -535,6 +537,45 @@ defmodule AgentJido.Analytics do
         clicks: count(e.id)
       },
       order_by: [desc: count(e.id), asc: e.section_id]
+    )
+    |> Repo.all()
+  end
+
+  # Example catalog filter use (jido-e12-t25). The use-case filter
+  # (`/examples?use_case=<slug>`) is the catalog's only filter/search
+  # mechanism, so a visitor applying one is where example discovery starts —
+  # not only page traffic. A visitor's first-ever `example_filter_used` is the
+  # use-case they first scoped the catalog to, so `DISTINCT ON (visitor_id)`
+  # keeps one row per visitor — the earliest, because inserted_at is ordered
+  # ascending within each visitor group — so repeat filter views by the same
+  # visitor never re-count. We then group the in-window first filters by use
+  # case (section_id), so the team sees which use-case filters visitors reach
+  # the catalog through.
+  defp example_filter_breakdown(days) do
+    since = since_naive(days)
+
+    first_filter_per_visitor =
+      from(e in AnalyticsEvent,
+        where:
+          e.event == "example_filter_used" and
+            not is_nil(e.section_id),
+        order_by: [asc: e.visitor_id, asc: e.inserted_at],
+        distinct: e.visitor_id,
+        select: %{
+          visitor_id: e.visitor_id,
+          applied_at: e.inserted_at,
+          use_case: e.section_id
+        }
+      )
+
+    from(f in subquery(first_filter_per_visitor),
+      where: f.applied_at >= ^since,
+      group_by: f.use_case,
+      select: %{
+        use_case: f.use_case,
+        visitors: count(f.visitor_id)
+      },
+      order_by: [desc: count(f.visitor_id), asc: f.use_case]
     )
     |> Repo.all()
   end
@@ -1338,7 +1379,8 @@ defmodule AgentJido.Analytics do
       home_conversion: [],
       first_livebook_open: [],
       first_core_agent_success: [],
-      first_llm_request: []
+      first_llm_request: [],
+      example_filter: []
     }
   end
 
@@ -1360,7 +1402,8 @@ defmodule AgentJido.Analytics do
       home_conversion: [],
       first_livebook_open: [],
       first_core_agent_success: [],
-      first_llm_request: []
+      first_llm_request: [],
+      example_filter: []
     }
   end
 
