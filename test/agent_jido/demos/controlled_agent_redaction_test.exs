@@ -58,16 +58,20 @@ defmodule AgentJido.Demos.ControlledAgentRedactionTest do
       # and logs (so the refutes below are not vacuous)...
       assert String.contains?(telemetry, "[REDACTED]"),
              "expected the redaction marker in the captured telemetry"
+
       assert String.contains?(log, "[REDACTED]"),
              "expected the redaction marker in the captured logs"
 
       # ...and the raw fixture never appears in any captured operational data.
       refute String.contains?(telemetry, fixture),
              "fixture #{inspect(fixture)} leaked into telemetry"
+
       refute String.contains?(log, fixture),
              "fixture #{inspect(fixture)} leaked into logs"
+
       refute String.contains?(inspect(journal), fixture),
              "fixture #{inspect(fixture)} leaked into the recorded Journal entry"
+
       refute String.contains?(inspect(error), fixture),
              "fixture #{inspect(fixture)} leaked into error output"
     end
@@ -86,8 +90,10 @@ defmodule AgentJido.Demos.ControlledAgentRedactionTest do
 
     assert String.contains?(telemetry, fixture),
            "fixture should reach telemetry when redaction is off"
+
     assert String.contains?(log, fixture),
            "fixture should reach logs when redaction is off"
+
     assert String.contains?(inspect(journal), fixture),
            "fixture should reach the recorded Journal entry when redaction is off"
   end
