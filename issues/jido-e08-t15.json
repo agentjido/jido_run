@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-26T01:25:16Z",
   "created": "2026-07-23T12:05:18Z",
   "description": "Backlog task: E08-T15\n\nWork area: Example-card contract\n\nMain targets: Example metadata\n\nComplete when: Stale examples can be found.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e08-t15",
@@ -22,7 +23,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E08-T15 — Add a last-validated date and version set.",
   "type": "task",
   "updated_at": "2026-07-26T01:25:16Z"
