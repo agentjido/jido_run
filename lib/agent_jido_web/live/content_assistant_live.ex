@@ -28,6 +28,8 @@ defmodule AgentJidoWeb.ContentAssistantLive do
       package_label: 1,
       page_kind_label: 1,
       provider_label: 1,
+      content_type_label: 1,
+      proof_level_label: 1,
       normalize_query: 1,
       external_result?: 1,
       require_turnstile?: 0,
@@ -286,6 +288,19 @@ defmodule AgentJidoWeb.ContentAssistantLive do
                     class="rounded-full border border-border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-muted-foreground"
                   >
                     {page_kind_label(citation.page_kind)}
+                  </span>
+                  <span
+                    :if={content_type_label(citation.content_type)}
+                    class="rounded-full border border-primary/30 bg-primary/5 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-primary"
+                  >
+                    {content_type_label(citation.content_type)}
+                  </span>
+                  <span
+                    :if={proof_level_label(citation.proof_level)}
+                    class="rounded-full border border-border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-muted-foreground"
+                    title="Strength of evidence behind this result"
+                  >
+                    {proof_level_label(citation.proof_level)}
                   </span>
                 </div>
                 <p class="text-sm font-medium text-foreground">{citation.title}</p>

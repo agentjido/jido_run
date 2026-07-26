@@ -615,11 +615,29 @@ defmodule AgentJido.ContentAssistant.Retrieval do
     collection = value(doc, :collection)
     source_id = value(doc, :source_id)
     source_type = resolve_source_type(collection, metadata)
+    page_kind = resolve_page_kind(metadata)
+    url = resolve_url(row, collection, metadata, source_id, source_type)
+
+    # Label every result with a content type and proof level so a user can
+    # distinguish a definition, guide, package surface, example, and case study
+    # (jido-e10-t28). The classification is the single source of truth in
+    # `Result`, fed by the document metadata available only on this retrieval
+    # path (path, post_type, content_intent, evidence_surface).
+    content_type =
+      Result.classify_content_type(
+        source_type: source_type,
+        page_kind: page_kind,
+        url: url,
+        path: string_value(metadata, :path),
+        post_type: string_value(metadata, :post_type),
+        content_intent: string_value(metadata, :content_intent),
+        evidence_surface: string_value(metadata, :evidence_surface)
+      )
 
     %Result{
       title: resolve_title(metadata, source_type),
       snippet: resolve_snippet(row, metadata),
-      url: resolve_url(row, collection, metadata, source_id, source_type),
+      url: url,
       source_type: source_type,
       score: resolve_score(value(row, :score)),
       external?: resolve_external?(source_type, metadata),
@@ -628,8 +646,10 @@ defmodule AgentJido.ContentAssistant.Retrieval do
       package_name: string_value(metadata, :package_name),
       package_title: string_value(metadata, :package_title),
       package_version: string_value(metadata, :package_version),
-      page_kind: resolve_page_kind(metadata),
-      secondary_url: resolve_secondary_url(source_type, metadata)
+      page_kind: page_kind,
+      secondary_url: resolve_secondary_url(source_type, metadata),
+      content_type: content_type,
+      proof_level: Result.proof_level_for(content_type)
     }
   end
 

@@ -145,6 +145,70 @@ defmodule AgentJidoWeb.ContentAssistantLiveTest do
        }}
     end
 
+    def respond("control", _opts) do
+      # One citation per distinguishable content type, each carrying its
+      # content-type and proof-level label (jido-e10-t28).
+      {:ok,
+       %Response{
+         query: "control",
+         answer_markdown: "Operational control overview",
+         answer_html: "<p>Operational control overview</p>",
+         answer_mode: :deterministic,
+         citations: [
+           %Result{
+             title: "Agents concept",
+             snippet: "Definition of an Agent.",
+             url: "/docs/concepts/agents",
+             source_type: :docs,
+             content_type: :definition,
+             proof_level: :design_intent,
+             score: 0.95
+           },
+           %Result{
+             title: "Error handling guide",
+             snippet: "How to recover from failures.",
+             url: "/docs/guides/error-handling-and-recovery",
+             source_type: :docs,
+             content_type: :guide,
+             proof_level: :design_intent,
+             score: 0.9
+           },
+           %Result{
+             title: "Jido Core",
+             snippet: "Main runtime package surface.",
+             url: "/ecosystem/jido-core",
+             source_type: :ecosystem,
+             content_type: :package,
+             proof_level: :tested_behavior,
+             score: 0.86
+           },
+           %Result{
+             title: "Controlled Agent example",
+             snippet: "Runnable controlled-Agent demo.",
+             url: "/examples/controlled-agent",
+             source_type: :examples,
+             content_type: :example,
+             proof_level: :tested_behavior,
+             score: 0.82
+           },
+           %Result{
+             title: "Acme controlled-Agent case study",
+             snippet: "Production controlled-Agent deployment.",
+             url: "/blog/acme-controlled-agent",
+             source_type: :blog,
+             content_type: :case_study,
+             proof_level: :production_evidence,
+             score: 0.78
+           }
+         ],
+         retrieval_status: :success,
+         llm_attempted?: false,
+         llm_enhanced?: false,
+         enhancement_blocked_reason: nil,
+         query_log_id: nil
+       }}
+    end
+
     def respond(_query, _opts) do
       {:ok,
        %Response{
@@ -281,6 +345,29 @@ defmodule AgentJidoWeb.ContentAssistantLiveTest do
       assert html =~ ~s(rel="noopener noreferrer")
       assert html =~ ~s(href="/ecosystem/jido")
       assert html =~ "About Package"
+    end
+
+    test "labels each result with a content type and proof level", %{conn: conn} do
+      conn = with_content_assistant_stub(conn)
+      {:ok, view, _html} = mount_live(conn)
+
+      view
+      |> form("#content-assistant-form", assistant: %{q: "control"})
+      |> render_submit()
+
+      html = assert_state(view, ~s(id="content-assistant-answer-state"))
+
+      # A user can distinguish the five content types (jido-e10-t28).
+      assert html =~ "Definition"
+      assert html =~ "Guide"
+      assert html =~ "Package"
+      assert html =~ "Example"
+      assert html =~ "Case study"
+
+      # And see the proof level behind each result.
+      assert html =~ "Design intent"
+      assert html =~ "Tested behavior"
+      assert html =~ "Production evidence"
     end
 
     test "submitting a query persists state in URL and reloads from params", %{conn: conn} do

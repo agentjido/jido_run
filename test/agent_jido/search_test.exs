@@ -63,7 +63,9 @@ defmodule AgentJido.ContentAssistant.RetrievalTest do
                  url: "/docs/getting-started",
                  source_type: :docs,
                  score: 0.9,
-                 external?: false
+                 external?: false,
+                 content_type: :guide,
+                 proof_level: :design_intent
                },
                %Result{
                  title: "Release Notes",
@@ -71,7 +73,9 @@ defmodule AgentJido.ContentAssistant.RetrievalTest do
                  url: "/blog/release-notes",
                  source_type: :blog,
                  score: 0.7,
-                 external?: false
+                 external?: false,
+                 content_type: :article,
+                 proof_level: :design_intent
                },
                %Result{
                  title: "Jido Core",
@@ -79,7 +83,9 @@ defmodule AgentJido.ContentAssistant.RetrievalTest do
                  url: "/ecosystem/jido-core",
                  source_type: :ecosystem,
                  score: nil,
-                 external?: false
+                 external?: false,
+                 content_type: :package,
+                 proof_level: :tested_behavior
                }
              ]
     end

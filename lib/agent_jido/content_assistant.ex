@@ -175,6 +175,7 @@ defmodule AgentJido.ContentAssistant do
             page_kind: normalize_page_kind(result.page_kind),
             provider: normalize_provider(result.provider)
         }
+        |> ensure_classified()
 
       _ ->
         nil
@@ -200,6 +201,7 @@ defmodule AgentJido.ContentAssistant do
           page_kind: normalize_page_kind(result_value(map, :page_kind)),
           secondary_url: normalize_optional_href(result_value(map, :secondary_url))
         }
+        |> ensure_classified()
 
       _ ->
         nil
@@ -207,6 +209,26 @@ defmodule AgentJido.ContentAssistant do
   end
 
   defp normalize_result(_result), do: nil
+
+  # Every public citation carries a content type and proof level so a user can
+  # distinguish a definition, guide, package surface, example, and case study
+  # (jido-e10-t28). The local retrieval path classifies from rich metadata;
+  # results that arrive without a classification (backend maps, stubs) get a
+  # best-effort type from the fields already on the Result.
+  defp ensure_classified(%Result{content_type: nil} = result) do
+    content_type =
+      Result.classify_content_type(
+        source_type: result.source_type,
+        page_kind: result.page_kind,
+        url: result.url
+      )
+
+    %Result{result | content_type: content_type, proof_level: Result.proof_level_for(content_type)}
+  end
+
+  defp ensure_classified(%Result{content_type: content_type} = result) do
+    %Result{result | proof_level: result.proof_level || Result.proof_level_for(content_type)}
+  end
 
   defp result_value(map, key), do: Map.get(map, key) || Map.get(map, Atom.to_string(key))
 

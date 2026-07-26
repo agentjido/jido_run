@@ -52,6 +52,26 @@ defmodule AgentJidoWeb.ContentAssistantSupport do
   def page_kind_label("task"), do: "Task"
   def page_kind_label(_kind), do: nil
 
+  # Content-type labels let a user distinguish a definition, guide, package
+  # surface, example, and case study across search results (jido-e10-t28).
+  def content_type_label(:definition), do: "Definition"
+  def content_type_label(:guide), do: "Guide"
+  def content_type_label(:package), do: "Package"
+  def content_type_label(:example), do: "Example"
+  def content_type_label(:case_study), do: "Case study"
+  def content_type_label(:skill), do: "Skill"
+  def content_type_label(:article), do: "Article"
+  def content_type_label(:reference), do: "Reference"
+  def content_type_label(_content_type), do: nil
+
+  # Proof-level labels name the strength of evidence behind a result, matching
+  # the four-level ladder in `specs/style-voice.md` (jido-e10-t28).
+  def proof_level_label(:design_intent), do: "Design intent"
+  def proof_level_label(:tested_behavior), do: "Tested behavior"
+  def proof_level_label(:benchmark), do: "Benchmark"
+  def proof_level_label(:production_evidence), do: "Production evidence"
+  def proof_level_label(_proof_level), do: nil
+
   def external_result?(%{external?: true}), do: true
   def external_result?(_result), do: false
 
