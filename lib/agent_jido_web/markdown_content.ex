@@ -44,7 +44,7 @@ defmodule AgentJidoWeb.MarkdownContent do
   defp resolve_path(path, absolute_url) do
     resolve_from_pages(path) ||
       resolve_from_blog(path) ||
-      resolve_from_ecosystem(path) ||
+      resolve_from_ecosystem(path, absolute_url) ||
       resolve_from_examples(path, absolute_url) ||
       resolve_from_showcase(path) ||
       resolve_misc(path) ||
@@ -290,19 +290,31 @@ defmodule AgentJidoWeb.MarkdownContent do
 
   defp resolve_from_blog(_path), do: nil
 
-  defp resolve_from_ecosystem("/ecosystem") do
-    {:fallback, "Jido Ecosystem", "Discover composable Jido packages across runtime core, AI orchestration, and production operations."}
+  # The Ecosystem hub (`/ecosystem`) renders the recommended starting stacks
+  # and a full package explorer/compare view from the public package registry
+  # in the browser (jido_ecosystem_live.ex), but `/ecosystem.md` served a short
+  # fallback stub. Generate a full Markdown hub from the same registry the
+  # browser hub uses so the browser and Markdown inventories agree: the three
+  # recommended stacks with each package's explicit supported range, source, and
+  # support level, plus a full package inventory carrying each package's layer,
+  # support level, and full link set. See E10-T12.
+  defp resolve_from_ecosystem("/ecosystem", absolute_url) do
+    {:ok, ecosystem_hub_markdown(absolute_url)}
   end
 
-  defp resolve_from_ecosystem("/ecosystem/matrix") do
-    {:fallback, "Jido Ecosystem", "Compare packages from the main Jido ecosystem hub."}
+  # The legacy matrix/package-matrix routes are 301-redirected to the hub by the
+  # LegacyRouteRedirect plug, so these clauses are normally shadowed. Resolve
+  # them to the same generated hub (rather than a stub) so the inventory stays
+  # useful if a redirect is ever removed. See E10-T12.
+  defp resolve_from_ecosystem("/ecosystem/matrix", absolute_url) do
+    {:ok, ecosystem_hub_markdown(absolute_url)}
   end
 
-  defp resolve_from_ecosystem("/ecosystem/package-matrix") do
-    resolve_from_ecosystem("/ecosystem/matrix")
+  defp resolve_from_ecosystem("/ecosystem/package-matrix", absolute_url) do
+    {:ok, ecosystem_hub_markdown(absolute_url)}
   end
 
-  defp resolve_from_ecosystem("/ecosystem/" <> id_path) do
+  defp resolve_from_ecosystem("/ecosystem/" <> id_path, _absolute_url) do
     if valid_single_segment?(id_path) do
       id_path
       |> String.trim()
@@ -313,7 +325,127 @@ defmodule AgentJidoWeb.MarkdownContent do
     end
   end
 
-  defp resolve_from_ecosystem(_path), do: nil
+  defp resolve_from_ecosystem(_path, _absolute_url), do: nil
+
+  defp ecosystem_hub_markdown(absolute_url) do
+    stacks = Ecosystem.Stacks.matrix()
+
+    """
+    # Jido Ecosystem
+
+    Public Jido packages, support levels, and recommended starting stacks from one ecosystem hub. The recommended stacks list the explicit supported range for every package, and the package inventory carries each package's layer, support level, and full link set.
+
+    ## Recommended stacks
+
+    The three recommended starting stacks — Core, AI, and Operate — each with the explicit supported range for every package. Each range is derived from the registry: a published package pins to its Hex major (`~> X.0`) and an unreleased package falls back to its public GitHub repo. These are the same ranges the home dependency blocks install.
+
+    #{format_ecosystem_stacks(stacks)}
+
+    ## Package inventory
+
+    The full public package set in canonical layer order. Each entry carries the package's layer, support level, and full link set — its package page, HexDocs, Hex.pm, and GitHub.
+
+    #{format_ecosystem_inventory(absolute_url)}
+
+    ---
+
+    This inventory is generated from the same content records as the rendered Ecosystem hub.
+    """
+  end
+
+  # Mirrors the browser STACK COMPATIBILITY table (jido_ecosystem_live.ex): the
+  # three stacks in display order, each package rendered with the supported
+  # range, source, and support level the machine-readable delivery needs.
+  defp format_ecosystem_stacks(stacks) do
+    stacks
+    |> Enum.map(&format_ecosystem_stack/1)
+    |> Enum.reject(&(&1 in ["", nil]))
+    |> Enum.join("\n\n")
+  end
+
+  defp format_ecosystem_stack(stack) do
+    rows =
+      stack.packages
+      |> Enum.map(&format_stack_package_row/1)
+      |> Enum.join("\n")
+
+    "### #{stack.name}\n\n#{stack.purpose}\n\n#{rows}"
+  end
+
+  defp format_stack_package_row(pkg) do
+    [
+      "- **[#{pkg.name}](#{pkg.path})** — #{field_or_dash(pkg.role)}",
+      "  - Range: #{stack_range_label(pkg.range)}",
+      "  - Source: #{field_or_dash(pkg.source_label)}",
+      "  - Support level: #{ecosystem_support_label(pkg.support_level)}"
+    ]
+    |> Enum.join("\n")
+  end
+
+  defp stack_range_label(nil), do: "Not specified"
+  defp stack_range_label(range), do: range
+
+  # Mirrors the browser hub's normalize_support_level/1 (jido_ecosystem_live.ex):
+  # a missing level reads as Experimental so the Markdown never understates the
+  # boundary a package carries.
+  defp ecosystem_support_label(level) do
+    normalized = Ecosystem.SupportLevel.normalize(level) || :experimental
+    Ecosystem.SupportLevel.label(normalized)
+  end
+
+  # Mirrors the browser PACKAGE EXPLORER / COMPARE table: every public package
+  # in canonical layer order, each rendered with its layer, support level, and
+  # the full external link set — not just the internal detail route.
+  defp format_ecosystem_inventory(absolute_url) do
+    Ecosystem.public_packages()
+    |> Enum.sort_by(fn pkg ->
+      {ecosystem_layer_rank(Ecosystem.Layering.layer_for(pkg)), String.downcase(pkg.title)}
+    end)
+    |> Enum.map(&format_ecosystem_package_entry(&1, absolute_url))
+    |> Enum.join("\n")
+  end
+
+  defp format_ecosystem_package_entry(pkg, absolute_url) do
+    id = map_get(pkg, :id)
+    route = "/ecosystem/#{id}"
+    layer = ecosystem_layer_label(Ecosystem.Layering.layer_for(pkg))
+    support = ecosystem_support_label(map_get(pkg, :support_level))
+
+    links =
+      [
+        link_line("HexDocs", map_get(pkg, :hexdocs_url)),
+        link_line("Hex.pm", map_get(pkg, :hex_url)),
+        link_line("GitHub", map_get(pkg, :github_url))
+      ]
+      |> Enum.reject(&is_nil/1)
+
+    ([
+       "- **[#{map_get(pkg, :title)}](#{route})** — #{field_or_dash(map_get(pkg, :tagline))}",
+       "  - Layer: #{layer}",
+       "  - Support level: #{support}"
+     ] ++ links ++ ["  - URL: #{package_url(id, absolute_url)}"])
+    |> Enum.join("\n")
+  end
+
+  defp link_line(_label, nil), do: nil
+  defp link_line(_label, ""), do: nil
+  defp link_line(label, href), do: "  - #{label}: #{href}"
+
+  defp package_url(id, absolute_url) do
+    "#{origin_from(absolute_url)}/ecosystem/#{id}"
+  end
+
+  defp ecosystem_layer_rank(:foundation), do: 1
+  defp ecosystem_layer_rank(:core), do: 2
+  defp ecosystem_layer_rank(:ai), do: 3
+  defp ecosystem_layer_rank(:app), do: 4
+  defp ecosystem_layer_rank(_layer), do: 99
+
+  defp ecosystem_layer_label(:foundation), do: "Foundation"
+  defp ecosystem_layer_label(:core), do: "Core"
+  defp ecosystem_layer_label(:ai), do: "AI"
+  defp ecosystem_layer_label(:app), do: "Application"
+  defp ecosystem_layer_label(layer), do: layer |> Atom.to_string() |> String.capitalize()
 
   # The Examples hub (`/examples`) renders a category-grouped grid from the
   # live Example records in the browser (jido_examples_live.ex), but `/examples.md`

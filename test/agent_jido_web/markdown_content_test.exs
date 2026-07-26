@@ -286,4 +286,90 @@ defmodule AgentJidoWeb.MarkdownContentTest do
              "examples hub markdown inventory drifted from the browser hub's live examples"
     end
   end
+
+  describe "ecosystem hub markdown inventory (jido-e10-t12)" do
+    # The browser hub (`/ecosystem`) and the Markdown hub (`/ecosystem.md`) must
+    # agree, both generated from the public package registry. The Markdown hub
+    # must carry the recommended starting stacks (with each package's explicit
+    # supported range, source, and support level) and a full package inventory
+    # with each package's external links.
+    @absolute_url "https://jido.run/ecosystem"
+
+    test "the ecosystem hub markdown is generated, not a fallback stub" do
+      assert {:ok, markdown} = MarkdownContent.resolve("/ecosystem", @absolute_url)
+
+      refute String.contains?(
+               markdown,
+               "generated from the rendered route when direct source markdown is not available"
+             ),
+             "ecosystem hub markdown is a fallback stub"
+
+      assert String.contains?(
+               markdown,
+               "generated from the same content records as the rendered Ecosystem hub"
+             )
+    end
+
+    test "the recommended stacks list every stack package with its range, source, and support level" do
+      assert {:ok, markdown} = MarkdownContent.resolve("/ecosystem", @absolute_url)
+
+      for heading <- ["### Core", "### AI", "### Operate"] do
+        assert String.contains?(markdown, heading),
+               "ecosystem markdown is missing recommended-stack heading #{heading}"
+      end
+
+      for stack <- AgentJido.Ecosystem.Stacks.matrix(), pkg <- stack.packages do
+        assert String.contains?(markdown, "[#{pkg.name}](#{pkg.path})"),
+               "ecosystem markdown is missing recommended-stack link for #{pkg.name}"
+
+        expected_range = if pkg.range in [nil, ""], do: "Not specified", else: pkg.range
+
+        assert String.contains?(markdown, "Range: #{expected_range}"),
+               "ecosystem markdown is missing supported range for #{pkg.name}"
+
+        assert String.contains?(markdown, "Source: #{pkg.source_label}"),
+               "ecosystem markdown is missing source for #{pkg.name}"
+      end
+    end
+
+    test "every public package appears with its route, absolute URL, and full link set" do
+      assert {:ok, markdown} = MarkdownContent.resolve("/ecosystem", @absolute_url)
+
+      for pkg <- AgentJido.Ecosystem.public_packages() do
+        route = "/ecosystem/#{pkg.id}"
+        url = "https://jido.run/ecosystem/#{pkg.id}"
+
+        assert String.contains?(markdown, "(#{route})"),
+               "ecosystem markdown is missing link for #{inspect(pkg.id)}"
+
+        assert String.contains?(markdown, "URL: #{url}"),
+               "ecosystem markdown is missing absolute URL for #{inspect(pkg.id)}"
+
+        # Each external link the package carries must appear in full — these are
+        # the "full package links" the machine-readable delivery needs.
+        for {label, value} <-
+              [{"HexDocs", pkg.hexdocs_url}, {"Hex.pm", pkg.hex_url}, {"GitHub", pkg.github_url}],
+            value not in [nil, ""] do
+          assert String.contains?(markdown, "#{label}: #{value}"),
+                 "ecosystem markdown is missing #{label} link for #{inspect(pkg.id)}"
+        end
+      end
+    end
+
+    test "the markdown inventory matches the browser hub's public package set" do
+      assert {:ok, markdown} = MarkdownContent.resolve("/ecosystem", @absolute_url)
+
+      markdown_ids =
+        Regex.scan(~r"\(/ecosystem/([^)]+)\)", markdown)
+        |> Enum.map(fn [_, id] -> id end)
+        |> Enum.uniq()
+        |> Enum.sort()
+
+      browser_ids =
+        AgentJido.Ecosystem.public_packages() |> Enum.map(& &1.id) |> Enum.uniq() |> Enum.sort()
+
+      assert markdown_ids == browser_ids,
+             "ecosystem hub markdown inventory drifted from the browser hub's public packages"
+    end
+  end
 end
