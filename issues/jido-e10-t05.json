@@ -1,5 +1,5 @@
 {
-  "assignee": "",
+  "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:06:44Z",
@@ -18,8 +18,8 @@
     }
   ],
   "priority": 1,
-  "status": "open",
+  "status": "in_progress",
   "title": "E10-T05 — Add redirects or synonyms for retired Training terms.",
   "type": "task",
-  "updated_at": "2026-07-24T12:53:32Z"
+  "updated_at": "2026-07-26T11:53:28Z"
 }
