@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-26T15:44:34Z",
   "created": "2026-07-23T12:07:07Z",
   "description": "Backlog task: E10-T28\n\nWork area: Operational-control delivery\n\nMain targets: Search results\n\nComplete when: A user can distinguish a definition, guide, package surface, example, and case study.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e10-t28",
@@ -23,7 +24,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E10-T28 — Label control search results by content type and proof level.",
   "type": "task",
   "updated_at": "2026-07-26T15:44:34Z"
