@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-26T10:12:56Z",
   "created": "2026-07-23T12:06:38Z",
   "description": "Backlog task: E09-T49\n\nWork area: Operational-control stack and boundaries\n\nMain targets: Ecosystem comparison\n\nComplete when: A reader can compare context, authorization hooks, policy, quotas, history, observation, export, approval, and integration duties.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e09-t49",
@@ -23,7 +24,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E09-T49 — Add an operational-control capability matrix.",
   "type": "task",
   "updated_at": "2026-07-26T10:12:56Z"
