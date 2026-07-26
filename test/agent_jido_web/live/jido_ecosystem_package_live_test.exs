@@ -276,6 +276,58 @@ defmodule AgentJidoWeb.JidoEcosystemPackageLiveTest do
            "the jido package page must state it is not a built-in IAM or RBAC product"
   end
 
+  # Direct expression of the E09-T44 contract: the jido_signal page documents
+  # Signal Journal storage choices and durability. It must identify, tied to
+  # released behavior, the default adapter, the durable adapters, what happens
+  # to recorded history across a restart, the retention story, and the limits on
+  # replay. Mirrors the canonical framing on the Journal Retention, Access, and
+  # Deletion operations page so the package page and the operations page agree.
+  test "documents Signal Journal storage choices and durability (jido-e09-t44)", %{conn: conn} do
+    {:ok, _view, html} = live(conn, "/ecosystem/jido_signal")
+
+    # The dedicated storage and durability block is present on the page.
+    assert html =~ "Signal Journal storage and durability",
+           "the jido_signal page must surface a Signal Journal storage and durability block"
+
+    # Default adapter: names InMemory and states it is not durable.
+    assert html =~ "InMemory",
+           "the jido_signal page must name the default Journal adapter (InMemory)"
+
+    assert html =~ "not durable",
+           "the jido_signal page must state the default Journal adapter is not durable"
+
+    # Durable adapters: names both shipped durable backends and their scope.
+    assert html =~ "ETS",
+           "the jido_signal page must name the ETS durable Journal adapter"
+
+    assert html =~ "Mnesia",
+           "the jido_signal page must name the Mnesia durable Journal adapter"
+
+    assert html =~ "node restart",
+           "the jido_signal page must state Mnesia keeps history across a node restart"
+
+    # Restart behavior: states recorded history is lost over the default adapter.
+    assert html =~ "gone after a restart",
+           "the jido_signal page must state recorded history is lost over the default adapter on restart"
+
+    # Retention: states no retention policy ships and retention is application-owned.
+    assert html =~ "No retention policy",
+           "the jido_signal page must state no retention policy ships with the Journal"
+
+    assert html =~ "retention is application-owned",
+           "the jido_signal page must state retention is application-owned"
+
+    # Replay limits: bounds replay to the in-memory Bus log with a batch cap.
+    assert html =~ "batch_size",
+           "the jido_signal page must name the replay batch-size limit"
+
+    assert html =~ "100,000",
+           "the jido_signal page must state the Bus log size bound"
+
+    assert html =~ "not durable across a Bus restart",
+           "the jido_signal page must state replay is not durable across a Bus restart"
+  end
+
   test "states the control surface is not documented when neither field is set (jido-e09-t41)", %{conn: conn} do
     # jido_chat has no documented control surface, so the page must be explicit
     # about the gap rather than silent.

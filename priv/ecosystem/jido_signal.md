@@ -79,5 +79,15 @@ Pluggable adapter-based delivery system with 9 built-in adapters supporting sync
 ### Signal Journal (`Jido.Signal.Journal`)
 Causality and conversation tracking via a directed graph of signals with temporal querying and pluggable persistence backends.
 
+#### Signal Journal storage and durability
+
+The Journal is where causal history is recorded, so its storage choice decides what survives a restart. The shipped adapters and their durability (tied to released behavior, and consistent with the [Journal Retention, Access, and Deletion](/docs/operations/journal-retention-access-and-deletion) operations page):
+
+- **Default adapter — `InMemory`, not durable.** `Jido.Signal.Journal.new/1` defaults to the `InMemory` adapter, which holds history in process memory. A `Signal.Bus` does not wire a Journal adapter unless you set `:journal_adapter` (or the `:jido_signal, :journal_adapter` application config); the documented production choice is `ETS`.
+- **Durable adapters — `ETS` and `Mnesia`.** `ETS` keeps history across a Journal restart; `Mnesia` (disc-backed, after `:mnesia.create_schema([node()])`) keeps it across a node restart. The durability you get is exactly the durability you choose.
+- **Restart behavior.** Over `InMemory`, a recorded signal is gone after a restart. `ETS` survives a Journal restart but not a node restart; only `Mnesia` survives a node restart.
+- **Retention.** No retention policy, TTL, or compaction ships — the Journal keeps every recorded signal until you delete it at the store (there is no `delete_signal` API). `Jido.Signal.Journal.query/2` (`after`/`before`/`type`/`source`) is a read filter, not a retention rule, so retention is application-owned.
+- **Replay limits.** `Signal.Bus.replay/4` reads only the Bus's in-memory signal log (not the Journal), filtered by path and an optional start timestamp, and returns at most `:batch_size` matches (default 1,000). That log is bounded by `:max_log_size` (default 100,000 signals) and an optional `:log_ttl_ms` (default: none), so signals that aged out cannot be replayed, and replay is not durable across a Bus restart. For history that survives, point the Journal at a durable adapter.
+
 ### Distributed Tracing (`Jido.Signal.Trace`)
 W3C Trace Context-compatible distributed tracing with 128-bit trace IDs, span linking, and causation chains.
