@@ -1,5 +1,5 @@
 {
-  "assignee": "",
+  "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:08:25Z",
@@ -19,8 +19,8 @@
     }
   ],
   "priority": 1,
-  "status": "open",
+  "status": "in_progress",
   "title": "E12-T44 — Block proof that depends on an unreleased or unsupported package.",
   "type": "task",
-  "updated_at": "2026-07-24T12:55:05Z"
+  "updated_at": "2026-07-26T20:00:25Z"
 }
