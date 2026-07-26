@@ -15,11 +15,15 @@
     {
       "text": "Open: example tasks/packages/outcomes in indexed fields not yet done.",
       "timestamp": "2026-07-24T12:53:31Z"
+    },
+    {
+      "text": "Accepted by the Zclaude Ralph supervisor. Commits: 5cc48099. Verification: MIX_ENV=test mix compile \u0026\u0026 MIX_ENV=test mix format --check-formatted.",
+      "timestamp": "2026-07-26T11:14:50Z"
     }
   ],
   "priority": 1,
   "status": "in_progress",
   "title": "E10-T02 — Add example tasks, packages, and outcomes to indexed fields.",
   "type": "task",
-  "updated_at": "2026-07-26T10:46:55Z"
+  "updated_at": "2026-07-26T11:14:50Z"
 }
