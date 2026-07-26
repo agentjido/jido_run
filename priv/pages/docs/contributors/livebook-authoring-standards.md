@@ -25,6 +25,7 @@ Use this page as the canonical standard when writing or reviewing `.livemd` tuto
 - [ ] Runnable notebooks include `livebook:` metadata and a matching drift test under `test/livebooks/docs`
 - [ ] Runnable notebooks declare `tested_with` package/version pairs so version context renders on the page
 - [ ] Runnable notebooks declare a `last_validated` ISO date so the page shows when it was last confirmed
+- [ ] Runnable notebooks declare an `owner` so a stale notebook has a named accountable person to re-validate
 - [ ] The notebook ends with a "Next steps" (or "What to try next") block so every reader leaves with a concrete next action
 
 ## Canonical Notebook Shape
@@ -149,6 +150,7 @@ Runnable notebooks should include Livebook-oriented metadata in the frontmatter:
   tags: [:docs, :guides, :livebook],
   last_validated: "2026-07-24",
   tested_with: %{jido: "2.3.2", jido_ai: "2.2.0", req_llm: "1.17.1"},
+  owner: "Mike Hostetler",
   livebook: %{
     runnable: true,
     required_env_vars: ["OPENAI_API_KEY"],
@@ -163,6 +165,8 @@ Use `required_env_vars` and `setup_instructions` to make external requirements e
 `tested_with` is a map of package/version pairs the notebook was validated against. List every package the notebook installs (commonly `jido`, `jido_ai`, and `req_llm`) and pin the exact resolved version from `mix.lock`, not the version constraint. The docs shell renders it as "Tested with" in the page header so a reader can tell whether a notebook matches the packages they already have.
 
 `last_validated` is the ISO date (`YYYY-MM-DD`) of the most recent run that confirmed the notebook against its `tested_with` versions. Update it whenever you re-run and confirm the notebook end to end, not on every prose edit. The docs shell renders it as "Last validated" in the page header, which is what lets stale executable pages be found automatically.
+
+`owner` is the named accountable person for the notebook — the one who re-runs and re-validates it when it goes stale. A runnable notebook cannot publish without `last_validated`, `tested_with`, and `owner`, because freshness only helps if a stale page has someone to ping. The docs shell renders it as "Owner" in the page header.
 
 ## Drift Tests
 

@@ -31,7 +31,8 @@
                     <div
                       :if={
                         @selected_document.last_validated not in ["", nil] or
-                          map_size(@selected_document.tested_with || %{}) > 0
+                          map_size(@selected_document.tested_with || %{}) > 0 or
+                          @selected_document.owner not in ["", nil]
                       }
                       class="flex flex-wrap items-center gap-x-4 gap-y-2 text-[12px] text-muted-foreground"
                     >
@@ -47,6 +48,10 @@
                              ) do %>
                           <code class="rounded border border-border bg-code-bg px-1.5 py-0.5 text-[11px] text-foreground">{pkg} {version}</code>
                         <% end %>
+                      </span>
+                      <span :if={@selected_document.owner not in ["", nil]} class="inline-flex items-center gap-1.5">
+                        <span class="font-semibold uppercase tracking-wide text-[10px]">Owner</span>
+                        {@selected_document.owner}
                       </span>
                     </div>
                   </div>

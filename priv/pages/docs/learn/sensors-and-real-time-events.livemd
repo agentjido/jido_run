@@ -8,6 +8,7 @@
   prerequisites: ["/docs/learn/parent-child-agent-hierarchies"],
   last_validated: "2026-07-24",
   tested_with: %{jido: "2.3.2"},
+  owner: "Mike Hostetler",
   livebook: %{
     runnable: true,
     required_env_vars: [],

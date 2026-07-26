@@ -52,6 +52,7 @@ defmodule AgentJido.Pages.Page do
   ### Validation
   - `last_validated` - ISO date this page's code was last validated
   - `tested_with` - Map of package/version pairs this page was validated against
+  - `owner` - Accountable owner for executable pages (who re-validates it when it goes stale)
 
   ### SEO
   - `og_image` - Per-page Open Graph image override
@@ -145,6 +146,13 @@ defmodule AgentJido.Pages.Page do
               tested_with:
                 Zoi.any(description: "Map of package/version pairs this page was validated against (e.g. %{jido: \"2.3.2\"})")
                 |> Zoi.default(%{}),
+              # Ownership metadata (author-set; required on executable pages so a
+              # stale runnable notebook has a named accountable owner to ping —
+              # pairs with last_validated/tested_with as the freshness+ownership
+              # trio enforced by the E12-T14 publication gate).
+              owner:
+                Zoi.string(description: "Accountable owner for executable pages (who re-validates the notebook when it goes stale)")
+                |> Zoi.default(""),
               # SEO top-level override
               og_image: Zoi.string(description: "Per-page Open Graph image override") |> Zoi.optional(),
               # Nested metadata maps

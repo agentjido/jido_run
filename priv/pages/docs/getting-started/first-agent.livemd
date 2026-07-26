@@ -17,6 +17,7 @@
   prerequisites: ["/docs/getting-started/installation"],
   last_validated: "2026-07-24",
   tested_with: %{jido: "2.3.2"},
+  owner: "Mike Hostetler",
   livebook: %{
     runnable: true
   }
