@@ -209,6 +209,54 @@ defmodule AgentJidoWeb.JidoEcosystemPackageLiveTest do
     end
   end
 
+  test "renders the control surface jido supplies and the result it does not supply (jido-e09-t41)", %{conn: conn} do
+    {:ok, _view, html} = live(conn, "/ecosystem/jido")
+
+    # Every package page surfaces the operational-control section.
+    assert html =~ "OPERATIONAL CONTROL"
+
+    # The control surface jido supplies is stated explicitly.
+    assert html =~ "Control surface it supplies"
+    assert html =~ "prepare_action/3 is the fail-closed authorization point"
+
+    # The control result jido does not supply is stated explicitly.
+    assert html =~ "Control result it does not supply"
+    assert html =~ "Does not authenticate principals"
+  end
+
+  test "states the control surface is not documented when neither field is set (jido-e09-t41)", %{conn: conn} do
+    # jido_chat has no documented control surface, so the page must be explicit
+    # about the gap rather than silent.
+    {:ok, _view, html} = live(conn, "/ecosystem/jido_chat")
+
+    assert html =~ "OPERATIONAL CONTROL"
+    assert html =~ "control surface not documented"
+    refute html =~ "Control surface it supplies"
+    refute html =~ "Control result it does not supply"
+  end
+
+  # Direct expression of the E09-T41 contract: every public package page renders
+  # the OPERATIONAL CONTROL section and either states the control surface it
+  # supplies / the result it does not supply, or is explicit that the control
+  # surface is not documented yet. Uses a disconnected GET render (still runs
+  # mount + render) so all public packages can be checked.
+  @tag timeout: 120_000
+  test "every public package states its control surface or flags it undocumented (jido-e09-t41)", %{conn: conn} do
+    for package <- AgentJido.Ecosystem.public_packages() do
+      html = conn |> get("/ecosystem/#{package.id}") |> html_response(200)
+
+      assert html =~ "OPERATIONAL CONTROL",
+             "package #{package.id} is missing the OPERATIONAL CONTROL section"
+
+      states_documented = html =~ "Control surface it supplies" or html =~ "Control result it does not supply"
+      states_undocumented = html =~ "control surface not documented"
+
+      assert states_documented != states_undocumented,
+             "package #{package.id} must either state its control surface/result or flag it undocumented " <>
+               "(documented=#{states_documented}, undocumented=#{states_undocumented})"
+    end
+  end
+
   test "renders curated seo metadata and structured data for package pages", %{conn: conn} do
     html =
       conn

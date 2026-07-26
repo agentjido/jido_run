@@ -44,6 +44,8 @@ defmodule AgentJidoWeb.JidoEcosystemPackageLive do
        last_synced: package_last_synced(package),
        use_when: landing_use_when(package),
        not_for: landing_not_for(package),
+       control_capabilities: control_capabilities(package),
+       control_limitations: control_limitations(package),
        best_example: best_example_for_page(package),
        best_guide: best_guide_for_page(package),
        resource_groups: resource_groups(package),
@@ -164,6 +166,35 @@ defmodule AgentJidoWeb.JidoEcosystemPackageLive do
               </ul>
             </article>
           </div>
+        </section>
+
+        <section class="mb-12">
+          <h2 class="text-sm font-bold tracking-wider mb-4">OPERATIONAL CONTROL</h2>
+          <div :if={@control_capabilities != [] or @control_limitations != []} class="grid gap-4 md:grid-cols-2">
+            <article :if={@control_capabilities != []} class="bg-card border border-border rounded-md p-5">
+              <div class="text-[10px] uppercase tracking-wide text-muted-foreground mb-3">Control surface it supplies</div>
+              <ul class="space-y-3 text-sm text-foreground/90">
+                <li :for={item <- @control_capabilities} class="leading-relaxed">
+                  {item}
+                </li>
+              </ul>
+            </article>
+
+            <article :if={@control_limitations != []} class="bg-card border border-border rounded-md p-5">
+              <div class="text-[10px] uppercase tracking-wide text-muted-foreground mb-3">Control result it does not supply</div>
+              <ul class="space-y-3 text-sm text-foreground/90">
+                <li :for={item <- @control_limitations} class="leading-relaxed">
+                  {item}
+                </li>
+              </ul>
+            </article>
+          </div>
+          <article :if={@control_capabilities == [] and @control_limitations == []} class="bg-card border border-dashed border-border rounded-md p-5">
+            <div class="text-[10px] uppercase tracking-wide text-muted-foreground mb-2">control surface not documented</div>
+            <p class="text-xs leading-relaxed text-muted-foreground">
+              This package has not yet recorded the control surface it supplies or the control result it does not supply. This page will state both as soon as its operational-control boundaries are documented from released and tested behavior.
+            </p>
+          </article>
         </section>
 
         <section class="mb-12">
@@ -685,6 +716,14 @@ defmodule AgentJidoWeb.JidoEcosystemPackageLive do
 
   defp landing_use_when(pkg), do: normalize_string_list(pkg.landing_use_when)
   defp landing_not_for(pkg), do: normalize_string_list(pkg.landing_not_for)
+
+  # Control capability and limitation fields (jido-e09-t41). Each package page
+  # states the control surface the package supplies (control_capabilities) and
+  # the control result it does not supply (control_limitations), grounded in
+  # released and tested behavior. When neither is documented yet the page is
+  # explicit about the gap rather than silent.
+  defp control_capabilities(pkg), do: normalize_string_list(pkg.control_capabilities)
+  defp control_limitations(pkg), do: normalize_string_list(pkg.control_limitations)
 
   defp cliff_notes(pkg) do
     custom_notes = normalize_string_list(pkg.landing_cliff_notes) |> Enum.take(@max_cliff_notes)

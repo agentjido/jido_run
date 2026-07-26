@@ -186,6 +186,18 @@ defmodule AgentJido.Ecosystem.Package do
               limitations:
                 Zoi.any(description: "Known limitations or non-goals")
                 |> Zoi.default([]),
+              control_capabilities:
+                Zoi.any(
+                  description:
+                    "Control surfaces this package supplies — what it governs or exposes as an operational-control point (authorization hook, validation, supervision, telemetry, durable history, etc.)"
+                )
+                |> Zoi.default([]),
+              control_limitations:
+                Zoi.any(
+                  description:
+                    "Control results this package does not supply — what stays an application, platform, or companion-package concern (authentication, retention policy, tamper evidence, compliance, etc.)"
+                )
+                |> Zoi.default([]),
               stub: Zoi.boolean(description: "Whether this is a stub vs real usable code") |> Zoi.default(false),
               support:
                 Zoi.atom(description: "Support expectations (best_effort, community, maintained)")

@@ -27,6 +27,14 @@
     "Early 2.x hardening may still introduce focused breaking changes",
     "2.0.0 introduced breaking changes from 1.x — review migration notes before upgrading"
   ],
+  control_capabilities: [
+    "Action contract validation — params are schema-validated (NimbleOptions or Zoi) before an action executes.",
+    "Execution controls — retries, timeouts, process monitoring, and optional rollback compensation wrap each action run."
+  ],
+  control_limitations: [
+    "Does not make authorization decisions — action validation checks the contract, not who may call the action. Use the jido prepare_action/3 plugin hook for fail-closed authorization.",
+    "Does not authenticate callers — caller identity and tenant must be supplied by the host application and carried on the incoming Signal."
+  ],
   ecosystem_deps: [],
   key_features: [
     "Structured action definition with compile-time validation and rich metadata",

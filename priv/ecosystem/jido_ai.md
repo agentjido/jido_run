@@ -28,6 +28,13 @@
     "Broad AI feature scope expands debugging surface area for CLI-runtime-focused stacks",
     "Hex releases may lag GitHub main branch during active provider integration work"
   ],
+  control_capabilities: [
+    "AI tool and effect policy — jido_ai plugins set tool allowlists, effect policies, prompt policies, and request or token quotas, and a disallowed tool or effect is rejected before it runs."
+  ],
+  control_limitations: [
+    "Does not authenticate model callers — principal and tenant context must be supplied by the host application and carried on the incoming Signal.",
+    "Does not own cost budgets end to end — quotas bound AI requests and tokens, but overall spend limits and billing enforcement stay a platform concern."
+  ],
   ecosystem_deps: ["jido", "jido_browser", "req_llm"],
   landing_summary: "Jido AI turns raw LLM calls into structured agent intelligence with strategy-driven reasoning, tool use, and accuracy controls.",
   landing_cliff_notes: [

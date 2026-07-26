@@ -25,6 +25,13 @@
     "Tied to specific Ash Framework and Jido versions",
     "Does not auto-discover Ash domains — requires explicit DSL configuration"
   ],
+  control_capabilities: [
+    "Preserves Ash authorization — carries Ash actor, tenant, and authorization context through to generated Jido actions without bypassing policies or validations."
+  ],
+  control_limitations: [
+    "Does not define the Ash policies itself — authorization decisions are owned by the host Ash application; this bridge only preserves them.",
+    "Not published to Hex — available only via GitHub dependency."
+  ],
   ecosystem_deps: ["jido", "jido_action"],
   key_features: [
     "Zero-boilerplate Ash-to-Jido bridging via a declarative jido DSL block",

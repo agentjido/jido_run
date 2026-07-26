@@ -27,6 +27,14 @@
     "Early 2.x hardening may still introduce focused breaking changes",
     "Journal persistence backends are pluggable but no production adapters ship by default"
   ],
+  control_capabilities: [
+    "Signal envelope and routing — CloudEvents-based signals with a trie router give deterministic, auditable dispatch.",
+    "Optional durable history — a configured durable Signal Journal adapter records signals for replay, and tracing carries causation and correlation IDs across components."
+  ],
+  control_limitations: [
+    "Does not retain history by default — the default Journal is not durable, so a recorded signal is gone after a restart unless you choose a durable adapter.",
+    "Does not make telemetry tamper-evident — Signal IDs and trace context are correlation metadata, not an audit identity; durable tamper-evident audit needs a storage layer you operate."
+  ],
   ecosystem_deps: [],
   key_features: [
     "CloudEvents v1.0.2 compliant message envelope",

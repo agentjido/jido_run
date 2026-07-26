@@ -26,6 +26,13 @@ limitations: [
 "Tied to current Jido Observe and OpenTelemetry APIs",
 "Instrumentation defaults may evolve as tracing conventions stabilize"
 ],
+control_capabilities: [
+"OpenTelemetry bridge — maps Jido.Observe spans and events into OTel span names, attributes, and exception events for export to a collector you operate."
+],
+control_limitations: [
+"Does not make telemetry tamper-evident — exported spans are for observation, not an audit record.",
+"Experimental and not published to Hex — verify against your Jido version before relying on it in production."
+],
 ecosystem_deps: ["jido"],
 key_features: [
 "Implements Jido.Observe tracer bridge for OpenTelemetry",

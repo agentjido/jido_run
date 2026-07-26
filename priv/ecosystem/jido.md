@@ -45,6 +45,17 @@
     "Persistence adapters are limited (hibernate/thaw only, no built-in DB adapter)",
     "Distributed multi-node agent coordination requires manual setup"
   ],
+  control_capabilities: [
+    "Plugin authorization hooks — prepare_signal/2 and prepare_action/3 run before signals and actions execute, and prepare_action/3 is the fail-closed authorization point for the controlled-Agent path.",
+    "Action contract validation — Jido.Action schema-validates params before an action runs.",
+    "BEAM-native supervision — AgentServer restarts agents under OTP supervision trees with explicit error policies.",
+    "Correlated telemetry — Jido.Observe and Jido.Telemetry emit lifecycle, action, and span events for observation."
+  ],
+  control_limitations: [
+    "Does not authenticate principals — Agent, Signal, request, and trace IDs are correlation metadata, not verified identity. The host application supplies the principal and tenant.",
+    "Does not ship a built-in IAM or RBAC product — Jido supplies integration points like prepare_action/3, not authorization decisions.",
+    "Does not retain tamper-evident audit history by default — durable, replayable history needs a configured durable Signal Journal adapter and a retention policy."
+  ],
   ecosystem_deps: ["jido_action", "jido_signal"],
   landing_use_when: [
     "You need long-running, stateful agents that fit naturally into OTP supervision trees.",
