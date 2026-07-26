@@ -219,6 +219,50 @@ defmodule AgentJido.ContentAssistant.RetrievalTest do
       assert result.page_kind == :module
     end
 
+    test "resolves example rows from the site_examples collection to example routes" do
+      rows = [%{document_id: "doc-ex", text: "example snippet", score: 0.8}]
+      search_fun = fn _query, _opts -> {:ok, rows} end
+
+      document_lookup_fun = fn _rows, _repo ->
+        %{
+          "doc-ex" => %{
+            collection: "site_examples",
+            source_id: "examples:persistence-storage-agent",
+            metadata: %{
+              "title" => "Persistence Storage Agent",
+              "id" => "persistence-storage-agent"
+            }
+          }
+        }
+      end
+
+      assert {:ok, [%Result{} = result]} =
+               Retrieval.query("persistence example",
+                 search_fun: search_fun,
+                 document_lookup_fun: document_lookup_fun,
+                 repo: :repo
+               )
+
+      assert result.url == "/examples/persistence-storage-agent"
+      assert result.source_type == :examples
+      assert result.external? == false
+    end
+
+    test "returns the matching example for a 'persistence example' query via fallback" do
+      # Backend unavailable -> the local fallback (which now indexes public
+      # examples) must still surface the matching example. This is the
+      # jido-e10-t01 acceptance condition.
+      search_fun = fn _query, _opts -> {:error, :backend_down} end
+
+      assert {:ok, results} = Retrieval.query("persistence example", search_fun: search_fun)
+
+      persistence = Enum.find(results, &(&1.url == "/examples/persistence-storage-agent"))
+
+      assert persistence != nil
+      assert persistence.title == "Persistence Storage Agent"
+      assert persistence.source_type == :examples
+    end
+
     test "reranks package overviews above deep docs for broad package-intent queries" do
       rows = [
         %{document_id: "doc-overview", text: "overview snippet", score: 0.55},

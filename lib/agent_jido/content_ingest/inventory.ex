@@ -6,6 +6,7 @@ defmodule AgentJido.ContentIngest.Inventory do
   alias AgentJido.Blog
   alias AgentJido.ContentIngest.Source
   alias AgentJido.Ecosystem
+  alias AgentJido.Examples
   alias AgentJido.Pages
 
   @managed_by "agent_jido.content_ingest.local/v1"
@@ -13,7 +14,8 @@ defmodule AgentJido.ContentIngest.Inventory do
   @doc_collections %{
     docs: {"site_docs", "AgentJido documentation pages"},
     blog: {"site_blog", "AgentJido blog posts"},
-    ecosystem: {"site_ecosystem", "AgentJido ecosystem package pages"}
+    ecosystem: {"site_ecosystem", "AgentJido ecosystem package pages"},
+    examples: {"site_examples", "AgentJido public interactive examples"}
   }
   @excluded_doc_path_prefixes ["/build", "/training"]
 
@@ -24,7 +26,7 @@ defmodule AgentJido.ContentIngest.Inventory do
 
   ## Options
 
-    * `:only` - Scope list from `[:docs, :blog, :ecosystem]`
+    * `:only` - Scope list from `[:docs, :blog, :ecosystem, :examples]`
 
   """
   @spec build(keyword()) :: [Source.t()]
@@ -35,6 +37,7 @@ defmodule AgentJido.ContentIngest.Inventory do
     |> maybe_add_docs(scopes)
     |> maybe_add_blog(scopes)
     |> maybe_add_ecosystem(scopes)
+    |> maybe_add_examples(scopes)
   end
 
   @doc """
@@ -59,6 +62,10 @@ defmodule AgentJido.ContentIngest.Inventory do
 
   defp maybe_add_ecosystem(acc, scopes) do
     if :ecosystem in scopes, do: acc ++ build_ecosystem(), else: acc
+  end
+
+  defp maybe_add_examples(acc, scopes) do
+    if :examples in scopes, do: acc ++ build_examples(), else: acc
   end
 
   defp build_docs do
@@ -194,6 +201,58 @@ defmodule AgentJido.ContentIngest.Inventory do
             pkg.description,
             package_url,
             Enum.join(pkg.key_features || [], "\n"),
+            body_text
+          ]),
+        metadata: metadata
+      }
+    end
+  end
+
+  defp build_examples do
+    {collection, description} = @doc_collections.examples
+
+    for example <- Examples.all_examples() do
+      body_text = html_to_text(example.body)
+      example_url = "/examples/#{example.slug}"
+
+      metadata =
+        %{
+          "managed_by" => @managed_by,
+          "source_type" => "examples",
+          "id" => example.slug,
+          "slug" => example.slug,
+          "title" => example.title,
+          "description" => example.description,
+          "url" => example_url,
+          "source_path" => example.source_path,
+          "category" => to_string(example.category),
+          "tags" => Enum.map(example.tags || [], &to_string/1),
+          "packages" => Enum.map(List.wrap(example.packages), &to_string/1),
+          "outcome" => example.outcome
+        }
+        |> with_content_hash(
+          hash_payload([
+            example.slug,
+            example.title,
+            example.description,
+            example_url,
+            example.outcome,
+            example.tags,
+            body_text
+          ])
+        )
+
+      %Source{
+        source_id: "examples:#{example.slug}",
+        collection: collection,
+        collection_description: description,
+        text:
+          compose_text([
+            example.title,
+            example.description,
+            example_url,
+            example.outcome,
+            Enum.join(example.tags || [], " "),
             body_text
           ]),
         metadata: metadata

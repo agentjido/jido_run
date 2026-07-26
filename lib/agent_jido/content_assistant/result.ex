@@ -20,7 +20,7 @@ defmodule AgentJido.ContentAssistant.Result do
     :secondary_url
   ]
 
-  @type source_type :: :docs | :blog | :ecosystem | :ecosystem_docs
+  @type source_type :: :docs | :blog | :ecosystem | :ecosystem_docs | :examples
 
   @type t :: %__MODULE__{
           title: String.t(),

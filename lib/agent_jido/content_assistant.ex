@@ -348,6 +348,7 @@ defmodule AgentJido.ContentAssistant do
   defp source_label(:blog), do: "Blog"
   defp source_label(:ecosystem), do: "Ecosystem"
   defp source_label(:ecosystem_docs), do: "HexDocs"
+  defp source_label(:examples), do: "Example"
   defp source_label(_), do: "Content"
 
   defp normalize_optional_href(nil), do: nil

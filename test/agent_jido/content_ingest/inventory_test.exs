@@ -5,6 +5,7 @@ defmodule AgentJido.ContentIngest.InventoryTest do
   alias AgentJido.ContentIngest.Inventory
   alias AgentJido.ContentIngest.Source
   alias AgentJido.Ecosystem
+  alias AgentJido.Examples
   alias AgentJido.Pages
 
   describe "build/1" do
@@ -15,7 +16,8 @@ defmodule AgentJido.ContentIngest.InventoryTest do
       expected_count =
         length(docs_pages) +
           length(Blog.all_posts()) +
-          length(Ecosystem.public_packages())
+          length(Ecosystem.public_packages()) +
+          length(Examples.all_examples())
 
       assert length(sources) == expected_count
       assert Enum.all?(sources, &match?(%Source{}, &1))
@@ -53,6 +55,25 @@ defmodule AgentJido.ContentIngest.InventoryTest do
 
       refute Enum.any?(sources, &String.starts_with?(&1.source_id, "docs:/build"))
       refute Enum.any?(sources, &String.starts_with?(&1.source_id, "docs:/training"))
+    end
+
+    test "supports examples-only scope with one source per public example" do
+      sources = Inventory.build(only: [:examples])
+
+      assert length(sources) == length(Examples.all_examples())
+
+      assert Enum.all?(sources, fn source ->
+               String.starts_with?(source.source_id, "examples:") and
+                 source.collection == "site_examples"
+             end)
+
+      persistence = Enum.find(sources, &(&1.source_id == "examples:persistence-storage-agent"))
+      assert persistence != nil
+      assert persistence.metadata["title"] == "Persistence Storage Agent"
+      assert persistence.metadata["url"] == "/examples/persistence-storage-agent"
+      assert persistence.metadata["source_type"] == "examples"
+
+      assert persistence.text =~ "/examples/persistence-storage-agent"
     end
   end
 

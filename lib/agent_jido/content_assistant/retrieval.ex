@@ -9,13 +9,14 @@ defmodule AgentJido.ContentAssistant.Retrieval do
   alias AgentJido.ContentAssistant.Result
   alias AgentJido.ContentAssistant.URL
   alias AgentJido.Ecosystem
+  alias AgentJido.Examples
   alias AgentJido.Pages
   alias Arcana.Collection
   alias Arcana.Document
 
   @default_limit 10
   @default_mode :hybrid
-  @collections ["site_docs", "site_blog", "site_ecosystem", "site_ecosystem_docs"]
+  @collections ["site_docs", "site_blog", "site_ecosystem", "site_ecosystem_docs", "site_examples"]
   @snippet_max_length 320
   @disabled_route_prefixes ["/training", "/search"]
   @broad_package_phrases [
@@ -29,6 +30,7 @@ defmodule AgentJido.ContentAssistant.Retrieval do
     "difference between",
     "overview"
   ]
+  @example_intent_terms ["example", "examples", "demo", "walkthrough", "sample"]
   @api_intent_terms [
     "module",
     "function",
@@ -219,20 +221,22 @@ defmodule AgentJido.ContentAssistant.Retrieval do
 
   defp safe_fallback_search(fallback_fun, query, limit) do
     fallback_fun.(query, limit: limit)
-    |> normalize_fallback_results(limit)
+    |> normalize_fallback_results()
   rescue
     _ -> []
   catch
     _, _ -> []
   end
 
-  defp normalize_fallback_results(results, limit) when is_list(results) do
-    results
-    |> Enum.filter(&match?(%Result{}, &1))
-    |> Enum.take(limit)
+  # Filters the fallback function's output to valid results without truncating.
+  # `fallback_response` reranks (intent boosts can reorder results) and then
+  # applies the result limit, so truncating here by raw lexical score would
+  # drop low-raw-score-but-high-intent matches before reranking.
+  defp normalize_fallback_results(results) when is_list(results) do
+    Enum.filter(results, &match?(%Result{}, &1))
   end
 
-  defp normalize_fallback_results(_results, _limit), do: []
+  defp normalize_fallback_results(_results), do: []
 
   defp maybe_put_graph_opt(search_opts, retrieval_opts)
        when is_list(search_opts) and is_list(retrieval_opts) do
@@ -245,8 +249,7 @@ defmodule AgentJido.ContentAssistant.Retrieval do
 
   defp maybe_put_graph_opt(search_opts, _retrieval_opts), do: search_opts
 
-  defp local_fallback_query(query, opts) do
-    limit = normalize_limit(Keyword.get(opts, :limit, @default_limit))
+  defp local_fallback_query(query, _opts) do
     terms = tokenize_query(query)
 
     if terms == [] do
@@ -267,10 +270,19 @@ defmodule AgentJido.ContentAssistant.Retrieval do
         Ecosystem.public_packages()
         |> Enum.map(&build_ecosystem_fallback_result(&1, terms, query_downcase))
 
-      (page_results ++ blog_results ++ ecosystem_results)
+      example_results =
+        Examples.all_examples()
+        |> Enum.map(&build_example_fallback_result(&1, terms, query_downcase))
+
+      # Return every scored, non-disabled candidate. The caller
+      # (`fallback_response`) reranks (intent boosts can reorder results) and
+      # then applies the result limit, so truncating here by raw lexical score
+      # would cut low-raw-score-but-high-intent matches (e.g. an example for an
+      # "<topic> example" query) before reranking ever sees them.
+      (page_results ++ blog_results ++ ecosystem_results ++ example_results)
       |> Enum.reject(&is_nil/1)
       |> Enum.sort_by(&(&1.score || 0.0), :desc)
-      |> filter_disabled_results(limit)
+      |> Enum.reject(&disabled_result?/1)
     end
   end
 
@@ -370,6 +382,42 @@ defmodule AgentJido.ContentAssistant.Retrieval do
         snippet: snippet_for(snippet_source, query_downcase),
         url: URL.normalize_href("/ecosystem/#{package.id}") || "/",
         source_type: :ecosystem,
+        score: score
+      }
+    end
+  end
+
+  defp build_example_fallback_result(example, terms, query_downcase) do
+    title = normalize_string(example.title) || default_title(:examples)
+    description = normalize_string(example.description)
+    outcome = normalize_string(example.outcome)
+    body_text = strip_html(example.body)
+    tags = Enum.join(example.tags || [], " ")
+    packages = Enum.join(List.wrap(example.packages), " ")
+
+    # Rank examples on their identity + curated topic fields (title, slug,
+    # tags, description, outcome, packages). The rendered body is prose and
+    # source code where the word "example" is ubiquitous; scoring against it
+    # lets a generic term drown out the discriminating topic term (the slug),
+    # so a "<topic> example" query ranks the wrong example. The body still
+    # feeds the snippet below.
+    searchable_text =
+      join_searchable_text([example.slug, tags, description, outcome, packages])
+
+    score = lexical_score(title, searchable_text, terms, query_downcase)
+
+    if score > 0 do
+      snippet_source =
+        case description do
+          nil -> join_searchable_text([outcome, body_text])
+          description_text -> description_text <> " " <> join_searchable_text([outcome, body_text])
+        end
+
+      %Result{
+        title: title,
+        snippet: snippet_for(snippet_source, query_downcase),
+        url: URL.normalize_href("/examples/#{example.slug}") || "/",
+        source_type: :examples,
         score: score
       }
     end
@@ -580,6 +628,7 @@ defmodule AgentJido.ContentAssistant.Retrieval do
       "site_blog" -> :blog
       "site_ecosystem" -> :ecosystem
       "site_ecosystem_docs" -> :ecosystem_docs
+      "site_examples" -> :examples
       _ -> resolve_source_type_from_metadata(metadata)
     end
   end
@@ -591,6 +640,7 @@ defmodule AgentJido.ContentAssistant.Retrieval do
       "blog" -> :blog
       "ecosystem" -> :ecosystem
       "ecosystem_docs" -> :ecosystem_docs
+      "examples" -> :examples
       _ -> :docs
     end
   end
@@ -600,6 +650,7 @@ defmodule AgentJido.ContentAssistant.Retrieval do
       "site_docs" -> normalize_internal_url(string_value(metadata, :path)) || docs_route_from_source_id(source_id)
       "site_blog" -> route_from_collection_id(metadata, source_id, "blog:", "/blog/")
       "site_ecosystem" -> route_from_collection_id(metadata, source_id, "ecosystem:", "/ecosystem/")
+      "site_examples" -> route_from_collection_id(metadata, source_id, "examples:", "/examples/")
       _other -> nil
     end
   end
@@ -732,6 +783,7 @@ defmodule AgentJido.ContentAssistant.Retrieval do
   defp default_title(:blog), do: "Blog"
   defp default_title(:ecosystem), do: "Ecosystem"
   defp default_title(:ecosystem_docs), do: "HexDocs"
+  defp default_title(:examples), do: "Example"
 
   defp normalize_collection(value) when is_binary(value), do: String.trim(value)
   defp normalize_collection(value) when is_atom(value), do: Atom.to_string(value)
@@ -793,12 +845,14 @@ defmodule AgentJido.ContentAssistant.Retrieval do
   defp rerank_results(results, query) when is_list(results) and is_binary(query) do
     broad_package_query? = broad_package_query?(query)
     api_style_query? = api_style_query?(query) and not broad_package_query?
+    example_intent_query? = example_intent_query?(query)
 
     results
     |> Enum.with_index()
     |> Enum.sort_by(fn {%Result{} = result, index} ->
       {
-        -(score_value(result.score) + ranking_bonus(result, broad_package_query?, api_style_query?)),
+        -(score_value(result.score) +
+            ranking_bonus(result, broad_package_query?, api_style_query?, example_intent_query?)),
         index
       }
     end)
@@ -807,12 +861,30 @@ defmodule AgentJido.ContentAssistant.Retrieval do
 
   defp rerank_results(results, _query), do: results
 
-  defp ranking_bonus(%Result{source_type: :ecosystem}, true, _api_style_query?), do: 25.0
-  defp ranking_bonus(%Result{source_type: :ecosystem_docs}, true, _api_style_query?), do: -5.0
-  defp ranking_bonus(%Result{source_type: :ecosystem_docs}, _broad_package_query?, true), do: 25.0
-  defp ranking_bonus(%Result{source_type: :ecosystem}, _broad_package_query?, true), do: -5.0
-  defp ranking_bonus(%Result{source_type: :docs}, _broad_package_query?, true), do: 2.0
-  defp ranking_bonus(_result, _broad_package_query?, _api_style_query?), do: 0.0
+  defp ranking_bonus(%Result{source_type: :ecosystem}, true, _api_style_query?, _example_intent?),
+    do: 25.0
+
+  defp ranking_bonus(%Result{source_type: :ecosystem_docs}, true, _api_style_query?, _example_intent?),
+    do: -5.0
+
+  defp ranking_bonus(%Result{source_type: :ecosystem_docs}, _broad_package_query?, true, _example_intent?),
+    do: 25.0
+
+  defp ranking_bonus(%Result{source_type: :ecosystem}, _broad_package_query?, true, _example_intent?),
+    do: -5.0
+
+  defp ranking_bonus(%Result{source_type: :docs}, _broad_package_query?, true, _example_intent?),
+    do: 2.0
+
+  # Example-intent queries ("persistence example", "auth demo") should surface
+  # examples above generic docs/blog matches. The boost is sized to lift an
+  # example that matches the topic (high lexical score) above docs/blog pages
+  # without promoting weakly-matching examples that only share the generic word
+  # "example".
+  defp ranking_bonus(%Result{source_type: :examples}, _broad_package_query?, _api_style_query?, true),
+    do: 20.0
+
+  defp ranking_bonus(_result, _broad_package_query?, _api_style_query?, _example_intent?), do: 0.0
 
   defp broad_package_query?(query) when is_binary(query) do
     query_downcase = String.downcase(String.trim(query))
@@ -820,6 +892,13 @@ defmodule AgentJido.ContentAssistant.Retrieval do
   end
 
   defp broad_package_query?(_query), do: false
+
+  defp example_intent_query?(query) when is_binary(query) do
+    query_downcase = String.downcase(String.trim(query))
+    Enum.any?(@example_intent_terms, &String.contains?(query_downcase, &1))
+  end
+
+  defp example_intent_query?(_query), do: false
 
   defp api_style_query?(query) when is_binary(query) do
     query_downcase = String.downcase(String.trim(query))
