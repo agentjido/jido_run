@@ -25,6 +25,13 @@ defmodule AgentJido.Demos.CorrelatedTelemetryTest do
     [:agent_jido, :correlated_telemetry, :observe, :stop]
   ]
 
+  # The five observation layers as the :telemetry start/stop events a real Jido
+  # stack (and a jido_otel exporter) emits for one unit of work. Built from the
+  # demo's canonical layer prefixes so the test and the demo cannot drift.
+  @joined_events Enum.flat_map(CorrelatedTelemetry.layers(), fn {_name, prefix} ->
+                   [prefix ++ [:start], prefix ++ [:stop]]
+                 end)
+
   setup do
     # This test toggles the observability redaction config and the process
     # trace context, so it cannot run concurrently with other redaction tests.
@@ -96,6 +103,45 @@ defmodule AgentJido.Demos.CorrelatedTelemetryTest do
     assert observed == @secret
   end
 
+  # Acceptance (jido-e07-t47): "A trace joins Agent, Signal, Action, tool, and
+  # external-effect work." One unit of work flows through all five observation
+  # layers as a single correlated trace every layer's span shares.
+  test "one trace joins Agent, Signal, Action, tool, and external-effect work" do
+    handler_id = attach_events(@joined_events)
+
+    on_exit(fn ->
+      :telemetry.detach(handler_id)
+      Jido.Tracing.Context.clear()
+    end)
+
+    {:ok, %{trace_id: trace_id, layers: layers}} =
+      CorrelatedTelemetry.joined_trace("agent-7", traced_signal())
+
+    events = drain_telemetry([])
+
+    prefix_of = fn {:telemetry, event, _meas, _meta} -> Enum.drop(event, -1) end
+    expected_prefixes = Enum.map(CorrelatedTelemetry.layers(), fn {_name, prefix} -> prefix end)
+
+    # The run names every layer it joins.
+    assert layers == [:agent, :signal, :action, :tool, :effect]
+
+    # Each layer emitted exactly one span, nested as one tree: starts fire
+    # outermost-first (the agent owns the work), stops fire innermost-first
+    # (the external effect is deepest).
+    assert Enum.map(events, prefix_of) == expected_prefixes ++ Enum.reverse(expected_prefixes)
+
+    # The join: every layer's start AND stop span carries the one trace id
+    # seeded from the incoming Signal, plus its parent span and causing signal —
+    # so an operator (or a jido_otel exporter attached to these same events)
+    # follows one unit of work across all five layers.
+    for {:telemetry, _event, _meas, meta} <- events do
+      assert meta.jido_trace_id == trace_id
+      assert is_binary(meta.jido_trace_id) and meta.jido_trace_id != ""
+      assert meta.jido_parent_span_id != nil
+      assert meta.jido_causation_id != nil
+    end
+  end
+
   # --- helpers ---
 
   # A signal carrying a child trace, as Signal processing would propagate one:
@@ -116,12 +162,14 @@ defmodule AgentJido.Demos.CorrelatedTelemetryTest do
     Application.put_env(:jido, :observability, redact_sensitive: bool)
   end
 
-  defp attach_telemetry do
+  defp attach_telemetry, do: attach_events(@events)
+
+  defp attach_events(events) do
     handler_id = "correlated-telemetry-#{System.unique_integer([:positive])}"
 
     :telemetry.attach_many(
       handler_id,
-      @events,
+      events,
       fn event, measurements, metadata, _config ->
         send(self(), {:telemetry, event, measurements, metadata})
       end,

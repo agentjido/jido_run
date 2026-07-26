@@ -185,7 +185,7 @@ recovery.*
 | 4 | **Actions** | `Jido.Action` | state schema and deterministic transitions | `ApproveAction` |
 | 5 | **Effects** | typed Actions (pure or effectful) + AI tool/effect/quota policies | tool/effect implementations, allowlists, cost budgets | focused demos `AiToolAllowlist`, `QuotaControlAgent`; `jido-e07-t36`, `jido-e07-t38` |
 | 6 | **Journal** | durable Signal Journal adapter | adapter choice, retention, access, deletion | focused demo `DurableSignalJournal`; `jido-e07-t45` |
-| 7 | **Telemetry** | `Jido.Observe` (+ optional `jido_otel`) | capture, **redaction**, correlated-span export | focused demos `CorrelatedTelemetry`, `RedactedAction`; `jido-e07-t47`, `jido-e07-t48` |
+| 7 | **Telemetry** | `Jido.Observe` (+ optional `jido_otel`) | capture, **redaction**, correlated-span export | `CorrelatedTelemetry.joined_trace/2` joins Agent → Signal → Action → tool → external-effect work into one trace through `Jido.Observe` (`jido-e07-t47`, see [Correlated telemetry](#correlated-telemetry-jido-e07-t47)); `RedactedAction` for redaction (`jido-e07-t48`) |
 | 8 | **Approval** | an Action that gates one high-impact effect | the human-approval boundary (who approves, how long it holds) | focused demo `ApprovalBoundaryAgent`; sibling task |
 | 9 | **Recovery** | `AgentServer` under OTP supervision + persistence | restart strategy/intensity; state store; idempotency | `ControlledAgent.Supervisor` + `controlled_agent_persistence_test.exs`; the four recovery boundaries above |
 
@@ -206,6 +206,34 @@ garden the Actions and effects behind allowlists and quotas → keep causal
 history in a durable Journal → join correlated, redacted telemetry → gate the
 one high-impact effect behind human approval → recover supervised state across a
 restart, with Journal history and telemetry surviving alongside it.
+
+### Correlated telemetry (`jido-e07-t47`)
+
+Element 7's join — *a trace joins Agent, Signal, Action, tool, and
+external-effect work* — is proven by
+`AgentJido.Demos.CorrelatedTelemetry.joined_trace/2`. It runs one unit of work
+as five nested `Jido.Observe` spans, one per layer, seeded from the incoming
+Signal's trace context (`Jido.Tracing.Context.ensure_from_signal/1`) exactly as
+Signal processing seeds it. Every span carries the same `jido_trace_id` (plus
+`jido_span_id`, `jido_parent_span_id`, `jido_causation_id`), so a `:telemetry`
+handler — or a `jido_otel` exporter attached to these same events — follows one
+unit of work from the agent that owns it through the signal, action, and tool to
+the external effect.
+
+| Layer | Canonical event prefix |
+|---|---|
+| Agent | `[:jido, :agent, :cmd]` |
+| Signal | `[:jido, :agent_server, :signal]` |
+| Action | `[:jido, :agent, :action, :run]` |
+| Tool | `[:jido, :ai, :tool, :execute]` |
+| External effect | `[:jido, :ai, :llm]` |
+
+The correlation across layers is proven today through `Jido.Observe`; exporting
+those same events to a live OpenTelemetry collector via `jido_otel` remains open
+and depends on a deployed reference app (the supported surface is already in
+place — an exporter attaches to the events above). `correlated_telemetry_test.exs`
+locks the acceptance: every layer's span shares one trace id and the spans nest
+as one tree.
 
 ### What stays outside Jido
 

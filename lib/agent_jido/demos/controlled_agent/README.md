@@ -29,7 +29,7 @@ rather than spawning a second one.
 | 4 | Actions | `Jido.Action` | `ApproveAction` advances the counter | — |
 | 5 | Effects | typed Actions + AI tool/effect/quota policies | (designed; not wired here) | focused demos `AiToolAllowlist`, `QuotaControlAgent` |
 | 6 | Journal | durable Signal Journal adapter | (designed; not wired here) | focused demo `DurableSignalJournal`; `jido-e07-t45` |
-| 7 | Telemetry | `Jido.Observe` (+ `jido_otel`) | Signals carry correlation IDs | focused demos `CorrelatedTelemetry`, `RedactedAction` |
+| 7 | Telemetry | `Jido.Observe` (+ `jido_otel`) | Signals carry correlation IDs; `CorrelatedTelemetry.joined_trace/2` joins Agent → Signal → Action → tool → external-effect work into one trace (`jido-e07-t47`) | focused demos `CorrelatedTelemetry`, `RedactedAction` |
 | 8 | Approval | an Action that gates a high-impact effect | (designed; not wired here) | focused demo `ApprovalBoundaryAgent` |
 | 9 | Recovery | `AgentServer` under OTP supervision + persistence | `Supervisor` restarts the process; state recovers via hibernate/thaw | the four recovery boundaries in the long-running spec |
 
