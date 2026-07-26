@@ -245,6 +245,34 @@ defmodule AgentJidoWeb.JidoEcosystemPackageLiveTest do
              "authenticated principal identity"
   end
 
+  # Direct expression of the E09-T43 contract: the jido package page documents
+  # Jido Plugin hooks as the integration points for authorization, and states
+  # explicitly that Jido does not supply a full authorization system. The two
+  # released hooks — prepare_signal/2 before a signal routes, prepare_action/3
+  # before an action runs (fail-closed) — are the extension points; the
+  # authorization *decision* stays with the host application. Mirrors the
+  # canonical framing on the Security and governance guide and the
+  # controlled-Agent example.
+  test "documents plugin hooks as authorization integration points, not a full authorization system (jido-e09-t43)", %{conn: conn} do
+    {:ok, _view, html} = live(conn, "/ecosystem/jido")
+
+    # Positive: the page names the plugin hooks as the authorization integration
+    # points, naming both released hooks.
+    assert html =~ "Authorization integration points",
+           "the jido package page must document plugin hooks as the integration points for authorization"
+    assert html =~ "prepare_signal/2",
+           "the jido package page must name prepare_signal/2 as an authorization integration point"
+    assert html =~ "prepare_action/3",
+           "the jido package page must name prepare_action/3 as an authorization integration point"
+
+    # Boundary: the page must not claim Jido supplies a full authorization
+    # system; it states the boundary explicitly.
+    assert html =~ "Does not supply a full authorization system",
+           "the jido package page must state it does not supply a full authorization system"
+    assert html =~ "not a built-in IAM or RBAC product",
+           "the jido package page must state it is not a built-in IAM or RBAC product"
+  end
+
   test "states the control surface is not documented when neither field is set (jido-e09-t41)", %{conn: conn} do
     # jido_chat has no documented control surface, so the page must be explicit
     # about the gap rather than silent.
