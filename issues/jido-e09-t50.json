@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-26T10:23:58Z",
   "created": "2026-07-23T12:06:39Z",
   "description": "Backlog task: E09-T50\n\nWork area: Operational-control stack and boundaries\n\nMain targets: Compatibility CI\n\nComplete when: The documented versions install and run the integrated example together.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e09-t50",
@@ -23,7 +24,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E09-T50 — Test the controlled-Agent dependency set as one supported combination.",
   "type": "task",
   "updated_at": "2026-07-26T10:23:58Z"
