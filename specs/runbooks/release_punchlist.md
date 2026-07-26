@@ -1,6 +1,6 @@
 # Website Release Punchlist
 
-Last updated: 2026-02-20
+Last updated: 2026-07-26
 
 ## Purpose
 
@@ -40,6 +40,44 @@ All items must be green before release:
 5. SEO/share baseline:
 - OG routes return images for top pages.
 - `sitemap.xml` and `feed` endpoints render.
+
+6. Operational-control copy review:
+- Every control page answers the four control questions, holds the claim limits, and resolves proof links (see [Operational-Control Copy Review](#operational-control-copy-review-jido-e12-t45) below).
+
+## Operational-Control Copy Review (`jido-e12-t45`)
+
+A reviewer runs this copy review before every release that touches operational-control
+messaging. It is release hard gate 6 above. The reviewer must confirm three things on
+every high-level page that uses `production`, `control`, `identity`, `audit`,
+`observable`, or `reliable` language:
+
+1. **The four control questions are answered.** Each such page must preserve all four
+   questions Jido answers for every piece of agent work — **Who initiated work**,
+   **What was allowed**, **What happened**, and **How failure was handled** — and link
+   each question to its proof surface. A page that drops a question fails the review.
+
+2. **Claim limits hold.** Copy must stay inside the bounded meanings in
+   `specs/positioning.md` (§13 Claim Discipline → Claim boundaries). The six bounded
+   terms — **identity**, **authorization**, **audit**, **observability**, **policy**,
+   and **production** — each have one safe current meaning; copy must not imply more (do
+   not imply authentication/IAM from identity, a complete RBAC/ABAC product from
+   authorization, tamper evidence or retention from audit, durable audit evidence from
+   observability, central administration across packages from policy, or no
+   downtime/complete safety from production). Restricted, proof-required, and
+   definition-required language is held to the Claim policy and proof levels in the same
+   section.
+
+3. **Proof links resolve.** Every control claim links to its evidence: the Control Proof
+   Fields in `specs/proof.md` (control point, configuration, test, limitation, owner,
+   version, validation date) and the runnable proof — the controlled-Agent example proves
+   the complete control path end to end. A claim whose version basis depends on an
+   unreleased or unsupported package fails this review (`jido-e12-t44`); a control claim
+   with a broken or missing proof link fails this review.
+
+The reviewer records the result in the Sign-Off Record (reviewer, date, and any accepted
+residual risk). This review complements the automated content gates below — it is the
+human check that the copy reads as bounded control, not as compliance or safety it
+cannot back.
 
 ## Execution Order (Homepage Down)
 
