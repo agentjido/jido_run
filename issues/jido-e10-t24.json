@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-26T13:30:02Z",
   "created": "2026-07-23T12:07:03Z",
   "description": "Backlog task: E10-T24\n\nWork area: Sitemap and Skills\n\nMain targets: Skills UI\n\nComplete when: A user can choose a skill without opening all files.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e10-t24",
@@ -22,7 +23,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E10-T24 — Give each Skill card a package, task, maturity note, and source.",
   "type": "task",
   "updated_at": "2026-07-26T13:30:02Z"
