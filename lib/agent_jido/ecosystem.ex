@@ -22,6 +22,12 @@ defmodule AgentJido.Ecosystem do
     as: :packages,
     highlighters: [:makeup_elixir]
 
+  # Date the registry corpus (priv/ecosystem/*.md) was last reconciled against
+  # upstream Hex releases. Used as the per-package `last_synced` fallback so
+  # registry freshness is visible on every package page even before a package
+  # carries its own explicit sync date. Bump this when the corpus is re-synced.
+  @registry_last_synced "2026-07-26"
+
   @packages Enum.sort_by(@packages, fn p -> {p.tier, p.category, p.name} end)
 
   @public_packages Enum.filter(@packages, &(&1.visibility == :public))
@@ -134,4 +140,13 @@ defmodule AgentJido.Ecosystem do
 
   @spec package_count() :: non_neg_integer()
   def package_count, do: length(@packages)
+
+  @doc """
+  ISO date (YYYY-MM-DD) the registry corpus was last reconciled.
+
+  Serves as the per-package `last_synced` fallback on package pages so registry
+  freshness is visible even for packages without an explicit sync date.
+  """
+  @spec registry_last_synced() :: String.t()
+  def registry_last_synced, do: @registry_last_synced
 end

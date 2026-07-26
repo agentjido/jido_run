@@ -78,6 +78,28 @@ defmodule AgentJidoWeb.JidoEcosystemPackageLiveTest do
     refute html =~ "Add to mix.exs"
   end
 
+  test "renders registry freshness — tested version and last-sync date (jido-e09-t18)", %{conn: conn} do
+    {:ok, _view, html} = live(conn, "/ecosystem/jido")
+
+    # Tested version is visible and falls back to the package version when not
+    # set in frontmatter (jido's registry version is enforced to the installed
+    # release by the version-freshness gate).
+    assert html =~ "tested 2.3.2"
+
+    # Last-sync date is visible and well-formed, falling back to the
+    # registry-wide reconciliation date.
+    assert html =~ ~r/synced \d{4}-\d{2}-\d{2}/
+    assert html =~ "synced #{AgentJido.Ecosystem.registry_last_synced()}"
+  end
+
+  test "renders registry freshness for packages without curated metadata", %{conn: conn} do
+    {:ok, _view, html} = live(conn, "/ecosystem/jido_chat")
+
+    # Freshness is visible on every package page, not just curated ones.
+    assert html =~ ~r/tested \S/
+    assert html =~ ~r/synced \d{4}-\d{2}-\d{2}/
+  end
+
   test "renders curated seo metadata and structured data for package pages", %{conn: conn} do
     html =
       conn

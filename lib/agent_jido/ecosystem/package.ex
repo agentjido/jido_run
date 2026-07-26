@@ -140,6 +140,12 @@ defmodule AgentJido.Ecosystem.Package do
               hex_status:
                 Zoi.string(description: "Hex.pm publication status (published version or unreleased)")
                 |> Zoi.default("unreleased"),
+              tested_version:
+                Zoi.string(description: "Version this package's registry entry was validated/tested against (falls back to version)")
+                |> Zoi.default(""),
+              last_synced:
+                Zoi.string(description: "ISO date (YYYY-MM-DD) this package's registry entry was last synced/validated")
+                |> Zoi.default(""),
               api_stability:
                 Zoi.string(description: "API stability expectations")
                 |> Zoi.default("not yet defined"),

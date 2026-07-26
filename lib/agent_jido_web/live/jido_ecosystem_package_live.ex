@@ -38,6 +38,8 @@ defmodule AgentJidoWeb.JidoEcosystemPackageLive do
        markdown_action: MarkdownLinks.markdown_action(package, MarkdownLinks.absolute_url("/ecosystem/#{package.id}")),
        hero_summary: package_hero_summary,
        support_level: support_level,
+       tested_version: package_tested_version(package),
+       last_synced: package_last_synced(package),
        use_when: landing_use_when(package),
        not_for: landing_not_for(package),
        resource_groups: resource_groups(package),
@@ -75,6 +77,12 @@ defmodule AgentJidoWeb.JidoEcosystemPackageLive do
             </span>
             <span class="text-[11px] uppercase tracking-wide text-muted-foreground">
               hex {@package.hex_status}
+            </span>
+            <span class="text-[11px] uppercase tracking-wide text-muted-foreground">
+              tested {@tested_version}
+            </span>
+            <span class="text-[11px] uppercase tracking-wide text-muted-foreground">
+              synced {@last_synced}
             </span>
             <span class="text-[11px] uppercase tracking-wide text-muted-foreground">
               package {@package.name}
@@ -356,6 +364,27 @@ defmodule AgentJidoWeb.JidoEcosystemPackageLive do
       normalize_text(pkg.tagline)
     else
       summary
+    end
+  end
+
+  # The version this package's registry entry was validated against. Falls back
+  # to the package `version` (kept in sync with the installed release for
+  # dependency packages by the version-freshness gate) so every package page
+  # surfaces a tested version.
+  defp package_tested_version(pkg) do
+    case normalize_optional_text(pkg.tested_version) do
+      nil -> pkg.version
+      version -> version
+    end
+  end
+
+  # The date this package's registry entry was last synced. Falls back to the
+  # registry-wide reconciliation date so freshness is visible on every page
+  # before per-package sync dates are populated.
+  defp package_last_synced(pkg) do
+    case normalize_optional_text(pkg.last_synced) do
+      nil -> Ecosystem.registry_last_synced()
+      date -> date
     end
   end
 
