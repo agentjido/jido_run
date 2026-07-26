@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-26T20:30:44Z",
   "created": "2026-07-23T12:08:27Z",
   "description": "Backlog task: E12-T46\n\nWork area: Operational-control quality gates\n\nMain targets: Analytics\n\nComplete when: The team can see which control claims start evaluation.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e12-t46",
@@ -19,7 +20,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E12-T46 — Measure visits from the home control message to proof.",
   "type": "task",
   "updated_at": "2026-07-26T20:30:44Z"
