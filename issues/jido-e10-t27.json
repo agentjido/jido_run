@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-26T15:00:35Z",
   "created": "2026-07-23T12:07:06Z",
   "description": "Backlog task: E10-T27\n\nWork area: Operational-control delivery\n\nMain targets: Search aliases and indexed fields\n\nComplete when: Each term returns the canonical guide, example, and related package.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e10-t27",
@@ -23,8 +24,8 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E10-T27 — Add identity context, authorization, audit, observability, policy, quota, approval, redaction, and controlled Agent as search terms.",
   "type": "task",
-  "updated_at": "2026-07-26T15:00:34Z"
+  "updated_at": "2026-07-26T15:00:35Z"
 }
