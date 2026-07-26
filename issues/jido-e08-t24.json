@@ -1,5 +1,5 @@
 {
-  "assignee": "",
+  "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:05:27Z",
@@ -18,8 +18,8 @@
     }
   ],
   "priority": 1,
-  "status": "open",
+  "status": "in_progress",
   "title": "E08-T24 — Publish or select one coding Agent example.",
   "type": "task",
-  "updated_at": "2026-07-24T12:51:54Z"
+  "updated_at": "2026-07-26T03:18:16Z"
 }
