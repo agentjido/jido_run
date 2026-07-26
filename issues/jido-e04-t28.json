@@ -16,11 +16,15 @@
     {
       "text": "Open: 'Why not a GenServer?' objection block is a new home section, not yet built.",
       "timestamp": "2026-07-24T12:46:30Z"
+    },
+    {
+      "text": "Accepted by the Zclaude Ralph supervisor. Commits: 66b6ba90. Verification: MIX_ENV=test mix compile \u0026\u0026 MIX_ENV=test mix format --check-formatted.",
+      "timestamp": "2026-07-26T23:15:26Z"
     }
   ],
   "priority": 2,
   "status": "in_progress",
   "title": "E04-T28 — Add an objection block for “Why not a GenServer?”",
   "type": "task",
-  "updated_at": "2026-07-26T23:10:52Z"
+  "updated_at": "2026-07-26T23:15:26Z"
 }
