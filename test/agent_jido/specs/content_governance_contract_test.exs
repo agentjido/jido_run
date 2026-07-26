@@ -35,6 +35,24 @@ defmodule AgentJido.Specs.ContentGovernanceContractTest do
     assert specs_readme =~ "canonical ST-CONT-001 publish hard gate"
   end
 
+  test "quarterly operational-control proof audit is a named cadence step (jido-e12-t49)" do
+    governance = File.read!(@governance_path)
+
+    # Acceptance: owners re-verify behavior, versions, limits, and links each
+    # quarter. The cadence must name the audit, the four dimensions, owner
+    # attribution, the validation-date trigger, and the executable queue.
+    assert governance =~ "Quarterly operational-control proof audit"
+
+    assert governance =~ "behavior"
+    assert governance =~ "versions"
+    assert governance =~ "limits"
+    assert governance =~ "links"
+
+    assert governance =~ "owner"
+    assert governance =~ "Validation date"
+    assert governance =~ "AgentJido.OperationalControlProof.audit_queue/1"
+  end
+
   test "governance contract captures publish gate criteria and review evidence" do
     governance = File.read!(@governance_path)
 

@@ -167,6 +167,7 @@ This section is the hard gate for changing content pages from draft to published
 1. **Weekly freshness triage (Monday):** Review pages changed in the prior week and create fix tickets for drift findings.
 2. **Biweekly publish window (Wednesday):** Apply the DoD checks above, then approve `draft: false` transitions for eligible pages.
 3. **Monthly full sweep (first business week):** Sample every top-nav section for route parity, proof coverage, and stale claims; feed findings into next sprint.
+4. **Quarterly operational-control proof audit (every quarter, ST-CONT-001 / jido-e12-t49):** Each operational-control claim recorded in `specs/proof.md` (Control Proof Fields) is re-verified by its **owner**. The owner confirms current **behavior** (control point + configuration), **versions** (version basis is a released, supported package), **limits** (limitation), and **links** (test references resolve), then refreshes the claim's `Validation date`. A claim whose `Validation date` drifts past the quarter (or is missing/malformed) is overdue and becomes assigned work attributed to its owner. The executable audit is `AgentJido.OperationalControlProof.audit_queue/1`; the seven-field schema and the version/test gates are enforced continuously by the jido-e12-t38 proof gate and the jido-e12-t44 release gate.
 
 ### Required references for downstream stories
 
