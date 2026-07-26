@@ -9,7 +9,11 @@ defmodule AgentJidoWeb.JidoExamplesLiveTest do
   @hidden_slug "budget-guardrail-agent"
   @visible_slug "counter-agent"
   @secondary_visible_slug "demand-tracker-agent"
-  @draft_slug "coding-assistant"
+  # coding-assistant was published as the home coding card's destination
+  # (jido-e08-t24), so it is no longer the canonical draft. workflow-coordinator
+  # stays a draft and is not in the t24-t29 use-case publish scope, which keeps
+  # this draft-fixture stable.
+  @draft_slug "workflow-coordinator"
   @pilot_live_slug "signal-routing-agent"
   @new_live_example_pages [
     {"signal-routing-agent", "Signal Routing Agent"},
@@ -53,7 +57,8 @@ defmodule AgentJidoWeb.JidoExamplesLiveTest do
     refute html =~ "Wave"
     assert html =~ "Counter Agent"
     assert html =~ "Demand Tracker Agent"
-    refute html =~ "Coding Assistant"
+    # The canonical draft (workflow-coordinator) stays hidden from public visitors.
+    refute html =~ "Workflow Coordinator"
     refute html =~ "Hide Draft Examples"
   end
 
@@ -65,7 +70,8 @@ defmodule AgentJidoWeb.JidoExamplesLiveTest do
     assert html =~ visible.title
     assert html =~ secondary_visible.title
     assert html =~ "Signal Routing Agent"
-    refute html =~ "Coding Assistant"
+    # The canonical draft (workflow-coordinator) stays hidden from public visitors.
+    refute html =~ "Workflow Coordinator"
   end
 
   test "admin users can see draft examples on /examples", %{conn: conn} do
@@ -299,15 +305,17 @@ defmodule AgentJidoWeb.JidoExamplesLiveTest do
       refute html =~ "Counter Agent"
     end
 
-    test "?use_case=coding shows an honest scoped empty state", %{conn: conn} do
+    test "?use_case=coding lists the public coding example (jido-e08-t24)", %{conn: conn} do
       {:ok, _view, html} = live(conn, "/examples?use_case=coding")
 
+      # The scoped hero names the use case.
       assert html =~ "Coding agents"
-      # No public coding example exists yet, so the scoped empty state appears.
-      assert html =~ "No public examples for Coding agents yet"
-      assert html =~ "Browse all examples"
-      # The draft coding example does not leak into the public scoped view.
-      refute html =~ "Coding Assistant"
+      # A public coding example now exists, so the scoped destination lists it.
+      assert html =~ "Coding Assistant"
+      # The scoped empty state is gone now that a coding example is public.
+      refute html =~ "No public examples for Coding agents yet"
+      # An out-of-scope example stays hidden by the use-case scope.
+      refute html =~ "Counter Agent"
     end
 
     test "an unknown use_case falls back to the unfiltered index", %{conn: conn} do

@@ -1133,11 +1133,37 @@ defmodule AgentJidoWeb.JidoExampleLiveTest do
     end
   end
 
-  describe "/examples/coding-assistant" do
-    test "is hidden from public visitors", %{conn: conn} do
-      assert_raise AgentJido.Examples.NotFoundError, fn ->
-        live(conn, "/examples/coding-assistant?tab=demo")
-      end
+  describe "/examples/coding-assistant (jido-e08-t24)" do
+    # Acceptance condition: "The home coding card has a direct destination."
+    # The coding card now routes to a real, runnable coding example.
+
+    test "is registered as a live runnable example with a real demo module" do
+      example = Examples.get_example!("coding-assistant")
+
+      assert example.status == :live
+      assert example.demo_mode == :real
+      assert example.live_view_module == "AgentJidoWeb.Examples.CodingAssistantLive"
+      # The shared simulated showcase surface is reserved for drafts; this
+      # published example runs on its own real-runtime module instead.
+      refute example.live_view_module == "AgentJidoWeb.Examples.SimulatedShowcaseLive"
+      assert Enum.map(example.sources, & &1.path) == example.source_files
+      assert Enum.all?(example.source_files, &File.exists?/1)
+    end
+
+    test "is routable for public visitors and renders its demo", %{conn: conn} do
+      {:ok, view, html} = live(conn, "/examples/coding-assistant?tab=demo")
+
+      assert html =~ "Coding Assistant"
+      refute html =~ "draft preview"
+
+      demo_view = find_live_child(view, "demo-coding-assistant")
+      demo_html = render(demo_view)
+
+      # The dedicated demo module renders the real-runtime coding workflow.
+      assert demo_html =~ "Coding Assistant Agent"
+      assert demo_html =~ "Read fixture"
+      assert demo_html =~ "Analyze code"
+      assert demo_html =~ "Propose patch"
     end
   end
 
