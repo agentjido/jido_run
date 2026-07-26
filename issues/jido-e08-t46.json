@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-26T06:29:51Z",
   "created": "2026-07-23T12:05:49Z",
   "description": "Backlog task: E08-T46\n\nWork area: Operational-control proof\n\nMain targets: High-traffic proof links\n\nComplete when: Each operational-control claim has a direct route to the integrated proof.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e08-t46",
@@ -23,7 +24,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E08-T46 — Link the controlled-Agent example from the home, Features, Docs, and Operate hubs.",
   "type": "task",
   "updated_at": "2026-07-26T06:29:51Z"
