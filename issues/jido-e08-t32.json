@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-26T05:51:36Z",
   "created": "2026-07-23T12:05:35Z",
   "description": "Backlog task: E08-T32\n\nWork area: Inventory and delivery\n\nMain targets: `specs/proof.md`\n\nComplete when: Each major claim points to at least one example.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e08-t32",
@@ -22,7 +23,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E08-T32 — Add every public example to the proof inventory.",
   "type": "task",
   "updated_at": "2026-07-26T05:51:36Z"
