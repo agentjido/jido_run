@@ -199,8 +199,11 @@ Before merging content/docs/spec changes:
    `specs/content-system.md`, and `specs/taxonomy.md` in the same PR (source
    rule; see § Enforce update coupling). Route/nav changes must not land without
    all three IA specs current.
-4. Confirm claim changes are reflected in `specs/proof.md` and the claim is at a
-   named proof level (proof rule).
+4. If the PR adds, removes, or changes any positioning or operational-control
+   claim (reliability, performance, adoption, production, or control), update
+   `specs/proof.md` in the same PR and keep the claim at a named proof level
+   (proof rule; see § Proof rules and § Enforce update coupling). Claim PRs
+   must not land without `specs/proof.md` current.
 5. Confirm style/term consistency with `specs/style-voice.md`.
 6. Confirm the page meets ST-CONT-001 Definition of Done if `draft` is changing
    to `false`, and record reviewer sign-off and date (review rule).
