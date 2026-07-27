@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-27T09:29:28Z",
   "created": "2026-07-23T12:08:10Z",
   "description": "Backlog task: E12-T29\n\nWork area: Measurement\n\nMain targets: Search analytics\n\nComplete when: Content gaps are backed by user language.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e12-t29",
@@ -22,8 +23,8 @@
     }
   ],
   "priority": 2,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E12-T29 — Measure Docs search no-results and reformulations.",
   "type": "task",
-  "updated_at": "2026-07-27T09:29:27Z"
+  "updated_at": "2026-07-27T09:29:28Z"
 }
