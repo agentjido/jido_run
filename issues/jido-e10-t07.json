@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-27T05:45:32Z",
   "created": "2026-07-23T12:06:46Z",
   "description": "Backlog task: E10-T07\n\nWork area: Search\n\nMain targets: Search UI\n\nComplete when: Users can select Docs, Examples, Ecosystem, Blog, or Skills.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e10-t07",
@@ -22,8 +23,8 @@
     }
   ],
   "priority": 2,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E10-T07 — Add search-result type filters.",
   "type": "task",
-  "updated_at": "2026-07-27T05:45:31Z"
+  "updated_at": "2026-07-27T05:45:32Z"
 }
