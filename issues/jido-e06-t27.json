@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-27T01:11:26Z",
   "created": "2026-07-23T12:04:02Z",
   "description": "Backlog task: E06-T27\n\nWork area: Hub and leaf alignment\n\nMain targets: Docs metadata and components\n\nComplete when: Every major guide has runnable proof.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e06-t27",
@@ -22,7 +23,7 @@
     }
   ],
   "priority": 2,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E06-T27 — Add related examples to each guide.",
   "type": "task",
   "updated_at": "2026-07-27T01:11:26Z"
