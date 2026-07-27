@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-27T01:17:19Z",
   "created": "2026-07-23T12:04:11Z",
   "description": "Backlog task: E06-T36\n\nWork area: Operational-control content\n\nMain targets: Observability guide\n\nComplete when: The page shows export boundaries and does not call telemetry an audit log.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e06-t36",
@@ -23,7 +24,7 @@
     }
   ],
   "priority": 2,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E06-T36 — Add OpenTelemetry and SIEM integration guidance.",
   "type": "task",
   "updated_at": "2026-07-27T01:17:19Z"
