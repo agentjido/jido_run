@@ -1,5 +1,5 @@
 {
-  "assignee": "",
+  "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:06:21Z",
@@ -18,8 +18,8 @@
     }
   ],
   "priority": 2,
-  "status": "open",
+  "status": "in_progress",
   "title": "E09-T32 — Add a README-drift review to ecosystem ingestion.",
   "type": "task",
-  "updated_at": "2026-07-24T12:52:43Z"
+  "updated_at": "2026-07-27T04:12:51Z"
 }
