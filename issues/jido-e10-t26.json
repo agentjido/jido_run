@@ -15,11 +15,15 @@
     {
       "text": "Open: 'use the router when unsure' copy not yet on the Skills hub.",
       "timestamp": "2026-07-24T12:53:36Z"
+    },
+    {
+      "text": "Accepted by the Zclaude Ralph supervisor. Commits: e63be206. Verification: MIX_ENV=test mix compile \u0026\u0026 MIX_ENV=test mix format --check-formatted.",
+      "timestamp": "2026-07-27T06:45:08Z"
     }
   ],
   "priority": 2,
   "status": "in_progress",
   "title": "E10-T26 — Add “Use the router when unsure” copy from the skills README.",
   "type": "task",
-  "updated_at": "2026-07-27T06:39:25Z"
+  "updated_at": "2026-07-27T06:45:08Z"
 }
