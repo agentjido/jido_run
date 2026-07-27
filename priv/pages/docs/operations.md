@@ -50,6 +50,8 @@ Each operational-control claim on this path resolves to one place: run the [Cont
 
 > Backup and disaster-recovery guidance is not yet published. It is tracked as a follow-up rather than linked from this page.
 
+> Kubernetes deployment guidance is not yet published. This repository ships to Fly.io — [Fly.io deployment](/docs/operations/fly-io-deployment) and [OTP release guidance](/docs/operations/otp-release) are the tested reference for how jido.run is deployed today — and a Kubernetes page will be added only when a tested reference exists, tracked against the end-to-end reference application (jido-e07-t29). It is held here on purpose rather than published as a generic, untested deployment recipe.
+
 ## Next steps
 
 - [Reference](/docs/reference) - API details, configuration options, and module specs

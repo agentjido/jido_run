@@ -1719,6 +1719,91 @@ defmodule AgentJido.PagesTest do
     end
   end
 
+  describe "operations Kubernetes guidance is held for a tested reference (jido-e07-t28)" do
+    # Acceptance: "The page is not a generic untested deployment recipe."
+    # The task is "Add Kubernetes guidance only with a tested reference," with
+    # the open comment "Kubernetes guidance requires a tested reference." This
+    # repository ships to Fly.io — there is no tested Kubernetes reference, and
+    # the end-to-end reference application (jido-e07-t29) that would supply one
+    # is itself an open task. So the gate is unmet and the honest resolution is
+    # the guard: do not publish a generic untested recipe; hold it as a follow-up
+    # pending a tested reference, exactly as backup/DR (jido-e07-t25) was held.
+    @hub_source Path.expand("../../priv/pages/docs/operations.md", __DIR__)
+    @kubernetes_route "/docs/operations/kubernetes"
+
+    test "no Kubernetes page is published, so no generic untested recipe exists" do
+      # The acceptance is a negative: there must be no generic, untested
+      # deployment recipe. With no tested reference, the page is not published.
+      assert Pages.get_page_by_path(@kubernetes_route) == nil
+
+      # No published page anywhere should expose a Kubernetes route either.
+      for page <- Pages.all_pages() do
+        refute String.contains?(String.downcase(page.path), "kubernetes"),
+               "a Kubernetes page is published: #{page.path}"
+      end
+
+      # And the operations hub must not link to a Kubernetes page.
+      hub = File.read!(@hub_source)
+      refute hub =~ ~r{\]\(#{Regex.escape(@kubernetes_route)}[)\#]}
+    end
+
+    test "the hub states Kubernetes guidance is held until a tested reference exists" do
+      hub = File.read!(@hub_source)
+
+      # The follow-up note names Kubernetes and states the hold condition
+      # explicitly, so a reader is never sent hunting for a page that does not
+      # exist.
+      assert hub =~ "Kubernetes"
+      assert hub =~ ~r/not yet published/i
+      assert hub =~ ~r/only when a tested reference exists/i
+
+      # It is held on purpose, not left dangling as an accidental gap.
+      assert hub =~ ~r/untested deployment recipe|generic.*recipe|held.*on purpose/i
+    end
+
+    test "the hub names the tested deployment reference that exists today" do
+      hub = File.read!(@hub_source)
+
+      # The Fly.io and OTP release pages are the real, tested deployment
+      # reference for this repo today; the note points at them rather than
+      # inventing a Kubernetes process.
+      assert hub =~ "/docs/operations/fly-io-deployment"
+      assert hub =~ "/docs/operations/otp-release"
+
+      # Both anchors are live, published routes — not dead links.
+      for route <- ["/docs/operations/fly-io-deployment", "/docs/operations/otp-release"] do
+        page = Pages.get_page_by_path(route)
+        assert page != nil, "hub references a route that does not resolve: #{route}"
+        assert page.draft == false, "hub references a draft page: #{route}"
+      end
+    end
+
+    test "the hub names the tracked follow-up that would supply a tested reference" do
+      hub = File.read!(@hub_source)
+
+      # The end-to-end reference application (jido-e07-t29) is the task that
+      # would make a Kubernetes page a tested reference rather than a recipe.
+      # Naming it closes the open comment instead of leaving it dangling.
+      assert hub =~ "jido-e07-t29"
+    end
+
+    test "the hub has no placeholder markers" do
+      hub = File.read!(@hub_source)
+
+      placeholder_patterns = [
+        ~r/content coming soon/i,
+        ~r/\bcoming soon\b/i,
+        ~r/\bTODO\b/,
+        ~r/\bTBD\b/,
+        ~r/lorem ipsum/i
+      ]
+
+      Enum.each(placeholder_patterns, fn pattern ->
+        refute hub =~ pattern
+      end)
+    end
+  end
+
   describe "operations retries, timeouts, and provider failure page (jido-e07-t05)" do
     # Acceptance: "It covers tool, HTTP, and model failures separately."
     @retries_source Path.expand(
