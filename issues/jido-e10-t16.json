@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-27T06:17:24Z",
   "created": "2026-07-23T12:06:55Z",
   "description": "Backlog task: E10-T16\n\nWork area: Markdown and agent delivery\n\nMain targets: Markdown renderer\n\nComplete when: Agents can assess freshness and maturity.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e10-t16",
@@ -22,7 +23,7 @@
     }
   ],
   "priority": 2,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E10-T16 — Add content type, status, version, and last-validated metadata to Markdown output.",
   "type": "task",
   "updated_at": "2026-07-27T06:17:24Z"
