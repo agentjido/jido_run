@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-27T10:29:42Z",
   "created": "2026-07-23T12:08:31Z",
   "description": "Backlog task: E12-T50\n\nWork area: Operational-control quality gates\n\nMain targets: Engineering and content process\n\nComplete when: A changed trust boundary creates a documentation and proof review.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e12-t50",
@@ -19,8 +20,8 @@
     }
   ],
   "priority": 2,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E12-T50 — Review the threat and control model after material architecture changes.",
   "type": "task",
-  "updated_at": "2026-07-27T10:29:41Z"
+  "updated_at": "2026-07-27T10:29:42Z"
 }
