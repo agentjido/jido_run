@@ -10,9 +10,9 @@ defmodule AgentJido.UpstreamSkillRouterTest do
   # tools and the public ControlMatrix).
 
   @skill_dir Path.expand(
-                "../../priv/skills/arrowcircle-jido-skills/skills/jido-skill-router",
-                __DIR__
-              )
+               "../../priv/skills/arrowcircle-jido-skills/skills/jido-skill-router",
+               __DIR__
+             )
   @skill_md Path.join(@skill_dir, "SKILL.md")
   @manifest Path.join(@skill_dir, "references/skill-manifest.yaml")
 
