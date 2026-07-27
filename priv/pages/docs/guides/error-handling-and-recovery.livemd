@@ -8,6 +8,9 @@
   last_validated: "2026-07-24",
   tested_with: %{jido: "2.3.2"},
   owner: "Mike Hostetler",
+  related_packages: [
+    %{id: "jido", role: "Error policies, instruction retry, and failure recovery"}
+  ],
   livebook: %{
     runnable: true,
     required_env_vars: [],

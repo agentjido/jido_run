@@ -74,6 +74,9 @@
                     </div>
                   </section>
 
+                  <%!-- E06-T26: package roles + maturity render next to the instructions --%>
+                  <.related_packages packages={@related_package_entries} />
+
                   <div id="docs-content" class="docs-prose prose docs-document max-w-none">
                     {raw(@selected_document.body)}
                   </div>

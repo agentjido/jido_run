@@ -8,6 +8,9 @@
   last_validated: "2026-07-24",
   tested_with: %{jido: "2.3.2"},
   owner: "Mike Hostetler",
+  related_packages: [
+    %{id: "jido", role: "Debug modes, the event buffer, and status/state inspection"}
+  ],
   livebook: %{
     runnable: true,
     required_env_vars: [],

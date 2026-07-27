@@ -142,6 +142,45 @@ defmodule AgentJidoWeb.PageLiveTest do
     end
   end
 
+  describe "guide related packages (jido-e06-t26)" do
+    # Acceptance: "Package roles and maturity appear near instructions." Each
+    # guide's related_packages render next to the instructions (above the body),
+    # with each package's role and its current maturity.
+    test "the weather-agent guide renders package roles and maturity next to the instructions",
+         %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/docs/guides/building-a-weather-agent")
+
+      # The block heading and a guide-specific role appear...
+      assert html =~ "Related packages"
+      assert html =~ "The tool-calling loop that drives the agent"
+
+      # ...each package links to its ecosystem page...
+      assert html =~ ~s(href="/ecosystem/jido")
+      assert html =~ ~s(href="/ecosystem/jido_ai")
+      assert html =~ ~s(href="/ecosystem/req_llm")
+
+      # ...and the resolved maturity renders alongside the role.
+      assert html =~ "stable"
+
+      # Placement: the related-packages block sits above the instruction body,
+      # not after it.
+      {related_pos, _} = :binary.match(html, "Related packages")
+      {body_pos, _} = :binary.match(html, ~s(id="docs-content"))
+
+      assert related_pos < body_pos,
+             "Related packages must render before the instruction body (near instructions)"
+    end
+
+    test "the debugging guide renders its single related package with maturity", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/docs/guides/debugging-and-troubleshooting")
+
+      assert html =~ "Related packages"
+      assert html =~ "Debug modes, the event buffer, and status/state inspection"
+      assert html =~ ~s(href="/ecosystem/jido")
+      assert html =~ "stable"
+    end
+  end
+
   describe "home quick start and cta sections" do
     test "renders elixir onboarding guide links", %{conn: conn} do
       {:ok, _view, html} = live(conn, "/")

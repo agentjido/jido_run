@@ -8,6 +8,10 @@
   last_validated: "2026-07-24",
   tested_with: %{jido: "2.3.2", jido_ai: "2.2.0"},
   owner: "Mike Hostetler",
+  related_packages: [
+    %{id: "jido", role: "Agent runtime, Actions, and directive execution under test"},
+    %{id: "jido_ai", role: "AI agent behavior the tests exercise end to end"}
+  ],
   livebook: %{
     runnable: true,
     required_env_vars: [],

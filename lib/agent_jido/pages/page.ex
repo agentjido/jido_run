@@ -41,6 +41,9 @@ defmodule AgentJido.Pages.Page do
   - `reading_time_minutes` - Computed reading time
   - `related_docs` - List of related document IDs
   - `related_posts` - List of related blog post IDs
+  - `related_packages` - List of `%{id, role}` maps naming the ecosystem packages a
+    guide uses and the role each plays in it; rendered near the guide's instructions
+    with each package's maturity (E06-T26)
 
   ### Training-specific (optional)
   - `track` - Training track (:foundations, :coordination, :integration, :operations)
@@ -128,6 +131,16 @@ defmodule AgentJido.Pages.Page do
               reading_time_minutes: Zoi.integer(description: "Computed reading time in minutes") |> Zoi.default(0),
               related_docs: Zoi.any(description: "List of related document IDs") |> Zoi.default([]),
               related_posts: Zoi.any(description: "List of related blog post IDs") |> Zoi.default([]),
+              # E06-T26: the ecosystem packages a guide uses and the role each
+              # plays in it. Each entry is %{id: "jido", role: "..."}; the docs
+              # shell resolves each id to its public ecosystem package so the
+              # package's role and maturity render near the guide's instructions.
+              related_packages:
+                Zoi.any(
+                  description:
+                    "List of %{id, role} maps: ecosystem package ids a guide uses and the role each plays in it (rendered near instructions with each package's maturity)"
+                )
+                |> Zoi.default([]),
               # Training-specific fields (optional)
               track:
                 Zoi.atom(description: "Training track (:foundations, :coordination, :integration, :operations)")

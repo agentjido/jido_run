@@ -452,6 +452,50 @@ defmodule AgentJidoWeb.Jido.DocsComponents do
     """
   end
 
+  # Related Packages Component (jido-e06-t26)
+  #
+  # Renders the ecosystem packages a guide uses alongside the role each plays
+  # in that guide, so a reader sees package roles and maturity next to the
+  # instructions instead of having to infer them from the install cell. Each
+  # entry is prepared by PageLive (id resolved to the public ecosystem package
+  # for its name, maturity, and link).
+  attr :packages, :list, default: []
+
+  def related_packages(assigns) do
+    ~H"""
+    <section :if={@packages != []} class="related-packages rounded-md border border-border bg-card/60 p-4">
+      <div class="mb-2.5 text-[10px] font-bold tracking-[0.1em] uppercase text-muted-foreground">
+        Related packages
+      </div>
+      <ul class="space-y-2">
+        <%= for pkg <- @packages do %>
+          <li class="flex flex-wrap items-center gap-x-2 gap-y-1 text-[12px]">
+            <.link
+              navigate={pkg.href}
+              class="font-semibold text-foreground hover:text-primary transition-colors"
+            >
+              {pkg.name}
+            </.link>
+            <span :if={pkg.maturity} class={"text-[9px] uppercase tracking-wider " <> maturity_badge_class(pkg.maturity)}>
+              {pkg.maturity}
+            </span>
+            <span class="text-muted-foreground">— {pkg.role}</span>
+          </li>
+        <% end %>
+      </ul>
+    </section>
+    """
+  end
+
+  defp maturity_badge_class(:stable), do: "bg-accent-green/15 text-accent-green"
+  defp maturity_badge_class(:beta), do: "bg-accent-yellow/15 text-accent-yellow"
+  defp maturity_badge_class(:experimental), do: "bg-muted text-muted-foreground"
+
+  defp maturity_badge_class(other) when is_binary(other),
+    do: maturity_badge_class(String.to_atom(other))
+
+  defp maturity_badge_class(_), do: "bg-muted text-muted-foreground"
+
   # Helper functions for color classes
   defp badge_class("CORE"), do: "bg-primary/15 text-primary"
   defp badge_class("AI"), do: "bg-accent-yellow/15 text-accent-yellow"

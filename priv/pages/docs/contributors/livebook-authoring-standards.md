@@ -26,6 +26,7 @@ Use this page as the canonical standard when writing or reviewing `.livemd` tuto
 - [ ] Runnable notebooks declare `tested_with` package/version pairs so version context renders on the page
 - [ ] Runnable notebooks declare a `last_validated` ISO date so the page shows when it was last confirmed
 - [ ] Runnable notebooks declare an `owner` so a stale notebook has a named accountable person to re-validate
+- [ ] Guides declare `related_packages` so each package's role and maturity render next to the instructions
 - [ ] The notebook ends with a "Next steps" (or "What to try next") block so every reader leaves with a concrete next action
 
 ## Canonical Notebook Shape
@@ -151,6 +152,11 @@ Runnable notebooks should include Livebook-oriented metadata in the frontmatter:
   last_validated: "2026-07-24",
   tested_with: %{jido: "2.3.2", jido_ai: "2.2.0", req_llm: "1.17.1"},
   owner: "Mike Hostetler",
+  related_packages: [
+    %{id: "jido", role: "Agent runtime and the notebook-local Actions"},
+    %{id: "jido_ai", role: "The tool-calling loop that drives the agent"},
+    %{id: "req_llm", role: "LLM HTTP client used to reach the provider"}
+  ],
   livebook: %{
     runnable: true,
     required_env_vars: ["OPENAI_API_KEY"],
@@ -167,6 +173,8 @@ Use `required_env_vars` and `setup_instructions` to make external requirements e
 `last_validated` is the ISO date (`YYYY-MM-DD`) of the most recent run that confirmed the notebook against its `tested_with` versions. Update it whenever you re-run and confirm the notebook end to end, not on every prose edit. The docs shell renders it as "Last validated" in the page header, which is what lets stale executable pages be found automatically.
 
 `owner` is the named accountable person for the notebook — the one who re-runs and re-validates it when it goes stale. A runnable notebook cannot publish without `last_validated`, `tested_with`, and `owner`, because freshness only helps if a stale page has someone to ping. The docs shell renders it as "Owner" in the page header.
+
+`related_packages` is a list of `%{id, role}` maps naming the ecosystem packages a guide uses and the role each plays *in that guide*. Each `id` must match a public ecosystem package id (the slug of a `priv/ecosystem/*.md` file), and `role` is one short phrase describing what the package does here — not the package's generic tagline. The docs shell resolves each id to its ecosystem entry and renders the package name (linked to its ecosystem page), the role, and the package's current maturity next to the guide's instructions, so a reader can see which packages a guide depends on and how stable each is without inferring it from the install cell. List every package the guide installs.
 
 ## Drift Tests
 

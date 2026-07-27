@@ -10,6 +10,7 @@ defmodule AgentJidoWeb.PageLive do
   use AgentJidoWeb, :live_view
 
   alias AgentJido.Analytics
+  alias AgentJido.Ecosystem
   alias AgentJido.Pages
   alias AgentJidoWeb.MarkdownLinks
 
@@ -89,7 +90,8 @@ defmodule AgentJidoWeb.PageLive do
        docs_work_types: Pages.docs_work_types(),
        page: nil,
        markdown_action: nil,
-       toc: toc
+       toc: toc,
+       related_package_entries: []
      )}
   end
 
@@ -164,6 +166,12 @@ defmodule AgentJidoWeb.PageLive do
         markdown_action = MarkdownLinks.markdown_action(page, socket.assigns.request_url)
         markdown_copy_url = if page.category == :docs, do: MarkdownLinks.markdown_path(page.path), else: nil
 
+        # E06-T26: resolve the guide's related packages to their public ecosystem
+        # entries so the docs shell can render each package's role and maturity
+        # near the instructions. Unresolved ids (not a public ecosystem package)
+        # are dropped so a guide never links to a missing package page.
+        related_package_entries = resolve_related_packages(page.related_packages)
+
         assigns = [
           page_title: page.title,
           meta_description: page_meta_description(page),
@@ -178,7 +186,8 @@ defmodule AgentJidoWeb.PageLive do
           markdown_copy_url: markdown_copy_url,
           selected_document: page,
           toc: toc,
-          document_content: %{html: page.body, toc: toc}
+          document_content: %{html: page.body, toc: toc},
+          related_package_entries: related_package_entries
         ]
 
         assigns =
@@ -258,6 +267,39 @@ defmodule AgentJidoWeb.PageLive do
   defp seo_value(seo, key) do
     Map.get(seo, key) || Map.get(seo, Atom.to_string(key))
   end
+
+  # E06-T26: turn a guide's `related_packages` frontmatter (%{id, role} maps)
+  # into render entries that carry the resolved package name, maturity, and
+  # ecosystem link alongside the guide-specific role. Only public ecosystem
+  # packages are linked, so a guide never points at a missing package page.
+  defp resolve_related_packages(related_packages) when is_list(related_packages) do
+    related_packages
+    |> Enum.flat_map(fn entry -> resolve_related_package_entry(entry) end)
+  end
+
+  defp resolve_related_packages(_), do: []
+
+  defp resolve_related_package_entry(%{id: id} = entry) when is_binary(id) do
+    case Ecosystem.get_public_package(id) do
+      %Ecosystem.Package{} = pkg ->
+        role = entry[:role] || pkg.tagline
+
+        [
+          %{
+            id: pkg.id,
+            name: pkg.name,
+            role: role,
+            maturity: pkg.support_level || pkg.maturity,
+            href: "/ecosystem/#{pkg.id}"
+          }
+        ]
+
+      nil ->
+        []
+    end
+  end
+
+  defp resolve_related_package_entry(_), do: []
 
   # --- Layout dispatch ---
 
