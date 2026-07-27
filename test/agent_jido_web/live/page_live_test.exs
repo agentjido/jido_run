@@ -887,6 +887,22 @@ defmodule AgentJidoWeb.PageLiveTest do
       assert html =~ "fix note and a test"
     end
 
+    test "renders the public adoption-interview invitation on /community (jido-e11-t16)", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/community")
+
+      assert html =~ "Adoption Interviews"
+      assert html =~ "Tell us your Jido adoption story"
+      assert html =~ "Volunteer for an interview"
+      assert html =~ ~s(id="community-adoption-interviews")
+
+      # The invitation previews all four required interview topics — the
+      # E11-T16 acceptance condition.
+      assert html =~ "First success"
+      assert html =~ "Package choice"
+      assert html =~ "Failures"
+      assert html =~ "Missing docs"
+    end
+
     test "links the latest ecosystem digest for adopter discoverability", %{conn: conn} do
       {:ok, _view, html} = live(conn, "/community")
 

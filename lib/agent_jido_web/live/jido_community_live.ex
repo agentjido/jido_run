@@ -20,6 +20,7 @@ defmodule AgentJidoWeb.JidoCommunityLive do
        participation_paths: participation_paths(),
        collaboration_links: collaboration_links(),
        failure_story_request: failure_story_request(),
+       adoption_interview: adoption_interview(),
        ecosystem_digest: ecosystem_digest()
      )}
   end
@@ -160,6 +161,56 @@ defmodule AgentJidoWeb.JidoCommunityLive do
             <p class="mt-4 text-xs text-secondary-foreground">
               We're rolling out clear <code>good first issue</code> labels and will aggregate them across repositories.
             </p>
+          </div>
+        </section>
+
+        <section id="community-adoption-interviews" class="mb-16 opacity-0" phx-hook="ScrollReveal">
+          <div class="flex justify-between items-center mb-6">
+            <span class="text-sm font-bold tracking-wider uppercase">Adoption Interviews</span>
+            <span class="text-[11px] text-muted-foreground">your real journey, not a quote</span>
+          </div>
+          <div class="feature-card">
+            <h2 class="font-bold text-[15px] mb-2">{@adoption_interview.headline}</h2>
+            <p class="text-muted-foreground text-xs leading-relaxed mb-4">
+              {@adoption_interview.intro}
+            </p>
+
+            <div class="mb-4">
+              <p class="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground mb-2">
+                What we ask
+              </p>
+              <ul class="space-y-1.5">
+                <%= for item <- @adoption_interview.what_we_ask do %>
+                  <li class="flex items-start gap-2 text-xs text-muted-foreground leading-relaxed">
+                    <span class="text-primary mt-0.5">•</span>
+                    <span>{item}</span>
+                  </li>
+                <% end %>
+              </ul>
+            </div>
+
+            <div class="mb-4">
+              <p class="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground mb-2">
+                Where it goes
+              </p>
+              <ul class="space-y-1.5">
+                <%= for item <- @adoption_interview.where_it_goes do %>
+                  <li class="flex items-start gap-2 text-xs text-muted-foreground leading-relaxed">
+                    <span class="text-primary mt-0.5">→</span>
+                    <span>{item}</span>
+                  </li>
+                <% end %>
+              </ul>
+            </div>
+
+            <a
+              href={@adoption_interview.submit_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-block text-xs font-semibold text-primary hover:opacity-80 transition-opacity"
+            >
+              {@adoption_interview.cta}
+            </a>
           </div>
         </section>
 
@@ -346,6 +397,33 @@ defmodule AgentJidoWeb.JidoCommunityLive do
         icon: "hero-exclamation-circle-mini"
       }
     ]
+  end
+
+  defp adoption_interview do
+    # The semi-structured adopter interview (jido-e11, E11-T16). The full script
+    # lives in specs/templates/adoption-interview-script.md; this is the public
+    # invitation. Every interview asks about the four things below — they turn
+    # an anecdote into a case study, a failure story, or a doc fix.
+    %{
+      headline: "Tell us your Jido adoption story",
+      intro:
+        "We interview adopters about their real Jido journey and turn it into " <>
+          "qualified evidence — case studies, failure stories, and doc fixes — " <>
+          "not marketing quotes. The interview always covers four things.",
+      what_we_ask: [
+        "First success: the first thing that actually worked",
+        "Package choice: which Jido packages you picked and why",
+        "Failures: what broke, surprised you, or cost you time",
+        "Missing docs: what you wished the docs said"
+      ],
+      where_it_goes: [
+        "First success and package choice become a case study or showcase entry",
+        "A reproducible failure becomes a production failure story",
+        "A docs gap becomes a fix note and a regression test"
+      ],
+      submit_url: "https://github.com/agentjido/agentjido_xyz/issues",
+      cta: "Volunteer for an interview"
+    }
   end
 
   defp failure_story_request do
