@@ -1,5 +1,5 @@
 {
-  "assignee": "",
+  "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:07:57Z",
@@ -18,8 +18,8 @@
     }
   ],
   "priority": 2,
-  "status": "open",
+  "status": "in_progress",
   "title": "E12-T16 — Create a 180-day review queue for concepts and comparisons.",
   "type": "task",
-  "updated_at": "2026-07-24T12:54:59Z"
+  "updated_at": "2026-07-27T07:34:23Z"
 }
