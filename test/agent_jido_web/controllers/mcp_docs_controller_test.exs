@@ -76,7 +76,8 @@ defmodule AgentJidoWeb.MCPDocsControllerTest do
              "search_docs",
              "get_doc",
              "list_sections",
-             "get_operational_control"
+             "get_operational_control",
+             "get_example"
            ]
   end
 

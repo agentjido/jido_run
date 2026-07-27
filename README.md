@@ -58,8 +58,8 @@ The workbench now ships a read-only MCP docs server for the published documentat
 - `stdio` entrypoint: `mix mcp.docs`
 - public HTTP endpoint: `POST /mcp/docs`
 - local question helper: `mix run scripts/ask_mcp_docs.exs -- "How do plugins work?"`
-- v1 tools: `search_docs`, `get_doc`, `list_sections`
-- v1 scope: docs only (`/docs/**`). Examples, skills, ecosystem packages, blog, and compare pages are **not** indexed in v1. Example and ecosystem retrieval are tracked as scope-expansion tasks (`jido-e10-t18`, `jido-e10-t19`).
+- tools: `search_docs`, `get_doc`, `list_sections`, `get_operational_control`, `get_example`
+- search/get_doc scope: docs only (`/docs/**`). Examples, skills, ecosystem packages, blog, and compare pages are **not** indexed. `get_example` retrieves the canonical Markdown and metadata for a single published interactive example by path or slug (`jido-e10-t18`); ecosystem stack retrieval is tracked as a scope-expansion task (`jido-e10-t19`).
 
 Notes:
 

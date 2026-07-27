@@ -7,6 +7,8 @@ defmodule AgentJido.MCP.DocsTools do
   alias AgentJido.ContentAssistant.Retrieval
   alias AgentJido.ContentAssistant.URL
   alias AgentJido.Ecosystem.ControlMatrix
+  alias AgentJido.Examples
+  alias AgentJido.Examples.Example
   alias AgentJido.MCP
   alias AgentJido.Pages
   alias AgentJidoWeb.MarkdownContent
@@ -72,6 +74,13 @@ defmodule AgentJido.MCP.DocsTools do
           "Retrieve the canonical operational-control overview and its proof without a text search. Returns the Security and governance documentation page (the overview that draws every control boundary), the nine control dimensions, the documentation pages that ground each claim, and the package columns whose package pages carry release version, support level, and proof. Use this instead of guessing an operational-control term (identity, authorization, audit, policy, quota, approval, redaction) in search_docs.",
         "inputSchema" => get_operational_control_input_schema(),
         "outputSchema" => get_operational_control_output_schema()
+      },
+      %{
+        "name" => "get_example",
+        "description" =>
+          "Fetch the canonical Markdown and metadata for a single published interactive example by path or slug (e.g. /examples/counter-agent or counter-agent). Returns the same Markdown the public /examples/<slug>.md endpoint serves, plus the example's proof metadata (outcome, packages, package maturity, difficulty, run command) and content metadata (content type, status, version, last validated). Examples are not indexed by search_docs; use this tool to retrieve one directly.",
+        "inputSchema" => get_example_input_schema(),
+        "outputSchema" => get_example_output_schema()
       }
     ]
   end
@@ -81,6 +90,7 @@ defmodule AgentJido.MCP.DocsTools do
   def call_tool("get_doc", arguments, opts), do: get_doc(arguments, opts)
   def call_tool("list_sections", arguments, opts), do: list_sections(arguments, opts)
   def call_tool("get_operational_control", arguments, opts), do: get_operational_control(arguments, opts)
+  def call_tool("get_example", arguments, opts), do: get_example(arguments, opts)
 
   def call_tool(name, _arguments, _opts) do
     {:error, %{"code" => "unknown_tool", "message" => "Unknown tool #{inspect(name)}"}}
@@ -266,6 +276,40 @@ defmodule AgentJido.MCP.DocsTools do
     {:error, %{"code" => "invalid_arguments", "message" => "get_operational_control expects an object argument"}}
   end
 
+  @spec get_example(map(), keyword()) :: {:ok, tool_result()} | {:error, map()}
+  def get_example(arguments, opts) when is_map(arguments) and is_list(opts) do
+    # Example retrieval is the first scope expansion beyond the docs-only surface
+    # (jido-e10-t18). A client retrieves one published example by path or slug and
+    # receives its canonical Markdown — byte-identical to the public
+    # /examples/<slug>.md endpoint, because both flow through MarkdownContent.resolve/2
+    # — plus the example's proof and content metadata. Examples stay out of
+    # search_docs (still docs-only); this is the deterministic retrieval path.
+    with {:ok, requested} <- require_non_empty_string(arguments, "path"),
+         {:ok, slug} <- normalize_example_path(requested),
+         {:ok, example} <- resolve_example(slug, opts),
+         {:ok, markdown} <- resolve_markdown("/examples/#{slug}", opts) do
+      path = "/examples/#{slug}"
+
+      structured =
+        %{
+          "title" => example.title,
+          "path" => path,
+          "canonical_url" => MCP.canonical_url(path),
+          "category" => to_string(example.category),
+          "markdown" => markdown,
+          "metadata" => example_metadata_payload(example)
+        }
+        |> Enum.reject(fn {_key, value} -> is_nil(value) end)
+        |> Map.new()
+
+      {:ok, tool_result(markdown, structured)}
+    end
+  end
+
+  def get_example(_arguments, _opts) do
+    {:error, %{"code" => "invalid_arguments", "message" => "get_example expects an object argument"}}
+  end
+
   defp tool_result(text, structured_content) do
     %{
       "content" => [%{"type" => "text", "text" => text}],
@@ -380,6 +424,71 @@ defmodule AgentJido.MCP.DocsTools do
       _other -> {:error, %{"code" => "not_found", "message" => "Could not resolve markdown for #{inspect(path)}"}}
     end
   end
+
+  defp resolve_example(slug, opts) do
+    examples_module = Keyword.get(opts, :examples_module, Examples)
+
+    case examples_module.get_example(slug) do
+      %Example{} = example -> {:ok, example}
+      nil -> {:error, %{"code" => "not_found", "message" => "No example exists for #{inspect(slug)}"}}
+    end
+  end
+
+  # Accepts an example path (/examples/<slug> or /examples/<slug>.md), a bare
+  # slug (counter-agent), or a same-site URL, and returns the single-segment
+  # slug the Examples registry keys on. Multi-segment and non-example paths
+  # resolve to a not_found error so the tool cannot serve a non-example route.
+  defp normalize_example_path(value) when is_binary(value) do
+    trimmed = String.trim(value)
+
+    if trimmed == "" do
+      {:error, %{"code" => "invalid_arguments", "message" => "path must be a non-empty string"}}
+    else
+      case trimmed |> extract_example_slug() do
+        nil ->
+          {:error, %{"code" => "not_found", "message" => "No example exists for #{inspect(trimmed)}"}}
+
+        slug ->
+          {:ok, slug}
+      end
+    end
+  end
+
+  defp normalize_example_path(_value) do
+    {:error, %{"code" => "invalid_arguments", "message" => "path must be a string"}}
+  end
+
+  defp extract_example_slug(value) do
+    # URL.normalize_href extracts the path from a same-site absolute URL and
+    # passes rooted paths through unchanged, but it rejects scheme-less bare
+    # slugs (treating them as malformed absolute URLs). Fall back to a rooted
+    # form of the value so a bare slug like "counter-agent" is accepted.
+    candidate =
+      case URL.normalize_href(value) do
+        normalized when is_binary(normalized) ->
+          normalized
+
+        nil ->
+          if String.starts_with?(value, "/"), do: value, else: "/" <> value
+      end
+
+    candidate
+    |> strip_markdown_suffix()
+    |> example_slug_from_path()
+  end
+
+  defp example_slug_from_path("/examples/" <> rest) do
+    trimmed = String.trim(rest)
+    if trimmed != "" and not String.contains?(trimmed, "/"), do: trimmed, else: nil
+  end
+
+  defp example_slug_from_path("/" <> slug) do
+    # A bare slug (e.g. "counter-agent") reaches here as "/counter-agent".
+    trimmed = String.trim(slug)
+    if trimmed != "" and not String.contains?(trimmed, "/"), do: trimmed, else: nil
+  end
+
+  defp example_slug_from_path(_other), do: nil
 
   defp legacy_resolution_payload(_requested_path, _canonical_path, :canonical), do: nil
 
@@ -715,5 +824,100 @@ defmodule AgentJido.MCP.DocsTools do
         }
       }
     }
+  end
+
+  defp get_example_input_schema do
+    %{
+      "type" => "object",
+      "additionalProperties" => false,
+      "required" => ["path"],
+      "properties" => %{
+        "path" => %{"type" => "string", "minLength" => 1}
+      }
+    }
+  end
+
+  defp get_example_output_schema do
+    %{
+      "type" => "object",
+      "required" => ["title", "path", "canonical_url", "category", "markdown", "metadata"],
+      "properties" => %{
+        "title" => %{"type" => "string"},
+        "path" => %{"type" => "string"},
+        "canonical_url" => %{"type" => "string"},
+        "category" => %{"type" => "string"},
+        "markdown" => %{"type" => "string"},
+        "metadata" => %{
+          "type" => "object",
+          "properties" => %{
+            "content_type" => %{"type" => "string"},
+            "status" => %{"type" => "string"},
+            "version" => %{"type" => "string"},
+            "last_validated" => %{"type" => "string"},
+            "outcome" => %{"type" => "string"},
+            "packages" => %{"type" => "array", "items" => %{"type" => "string"}},
+            "package_maturity" => %{"type" => "string"},
+            "difficulty" => %{"type" => "string"},
+            "run_command" => %{"type" => "string"}
+          }
+        }
+      }
+    }
+  end
+
+  # The example's structured metadata: the proof contract (outcome, packages,
+  # maturity, difficulty, run command) plus the content metadata (content type,
+  # status, version, last validated). The content-metadata fields mirror
+  # AgentJidoWeb.MarkdownContent's private example_metadata/1 exactly so the
+  # structured `metadata.status`/`version`/`last_validated` agree with the
+  # `## Content metadata` block appended to the returned `markdown`
+  # (jido-e10-t16). Keep these in step with that module.
+  defp example_metadata_payload(%Example{} = example) do
+    %{
+      "content_type" => "Example",
+      "status" => example_status_label(example),
+      "version" => tested_with_label(example.tested_with),
+      "last_validated" => present_string(example.last_validated),
+      "outcome" => present_string(example.outcome),
+      "packages" => Enum.map(List.wrap(example.packages), &to_string/1),
+      "package_maturity" => present_string(example.package_maturity),
+      "difficulty" => to_string(example.difficulty),
+      "run_command" => present_string(example.run_command)
+    }
+    |> Enum.reject(fn {_key, value} -> is_nil(value) end)
+    |> Map.new()
+  end
+
+  # Mirrors AgentJidoWeb.MarkdownContent.example_status_label/1: an example's
+  # best maturity signal is its package_maturity, falling back to the live/draft
+  # lifecycle label.
+  defp example_status_label(%Example{} = example) do
+    case present_string(example.package_maturity) do
+      nil -> lifecycle_label(example.status)
+      maturity -> maturity
+    end
+  end
+
+  defp lifecycle_label(:live), do: "Live"
+  defp lifecycle_label(:draft), do: "Draft"
+  defp lifecycle_label(other) when is_atom(other), do: other |> Atom.to_string() |> String.capitalize()
+  defp lifecycle_label(_), do: nil
+
+  # Mirrors AgentJidoWeb.MarkdownContent.tested_with_label/1.
+  defp tested_with_label(value) when is_map(value) and map_size(value) > 0 do
+    value
+    |> Enum.map(fn {pkg, ver} -> "#{pkg} #{ver}" end)
+    |> Enum.sort()
+    |> Enum.join(", ")
+  end
+
+  defp tested_with_label(_), do: nil
+
+  # Mirrors AgentJidoWeb.MarkdownContent.present_string/1.
+  defp present_string(value) do
+    case value |> to_string() |> String.trim() do
+      "" -> nil
+      other -> other
+    end
   end
 end

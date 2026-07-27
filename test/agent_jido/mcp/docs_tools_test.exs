@@ -2,6 +2,7 @@ defmodule AgentJido.MCP.DocsToolsTest do
   use ExUnit.Case, async: true
 
   alias AgentJido.ContentAssistant.Result
+  alias AgentJido.Examples
   alias AgentJido.MCP
   alias AgentJido.MCP.DocsTools
   alias AgentJido.Pages
@@ -170,6 +171,115 @@ defmodule AgentJido.MCP.DocsToolsTest do
                )
 
       assert mcp_markdown == public_markdown
+    end
+  end
+
+  describe "example retrieval (jido-e10-t18)" do
+    # Acceptance: "It returns the canonical example Markdown and metadata."
+    # get_example is the first scope expansion beyond the docs-only surface: a
+    # client retrieves one published interactive example by path or slug and
+    # receives the canonical example Markdown (byte-identical to the public
+    # /examples/<slug>.md endpoint, because both flow through
+    # MarkdownContent.resolve/2) plus the example's proof and content metadata.
+
+    test "get_example returns the canonical markdown and metadata by slug" do
+      assert {:ok, result} = DocsTools.get_example(%{"path" => "counter-agent"}, [])
+
+      structured = result["structuredContent"]
+
+      assert structured["title"] == "Counter Agent"
+      assert structured["path"] == "/examples/counter-agent"
+      assert structured["canonical_url"] =~ "/examples/counter-agent"
+      assert structured["category"] == "core"
+      assert structured["markdown"] =~ "#"
+
+      metadata = structured["metadata"]
+      assert metadata["content_type"] == "Example"
+      assert metadata["status"] == "Beta"
+      assert metadata["packages"] == ["jido"]
+      assert metadata["package_maturity"] == "Beta"
+      assert metadata["difficulty"] == "beginner"
+      assert metadata["outcome"] =~ "supervised Jido agent"
+    end
+
+    test "get_example accepts /examples/<slug>, the .md suffix, and a same-site URL" do
+      for path <- [
+            "/examples/counter-agent",
+            "/examples/counter-agent.md",
+            "counter-agent.md"
+          ] do
+        assert {:ok, %{"structuredContent" => %{"path" => "/examples/counter-agent"}}} =
+                 DocsTools.get_example(%{"path" => path}, []),
+               "expected #{inspect(path)} to resolve to the counter-agent example"
+      end
+    end
+
+    test "get_example rejects a blank or missing path" do
+      assert {:error, %{"code" => "invalid_arguments"}} =
+               DocsTools.get_example(%{"path" => "   "}, [])
+
+      assert {:error, %{"code" => "invalid_arguments"}} =
+               DocsTools.get_example(%{}, [])
+    end
+
+    test "get_example returns not_found for an unknown slug" do
+      assert {:error, %{"code" => "not_found"}} =
+               DocsTools.get_example(%{"path" => "no-such-example"}, [])
+    end
+
+    test "get_example does not serve a non-example route" do
+      # A docs path must not resolve through the example tool.
+      assert {:error, %{"code" => "not_found"}} =
+               DocsTools.get_example(%{"path" => "/docs/getting-started/first-agent"}, [])
+    end
+
+    test "the structured metadata agrees with the markdown content-metadata block" do
+      # The structured metadata status/version/last_validated must match the
+      # `## Content metadata` block appended to the returned markdown, so the two
+      # cannot drift (controlled-agent carries a last_validated date).
+      assert {:ok, %{"structuredContent" => structured}} =
+               DocsTools.get_example(%{"path" => "controlled-agent"}, [])
+
+      metadata = structured["metadata"]
+      markdown = structured["markdown"]
+
+      assert metadata["content_type"] == "Example"
+      assert markdown =~ "Content type: Example"
+      assert markdown =~ "Status: #{metadata["status"]}"
+      assert markdown =~ "Last validated: #{metadata["last_validated"]}"
+    end
+
+    test "get_example markdown is byte-identical to the public Markdown endpoint for every live example" do
+      # jido-e10-t20 parity discipline extended to examples: the markdown an MCP
+      # client retrieves must match the public /examples/<slug>.md surface.
+      example_routes =
+        Examples.all_examples()
+        |> Enum.map(&"/examples/#{&1.slug}")
+        |> Enum.uniq()
+
+      assert example_routes != [], "no live examples to assert MCP/Markdown parity against"
+
+      for path <- example_routes do
+        assert {:ok, %{"structuredContent" => %{"markdown" => mcp_markdown}}} =
+                 DocsTools.get_example(%{"path" => path}, []),
+               "MCP get_example could not serve example #{path}"
+
+        assert {:ok, public_markdown} = MarkdownContent.resolve(path, MCP.canonical_url(path)),
+               "public Markdown endpoint could not serve example #{path}"
+
+        assert mcp_markdown == public_markdown,
+               "MCP get_example markdown drifted from the public Markdown endpoint for #{inspect(path)}"
+      end
+    end
+
+    test "the tool catalog advertises get_example with example-scoped copy" do
+      by_name = Map.new(DocsTools.tools(), &{&1["name"], &1["description"]})
+
+      example = by_name["get_example"]
+      assert example =~ "/examples/<slug>"
+      assert example =~ "Markdown"
+      assert example =~ "metadata"
+      assert example =~ "search_docs"
     end
   end
 

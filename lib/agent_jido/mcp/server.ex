@@ -35,10 +35,17 @@ defmodule AgentJido.MCP.Server do
   @doc """
   Public description returned to MCP clients on `initialize`.
 
-  The v1 tool surface is intentionally docs-only. This string is the single
-  source of truth for that scope claim so product copy and tool scope stay in
-  agreement (jido-e10-t17). Examples, skills, and ecosystem retrieval are
-  tracked as separate scope-expansion tasks (jido-e10-t18, jido-e10-t19).
+  The v1 search and retrieval surface is intentionally docs-only. This string is
+  the single source of truth for that scope claim so product copy and tool scope
+  stay in agreement (jido-e10-t17). search_docs, get_doc, list_sections, and
+  get_operational_control operate on published documentation pages (/docs/**)
+  and exclude examples, skills, ecosystem packages, blog, and compare pages.
+
+  get_example (jido-e10-t18) is the first scope expansion beyond that docs-only
+  surface: it retrieves the canonical Markdown and metadata for a single
+  published interactive example (/examples/<slug>) by path or slug. Examples
+  remain unindexed by search_docs; get_example is the dedicated retrieval path.
+  Ecosystem stack retrieval is tracked separately (jido-e10-t19).
 
   get_operational_control (jido-e10-t30) retrieves the canonical control
   overview — a docs page — and proof pointers, including links to the ecosystem
@@ -54,7 +61,10 @@ defmodule AgentJido.MCP.Server do
       "get_operational_control returns the canonical operational-control overview " <>
       "(a docs page) with proof, so a client can retrieve it by name instead of " <>
       "guessing a control term. " <>
-      "Available tools: search_docs, get_doc, list_sections, get_operational_control."
+      "get_example retrieves the canonical Markdown and metadata for a single " <>
+      "published interactive example (/examples/<slug>) by path or slug; examples " <>
+      "are not indexed by search_docs. " <>
+      "Available tools: search_docs, get_doc, list_sections, get_operational_control, get_example."
   end
 
   @spec handle_message(map(), State.t(), keyword()) :: response_tuple()
