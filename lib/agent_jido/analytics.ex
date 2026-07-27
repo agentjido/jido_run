@@ -50,6 +50,7 @@ defmodule AgentJido.Analytics do
           first_llm_request: [map()],
           example_filter: [map()],
           example_engagement: [map()],
+          example_simulated_run: [map()],
           long_running_path_entry: [map()],
           control_proof_evaluation: [map()],
           controlled_agent_completion: [map()]
@@ -149,6 +150,7 @@ defmodule AgentJido.Analytics do
         first_llm_request: first_llm_request_breakdown(days),
         example_filter: example_filter_breakdown(days),
         example_engagement: example_engagement_breakdown(days),
+        example_simulated_run: example_simulated_run_breakdown(days),
         long_running_path_entry: long_running_path_entry_breakdown(days),
         control_proof_evaluation: control_proof_evaluation_breakdown(days),
         controlled_agent_completion: controlled_agent_completion_breakdown(days)
@@ -625,6 +627,49 @@ defmodule AgentJido.Analytics do
         visitors: count(eng.visitor_id)
       },
       order_by: [desc: count(eng.visitor_id), asc: eng.target]
+    )
+    |> Repo.all()
+  end
+
+  # Completion of a simulated (deterministic) example run (jido-e08-t34). AI and
+  # browser examples that ship as fixture replays — not live model calls — use the
+  # shared `SimulatedShowcaseLive` demo, whose "Run simulated flow" button is the
+  # example-completion surface a visitor moves into beyond reading the
+  # explanation. Each click that starts a genuine run fires one
+  # `example_simulated_run` event carrying the example slug in metadata. A visitor
+  # can run the same example more than once, so `DISTINCT ON (visitor_id, example)`
+  # keeps the earliest run per visitor per example — repeat runs of the same
+  # example by the same visitor never re-count, while a visitor who runs two
+  # simulated examples counts once in each. We then group the in-window first runs
+  # by example slug, so the team sees how many visitors actually ran each
+  # simulated example.
+  defp example_simulated_run_breakdown(days) do
+    since = since_naive(days)
+
+    first_run_per_visitor_example =
+      from(e in AnalyticsEvent,
+        where: e.event == "example_simulated_run",
+        order_by: [
+          asc: e.visitor_id,
+          asc: fragment("(?->>'example')", e.metadata),
+          asc: e.inserted_at
+        ],
+        distinct: [e.visitor_id, fragment("(?->>'example')", e.metadata)],
+        select: %{
+          visitor_id: e.visitor_id,
+          ran_at: e.inserted_at,
+          example: fragment("(?->>'example')", e.metadata)
+        }
+      )
+
+    from(run in subquery(first_run_per_visitor_example),
+      where: run.ran_at >= ^since,
+      group_by: run.example,
+      select: %{
+        example: run.example,
+        visitors: count(run.visitor_id)
+      },
+      order_by: [desc: count(run.visitor_id), asc: run.example]
     )
     |> Repo.all()
   end
@@ -1557,6 +1602,7 @@ defmodule AgentJido.Analytics do
       first_llm_request: [],
       example_filter: [],
       example_engagement: [],
+      example_simulated_run: [],
       long_running_path_entry: [],
       control_proof_evaluation: [],
       controlled_agent_completion: []
@@ -1584,6 +1630,7 @@ defmodule AgentJido.Analytics do
       first_llm_request: [],
       example_filter: [],
       example_engagement: [],
+      example_simulated_run: [],
       long_running_path_entry: [],
       control_proof_evaluation: [],
       controlled_agent_completion: []

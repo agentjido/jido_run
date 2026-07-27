@@ -970,4 +970,86 @@ defmodule AgentJido.AnalyticsTest do
       assert total == 7
     end
   end
+
+  describe "simulated example run completion (jido-e08-t34)" do
+    test "dashboard snapshot surfaces each simulated example run, deduped per visitor per example (jido-e08-t34)" do
+      admin = admin_user_fixture()
+      admin_scope = Scope.for_user(admin)
+      actor = user_fixture()
+      scope = Scope.for_user(actor)
+
+      # Visitor A runs the deep-research simulated example, then re-runs it — the
+      # repeat never re-counts. They also run the incident-triage simulated
+      # example, so they count once in each.
+      for _ <- 1..2 do
+        assert {:ok, _} =
+                 Analytics.track_event(scope, %{
+                   event: "example_simulated_run",
+                   source: "examples",
+                   channel: "simulated_showcase_demo",
+                   path: "/examples/deep-research",
+                   section_id: "simulated_run",
+                   visitor_id: "visitor-a",
+                   session_id: "session-a",
+                   metadata: %{surface: "simulated_showcase_demo", example: "deep-research", step: "simulated_run"}
+                 })
+      end
+
+      assert {:ok, _} =
+               Analytics.track_event(scope, %{
+                 event: "example_simulated_run",
+                 source: "examples",
+                 channel: "simulated_showcase_demo",
+                 path: "/examples/incident-triage",
+                 section_id: "simulated_run",
+                 visitor_id: "visitor-a",
+                 session_id: "session-a",
+                 metadata: %{surface: "simulated_showcase_demo", example: "incident-triage", step: "simulated_run"}
+               })
+
+      # Visitor B only runs the deep-research simulated example.
+      assert {:ok, _} =
+               Analytics.track_event(scope, %{
+                 event: "example_simulated_run",
+                 source: "examples",
+                 channel: "simulated_showcase_demo",
+                 path: "/examples/deep-research",
+                 section_id: "simulated_run",
+                 visitor_id: "visitor-b",
+                 session_id: "session-b",
+                 metadata: %{surface: "simulated_showcase_demo", example: "deep-research", step: "simulated_run"}
+               })
+
+      # An example tab movement for a non-simulated example (jido-e12-t26) is not
+      # a simulated run, so it must never bleed into this breakdown.
+      assert {:ok, _} =
+               Analytics.track_event(scope, %{
+                 event: "example_tab_viewed",
+                 source: "examples",
+                 channel: "example_tab",
+                 path: "/examples/counter-agent",
+                 section_id: "demo",
+                 visitor_id: "visitor-b",
+                 session_id: "session-b",
+                 metadata: %{surface: "example_show", example: "counter-agent", target: "demo"}
+               })
+
+      snapshot = Analytics.dashboard_snapshot(admin_scope, 7)
+
+      rows = Map.new(snapshot.example_simulated_run, fn row -> {row.example, row.visitors} end)
+
+      # deep-research counts both visitor A and visitor B; incident-triage counts
+      # visitor A only. Visitor A's repeat deep-research run never re-counts.
+      assert rows["deep-research"] == 2
+      assert rows["incident-triage"] == 1
+
+      # The unrelated example tab movement is excluded.
+      refute Map.has_key?(rows, "demo")
+
+      # Three first runs total across the two simulated examples — visitor A's
+      # repeat deep-research run never re-counts as a new completion.
+      total = Enum.sum(Enum.map(snapshot.example_simulated_run, & &1.visitors))
+      assert total == 3
+    end
+  end
 end

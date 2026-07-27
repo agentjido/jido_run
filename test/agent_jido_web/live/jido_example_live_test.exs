@@ -1692,4 +1692,80 @@ defmodule AgentJidoWeb.JidoExampleLiveTest do
              ) == 1
     end
   end
+
+  describe "simulated showcase run analytics (E08-T34)" do
+    # The simulated showcase writes the analytics event from its own LiveView
+    # process, so each test gets its own SQL sandbox owner in shared mode — the
+    # LiveView (a separate process) writes the event on the test's connection.
+    setup do
+      pid = Ecto.Adapters.SQL.Sandbox.start_owner!(AgentJido.Repo, shared: true)
+      on_exit(fn -> Ecto.Adapters.SQL.Sandbox.stop_owner(pid) end)
+      :ok
+    end
+
+    # The parent show page forwards example_slug, analytics_identity, and
+    # analytics_scope to the embedded demo LiveView via demo_session/3. All
+    # current simulated examples are drafts, so mount the showcase in isolation
+    # with that same forwarded session rather than routing through an
+    # unpublished example.
+    test "clicking Run simulated flow records the simulated_run step", %{conn: conn} do
+      {:ok, view, _html} =
+        live_isolated(conn, AgentJidoWeb.Examples.SimulatedShowcaseLive,
+          session: %{
+            "example_slug" => "deep-research",
+            "analytics_identity" => %{
+              "visitor_id" => "visitor-simulated",
+              "session_id" => "session-simulated"
+            },
+            "analytics_scope" => nil
+          }
+        )
+
+      assert view |> element("button[phx-click='run_demo']") |> render_click() =~ "Running…"
+
+      [event] =
+        Repo.all(
+          from(e in AnalyticsEvent,
+            where: e.event == "example_simulated_run",
+            order_by: [desc: e.inserted_at]
+          )
+        )
+
+      assert event.source == "examples"
+      assert event.channel == "simulated_showcase_demo"
+      assert event.path == "/examples/deep-research"
+      assert event.section_id == "simulated_run"
+      assert event.visitor_id == "visitor-simulated"
+      assert event.session_id == "session-simulated"
+      assert event.metadata["step"] == "simulated_run"
+      assert event.metadata["example"] == "deep-research"
+    end
+
+    test "a repeat run while one is in progress never records a second step", %{conn: conn} do
+      {:ok, view, _html} =
+        live_isolated(conn, AgentJidoWeb.Examples.SimulatedShowcaseLive,
+          session: %{
+            "example_slug" => "deep-research",
+            "analytics_identity" => %{"visitor_id" => "visitor-repeat", "session_id" => "session-repeat"},
+            "analytics_scope" => nil
+          }
+        )
+
+      # The first genuine start records the step.
+      render_click(view, "run_demo")
+
+      # While the run is in progress, a re-dispatched run_demo is a no-op (the
+      # button is disabled and the handler ignores it) and never records a second
+      # step — a simulated run is measured once per genuine start. Dispatch the
+      # event directly so the test reaches the handler's running-guard instead of
+      # being blocked by the disabled attribute at the element level.
+      render_click(view, "run_demo")
+
+      assert Repo.aggregate(
+               from(e in AnalyticsEvent, where: e.event == "example_simulated_run"),
+               :count,
+               :id
+             ) == 1
+    end
+  end
 end

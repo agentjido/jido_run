@@ -8,6 +8,8 @@ defmodule AgentJidoWeb.Examples.SimulatedShowcaseLive do
   """
   use AgentJidoWeb, :live_view
 
+  alias AgentJido.Analytics
+
   @step_delay_ms 550
   @default_scenario %{
     title: "Simulated Example",
@@ -98,10 +100,17 @@ defmodule AgentJidoWeb.Examples.SimulatedShowcaseLive do
     slug = Map.get(session, "example_slug", "")
     scenario = scenario_for(slug)
 
+    # The current scope for analytics is forwarded from the parent show page
+    # (jido-e08-t34): a child LiveView does not inherit the parent's assigns, so
+    # without this the demo could not exclude admin preview traffic. Falls back
+    # to the child's own scope when nothing was forwarded.
+    analytics_scope = session["analytics_scope"] || socket.assigns.current_scope
+
     {:ok,
      socket
      |> assign(:slug, slug)
      |> assign(:scenario, scenario)
+     |> assign(:analytics_scope, analytics_scope)
      |> assign(:running, false)
      |> assign(:step_index, 0)
      |> assign(:timeline, [])
@@ -189,6 +198,15 @@ defmodule AgentJidoWeb.Examples.SimulatedShowcaseLive do
     if socket.assigns.running do
       {:noreply, socket}
     else
+      # Measure the simulated-run completion step (jido-e08-t34): clicking "Run
+      # simulated flow" is the example-completion surface for a deterministic
+      # example. It fires only when a genuine new run starts — not when the
+      # button is already disabled mid-run — mirroring how the controlled-Agent
+      # demo measures a real activation rather than a click that did not run.
+      # Admin preview traffic is excluded by Analytics.track_event_safe via the
+      # scope forwarded from the parent show page.
+      socket = track_simulated_run(socket)
+
       Process.send_after(self(), :advance_step, @step_delay_ms)
 
       {:noreply,
@@ -239,4 +257,31 @@ defmodule AgentJidoWeb.Examples.SimulatedShowcaseLive do
   defp progress_pct(_step_index, _steps), do: 0
 
   defp scenario_for(slug), do: Map.get(@scenarios, slug, @default_scenario)
+
+  # Records an `example_simulated_run` event when a visitor starts a simulated
+  # example's deterministic run (jido-e08-t34). This is the example-completion
+  # surface for an AI/browser example that ships as a fixture replay rather than
+  # a live model call, so it is measured as a distinct step from a real agent run
+  # (`agent_run_succeeded`) and from opening the demo tab (`example_tab_viewed`).
+  # The example slug is carried in metadata; the per-visitor, per-example dedup
+  # in the dashboard breakdown collapses repeat runs to one visitor per example.
+  # Admin preview traffic is excluded by Analytics.track_event_safe via the scope
+  # forwarded from the parent show page.
+  defp track_simulated_run(socket) do
+    slug = socket.assigns.slug
+    identity = Map.get(socket.assigns, :analytics_identity, %{})
+
+    Analytics.track_event_safe(socket.assigns.analytics_scope, %{
+      event: "example_simulated_run",
+      source: "examples",
+      channel: "simulated_showcase_demo",
+      path: "/examples/#{slug}",
+      section_id: "simulated_run",
+      visitor_id: identity[:visitor_id],
+      session_id: identity[:session_id],
+      metadata: %{surface: "simulated_showcase_demo", example: slug, step: "simulated_run"}
+    })
+
+    socket
+  end
 end
