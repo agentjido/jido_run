@@ -16,11 +16,15 @@
     {
       "text": "Open: control intent/type in page metadata not yet added.",
       "timestamp": "2026-07-24T12:49:42Z"
+    },
+    {
+      "text": "Accepted by the Zclaude Ralph supervisor. Commits: 1fd9312e. Verification: MIX_ENV=test mix compile \u0026\u0026 MIX_ENV=test mix format --check-formatted.",
+      "timestamp": "2026-07-27T01:47:25Z"
     }
   ],
   "priority": 2,
   "status": "in_progress",
   "title": "E06-T37 — Add control intent and control type to page metadata.",
   "type": "task",
-  "updated_at": "2026-07-27T01:17:23Z"
+  "updated_at": "2026-07-27T01:47:25Z"
 }
