@@ -4,6 +4,20 @@
 
 # Concept Overview
 
+## At a glance
+<!-- Optional quick-reference table. If a concept page includes one, it must
+     use the same row order as every other At a glance table (jido-e06-t20):
+       Best for -> packages -> maturity -> proof -> next action.
+     Include only the rows that apply, but keep this order. -->
+
+| Item | Summary |
+|---|---|
+| Best for | [WHO THIS CONCEPT IS FOR] |
+| Core packages | [PACKAGES THIS CONCEPT LIVES IN] |
+| Package status | [MATURITY OF EACH PACKAGE] |
+| First proof path | [ONE RUNNABLE EXAMPLE OR GUIDE THAT DEMONSTRATES IT] |
+| Key idea | [THE ONE-SENTENCE TAKEAWAY] |
+
 ## What This Solves
 State the concrete engineering problem this concept solves in Jido systems, including what breaks without it.
 

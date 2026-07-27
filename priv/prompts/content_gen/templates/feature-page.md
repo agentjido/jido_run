@@ -16,6 +16,26 @@
 
 ---
 
+## At a glance
+
+<!-- Every feature page opens with the same At a glance table so a reader
+     scanning the features hub sees the same shape on every page. The standard
+     rows always appear in this order (jido-e06-t20):
+       Best for -> packages -> maturity -> proof -> next action.
+     Include only the rows that apply, but keep this order. Multiple package
+     rows (e.g. "Core runtime packages", "Strategy add-ons", "Supported
+     providers") stay grouped together in the packages slot. -->
+
+| Item | Summary |
+|---|---|
+| Best for | [WHO THIS FEATURE IS FOR] |
+| Core packages | [ECOSYSTEM PACKAGES THIS FEATURE DEPENDS ON] |
+| Package status | [MATURITY OF EACH PACKAGE, e.g. `jido` (Beta)] |
+| First proof path | [ONE RUNNABLE EXAMPLE OR TRAINING PATH THAT PROVES IT] |
+| Key idea | [THE ONE-SENTENCE TAKEAWAY, OR WHAT TO DO NEXT] |
+
+---
+
 ## The Problem
 
 <!-- What engineering problem does this solve? Frame it from the reader's experience.

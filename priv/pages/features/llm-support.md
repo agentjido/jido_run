@@ -16,8 +16,8 @@ Jido does not lock you into a model provider. The `req_llm` package gives you a 
 |---|---|
 | Best for | Teams evaluating model options, anyone building provider-agnostic agents |
 | Core packages | [jido_ai](/ecosystem/jido_ai), [req_llm](/ecosystem/req_llm), [llm_db](/ecosystem/llm_db) |
-| Package status | `req_llm` (Stable), `llm_db` (Stable), `jido_ai` (Beta) |
 | Supported providers | OpenAI, Anthropic, Google Gemini, Mistral, local models (Ollama, LM Studio) |
+| Package status | `req_llm` (Stable), `llm_db` (Stable), `jido_ai` (Beta) |
 | Key idea | Your agent code stays the same. The model is configuration, not architecture. |
 
 ## Supported providers

@@ -20,6 +20,23 @@
 
 ---
 
+## At a glance
+
+<!-- Optional quick-reference table. If a reference page includes one, it must
+     use the same row order as every other At a glance table (jido-e06-t20):
+       Best for -> packages -> maturity -> proof -> next action.
+     Include only the rows that apply, but keep this order. -->
+
+| Item | Summary |
+|---|---|
+| Best for | [WHO THIS MODULE IS FOR] |
+| Core packages | [PACKAGE THIS MODULE BELONGS TO] |
+| Package status | [MATURITY OF THE PACKAGE] |
+| First proof path | [ONE EXAMPLE OR GUIDE THAT DEMONSTRATES IT] |
+| Key idea | [THE ONE-SENTENCE TAKEAWAY] |
+
+---
+
 ## Public API
 
 <!-- Functions with arities and one-line descriptions. Must match current source
