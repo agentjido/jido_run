@@ -71,6 +71,24 @@ defmodule AgentJido.Specs.ContentGovernanceContractTest do
     assert governance =~ "reviewed_together?/1"
   end
 
+  test "trust-boundary change review is a named event-triggered review (jido-e12-t50)" do
+    governance = File.read!(@governance_path)
+
+    # Acceptance: a changed trust boundary creates a documentation and proof
+    # review. The governance must name the trigger (a changed trust boundary),
+    # both reviews (documentation + proof), the baseline, and the executable.
+    assert governance =~ "Trust-boundary change review"
+    assert governance =~ "material architecture change"
+    assert governance =~ "trust boundary"
+
+    assert governance =~ "Documentation review"
+    assert governance =~ "Proof review"
+
+    assert governance =~ "specs/audits/trust-boundary-baseline.md"
+    assert governance =~ "AgentJido.ThreatControlModel.review_queue/1"
+    assert governance =~ "review_due?/1"
+  end
+
   test "governance contract captures publish gate criteria and review evidence" do
     governance = File.read!(@governance_path)
 

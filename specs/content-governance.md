@@ -170,6 +170,34 @@ This section is the hard gate for changing content pages from draft to published
 4. **Quarterly operational-control proof audit (every quarter, ST-CONT-001 / jido-e12-t49):** Each operational-control claim recorded in `specs/proof.md` (Control Proof Fields) is re-verified by its **owner**. The owner confirms current **behavior** (control point + configuration), **versions** (version basis is a released, supported package), **limits** (limitation), and **links** (test references resolve), then refreshes the claim's `Validation date`. A claim whose `Validation date` drifts past the quarter (or is missing/malformed) is overdue and becomes assigned work attributed to its owner. The executable audit is `AgentJido.OperationalControlProof.audit_queue/1`; the seven-field schema and the version/test gates are enforced continuously by the jido-e12-t38 proof gate and the jido-e12-t44 release gate.
 5. **Quarterly message review (every quarter, ST-CONT-001 / jido-e12-t36):** The four messaging dimensions are reviewed together — **position** (`specs/positioning.md`, whose §1 public category is the canonical positioning anchor), **package roles** (the ecosystem registry, `priv/ecosystem/*.md` via `AgentJido.Ecosystem`; every public package carries a role), **proof** (`specs/proof.md`), and **audience** (`specs/persona-journeys.md`). Reviewed together means the four still tell one story: **position**, **proof**, and **audience** record the same positioning anchor, and every public package still carries a role. Each dated source records its `Last updated` date; a dimension whose date drifts past the quarter (or is missing), whose recorded anchor diverges from the canonical anchor, or — for package roles — where a public package has lost its role, is overdue and becomes assigned work. The executable review is `AgentJido.MessageReview.review_queue/1`; `reviewed_together?/1` is true only when no dimension is overdue. This is the messaging counterpart of the quarterly operational-control proof audit: that audit re-verifies control **claims**; this review re-verifies the **message**.
 
+### Trust-boundary change review (on material architecture change, ST-CONT-001 / jido-e12-t50)
+
+A **material architecture change** is one that alters a documented trust boundary
+in `specs/operations-reference-architecture.md` — the **authentication
+boundary**, the **recovery boundaries**, **what stays outside Jido**, the
+**threat and control model**, or the **explicit non-goals**. Each boundary
+carries a recorded content signature and last-reviewed date in
+`specs/audits/trust-boundary-baseline.md`. When a boundary's current signature
+no longer matches its recorded signature (or it has no recorded baseline), the
+boundary is **changed** and creates two reviews:
+
+1. **Documentation review** — re-read the documented boundary and confirm the
+   threat-and-control model still describes the architecture.
+2. **Proof review** — re-verify the seven proof fields (control point,
+   configuration, test, limitation, owner, version, validation date) for each
+   operational-control proof claim that depends on the changed boundary
+   (`specs/proof.md`, Control Proof Fields; the field set is enforced
+   continuously by the jido-e12-t38 proof gate and the jido-e12-t44 release
+   gate).
+
+This is the **event-triggered** counterpart of the quarterly
+operational-control proof audit (§12 release cadence step 4) and the quarterly
+message review (step 5): those fire on the calendar; this fires when a trust
+boundary actually changes. The executable review is
+`AgentJido.ThreatControlModel.review_queue/1`; `review_due?/1` is true when any
+boundary is changed. After the review, refresh the baseline via
+`AgentJido.ThreatControlModel.to_baseline_markdown/1`.
+
 ### Required references for downstream stories
 
 - Story cards ST-CONT-002 through ST-CONT-008 must treat this section as a hard gate before any draft-flag removal.
