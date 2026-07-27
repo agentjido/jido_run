@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-27T07:57:52Z",
   "created": "2026-07-23T12:07:59Z",
   "description": "Backlog task: E12-T18\n\nWork area: Freshness and ownership\n\nMain targets: Ecosystem ingestion\n\nComplete when: Material package-role changes create a review task.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e12-t18",
@@ -22,8 +23,8 @@
     }
   ],
   "priority": 2,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E12-T18 — Add upstream README change detection for priority packages.",
   "type": "task",
-  "updated_at": "2026-07-27T07:57:51Z"
+  "updated_at": "2026-07-27T07:57:52Z"
 }
