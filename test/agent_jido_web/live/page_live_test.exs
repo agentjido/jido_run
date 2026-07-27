@@ -870,6 +870,18 @@ defmodule AgentJidoWeb.PageLiveTest do
       assert html =~ "Work together on GitHub"
     end
 
+    test "renders the public production failure-story request on /community", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/community")
+
+      assert html =~ "Production Failure Stories"
+      assert html =~ "Tell us when Jido fails in production"
+      assert html =~ "Submit a failure story"
+      assert html =~ ~s(id="community-failure-stories")
+      # The request states the docs + tests conversion path maintainers rely on.
+      assert html =~ "public fix note"
+      assert html =~ "regression test"
+    end
+
     test "renders /community/showcase route", %{conn: conn} do
       {:ok, _view, html} = live(conn, "/community/showcase")
 

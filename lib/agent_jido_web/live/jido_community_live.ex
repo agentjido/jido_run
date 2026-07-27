@@ -18,7 +18,8 @@ defmodule AgentJidoWeb.JidoCommunityLive do
        welcome_actions: welcome_actions(),
        start_here_steps: start_here_steps(),
        participation_paths: participation_paths(),
-       collaboration_links: collaboration_links()
+       collaboration_links: collaboration_links(),
+       failure_story_request: failure_story_request()
      )}
   end
 
@@ -139,6 +140,56 @@ defmodule AgentJidoWeb.JidoCommunityLive do
             <p class="mt-4 text-xs text-secondary-foreground">
               We're rolling out clear <code>good first issue</code> labels and will aggregate them across repositories.
             </p>
+          </div>
+        </section>
+
+        <section id="community-failure-stories" class="mb-16 opacity-0" phx-hook="ScrollReveal">
+          <div class="flex justify-between items-center mb-6">
+            <span class="text-sm font-bold tracking-wider uppercase">Production Failure Stories</span>
+            <span class="text-[11px] text-muted-foreground">real problems become docs and tests</span>
+          </div>
+          <div class="feature-card">
+            <h2 class="font-bold text-[15px] mb-2">{@failure_story_request.headline}</h2>
+            <p class="text-muted-foreground text-xs leading-relaxed mb-4">
+              {@failure_story_request.intro}
+            </p>
+
+            <div class="mb-4">
+              <p class="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground mb-2">
+                Tell us
+              </p>
+              <ul class="space-y-1.5">
+                <%= for item <- @failure_story_request.what_to_include do %>
+                  <li class="flex items-start gap-2 text-xs text-muted-foreground leading-relaxed">
+                    <span class="text-primary mt-0.5">•</span>
+                    <span>{item}</span>
+                  </li>
+                <% end %>
+              </ul>
+            </div>
+
+            <div class="mb-4">
+              <p class="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground mb-2">
+                What we do with it
+              </p>
+              <ul class="space-y-1.5">
+                <%= for item <- @failure_story_request.conversion do %>
+                  <li class="flex items-start gap-2 text-xs text-muted-foreground leading-relaxed">
+                    <span class="text-primary mt-0.5">→</span>
+                    <span>{item}</span>
+                  </li>
+                <% end %>
+              </ul>
+            </div>
+
+            <a
+              href={@failure_story_request.submit_url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-block text-xs font-semibold text-primary hover:opacity-80 transition-opacity"
+            >
+              {@failure_story_request.cta}
+            </a>
           </div>
         </section>
 
@@ -263,5 +314,29 @@ defmodule AgentJidoWeb.JidoCommunityLive do
         icon: "hero-exclamation-circle-mini"
       }
     ]
+  end
+
+  defp failure_story_request do
+    %{
+      headline: "Tell us when Jido fails in production",
+      intro:
+        "A real production failure is the most useful thing you can hand us. " <>
+          "Every story we can reproduce becomes a public fix note and a regression test, " <>
+          "so the same fault does not silently return.",
+      what_to_include: [
+        "Symptom and impact: what broke, and for whom",
+        "The smallest sequence that reproduces it, or the closest you have",
+        "Jido packages and versions, runtime, and environment",
+        "What you expected, and what actually happened",
+        "Redacted logs, telemetry, or traces that show the failure",
+        "How supervision, retry, or an operator action recovered it"
+      ],
+      conversion: [
+        "A maintainer writes a public fix note naming the cause and the correction",
+        "A regression test locks the corrected behavior so it does not return"
+      ],
+      submit_url: "https://github.com/agentjido/agentjido_xyz/issues",
+      cta: "Submit a failure story"
+    }
   end
 end
