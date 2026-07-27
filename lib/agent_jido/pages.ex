@@ -267,6 +267,27 @@ defmodule AgentJido.Pages do
 
   @default_critical_review_days 90
 
+  # Operational-control coverage gate (jido-e06-t37).
+  #
+  # The acceptance condition is exact: a reader can find pages for identity
+  # context, authorization, policy, history, observation, approval, and
+  # redaction. Quota is intentionally not required (it is not in the
+  # acceptance); the seven below must each have at least one published page, or
+  # the Docs control-type filter would hide that surface and a reader could not
+  # find it. This is a compile-time gate so a regression in coverage fails the
+  # build, not a quiet hole in the filter.
+  @required_control_types ~w(identity_context authorization policy history observation approval redaction)a
+
+  for required <- @required_control_types do
+    unless Enum.any?(@published_pages, fn page ->
+             required in (page.control_types || [])
+           end) do
+      raise ArgumentError,
+            "No published page documents the #{required} control surface; " <>
+              "a reader cannot find it via the Docs control-type filter (jido-e06-t37)"
+    end
+  end
+
   # --- Error module ---
 
   defmodule NotFoundError do
@@ -504,6 +525,81 @@ defmodule AgentJido.Pages do
   end
 
   defp tested_with_package_ids(_page), do: []
+
+  # --- Operational-control metadata (jido-e06-t37) ---
+  #
+  # The canonical control-type and control-intent sets live on Page (needed at
+  # build time, before these indexes exist). The Pages context re-exposes them
+  # alongside the lookup and filter helpers the Docs shell uses.
+
+  @doc """
+  The operational-control surfaces a page can document, with display labels.
+
+  Delegates to `Page.control_types/0`. See jido-e06-t37.
+  """
+  @spec control_types() :: [%{id: atom(), label: String.t()}]
+  def control_types, do: Page.control_types()
+
+  @doc """
+  The control-surface atoms a page can carry, in canonical order.
+  """
+  @spec control_type_ids() :: [atom()]
+  def control_type_ids, do: Page.control_type_ids()
+
+  @doc """
+  Human display label for a control surface, or `nil` when it is unknown.
+  """
+  @spec control_type_label(atom()) :: String.t() | nil
+  def control_type_label(control_type), do: Page.control_type_label(control_type)
+
+  @doc """
+  The operational-control reader intents a page can serve, with display labels.
+  See jido-e06-t37.
+  """
+  @spec control_intents() :: [%{id: atom(), label: String.t()}]
+  def control_intents, do: Page.control_intents()
+
+  @doc """
+  Human display label for a control intent, or `nil` when it is unknown.
+  """
+  @spec control_intent_label(atom()) :: String.t() | nil
+  def control_intent_label(intent), do: Page.control_intent_label(intent)
+
+  @doc """
+  Returns the published pages that document a given operational-control surface
+  (jido-e06-t37), sorted by order then path so the most canonical page wins.
+
+  Used by the Docs control-type filter so a reader can find the page(s) for each
+  control surface — identity context, authorization, policy, history,
+  observation, approval, and redaction.
+  """
+  @spec pages_by_control_type(atom()) :: [Page.t()]
+  def pages_by_control_type(control_type) when is_atom(control_type) do
+    @published_pages
+    |> Enum.filter(&(control_type in (&1.control_types || [])))
+    |> Enum.sort_by(&{&1.order, &1.path})
+  end
+
+  @doc """
+  Returns the published pages in the operations section that document a given
+  control surface — the set the operations control-type filter renders.
+
+  `nil` or `:all` returns every published operations section page (excluding the
+  section root); a control-surface atom narrows to the pages that carry it. Used
+  by the `/docs/operations` filter so a reader narrows the list to the surface
+  they are operating. See jido-e06-t37.
+  """
+  @spec operations_pages_for_control_type(atom() | nil) :: [Page.t()]
+  def operations_pages_for_control_type(filter) when filter in [nil, :all] do
+    docs_section_pages("operations")
+    |> Enum.reject(&(&1.path == "/docs/operations"))
+    |> Enum.sort_by(&{&1.order, &1.path})
+  end
+
+  def operations_pages_for_control_type(control_type) when is_atom(control_type) do
+    operations_pages_for_control_type(nil)
+    |> Enum.filter(&(control_type in (&1.control_types || [])))
+  end
 
   @doc """
   Returns the full hierarchical menu tree for all published pages.

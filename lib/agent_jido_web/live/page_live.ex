@@ -214,7 +214,8 @@ defmodule AgentJidoWeb.PageLive do
                   docs_secondary_tabs: secondary_tabs,
                   docs_sidebar_nav: sidebar,
                   docs_feedback: docs_feedback
-                ]
+                ] ++
+                operations_control_filter_assigns(page)
 
             :training ->
               {prev, next} = Pages.neighbors(page.id)
@@ -241,6 +242,21 @@ defmodule AgentJidoWeb.PageLive do
   defp fallback_path("/build" <> _), do: "/build"
   defp fallback_path("/community" <> _), do: "/community"
   defp fallback_path(_), do: "/"
+
+  # E06-T37: the operations section page carries a control-type filter so a
+  # reader can find the page for each operational-control surface (identity
+  # context, authorization, policy, history, observation, approval, redaction).
+  # Only the operations section root gets filter assigns; every other docs page
+  # gets none, so the template's path-gated filter block never references them.
+  defp operations_control_filter_assigns(%{path: "/docs/operations"}) do
+    [
+      operations_control_types: Pages.control_types(),
+      operations_control_filter: :all,
+      operations_control_pages: Pages.operations_pages_for_control_type(nil)
+    ]
+  end
+
+  defp operations_control_filter_assigns(_page), do: []
 
   defp generic_index_metadata(:build) do
     %{
@@ -744,6 +760,20 @@ defmodule AgentJidoWeb.PageLive do
      |> assign(:docs_sections, Pages.docs_sections_filtered(docs_filter))}
   end
 
+  # Operations control-type filter (E06-T37). A reader selects the
+  # operational-control surface they are operating; the operations page list
+  # narrows to the pages that document it. `:all` restores the full list.
+  # Unknown atoms fall back to `:all` so a bad value can never empty the list.
+  @impl true
+  def handle_event("select_operations_control_filter", %{"control_type" => control_type}, socket) do
+    filter = normalize_operations_control_filter(control_type)
+
+    {:noreply,
+     socket
+     |> assign(:operations_control_filter, filter)
+     |> assign(:operations_control_pages, Pages.operations_pages_for_control_type(filter))}
+  end
+
   defp normalize_feedback_value(value) when is_binary(value) do
     case String.trim(value) do
       "helpful" -> "helpful"
@@ -772,6 +802,16 @@ defmodule AgentJidoWeb.PageLive do
     normalized = String.to_existing_atom(work_type)
 
     if normalized in Pages.docs_work_type_ids(), do: normalized, else: :all
+  rescue
+    ArgumentError -> :all
+  end
+
+  defp normalize_operations_control_filter("all"), do: :all
+
+  defp normalize_operations_control_filter(control_type) when is_binary(control_type) do
+    normalized = String.to_existing_atom(control_type)
+
+    if normalized in Pages.control_type_ids(), do: normalized, else: :all
   rescue
     ArgumentError -> :all
   end

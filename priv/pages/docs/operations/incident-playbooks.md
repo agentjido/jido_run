@@ -5,6 +5,8 @@
   legacy_paths: ["/docs/incident-playbooks", "/docs/reference/incident-playbooks"],
   tags: [:docs, :operations],
   order: 380,
+  control_types: [:observation, :history],
+  control_intent: :investigate,
   draft: false
 }
 ---

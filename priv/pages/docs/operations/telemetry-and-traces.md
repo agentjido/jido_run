@@ -5,6 +5,8 @@
   legacy_paths: [],
   tags: [:docs, :operations],
   order: 359,
+  control_types: [:observation, :redaction],
+  control_intent: :observe,
   draft: false
 }
 ---

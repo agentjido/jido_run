@@ -5,6 +5,8 @@
   legacy_paths: [],
   tags: [:docs, :operations],
   order: 358,
+  control_types: [:identity_context],
+  control_intent: :preserve,
   draft: false
 }
 ---

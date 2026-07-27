@@ -54,6 +54,30 @@
                         {@selected_document.owner}
                       </span>
                     </div>
+                    <div
+                      :if={@selected_document.control_types != []}
+                      class="flex flex-wrap items-center gap-1.5"
+                    >
+                      <span class="font-semibold uppercase tracking-wide text-[10px] text-muted-foreground">
+                        Controls
+                      </span>
+                      <%= for control_type <- @selected_document.control_types do %>
+                        <% control_type_label = AgentJido.Pages.control_type_label(control_type) %>
+                        <span
+                          :if={control_type_label}
+                          class="text-[10px] px-2 py-0.5 rounded font-semibold uppercase tracking-wide bg-elevated text-muted-foreground"
+                        >
+                          {control_type_label}
+                        </span>
+                      <% end %>
+                      <% intent_label = AgentJido.Pages.control_intent_label(@selected_document.control_intent) %>
+                      <span
+                        :if={intent_label}
+                        class="text-[10px] px-2 py-0.5 rounded font-medium border border-border text-muted-foreground"
+                      >
+                        {intent_label}
+                      </span>
+                    </div>
                   </div>
 
                   <section :if={@toc && @toc != []} class="lg:hidden">
@@ -83,6 +107,77 @@
                   <div id="docs-content" class="docs-prose prose docs-document max-w-none">
                     {raw(@selected_document.body)}
                   </div>
+
+                  <%!-- E06-T37: control-type filter on the operations section, so a
+                       reader can find the page for each operational-control surface
+                       (identity context, authorization, policy, history, observation,
+                       approval, redaction). Renders only on the operations root. --%>
+                  <section
+                    :if={@selected_document.path == "/docs/operations"}
+                    id="operations-control-filter"
+                    class="space-y-4 rounded-md border border-border/80 bg-card/40 p-5"
+                  >
+                    <div>
+                      <h2 class="text-base font-bold text-foreground">Browse by control type</h2>
+                      <p class="mt-1 max-w-[78ch] text-[13px] leading-relaxed text-muted-foreground">
+                        Each operations page documents one or more operational-control surfaces. Pick a surface to narrow the list to the pages that cover it.
+                      </p>
+                    </div>
+                    <div
+                      class="flex flex-wrap items-center gap-2"
+                      role="group"
+                      aria-label="Filter operations pages by control type"
+                    >
+                      <button
+                        type="button"
+                        phx-click="select_operations_control_filter"
+                        phx-value-control-type="all"
+                        aria-pressed={to_string(@operations_control_filter == :all)}
+                        class={AgentJidoWeb.PageLive.filter_chip_class(@operations_control_filter == :all)}
+                      >
+                        All
+                      </button>
+                      <%= for %{id: control_type_id, label: control_type_label} <- @operations_control_types do %>
+                        <button
+                          type="button"
+                          phx-click="select_operations_control_filter"
+                          phx-value-control-type={control_type_id}
+                          aria-pressed={to_string(@operations_control_filter == control_type_id)}
+                          class={AgentJidoWeb.PageLive.filter_chip_class(@operations_control_filter == control_type_id)}
+                        >
+                          {control_type_label}
+                        </button>
+                      <% end %>
+                    </div>
+                    <ul class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <%= for operations_page <- @operations_control_pages do %>
+                        <li id={"operations-control-page-#{operations_page.id}"}>
+                          <.link
+                            navigate={AgentJido.Pages.route_for(operations_page)}
+                            class="block h-full rounded-md border border-border bg-card/60 p-4 transition-colors hover:border-primary/40"
+                          >
+                            <div class="text-sm font-semibold text-foreground">
+                              {operations_page.title}
+                            </div>
+                            <div class="mt-1.5 flex flex-wrap gap-1">
+                              <%= for control_type <- operations_page.control_types do %>
+                                <% type_label = AgentJido.Pages.control_type_label(control_type) %>
+                                <span
+                                  :if={type_label}
+                                  class="text-[10px] px-1.5 py-0.5 rounded bg-elevated text-muted-foreground"
+                                >
+                                  {type_label}
+                                </span>
+                              <% end %>
+                            </div>
+                            <p :if={operations_page.description} class="mt-1.5 text-xs leading-relaxed text-muted-foreground">
+                              {operations_page.description}
+                            </p>
+                          </.link>
+                        </li>
+                      <% end %>
+                    </ul>
+                  </section>
                 </div>
               <% else %>
                 <%!-- Docs Index --%>

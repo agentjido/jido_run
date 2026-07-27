@@ -5,6 +5,8 @@
   legacy_paths: ["/docs/production-readiness-checklist", "/docs/reference/production-readiness-checklist"],
   tags: [:docs, :operations],
   order: 360,
+  control_types: [:authorization, :policy, :observation],
+  control_intent: :evaluate,
   draft: false
 }
 ---

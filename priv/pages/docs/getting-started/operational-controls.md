@@ -5,6 +5,16 @@
   category: :docs,
   order: 45,
   tags: [:docs, :getting_started, :operations, :controls],
+  control_types: [
+    :identity_context,
+    :authorization,
+    :policy,
+    :history,
+    :observation,
+    :approval,
+    :redaction
+  ],
+  control_intent: :evaluate,
   draft: false,
   last_validated: "2026-07-24",
   tested_with: %{jido: "2.3.2", jido_ai: "2.2.0", req_llm: "1.17.1"}

@@ -6,6 +6,16 @@
   tags: [:docs, :operations],
   order: 370,
   last_validated: "2026-07-24",
+  control_types: [
+    :identity_context,
+    :authorization,
+    :policy,
+    :history,
+    :observation,
+    :approval,
+    :redaction
+  ],
+  control_intent: :evaluate,
   draft: false
 }
 ---

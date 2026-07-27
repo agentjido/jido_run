@@ -5,6 +5,8 @@
   legacy_paths: [],
   tags: [:docs, :operations],
   order: 381,
+  control_types: [:identity_context, :authorization, :history, :observation, :approval],
+  control_intent: :investigate,
   draft: false
 }
 ---

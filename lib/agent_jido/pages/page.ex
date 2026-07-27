@@ -47,6 +47,13 @@ defmodule AgentJido.Pages.Page do
   - `related_examples` - List of `%{id, role}` maps naming the published interactive
     examples that prove a guide and the role each plays in it; rendered near the
     guide's instructions with each example's outcome as runnable proof (E06-T27)
+  - `control_types` - List of operational-control surfaces the page documents
+    (:identity_context, :authorization, :policy, :quota, :approval, :history,
+    :observation, :redaction); normalized to the canonical set and used by the
+    Docs control-type filter (E06-T37)
+  - `control_intent` - Optional operational-control reader intent the page primarily
+    serves (:evaluate, :enforce, :preserve, :observe, :investigate); distinct from
+    `control_types`, which names the surface (E06-T37)
 
   ### Training-specific (optional)
   - `track` - Training track (:foundations, :coordination, :integration, :operations)
@@ -71,6 +78,41 @@ defmodule AgentJido.Pages.Page do
 
   @github_repo "https://github.com/agentjido/agentjido_xyz"
   alias AgentJido.Html.CodeEntityDecoder
+
+  # Operational-control surfaces a page can document (jido-e06-t37). A page may
+  # cover several; the frontmatter value is normalized to this canonical set at
+  # build time. The atoms are identical to AgentJido.Examples.Taxonomy.control_types/0
+  # so the site carries one notion of a control type across docs and examples.
+  # The seven the acceptance names — identity context, authorization, policy,
+  # history, observation, approval, and redaction — are always present; quota is
+  # included for parity with the examples taxonomy (it is not required by the
+  # acceptance, but rate-limits-and-cost-budgets documents it).
+  @control_types [
+    %{id: :identity_context, label: "Identity context"},
+    %{id: :authorization, label: "Authorization"},
+    %{id: :policy, label: "Policy"},
+    %{id: :quota, label: "Quota"},
+    %{id: :approval, label: "Approval"},
+    %{id: :history, label: "History"},
+    %{id: :observation, label: "Observation"},
+    %{id: :redaction, label: "Redaction"}
+  ]
+
+  @control_type_ids Enum.map(@control_types, & &1.id)
+
+  # The operational-control reader intent a page primarily serves (jido-e06-t37).
+  # Distinct from control_types (the surface the page documents): intent names
+  # the reader's job. A page picks one primary intent; pages that are not about
+  # operational control carry none.
+  @control_intents [
+    %{id: :evaluate, label: "Evaluate control coverage"},
+    %{id: :enforce, label: "Enforce a control"},
+    %{id: :preserve, label: "Preserve context or history"},
+    %{id: :observe, label: "Observe the system"},
+    %{id: :investigate, label: "Investigate what happened"}
+  ]
+
+  @control_intent_ids Enum.map(@control_intents, & &1.id)
 
   @schema Zoi.struct(
             __MODULE__,
@@ -154,6 +196,29 @@ defmodule AgentJido.Pages.Page do
                     "List of %{id, role} maps: published interactive example slugs that prove a guide and the role each plays in it (rendered near instructions with each example's outcome)"
                 )
                 |> Zoi.default([]),
+              # E06-T37: the operational-control surfaces a page documents
+              # (identity context, authorization, policy, quota, approval,
+              # history, observation, redaction). A page may cover several; the
+              # frontmatter value is normalized to the canonical set in
+              # normalize_control_types/1. The Docs control-type filter uses it
+              # so a reader can find the page for each control surface.
+              control_types:
+                Zoi.any(
+                  description:
+                    "Operational-control surfaces a page documents (canonical set in AgentJido.Pages.Page.control_types/0); normalized at build time"
+                )
+                |> Zoi.default([]),
+              # E06-T37: the operational-control reader intent a page primarily
+              # serves (evaluate, enforce, preserve, observe, investigate).
+              # Optional; pages that are not about operational control carry
+              # none. Distinct from control_types (the surface): intent names
+              # the reader's job.
+              control_intent:
+                Zoi.atom(
+                  description:
+                    "Operational-control reader intent a page primarily serves (canonical set in AgentJido.Pages.Page.control_intents/0); optional"
+                )
+                |> Zoi.optional(),
               # Training-specific fields (optional)
               track:
                 Zoi.atom(description: "Training track (:foundations, :coordination, :integration, :operations)")
@@ -281,6 +346,120 @@ defmodule AgentJido.Pages.Page do
   @spec schema() :: Zoi.t()
   def schema, do: @schema
 
+  # --- Operational-control taxonomy (jido-e06-t37) ---
+  #
+  # The canonical sets live here (not on the Pages context) because they are
+  # needed at build time, before the Pages compile-time indexes exist. The
+  # Pages context re-exposes them alongside its lookup and filter helpers.
+
+  @doc """
+  The operational-control surfaces a page can document, with display labels.
+
+  Each entry is `%{id: atom(), label: String.t()}`. The atoms are identical to
+  `AgentJido.Examples.Taxonomy.control_types/0` so docs and examples share one
+  control-type vocabulary. See jido-e06-t37.
+  """
+  @spec control_types() :: [%{id: atom(), label: String.t()}]
+  def control_types, do: @control_types
+
+  @doc """
+  The control-surface atoms a page can carry, in canonical order.
+  """
+  @spec control_type_ids() :: [atom()]
+  def control_type_ids, do: @control_type_ids
+
+  @doc """
+  Human display label for a control surface, or `nil` when it is unknown.
+  """
+  @spec control_type_label(atom()) :: String.t() | nil
+  def control_type_label(control_type) when is_atom(control_type) do
+    Enum.find_value(@control_types, fn %{id: id, label: label} ->
+      if id == control_type, do: label
+    end)
+  end
+
+  def control_type_label(_), do: nil
+
+  @doc """
+  The operational-control reader intents a page can serve, with display labels.
+  See jido-e06-t37.
+  """
+  @spec control_intents() :: [%{id: atom(), label: String.t()}]
+  def control_intents, do: @control_intents
+
+  @doc """
+  The control-intent atoms a page can carry, in canonical order.
+  """
+  @spec control_intent_ids() :: [atom()]
+  def control_intent_ids, do: @control_intent_ids
+
+  @doc """
+  Human display label for a control intent, or `nil` when it is unknown.
+  """
+  @spec control_intent_label(atom()) :: String.t() | nil
+  def control_intent_label(intent) when is_atom(intent) do
+    Enum.find_value(@control_intents, fn %{id: id, label: label} ->
+      if id == intent, do: label
+    end)
+  end
+
+  def control_intent_label(_), do: nil
+
+  @doc """
+  Normalizes a frontmatter `control_types` value to a clean subset of the
+  canonical set: unknown members are dropped and duplicates removed, so a
+  published page only ever carries control surfaces the Docs filter knows.
+
+  Accepts atoms, strings (matched case/whitespace-insensitively to the atom),
+  a single value, or `nil`.
+  """
+  @spec normalize_control_types(term()) :: [atom()]
+  def normalize_control_types(nil), do: []
+
+  def normalize_control_types(values) when is_list(values) do
+    values
+    |> Enum.map(&to_control_type/1)
+    |> Enum.reject(&is_nil/1)
+    |> Enum.uniq()
+  end
+
+  def normalize_control_types(value), do: normalize_control_types([value])
+
+  @doc """
+  Normalizes a frontmatter `control_intent` value to a canonical intent atom,
+  or `nil` when it is missing or unknown. Accepts an atom or a string.
+  """
+  @spec normalize_control_intent(term()) :: atom() | nil
+  def normalize_control_intent(nil), do: nil
+
+  def normalize_control_intent(value) when is_atom(value) do
+    if value in @control_intent_ids, do: value
+  end
+
+  def normalize_control_intent(value) when is_binary(value) do
+    normalized = value |> String.trim() |> String.downcase()
+
+    Enum.find(@control_intent_ids, fn candidate ->
+      Atom.to_string(candidate) == normalized
+    end)
+  end
+
+  def normalize_control_intent(_), do: nil
+
+  defp to_control_type(value) when is_atom(value) do
+    if value in @control_type_ids, do: value
+  end
+
+  defp to_control_type(value) when is_binary(value) do
+    normalized = value |> String.trim() |> String.downcase()
+
+    Enum.find(@control_type_ids, fn candidate ->
+      Atom.to_string(candidate) == normalized
+    end)
+  end
+
+  defp to_control_type(_), do: nil
+
   @doc """
   Builds a Page struct from a file.
 
@@ -341,6 +520,8 @@ defmodule AgentJido.Pages.Page do
       |> Map.put(:word_count, word_count)
       |> Map.put(:reading_time_minutes, reading_time_minutes)
       |> Map.put(:freshness, computed_freshness)
+      |> Map.put(:control_types, normalize_control_types(Map.get(attrs, :control_types)))
+      |> Map.put(:control_intent, normalize_control_intent(Map.get(attrs, :control_intent)))
 
     attrs =
       if livebook_url, do: Map.put(attrs, :livebook_url, livebook_url), else: attrs

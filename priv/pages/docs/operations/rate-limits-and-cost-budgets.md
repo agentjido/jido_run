@@ -5,6 +5,8 @@
   legacy_paths: [],
   tags: [:docs, :operations],
   order: 367,
+  control_types: [:policy, :quota],
+  control_intent: :enforce,
   draft: false
 }
 ---

@@ -5,6 +5,8 @@
   legacy_paths: [],
   tags: [:docs, :operations],
   order: 371,
+  control_types: [:history, :redaction, :authorization],
+  control_intent: :preserve,
   draft: false
 }
 ---
