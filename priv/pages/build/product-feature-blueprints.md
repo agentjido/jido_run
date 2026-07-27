@@ -1,5 +1,5 @@
 %{
-  title: "Product Feature Blueprints",
+  title: "Product feature blueprints",
   category: :build,
   description: "Step-by-step blueprints for common product features powered by agents.",
   doc_type: :guide,

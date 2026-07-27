@@ -1,5 +1,5 @@
 %{
-  title: "Livebook Authoring Standards",
+  title: "Livebook authoring standards",
   description: "Canonical format for contributor-authored runnable Livebook docs, including setup cells, runtime pattern, metadata, and drift tests.",
   category: :docs,
   legacy_paths: [],

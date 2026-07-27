@@ -1,5 +1,5 @@
 %{
-  title: "Actions and Schema Validation",
+  title: "Actions and schema validation",
   category: :training,
   description: "Design robust action contracts with clear input schemas, defaults, and validation failures that are safe to expose to callers.",
   track: :foundations,

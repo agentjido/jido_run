@@ -1,5 +1,5 @@
 <!-- %{
-  title: "Build an AI Chat Agent",
+  title: "Build an AI chat agent",
   description: "Build a multi-turn conversational agent with Jido using one agent process, repeated turns, and snapshot inspection.",
   category: :docs,
   order: 50,

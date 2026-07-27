@@ -1,6 +1,6 @@
 %{
   description: "A worked example of one tool-error retry decision: a retryable error is retried inside a bounded budget, a terminal error is not retried at all.",
-  title: "Tool Error and Retry Decision",
+  title: "Tool error and retry decision",
   category: :docs,
   legacy_paths: [],
   tags: [:docs, :operations],

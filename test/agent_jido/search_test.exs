@@ -517,12 +517,12 @@ defmodule AgentJido.ContentAssistant.RetrievalTest do
     # inflate unrelated doc bodies), so the canonical page wins via alias
     # rerank priority plus the aliases indexed into its searchable text.
     for {term, canonical_url, canonical_title} <- [
-          {"agent server", "/docs/concepts/agent-runtime", "Agent Runtime"},
-          {"AgentServer", "/docs/concepts/agent-runtime", "Agent Runtime"},
-          {"supervision", "/docs/operations/supervision-and-failure-boundaries", "Supervision and Failure Boundaries"},
-          {"restart", "/docs/operations/process-crash-and-restart", "Process Crash and Restart"},
+          {"agent server", "/docs/concepts/agent-runtime", "Agent runtime"},
+          {"AgentServer", "/docs/concepts/agent-runtime", "Agent runtime"},
+          {"supervision", "/docs/operations/supervision-and-failure-boundaries", "Supervision and failure boundaries"},
+          {"restart", "/docs/operations/process-crash-and-restart", "Process crash and restart"},
           {"durable", "/docs/concepts/persistence", "Persistence"},
-          {"long-running", "/docs/concepts/agent-runtime", "Agent Runtime"},
+          {"long-running", "/docs/concepts/agent-runtime", "Agent runtime"},
           {"tools", "/features/tools", "Give agents tools"},
           {"function calling", "/docs/learn/ai-agent-with-tools", "AI agent with tools"}
         ] do
@@ -576,7 +576,7 @@ defmodule AgentJido.ContentAssistant.RetrievalTest do
           {"signals routing", "/docs/concepts/signals", "Signals"},
           {"directives scheduling", "/docs/concepts/directives", "Directives"},
           {"liveview integration", "/docs/getting-started/elixir-developers", "I know Elixir"},
-          {"production readiness", "/docs/guides/error-handling-and-recovery", "Error Handling"}
+          {"production readiness", "/docs/guides/error-handling-and-recovery", "Error handling"}
         ] do
       test "returns #{inspect(term)} -> #{canonical_url} as the top result via fallback" do
         search_fun = fn _query, _opts -> {:error, :backend_down} end
@@ -619,7 +619,7 @@ defmodule AgentJido.ContentAssistant.RetrievalTest do
         assert {:ok, [top | _rest]} = Retrieval.query(unquote(term), search_fun: search_fun)
 
         assert top.url == "/docs/operations/security-and-governance"
-        assert top.title == "Security and Governance"
+        assert top.title == "Security and governance"
         assert top.source_type == :docs
       end
     end

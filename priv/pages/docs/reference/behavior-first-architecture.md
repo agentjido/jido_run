@@ -1,5 +1,5 @@
 %{
-  title: "Behavior-First Architecture",
+  title: "Behavior-first architecture",
   description: "Why Jido is built around behavioral contracts instead of prompt loops, callback graphs, or implementation-specific agent classes.",
   category: :docs,
   legacy_paths: [],

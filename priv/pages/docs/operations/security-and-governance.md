@@ -1,6 +1,6 @@
 %{
   description: "Guardrails for permissions, policy controls, and auditable operation.",
-  title: "Security and Governance",
+  title: "Security and governance",
   category: :docs,
   legacy_paths: ["/docs/security-and-governance", "/docs/reference/security-and-governance"],
   tags: [:docs, :operations],

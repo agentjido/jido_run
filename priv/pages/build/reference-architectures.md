@@ -1,5 +1,5 @@
 %{
-  title: "Reference Architectures",
+  title: "Reference architectures",
   category: :build,
   description: "Production-proven patterns for common agent system designs.",
   doc_type: :reference,

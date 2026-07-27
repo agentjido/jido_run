@@ -1,6 +1,6 @@
 %{
   description: "How OTP supervision bounds agent failure: topology, restart strategy, and restart intensity.",
-  title: "Supervision and Failure Boundaries",
+  title: "Supervision and failure boundaries",
   category: :docs,
   legacy_paths: [],
   tags: [:docs, :operations],

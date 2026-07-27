@@ -1,5 +1,5 @@
 %{
-  title: "Package Support Levels",
+  title: "Package support levels",
   description: "Canonical public support taxonomy for Jido ecosystem packages and what Stable, Beta, and Experimental mean operationally.",
   category: :docs,
   legacy_paths: [],

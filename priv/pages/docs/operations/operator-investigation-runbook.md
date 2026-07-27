@@ -1,6 +1,6 @@
 %{
   description: "How an operator follows one unit of work from a principal, request, trace, or Signal ID to the decisions that governed it and the effects it produced.",
-  title: "Operator Investigation Runbook",
+  title: "Operator investigation runbook",
   category: :docs,
   legacy_paths: [],
   tags: [:docs, :operations],

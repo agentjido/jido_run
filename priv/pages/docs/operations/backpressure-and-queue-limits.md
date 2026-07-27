@@ -1,6 +1,6 @@
 %{
   description: "The four limit surfaces a long-running Jido system exposes — mailbox, bus, task, and provider — and, for each, where the bound lives and what happens when it is exceeded.",
-  title: "Backpressure and Queue Limits",
+  title: "Backpressure and queue limits",
   category: :docs,
   legacy_paths: [],
   tags: [:docs, :operations],

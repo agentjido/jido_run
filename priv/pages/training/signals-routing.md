@@ -1,5 +1,5 @@
 %{
-  title: "Signals, Routing, and Agent Communication",
+  title: "Signals, routing, and agent communication",
   category: :training,
   description: "Coordinate agents through explicit signal contracts and routing strategies that keep producer and consumer responsibilities decoupled.",
   track: :coordination,

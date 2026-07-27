@@ -1,6 +1,6 @@
 %{
   description: "A worked example of poison work and dead-letter handling: a persistently failing item exhausts a bounded retry budget, is moved to a dead-letter store where it can be inspected, and is replayed once the underlying cause is fixed.",
-  title: "Poison Work and Dead-Letter Handling",
+  title: "Poison work and dead-letter handling",
   category: :docs,
   legacy_paths: [],
   tags: [:docs, :operations],

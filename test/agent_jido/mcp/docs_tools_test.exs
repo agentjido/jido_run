@@ -109,7 +109,7 @@ defmodule AgentJido.MCP.DocsToolsTest do
 
       # The canonical control overview is the Security and governance guide.
       overview = structured["overview"]
-      assert overview["title"] == "Security and Governance"
+      assert overview["title"] == "Security and governance"
       assert overview["path"] == "/docs/operations/security-and-governance"
       assert overview["canonical_url"] =~ "/docs/operations/security-and-governance"
       assert overview["section"] == "operations"

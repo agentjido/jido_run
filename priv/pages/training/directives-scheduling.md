@@ -1,5 +1,5 @@
 %{
-  title: "Directives, Scheduling, and Time-Based Behavior",
+  title: "Directives, scheduling, and time-based behavior",
   category: :training,
   description: "Build recurring and delayed behavior using directives, including schedule-driven loops and safe shutdown logic.",
   track: :coordination,

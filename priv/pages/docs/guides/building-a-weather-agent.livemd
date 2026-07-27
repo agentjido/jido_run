@@ -1,5 +1,5 @@
 %{
-  title: "Building a Weather Agent",
+  title: "Building a weather agent",
   description: "Build an end-to-end tool-calling agent that fetches live weather data with notebook-local Actions.",
   category: :docs,
   tags: [:docs, :guides, :livebook],

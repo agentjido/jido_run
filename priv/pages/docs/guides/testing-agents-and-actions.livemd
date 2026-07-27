@@ -1,5 +1,5 @@
 %{
-  title: "Testing Agents",
+  title: "Testing agents",
   description: "Unit and integration test patterns for agents, actions, and runtime workflows.",
   category: :docs,
   tags: [:docs, :guides, :livebook],

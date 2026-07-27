@@ -1,5 +1,5 @@
 %{
-  title: "Ecosystem Atlas",
+  title: "Ecosystem atlas",
   description: "Public package roster for the Jido ecosystem with support levels, package owners, release status, and role in the stack.",
   category: :docs,
   legacy_paths: [],

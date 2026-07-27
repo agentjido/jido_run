@@ -1,5 +1,5 @@
 %{
-  title: "Quickstarts by Persona",
+  title: "Quickstarts by persona",
   category: :build,
   description: "Choose your path: chatbot builder, data pipeline engineer, or autonomous agent architect.",
   doc_type: :tutorial,

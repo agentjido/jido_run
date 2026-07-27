@@ -1,6 +1,6 @@
 %{
   description: "Supported upgrade paths and version ranges for jido, jido_ai, and req_llm — what each major line covers, which cross-package constraint you must satisfy, and the order to upgrade in.",
-  title: "Migrations and Upgrade Paths",
+  title: "Migrations and upgrade paths",
   category: :docs,
   legacy_paths: ["/docs/migrations-and-upgrade-paths"],
   tags: [:docs, :reference],

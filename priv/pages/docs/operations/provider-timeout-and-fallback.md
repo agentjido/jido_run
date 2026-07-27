@@ -1,6 +1,6 @@
 %{
   description: "A worked example of a provider timeout and fallback: a transient timeout is retried inside a bounded budget, and an explicit fallback rule fires when the budget is exhausted or a terminal error occurs.",
-  title: "Provider Timeout and Fallback",
+  title: "Provider timeout and fallback",
   category: :docs,
   legacy_paths: [],
   tags: [:docs, :operations],

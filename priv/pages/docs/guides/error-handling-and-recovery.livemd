@@ -1,5 +1,5 @@
 %{
-  title: "Error Handling",
+  title: "Error handling",
   description: "Configure error policies, handle failures, and recover gracefully.",
   category: :docs,
   tags: [:docs, :guides, :livebook],

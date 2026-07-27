@@ -1,5 +1,5 @@
 <!-- %{
-  title: "Build a Hybrid Chat Agent",
+  title: "Build a hybrid chat agent",
   description: "Mix quick chat turns and deeper reasoning turns in one Jido chat agent by changing per-request LLM options.",
   category: :docs,
   order: 51,

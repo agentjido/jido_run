@@ -1,6 +1,6 @@
 %{
   description: "A worked example of an AgentServer process crash: the supervisor restarts the process, and the observed state result is explicit.",
-  title: "Process Crash and Restart",
+  title: "Process crash and restart",
   category: :docs,
   legacy_paths: [],
   tags: [:docs, :operations],

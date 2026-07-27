@@ -1,5 +1,5 @@
 %{
-  title: "Production Readiness: Supervision, Telemetry, and Failure Modes",
+  title: "Production readiness: supervision, telemetry, and failure modes",
   category: :training,
   description: "Harden agent workloads for production with explicit supervision strategy, telemetry instrumentation, and controlled failure recovery.",
   track: :operations,

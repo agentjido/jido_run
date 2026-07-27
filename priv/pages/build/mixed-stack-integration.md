@@ -1,5 +1,5 @@
 %{
-  title: "Mixed-Stack Integration",
+  title: "Mixed-stack integration",
   category: :build,
   description: "Integrate Jido agents with Python, Node.js, and other language ecosystems.",
   doc_type: :guide,

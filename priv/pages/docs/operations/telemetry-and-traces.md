@@ -1,6 +1,6 @@
 %{
   description: "The two observation layers a long-running agent exposes: the :telemetry events Jido core emits for free, and the separate, optional jido_otel exporter that bridges them to OpenTelemetry.",
-  title: "Telemetry and Traces",
+  title: "Telemetry and traces",
   category: :docs,
   legacy_paths: [],
   tags: [:docs, :operations],

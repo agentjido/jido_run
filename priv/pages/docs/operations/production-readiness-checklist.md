@@ -1,6 +1,6 @@
 %{
   description: "Go-live gate for reliability, observability, and recovery readiness.",
-  title: "Production Readiness Checklist",
+  title: "Production readiness checklist",
   category: :docs,
   legacy_paths: ["/docs/production-readiness-checklist", "/docs/reference/production-readiness-checklist"],
   tags: [:docs, :operations],

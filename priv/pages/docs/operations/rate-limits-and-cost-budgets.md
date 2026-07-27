@@ -1,6 +1,6 @@
 %{
   description: "The three budgets a long-running Jido AI system must set deliberately — token, request, and tool — and, for each, where the bound lives and what happens when it is exceeded.",
-  title: "Rate Limits and Cost Budgets",
+  title: "Rate limits and cost budgets",
   category: :docs,
   legacy_paths: [],
   tags: [:docs, :operations],

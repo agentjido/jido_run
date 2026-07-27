@@ -1,6 +1,6 @@
 %{
   description: "How timed and external work enters a long-running agent: Schedule and Cron directives, sensors, and direct Signal injection — and the operational decisions each one forces.",
-  title: "Scheduling and Event Input",
+  title: "Scheduling and event input",
   category: :docs,
   legacy_paths: [],
   tags: [:docs, :operations],

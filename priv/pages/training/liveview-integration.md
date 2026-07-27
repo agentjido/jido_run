@@ -1,5 +1,5 @@
 %{
-  title: "LiveView + Jido Integration Patterns",
+  title: "LiveView + Jido integration patterns",
   category: :training,
   description: "Connect LiveView UIs to agent state transitions with deterministic rendering, command handlers, and event-driven updates.",
   track: :integration,

@@ -1,5 +1,5 @@
 %{
-  title: "Package Quality Standards",
+  title: "Package quality standards",
   description: "Canonical checklist for contributor-facing package quality, CI, release automation, and documentation standards across the Jido ecosystem.",
   category: :docs,
   legacy_paths: ["/docs/contributors/generic-package-qa"],

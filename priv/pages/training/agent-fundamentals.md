@@ -1,5 +1,5 @@
 %{
-  title: "Agent Fundamentals on the BEAM",
+  title: "Agent fundamentals on the BEAM",
   category: :training,
   description: "Learn the core Jido mental model: agents as data, actions as transitions, and supervision-managed execution boundaries.",
   track: :foundations,

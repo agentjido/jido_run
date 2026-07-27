@@ -273,7 +273,7 @@ defmodule AgentJidoWeb.PageLiveTest do
 
       {:ok, _view, html} = live(conn, page.path)
 
-      assert html =~ "Package Support Levels"
+      assert html =~ "Package support levels"
       assert html =~ "Stable"
       assert html =~ "Beta"
       assert html =~ "Experimental"
@@ -282,12 +282,12 @@ defmodule AgentJidoWeb.PageLiveTest do
 
     test "renders the new contributor handbook pages", %{conn: conn} do
       for {path, title} <- [
-            {"/docs/contributors/ecosystem-atlas", "Ecosystem Atlas"},
-            {"/docs/contributors/observability-and-error-reporting-standards", "Observability and Error Reporting Standards"},
-            {"/docs/contributors/livebook-authoring-standards", "Livebook Authoring Standards"},
+            {"/docs/contributors/ecosystem-atlas", "Ecosystem atlas"},
+            {"/docs/contributors/observability-and-error-reporting-standards", "Observability and error reporting standards"},
+            {"/docs/contributors/livebook-authoring-standards", "Livebook authoring standards"},
             {"/docs/contributors/roadmap", "Roadmap"},
             {"/docs/contributors/contributing", "Contributing"},
-            {"/docs/contributors/governance-and-team", "Governance and Team Structure"}
+            {"/docs/contributors/governance-and-team", "Governance and team structure"}
           ] do
         page = Pages.get_page_by_path(path)
         assert page != nil
@@ -354,7 +354,7 @@ defmodule AgentJidoWeb.PageLiveTest do
       assert ai_chat_html =~ ~s(href="/docs/guides/cookbook/chat-response")
 
       {:ok, _view, recipe_html} = live(conn, "/docs/guides/cookbook/chat-response")
-      assert recipe_html =~ "Cookbook: Chat Response"
+      assert recipe_html =~ "Cookbook: chat response"
     end
 
     test "AI agent with tools page documents the LocationToGrid weather flow", %{conn: conn} do
@@ -734,8 +734,8 @@ defmodule AgentJidoWeb.PageLiveTest do
 
       assert html =~ "Build"
       assert html =~ "Build with Jido"
-      assert html =~ "Quickstarts by Persona"
-      assert html =~ "Reference Architectures"
+      assert html =~ "Quickstarts by persona"
+      assert html =~ "Reference architectures"
       refute html =~ "Content coming soon."
     end
 

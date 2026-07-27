@@ -1,6 +1,6 @@
 %{
   description: "Separate retry, timeout, and fallback decisions for tool errors, HTTP transport failures, and model/provider failures.",
-  title: "Retries, Timeouts, and Provider Failure",
+  title: "Retries, timeouts, and provider failure",
   category: :docs,
   legacy_paths: [],
   tags: [:docs, :operations],

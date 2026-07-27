@@ -1,5 +1,5 @@
 %{
-  title: "Agent Runtime",
+  title: "Agent runtime",
   description: "How AgentServer runs agents as OTP processes, routes signals, and executes directives.",
   category: :docs,
   order: 90,

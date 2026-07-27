@@ -1,6 +1,6 @@
 %{
   description: "Governance workflows to keep docs aligned with code reality.",
-  title: "Content Governance and Drift Detection",
+  title: "Content governance and drift detection",
   category: :docs,
   legacy_paths: ["/docs/content-governance-and-drift-detection"],
   tags: [:docs, :reference],

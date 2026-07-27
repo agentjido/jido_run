@@ -3,7 +3,7 @@ defmodule AgentJido.Demos.LongRunningReference.Health do
   Health checks for the reference application (`jido-e07-t29`).
 
   The "health check" step of the linear path, implemented exactly as the
-  [Health Checks and Readiness](/docs/operations/health-checks-and-readiness)
+  [Health checks and readiness](/docs/operations/health-checks-and-readiness)
   operations page prescribes: three independent axes — process, dependency, and
   work health — because they fail independently. A process-health probe passes
   during a provider outage; a dependency probe passes while the queue grows.

@@ -1,6 +1,6 @@
 %{
   description: "Schema and index reference for embeddings and retrieval data.",
-  title: "Data Storage and pgvector",
+  title: "Data storage and pgvector",
   category: :docs,
   legacy_paths: ["/docs/data-storage-and-pgvector"],
   tags: [:docs, :reference],

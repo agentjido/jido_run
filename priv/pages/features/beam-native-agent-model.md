@@ -1,5 +1,5 @@
 %{
-  title: "BEAM-Native Agent Model",
+  title: "BEAM-native agent model",
   category: :features,
   description: "Why Jido models each Agent as an OTP process with deterministic state transitions and explicit side effects.",
   doc_type: :explanation,

@@ -1,5 +1,5 @@
 %{
-  title: "Governance and Team Structure",
+  title: "Governance and team structure",
   description: "How Jido makes decisions, assigns package ownership, and organizes cross-cutting teams.",
   category: :docs,
   legacy_paths: [],

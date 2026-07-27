@@ -1,6 +1,6 @@
 %{
   description: "Every telemetry event, pre-built metric, and log level control in the Jido ecosystem.",
-  title: "Telemetry and Observability",
+  title: "Telemetry and observability",
   category: :docs,
   legacy_paths: ["/docs/telemetry-and-observability"],
   tags: [:docs, :reference],

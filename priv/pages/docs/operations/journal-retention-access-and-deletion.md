@@ -1,6 +1,6 @@
 %{
   description: "Who owns the durable Signal Journal's retention, access, sensitive fields, and deletion — and what Jido ships (an adapter surface) versus what the application owns (everything else).",
-  title: "Journal Retention, Access, and Deletion",
+  title: "Journal retention, access, and deletion",
   category: :docs,
   legacy_paths: [],
   tags: [:docs, :operations],

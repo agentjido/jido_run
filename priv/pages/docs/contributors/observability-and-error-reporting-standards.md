@@ -1,5 +1,5 @@
 %{
-  title: "Observability and Error Reporting Standards",
+  title: "Observability and error reporting standards",
   description: "Canonical contributor policy for logging, telemetry, sanitization, and Splode-backed error contracts across the Jido ecosystem.",
   category: :docs,
   legacy_paths: [],

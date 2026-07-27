@@ -1,6 +1,6 @@
 %{
   description: "Decision frameworks for runtime, integration, and operations tradeoffs.",
-  title: "Architecture Decision Guides",
+  title: "Architecture decision guides",
   category: :docs,
   legacy_paths: ["/docs/architecture-decision-guides"],
   tags: [:docs, :reference],

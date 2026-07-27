@@ -1,5 +1,5 @@
 %{
-  title: "Cookbook: Chat Response",
+  title: "Cookbook: chat response",
   description: "Send a single chat request with Jido AI and extract the returned text, model, and usage fields.",
   category: :docs,
   order: 110,

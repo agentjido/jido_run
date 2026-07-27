@@ -1,6 +1,6 @@
 %{
   description: "A worked example of a deployment restart: the whole supervised tree is torn down and rebuilt, and the workflow safely restarts at a stated state — or resumes, when the application owns persistence.",
-  title: "Deployment Restart",
+  title: "Deployment restart",
   category: :docs,
   legacy_paths: [],
   tags: [:docs, :operations],

@@ -1,6 +1,6 @@
 %{
   description: "The three independent health axes a long-running agent exposes — process health, dependency health, and work health — and the repeatable post-deploy verification that confirms each.",
-  title: "Health Checks and Readiness",
+  title: "Health checks and readiness",
   category: :docs,
   legacy_paths: [],
   tags: [:docs, :operations],
