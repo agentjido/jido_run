@@ -656,6 +656,7 @@ defmodule AgentJidoWeb.ContentAssistantLiveTest do
       view
       |> form("#content-assistant-form", assistant: %{q: "control"})
       |> render_submit()
+
       assert_state(view, ~s(id="content-assistant-answer-state"))
 
       html = render_click(view, "select_result_filter", %{"type" => "examples"})
@@ -675,6 +676,7 @@ defmodule AgentJidoWeb.ContentAssistantLiveTest do
       view
       |> form("#content-assistant-form", assistant: %{q: "control"})
       |> render_submit()
+
       assert_state(view, ~s(id="content-assistant-answer-state"))
 
       render_click(view, "select_result_filter", %{"type" => "examples"})
@@ -692,6 +694,7 @@ defmodule AgentJidoWeb.ContentAssistantLiveTest do
       view
       |> form("#content-assistant-form", assistant: %{q: "control"})
       |> render_submit()
+
       assert_state(view, ~s(id="content-assistant-answer-state"))
 
       html = render_click(view, "select_result_filter", %{"type" => "bogus"})
@@ -708,6 +711,7 @@ defmodule AgentJidoWeb.ContentAssistantLiveTest do
       view
       |> form("#content-assistant-form", assistant: %{q: "control"})
       |> render_submit()
+
       assert_state(view, ~s(id="content-assistant-answer-state"))
       render_click(view, "select_result_filter", %{"type" => "examples"})
 
@@ -716,6 +720,7 @@ defmodule AgentJidoWeb.ContentAssistantLiveTest do
       view
       |> form("#content-assistant-form", assistant: %{q: "missing"})
       |> render_submit()
+
       assert_state(view, ~s(id="content-assistant-no-results-state"))
 
       event =
