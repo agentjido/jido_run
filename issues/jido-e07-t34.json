@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-27T03:45:28Z",
   "created": "2026-07-23T12:04:46Z",
   "description": "Backlog task: E07-T34\n\nWork area: Proof package\n\nMain targets: Home and Docs\n\nComplete when: The main position links to the full proof path.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e07-t34",
@@ -22,7 +23,7 @@
     }
   ],
   "priority": 2,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E07-T34 — Add a short production-path index to the home and Docs hubs.",
   "type": "task",
   "updated_at": "2026-07-27T03:45:28Z"
