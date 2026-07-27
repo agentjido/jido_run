@@ -29,6 +29,7 @@ defmodule AgentJidoWeb.JidoEcosystemLive do
        selected_layer: :all,
        selected_support_levels: [],
        current_params: %{},
+       dependency_map_open: false,
        explorer_packages: [],
        compare_rows: [],
        bookmark_count: EcosystemBookmarks.count(),
@@ -48,6 +49,7 @@ defmodule AgentJidoWeb.JidoEcosystemLive do
     public_packages = Ecosystem.public_packages()
     selected_support_levels = parse_support_levels(params)
     selected_layer = parse_layer(params)
+    dependency_map_open = parse_dependency_map_open(params)
 
     filtered_packages =
       public_packages
@@ -62,6 +64,7 @@ defmodule AgentJidoWeb.JidoEcosystemLive do
        current_params: params,
        selected_layer: selected_layer,
        selected_support_levels: selected_support_levels,
+       dependency_map_open: dependency_map_open,
        explorer_packages: build_explorer_packages(filtered_packages, title_by_id, stars_by_package),
        compare_rows: build_compare_rows(filtered_packages, title_by_id, stars_by_package),
        orbit_payload_json: Jason.encode!(build_orbit_payload(filtered_packages)),
@@ -99,7 +102,27 @@ defmodule AgentJidoWeb.JidoEcosystemLive do
 
   @impl true
   def handle_event("clear_filters", _params, socket) do
-    {:noreply, push_patch(socket, to: "/ecosystem")}
+    # Clear the layer/support filters but preserve the dependency-map open state —
+    # resetting filters should not collapse an open catalog (jido-e09-t38).
+    next_params =
+      socket.assigns.current_params
+      |> Map.delete("layer")
+      |> Map.delete("support_level")
+      |> Map.delete("support_levels")
+      |> maybe_put_dependency_map(socket.assigns.dependency_map_open)
+
+    {:noreply, push_patch(socket, to: ecosystem_index_path(next_params))}
+  end
+
+  @impl true
+  def handle_event("toggle_dependency_map", _params, socket) do
+    next_open = not socket.assigns.dependency_map_open
+
+    next_params =
+      socket.assigns.current_params
+      |> maybe_put_dependency_map(next_open)
+
+    {:noreply, push_patch(socket, to: ecosystem_index_path(next_params))}
   end
 
   @impl true
@@ -144,10 +167,10 @@ defmodule AgentJidoWeb.JidoEcosystemLive do
               <span class="text-muted-foreground text-xs">layers</span>
             </div>
             <a
-              href="#compare"
+              href="#dependency-map"
               class="text-xs text-primary hover:text-primary/80 transition-colors font-semibold"
             >
-              COMPARE PACKAGES ↓
+              DEPENDENCY MAP ↓
             </a>
             <a
               href="#operational-control"
@@ -372,7 +395,44 @@ defmodule AgentJidoWeb.JidoEcosystemLive do
           </p>
         </section>
 
-        <section class="mb-16">
+        <section id="dependency-map" class="mb-16 scroll-mt-24">
+          <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between mb-5">
+            <div>
+              <span class="text-sm font-bold tracking-wider">DEPENDENCY MAP</span>
+              <p class="copy-measure text-sm leading-relaxed text-secondary-foreground mt-2">
+                The recommended stacks above come first. Expand the map to browse all {@package_count} public
+                packages, filter by layer, and compare how they depend on each other — the full catalog stays
+                collapsed until you reach for it.
+              </p>
+            </div>
+            <button
+              id="toggle-dependency-map"
+              type="button"
+              phx-click="toggle_dependency_map"
+              aria-expanded={to_string(@dependency_map_open)}
+              class="inline-flex items-center justify-center rounded border border-primary/40 bg-primary/10 px-5 py-2.5 text-[12px] font-bold text-primary hover:bg-primary/15 transition-colors whitespace-nowrap"
+            >
+              <%= if @dependency_map_open do %>
+                COLLAPSE ↑
+              <% else %>
+                SHOW ALL {@package_count} PACKAGES ↓
+              <% end %>
+            </button>
+          </div>
+        </section>
+
+        <article :if={not @dependency_map_open} class="rounded-md border border-border bg-card/60 p-6 mb-16">
+          <div class="text-sm font-bold text-foreground mb-2">
+            All {@package_count} public packages, collapsed.
+          </div>
+          <p class="text-xs text-muted-foreground leading-relaxed">
+            New here? The three stacks above cover the common starting points. Expand the dependency map for the
+            full catalog, the layer filter, and the side-by-side compare table — every package links to its own
+            detail page.
+          </p>
+        </article>
+
+        <section :if={@dependency_map_open} class="mb-16">
           <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between mb-6">
             <div>
               <span class="text-sm font-bold tracking-wider">PACKAGE EXPLORER</span>
@@ -383,6 +443,7 @@ defmodule AgentJidoWeb.JidoEcosystemLive do
 
             <%= if filters_active?(@selected_layer, @selected_support_levels) do %>
               <button
+                id="reset-filters"
                 type="button"
                 phx-click="clear_filters"
                 class="text-xs text-muted-foreground hover:text-primary transition-colors font-semibold"
@@ -431,7 +492,7 @@ defmodule AgentJidoWeb.JidoEcosystemLive do
           <% end %>
         </section>
 
-        <section :if={@package_count > 0} class="mb-16 hidden lg:block">
+        <section :if={@dependency_map_open and @package_count > 0} class="mb-16 hidden lg:block">
           <div class="flex justify-between items-center mb-5">
             <span class="text-sm font-bold tracking-wider">ECOSYSTEM MAP</span>
             <span class="text-[11px] text-muted-foreground">select a package to inspect relationships</span>
@@ -447,7 +508,7 @@ defmodule AgentJidoWeb.JidoEcosystemLive do
           </div>
         </section>
 
-        <section id="compare" class="mb-16 scroll-mt-24">
+        <section :if={@dependency_map_open} id="compare" class="mb-16 scroll-mt-24">
           <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between mb-5">
             <div>
               <span class="text-sm font-bold tracking-wider">COMPARE PACKAGES</span>
@@ -889,6 +950,9 @@ defmodule AgentJidoWeb.JidoEcosystemLive do
   defp maybe_put_layer(params, :all), do: params
   defp maybe_put_layer(params, layer), do: Map.put(params, "layer", Atom.to_string(layer))
 
+  defp maybe_put_dependency_map(params, false), do: Map.delete(params, "map")
+  defp maybe_put_dependency_map(params, true), do: Map.put(params, "map", "open")
+
   defp ecosystem_index_path(params) when map_size(params) == 0, do: "/ecosystem"
   defp ecosystem_index_path(params), do: "/ecosystem?" <> URI.encode_query(params)
 
@@ -907,6 +971,16 @@ defmodule AgentJidoWeb.JidoEcosystemLive do
     case params |> Map.get("layer", "all") |> normalize_layer_param() do
       nil -> :all
       layer -> layer
+    end
+  end
+
+  # The dependency map starts collapsed (jido-e09-t38) so new users see the
+  # recommended stacks before all 47 packages. `?map=open` is the deep-link form
+  # used by the legacy package-matrix redirects and the compare deep-links.
+  defp parse_dependency_map_open(params) do
+    case Map.get(params, "map") do
+      value when value in ["open", "1", "true"] -> true
+      _other -> false
     end
   end
 

@@ -7,7 +7,9 @@ defmodule AgentJidoWeb.JidoEcosystemLiveTest do
   alias AgentJido.Ecosystem.{ControlMatrix, Layering, Stacks, SupportLevel}
 
   test "renders ecosystem package directory and links all public packages", %{conn: conn} do
-    {:ok, _view, html} = live(conn, "/ecosystem")
+    # The full catalog lives behind the collapsed dependency map (jido-e09-t38),
+    # so open it to assert every public package is linked.
+    {:ok, _view, html} = live(conn, "/ecosystem?map=open")
 
     assert html =~ "PACKAGE ECOSYSTEM"
     assert html =~ "SUPPORT LEVELS"
@@ -50,7 +52,7 @@ defmodule AgentJidoWeb.JidoEcosystemLiveTest do
     beta_package = package_for_support_level!(:beta)
     experimental_package = package_for_support_level(:experimental)
 
-    {:ok, view, html} = live(conn, "/ecosystem")
+    {:ok, view, html} = live(conn, "/ecosystem?map=open")
 
     assert html =~ explorer_card_label(stable_package)
     assert html =~ explorer_card_label(beta_package)
@@ -65,7 +67,7 @@ defmodule AgentJidoWeb.JidoEcosystemLiveTest do
 
     stable_patch = assert_patch(view)
     assert URI.parse(stable_patch).path == "/ecosystem"
-    assert URI.parse(stable_patch).query |> URI.decode_query() == %{"support_levels" => "stable"}
+    assert URI.parse(stable_patch).query |> URI.decode_query() == %{"map" => "open", "support_levels" => "stable"}
 
     stable_html = render(view)
     assert stable_html =~ explorer_card_label(stable_package)
@@ -81,7 +83,7 @@ defmodule AgentJidoWeb.JidoEcosystemLiveTest do
 
     stable_beta_patch = assert_patch(view)
     assert URI.parse(stable_beta_patch).path == "/ecosystem"
-    assert URI.parse(stable_beta_patch).query |> URI.decode_query() == %{"support_levels" => "stable,beta"}
+    assert URI.parse(stable_beta_patch).query |> URI.decode_query() == %{"map" => "open", "support_levels" => "stable,beta"}
 
     stable_beta_html = render(view)
     assert stable_beta_html =~ explorer_card_label(stable_package)
@@ -97,7 +99,7 @@ defmodule AgentJidoWeb.JidoEcosystemLiveTest do
 
     beta_patch = assert_patch(view)
     assert URI.parse(beta_patch).path == "/ecosystem"
-    assert URI.parse(beta_patch).query |> URI.decode_query() == %{"support_levels" => "beta"}
+    assert URI.parse(beta_patch).query |> URI.decode_query() == %{"map" => "open", "support_levels" => "beta"}
 
     beta_html = render(view)
     refute beta_html =~ explorer_card_label(stable_package)
@@ -111,7 +113,7 @@ defmodule AgentJidoWeb.JidoEcosystemLiveTest do
     |> element("#support-level-beta")
     |> render_click()
 
-    assert_patch(view, "/ecosystem")
+    assert_patch(view, "/ecosystem?map=open")
 
     reset_html = render(view)
     assert reset_html =~ explorer_card_label(stable_package)
@@ -126,7 +128,7 @@ defmodule AgentJidoWeb.JidoEcosystemLiveTest do
     foundation_package = package_for_layer!(:foundation)
     app_package = package_for_layer!(:app)
 
-    {:ok, view, html} = live(conn, "/ecosystem")
+    {:ok, view, html} = live(conn, "/ecosystem?map=open")
 
     assert html =~ explorer_card_label(foundation_package)
     assert html =~ explorer_card_label(app_package)
@@ -135,7 +137,9 @@ defmodule AgentJidoWeb.JidoEcosystemLiveTest do
     |> element("#layer-filter-foundation")
     |> render_click()
 
-    assert_patch(view, "/ecosystem?layer=foundation")
+    foundation_patch = assert_patch(view)
+    assert URI.parse(foundation_patch).path == "/ecosystem"
+    assert URI.parse(foundation_patch).query |> URI.decode_query() == %{"layer" => "foundation", "map" => "open"}
 
     foundation_html = render(view)
     assert foundation_html =~ explorer_card_label(foundation_package)
@@ -145,11 +149,11 @@ defmodule AgentJidoWeb.JidoEcosystemLiveTest do
     |> element("#layer-filter-foundation")
     |> render_click()
 
-    assert_patch(view, "/ecosystem")
+    assert_patch(view, "/ecosystem?map=open")
   end
 
   test "compare table pins jido first and renders icon links", %{conn: conn} do
-    {:ok, _view, html} = live(conn, "/ecosystem")
+    {:ok, _view, html} = live(conn, "/ecosystem?map=open")
 
     {jido_index, _} = :binary.match(html, ~s(id="compare-row-jido"))
     {action_index, _} = :binary.match(html, ~s(id="compare-row-jido_action"))
@@ -161,7 +165,7 @@ defmodule AgentJidoWeb.JidoEcosystemLiveTest do
   end
 
   test "orbit payload marks chat adapters as moons of jido_chat", %{conn: conn} do
-    {:ok, _view, html} = live(conn, "/ecosystem")
+    {:ok, _view, html} = live(conn, "/ecosystem?map=open")
 
     assert html =~ "jido_chat_discord"
     assert html =~ "jido_chat_mattermost"
@@ -332,6 +336,98 @@ defmodule AgentJidoWeb.JidoEcosystemLiveTest do
 
       assert html =~ ~s(href="#operational-control")
       assert html =~ "OPERATIONAL CONTROL ↓"
+    end
+  end
+
+  describe "dependency map starts collapsed (jido-e09-t38)" do
+    # Acceptance condition: new users see recommended stacks before all 47
+    # packages. The full catalog — explorer, orbit, and compare — is collapsed
+    # behind the dependency-map disclosure by default; the recommended stacks
+    # stay first and expanded until the builder opens the map.
+
+    test "the full catalog is collapsed on first load; stacks render first", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/ecosystem")
+
+      # Recommended stacks and operational control are what a new user sees.
+      assert html =~ "STACK COMPATIBILITY"
+      assert html =~ "OPERATIONAL CONTROL"
+
+      # The dependency-map disclosure is present and collapsed.
+      assert html =~ "DEPENDENCY MAP"
+      assert html =~ ~s(id="toggle-dependency-map")
+      assert html =~ ~s(aria-expanded="false")
+      assert html =~ "SHOW ALL"
+      assert html =~ "collapsed"
+
+      # The full 47-package catalog is not dumped on the new user.
+      refute html =~ "PACKAGE EXPLORER"
+      refute html =~ "COMPARE PACKAGES"
+      refute html =~ ~s(id="ecosystem-orbit")
+
+      hidden_package = hd(Ecosystem.public_packages())
+      refute html =~ explorer_card_label(hidden_package)
+    end
+
+    test "stacks render before the dependency-map disclosure", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/ecosystem")
+
+      # The hero deep-link also reads "DEPENDENCY MAP", so anchor on the
+      # disclosure's toggle button to locate the actual map section.
+      {stacks_index, _} = :binary.match(html, "STACK COMPATIBILITY")
+      {disclosure_index, _} = :binary.match(html, ~s(id="toggle-dependency-map"))
+      assert stacks_index < disclosure_index
+    end
+
+    test "expanding the map reveals the full catalog, then collapsing hides it", %{conn: conn} do
+      {:ok, view, collapsed} = live(conn, "/ecosystem")
+      refute collapsed =~ "PACKAGE EXPLORER"
+
+      view |> element("#toggle-dependency-map") |> render_click()
+
+      open_patch = assert_patch(view)
+      assert URI.parse(open_patch).path == "/ecosystem"
+      assert URI.parse(open_patch).query |> URI.decode_query() == %{"map" => "open"}
+
+      expanded = render(view)
+      assert expanded =~ "PACKAGE EXPLORER"
+      assert expanded =~ "COMPARE PACKAGES"
+      assert expanded =~ ~s(id="ecosystem-orbit")
+      assert expanded =~ ~s(aria-expanded="true")
+
+      for pkg <- Ecosystem.public_packages() do
+        assert expanded =~ ~s(href="/ecosystem/#{pkg.id}")
+      end
+
+      # Collapsing again hides the catalog and restores the stacks-first view.
+      view |> element("#toggle-dependency-map") |> render_click()
+      assert_patch(view, "/ecosystem")
+      hidden = render(view)
+      refute hidden =~ "PACKAGE EXPLORER"
+      assert hidden =~ "STACK COMPATIBILITY"
+    end
+
+    test "the ?map=open deep link opens the catalog", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/ecosystem?map=open")
+
+      assert html =~ "PACKAGE EXPLORER"
+      assert html =~ "COMPARE PACKAGES"
+      assert html =~ ~s(aria-expanded="true")
+    end
+
+    test "clearing filters keeps an open map open", %{conn: conn} do
+      {:ok, view, html} = live(conn, "/ecosystem?map=open&layer=foundation")
+      assert html =~ "PACKAGE EXPLORER"
+
+      view |> element("#reset-filters") |> render_click()
+
+      reset_patch = assert_patch(view)
+      assert URI.parse(reset_patch).path == "/ecosystem"
+      assert URI.parse(reset_patch).query |> URI.decode_query() == %{"map" => "open"}
+
+      # The map stays open; the layer filter is cleared.
+      reset_html = render(view)
+      assert reset_html =~ "PACKAGE EXPLORER"
+      refute reset_html =~ ~s(phx-value-layer="foundation" aria-pressed="true")
     end
   end
 

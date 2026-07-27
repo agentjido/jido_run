@@ -8,8 +8,11 @@ defmodule AgentJidoWeb.LegacyRedirects do
 
   @doc_redirects AgentJido.Pages.docs_legacy_redirects()
   @extra_redirects [
-    {"/ecosystem/matrix", "/ecosystem#compare"},
-    {"/ecosystem/package-matrix", "/ecosystem#compare"},
+    # The full catalog now starts collapsed behind the dependency-map disclosure
+    # (jido-e09-t38), so the legacy matrix routes land on the always-present
+    # dependency-map header rather than the collapsed compare anchor.
+    {"/ecosystem/matrix", "/ecosystem#dependency-map"},
+    {"/ecosystem/package-matrix", "/ecosystem#dependency-map"},
     # The public Training routes are retired and /getting-started was superseded
     # by the canonical /docs/getting-started path. Redirect both HTML and .md
     # variants to active Docs/Examples routes (jido-e01: E01-T13, E01-T14, E01-T15).

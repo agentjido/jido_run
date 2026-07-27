@@ -29,7 +29,7 @@ defmodule AgentJidoWeb.EcosystemStarsLiveTest do
 
   @tag with_tracker: true
   test "ecosystem index renders github star labels when cached stars exist", %{conn: conn} do
-    {:ok, _view, html} = live(conn, "/ecosystem")
+    {:ok, _view, html} = live(conn, "/ecosystem?map=open")
 
     assert html =~ ~s(href="https://github.com/agentjido/jido")
     assert html =~ "github ★1.2k"
@@ -45,14 +45,14 @@ defmodule AgentJidoWeb.EcosystemStarsLiveTest do
 
   @tag with_tracker: true
   test "ecosystem compare section renders github star labels when cached stars exist", %{conn: conn} do
-    {:ok, _view, html} = live(conn, "/ecosystem")
+    {:ok, _view, html} = live(conn, "/ecosystem?map=open")
 
     assert html =~ ~s(href="https://github.com/agentjido/jido")
     assert html =~ "github ★1.2k"
   end
 
   test "all ecosystem pages fall back to existing github labels when no cached stars exist", %{conn: conn} do
-    {:ok, _view, ecosystem_html} = live(conn, "/ecosystem")
+    {:ok, _view, ecosystem_html} = live(conn, "/ecosystem?map=open")
     {:ok, _view, detail_html} = live(recycle(conn), "/ecosystem/jido")
 
     assert ecosystem_html =~ "github"

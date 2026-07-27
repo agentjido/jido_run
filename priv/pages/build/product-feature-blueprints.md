@@ -22,7 +22,7 @@ Use these patterns to map feature intent to agent boundaries, package choices, a
 
 - Complete one bounded implementation from [Quickstarts by Persona](/build/quickstarts-by-persona) or [Counter Agent](/examples/counter-agent).
 - Choose runtime boundaries in [Reference Architectures](/build/reference-architectures).
-- Validate package intent with [Compare Packages](/ecosystem#compare).
+- Validate package intent with [Compare Packages](/ecosystem?map=open#compare).
 - Review release guardrails in [Production Readiness: Supervision, Telemetry, and Failure Modes](/training/production-readiness).
 
 ## Blueprint format
