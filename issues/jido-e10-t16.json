@@ -1,5 +1,5 @@
 {
-  "assignee": "",
+  "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:06:55Z",
@@ -18,8 +18,8 @@
     }
   ],
   "priority": 2,
-  "status": "open",
+  "status": "in_progress",
   "title": "E10-T16 — Add content type, status, version, and last-validated metadata to Markdown output.",
   "type": "task",
-  "updated_at": "2026-07-24T12:53:34Z"
+  "updated_at": "2026-07-27T05:45:35Z"
 }
