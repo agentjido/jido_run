@@ -1764,6 +1764,145 @@ defmodule AgentJido.PagesTest do
     end
   end
 
+  describe "operations cluster node loss page (jido-e07-t18)" do
+    # Acceptance: "Scope, tested topology, and limitations are clear."
+    @cluster_source Path.expand(
+                      "../../priv/pages/docs/operations/cluster-node-loss.md",
+                      __DIR__
+                    )
+    @cluster_route "/docs/operations/cluster-node-loss"
+    @cluster_demo "lib/agent_jido/demos/cluster_node_loss/cluster_node_loss.ex"
+    @cluster_demo_test "test/agent_jido/demos/cluster_node_loss_test.exs"
+
+    test "the page is published and routable" do
+      page = Pages.get_page_by_path(@cluster_route)
+
+      assert page != nil
+      assert page.category == :docs
+      assert page.draft == false
+      assert Pages.route_for(page) == @cluster_route
+    end
+
+    test "the page is linked from the operations hub" do
+      hub = File.read!(Path.expand("../../priv/pages/docs/operations.md", __DIR__))
+
+      assert hub =~ @cluster_route
+    end
+
+    test "scope is clear: one node leaving a connected cluster, with out-of-scope cases named" do
+      body = File.read!(@cluster_source)
+
+      # The scope gets its own section and is stated as the single-node-loss
+      # case, not the whole distributed-systems problem space.
+      assert has_h2?(body, "The scope")
+      assert body =~ ~r/one node leaving a connected cluster/i
+      assert body =~ ~r/connected/i
+
+      # The out-of-scope cases are named explicitly so the boundary is clear.
+      assert body =~ ~r/partition/i
+      assert body =~ ~r/full-cluster/i
+    end
+
+    test "the tested topology is clear: deterministic placement, a defined loss-window failure, and rebalance" do
+      body = File.read!(@cluster_source)
+
+      # The topology gets its own section.
+      assert has_h2?(body, "The tested topology")
+
+      # Placement is named as deterministic rendezvous hashing.
+      assert body =~ ~r/rendezvous/i
+      assert body =~ ~r/deterministic/i
+
+      # Stranded work fails with a defined result (not a hang) in the loss
+      # window — the observable failure callers see.
+      assert body =~ "node_lost"
+      assert body =~ ~r/defined result/i
+
+      # Rebalance re-homes the orphaned keys, and the minimal-move guarantee is
+      # stated (only the lost node's keys move).
+      assert body =~ ~r/rebalance/i
+      assert body =~ ~r/minimal/i
+    end
+
+    test "limitations are clear: experimental package, an in-process model, and application-owned duties" do
+      body = File.read!(@cluster_source)
+
+      # The limitations section is where the boundary is drawn.
+      assert has_h2?(body, "What this example does and does not cover")
+
+      # jido_cluster is named as experimental and unreleased — not a hidden
+      # claim that this is production-multi-node BEAM.
+      assert body =~ ~r/experimental/i
+      assert body =~ ~r/unreleased/i
+      assert body =~ "jido_cluster"
+
+      # This is an in-process model, not a real distributed BEAM run.
+      assert body =~ ~r/in-process model/i
+      assert body =~ ~r/not.*multi-node BEAM|not a real multi-node/i
+    end
+
+    test "the example is runnable: the demo module and its test exist and are cited" do
+      # The worked example points at a real, tested demo — the tested reference.
+      assert File.regular?(@cluster_demo)
+      assert File.regular?(@cluster_demo_test)
+
+      body = File.read!(@cluster_source)
+      assert body =~ @cluster_demo
+      assert body =~ @cluster_demo_test
+    end
+
+    test "it names the end-to-end reference application as the tracked follow-up" do
+      body = File.read!(@cluster_source)
+
+      # The open comment ("cluster-node-loss example needs a tested reference")
+      # is closed against the reference app follow-up, not left dangling.
+      assert body =~ "jido-e07-t29"
+      assert body =~ ~r/follow-up/i
+    end
+
+    test "it links only to live operations routes" do
+      body = File.read!(@cluster_source)
+
+      internal_links =
+        Regex.scan(~r{\]\((/docs/[^)#]+)\)}, body, capture: :all_but_first)
+        |> List.flatten()
+        |> Enum.uniq()
+
+      assert internal_links != []
+
+      for path <- internal_links do
+        page = Pages.get_page_by_path(path)
+
+        assert page != nil, "cluster-node-loss page links to a route that does not resolve: #{path}"
+        assert page.draft == false, "cluster-node-loss page links to a draft page: #{path}"
+      end
+
+      # The single-node restart siblings it generalizes are cross-linked, so the
+      # scope claim is not isolated.
+      assert body =~ "/docs/operations/deployment-restart"
+      assert body =~ "/docs/operations/supervision-and-failure-boundaries"
+      assert body =~ "/docs/operations/scheduling-and-event-input"
+    end
+
+    test "the page source has no placeholder markers" do
+      body = File.read!(@cluster_source)
+
+      placeholder_patterns = [
+        ~r/content coming soon/i,
+        ~r/\bcoming soon\b/i,
+        ~r/\bTODO\b/,
+        ~r/\bTBD\b/,
+        ~r/lorem ipsum/i
+      ]
+
+      assert body =~ "draft: false"
+
+      Enum.each(placeholder_patterns, fn pattern ->
+        refute body =~ pattern
+      end)
+    end
+  end
+
   describe "operations backpressure and queue limits page (jido-e07-t21)" do
     # Acceptance: "It names mailbox, bus, task, and provider limits."
     @backpressure_source Path.expand(
