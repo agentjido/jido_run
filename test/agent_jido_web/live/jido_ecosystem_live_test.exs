@@ -1,5 +1,10 @@
 defmodule AgentJidoWeb.JidoEcosystemLiveTest do
-  use AgentJidoWeb.ConnCase, async: true
+  # async: false (like JidoExamplesLiveTest) so the connected LiveView's
+  # analytics writes — the ecosystem hub records an `ecosystem_stack_selected`
+  # event (jido-e12-t28) when a visitor expands the dependency map or arrives on
+  # the ?map=open deep link — share the test's sandbox transaction and roll back,
+  # instead of escaping to the shared test database.
+  use AgentJidoWeb.ConnCase, async: false
 
   import Phoenix.LiveViewTest
 

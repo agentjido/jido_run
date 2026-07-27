@@ -1,6 +1,7 @@
 defmodule AgentJidoWeb.JidoEcosystemLive do
   use AgentJidoWeb, :live_view
 
+  alias AgentJido.Analytics
   alias AgentJido.Ecosystem
   alias AgentJido.Ecosystem.Bookmarks, as: EcosystemBookmarks
   alias AgentJido.Ecosystem.ControlMatrix, as: EcosystemControlMatrix
@@ -58,6 +59,21 @@ defmodule AgentJidoWeb.JidoEcosystemLive do
 
     title_by_id = Map.new(public_packages, &{&1.id, &1.title})
     stars_by_package = GithubStarsTracker.stars_map()
+
+    # Measure ecosystem stack selection (jido-e12-t28): a visitor who expands the
+    # dependency map is browsing the full catalog rather than a recommended
+    # stack, so the team can compare recommended stacks with full-catalog
+    # browsing — not only page traffic. Fire only on the connected mount (the
+    # disconnected static render would otherwise double-count) and only on the
+    # closed → open transition, so collapsing, re-expanding, or filtering an
+    # already-open catalog never re-counts. The ?map=open deep link lands here on
+    # its first connected handle_params too (previous state is the collapsed
+    # default), so a visitor who arrives browsing the full catalog is measured.
+    # The per-visitor dedup in the dashboard breakdown collapses repeat expands.
+    socket =
+      if connected?(socket) and not socket.assigns.dependency_map_open and dependency_map_open,
+        do: track_full_catalog_browse(socket),
+        else: socket
 
     {:noreply,
      assign(socket,
@@ -270,6 +286,9 @@ defmodule AgentJidoWeb.JidoEcosystemLive do
                           <.link
                             navigate={pkg.path}
                             class="font-semibold text-foreground hover:text-primary transition-colors"
+                            data-analytics-event="ecosystem_stack_selected"
+                            data-analytics-source="ecosystem"
+                            data-analytics-section-id={stack.key}
                           >
                             {pkg.name}
                           </.link>
@@ -982,6 +1001,29 @@ defmodule AgentJidoWeb.JidoEcosystemLive do
       value when value in ["open", "1", "true"] -> true
       _other -> false
     end
+  end
+
+  # Records an `ecosystem_stack_selected` event when a visitor expands the
+  # dependency map to browse the full package catalog (jido-e12-t28). The
+  # `full_catalog` section_id is the "browse everything" half of the comparison
+  # the team reads in the dashboard; the recommended stacks' half comes from the
+  # stack-package links' data-analytics-event attributes. Admin preview traffic
+  # is excluded by Analytics.track_event_safe via the current scope.
+  defp track_full_catalog_browse(socket) do
+    identity = Map.get(socket.assigns, :analytics_identity, %{})
+
+    Analytics.track_event_safe(socket.assigns.current_scope, %{
+      event: "ecosystem_stack_selected",
+      source: "ecosystem",
+      channel: "dependency_map",
+      path: identity[:path] || "/ecosystem",
+      section_id: "full_catalog",
+      visitor_id: identity[:visitor_id],
+      session_id: identity[:session_id],
+      metadata: %{surface: "ecosystem_hub", selection: "full_catalog"}
+    })
+
+    socket
   end
 
   defp normalize_layer_param(layer) when layer in @layer_filter_order, do: layer

@@ -419,6 +419,72 @@ defmodule AgentJidoWeb.AdminAnalyticsLiveTest do
     assert html =~ "source_open"
   end
 
+  test "renders the ecosystem stack selection section for admins (jido-e12-t28)",
+       %{admin_conn: admin_conn} do
+    actor = user_fixture()
+    scope = Scope.for_user(actor)
+
+    # Two visitors pick the Core stack, one picks the AI stack, and two expand
+    # the full catalog — so the recommended stacks and the full catalog both
+    # render as rows the team can compare.
+    Analytics.track_event_safe(scope, %{
+      event: "ecosystem_stack_selected",
+      source: "ecosystem",
+      channel: "stack_compatibility",
+      path: "/ecosystem",
+      section_id: "core",
+      visitor_id: "admin-eco-a",
+      session_id: "admin-eco-a-session",
+      metadata: %{surface: "ecosystem_hub", selection: "core"}
+    })
+
+    Analytics.track_event_safe(scope, %{
+      event: "ecosystem_stack_selected",
+      source: "ecosystem",
+      channel: "stack_compatibility",
+      path: "/ecosystem",
+      section_id: "core",
+      visitor_id: "admin-eco-b",
+      session_id: "admin-eco-b-session",
+      metadata: %{surface: "ecosystem_hub", selection: "core"}
+    })
+
+    Analytics.track_event_safe(scope, %{
+      event: "ecosystem_stack_selected",
+      source: "ecosystem",
+      channel: "stack_compatibility",
+      path: "/ecosystem",
+      section_id: "ai",
+      visitor_id: "admin-eco-c",
+      session_id: "admin-eco-c-session",
+      metadata: %{surface: "ecosystem_hub", selection: "ai"}
+    })
+
+    Analytics.track_event_safe(scope, %{
+      event: "ecosystem_stack_selected",
+      source: "ecosystem",
+      channel: "dependency_map",
+      path: "/ecosystem",
+      section_id: "full_catalog",
+      visitor_id: "admin-eco-d",
+      session_id: "admin-eco-d-session",
+      metadata: %{surface: "ecosystem_hub", selection: "full_catalog"}
+    })
+
+    {:ok, view, html} = live(admin_conn, "/dashboard/analytics")
+
+    # The section is present and both halves of the comparison render — the
+    # recommended stacks (Core, AI) and the full catalog — each with its label
+    # and its slug.
+    assert has_element?(view, "h2", "Ecosystem stack selection")
+    assert html =~ "Recommended — Core stack"
+    assert html =~ "core"
+    assert html =~ "Recommended — AI stack"
+    assert html =~ "ai"
+    assert html =~ "Full catalog (browse all)"
+    assert html =~ "full_catalog"
+  end
+
   defp seed_analytics_data do
     actor = user_fixture()
     scope = Scope.for_user(actor)

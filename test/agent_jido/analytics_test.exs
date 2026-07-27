@@ -977,6 +977,89 @@ defmodule AgentJido.AnalyticsTest do
     end
   end
 
+  describe "ecosystem stack selection (jido-e12-t28)" do
+    test "dashboard snapshot surfaces each selection, deduped per visitor per path (jido-e12-t28)" do
+      admin = admin_user_fixture()
+      admin_scope = Scope.for_user(admin)
+      actor = user_fixture()
+      scope = Scope.for_user(actor)
+
+      # Visitor A picks the Core stack, then the AI stack, then expands the full
+      # catalog — three distinct selections. They re-follow the Core stack; the
+      # repeat never re-counts.
+      for selection <- ~w(core ai full_catalog) do
+        assert {:ok, _} =
+                 Analytics.track_event(scope, %{
+                   event: "ecosystem_stack_selected",
+                   source: "ecosystem",
+                   channel: if(selection == "full_catalog", do: "dependency_map", else: "stack_compatibility"),
+                   path: "/ecosystem",
+                   section_id: selection,
+                   visitor_id: "visitor-a",
+                   session_id: "session-a",
+                   metadata: %{surface: "ecosystem_hub", selection: selection}
+                 })
+      end
+
+      assert {:ok, _} =
+               Analytics.track_event(scope, %{
+                 event: "ecosystem_stack_selected",
+                 source: "ecosystem",
+                 channel: "stack_compatibility",
+                 path: "/ecosystem",
+                 section_id: "core",
+                 visitor_id: "visitor-a",
+                 session_id: "session-a",
+                 metadata: %{surface: "ecosystem_hub", selection: "core"}
+               })
+
+      # Visitor B expands the full catalog only.
+      assert {:ok, _} =
+               Analytics.track_event(scope, %{
+                 event: "ecosystem_stack_selected",
+                 source: "ecosystem",
+                 channel: "dependency_map",
+                 path: "/ecosystem",
+                 section_id: "full_catalog",
+                 visitor_id: "visitor-b",
+                 session_id: "session-b",
+                 metadata: %{surface: "ecosystem_hub", selection: "full_catalog"}
+               })
+
+      # A home CTA click is not an ecosystem stack selection, so it must never
+      # bleed into the breakdown.
+      assert {:ok, _} =
+               Analytics.track_event(scope, %{
+                 event: "cta_clicked",
+                 source: "home",
+                 channel: "home_hero",
+                 path: "/",
+                 section_id: "hero",
+                 target_url: "/docs/getting-started",
+                 visitor_id: "visitor-b",
+                 session_id: "session-b"
+               })
+
+      snapshot = Analytics.dashboard_snapshot(admin_scope, 7)
+
+      rows = Map.new(snapshot.ecosystem_stack_selection, fn row -> {row.selection, row.visitors} end)
+
+      # Core counts visitor A only (the repeat follow never re-counts); AI counts
+      # visitor A; the full catalog counts both visitors (A and B).
+      assert rows["core"] == 1
+      assert rows["ai"] == 1
+      assert rows["full_catalog"] == 2
+
+      # The unrelated home CTA click is excluded.
+      refute Map.has_key?(rows, "hero")
+
+      # Four first selections total across the three paths — visitor A's repeat
+      # Core follow never re-counts as a new selection.
+      total = Enum.sum(Enum.map(snapshot.ecosystem_stack_selection, & &1.visitors))
+      assert total == 4
+    end
+  end
+
   describe "simulated example run completion (jido-e08-t34)" do
     test "dashboard snapshot surfaces each simulated example run, deduped per visitor per example (jido-e08-t34)" do
       admin = admin_user_fixture()

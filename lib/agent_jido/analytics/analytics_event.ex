@@ -25,6 +25,7 @@ defmodule AgentJido.Analytics.AnalyticsEvent do
     "long_running_path_entered",
     "control_proof_viewed",
     "controlled_agent_engagement",
+    "ecosystem_stack_selected",
     "feedback_submitted"
   ]
 

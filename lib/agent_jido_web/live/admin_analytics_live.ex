@@ -363,6 +363,34 @@ defmodule AgentJidoWeb.AdminAnalyticsLive do
         </section>
 
         <section class="rounded-lg border border-border bg-card p-5">
+          <h2 class="text-lg font-semibold text-foreground">Ecosystem stack selection</h2>
+          <p class="mt-1 text-sm text-muted-foreground">
+            How visitors pick a starting point on the ecosystem hub — following one of the three recommended starting stacks (Core, AI, Operate) or expanding the dependency map to browse the full catalog — so the team can compare recommended stacks with full-catalog browsing, not only ecosystem page traffic.
+          </p>
+          <table class="mt-4 w-full text-sm">
+            <thead>
+              <tr class="text-left text-xs uppercase tracking-wide text-muted-foreground">
+                <th class="py-2 pr-4 font-semibold">Selection</th>
+                <th class="py-2 pr-4 font-semibold">Path</th>
+                <th class="py-2 font-semibold">Visitors</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr :for={row <- @analytics_snapshot.ecosystem_stack_selection} class="border-t border-border/70">
+                <td class="py-2 pr-4 font-medium text-foreground">{ecosystem_stack_selection_label(row.selection)}</td>
+                <td class="py-2 pr-4 text-muted-foreground">{row.selection}</td>
+                <td class="py-2 text-foreground">{row.visitors}</td>
+              </tr>
+              <tr :if={@analytics_snapshot.ecosystem_stack_selection == []}>
+                <td colspan="3" class="py-2 text-sm text-muted-foreground">
+                  No ecosystem stack selections in this window yet.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section class="rounded-lg border border-border bg-card p-5">
           <div class="flex flex-wrap items-center justify-between gap-3">
             <h2 class="text-lg font-semibold text-foreground">Collector Health</h2>
             <span class="text-xs text-muted-foreground">Rows shown for the selected {@analytics_days}d window</span>
@@ -616,6 +644,7 @@ defmodule AgentJidoWeb.AdminAnalyticsLive do
       long_running_path_entry: [],
       control_proof_evaluation: [],
       controlled_agent_completion: [],
+      ecosystem_stack_selection: [],
       local_search: %{
         summary: %{
           total_messages: 0,
@@ -915,6 +944,26 @@ defmodule AgentJidoWeb.AdminAnalyticsLive do
   end
 
   defp controlled_agent_step_label(_step), do: "-"
+
+  # Human-readable label for each ecosystem starting-point selection
+  # (jido-e12-t28). Maps the section_id an `ecosystem_stack_selected` event
+  # carries to the path a maintainer reads in the dashboard: the three
+  # recommended stacks (Core, AI, Operate) vs. expanding the full catalog. Any
+  # other slug falls back to a title-cased render so a newly instrumented
+  # selection is never blank.
+  defp ecosystem_stack_selection_label("core"), do: "Recommended — Core stack"
+  defp ecosystem_stack_selection_label("ai"), do: "Recommended — AI stack"
+  defp ecosystem_stack_selection_label("operate"), do: "Recommended — Operate stack"
+  defp ecosystem_stack_selection_label("full_catalog"), do: "Full catalog (browse all)"
+
+  defp ecosystem_stack_selection_label(selection) when is_binary(selection) do
+    selection
+    |> String.replace("_", " ")
+    |> String.split(" ")
+    |> Enum.map_join(" ", &String.capitalize/1)
+  end
+
+  defp ecosystem_stack_selection_label(_selection), do: "-"
 
   defp feedback_badge_class("helpful") do
     "inline-flex rounded-full border border-accent-green/30 bg-accent-green/10 px-2 py-0.5 text-[11px] font-semibold text-accent-green"

@@ -268,6 +268,32 @@ defmodule AgentJidoWeb.AnalyticsEventControllerTest do
     assert event.metadata["claim"] == "supervision"
   end
 
+  test "accepts the ecosystem stack selection event (jido-e12-t28)", %{conn: conn} do
+    conn =
+      post(conn, ~p"/analytics/events", %{
+        "event" => "ecosystem_stack_selected",
+        "properties" => %{
+          "source" => "ecosystem",
+          "channel" => "dependency_map",
+          "path" => "/ecosystem",
+          "section_id" => "full_catalog",
+          "metadata" => %{
+            "surface" => "ecosystem_hub",
+            "selection" => "full_catalog"
+          }
+        }
+      })
+
+    assert json_response(conn, 202)["ok"]
+
+    event = Repo.one(from(e in AnalyticsEvent, order_by: [desc: e.inserted_at], limit: 1))
+    assert event.event == "ecosystem_stack_selected"
+    assert event.source == "ecosystem"
+    assert event.channel == "dependency_map"
+    assert event.section_id == "full_catalog"
+    assert event.metadata["selection"] == "full_catalog"
+  end
+
   test "rejects invalid event names", %{conn: conn} do
     conn =
       post(conn, ~p"/analytics/events", %{

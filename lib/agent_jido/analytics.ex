@@ -53,7 +53,8 @@ defmodule AgentJido.Analytics do
           example_simulated_run: [map()],
           long_running_path_entry: [map()],
           control_proof_evaluation: [map()],
-          controlled_agent_completion: [map()]
+          controlled_agent_completion: [map()],
+          ecosystem_stack_selection: [map()]
         }
 
   @doc """
@@ -153,7 +154,8 @@ defmodule AgentJido.Analytics do
         example_simulated_run: example_simulated_run_breakdown(days),
         long_running_path_entry: long_running_path_entry_breakdown(days),
         control_proof_evaluation: control_proof_evaluation_breakdown(days),
-        controlled_agent_completion: controlled_agent_completion_breakdown(days)
+        controlled_agent_completion: controlled_agent_completion_breakdown(days),
+        ecosystem_stack_selection: ecosystem_stack_selection_breakdown(days)
       }
     else
       unauthorized_snapshot(days)
@@ -796,6 +798,50 @@ defmodule AgentJido.Analytics do
         visitors: count(c.visitor_id)
       },
       order_by: [desc: count(c.visitor_id), asc: c.step]
+    )
+    |> Repo.all()
+  end
+
+  # Ecosystem stack selection (jido-e12-t28). The ecosystem hub offers two
+  # starting points, and the team needs to compare them — not only page traffic:
+  # the three recommended starting stacks (Core, AI, Operate), which render
+  # first and expanded, and the full package catalog, which stays collapsed
+  # behind the dependency-map disclosure until a visitor reaches for it. A
+  # visitor "selects" a recommended stack by following one of its package links
+  # (the event carries the stack key — core/ai/operate — as section_id), and
+  # "browses the full catalog" by expanding the dependency map (the event
+  # carries `full_catalog` as section_id). `DISTINCT ON (visitor_id,
+  # section_id)` keeps the earliest selection per visitor per path — repeat
+  # follows of the same stack or repeat expands by the same visitor never
+  # re-count, while a visitor who reaches two stacks counts once in each. We
+  # then group the in-window first selections by path (section_id), so the team
+  # can compare recommended-stack visitors against full-catalog-browsing
+  # visitors.
+  defp ecosystem_stack_selection_breakdown(days) do
+    since = since_naive(days)
+
+    first_selection_per_visitor_path =
+      from(e in AnalyticsEvent,
+        where:
+          e.event == "ecosystem_stack_selected" and
+            not is_nil(e.section_id),
+        order_by: [asc: e.visitor_id, asc: e.section_id, asc: e.inserted_at],
+        distinct: [e.visitor_id, e.section_id],
+        select: %{
+          visitor_id: e.visitor_id,
+          selected_at: e.inserted_at,
+          selection: e.section_id
+        }
+      )
+
+    from(s in subquery(first_selection_per_visitor_path),
+      where: s.selected_at >= ^since,
+      group_by: s.selection,
+      select: %{
+        selection: s.selection,
+        visitors: count(s.visitor_id)
+      },
+      order_by: [desc: count(s.visitor_id), asc: s.selection]
     )
     |> Repo.all()
   end
@@ -1605,7 +1651,8 @@ defmodule AgentJido.Analytics do
       example_simulated_run: [],
       long_running_path_entry: [],
       control_proof_evaluation: [],
-      controlled_agent_completion: []
+      controlled_agent_completion: [],
+      ecosystem_stack_selection: []
     }
   end
 
@@ -1633,7 +1680,8 @@ defmodule AgentJido.Analytics do
       example_simulated_run: [],
       long_running_path_entry: [],
       control_proof_evaluation: [],
-      controlled_agent_completion: []
+      controlled_agent_completion: [],
+      ecosystem_stack_selection: []
     }
   end
 
