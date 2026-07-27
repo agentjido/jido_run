@@ -54,7 +54,9 @@ defmodule AgentJido.Analytics do
           long_running_path_entry: [map()],
           control_proof_evaluation: [map()],
           controlled_agent_completion: [map()],
-          ecosystem_stack_selection: [map()]
+          ecosystem_stack_selection: [map()],
+          docs_search_no_results: [map()],
+          docs_search_reformulations: [map()]
         }
 
   @doc """
@@ -129,6 +131,7 @@ defmodule AgentJido.Analytics do
       reform_limit = Keyword.get(opts, :reform_limit, @default_limit)
       feedback_limit = Keyword.get(opts, :feedback_limit, @default_feedback_limit)
       search_message_limit = Keyword.get(opts, :search_message_limit, @default_search_message_limit)
+      no_results_limit = Keyword.get(opts, :no_results_limit, @default_limit)
       since = since_naive(days)
 
       %{
@@ -155,7 +158,9 @@ defmodule AgentJido.Analytics do
         long_running_path_entry: long_running_path_entry_breakdown(days),
         control_proof_evaluation: control_proof_evaluation_breakdown(days),
         controlled_agent_completion: controlled_agent_completion_breakdown(days),
-        ecosystem_stack_selection: ecosystem_stack_selection_breakdown(days)
+        ecosystem_stack_selection: ecosystem_stack_selection_breakdown(days),
+        docs_search_no_results: docs_search_no_results_breakdown(days, no_results_limit),
+        docs_search_reformulations: docs_search_reformulations_breakdown(days, reform_limit)
       }
     else
       unauthorized_snapshot(days)
@@ -844,6 +849,104 @@ defmodule AgentJido.Analytics do
       order_by: [desc: count(s.visitor_id), asc: s.selection]
     )
     |> Repo.all()
+  end
+
+  # Docs search no-results (jido-e12-t29). The docs site's search surface is the
+  # content assistant — a query that resolves to `no_results` is a content gap:
+  # a visitor searched for something the docs do not answer. The existing
+  # content_gap_report folds no-result, error, and challenge queries into one
+  # demand/failure score, so the team could not read the actual zero-hit
+  # phrases. This breakdown surfaces the redacted user language of no-result
+  # searches directly — ranked by how many distinct visitors hit each phrase —
+  # so a content gap is backed by the visitor's own words. `DISTINCT ON
+  # (query_hash, visitor_id)` keeps the earliest no-result per visitor per
+  # phrase: repeat no-result searches of the same phrase by the same visitor
+  # never re-count the visitor, while two visitors hitting the same phrase both
+  # count. The query text (redacted) and query_hash group a phrase together.
+  defp docs_search_no_results_breakdown(days, limit) do
+    since = since_naive(days)
+
+    first_no_result_per_visitor_phrase =
+      from(q in QueryLog,
+        where:
+          q.inserted_at >= ^since and
+            q.status == "no_results" and
+            not is_nil(q.query_hash) and
+            q.query_hash != "" and
+            not is_nil(q.visitor_id),
+        order_by: [asc: q.query_hash, asc: q.visitor_id, asc: q.inserted_at],
+        distinct: [q.query_hash, q.visitor_id],
+        select: %{
+          query_hash: q.query_hash,
+          query: q.query,
+          visitor_id: q.visitor_id
+        }
+      )
+
+    from(n in subquery(first_no_result_per_visitor_phrase),
+      group_by: [n.query_hash, n.query],
+      select: %{
+        query: n.query,
+        query_hash: n.query_hash,
+        visitors: count(n.visitor_id)
+      },
+      order_by: [desc: count(n.visitor_id), asc: n.query],
+      limit: ^limit
+    )
+    |> Repo.all()
+  end
+
+  # Docs search reformulation transitions (jido-e12-t29). When a visitor
+  # searches the docs (content assistant), finds nothing, and rephrases, the
+  # *earlier* query is the content gap — the need the docs did not meet — and
+  # the *later* query shows how the visitor worked around it. The existing
+  # reformulation_leaderboard counts only the destination (later) query, so it
+  # could not show the gap a reformulation started from. This breakdown
+  # surfaces the from -> to transition in redacted user language, ranked by how
+  # often each transition happened, so a content gap is backed by the visitor's
+  # phrasing and the rephrase they reached for. A transition is a consecutive
+  # pair of queries from the same visitor/session within the reformulation
+  # window with different query hashes (same threshold as
+  # reformulation_leaderboard). Counting every transition — not deduping per
+  # visitor — mirrors reformulation_leaderboard, so a visitor who rephrases the
+  # same gap more than once is counted each time.
+  defp docs_search_reformulations_breakdown(days, limit) do
+    since = since_naive(days)
+
+    logs =
+      from(q in QueryLog,
+        where:
+          q.inserted_at >= ^since and not is_nil(q.session_id) and not is_nil(q.query_hash) and
+            q.query_hash != "",
+        order_by: [asc: q.session_id, asc: q.source, asc: q.inserted_at, asc: q.id],
+        select: %{
+          session_id: q.session_id,
+          source: q.source,
+          query: q.query,
+          query_hash: q.query_hash,
+          inserted_at: q.inserted_at
+        }
+      )
+      |> Repo.all()
+
+    logs
+    |> Enum.group_by(&{&1.session_id, &1.source})
+    |> Enum.reduce(%{}, fn {_group_key, entries}, counts ->
+      entries
+      |> Enum.chunk_every(2, 1, :discard)
+      |> Enum.reduce(counts, fn [previous, current], acc ->
+        if reformulation_transition?(previous, current) do
+          Map.update(acc, {previous.query, current.query}, 1, &(&1 + 1))
+        else
+          acc
+        end
+      end)
+    end)
+    |> Enum.map(fn {{from_query, to_query}, count} ->
+      %{from_query: from_query, to_query: to_query, count: count}
+    end)
+    |> Enum.sort_by(fn row -> {-row.count, row.from_query || "", row.to_query || ""} end)
+    |> Enum.take(limit)
   end
 
   defp feedback_breakdown(days, limit) do
@@ -1652,7 +1755,9 @@ defmodule AgentJido.Analytics do
       long_running_path_entry: [],
       control_proof_evaluation: [],
       controlled_agent_completion: [],
-      ecosystem_stack_selection: []
+      ecosystem_stack_selection: [],
+      docs_search_no_results: [],
+      docs_search_reformulations: []
     }
   end
 
@@ -1681,7 +1786,9 @@ defmodule AgentJido.Analytics do
       long_running_path_entry: [],
       control_proof_evaluation: [],
       controlled_agent_completion: [],
-      ecosystem_stack_selection: []
+      ecosystem_stack_selection: [],
+      docs_search_no_results: [],
+      docs_search_reformulations: []
     }
   end
 

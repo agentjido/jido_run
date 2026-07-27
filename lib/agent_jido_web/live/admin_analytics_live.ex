@@ -533,6 +533,60 @@ defmodule AgentJidoWeb.AdminAnalyticsLive do
           </div>
         </section>
 
+        <section class="rounded-lg border border-border bg-card p-5">
+          <h2 class="text-lg font-semibold text-foreground">Docs search no-results</h2>
+          <p class="mt-1 text-sm text-muted-foreground">
+            Docs-search queries that returned nothing — the visitor's own words for a need the docs do not yet answer, so a content gap is backed by user language, not only a demand score. Ranked by distinct visitors who hit each phrase.
+          </p>
+          <div class="mt-3 overflow-x-auto rounded-md border border-border bg-background">
+            <table class="min-w-full text-left text-xs">
+              <thead class="bg-elevated text-muted-foreground">
+                <tr>
+                  <th class="px-3 py-2 font-semibold">Query (user language)</th>
+                  <th class="px-3 py-2 font-semibold">Visitors</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr :for={row <- @analytics_snapshot.docs_search_no_results} class="border-t border-border/70">
+                  <td class="max-w-[440px] break-words px-3 py-2 text-foreground">{row.query}</td>
+                  <td class="px-3 py-2 text-muted-foreground">{row.visitors}</td>
+                </tr>
+                <tr :if={@analytics_snapshot.docs_search_no_results == []}>
+                  <td colspan="2" class="px-3 py-3 text-muted-foreground">No no-result searches in this window yet.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="rounded-lg border border-border bg-card p-5">
+          <h2 class="text-lg font-semibold text-foreground">Docs search reformulations</h2>
+          <p class="mt-1 text-sm text-muted-foreground">
+            How visitors rephrased a docs search after finding nothing — the earlier query is the unmet need (the gap) and the later query is the workaround they reached for, so a reformulation backs a content gap with the visitor's phrasing. Ranked by how often each transition happened.
+          </p>
+          <div class="mt-3 overflow-x-auto rounded-md border border-border bg-background">
+            <table class="min-w-full text-left text-xs">
+              <thead class="bg-elevated text-muted-foreground">
+                <tr>
+                  <th class="px-3 py-2 font-semibold">From (gap)</th>
+                  <th class="px-3 py-2 font-semibold">To (rephrase)</th>
+                  <th class="px-3 py-2 font-semibold">Occurrences</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr :for={row <- @analytics_snapshot.docs_search_reformulations} class="border-t border-border/70">
+                  <td class="max-w-[360px] break-words px-3 py-2 text-foreground">{row.from_query}</td>
+                  <td class="max-w-[360px] break-words px-3 py-2 text-muted-foreground">{row.to_query}</td>
+                  <td class="px-3 py-2 text-muted-foreground">{row.count}</td>
+                </tr>
+                <tr :if={@analytics_snapshot.docs_search_reformulations == []}>
+                  <td colspan="3" class="px-3 py-3 text-muted-foreground">No reformulations detected.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
         <section class="grid gap-6 lg:grid-cols-2">
           <article class="rounded-lg border border-border bg-card p-5">
             <h2 class="text-lg font-semibold text-foreground">Feedback breakdown</h2>
@@ -645,6 +699,8 @@ defmodule AgentJidoWeb.AdminAnalyticsLive do
       control_proof_evaluation: [],
       controlled_agent_completion: [],
       ecosystem_stack_selection: [],
+      docs_search_no_results: [],
+      docs_search_reformulations: [],
       local_search: %{
         summary: %{
           total_messages: 0,

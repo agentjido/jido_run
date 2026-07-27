@@ -1141,4 +1141,107 @@ defmodule AgentJido.AnalyticsTest do
       assert total == 3
     end
   end
+
+  describe "docs search no-results and reformulations (jido-e12-t29)" do
+    test "dashboard snapshot surfaces no-result docs-search queries in user language (jido-e12-t29)" do
+      admin = admin_user_fixture()
+      admin_scope = Scope.for_user(admin)
+      actor = user_fixture()
+      scope = Scope.for_user(actor)
+
+      # A no-result query is a content gap in the visitor's own words.
+      {:ok, _retries_a1} =
+        docs_query_log(scope, "visitor-a", "session-a", "agent retries", "no_results")
+
+      # Visitor A repeats the same phrase — the repeat never re-counts the visitor.
+      {:ok, _retries_a2} =
+        docs_query_log(scope, "visitor-a", "session-a", "agent retries", "no_results")
+
+      # Visitor A hits a second no-result phrase.
+      {:ok, _strategies_a} =
+        docs_query_log(scope, "visitor-a", "session-a", "agent retry strategies", "no_results")
+
+      # Visitor B hits the first phrase too.
+      {:ok, _retries_b} =
+        docs_query_log(scope, "visitor-b", "session-b", "agent retries", "no_results")
+
+      # Visitor C succeeds — a success never appears as a no-result gap.
+      {:ok, _success_c} =
+        docs_query_log(scope, "visitor-c", "session-c", "supervision crash recovery", "success")
+
+      snapshot = Analytics.dashboard_snapshot(admin_scope, 7, no_results_limit: 5)
+
+      rows = Map.new(snapshot.docs_search_no_results, fn row -> {row.query, row.visitors} end)
+
+      # "agent retries" counts two distinct visitors (A and B); A's repeat never
+      # re-counts.
+      assert rows["agent retries"] == 2
+      # "agent retry strategies" counts visitor A only.
+      assert rows["agent retry strategies"] == 1
+      # The successful query never surfaces as a no-result gap.
+      refute Map.has_key?(rows, "supervision crash recovery")
+      # Ranked by distinct visitors: "agent retries" (2) leads.
+      assert hd(snapshot.docs_search_no_results).query == "agent retries"
+    end
+
+    test "dashboard snapshot surfaces docs-search reformulation transitions in user language (jido-e12-t29)" do
+      admin = admin_user_fixture()
+      admin_scope = Scope.for_user(admin)
+      actor = user_fixture()
+      scope = Scope.for_user(actor)
+
+      base_time = NaiveDateTime.utc_now() |> NaiveDateTime.truncate(:second)
+
+      # Session X: the visitor searches, finds nothing, and rephrases twice.
+      # The earlier query is the content gap; the later query is the workaround.
+      {:ok, q1} = docs_query_log(scope, "visitor-x", "session-x", "how to retry agents", "no_results")
+      set_query_inserted_at(q1, base_time)
+      {:ok, q2} = docs_query_log(scope, "visitor-x", "session-x", "agent retry strategies", "success")
+      set_query_inserted_at(q2, NaiveDateTime.add(base_time, 10, :second))
+      {:ok, q3} = docs_query_log(scope, "visitor-x", "session-x", "agent retry policy", "success")
+      set_query_inserted_at(q3, NaiveDateTime.add(base_time, 20, :second))
+
+      # Session Y: the same gap is rephrased the same way.
+      {:ok, q4} = docs_query_log(scope, "visitor-y", "session-y", "how to retry agents", "no_results")
+      set_query_inserted_at(q4, base_time)
+      {:ok, q5} = docs_query_log(scope, "visitor-y", "session-y", "agent retry strategies", "success")
+      set_query_inserted_at(q5, NaiveDateTime.add(base_time, 10, :second))
+
+      snapshot = Analytics.dashboard_snapshot(admin_scope, 7, reform_limit: 5)
+
+      transitions =
+        Map.new(snapshot.docs_search_reformulations, fn row ->
+          {{row.from_query, row.to_query}, row.count}
+        end)
+
+      # "how to retry agents" -> "agent retry strategies" happened twice (X and Y).
+      assert transitions[{"how to retry agents", "agent retry strategies"}] == 2
+      # "agent retry strategies" -> "agent retry policy" happened once (X).
+      assert transitions[{"agent retry strategies", "agent retry policy"}] == 1
+      # The earlier query (the gap) is surfaced in user language, ranked first.
+      assert hd(snapshot.docs_search_reformulations).from_query == "how to retry agents"
+    end
+
+    defp docs_query_log(scope, visitor_id, session_id, query, status) do
+      identity = %{visitor_id: visitor_id, session_id: session_id, path: "/docs", referrer_host: "jido.run"}
+      results_count = if status == "success", do: 3, else: 0
+
+      {:ok, log} =
+        QueryLogs.create_query_log(scope, identity, %{
+          source: "content_assistant",
+          channel: "content_assistant_page",
+          query: query,
+          status: status,
+          results_count: results_count
+        })
+
+      QueryLogs.finalize_query_safe(log.id, %{status: status, results_count: results_count})
+
+      {:ok, log}
+    end
+
+    defp set_query_inserted_at(log, inserted_at) do
+      from(q in QueryLog, where: q.id == ^log.id) |> Repo.update_all(set: [inserted_at: inserted_at])
+    end
+  end
 end

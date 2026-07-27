@@ -37,6 +37,8 @@ defmodule AgentJidoWeb.AdminAnalyticsLiveTest do
     assert html =~ "Top demand topics"
     assert html =~ "High Demand, Low Success"
     assert html =~ "Reformulation leaderboard"
+    assert html =~ "Docs search no-results"
+    assert html =~ "Docs search reformulations"
     assert html =~ "Collector Health"
     assert html =~ "Recent Search Messages"
     assert html =~ "Feedback breakdown"
@@ -483,6 +485,43 @@ defmodule AgentJidoWeb.AdminAnalyticsLiveTest do
     assert html =~ "ai"
     assert html =~ "Full catalog (browse all)"
     assert html =~ "full_catalog"
+  end
+
+  test "renders docs search no-results and reformulation sections backed by user language (jido-e12-t29)", %{
+    admin_conn: admin_conn
+  } do
+    actor = user_fixture()
+    scope = Scope.for_user(actor)
+    identity = %{visitor_id: "admin-gap-visitor", session_id: "admin-gap-session", path: "/docs", referrer_host: "jido.run"}
+
+    # A no-result query surfaces its user language as a content gap.
+    {:ok, _no_result} =
+      QueryLogs.create_query_log(scope, identity, %{
+        source: "content_assistant",
+        channel: "content_assistant_page",
+        query: "how do I retry a failed agent",
+        status: "no_results",
+        results_count: 0
+      })
+
+    # A second query in the same session rephrases the gap, forming a
+    # reformulation transition (from -> to) backed by user language.
+    {:ok, _rephrase} =
+      QueryLogs.create_query_log(scope, identity, %{
+        source: "content_assistant",
+        channel: "content_assistant_page",
+        query: "agent retry strategies",
+        status: "success",
+        results_count: 3
+      })
+
+    {:ok, view, html} = live(admin_conn, "/dashboard/analytics")
+
+    assert has_element?(view, "h2", "Docs search no-results")
+    assert has_element?(view, "h2", "Docs search reformulations")
+    # Both halves are backed by the visitor's own phrasing.
+    assert html =~ "how do I retry a failed agent"
+    assert html =~ "agent retry strategies"
   end
 
   defp seed_analytics_data do
