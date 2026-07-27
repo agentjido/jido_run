@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-27T01:47:25Z",
   "created": "2026-07-23T12:04:12Z",
   "description": "Backlog task: E06-T37\n\nWork area: Operational-control content\n\nMain targets: Content schema and Docs filters\n\nComplete when: A reader can find pages for identity context, authorization, policy, history, observation, approval, and redaction.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e06-t37",
@@ -23,7 +24,7 @@
     }
   ],
   "priority": 2,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E06-T37 — Add control intent and control type to page metadata.",
   "type": "task",
   "updated_at": "2026-07-27T01:47:25Z"
