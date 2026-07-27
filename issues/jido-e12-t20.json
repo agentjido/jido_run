@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-27T08:41:55Z",
   "created": "2026-07-23T12:08:01Z",
   "description": "Backlog task: E12-T20\n\nWork area: Freshness and ownership\n\nMain targets: Content inventory\n\nComplete when: Every public page has an inbound navigation or related-content link.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e12-t20",
@@ -22,7 +23,7 @@
     }
   ],
   "priority": 2,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E12-T20 — Add an orphan-page report.",
   "type": "task",
   "updated_at": "2026-07-27T08:41:55Z"
