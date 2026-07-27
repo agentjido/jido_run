@@ -15,11 +15,15 @@
     {
       "text": "Open: Docs no-results/reformulation analytics not yet instrumented.",
       "timestamp": "2026-07-24T12:55:02Z"
+    },
+    {
+      "text": "Accepted by the Zclaude Ralph supervisor. Commits: a2b60e70. Verification: MIX_ENV=test mix compile \u0026\u0026 MIX_ENV=test mix format --check-formatted.",
+      "timestamp": "2026-07-27T09:29:27Z"
     }
   ],
   "priority": 2,
   "status": "in_progress",
   "title": "E12-T29 — Measure Docs search no-results and reformulations.",
   "type": "task",
-  "updated_at": "2026-07-27T09:15:02Z"
+  "updated_at": "2026-07-27T09:29:27Z"
 }
