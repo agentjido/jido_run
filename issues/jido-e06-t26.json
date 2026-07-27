@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-27T00:57:57Z",
   "created": "2026-07-23T12:04:01Z",
   "description": "Backlog task: E06-T26\n\nWork area: Hub and leaf alignment\n\nMain targets: Docs metadata and components\n\nComplete when: Package roles and maturity appear near instructions.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e06-t26",
@@ -22,7 +23,7 @@
     }
   ],
   "priority": 2,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E06-T26 — Add related packages to each guide.",
   "type": "task",
   "updated_at": "2026-07-27T00:57:57Z"
