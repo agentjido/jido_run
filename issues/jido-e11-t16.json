@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-27T10:37:49Z",
   "created": "2026-07-23T12:07:29Z",
   "description": "Backlog task: E11-T16\n\nWork area: Community flow\n\nMain targets: Community process\n\nComplete when: Interviews ask about first success, package choice, failures, and missing docs.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e11-t16",
@@ -22,7 +23,7 @@
     }
   ],
   "priority": 3,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E11-T16 — Add an adoption interview script.",
   "type": "task",
   "updated_at": "2026-07-27T10:37:49Z"
