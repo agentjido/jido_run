@@ -1,5 +1,5 @@
 {
-  "assignee": "",
+  "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:07:26Z",
@@ -18,8 +18,8 @@
     }
   ],
   "priority": 2,
-  "status": "open",
+  "status": "in_progress",
   "title": "E11-T13 — Turn the Elixir Forum first-LLM fault into a short public fix note.",
   "type": "task",
-  "updated_at": "2026-07-24T12:54:17Z"
+  "updated_at": "2026-07-27T07:06:19Z"
 }
