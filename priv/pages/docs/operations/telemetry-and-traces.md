@@ -68,13 +68,40 @@ What to decide, explicitly:
 - **Treat it as optional and current-state.** `jido_otel` is Experimental. Evaluate it against that maturity — do not present OpenTelemetry export as a built-in, stable capability of `jido`. The [Production readiness checklist](/docs/operations/production-readiness-checklist) calls this out explicitly.
 - **Require a collector.** Exported traces appear only when a collector is configured and reachable. Without one, export can drop events silently. Core `:telemetry` still flows regardless; `jido_otel` adds the OTLP export path on top.
 
+## Export boundaries
+
+Observation data does not flow in one piece. It crosses three boundaries, and a different owner is responsible at each one. The table names where each boundary is, what crosses it, what is scrubbed, and the limit that applies there.
+
+| Boundary | What crosses it | What is scrubbed | Who owns it | Limit at this boundary |
+|---|---|---|---|---|
+| **In-process `:telemetry`** | events stay in the BEAM until a reporter attaches | secrets redacted before emission (`redact_sensitive: true`) | `jido` core emits; your application attaches a reporter | nothing leaves the node until you attach a reporter |
+| **OTLP export** (`jido_otel` → collector) | span names, attributes, measurements, and exception events | already-redacted metadata; no secrets cross | your application operates the collector | experimental; events drop silently if no collector is reachable |
+| **Collector → backend / SIEM** | whatever the collector forwards — traces, metrics, logs | governed by your collector and retention policy | your platform owns the backend and retention | best-effort delivery, no tamper-evidence; observation, not audit |
+
+The boundaries are why two common assumptions are wrong. The first — "telemetry leaves the node automatically" — ignores the in-process boundary: events are emitted into the BEAM and go nowhere until a reporter or collector is attached. The second — "export is built into `jido`" — ignores the OTLP boundary: crossing it requires the separate `jido_otel` package and a collector you operate. Core `:telemetry` still flows across the first boundary regardless; `jido_otel` is what opens the second.
+
+## SIEM integration
+
+A SIEM (Splunk, Elastic, Datadog, Sumo Logic, or any log and metrics aggregator your platform already runs) consumes the data after it crosses the collector boundary. SIEM integration is **application- and platform-owned** — Jido emits the events, `jido_otel` exports them, and your platform operates the SIEM. This is the same boundary [Security and Governance](/docs/operations/security-and-governance) assigns to the platform.
+
+Two routes get Jido observation into a SIEM:
+
+- **Traces and metrics via OTLP.** Run a collector that receives `jido_otel` exports and forwards traces and metrics to your SIEM's OTLP or backend-specific endpoint.
+- **Logs via a telemetry reporter or log pipeline.** Attach any Elixir telemetry reporter (Prometheus, StatsD, or a custom handler), or ship structured logs from `Jido.Telemetry` to a log pipeline your SIEM ingests. Neither route requires `jido_otel`.
+
+What to decide, explicitly:
+
+- **What the SIEM is for.** Cross-service correlation, alerting, and incident response — for example, alerting on queue overflow, provider-failure spikes, or exception spans. Pick the events that map to operational risk.
+- **Retention, access, and deletion.** The retention window, who can read the data, and how it is deleted are all platform-owned at the SIEM. Jido keeps nothing.
+- **The audit boundary.** A SIEM stores best-effort observability that an operator can replay, re-export, or lose. It is **not** tamper-evident audit. The durable, replayable audit trail is the separate Signal Journal — see [Journal retention, access, and deletion](/docs/operations/journal-retention-access-and-deletion).
+
 ## Decide deliberately
 
 For each agent class, write down the observation contract:
 
 - **Which layer answers which question.** Core `:telemetry` answers "what is this agent doing right now, and how long does it take?" `jido_otel` answers "how does this request trace across agents and external services?" Keep them separate so a gap in one does not look like a gap in the other.
 - **Correlation vs. distributed tracing.** A `:jido_trace_id` correlates signals inside a run; an OpenTelemetry trace spans processes and services. They are not the same identifier — see [Security and Governance](/docs/operations/security-and-governance) for why trace and correlation IDs are not authenticated principals.
-- **Retention and audit.** Telemetry and traces are an ephemeral stream with no built-in retention. Define where spans are stored, for how long, and who can read them at the platform layer — Jido does not keep them.
+- **Retention and audit.** Telemetry and traces are an ephemeral stream with no built-in retention. Define where spans are stored, for how long, and who can read them at the platform layer — your SIEM, covered above — and Jido does not keep them.
 
 ## What telemetry and traces do not do
 

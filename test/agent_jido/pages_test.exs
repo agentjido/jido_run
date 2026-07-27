@@ -2715,6 +2715,39 @@ defmodule AgentJido.PagesTest do
       refute body =~ ~r/guaranteed delivery|guarantees delivery/i
     end
 
+    test "it shows the export boundaries (jido-e06-t36)" do
+      body = File.read!(@telemetry_source)
+
+      # Acceptance: "The page shows export boundaries."
+      # A dedicated section maps each boundary observation data crosses on
+      # its way out of the process.
+      assert has_h2?(body, "Export boundaries")
+
+      # The three boundaries are each named: in-process, OTLP export, collector.
+      assert body =~ ~r/In-process/i
+      assert body =~ ":telemetry"
+      assert body =~ "OTLP"
+      assert body =~ "collector"
+    end
+
+    test "it adds OpenTelemetry and SIEM integration guidance (jido-e06-t36)" do
+      body = File.read!(@telemetry_source)
+
+      # Title/open-comment: OpenTelemetry and SIEM integration guidance.
+      assert has_h2?(body, "SIEM integration")
+      assert body =~ ~r/\bSIEM\b/
+      assert body =~ "OpenTelemetry"
+
+      # SIEM integration is application/platform-owned, not a Jido capability.
+      assert body =~ ~r/platform-owned|application.*owned|your platform owns/i
+
+      # The SIEM is framed as best-effort observation, not tamper-evident audit.
+      assert body =~ ~r/not tamper-evident|not.*audit/i
+
+      # It points to the durable audit trail as the separate Signal Journal.
+      assert body =~ "/docs/operations/journal-retention-access-and-deletion"
+    end
+
     test "the page source has no placeholder markers" do
       body = File.read!(@telemetry_source)
 
