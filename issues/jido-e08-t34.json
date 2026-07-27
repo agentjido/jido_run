@@ -1,5 +1,5 @@
 {
-  "assignee": "",
+  "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:05:37Z",
@@ -18,8 +18,8 @@
     }
   ],
   "priority": 2,
-  "status": "open",
+  "status": "in_progress",
   "title": "E08-T34 — Add example completion analytics.",
   "type": "task",
-  "updated_at": "2026-07-24T12:51:56Z"
+  "updated_at": "2026-07-27T03:45:31Z"
 }
