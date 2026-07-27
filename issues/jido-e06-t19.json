@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-27T00:15:01Z",
   "created": "2026-07-23T12:03:54Z",
   "description": "Backlog task: E06-T19\n\nWork area: Content hygiene\n\nMain targets: All page frontmatter\n\nComplete when: Titles follow sentence case and term rules.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e06-t19",
@@ -22,7 +23,7 @@
     }
   ],
   "priority": 2,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E06-T19 — Standardize page title capitalization.",
   "type": "task",
   "updated_at": "2026-07-27T00:15:01Z"
