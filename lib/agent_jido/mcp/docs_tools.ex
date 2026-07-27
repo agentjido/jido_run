@@ -602,8 +602,7 @@ defmodule AgentJido.MCP.DocsTools do
         {:error,
          %{
            "code" => "not_found",
-           "message" =>
-             "No recommended stack exists for #{inspect(trimmed)} (expected one of #{Enum.join(known, ", ")})"
+           "message" => "No recommended stack exists for #{inspect(trimmed)} (expected one of #{Enum.join(known, ", ")})"
          }}
       end
     end
