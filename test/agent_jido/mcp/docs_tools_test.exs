@@ -2,6 +2,7 @@ defmodule AgentJido.MCP.DocsToolsTest do
   use ExUnit.Case, async: true
 
   alias AgentJido.ContentAssistant.Result
+  alias AgentJido.Ecosystem.Stacks
   alias AgentJido.Examples
   alias AgentJido.MCP
   alias AgentJido.MCP.DocsTools
@@ -280,6 +281,130 @@ defmodule AgentJido.MCP.DocsToolsTest do
       assert example =~ "Markdown"
       assert example =~ "metadata"
       assert example =~ "search_docs"
+    end
+  end
+
+  describe "ecosystem stack retrieval (jido-e10-t19)" do
+    # Acceptance: "A client can ask for a recommended package set."
+    # get_recommended_stack is the ecosystem expansion beyond the docs/example
+    # surface: a client asks for a recommended starting package set (an ecosystem
+    # stack — core, ai, or operate) and receives the packages with their explicit
+    # supported ranges, source, support level, package-page links, and a copyable
+    # mix.exs deps/0 block. The package set is derived from
+    # AgentJido.Ecosystem.Stacks (the single source of truth for the home
+    # dependency blocks and the Ecosystem compatibility matrix), so it can never
+    # drift from install or the /ecosystem markdown hub.
+
+    test "get_recommended_stack returns all three recommended stacks when no key is given" do
+      assert {:ok, result} = DocsTools.get_recommended_stack(%{}, [])
+
+      stacks = result["structuredContent"]["stacks"]
+
+      assert Enum.map(stacks, & &1["key"]) == ~w(core ai operate)
+      assert Enum.map(stacks, & &1["name"]) == ~w(Core AI Operate)
+      assert Enum.all?(stacks, &(&1["purpose"] != ""))
+
+      # Each recommended package set carries packages, an explicit range per
+      # package, package-page links, and a copyable deps block.
+      for stack <- stacks do
+        assert stack["packages"] != [], "expected the #{stack["key"]} stack to list packages"
+        assert stack["dependency_block"] =~ "defp deps do"
+        assert String.ends_with?(stack["dependency_block"], "end")
+
+        for pkg <- stack["packages"] do
+          assert is_binary(pkg["name"]) and pkg["name"] != ""
+          assert is_binary(pkg["role"]) and pkg["role"] != ""
+          assert is_binary(pkg["range"]) and pkg["range"] != "", "expected a range for #{pkg["name"]}"
+          assert pkg["path"] == "/ecosystem/#{pkg["name"]}"
+          assert pkg["canonical_url"] =~ pkg["path"]
+          assert pkg["source"] in ["hex", "github", "unknown"]
+          assert pkg["support_level"] in ["stable", "beta", "experimental"]
+        end
+      end
+    end
+
+    test "get_recommended_stack returns a single recommended package set by key" do
+      for {key, name} <- [{"core", "Core"}, {"ai", "AI"}, {"operate", "Operate"}] do
+        assert {:ok, %{"structuredContent" => %{"stacks" => [stack]}}} =
+                 DocsTools.get_recommended_stack(%{"stack" => key}, []),
+               "expected to resolve the #{key} stack"
+
+        assert stack["key"] == key
+        assert stack["name"] == name
+
+        # The copyable deps block lists exactly this stack's packages.
+        for pkg <- stack["packages"] do
+          assert stack["dependency_block"] =~ "{:#{pkg["name"]},"
+        end
+      end
+    end
+
+    test "get_recommended_stack accepts the stack key case-insensitively" do
+      # A client passing the display name's casing still resolves the package set.
+      assert {:ok, %{"structuredContent" => %{"stacks" => [stack]}}} =
+               DocsTools.get_recommended_stack(%{"stack" => "AI"}, [])
+
+      assert stack["key"] == "ai"
+    end
+
+    test "get_recommended_stack returns not_found for an unknown stack key" do
+      assert {:error, %{"code" => "not_found", "message" => message}} =
+               DocsTools.get_recommended_stack(%{"stack" => "no-such-stack"}, [])
+
+      assert message =~ "core"
+      assert message =~ "ai"
+      assert message =~ "operate"
+    end
+
+    test "get_recommended_stack rejects a blank stack argument" do
+      # The schema declares minLength: 1, so a blank key is a client bug, not a
+      # request for all stacks.
+      assert {:error, %{"code" => "invalid_arguments"}} =
+               DocsTools.get_recommended_stack(%{"stack" => "   "}, [])
+
+      assert {:error, %{"code" => "invalid_arguments"}} =
+               DocsTools.get_recommended_stack(%{"stack" => 1}, [])
+    end
+
+    test "the recommended package set never drifts from the authoritative Stacks registry" do
+      # Parity discipline (jido-e10-t20) extended to the ecosystem surface: the
+      # ranges, sources, and copyable deps block the tool returns must equal
+      # AgentJido.Ecosystem.Stacks — the same module the home dependency blocks
+      # and the public /ecosystem markdown hub render from — so the machine and
+      # browser surfaces cannot disagree.
+      assert {:ok, %{"structuredContent" => %{"stacks" => stacks}}} =
+               DocsTools.get_recommended_stack(%{}, [])
+
+      for stack <- stacks do
+        declared = Stacks.get_stack!(stack["key"])
+
+        assert Enum.map(stack["packages"], & &1["name"]) ==
+                 Enum.map(declared.packages, & &1.name)
+
+        for pkg <- stack["packages"] do
+          assert pkg["range"] == Stacks.supported_range(pkg["name"])
+          assert pkg["source"] == Stacks.source(pkg["name"]) |> to_string()
+          assert pkg["source_label"] == Stacks.source_label(Stacks.source(pkg["name"]))
+        end
+
+        # The copyable block matches the registry's generated deps/0 function.
+        assert stack["dependency_block"] == Stacks.dependency_block(declared.packages)
+      end
+    end
+
+    test "the tool catalog advertises get_recommended_stack with package-set copy" do
+      # Product copy and tool scope must agree (jido-e10-t17): the description
+      # must name the recommended stacks and point a client here for package
+      # selection instead of search_docs.
+      by_name = Map.new(DocsTools.tools(), &{&1["name"], &1["description"]})
+
+      stack = by_name["get_recommended_stack"]
+      assert stack =~ "recommended"
+      assert stack =~ "core"
+      assert stack =~ "ai"
+      assert stack =~ "operate"
+      assert stack =~ "mix.exs"
+      assert stack =~ "search_docs"
     end
   end
 

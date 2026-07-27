@@ -45,7 +45,14 @@ defmodule AgentJido.MCP.Server do
   surface: it retrieves the canonical Markdown and metadata for a single
   published interactive example (/examples/<slug>) by path or slug. Examples
   remain unindexed by search_docs; get_example is the dedicated retrieval path.
-  Ecosystem stack retrieval is tracked separately (jido-e10-t19).
+
+  get_recommended_stack (jido-e10-t19) is the ecosystem stack expansion: it
+  returns a recommended starting package set — one of the three ecosystem
+  stacks (core, ai, operate) or all three when no key is given — with each
+  package's explicit supported range, source, support level, package-page link,
+  and a copyable mix.exs deps/0 block. A client asks "which packages should I
+  start with?" and receives an installable set derived from the same registry
+  as the home dependency blocks and the Ecosystem compatibility matrix.
 
   get_operational_control (jido-e10-t30) retrieves the canonical control
   overview — a docs page — and proof pointers, including links to the ecosystem
@@ -64,7 +71,12 @@ defmodule AgentJido.MCP.Server do
       "get_example retrieves the canonical Markdown and metadata for a single " <>
       "published interactive example (/examples/<slug>) by path or slug; examples " <>
       "are not indexed by search_docs. " <>
-      "Available tools: search_docs, get_doc, list_sections, get_operational_control, get_example."
+      "get_recommended_stack returns a recommended starting package set (an " <>
+      "ecosystem stack: core, ai, or operate, or all three when no key is given) " <>
+      "with each package's explicit supported range, source, support level, " <>
+      "package-page link, and a copyable mix.exs deps block — use it to answer " <>
+      "'which packages should I start with?'. " <>
+      "Available tools: search_docs, get_doc, list_sections, get_operational_control, get_example, get_recommended_stack."
   end
 
   @spec handle_message(map(), State.t(), keyword()) :: response_tuple()

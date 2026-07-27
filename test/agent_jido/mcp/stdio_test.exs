@@ -58,7 +58,8 @@ defmodule AgentJido.MCP.StdioTest do
              "get_doc",
              "list_sections",
              "get_operational_control",
-             "get_example"
+             "get_example",
+             "get_recommended_stack"
            ]
   end
 

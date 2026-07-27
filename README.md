@@ -58,8 +58,8 @@ The workbench now ships a read-only MCP docs server for the published documentat
 - `stdio` entrypoint: `mix mcp.docs`
 - public HTTP endpoint: `POST /mcp/docs`
 - local question helper: `mix run scripts/ask_mcp_docs.exs -- "How do plugins work?"`
-- tools: `search_docs`, `get_doc`, `list_sections`, `get_operational_control`, `get_example`
-- search/get_doc scope: docs only (`/docs/**`). Examples, skills, ecosystem packages, blog, and compare pages are **not** indexed. `get_example` retrieves the canonical Markdown and metadata for a single published interactive example by path or slug (`jido-e10-t18`); ecosystem stack retrieval is tracked as a scope-expansion task (`jido-e10-t19`).
+- tools: `search_docs`, `get_doc`, `list_sections`, `get_operational_control`, `get_example`, `get_recommended_stack`
+- search/get_doc scope: docs only (`/docs/**`). Examples, skills, ecosystem packages, blog, and compare pages are **not** indexed. `get_example` retrieves the canonical Markdown and metadata for a single published interactive example by path or slug (`jido-e10-t18`). `get_recommended_stack` returns a recommended starting package set (an ecosystem stack: `core`, `ai`, or `operate`, or all three when no key is given) with each package's explicit supported range, source, support level, package-page link, and a copyable mix.exs deps block (`jido-e10-t19`).
 
 Notes:
 

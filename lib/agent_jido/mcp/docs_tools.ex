@@ -7,6 +7,7 @@ defmodule AgentJido.MCP.DocsTools do
   alias AgentJido.ContentAssistant.Retrieval
   alias AgentJido.ContentAssistant.URL
   alias AgentJido.Ecosystem.ControlMatrix
+  alias AgentJido.Ecosystem.Stacks
   alias AgentJido.Examples
   alias AgentJido.Examples.Example
   alias AgentJido.MCP
@@ -81,6 +82,13 @@ defmodule AgentJido.MCP.DocsTools do
           "Fetch the canonical Markdown and metadata for a single published interactive example by path or slug (e.g. /examples/counter-agent or counter-agent). Returns the same Markdown the public /examples/<slug>.md endpoint serves, plus the example's proof metadata (outcome, packages, package maturity, difficulty, run command) and content metadata (content type, status, version, last validated). Examples are not indexed by search_docs; use this tool to retrieve one directly.",
         "inputSchema" => get_example_input_schema(),
         "outputSchema" => get_example_output_schema()
+      },
+      %{
+        "name" => "get_recommended_stack",
+        "description" =>
+          "Retrieve a recommended starting package set (an ecosystem stack) by key — core, ai, or operate — with each package's explicit supported range, source, support level, package-page link, and a copyable mix.exs deps/0 block you can paste to install the set. Omit the key to return all three recommended starting stacks. Use this to answer 'which packages should I start with?' instead of guessing a package name in search_docs. Package composition and ranges come from the same registry as the home dependency blocks and the Ecosystem compatibility matrix, so the recommended set never drifts from install.",
+        "inputSchema" => get_recommended_stack_input_schema(),
+        "outputSchema" => get_recommended_stack_output_schema()
       }
     ]
   end
@@ -91,6 +99,7 @@ defmodule AgentJido.MCP.DocsTools do
   def call_tool("list_sections", arguments, opts), do: list_sections(arguments, opts)
   def call_tool("get_operational_control", arguments, opts), do: get_operational_control(arguments, opts)
   def call_tool("get_example", arguments, opts), do: get_example(arguments, opts)
+  def call_tool("get_recommended_stack", arguments, opts), do: get_recommended_stack(arguments, opts)
 
   def call_tool(name, _arguments, _opts) do
     {:error, %{"code" => "unknown_tool", "message" => "Unknown tool #{inspect(name)}"}}
@@ -308,6 +317,41 @@ defmodule AgentJido.MCP.DocsTools do
 
   def get_example(_arguments, _opts) do
     {:error, %{"code" => "invalid_arguments", "message" => "get_example expects an object argument"}}
+  end
+
+  @spec get_recommended_stack(map(), keyword()) :: {:ok, tool_result()} | {:error, map()}
+  def get_recommended_stack(arguments, opts) when is_map(arguments) and is_list(opts) do
+    # Ecosystem stack retrieval (jido-e10-t19): a client asks for a recommended
+    # package set — one of the three recommended starting stacks (Core, AI,
+    # Operate) — and receives its packages with explicit supported ranges,
+    # source, support level, package-page links, and a copyable mix.exs deps/0
+    # block. Omit the stack key to browse all three. Package composition and
+    # ranges flow straight from AgentJido.Ecosystem.Stacks — the single source of
+    # truth for the home dependency blocks and the Ecosystem compatibility matrix
+    # — so the recommended set a client installs cannot drift from the browser
+    # surface or the /ecosystem markdown hub.
+    stacks_module = Keyword.get(opts, :stacks_module, Stacks)
+    requested = Map.get(arguments, "stack")
+
+    with {:ok, requested_key} <- normalize_stack_key(requested, stacks_module) do
+      selected =
+        stacks_module.matrix()
+        |> Enum.filter(fn stack -> requested_key == nil or stack.key == requested_key end)
+
+      stacks_payload = Enum.map(selected, &stack_payload(&1, stacks_module))
+      structured = %{"stacks" => stacks_payload}
+
+      package_count =
+        stacks_payload
+        |> Enum.map(fn stack -> length(stack["packages"]) end)
+        |> Enum.sum()
+
+      {:ok, tool_result(recommended_stack_summary(stacks_payload, package_count), structured)}
+    end
+  end
+
+  def get_recommended_stack(_arguments, _opts) do
+    {:error, %{"code" => "invalid_arguments", "message" => "get_recommended_stack expects an object argument"}}
   end
 
   defp tool_result(text, structured_content) do
@@ -536,6 +580,84 @@ defmodule AgentJido.MCP.DocsTools do
       |> Map.new()
     end)
   end
+
+  # Optional stack key: absent (or nil) returns all three recommended starting
+  # stacks; a known key returns just that one. Matched case-insensitively so a
+  # client passing "Core" or "AI" still resolves. Unknown keys and non-strings
+  # are rejected so the tool cannot fabricate a recommended package set.
+  defp normalize_stack_key(nil, _stacks_module), do: {:ok, nil}
+
+  defp normalize_stack_key(value, stacks_module) when is_binary(value) do
+    trimmed = String.trim(value)
+
+    if trimmed == "" do
+      {:error, %{"code" => "invalid_arguments", "message" => "stack must be a non-empty string"}}
+    else
+      known = Enum.map(stacks_module.stacks(), & &1.key)
+      candidate = String.downcase(trimmed)
+
+      if candidate in known do
+        {:ok, candidate}
+      else
+        {:error,
+         %{
+           "code" => "not_found",
+           "message" =>
+             "No recommended stack exists for #{inspect(trimmed)} (expected one of #{Enum.join(known, ", ")})"
+         }}
+      end
+    end
+  end
+
+  defp normalize_stack_key(_value, _stacks_module) do
+    {:error, %{"code" => "invalid_arguments", "message" => "stack must be a string"}}
+  end
+
+  # One recommended package set: the stack identity, each package with its
+  # explicit range/source/support and package-page link, and the copyable
+  # mix.exs deps/0 block (built from the same enriched rows the Ecosystem
+  # compatibility matrix renders).
+  defp stack_payload(matrix_stack, stacks_module) do
+    %{
+      "key" => matrix_stack.key,
+      "name" => matrix_stack.name,
+      "purpose" => matrix_stack.purpose,
+      "packages" => Enum.map(matrix_stack.packages, &stack_package_payload/1),
+      "dependency_block" => stacks_module.dependency_block(matrix_stack.packages)
+    }
+    |> Enum.reject(fn {_key, value} -> is_nil(value) end)
+    |> Map.new()
+  end
+
+  defp stack_package_payload(pkg) do
+    %{
+      "name" => pkg.name,
+      "role" => pkg.role,
+      "range" => pkg.range,
+      "source" => to_string(pkg.source),
+      "source_label" => pkg.source_label,
+      "support_level" => to_string(pkg.support_level),
+      "path" => pkg.path,
+      "canonical_url" => MCP.canonical_url(pkg.path)
+    }
+    |> Enum.reject(fn {_key, value} -> is_nil(value) end)
+    |> Map.new()
+  end
+
+  defp recommended_stack_summary([], _package_count) do
+    "Returned no recommended starting stacks."
+  end
+
+  defp recommended_stack_summary([stack], package_count) do
+    "Returned the #{stack["name"]} recommended starting stack (#{package_count} package#{plural_suffix(package_count)}) with a copyable mix.exs deps block."
+  end
+
+  defp recommended_stack_summary(stacks, package_count) do
+    "Returned #{length(stacks)} recommended starting stacks (#{package_count} package#{plural_suffix(package_count)} total) with copyable mix.exs deps blocks."
+  end
+
+  defp plural_suffix(1), do: ""
+  defp plural_suffix(_count), do: "s"
 
   defp require_non_empty_string(arguments, key, max_length \\ nil) when is_map(arguments) and is_binary(key) do
     value =
@@ -859,6 +981,64 @@ defmodule AgentJido.MCP.DocsTools do
             "package_maturity" => %{"type" => "string"},
             "difficulty" => %{"type" => "string"},
             "run_command" => %{"type" => "string"}
+          }
+        }
+      }
+    }
+  end
+
+  defp get_recommended_stack_input_schema do
+    %{
+      "type" => "object",
+      "additionalProperties" => false,
+      "properties" => %{
+        "stack" => %{
+          "type" => "string",
+          "minLength" => 1,
+          "enum" => ["core", "ai", "operate"],
+          "description" =>
+            "Optional recommended starting stack key: core (runtime foundation), ai (LLM-backed agents), or operate (production). Omit to return all three."
+        }
+      }
+    }
+  end
+
+  defp get_recommended_stack_output_schema do
+    %{
+      "type" => "object",
+      "required" => ["stacks"],
+      "properties" => %{
+        "stacks" => %{
+          "type" => "array",
+          "items" => %{
+            "type" => "object",
+            "required" => ["key", "name", "purpose", "packages"],
+            "properties" => %{
+              "key" => %{"type" => "string"},
+              "name" => %{"type" => "string"},
+              "purpose" => %{"type" => "string"},
+              "packages" => %{
+                "type" => "array",
+                "items" => %{
+                  "type" => "object",
+                  "required" => ["name", "role", "path"],
+                  "properties" => %{
+                    "name" => %{"type" => "string"},
+                    "role" => %{"type" => "string"},
+                    "range" => %{"type" => "string"},
+                    "source" => %{"type" => "string", "enum" => ["hex", "github", "unknown"]},
+                    "source_label" => %{"type" => "string"},
+                    "support_level" => %{
+                      "type" => "string",
+                      "enum" => ["stable", "beta", "experimental"]
+                    },
+                    "path" => %{"type" => "string"},
+                    "canonical_url" => %{"type" => "string"}
+                  }
+                }
+              },
+              "dependency_block" => %{"type" => "string"}
+            }
           }
         }
       }
