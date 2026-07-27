@@ -56,7 +56,9 @@ defmodule AgentJido.Analytics do
           controlled_agent_completion: [map()],
           ecosystem_stack_selection: [map()],
           docs_search_no_results: [map()],
-          docs_search_reformulations: [map()]
+          docs_search_reformulations: [map()],
+          control_search_no_results: [map()],
+          control_search_reformulations: [map()]
         }
 
   @doc """
@@ -70,6 +72,126 @@ defmodule AgentJido.Analytics do
   """
   @spec feedback_surfaces() :: [String.t()]
   def feedback_surfaces, do: @feedback_surfaces
+
+  @doc """
+  Operational-control vocabulary used to flag a content-assistant query as
+  control-related (jido-e12-t48).
+
+  These are the visitor-facing names of the nine `ControlMatrix` dimensions
+  (context, authorization hooks, policy, quotas, history, observation, export,
+  approval, integration duties) and the docs control types (identity context,
+  authorization, policy, quota, approval, history, observation, redaction),
+  plus the control surfaces the home operational-control section routes to
+  (supervision, causal Signals, the durable Journal, telemetry/IAM/SIEM). A
+  query that mentions any of them is a control query — the kind of search gap
+  that should create operational-control content work. Matching is
+  case-insensitive substring, so the redacted query text never needs
+  pre-processing.
+  """
+  @spec control_query_terms() :: [String.t()]
+  def control_query_terms do
+    [
+      # Context dimension — identity, tenant, principal carried on a unit of work.
+      "identity context",
+      "identity",
+      "tenant",
+      "principal",
+      # Authorization hooks — permit or deny a protected action before it runs.
+      "authorization",
+      "authorisation",
+      "authorize",
+      "authorise",
+      "authorized",
+      "authorised",
+      "permission",
+      "permissions",
+      "rbac",
+      "abac",
+      # Policy — rules that shape what an action or tool may do.
+      "policy",
+      "policies",
+      "allowlist",
+      "allow-list",
+      "allowlists",
+      "deny",
+      "denied",
+      # Quotas — bounds on requests or tokens for AI work.
+      "quota",
+      "quotas",
+      "rate limit",
+      "rate-limit",
+      "rate limits",
+      "rate-limits",
+      "ratelimit",
+      "throttle",
+      "throttling",
+      "cost budget",
+      "spend limit",
+      # History — a durable, replayable record of what happened.
+      "audit log",
+      "audit trail",
+      "audit",
+      "journal",
+      "durable",
+      "replay",
+      "tamper",
+      # Observation — in-process events and spans describing a running system.
+      "telemetry",
+      "observability",
+      "observe",
+      "span",
+      "spans",
+      "trace",
+      "traces",
+      "tracing",
+      "metric",
+      "metrics",
+      # Export — shipping observation to an external collector or backend.
+      "otel",
+      "opentelemetry",
+      "siem",
+      # Approval — a human or service sign-off before work proceeds.
+      "approval",
+      "approvals",
+      "approve",
+      "sign-off",
+      "signoff",
+      # Integration duties / IAM / credentials the host application owns.
+      "iam",
+      "credential",
+      "credentials",
+      "secret management",
+      # Redaction (control type) and the home control-message surfaces.
+      "redact",
+      "redaction",
+      "redacted",
+      "pii",
+      "supervision",
+      "supervise",
+      "self-heal",
+      "self healing",
+      "self-healing",
+      "failure boundary",
+      "failure drill",
+      "causal signal",
+      "causal signals"
+    ]
+  end
+
+  @doc """
+  Returns `true` when a content-assistant query is operational-control related
+  — i.e. it mentions one of the `control_query_terms/0`. Used to scope the
+  no-result and reformulation search-gap breakdowns to control queries, so the
+  gaps that create operational-control content work are visible on their own
+  (jido-e12-t48).
+  """
+  @spec control_query?(String.t() | nil) :: boolean()
+  def control_query?(nil), do: false
+
+  def control_query?(query) when is_binary(query) do
+    downcased = String.downcase(query)
+    Enum.any?(control_query_terms(), &String.contains?(downcased, &1))
+  end
 
   @doc """
   Inserts a single analytics event.
@@ -160,7 +282,9 @@ defmodule AgentJido.Analytics do
         controlled_agent_completion: controlled_agent_completion_breakdown(days),
         ecosystem_stack_selection: ecosystem_stack_selection_breakdown(days),
         docs_search_no_results: docs_search_no_results_breakdown(days, no_results_limit),
-        docs_search_reformulations: docs_search_reformulations_breakdown(days, reform_limit)
+        docs_search_reformulations: docs_search_reformulations_breakdown(days, reform_limit),
+        control_search_no_results: control_search_no_results_breakdown(days, no_results_limit),
+        control_search_reformulations: control_search_reformulations_breakdown(days, reform_limit)
       }
     else
       unauthorized_snapshot(days)
@@ -936,6 +1060,99 @@ defmodule AgentJido.Analytics do
       |> Enum.chunk_every(2, 1, :discard)
       |> Enum.reduce(counts, fn [previous, current], acc ->
         if reformulation_transition?(previous, current) do
+          Map.update(acc, {previous.query, current.query}, 1, &(&1 + 1))
+        else
+          acc
+        end
+      end)
+    end)
+    |> Enum.map(fn {{from_query, to_query}, count} ->
+      %{from_query: from_query, to_query: to_query, count: count}
+    end)
+    |> Enum.sort_by(fn row -> {-row.count, row.from_query || "", row.to_query || ""} end)
+    |> Enum.take(limit)
+  end
+
+  # Control-related docs search no-results (jido-e12-t48). The operational-control
+  # counterpart of docs_search_no_results_breakdown (jido-e12-t29): the same
+  # per-visitor, per-phrase no-result dedup, but scoped to control queries so the
+  # no-result gaps that should create *operational-control* content work stand on
+  # their own instead of being buried in the full no-results list. `DISTINCT ON
+  # (query_hash, visitor_id)` keeps the earliest no-result per visitor per
+  # phrase (repeat no-results of the same phrase by the same visitor never
+  # re-count the visitor); the control filter is applied after the dedup so a
+  # control phrase still counts every distinct visitor who hit it. Ranked by
+  # distinct visitors, then query, and capped to `limit`.
+  defp control_search_no_results_breakdown(days, limit) do
+    since = since_naive(days)
+
+    first_no_result_per_visitor_phrase =
+      from(q in QueryLog,
+        where:
+          q.inserted_at >= ^since and
+            q.status == "no_results" and
+            not is_nil(q.query_hash) and
+            q.query_hash != "" and
+            not is_nil(q.visitor_id),
+        order_by: [asc: q.query_hash, asc: q.visitor_id, asc: q.inserted_at],
+        distinct: [q.query_hash, q.visitor_id],
+        select: %{
+          query_hash: q.query_hash,
+          query: q.query,
+          visitor_id: q.visitor_id
+        }
+      )
+
+    from(n in subquery(first_no_result_per_visitor_phrase),
+      group_by: [n.query_hash, n.query],
+      select: %{
+        query: n.query,
+        query_hash: n.query_hash,
+        visitors: count(n.visitor_id)
+      },
+      order_by: [desc: count(n.visitor_id), asc: n.query]
+    )
+    |> Repo.all()
+    |> Enum.filter(fn row -> control_query?(row.query) end)
+    |> Enum.take(limit)
+  end
+
+  # Control-related docs search reformulation transitions (jido-e12-t48). The
+  # operational-control counterpart of docs_search_reformulations_breakdown
+  # (jido-e12-t29). A reformulation's *gap* is its earlier (from) query — the
+  # need the docs did not meet — so a transition is a control gap only when that
+  # from query is control-related. This keeps the earlier query (the operational-
+  # control content work) visible in user language with the rephrase the visitor
+  # reached for, while a reformulation whose gap is not a control query never
+  # leaks into the control breakdown. Same transition threshold as
+  # reformulation_leaderboard (same session+source, <=120s, different hash);
+  # counting every transition mirrors the docs breakdown.
+  defp control_search_reformulations_breakdown(days, limit) do
+    since = since_naive(days)
+
+    logs =
+      from(q in QueryLog,
+        where:
+          q.inserted_at >= ^since and not is_nil(q.session_id) and not is_nil(q.query_hash) and
+            q.query_hash != "",
+        order_by: [asc: q.session_id, asc: q.source, asc: q.inserted_at, asc: q.id],
+        select: %{
+          session_id: q.session_id,
+          source: q.source,
+          query: q.query,
+          query_hash: q.query_hash,
+          inserted_at: q.inserted_at
+        }
+      )
+      |> Repo.all()
+
+    logs
+    |> Enum.group_by(&{&1.session_id, &1.source})
+    |> Enum.reduce(%{}, fn {_group_key, entries}, counts ->
+      entries
+      |> Enum.chunk_every(2, 1, :discard)
+      |> Enum.reduce(counts, fn [previous, current], acc ->
+        if reformulation_transition?(previous, current) and control_query?(previous.query) do
           Map.update(acc, {previous.query, current.query}, 1, &(&1 + 1))
         else
           acc
@@ -1757,7 +1974,9 @@ defmodule AgentJido.Analytics do
       controlled_agent_completion: [],
       ecosystem_stack_selection: [],
       docs_search_no_results: [],
-      docs_search_reformulations: []
+      docs_search_reformulations: [],
+      control_search_no_results: [],
+      control_search_reformulations: []
     }
   end
 
@@ -1788,7 +2007,9 @@ defmodule AgentJido.Analytics do
       controlled_agent_completion: [],
       ecosystem_stack_selection: [],
       docs_search_no_results: [],
-      docs_search_reformulations: []
+      docs_search_reformulations: [],
+      control_search_no_results: [],
+      control_search_reformulations: []
     }
   end
 

@@ -39,6 +39,8 @@ defmodule AgentJidoWeb.AdminAnalyticsLiveTest do
     assert html =~ "Reformulation leaderboard"
     assert html =~ "Docs search no-results"
     assert html =~ "Docs search reformulations"
+    assert html =~ "Control-related search gaps — no-results"
+    assert html =~ "Control-related search gaps — reformulations"
     assert html =~ "Collector Health"
     assert html =~ "Recent Search Messages"
     assert html =~ "Feedback breakdown"
@@ -522,6 +524,43 @@ defmodule AgentJidoWeb.AdminAnalyticsLiveTest do
     # Both halves are backed by the visitor's own phrasing.
     assert html =~ "how do I retry a failed agent"
     assert html =~ "agent retry strategies"
+  end
+
+  test "renders control-related search-gap sections backed by user language (jido-e12-t48)", %{
+    admin_conn: admin_conn
+  } do
+    actor = user_fixture()
+    scope = Scope.for_user(actor)
+    identity = %{visitor_id: "admin-control-gap-visitor", session_id: "admin-control-gap-session", path: "/docs", referrer_host: "jido.run"}
+
+    # A control no-result query surfaces as an operational-control content gap.
+    {:ok, _no_result} =
+      QueryLogs.create_query_log(scope, identity, %{
+        source: "content_assistant",
+        channel: "content_assistant_page",
+        query: "how do I authorize an action",
+        status: "no_results",
+        results_count: 0
+      })
+
+    # A rephrase in the same session forms a reformulation whose gap is the
+    # control query above.
+    {:ok, _rephrase} =
+      QueryLogs.create_query_log(scope, identity, %{
+        source: "content_assistant",
+        channel: "content_assistant_page",
+        query: "user permissions",
+        status: "success",
+        results_count: 3
+      })
+
+    {:ok, view, html} = live(admin_conn, "/dashboard/analytics")
+
+    # Both control-gap sections render, backed by the visitor's control phrasing.
+    assert has_element?(view, "h2", "Control-related search gaps — no-results")
+    assert has_element?(view, "h2", "Control-related search gaps — reformulations")
+    assert html =~ "how do I authorize an action"
+    assert html =~ "user permissions"
   end
 
   defp seed_analytics_data do

@@ -1244,4 +1244,113 @@ defmodule AgentJido.AnalyticsTest do
       from(q in QueryLog, where: q.id == ^log.id) |> Repo.update_all(set: [inserted_at: inserted_at])
     end
   end
+
+  describe "control-related search gaps (jido-e12-t48)" do
+    test "control_query?/1 matches the operational-control vocabulary" do
+      # Each of the nine ControlMatrix dimensions and the docs control types is
+      # recognized in a visitor's phrasing, case-insensitively.
+      assert Analytics.control_query?("how do I set up authorization")
+      assert Analytics.control_query?("Supervision crash recovery")
+      assert Analytics.control_query?("configure rate limits and quotas")
+      assert Analytics.control_query?("durable audit journal")
+      assert Analytics.control_query?("OpenTelemetry export to my SIEM")
+      assert Analytics.control_query?("human approval before run")
+      assert Analytics.control_query?("PII redaction in traces")
+
+      # A non-control query is not a control query.
+      refute Analytics.control_query?("agent retries")
+      refute Analytics.control_query?("how do I install jido")
+      refute Analytics.control_query?(nil)
+
+      # The vocabulary is non-empty and anchored on the control dimensions.
+      terms = Analytics.control_query_terms()
+      assert is_list(terms) and terms != []
+      assert "authorization" in terms
+      assert "supervision" in terms
+    end
+
+    test "dashboard snapshot surfaces control-related no-result gaps, excluding non-control ones (jido-e12-t48)" do
+      admin = admin_user_fixture()
+      admin_scope = Scope.for_user(admin)
+      actor = user_fixture()
+      scope = Scope.for_user(actor)
+
+      # Visitor A hits a control no-result gap, then a non-control one.
+      {:ok, _auth_a} = docs_query_log(scope, "visitor-a", "session-a", "how do I set up authorization", "no_results")
+      {:ok, _retries_a} = docs_query_log(scope, "visitor-a", "session-a", "agent retries", "no_results")
+
+      # Visitor B hits a different control no-result phrase.
+      {:ok, _auth_b} = docs_query_log(scope, "visitor-b", "session-b", "configure authorization policy", "no_results")
+
+      # Visitors C and D both hit the same non-control phrase — more visitors
+      # than either control phrase, but it is not a control gap.
+      {:ok, _retries_c} = docs_query_log(scope, "visitor-c", "session-c", "agent retries", "no_results")
+      {:ok, _retries_d} = docs_query_log(scope, "visitor-d", "session-d", "agent retries", "no_results")
+
+      # A control query that succeeds never appears as a no-result gap.
+      {:ok, _success_e} = docs_query_log(scope, "visitor-e", "session-e", "supervision crash recovery", "success")
+
+      snapshot = Analytics.dashboard_snapshot(admin_scope, 7, no_results_limit: 10)
+
+      rows = Map.new(snapshot.control_search_no_results, fn row -> {row.query, row.visitors} end)
+
+      # The two control no-result phrases surface; each counts its one visitor.
+      assert rows["how do I set up authorization"] == 1
+      assert rows["configure authorization policy"] == 1
+      # The non-control phrase is excluded even though four visitors hit it.
+      refute Map.has_key?(rows, "agent retries")
+      # The successful control query never surfaces as a no-result gap.
+      refute Map.has_key?(rows, "supervision crash recovery")
+      # Every surfaced gap is a control query.
+      assert Enum.all?(snapshot.control_search_no_results, fn row -> Analytics.control_query?(row.query) end)
+    end
+
+    test "dashboard snapshot surfaces control reformulations whose gap is control-related (jido-e12-t48)" do
+      admin = admin_user_fixture()
+      admin_scope = Scope.for_user(admin)
+      actor = user_fixture()
+      scope = Scope.for_user(actor)
+
+      base_time = NaiveDateTime.utc_now() |> NaiveDateTime.truncate(:second)
+
+      # Session X: the visitor's gap is a control query (authorization) — they
+      # rephrase to a non-control phrase that succeeds. The control gap surfaces.
+      {:ok, q1} = docs_query_log(scope, "visitor-x", "session-x", "how do I authorize an action", "no_results")
+      set_query_inserted_at(q1, base_time)
+      {:ok, q2} = docs_query_log(scope, "visitor-x", "session-x", "user permissions", "success")
+      set_query_inserted_at(q2, NaiveDateTime.add(base_time, 10, :second))
+
+      # Session Y: the same control gap, rephrased the same way — the transition
+      # is counted again.
+      {:ok, q3} = docs_query_log(scope, "visitor-y", "session-y", "how do I authorize an action", "no_results")
+      set_query_inserted_at(q3, base_time)
+      {:ok, q4} = docs_query_log(scope, "visitor-y", "session-y", "user permissions", "success")
+      set_query_inserted_at(q4, NaiveDateTime.add(base_time, 10, :second))
+
+      # Session Z: the gap is NOT a control query — the visitor rephrases an
+      # agent-retry question. The transition must never leak into the control
+      # breakdown, even though the later query happens to mention a control term.
+      {:ok, q5} = docs_query_log(scope, "visitor-z", "session-z", "agent retries", "no_results")
+      set_query_inserted_at(q5, base_time)
+      {:ok, q6} = docs_query_log(scope, "visitor-z", "session-z", "authorization retry policy", "success")
+      set_query_inserted_at(q6, NaiveDateTime.add(base_time, 10, :second))
+
+      snapshot = Analytics.dashboard_snapshot(admin_scope, 7, reform_limit: 10)
+
+      transitions =
+        Map.new(snapshot.control_search_reformulations, fn row ->
+          {{row.from_query, row.to_query}, row.count}
+        end)
+
+      # The control gap -> rephrase transition is counted twice (X and Y).
+      assert transitions[{"how do I authorize an action", "user permissions"}] == 2
+      # The non-control-gap transition is excluded, even though its later query is
+      # control-related — the gap (the from query) is what makes content work.
+      refute Map.has_key?(transitions, {"agent retries", "authorization retry policy"})
+      # Every surfaced transition has a control gap.
+      assert Enum.all?(snapshot.control_search_reformulations, fn row ->
+               Analytics.control_query?(row.from_query)
+             end)
+    end
+  end
 end
