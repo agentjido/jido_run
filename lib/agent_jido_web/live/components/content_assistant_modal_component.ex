@@ -15,6 +15,8 @@ defmodule AgentJidoWeb.ContentAssistantModalComponent do
     only: [
       analytics_value: 1,
       analytics_metadata: 2,
+      filter_chip_class: 1,
+      filter_citations_by_type: 2,
       llm_enabled?: 1,
       llm_request_outcome: 1,
       maybe_apply_search_response_mode: 2,
@@ -22,6 +24,7 @@ defmodule AgentJidoWeb.ContentAssistantModalComponent do
       monotonic_ms: 0,
       normalize_feedback_note: 1,
       normalize_feedback_value: 1,
+      normalize_result_type_filter: 1,
       package_label: 1,
       page_kind_label: 1,
       provider_label: 1,
@@ -32,8 +35,10 @@ defmodule AgentJidoWeb.ContentAssistantModalComponent do
       external_result?: 1,
       require_turnstile?: 0,
       reset_turnstile_widget: 1,
+      result_filter_analytics: 1,
       result_rel: 1,
       result_target: 1,
+      result_type_facets: 1,
       search_response_mode: 0,
       search_retrieval_mode: 0,
       source_label: 1,
@@ -70,6 +75,7 @@ defmodule AgentJidoWeb.ContentAssistantModalComponent do
       |> assign_new(:feedback_value, fn -> nil end)
       |> assign_new(:feedback_note, fn -> "" end)
       |> assign_new(:feedback_submitted, fn -> false end)
+      |> assign_new(:result_filter, fn -> nil end)
       |> assign_new(:turnstile_token, fn -> "" end)
       |> assign_new(:current_scope, fn -> nil end)
       |> assign_new(:analytics_identity, fn -> %{visitor_id: nil, session_id: nil, referrer_host: nil, path: nil} end)
@@ -111,6 +117,7 @@ defmodule AgentJidoWeb.ContentAssistantModalComponent do
          feedback_value: nil,
          feedback_note: "",
          feedback_submitted: false,
+         result_filter: nil,
          turnstile_token: ""
        )
        |> reset_turnstile_widget()}
@@ -127,6 +134,15 @@ defmodule AgentJidoWeb.ContentAssistantModalComponent do
     else
       {:noreply, begin_assistant_query(socket, normalized_query, "")}
     end
+  end
+
+  # Result-type filter (jido-e10-t07). A visitor narrows the displayed
+  # citations to one source surface (Docs, Examples, Ecosystem, Blog, Skills).
+  # The filter is a display facet over the retrieved citations, so selecting it
+  # only re-renders. `"all"` and unknown values clear the filter so a bad value
+  # can never empty the list.
+  def handle_event("select_result_filter", %{"type" => type}, socket) do
+    {:noreply, assign(socket, :result_filter, normalize_result_type_filter(type))}
   end
 
   def handle_event("reference_click", params, socket) do
@@ -228,6 +244,7 @@ defmodule AgentJidoWeb.ContentAssistantModalComponent do
        feedback_value: nil,
        feedback_note: "",
        feedback_submitted: false,
+       result_filter: nil,
        turnstile_token: ""
      )
      |> reset_turnstile_widget()}
@@ -249,6 +266,7 @@ defmodule AgentJidoWeb.ContentAssistantModalComponent do
        feedback_value: nil,
        feedback_note: "",
        feedback_submitted: false,
+       result_filter: nil,
        turnstile_token: ""
      )
      |> reset_turnstile_widget()}
@@ -380,9 +398,41 @@ defmodule AgentJidoWeb.ContentAssistantModalComponent do
             </div>
 
             <div class="space-y-2">
-              <p class="text-xs font-semibold uppercase tracking-wide text-primary">Citations</p>
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <p class="text-xs font-semibold uppercase tracking-wide text-primary">Citations</p>
+
+                <div
+                  :if={result_type_facets(@response.citations || []) != []}
+                  class="flex flex-wrap items-center gap-1.5"
+                  role="group"
+                  aria-label="Filter citations by type"
+                >
+                  <button
+                    type="button"
+                    phx-click="select_result_filter"
+                    phx-target={@myself}
+                    phx-value-type="all"
+                    aria-pressed={to_string(is_nil(@result_filter))}
+                    class={filter_chip_class(is_nil(@result_filter))}
+                  >
+                    All
+                  </button>
+                  <%= for {type, label, count} <- result_type_facets(@response.citations || []) do %>
+                    <button
+                      type="button"
+                      phx-click="select_result_filter"
+                      phx-target={@myself}
+                      phx-value-type={type}
+                      aria-pressed={to_string(@result_filter == type)}
+                      class={filter_chip_class(@result_filter == type)}
+                    >
+                      {label}<span class="ml-1 text-[10px] font-normal opacity-70">{count}</span>
+                    </button>
+                  <% end %>
+                </div>
+              </div>
               <div class="search-modal-scrollbar max-h-[34vh] overflow-y-auto pr-1 space-y-2">
-                <%= for {citation, rank} <- Enum.with_index(@response.citations || [], 1) do %>
+                <%= for {citation, rank} <- Enum.with_index(filter_citations_by_type(@response.citations || [], @result_filter), 1) do %>
                   <div class="rounded-lg border border-border bg-background/70 p-3">
                     <div class="mb-2 flex flex-wrap items-center gap-2">
                       <p class="text-xs font-semibold uppercase tracking-wide text-primary">
@@ -565,6 +615,7 @@ defmodule AgentJidoWeb.ContentAssistantModalComponent do
       enhancement_status: :idle,
       query_log_id: nil,
       last_query_log_id: socket.assigns.query_log_id,
+      result_filter: nil,
       thread: append_thread(socket.assigns.thread, response),
       turnstile_token: ""
     )
@@ -703,6 +754,7 @@ defmodule AgentJidoWeb.ContentAssistantModalComponent do
   defp apply_enhancement_response(socket, %Response{answer_mode: :llm} = response) do
     assign(socket,
       response: response,
+      result_filter: nil,
       thread: replace_latest_thread_entry(socket.assigns.thread, response),
       enhancement_ref: nil,
       enhancement_status: :complete
@@ -1001,8 +1053,10 @@ defmodule AgentJidoWeb.ContentAssistantModalComponent do
   # records a discrete `content_assistant_query_no_results` event with no raw
   # query text — the query is referenced by `query_log_id` (redacted + hashed
   # row) and summarized as `query_length`, and the active search `filters` and
-  # `path` (route) are recorded. `filters` is empty until type filters ship
-  # (jido-e10-t07); the dimension is captured now so it is already recorded.
+  # `path` (route) are recorded. `filters` now carries the result-type filter a
+  # visitor had active when the query ran, so a no-result query can be
+  # attributed to that filter (jido-e10-t07). It runs before the filter is reset
+  # in `apply_assistant_response`, so the submit-time filter is what is recorded.
   defp track_no_results_event(socket, %Response{answer_mode: :no_results} = response, query_log_id) do
     analytics_module().track_event_safe(socket.assigns.current_scope, %{
       event: "content_assistant_query_no_results",
@@ -1017,7 +1071,7 @@ defmodule AgentJidoWeb.ContentAssistantModalComponent do
           surface: "content_assistant_modal",
           query_length: String.length(response.query || ""),
           results_count: length(response.citations || []),
-          filters: %{}
+          filters: result_filter_analytics(socket.assigns.result_filter)
         })
     })
   end

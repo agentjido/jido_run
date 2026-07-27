@@ -106,6 +106,37 @@ defmodule AgentJidoWeb.ContentAssistantModalComponentTest do
        }}
     end
 
+    def respond("mixed", _opts) do
+      {:ok,
+       %Response{
+         query: "mixed",
+         answer_markdown: "Mixed overview",
+         answer_html: "<p>Mixed overview</p>",
+         answer_mode: :deterministic,
+         citations: [
+           %Result{
+             title: "Runtime concept",
+             snippet: "A docs concept.",
+             url: "/docs/concepts/runtime",
+             source_type: :docs,
+             score: 0.9
+           },
+           %Result{
+             title: "Persistence example",
+             snippet: "A runnable example.",
+             url: "/examples/persistence",
+             source_type: :examples,
+             score: 0.8
+           }
+         ],
+         retrieval_status: :success,
+         llm_attempted?: false,
+         llm_enhanced?: false,
+         enhancement_blocked_reason: nil,
+         query_log_id: nil
+       }}
+    end
+
     def respond(_query, _opts) do
       {:ok,
        %Response{
@@ -300,6 +331,40 @@ defmodule AgentJidoWeb.ContentAssistantModalComponentTest do
         html =~ ~s(href="https://hexdocs.pm/jido/Jido.Agent.html") and
         html =~ ~s(target="_blank") and
         html =~ ~s(href="/ecosystem/jido")
+    end)
+  end
+
+  test "result-type filter narrows citations (jido-e10-t07)", %{conn: conn} do
+    # Acceptance: "Users can select Docs, Examples, Ecosystem, Blog, or Skills."
+    {:ok, view, _html} = live_isolated(conn, ModalHarnessLive)
+
+    view
+    |> form("form[phx-submit='submit']", assistant: %{q: "mixed"})
+    |> render_submit()
+
+    assert_eventually(fn ->
+      html = render(view)
+      html =~ ~s(id="primary-nav-content-assistant-modal-answer") and html =~ "Persistence example"
+    end)
+
+    # Narrow to Examples — the example citation stays, the docs citation hides.
+    view
+    |> element("button[phx-value-type='examples']")
+    |> render_click()
+
+    assert_eventually(fn ->
+      html = render(view)
+      html =~ "Persistence example" and not String.contains?(html, "Runtime concept")
+    end)
+
+    # All restores the docs citation.
+    view
+    |> element("button[phx-value-type='all']")
+    |> render_click()
+
+    assert_eventually(fn ->
+      html = render(view)
+      html =~ "Runtime concept"
     end)
   end
 

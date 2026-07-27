@@ -2,6 +2,7 @@ defmodule AgentJidoWeb.ContentAssistantSupportTest do
   use ExUnit.Case, async: true
 
   alias AgentJido.ContentAssistant.Response
+  alias AgentJido.ContentAssistant.Result
   alias AgentJidoWeb.ContentAssistantSupport
 
   describe "llm_request_outcome/1" do
@@ -62,6 +63,70 @@ defmodule AgentJidoWeb.ContentAssistantSupportTest do
     end
   end
 
+  describe "result-type filters (jido-e10-t07)" do
+    # Acceptance: "Users can select Docs, Examples, Ecosystem, Blog, or Skills."
+
+    test "exposes the five selectable result types in display order" do
+      assert ContentAssistantSupport.result_type_filters() ==
+               [
+                 {:docs, "Docs"},
+                 {:examples, "Examples"},
+                 {:ecosystem, "Ecosystem"},
+                 {:blog, "Blog"},
+                 {:skills, "Skills"}
+               ]
+    end
+
+    test "normalizes a filter value to a canonical atom" do
+      assert ContentAssistantSupport.normalize_result_type_filter("docs") == :docs
+      assert ContentAssistantSupport.normalize_result_type_filter(:examples) == :examples
+      assert ContentAssistantSupport.normalize_result_type_filter("  Ecosystem ") == :ecosystem
+      assert ContentAssistantSupport.normalize_result_type_filter("BLOG") == :blog
+    end
+
+    test "all and unknown values clear the filter so a bad value cannot empty the list" do
+      assert ContentAssistantSupport.normalize_result_type_filter("all") == nil
+      assert ContentAssistantSupport.normalize_result_type_filter(nil) == nil
+      assert ContentAssistantSupport.normalize_result_type_filter("bogus") == nil
+      # HexDocs is an external provider surface, not a selectable filter.
+      assert ContentAssistantSupport.normalize_result_type_filter(:ecosystem_docs) == nil
+    end
+
+    test "facets list only the present types with counts, in display order" do
+      citations = [
+        result(:docs),
+        result(:docs),
+        result(:blog),
+        result(:examples)
+      ]
+
+      assert ContentAssistantSupport.result_type_facets(citations) ==
+               [
+                 {:docs, "Docs", 2},
+                 {:examples, "Examples", 1},
+                 {:blog, "Blog", 1}
+               ]
+    end
+
+    test "HexDocs results do not surface as their own filter" do
+      assert ContentAssistantSupport.result_type_facets([result(:ecosystem_docs)]) == []
+    end
+
+    test "filtering narrows to a type and nil returns everything" do
+      citations = [result(:docs), result(:blog), result(:examples)]
+
+      filtered = ContentAssistantSupport.filter_citations_by_type(citations, :blog)
+      assert length(filtered) == 1
+      assert hd(filtered).source_type == :blog
+      assert ContentAssistantSupport.filter_citations_by_type(citations, nil) == citations
+    end
+
+    test "the analytics dimension records the active filter or stays empty" do
+      assert ContentAssistantSupport.result_filter_analytics(:examples) == %{type: "examples"}
+      assert ContentAssistantSupport.result_filter_analytics(nil) == %{}
+    end
+  end
+
   defp response(overrides) do
     %Response{
       query: "test query",
@@ -76,5 +141,14 @@ defmodule AgentJidoWeb.ContentAssistantSupportTest do
       query_log_id: nil
     }
     |> struct(overrides)
+  end
+
+  defp result(source_type) do
+    %Result{
+      title: "title",
+      snippet: "snippet",
+      url: "/#{source_type}",
+      source_type: source_type
+    }
   end
 end

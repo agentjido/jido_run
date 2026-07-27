@@ -38,6 +38,110 @@ defmodule AgentJidoWeb.ContentAssistantSupport do
   def source_label(:skills), do: "Skill"
   def source_label(_), do: "Content"
 
+  # Result-type filters let a visitor narrow search results to one source
+  # surface — Docs, Examples, Ecosystem, Blog, or Skills (jido-e10-t07). The
+  # five filterable types are the internal source types every citation already
+  # carries; HexDocs (`:ecosystem_docs`) is an external provider surface, not a
+  # selectable filter, so a HexDocs result is never the only thing a "Ecosystem"
+  # filter would surface.
+  @result_type_filters [
+    {:docs, "Docs"},
+    {:examples, "Examples"},
+    {:ecosystem, "Ecosystem"},
+    {:blog, "Blog"},
+    {:skills, "Skills"}
+  ]
+
+  @doc """
+  The result-type filters a visitor can select, in display order.
+  """
+  @spec result_type_filters() :: [{atom(), String.t()}]
+  def result_type_filters, do: @result_type_filters
+
+  @doc """
+  Coerce an incoming result-type filter value (from a `phx-value-type` click)
+  into a canonical filter atom, or `nil` when it is not one of the five
+  selectable types (jido-e10-t07). `"all"` and any unrecognized value resolve
+  to `nil` so a bad value can never empty the result list.
+  """
+  @spec normalize_result_type_filter(atom() | String.t() | nil) :: atom() | nil
+  def normalize_result_type_filter(nil), do: nil
+
+  def normalize_result_type_filter(value) when value in [:docs, :examples, :ecosystem, :blog, :skills],
+    do: value
+
+  def normalize_result_type_filter(value) when is_atom(value),
+    do: normalize_result_type_filter(Atom.to_string(value))
+
+  def normalize_result_type_filter(value) when is_binary(value) do
+    case String.downcase(String.trim(value)) do
+      "docs" -> :docs
+      "examples" -> :examples
+      "ecosystem" -> :ecosystem
+      "blog" -> :blog
+      "skills" -> :skills
+      _ -> nil
+    end
+  end
+
+  def normalize_result_type_filter(_value), do: nil
+
+  @doc """
+  The selectable result-type facets present in a citation list, with their
+  label and count. Only types that actually appear are returned, in
+  `result_type_filters/0` order, so a result set never offers a filter chip it
+  cannot populate (jido-e10-t07).
+  """
+  @spec result_type_facets([map()]) :: [{atom(), String.t(), non_neg_integer()}]
+  def result_type_facets(citations) when is_list(citations) do
+    counts = Enum.frequencies_by(citations, &source_type_value/1)
+
+    result_type_filters()
+    |> Enum.filter(fn {type, _label} -> Map.has_key?(counts, type) end)
+    |> Enum.map(fn {type, label} -> {type, label, Map.get(counts, type, 0)} end)
+  end
+
+  def result_type_facets(_citations), do: []
+
+  @doc """
+  Narrow a citation list to the selected result type, preserving order. `nil`
+  (no filter) returns the list unchanged (jido-e10-t07).
+  """
+  @spec filter_citations_by_type([map()], atom() | nil) :: [map()]
+  def filter_citations_by_type(citations, nil) when is_list(citations), do: citations
+
+  def filter_citations_by_type(citations, filter) when is_list(citations) and is_atom(filter) do
+    Enum.filter(citations, fn
+      %{source_type: ^filter} -> true
+      _ -> false
+    end)
+  end
+
+  def filter_citations_by_type(citations, _filter) when is_list(citations), do: citations
+  def filter_citations_by_type(_citations, _filter), do: []
+
+  @doc """
+  The analytics dimension value for the active result-type filter: an empty map
+  when nothing is filtered, or `%{type: type}` so a no-result query can be
+  attributed to the filter that was active when it ran (jido-e10-t07).
+  """
+  @spec result_filter_analytics(atom() | nil) :: map()
+  def result_filter_analytics(nil), do: %{}
+  def result_filter_analytics(filter) when is_atom(filter), do: %{type: Atom.to_string(filter)}
+  def result_filter_analytics(_filter), do: %{}
+
+  @doc false
+  def filter_chip_class(true = _active) do
+    "rounded-full border border-primary bg-primary/10 px-3 py-1 text-xs font-semibold text-primary transition-colors"
+  end
+
+  def filter_chip_class(false = _active) do
+    "rounded-full border border-border bg-background px-3 py-1 text-xs font-medium text-muted-foreground transition-colors hover:border-primary/50 hover:text-foreground"
+  end
+
+  defp source_type_value(%{source_type: source_type}) when is_atom(source_type), do: source_type
+  defp source_type_value(_citation), do: nil
+
   def provider_label(:hexdocs), do: "HexDocs"
   def provider_label("hexdocs"), do: "HexDocs"
   def provider_label(_provider), do: nil

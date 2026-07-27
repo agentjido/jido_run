@@ -213,6 +213,30 @@ defmodule AgentJidoWeb.ContentAssistantLiveTest do
        }}
     end
 
+    def respond("skills", _opts) do
+      {:ok,
+       %Response{
+         query: "skills",
+         answer_markdown: "Skills overview",
+         answer_html: "<p>Skills overview</p>",
+         answer_mode: :deterministic,
+         citations: [
+           %Result{
+             title: "Persistence skill",
+             snippet: "A reusable persistence skill.",
+             url: "/skills#skill-card-persistence",
+             source_type: :skills,
+             score: 0.8
+           }
+         ],
+         retrieval_status: :success,
+         llm_attempted?: false,
+         llm_enhanced?: false,
+         enhancement_blocked_reason: nil,
+         query_log_id: nil
+       }}
+    end
+
     # A no-results query that carries a sensitive pattern (an email) and keeps
     # the submitted query on the response, so the no-result analytics test can
     # prove the query is recorded without leaking the raw email. Defined before
@@ -580,6 +604,128 @@ defmodule AgentJidoWeb.ContentAssistantLiveTest do
       # No sensitive data is stored on the analytics event itself.
       refute Map.has_key?(event.metadata, "query")
       refute inspect(event.metadata) =~ "leak@example.com"
+    end
+  end
+
+  describe "result-type filters (jido-e10-t07)" do
+    # Acceptance: "Users can select Docs, Examples, Ecosystem, Blog, or Skills."
+
+    test "the answer state offers a chip for each present result type plus All", %{conn: conn} do
+      conn = with_content_assistant_stub(conn)
+      {:ok, view, _html} = mount_live(conn)
+
+      view
+      |> form("#content-assistant-form", assistant: %{q: "control"})
+      |> render_submit()
+
+      html = assert_state(view, ~s(id="content-assistant-answer-state"))
+
+      assert html =~ ~s(id="content-assistant-result-type-filter")
+      assert html =~ ~s(phx-value-type="all")
+
+      # The "control" stub returns docs, examples, ecosystem, and blog citations,
+      # so each present type renders a selectable chip.
+      for type <- ~w(docs examples ecosystem blog) do
+        assert html =~ ~s(phx-value-type="#{type}"),
+               "missing the #{type} result-type filter chip"
+      end
+    end
+
+    test "a skills result offers and narrows to the Skills filter", %{conn: conn} do
+      conn = with_content_assistant_stub(conn)
+      {:ok, view, _html} = mount_live(conn)
+
+      view
+      |> form("#content-assistant-form", assistant: %{q: "skills"})
+      |> render_submit()
+
+      html = assert_state(view, ~s(id="content-assistant-answer-state"))
+      assert html =~ ~s(phx-value-type="skills")
+
+      html = render_click(view, "select_result_filter", %{"type" => "skills"})
+
+      assert html =~ "Persistence skill"
+      assert html =~ ~s(phx-value-type="skills" aria-pressed="true")
+      assert html =~ ~s(phx-value-type="all" aria-pressed="false")
+    end
+
+    test "selecting Examples narrows references to example citations", %{conn: conn} do
+      conn = with_content_assistant_stub(conn)
+      {:ok, view, _html} = mount_live(conn)
+
+      view
+      |> form("#content-assistant-form", assistant: %{q: "control"})
+      |> render_submit()
+      assert_state(view, ~s(id="content-assistant-answer-state"))
+
+      html = render_click(view, "select_result_filter", %{"type" => "examples"})
+
+      # The example citation stays visible; non-example citations are hidden.
+      assert html =~ "Controlled Agent example"
+      refute html =~ "Agents concept"
+      refute html =~ "Acme controlled-Agent case study"
+
+      assert html =~ ~s(phx-value-type="examples" aria-pressed="true")
+    end
+
+    test "selecting All restores every citation", %{conn: conn} do
+      conn = with_content_assistant_stub(conn)
+      {:ok, view, _html} = mount_live(conn)
+
+      view
+      |> form("#content-assistant-form", assistant: %{q: "control"})
+      |> render_submit()
+      assert_state(view, ~s(id="content-assistant-answer-state"))
+
+      render_click(view, "select_result_filter", %{"type" => "examples"})
+      html = render_click(view, "select_result_filter", %{"type" => "all"})
+
+      assert html =~ "Agents concept"
+      assert html =~ "Controlled Agent example"
+      assert html =~ ~s(phx-value-type="all" aria-pressed="true")
+    end
+
+    test "an unknown type clears the filter instead of emptying the list", %{conn: conn} do
+      conn = with_content_assistant_stub(conn)
+      {:ok, view, _html} = mount_live(conn)
+
+      view
+      |> form("#content-assistant-form", assistant: %{q: "control"})
+      |> render_submit()
+      assert_state(view, ~s(id="content-assistant-answer-state"))
+
+      html = render_click(view, "select_result_filter", %{"type" => "bogus"})
+
+      assert html =~ ~s(phx-value-type="all" aria-pressed="true")
+      assert html =~ "Agents concept"
+    end
+
+    test "the no-result analytics records the active result-type filter", %{conn: conn} do
+      conn = with_content_assistant_stub(conn)
+      {:ok, view, _html} = mount_live(conn)
+
+      # Get a result set, then narrow to Examples so the filter is active.
+      view
+      |> form("#content-assistant-form", assistant: %{q: "control"})
+      |> render_submit()
+      assert_state(view, ~s(id="content-assistant-answer-state"))
+      render_click(view, "select_result_filter", %{"type" => "examples"})
+
+      # A subsequent no-result query records the Examples filter that was
+      # active when it ran.
+      view
+      |> form("#content-assistant-form", assistant: %{q: "missing"})
+      |> render_submit()
+      assert_state(view, ~s(id="content-assistant-no-results-state"))
+
+      event =
+        Repo.get_by(AnalyticsEvent,
+          event: "content_assistant_query_no_results",
+          path: "/search"
+        )
+
+      assert event
+      assert event.metadata["filters"] == %{"type" => "examples"}
     end
   end
 

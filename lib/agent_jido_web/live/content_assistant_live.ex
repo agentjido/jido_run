@@ -19,6 +19,8 @@ defmodule AgentJidoWeb.ContentAssistantLive do
       analytics_metadata: 2,
       config_value: 3,
       content_assistant_config: 0,
+      filter_chip_class: 1,
+      filter_citations_by_type: 2,
       llm_enabled?: 1,
       llm_request_outcome: 1,
       maybe_apply_search_response_mode: 2,
@@ -26,6 +28,7 @@ defmodule AgentJidoWeb.ContentAssistantLive do
       monotonic_ms: 0,
       normalize_feedback_note: 1,
       normalize_feedback_value: 1,
+      normalize_result_type_filter: 1,
       package_label: 1,
       page_kind_label: 1,
       provider_label: 1,
@@ -35,8 +38,10 @@ defmodule AgentJidoWeb.ContentAssistantLive do
       external_result?: 1,
       require_turnstile?: 0,
       reset_turnstile_widget: 1,
+      result_filter_analytics: 1,
       result_rel: 1,
       result_target: 1,
+      result_type_facets: 1,
       search_response_mode: 0,
       search_retrieval_mode: 0,
       source_label: 1,
@@ -83,6 +88,7 @@ defmodule AgentJidoWeb.ContentAssistantLive do
       |> assign(:feedback_value, nil)
       |> assign(:feedback_note, "")
       |> assign(:feedback_submitted, false)
+      |> assign(:result_filter, nil)
       |> assign(:thread, [])
       |> assign(:turnstile_token, "")
       |> assign(:content_assistant_module, resolve_content_assistant_module(session))
@@ -270,10 +276,40 @@ defmodule AgentJidoWeb.ContentAssistantLive do
           </div>
 
           <div class="space-y-2">
-            <p class="text-xs font-semibold uppercase tracking-wide text-primary">References</p>
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <p class="text-xs font-semibold uppercase tracking-wide text-primary">References</p>
+
+              <div
+                :if={result_type_facets(@response.citations || []) != []}
+                id="content-assistant-result-type-filter"
+                class="flex flex-wrap items-center gap-1.5"
+                role="group"
+                aria-label="Filter references by type"
+              >
+                <button
+                  type="button"
+                  phx-click="select_result_filter"
+                  phx-value-type="all"
+                  aria-pressed={to_string(is_nil(@result_filter))}
+                  class={filter_chip_class(is_nil(@result_filter))}
+                >
+                  All
+                </button>
+                <button
+                  :for={{type, label, count} <- result_type_facets(@response.citations || [])}
+                  type="button"
+                  phx-click="select_result_filter"
+                  phx-value-type={type}
+                  aria-pressed={to_string(@result_filter == type)}
+                  class={filter_chip_class(@result_filter == type)}
+                >
+                  {label}<span class="ml-1 text-[10px] font-normal opacity-70">{count}</span>
+                </button>
+              </div>
+            </div>
             <div class="assistant-references-grid space-y-2">
               <div
-                :for={{citation, rank} <- Enum.with_index(@response.citations || [], 1)}
+                :for={{citation, rank} <- Enum.with_index(filter_citations_by_type(@response.citations || [], @result_filter), 1)}
                 class="assistant-reference-card rounded-lg border border-border bg-background/70 p-3"
               >
                 <div class="mb-2 flex flex-wrap items-center gap-2">
@@ -480,6 +516,16 @@ defmodule AgentJidoWeb.ContentAssistantLive do
     else
       {:noreply, push_patch(socket, to: search_path(normalized))}
     end
+  end
+
+  # Result-type filter (jido-e10-t07). A visitor narrows the displayed
+  # references to one source surface (Docs, Examples, Ecosystem, Blog, Skills).
+  # The filter is a display facet over the retrieved citations, so selecting it
+  # only re-renders. `"all"` and unknown values clear the filter so a bad value
+  # can never empty the list.
+  @impl true
+  def handle_event("select_result_filter", %{"type" => type}, socket) do
+    {:noreply, assign(socket, :result_filter, normalize_result_type_filter(type))}
   end
 
   @impl true
@@ -799,6 +845,7 @@ defmodule AgentJidoWeb.ContentAssistantLive do
       feedback_value: nil,
       feedback_note: "",
       feedback_submitted: false,
+      result_filter: nil,
       thread: append_thread(socket.assigns.thread, response),
       query: response.query,
       turnstile_token: ""
@@ -868,8 +915,10 @@ defmodule AgentJidoWeb.ContentAssistantLive do
   # The event carries no raw query text: the query is referenced by
   # `query_log_id` (whose row stores a redacted + hashed query) and summarized
   # as `query_length`, and the active search `filters` and `path` (route) are
-  # recorded. `filters` stays empty until result type filters ship
-  # (jido-e10-t07); the dimension is captured now so it is already recorded.
+  # recorded. `filters` now carries the result-type filter a visitor had active
+  # when the query ran, so a no-result query can be attributed to that filter
+  # (jido-e10-t07). It runs before `apply_response` resets the filter, so the
+  # submit-time filter is what is recorded.
   defp track_no_results_event(socket, %Response{answer_mode: :no_results} = response) do
     analytics_module().track_event_safe(socket.assigns.current_scope, %{
       event: "content_assistant_query_no_results",
@@ -884,7 +933,7 @@ defmodule AgentJidoWeb.ContentAssistantLive do
           surface: "content_assistant_page",
           query_length: String.length(response.query || ""),
           results_count: length(response.citations || []),
-          filters: %{}
+          filters: result_filter_analytics(socket.assigns.result_filter)
         })
     })
   end
@@ -939,6 +988,7 @@ defmodule AgentJidoWeb.ContentAssistantLive do
     socket
     |> assign(
       response: response,
+      result_filter: nil,
       thread: replace_latest_thread_entry(socket.assigns.thread, response)
     )
     |> clear_enhancement_state(:complete)
@@ -1159,6 +1209,7 @@ defmodule AgentJidoWeb.ContentAssistantLive do
       feedback_value: nil,
       feedback_note: "",
       feedback_submitted: false,
+      result_filter: nil,
       turnstile_token: ""
     )
     |> reset_turnstile_widget()
