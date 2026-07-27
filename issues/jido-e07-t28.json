@@ -15,11 +15,15 @@
     {
       "text": "Open: Kubernetes guidance requires a tested reference.",
       "timestamp": "2026-07-24T12:50:36Z"
+    },
+    {
+      "text": "Accepted by the Zclaude Ralph supervisor. Commits: 17e91345. Verification: MIX_ENV=test mix compile \u0026\u0026 MIX_ENV=test mix format --check-formatted.",
+      "timestamp": "2026-07-27T03:22:21Z"
     }
   ],
   "priority": 2,
   "status": "in_progress",
   "title": "E07-T28 — Add Kubernetes guidance only with a tested reference.",
   "type": "task",
-  "updated_at": "2026-07-27T03:04:39Z"
+  "updated_at": "2026-07-27T03:22:21Z"
 }
