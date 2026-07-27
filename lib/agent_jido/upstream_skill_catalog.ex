@@ -221,7 +221,7 @@ defmodule AgentJido.UpstreamSkillCatalog do
   defp task_for(id, :package), do: manifest_field(id, "role")
 
   defp use_when_for("jido-skill-router", :router),
-    do: ["unclear package boundary", "task spans multiple packages"]
+    do: ["unclear package boundary", "task spans multiple packages", "operational-control intent"]
 
   defp use_when_for(id, :package) do
     case Map.get(@manifest_skills, id) do

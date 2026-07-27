@@ -1,6 +1,6 @@
 ---
 name: jido-skill-router
-description: Meta-skill for routing Jido ecosystem work to the right package skills. Use when Codex needs to choose between $jido, $jido-action, $jido-signal, $req-llm, $llm-db, $ash-jido, $jido-browser, $jido-memory, $jido-behaviortree, $jido-messaging, $jido-otel, or $jido-studio, or when a task spans several of them and needs a handoff order.
+description: Meta-skill for routing Jido ecosystem work to the right package skills. Use when Codex needs to choose between $jido, $jido-action, $jido-signal, $req-llm, $llm-db, $ash-jido, $jido-browser, $jido-memory, $jido-behaviortree, $jido-messaging, $jido-otel, or $jido-studio, or when a task spans several of them and needs a handoff order. Also use it for operational-control intent — authorization, audit, observability, policy, quotas, or approval — where the minimum package set and the host-application duties must be named.
 ---
 
 # Jido Skill Router
@@ -32,6 +32,36 @@ Read [references/skill-manifest.yaml](references/skill-manifest.yaml) when the t
 - Use `$jido-messaging` for external transport adapters, delivery semantics, and broker boundaries.
 - Use `$jido-otel` for tracing, spans, observability hooks, and OpenTelemetry integration.
 
+## Operational-Control Routing
+
+Use this section when the intent is operational control — authorization, audit or history, observability, policy, quotas, or approval for a unit of agent work (the four questions every piece of Jido work answers: who initiated work, what was allowed, what happened, and how failure was handled).
+
+Operational control is a host-application concern first. The packages supply hooks and carry context; the host application owns the decision and the enforcement. Route to the **minimum** set and name the host duties the packages do not cover.
+
+The canonical terms, the nine control dimensions, and the proof live on the Security and governance page (`/docs/operations/security-and-governance`) and the Operations hub (`/docs/operations`). Fetch them with the `get_operational_control` tool rather than restating them here, so the router never drifts from the public control surface.
+
+### Minimum package skills
+
+- Anchor on `$jido`. Core Jido supplies the fail-closed `prepare_action/3` and `prepare_signal/2` plugin hooks (authorization and context integration points — not decisions), in-process observation (`Jido.Observe`, `Jido.Telemetry`), and OTP supervision. Load `$jido` alone for a generic control question.
+- Add one adjacent skill only when the task crosses its boundary:
+  - `$jido-signal` for durable, replayable history (the optional Signal Journal).
+  - `$jido-otel` for exporting telemetry as OpenTelemetry spans to a collector.
+  - `$ash-jido` when Ash carries the actor, tenant, and authorization context and Ash policies must run unchanged.
+
+### Gap — no `$jido-ai` skill
+
+AI tool, effect, and prompt policy and request/token quotas ship with the `jido_ai` package, which has **no vendored skill** in this catalog. Do not invent a `$jido-ai` skill. Point at the `jido_ai` package page (`/ecosystem/jido_ai`) and narrow the scope until a skill exists.
+
+### Host-application duties (no package ships these)
+
+Name these explicitly in the plan or response so control is never implied where a package does not provide it:
+
+- the authorization decision and RBAC/ABAC enforcement — Jido supplies the `prepare_action/3` hook; the host decides and enforces.
+- approval workflows — wire a gate through `prepare_action/3`; no package ships an approval workflow.
+- overall spend limits and billing enforcement — quotas bound AI work; total spend stays platform-owned.
+- durable audit evidence — retention, access control, and tamper evidence for the Signal Journal and telemetry.
+- integration with IAM, storage, and the SIEM or telemetry backend.
+
 ## Common Handoffs
 
 - `$llm-db -> $req-llm -> $jido` for model-routed AI workflows.
@@ -42,6 +72,7 @@ Read [references/skill-manifest.yaml](references/skill-manifest.yaml) when the t
 - `$jido -> $jido-otel` for runtime observability.
 - `$jido -> $jido-memory` when the workflow needs long-lived recall.
 - `$jido -> $jido-behaviortree` when branching logic becomes a first-class concern.
+- `$jido` alone for operational-control intent (authorization hooks, observation, supervision); add `$jido-signal` (history), `$jido-otel` (export), or `$ash-jido` (Ash context) only for the dimension touched, and name the host-application duties no package covers.
 
 ## Boundaries
 
@@ -49,3 +80,5 @@ Read [references/skill-manifest.yaml](references/skill-manifest.yaml) when the t
 - Do not replace package-specific guidance with generic router text; hand off to the package skill.
 - Do not invent cross-package integrations that the package docs do not support.
 - Do not use this skill when one package skill already owns the task clearly.
+- Do not imply a package supplies approval, overall spend limits, or durable audit evidence; those are host-application duties — state the boundary instead.
+- Do not invent a `$jido-ai` skill; `jido_ai` has no vendored skill, so point at its package page and narrow the scope.

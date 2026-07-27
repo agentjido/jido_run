@@ -176,3 +176,30 @@ common_flows:
     sequence:
       - jido-signal
       - jido-messaging
+# Operational-control routing (jido-e10-t31): the minimum package skills for an
+# operational-control intent, plus the host-application duties no package ships.
+# Mirrors the router SKILL.md "Operational-Control Routing" section and the
+# public ControlMatrix (AgentJido.Ecosystem.ControlMatrix) so the skill router,
+# the /ecosystem control matrix, and the get_operational_control MCP tool agree
+# on the same control packages, roles, and host boundary.
+operational_control:
+  anchor: jido
+  adjacent:
+    - skill: jido-signal
+      dimension: history
+      reason: durable, replayable Signal Journal
+    - skill: jido-otel
+      dimension: export
+      reason: ship telemetry as OpenTelemetry spans to a collector
+    - skill: ash-jido
+      dimension: context
+      reason: preserves Ash actor, tenant, and authorization context
+  host_application_duties:
+    - authorization decision and RBAC/ABAC enforcement (Jido supplies the prepare_action/3 hook)
+    - approval workflows (wired through the fail-closed prepare_action/3 hook)
+    - overall spend limits and billing enforcement
+    - durable audit evidence — retention, access control, and tamper evidence
+    - integration with IAM, storage, and the SIEM or telemetry backend
+  gap:
+    package: jido_ai
+    reason: AI tool, effect, and prompt policy and request/token quotas ship with jido_ai, which has no vendored skill; point at the package page instead of inventing one.
