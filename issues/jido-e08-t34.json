@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-27T04:12:47Z",
   "created": "2026-07-23T12:05:37Z",
   "description": "Backlog task: E08-T34\n\nWork area: Inventory and delivery\n\nMain targets: Examples LiveView\n\nComplete when: Start, simulated run, live run, source open, and local-run clicks are measured.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e08-t34",
@@ -22,7 +23,7 @@
     }
   ],
   "priority": 2,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E08-T34 — Add example completion analytics.",
   "type": "task",
   "updated_at": "2026-07-27T04:12:47Z"
