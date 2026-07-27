@@ -15,11 +15,15 @@
     {
       "text": "Open: backup/DR guidance route removed from plans; full guidance not yet published.",
       "timestamp": "2026-07-24T12:50:36Z"
+    },
+    {
+      "text": "Accepted by the Zclaude Ralph supervisor. Commits: 5271b852. Verification: MIX_ENV=test mix compile \u0026\u0026 MIX_ENV=test mix format --check-formatted.",
+      "timestamp": "2026-07-27T02:27:47Z"
     }
   ],
   "priority": 2,
   "status": "in_progress",
   "title": "E07-T25 — Add backup and disaster-recovery guidance or remove the route from plans.",
   "type": "task",
-  "updated_at": "2026-07-27T02:11:37Z"
+  "updated_at": "2026-07-27T02:27:47Z"
 }
