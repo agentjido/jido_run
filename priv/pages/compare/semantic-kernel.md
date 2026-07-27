@@ -6,7 +6,12 @@
   audience: :beginner,
   draft: false,
   order: 70,
-  last_validated: "2026-03-02"
+  last_validated: "2026-03-02",
+  owner: "Jido team",
+  sources: [
+    %{label: "Semantic Kernel on GitHub", url: "https://github.com/microsoft/semantic-kernel"},
+    %{label: "Semantic Kernel documentation", url: "https://learn.microsoft.com/en-us/semantic-kernel/overview/"}
+  ]
 }
 ---
 ## Semantic Kernel

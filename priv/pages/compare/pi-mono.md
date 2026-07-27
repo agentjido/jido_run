@@ -6,7 +6,11 @@
   audience: :beginner,
   draft: false,
   order: 80,
-  last_validated: "2026-03-02"
+  last_validated: "2026-03-02",
+  owner: "Jido team",
+  sources: [
+    %{label: "Pi Mono on GitHub", url: "https://github.com/badlogic/pi-mono"}
+  ]
 }
 ---
 ## Pi Mono

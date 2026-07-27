@@ -6,7 +6,12 @@
   audience: :beginner,
   draft: false,
   order: 20,
-  last_validated: "2026-03-02"
+  last_validated: "2026-03-02",
+  owner: "Jido team",
+  sources: [
+    %{label: "CrewAI on GitHub", url: "https://github.com/crewAIInc/crewAI"},
+    %{label: "CrewAI documentation", url: "https://docs.crewai.com"}
+  ]
 }
 ---
 ## CrewAI

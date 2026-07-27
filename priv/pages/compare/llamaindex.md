@@ -6,7 +6,12 @@
   audience: :beginner,
   draft: false,
   order: 50,
-  last_validated: "2026-03-02"
+  last_validated: "2026-03-02",
+  owner: "Jido team",
+  sources: [
+    %{label: "LlamaIndex on GitHub", url: "https://github.com/run-llama/llama_index"},
+    %{label: "LlamaIndex documentation", url: "https://docs.llamaindex.ai"}
+  ]
 }
 ---
 ## LlamaIndex

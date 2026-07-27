@@ -6,7 +6,12 @@
   audience: :beginner,
   draft: false,
   order: 40,
-  last_validated: "2026-03-02"
+  last_validated: "2026-03-02",
+  owner: "Jido team",
+  sources: [
+    %{label: "AutoGen on GitHub", url: "https://github.com/microsoft/autogen"},
+    %{label: "AutoGen documentation", url: "https://microsoft.github.io/autogen/"}
+  ]
 }
 ---
 ## AutoGen

@@ -66,6 +66,8 @@ defmodule AgentJido.Pages.Page do
   - `last_validated` - ISO date this page's code was last validated
   - `tested_with` - Map of package/version pairs this page was validated against
   - `owner` - Accountable owner for executable pages (who re-validates it when it goes stale)
+  - `sources` - External reference sources backing a page's claims (`[%{label, url}]`), e.g. a
+    comparison page's competitor repo and docs. Rendered so old facts stay visible (E12-T19).
 
   ### SEO
   - `og_image` - Per-page Open Graph image override
@@ -244,6 +246,19 @@ defmodule AgentJido.Pages.Page do
               owner:
                 Zoi.string(description: "Accountable owner for executable pages (who re-validates the notebook when it goes stale)")
                 |> Zoi.default(""),
+              # External reference sources (author-set; jido-e12-t19). Each entry
+              # is %{label, url} naming a URL the page's facts were checked
+              # against — a comparison page's competitor repo and docs. Rendered
+              # so old facts stay visible and re-checkable: a reader can see
+              # where a comparison came from and re-verify it. Distinct from the
+              # internal validation repos/source_modules in :validation (those
+              # name this project's own code); :sources names external evidence.
+              sources:
+                Zoi.any(
+                  description:
+                    "External reference sources backing a page's claims — list of %{label, url} maps (e.g. a comparison page's competitor repo and docs). Rendered so old facts stay visible and re-checkable."
+                )
+                |> Zoi.default([]),
               # SEO top-level override
               og_image: Zoi.string(description: "Per-page Open Graph image override") |> Zoi.optional(),
               # Nested metadata maps

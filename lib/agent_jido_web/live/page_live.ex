@@ -181,6 +181,13 @@ defmodule AgentJidoWeb.PageLive do
         # links to a missing or draft example page.
         related_example_entries = resolve_related_examples(page.related_examples)
 
+        # E12-T19: resolve the page's external reference sources to render
+        # entries (label + url) so old facts stay visible and re-checkable — a
+        # comparison page names the competitor repo and docs it was checked
+        # against. Malformed entries (missing label or url) are dropped so a
+        # page never renders a source a reader cannot open.
+        source_entries = resolve_sources(page.sources)
+
         assigns = [
           page_title: page.title,
           meta_description: page_meta_description(page),
@@ -197,7 +204,8 @@ defmodule AgentJidoWeb.PageLive do
           toc: toc,
           document_content: %{html: page.body, toc: toc},
           related_package_entries: related_package_entries,
-          related_example_entries: related_example_entries
+          related_example_entries: related_example_entries,
+          source_entries: source_entries
         ]
 
         assigns =
@@ -304,6 +312,36 @@ defmodule AgentJidoWeb.PageLive do
   end
 
   defp resolve_related_packages(_), do: []
+
+  # E12-T19: normalize a page's external reference sources into render entries.
+  # Each frontmatter source is %{label, url} (atom or string keys); malformed
+  # entries (blank label or url, or a non-map) are dropped so a page never
+  # renders a source a reader cannot open. URLs are trimmed and coerced to
+  # binaries so the template can compare safely.
+  defp resolve_sources(sources) when is_list(sources) do
+    sources
+    |> Enum.flat_map(&resolve_source_entry/1)
+  end
+
+  defp resolve_sources(_), do: []
+
+  defp resolve_source_entry(entry) when is_map(entry) do
+    label = present_source_value(entry, :label)
+    url = present_source_value(entry, :url)
+
+    if label != nil and url != nil, do: [%{label: label, url: url}], else: []
+  end
+
+  defp resolve_source_entry(_), do: []
+
+  defp present_source_value(entry, key) when is_atom(key) do
+    value = Map.get(entry, key) || Map.get(entry, Atom.to_string(key))
+
+    case value do
+      nil -> nil
+      other -> to_string(other) |> String.trim() |> then(&if(&1 == "", do: nil, else: &1))
+    end
+  end
 
   defp resolve_related_package_entry(%{id: id} = entry) when is_binary(id) do
     case Ecosystem.get_public_package(id) do

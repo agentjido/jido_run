@@ -692,6 +692,54 @@
             <article class="docs-prose prose max-w-none text-sm leading-relaxed">
               {Phoenix.HTML.raw(@page.body)}
             </article>
+
+            <%!-- E12-T19: competitor-page review date + sources, so old facts
+                 stay visible and re-checkable. Compare pages only; the review
+                 date is the page's last_validated (the date the comparison was
+                 last checked against its sources), which also drives the
+                 180-day slow review queue (jido-e12-t16) so stale comparisons
+                 become assigned work. --%>
+            <section :if={@category == :compare} class="space-y-4" data-compare-provenance>
+              <div
+                :if={
+                  @page.last_validated not in ["", nil] or
+                    @page.owner not in ["", nil]
+                }
+                class="flex flex-wrap items-center gap-x-4 gap-y-2 text-[12px] text-muted-foreground"
+              >
+                <span :if={@page.last_validated not in ["", nil]} class="inline-flex items-center gap-1.5">
+                  <span class="font-semibold uppercase tracking-wide text-[10px]">Last reviewed</span>
+                  <time datetime={@page.last_validated}>{@page.last_validated}</time>
+                </span>
+                <span :if={@page.owner not in ["", nil]} class="inline-flex items-center gap-1.5">
+                  <span class="font-semibold uppercase tracking-wide text-[10px]">Reviewed by</span>
+                  {@page.owner}
+                </span>
+              </div>
+
+              <div :if={@source_entries != []} class="rounded-md border border-border bg-card/60 p-4">
+                <div class="mb-2 text-[10px] font-bold tracking-[0.1em] uppercase text-muted-foreground">
+                  Sources
+                </div>
+                <ul class="flex flex-col gap-1.5 text-[12px]">
+                  <%= for source <- @source_entries do %>
+                    <li>
+                      <a
+                        href={source.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="text-primary hover:opacity-80 transition-opacity"
+                      >
+                        {source.label}
+                      </a>
+                    </li>
+                  <% end %>
+                </ul>
+                <p class="mt-2.5 text-[11px] leading-relaxed text-muted-foreground">
+                  Comparison checked against the sources above on <time>{@page.last_validated}</time>. Frameworks move fast — re-check a claim against its source before relying on it.
+                </p>
+              </div>
+            </section>
           </div>
         <% else %>
           <h1 class="text-3xl font-bold mb-8">{Phoenix.Naming.humanize(@category)}</h1>

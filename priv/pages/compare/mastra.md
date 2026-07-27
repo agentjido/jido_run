@@ -6,7 +6,12 @@
   audience: :beginner,
   draft: false,
   order: 10,
-  last_validated: "2026-03-02"
+  last_validated: "2026-03-02",
+  owner: "Jido team",
+  sources: [
+    %{label: "Mastra on GitHub", url: "https://github.com/mastra-ai/mastra"},
+    %{label: "Mastra documentation", url: "https://mastra.ai"}
+  ]
 }
 ---
 ## Mastra
