@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-27T06:54:40Z",
   "created": "2026-07-23T12:07:10Z",
   "description": "Backlog task: E10-T31\n\nWork area: Operational-control delivery\n\nMain targets: Router Skill\n\nComplete when: It selects the minimum relevant package Skills and includes host-application duties.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e10-t31",
@@ -23,7 +24,7 @@
     }
   ],
   "priority": 2,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E10-T31 — Teach the Skills router to handle operational-control intent.",
   "type": "task",
   "updated_at": "2026-07-27T06:54:40Z"
