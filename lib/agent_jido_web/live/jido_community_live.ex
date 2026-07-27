@@ -190,6 +190,18 @@ defmodule AgentJidoWeb.JidoCommunityLive do
             >
               {@failure_story_request.cta}
             </a>
+
+            <%= if example = @failure_story_request[:example] do %>
+              <p class="mt-5 pt-4 border-t border-border text-[11px] text-muted-foreground leading-relaxed">
+                {example.prefix}
+                <a
+                  href={example.href}
+                  class="font-semibold text-primary hover:opacity-80 transition-opacity"
+                >
+                  {example.label}
+                </a>
+              </p>
+            <% end %>
           </div>
         </section>
 
@@ -336,7 +348,14 @@ defmodule AgentJidoWeb.JidoCommunityLive do
         "A regression test locks the corrected behavior so it does not return"
       ],
       submit_url: "https://github.com/agentjido/agentjido_xyz/issues",
-      cta: "Submit a failure story"
+      cta: "Submit a failure story",
+      # The first concrete instance of the docs+tests conversion path above:
+      # a real reproducible fault turned into a public fix note + regression test.
+      example: %{
+        prefix: "See the first one:",
+        label: "how a first-LLM tutorial failure became a fix note and a test",
+        href: "/blog/fix-first-llm-tutorial-provider-mismatch"
+      }
     }
   end
 end

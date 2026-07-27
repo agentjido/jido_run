@@ -880,6 +880,11 @@ defmodule AgentJidoWeb.PageLiveTest do
       # The request states the docs + tests conversion path maintainers rely on.
       assert html =~ "public fix note"
       assert html =~ "regression test"
+
+      # The first concrete instance of that path: a real fault turned into a
+      # published fix note plus a regression test (jido-e11, E11-T13).
+      assert html =~ "/blog/fix-first-llm-tutorial-provider-mismatch"
+      assert html =~ "fix note and a test"
     end
 
     test "renders /community/showcase route", %{conn: conn} do
