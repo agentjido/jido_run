@@ -1,5 +1,5 @@
 {
-  "assignee": "",
+  "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:06:46Z",
@@ -18,8 +18,8 @@
     }
   ],
   "priority": 2,
-  "status": "open",
+  "status": "in_progress",
   "title": "E10-T07 — Add search-result type filters.",
   "type": "task",
-  "updated_at": "2026-07-24T12:53:33Z"
+  "updated_at": "2026-07-27T05:18:53Z"
 }
