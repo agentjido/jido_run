@@ -61,7 +61,7 @@ defmodule AgentJidoWeb.JidoFeaturesLive do
           <div class="cta-glow rounded-lg p-12 text-center">
             <h2 class="text-2xl font-bold mb-3">Ready to build?</h2>
             <p class="copy-measure mx-auto mb-6 text-sm text-secondary-foreground">
-              Go from zero to a running, supervised agent in under ten minutes.
+              Go from zero to a running, supervised agent.
             </p>
             <div class="flex flex-wrap justify-center gap-3">
               <.link
@@ -115,6 +115,29 @@ defmodule AgentJidoWeb.JidoFeaturesLive do
       <div class="text-[11px] text-muted-foreground">
         <span class="font-semibold text-foreground">Best for:</span> {@category.audience}
       </div>
+
+      <%!-- jido-e11-t20: a proof link beside every production claim. Each card
+           makes a behavioral claim (supervision, coordination, observability,
+           ...); this routes the visitor to the one runnable example that backs
+           it, so the claim is openable rather than asserted. The example slug is
+           verified live in jido_features_proof_links_test.exs. --%>
+      <div class="feature-card-proof mt-4 flex items-center gap-2">
+        <span class="text-[10px] px-2 py-0.5 rounded border border-primary/30 bg-primary/10 text-primary uppercase tracking-wider">
+          Proof
+        </span>
+        <.link
+          navigate={@category.proof.href}
+          class="text-xs font-medium text-primary hover:underline"
+          data-feature-proof={@category.slug}
+          data-analytics-event="feature_proof_viewed"
+          data-analytics-source="features"
+          data-analytics-section-id={"feature-#{@category.slug}"}
+          data-analytics-target-url={@category.proof.href}
+        >
+          {@category.proof.label}
+        </.link>
+      </div>
+
       <.link navigate={@category.deep_dive} class="inline-block mt-3 text-xs text-primary hover:underline">
         open deep dive ->
       </.link>
@@ -141,10 +164,15 @@ defmodule AgentJidoWeb.JidoFeaturesLive do
   defp status_label(:planned), do: "Planned"
   defp status_label(_), do: "Unknown"
 
+  # Each card carries a `proof` link to the single runnable example that backs
+  # its production claim (jido-e11-t20). The slugs are verified live in
+  # jido_features_proof_links_test.exs, so a card whose proof points at a
+  # missing or non-live example fails the build.
   defp categories do
     [
       %{
         title: "How Jido agents work",
+        slug: "how-agents-work",
         badge: "agents",
         summary:
           "An agent is a struct with state, actions, and tools, running inside a supervised process. See the anatomy of an agent and how each piece connects.",
@@ -157,10 +185,12 @@ defmodule AgentJidoWeb.JidoFeaturesLive do
           %{id: "jido", label: "jido", status: :beta}
         ],
         audience: "All developers",
-        deep_dive: "/features/how-agents-work"
+        deep_dive: "/features/how-agents-work",
+        proof: %{label: "Run the counter agent →", href: "/examples/counter-agent"}
       },
       %{
         title: "Give agents tools",
+        slug: "tools",
         badge: "tools",
         summary:
           "Tools are typed Actions with input/output contracts. Define a tool, attach it to an agent, and let it call APIs, query databases, or browse the web.",
@@ -174,10 +204,12 @@ defmodule AgentJidoWeb.JidoFeaturesLive do
           %{id: "jido_ai", label: "jido_ai", status: :beta}
         ],
         audience: "AI product engineers",
-        deep_dive: "/features/tools"
+        deep_dive: "/features/tools",
+        proof: %{label: "See tools in the coding assistant →", href: "/examples/coding-assistant"}
       },
       %{
         title: "Any model, any provider",
+        slug: "llm-support",
         badge: "llm",
         summary: "Works with OpenAI, Anthropic, Google, Mistral, and local models. Swap providers without changing agent code.",
         capabilities: [
@@ -191,13 +223,18 @@ defmodule AgentJidoWeb.JidoFeaturesLive do
           %{id: "llm_db", label: "llm_db", status: :stable}
         ],
         audience: "AI engineers, mixed-stack evaluators",
-        deep_dive: "/features/llm-support"
+        deep_dive: "/features/llm-support",
+        proof: %{
+          label: "See multi-provider chat →",
+          href: "/examples/jido-ai-weather-multi-turn-context"
+        }
       },
       %{
         title: "Agents that stay up",
+        slug: "agents-that-self-heal",
         badge: "reliability",
         summary:
-          "Each agent runs in its own BEAM process under OTP supervision. When an agent crashes, its supervisor restarts it in milliseconds with clean state.",
+          "Each agent runs in its own BEAM process under OTP supervision. When an agent crashes, its supervisor restarts it as a fresh process with clean state.",
         capabilities: [
           "Process isolation for every agent",
           "Automatic crash recovery via OTP supervisors",
@@ -207,10 +244,12 @@ defmodule AgentJidoWeb.JidoFeaturesLive do
           %{id: "jido", label: "jido", status: :beta}
         ],
         audience: "Platform engineers, SRE teams",
-        deep_dive: "/features/agents-that-self-heal"
+        deep_dive: "/features/agents-that-self-heal",
+        proof: %{label: "Run the failure drill →", href: "/examples/failure-drill-agent"}
       },
       %{
         title: "Agents that work together",
+        slug: "multi-agent-coordination",
         badge: "coordination",
         summary: "Agents communicate through Signals and respond with Actions. Coordination is explicit code you can read, test, and debug.",
         capabilities: [
@@ -223,10 +262,12 @@ defmodule AgentJidoWeb.JidoFeaturesLive do
           %{id: "jido_action", label: "jido_action", status: :beta}
         ],
         audience: "AI product engineers, staff architects",
-        deep_dive: "/features/multi-agent-coordination"
+        deep_dive: "/features/multi-agent-coordination",
+        proof: %{label: "See signals route between agents →", href: "/examples/signal-routing-agent"}
       },
       %{
         title: "See what every agent is doing",
+        slug: "observe-everything",
         badge: "observability",
         summary: "Built-in telemetry emits events for every agent lifecycle transition. OpenTelemetry integration traces workflows across processes.",
         capabilities: [
@@ -239,10 +280,12 @@ defmodule AgentJidoWeb.JidoFeaturesLive do
           %{id: "jido_otel", label: "jido_otel", status: :experimental}
         ],
         audience: "SRE/platform engineers, technical leads",
-        deep_dive: "/features/observe-everything"
+        deep_dive: "/features/observe-everything",
+        proof: %{label: "See the operations agent →", href: "/examples/operations-agent"}
       },
       %{
         title: "Start small, grow safely",
+        slug: "start-small",
         badge: "adoption",
         summary: "Add one agent to your existing Elixir app. No rewrite, no platform migration. Each package composes without lock-in.",
         capabilities: [
@@ -255,7 +298,8 @@ defmodule AgentJidoWeb.JidoFeaturesLive do
           %{id: "jido_action", label: "jido_action", status: :beta}
         ],
         audience: "Staff architects, engineering managers",
-        deep_dive: "/features/start-small"
+        deep_dive: "/features/start-small",
+        proof: %{label: "See the data pipeline →", href: "/examples/data-pipeline-agent"}
       }
     ]
   end

@@ -10,7 +10,10 @@ defmodule AgentJidoWeb.Jido.HomeSections do
 
   attr :title, :string, default: "Build your first agent"
 
-  attr :description, :string, default: "Go from zero to a running, supervised agent in under ten minutes."
+  # No duration: per specs/benchmark-methodology.md (E11-T19) an onboarding-time
+  # claim needs a measured median before it can carry a number, so this states
+  # the tested outcome instead (jido-e11-t20).
+  attr :description, :string, default: "Go from zero to a running, supervised agent."
 
   attr :primary_label, :string, default: "GET BUILDING →"
   attr :primary_path, :string, default: "/docs/getting-started"
