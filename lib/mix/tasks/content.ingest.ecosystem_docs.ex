@@ -54,9 +54,18 @@ defmodule Mix.Tasks.Content.Ingest.EcosystemDocs do
     Mix.shell().info("skipped: #{summary.skipped}")
     Mix.shell().info("deleted: #{summary.deleted}")
     Mix.shell().info("failed: #{summary.failed_count}")
+    Mix.shell().info("readme_drift: #{summary.readme_drift_count}")
 
     Enum.each(summary.failed, fn failure ->
       Mix.shell().error("  - #{failure.package_id}: #{failure.reason}")
+    end)
+
+    # jido-e09-t32: each material upstream README change is a review item.
+    Enum.each(summary.readme_drift, fn item ->
+      Mix.shell().info(
+        "  README review: #{item.package_name} (#{item.readme_source_id}) drifted; " <>
+          "review at #{item.readme_url}"
+      )
     end)
   end
 

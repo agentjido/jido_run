@@ -15,6 +15,24 @@ defmodule AgentJido.ContentIngest.EcosystemDocs.Sync do
   @managed_by "agent_jido.content_ingest.ecosystem_docs/v1"
   @default_page_concurrency 4
 
+  @typedoc """
+  Review item created when an upstream README changes materially.
+
+  Surfaced on the sync summary as `readme_drift` (jido-e09-t32): a content-hash
+  change on a previously-ingested README page is a reviewable signal that the
+  package's README drifted from the version backing the corpus.
+  """
+  @type readme_drift_item :: %{
+          package_id: String.t(),
+          package_name: String.t(),
+          readme_source_id: String.t(),
+          page_title: String.t() | nil,
+          previous_content_hash: String.t(),
+          current_content_hash: String.t(),
+          readme_url: String.t() | nil,
+          detected_at: String.t()
+        }
+
   @type summary :: %{
           mode: :apply | :dry_run,
           dry_run: boolean(),
@@ -26,6 +44,8 @@ defmodule AgentJido.ContentIngest.EcosystemDocs.Sync do
           updated: non_neg_integer(),
           skipped: non_neg_integer(),
           deleted: non_neg_integer(),
+          readme_drift: [readme_drift_item()],
+          readme_drift_count: non_neg_integer(),
           failed: [map()],
           failed_count: non_neg_integer(),
           started_at: DateTime.t(),
@@ -151,7 +171,8 @@ defmodule AgentJido.ContentIngest.EcosystemDocs.Sync do
       inserted: package_summary.inserted,
       updated: package_summary.updated,
       skipped: package_summary.skipped,
-      deleted: package_summary.deleted
+      deleted: package_summary.deleted,
+      readme_drift: Map.get(package_summary, :readme_drift, [])
     }
   end
 
@@ -284,6 +305,7 @@ defmodule AgentJido.ContentIngest.EcosystemDocs.Sync do
 
   defp reconcile_package(repo, _package_id, sources, existing_docs, opts) do
     dry_run = Keyword.get(opts, :dry_run, false)
+    detected_at = DateTime.utc_now() |> DateTime.truncate(:second)
     existing_by_source = Enum.group_by(existing_docs, & &1.source_id)
     source_ids = MapSet.new(Enum.map(sources, & &1.source_id))
 
@@ -304,8 +326,66 @@ defmodule AgentJido.ContentIngest.EcosystemDocs.Sync do
 
       stale_deleted = delete_package_documents(repo, stale_docs, dry_run)
 
-      {:ok, Map.update!(summary, :deleted, &(&1 + stale_deleted))}
+      readme_drift = detect_readme_drift(sources, existing_docs, detected_at)
+
+      {:ok,
+       summary
+       |> Map.update!(:deleted, &(&1 + stale_deleted))
+       |> Map.put(:readme_drift, readme_drift)}
     end
+  end
+
+  # jido-e09-t32: a material upstream README change creates a review item.
+  # Drift is a content-hash change on a README page that already had an
+  # ingested version. New READMEs (no prior version) and unchanged READMEs
+  # produce no review item.
+  defp detect_readme_drift(sources, existing_docs, detected_at) do
+    existing_by_source = Enum.group_by(existing_docs, & &1.source_id)
+
+    sources
+    |> Enum.filter(&readme_source?/1)
+    |> Enum.flat_map(fn source ->
+      current_hash = metadata_value(source.metadata, "content_hash")
+
+      previous_hash =
+        existing_by_source
+        |> Map.get(source.source_id, [])
+        |> Enum.map(&metadata_value(&1.metadata, "content_hash"))
+        |> Enum.reject(&is_nil/1)
+        |> List.first()
+
+      if material_drift?(previous_hash, current_hash) do
+        [build_readme_drift_item(source, previous_hash, current_hash, detected_at)]
+      else
+        []
+      end
+    end)
+  end
+
+  defp readme_source?(%Source{metadata: metadata}) do
+    metadata_value(metadata, "page_kind") == "readme"
+  end
+
+  defp material_drift?(previous_hash, current_hash) do
+    present?(previous_hash) and present?(current_hash) and previous_hash != current_hash
+  end
+
+  defp present?(value) when is_binary(value), do: String.trim(value) != ""
+  defp present?(_value), do: false
+
+  defp build_readme_drift_item(source, previous_hash, current_hash, detected_at) do
+    metadata = source.metadata || %{}
+
+    %{
+      package_id: metadata_value(metadata, "package_id"),
+      package_name: metadata_value(metadata, "package_name"),
+      readme_source_id: source.source_id,
+      page_title: metadata_value(metadata, "page_title"),
+      previous_content_hash: previous_hash,
+      current_content_hash: current_hash,
+      readme_url: metadata_value(metadata, "outbound_url"),
+      detected_at: DateTime.to_iso8601(detected_at)
+    }
   end
 
   defp sync_source(repo, source, docs, dry_run, summary) do
@@ -412,6 +492,8 @@ defmodule AgentJido.ContentIngest.EcosystemDocs.Sync do
       updated: 0,
       skipped: 0,
       deleted: 0,
+      readme_drift: [],
+      readme_drift_count: 0,
       failed: [],
       failed_count: 0,
       started_at: DateTime.utc_now() |> DateTime.truncate(:second),
@@ -428,6 +510,7 @@ defmodule AgentJido.ContentIngest.EcosystemDocs.Sync do
     |> Map.update!(:updated, &(&1 + Map.get(package_summary, :updated, 0)))
     |> Map.update!(:skipped, &(&1 + Map.get(package_summary, :skipped, 0)))
     |> Map.update!(:deleted, &(&1 + Map.get(package_summary, :deleted, 0)))
+    |> Map.update!(:readme_drift, &(&1 ++ Map.get(package_summary, :readme_drift, [])))
   end
 
   defp add_failure(summary, package_id, reason) do
@@ -435,10 +518,14 @@ defmodule AgentJido.ContentIngest.EcosystemDocs.Sync do
   end
 
   defp finalize_summary(summary) do
+    drift = Map.get(summary, :readme_drift, [])
+
     %{
       summary
       | failed: Enum.reverse(summary.failed),
         failed_count: length(summary.failed),
+        readme_drift: drift,
+        readme_drift_count: length(drift),
         finished_at: DateTime.utc_now() |> DateTime.truncate(:second)
     }
   end

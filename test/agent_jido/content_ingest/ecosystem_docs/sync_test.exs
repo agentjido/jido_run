@@ -40,7 +40,7 @@ defmodule AgentJido.ContentIngest.EcosystemDocs.SyncTest do
     end
 
     defp fetch_fixture(fixture, "https://hexdocs.pm/jido/2.2.0/overview.html" = url)
-         when fixture in [:v1, :v2, :page_failure] do
+         when fixture in [:v1, :v2, :page_failure, :readme_drift_a, :readme_drift_b] do
       {:ok,
        response(
          url,
@@ -93,6 +93,19 @@ defmodule AgentJido.ContentIngest.EcosystemDocs.SyncTest do
       {:ok, response(url, manifest_js(include_getting_started?: true))}
     end
 
+    defp fetch_fixture(fixture, "https://hexdocs.pm/jido/2.2.0/dist/sidebar_items-test.js" = url)
+         when fixture in [:readme_drift_a, :readme_drift_b] do
+      {:ok, response(url, readme_drift_manifest())}
+    end
+
+    defp fetch_fixture(:readme_drift_a, "https://hexdocs.pm/jido/2.2.0/readme.html" = url) do
+      {:ok, response(url, page_html("Jido", "README revision A: original package description."))}
+    end
+
+    defp fetch_fixture(:readme_drift_b, "https://hexdocs.pm/jido/2.2.0/readme.html" = url) do
+      {:ok, response(url, page_html("Jido", "README revision B: materially updated package description."))}
+    end
+
     defp fetch_fixture(fixture, url) do
       flunk("unexpected fetch #{inspect({fixture, url})}")
     end
@@ -134,6 +147,17 @@ defmodule AgentJido.ContentIngest.EcosystemDocs.SyncTest do
         Jason.encode!(%{
           "modules" => [%{"id" => "Jido.Agent", "title" => "Jido.Agent"}],
           "extras" => extras,
+          "tasks" => []
+        })
+    end
+
+    # A single README extra so its page_kind is :readme and its source_id is
+    # stable across runs (jido-e09-t32).
+    defp readme_drift_manifest do
+      "sidebarNodes=" <>
+        Jason.encode!(%{
+          "modules" => [],
+          "extras" => [%{"id" => "readme", "title" => "Jido"}],
           "tasks" => []
         })
     end
@@ -213,6 +237,67 @@ defmodule AgentJido.ContentIngest.EcosystemDocs.SyncTest do
     result = EcosystemDocs.sync_package_now("jido", repo: Repo, client: StubClient, fixture: :page_failure)
     assert result.failed_count == 1
     assert managed_doc_count() == 3
+  end
+
+  describe "README-drift review (jido-e09-t32)" do
+    test "a material upstream README change creates a review item on the sync summary" do
+      first =
+        EcosystemDocs.sync_package_now("jido", repo: Repo, client: StubClient, fixture: :readme_drift_a)
+
+      # First run ingests the README with no prior version => no drift review item.
+      assert first.readme_drift == []
+      assert first.readme_drift_count == 0
+      assert first.inserted == 1
+
+      second =
+        EcosystemDocs.sync_package_now("jido", repo: Repo, client: StubClient, fixture: :readme_drift_b)
+
+      # The README changed materially => exactly one review item.
+      assert second.readme_drift_count == 1
+      assert length(second.readme_drift) == 1
+
+      [item] = second.readme_drift
+
+      assert item.package_id == "jido"
+      assert item.package_name == "jido"
+      assert item.readme_source_id == "ecosystem_docs:jido:readme:readme"
+      assert item.page_title == "Jido"
+      assert item.previous_content_hash != item.current_content_hash
+      assert is_binary(item.previous_content_hash) and item.previous_content_hash != ""
+      assert is_binary(item.current_content_hash) and item.current_content_hash != ""
+      assert is_binary(item.readme_url) and item.readme_url != ""
+      assert {:ok, _detected, _offset} = DateTime.from_iso8601(item.detected_at)
+    end
+
+    test "an unchanged upstream README creates no review item" do
+      EcosystemDocs.sync_package_now("jido", repo: Repo, client: StubClient, fixture: :readme_drift_a)
+
+      repeat =
+        EcosystemDocs.sync_package_now("jido", repo: Repo, client: StubClient, fixture: :readme_drift_a)
+
+      assert repeat.readme_drift == []
+      assert repeat.readme_drift_count == 0
+      assert repeat.updated == 0
+    end
+
+    test "dry-run still surfaces drift review items without mutating the corpus" do
+      EcosystemDocs.sync_package_now("jido", repo: Repo, client: StubClient, fixture: :readme_drift_a)
+      assert managed_doc_count() == 1
+
+      dry_run =
+        EcosystemDocs.sync_package_now("jido",
+          repo: Repo,
+          client: StubClient,
+          fixture: :readme_drift_b,
+          dry_run: true
+        )
+
+      # Detection is non-destructive: the review item is produced even though
+      # nothing is written, and the corpus is left intact.
+      assert dry_run.mode == :dry_run
+      assert dry_run.readme_drift_count == 1
+      assert managed_doc_count() == 1
+    end
   end
 
   defp purge_docs do
