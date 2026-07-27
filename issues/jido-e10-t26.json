@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-27T06:45:08Z",
   "created": "2026-07-23T12:07:05Z",
   "description": "Backlog task: E10-T26\n\nWork area: Sitemap and Skills\n\nMain targets: Skills hub\n\nComplete when: Users do not load the full skill catalog by default.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e10-t26",
@@ -22,7 +23,7 @@
     }
   ],
   "priority": 2,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E10-T26 — Add “Use the router when unsure” copy from the skills README.",
   "type": "task",
   "updated_at": "2026-07-27T06:45:08Z"
