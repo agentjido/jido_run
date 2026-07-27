@@ -15,11 +15,15 @@
     {
       "text": "Open: search-result type filters not yet added.",
       "timestamp": "2026-07-24T12:53:33Z"
+    },
+    {
+      "text": "Accepted by the Zclaude Ralph supervisor. Commits: ad5a9c53,0283a9e0. Verification: MIX_ENV=test mix compile \u0026\u0026 MIX_ENV=test mix format --check-formatted.",
+      "timestamp": "2026-07-27T05:45:31Z"
     }
   ],
   "priority": 2,
   "status": "in_progress",
   "title": "E10-T07 — Add search-result type filters.",
   "type": "task",
-  "updated_at": "2026-07-27T05:18:53Z"
+  "updated_at": "2026-07-27T05:45:31Z"
 }
