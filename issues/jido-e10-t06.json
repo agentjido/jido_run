@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-27T05:18:50Z",
   "created": "2026-07-23T12:06:45Z",
   "description": "Backlog task: E10-T06\n\nWork area: Search\n\nMain targets: Search feedback\n\nComplete when: Query, filters, and route are recorded without sensitive data.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e10-t06",
@@ -22,7 +23,7 @@
     }
   ],
   "priority": 2,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E10-T06 — Add no-result analytics.",
   "type": "task",
   "updated_at": "2026-07-27T05:18:50Z"
