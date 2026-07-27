@@ -11,6 +11,9 @@
   related_packages: [
     %{id: "jido", role: "Agent state, checkpoints, and hibernate/thaw"}
   ],
+  related_examples: [
+    %{id: "persistence-storage-agent", role: "Round-trip agent state through hibernate/thaw with ETS-backed checkpoints"}
+  ],
   livebook: %{
     runnable: true,
     required_env_vars: [],

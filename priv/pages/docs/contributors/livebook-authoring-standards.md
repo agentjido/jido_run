@@ -27,6 +27,7 @@ Use this page as the canonical standard when writing or reviewing `.livemd` tuto
 - [ ] Runnable notebooks declare a `last_validated` ISO date so the page shows when it was last confirmed
 - [ ] Runnable notebooks declare an `owner` so a stale notebook has a named accountable person to re-validate
 - [ ] Guides declare `related_packages` so each package's role and maturity render next to the instructions
+- [ ] Guides declare `related_examples` so each guide has runnable proof next to the instructions
 - [ ] The notebook ends with a "Next steps" (or "What to try next") block so every reader leaves with a concrete next action
 
 ## Canonical Notebook Shape
@@ -157,6 +158,9 @@ Runnable notebooks should include Livebook-oriented metadata in the frontmatter:
     %{id: "jido_ai", role: "The tool-calling loop that drives the agent"},
     %{id: "req_llm", role: "LLM HTTP client used to reach the provider"}
   ],
+  related_examples: [
+    %{id: "counter-agent", role: "Unit-test validated Actions and signal routing against a real agent"}
+  ],
   livebook: %{
     runnable: true,
     required_env_vars: ["OPENAI_API_KEY"],
@@ -175,6 +179,8 @@ Use `required_env_vars` and `setup_instructions` to make external requirements e
 `owner` is the named accountable person for the notebook — the one who re-runs and re-validates it when it goes stale. A runnable notebook cannot publish without `last_validated`, `tested_with`, and `owner`, because freshness only helps if a stale page has someone to ping. The docs shell renders it as "Owner" in the page header.
 
 `related_packages` is a list of `%{id, role}` maps naming the ecosystem packages a guide uses and the role each plays *in that guide*. Each `id` must match a public ecosystem package id (the slug of a `priv/ecosystem/*.md` file), and `role` is one short phrase describing what the package does here — not the package's generic tagline. The docs shell resolves each id to its ecosystem entry and renders the package name (linked to its ecosystem page), the role, and the package's current maturity next to the guide's instructions, so a reader can see which packages a guide depends on and how stable each is without inferring it from the install cell. List every package the guide installs.
+
+`related_examples` is a list of `%{id, role}` maps naming the published interactive examples that prove a guide and the role each plays *in that guide*. Each `id` must match a published example slug (the filename of a `priv/examples/*.md` file with `status: :live`; drafts do not resolve), and `role` is one short phrase describing what the example proves here — not the example's generic description. The docs shell resolves each id to its example entry and renders the example title (linked to `/examples/<slug>`), the role, and the example's one-line outcome next to the guide's instructions, so a reader reaches runnable proof of the instructions without leaving the page. List the examples a reader can run to confirm the guide works end to end.
 
 ## Drift Tests
 

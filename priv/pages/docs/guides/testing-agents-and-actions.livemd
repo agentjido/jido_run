@@ -12,6 +12,10 @@
     %{id: "jido", role: "Agent runtime, Actions, and directive execution under test"},
     %{id: "jido_ai", role: "AI agent behavior the tests exercise end to end"}
   ],
+  related_examples: [
+    %{id: "counter-agent", role: "Unit-test validated Actions and signal routing against a real agent"},
+    %{id: "jido-ai-task-execution-workflow", role: "Exercise a deterministic task lifecycle with real Jido.Exec.run/3 calls"}
+  ],
   livebook: %{
     runnable: true,
     required_env_vars: [],

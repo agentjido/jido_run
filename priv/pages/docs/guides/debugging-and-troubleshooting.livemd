@@ -11,6 +11,10 @@
   related_packages: [
     %{id: "jido", role: "Debug modes, the event buffer, and status/state inspection"}
   ],
+  related_examples: [
+    %{id: "signal-routing-agent", role: "Trace each Signal through its route table and the event buffer"},
+    %{id: "state-ops-agent", role: "Set, replace, and inspect agent state through validated Actions"}
+  ],
   livebook: %{
     runnable: true,
     required_env_vars: [],

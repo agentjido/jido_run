@@ -77,6 +77,9 @@
                   <%!-- E06-T26: package roles + maturity render next to the instructions --%>
                   <.related_packages packages={@related_package_entries} />
 
+                  <%!-- E06-T27: runnable proof links next to the instructions --%>
+                  <.related_examples examples={@related_example_entries} />
+
                   <div id="docs-content" class="docs-prose prose docs-document max-w-none">
                     {raw(@selected_document.body)}
                   </div>

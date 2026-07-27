@@ -181,6 +181,45 @@ defmodule AgentJidoWeb.PageLiveTest do
     end
   end
 
+  describe "guide related examples (jido-e06-t27)" do
+    # Acceptance: "Every major guide has runnable proof." Each guide's
+    # related_examples render next to the instructions (above the body), with
+    # each example's role and its one-line outcome as the proof, and link to
+    # the published example page.
+    test "the weather-agent guide renders example roles and outcomes next to the instructions",
+         %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/docs/guides/building-a-weather-agent")
+
+      # The block heading and a guide-specific role appear...
+      assert html =~ "Related examples"
+      assert html =~ "Run the multi-turn weather assistant with real tool calls and a retry/backoff event"
+
+      # ...each example links to its published example page...
+      assert html =~ ~s(href="/examples/jido-ai-weather-multi-turn-context")
+      assert html =~ ~s(href="/examples/jido-ai-weather-reasoning-strategy-suite")
+
+      # ...and the resolved outcome renders alongside the role as proof.
+      assert html =~ "Local weather assistant demo showing real city context carryover"
+
+      # Placement: the related-examples block sits above the instruction body,
+      # not after it.
+      {related_pos, _} = :binary.match(html, "Related examples")
+      {body_pos, _} = :binary.match(html, ~s(id="docs-content"))
+
+      assert related_pos < body_pos,
+             "Related examples must render before the instruction body (near instructions)"
+    end
+
+    test "the persistence guide renders its single related example with outcome", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/docs/guides/persistence-and-checkpoints")
+
+      assert html =~ "Related examples"
+      assert html =~ "Round-trip agent state through hibernate/thaw with ETS-backed checkpoints"
+      assert html =~ ~s(href="/examples/persistence-storage-agent")
+      assert html =~ "An agent whose state survives a restart via hibernate/thaw persistence"
+    end
+  end
+
   describe "home quick start and cta sections" do
     test "renders elixir onboarding guide links", %{conn: conn} do
       {:ok, _view, html} = live(conn, "/")

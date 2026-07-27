@@ -44,6 +44,9 @@ defmodule AgentJido.Pages.Page do
   - `related_packages` - List of `%{id, role}` maps naming the ecosystem packages a
     guide uses and the role each plays in it; rendered near the guide's instructions
     with each package's maturity (E06-T26)
+  - `related_examples` - List of `%{id, role}` maps naming the published interactive
+    examples that prove a guide and the role each plays in it; rendered near the
+    guide's instructions with each example's outcome as runnable proof (E06-T27)
 
   ### Training-specific (optional)
   - `track` - Training track (:foundations, :coordination, :integration, :operations)
@@ -139,6 +142,16 @@ defmodule AgentJido.Pages.Page do
                 Zoi.any(
                   description:
                     "List of %{id, role} maps: ecosystem package ids a guide uses and the role each plays in it (rendered near instructions with each package's maturity)"
+                )
+                |> Zoi.default([]),
+              # E06-T27: the runnable examples that prove a guide. Each entry is
+              # %{id: "counter-agent", role: "..."}; the docs shell resolves each
+              # id to its published interactive example so a reader reaches
+              # runnable proof of the guide's instructions without leaving the page.
+              related_examples:
+                Zoi.any(
+                  description:
+                    "List of %{id, role} maps: published interactive example slugs that prove a guide and the role each plays in it (rendered near instructions with each example's outcome)"
                 )
                 |> Zoi.default([]),
               # Training-specific fields (optional)

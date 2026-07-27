@@ -496,6 +496,42 @@ defmodule AgentJidoWeb.Jido.DocsComponents do
 
   defp maturity_badge_class(_), do: "bg-muted text-muted-foreground"
 
+  # Related Examples Component (jido-e06-t27)
+  #
+  # Renders the published interactive examples that prove a guide alongside the
+  # role each plays in that guide, so a reader reaches runnable proof of the
+  # instructions without leaving the page. Each entry is prepared by PageLive
+  # (id resolved to the published Example for its title, outcome, and link).
+  attr :examples, :list, default: []
+
+  def related_examples(assigns) do
+    ~H"""
+    <section :if={@examples != []} class="related-examples rounded-md border border-border bg-card/60 p-4">
+      <div class="mb-2.5 text-[10px] font-bold tracking-[0.1em] uppercase text-muted-foreground">
+        Related examples
+      </div>
+      <ul class="space-y-2">
+        <%= for ex <- @examples do %>
+          <li class="text-[12px]">
+            <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
+              <.link
+                navigate={ex.href}
+                class="font-semibold text-foreground hover:text-primary transition-colors"
+              >
+                {ex.name}
+              </.link>
+              <span class="text-muted-foreground">— {ex.role}</span>
+            </div>
+            <p :if={ex[:outcome] not in [nil, ""]} class="mt-0.5 text-muted-foreground/80">
+              {ex.outcome}
+            </p>
+          </li>
+        <% end %>
+      </ul>
+    </section>
+    """
+  end
+
   # Helper functions for color classes
   defp badge_class("CORE"), do: "bg-primary/15 text-primary"
   defp badge_class("AI"), do: "bg-accent-yellow/15 text-accent-yellow"

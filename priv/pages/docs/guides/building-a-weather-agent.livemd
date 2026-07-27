@@ -13,6 +13,10 @@
     %{id: "jido_ai", role: "The tool-calling loop that drives the agent"},
     %{id: "req_llm", role: "LLM HTTP client used to reach the provider"}
   ],
+  related_examples: [
+    %{id: "jido-ai-weather-multi-turn-context", role: "Run the multi-turn weather assistant with real tool calls and a retry/backoff event"},
+    %{id: "jido-ai-weather-reasoning-strategy-suite", role: "Compare weather reasoning strategies end to end in a deterministic lab"}
+  ],
   livebook: %{
     runnable: true,
     required_env_vars: ["OPENAI_API_KEY"],

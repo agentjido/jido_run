@@ -11,6 +11,7 @@ defmodule AgentJidoWeb.PageLive do
 
   alias AgentJido.Analytics
   alias AgentJido.Ecosystem
+  alias AgentJido.Examples
   alias AgentJido.Pages
   alias AgentJidoWeb.MarkdownLinks
 
@@ -91,7 +92,8 @@ defmodule AgentJidoWeb.PageLive do
        page: nil,
        markdown_action: nil,
        toc: toc,
-       related_package_entries: []
+       related_package_entries: [],
+       related_example_entries: []
      )}
   end
 
@@ -172,6 +174,13 @@ defmodule AgentJidoWeb.PageLive do
         # are dropped so a guide never links to a missing package page.
         related_package_entries = resolve_related_packages(page.related_packages)
 
+        # E06-T27: resolve the guide's related examples to their published
+        # interactive Example entries so the docs shell can render each
+        # example's role and outcome (runnable proof) near the instructions.
+        # Unresolved ids (not a published example) are dropped so a guide never
+        # links to a missing or draft example page.
+        related_example_entries = resolve_related_examples(page.related_examples)
+
         assigns = [
           page_title: page.title,
           meta_description: page_meta_description(page),
@@ -187,7 +196,8 @@ defmodule AgentJidoWeb.PageLive do
           selected_document: page,
           toc: toc,
           document_content: %{html: page.body, toc: toc},
-          related_package_entries: related_package_entries
+          related_package_entries: related_package_entries,
+          related_example_entries: related_example_entries
         ]
 
         assigns =
@@ -300,6 +310,40 @@ defmodule AgentJidoWeb.PageLive do
   end
 
   defp resolve_related_package_entry(_), do: []
+
+  # E06-T27: turn a guide's `related_examples` frontmatter (%{id, role} maps)
+  # into render entries that carry the resolved example title, outcome, and
+  # examples link alongside the guide-specific role. Only published (status
+  # :live) examples resolve — Examples.get_example/1 excludes drafts — so a
+  # guide never points at a missing or unpublished example page.
+  defp resolve_related_examples(related_examples) when is_list(related_examples) do
+    related_examples
+    |> Enum.flat_map(fn entry -> resolve_related_example_entry(entry) end)
+  end
+
+  defp resolve_related_examples(_), do: []
+
+  defp resolve_related_example_entry(%{id: id} = entry) when is_binary(id) do
+    case Examples.get_example(id) do
+      %Examples.Example{} = example ->
+        role = entry[:role] || example.outcome
+
+        [
+          %{
+            id: example.slug,
+            name: example.title,
+            role: role,
+            outcome: example.outcome,
+            href: "/examples/#{example.slug}"
+          }
+        ]
+
+      nil ->
+        []
+    end
+  end
+
+  defp resolve_related_example_entry(_), do: []
 
   # --- Layout dispatch ---
 

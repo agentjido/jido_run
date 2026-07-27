@@ -11,6 +11,10 @@
   related_packages: [
     %{id: "jido", role: "Error policies, instruction retry, and failure recovery"}
   ],
+  related_examples: [
+    %{id: "failure-drill-agent", role: "Crash a supervised AgentServer on purpose and watch OTP restart it"},
+    %{id: "operations-agent", role: "Watch a metric, diagnose the issue, remediate, and verify recovery"}
+  ],
   livebook: %{
     runnable: true,
     required_env_vars: [],
