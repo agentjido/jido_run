@@ -300,6 +300,76 @@ defmodule AgentJido.ContentIngest.EcosystemDocs.SyncTest do
     end
   end
 
+  describe "package-role review tasks (jido-e12-t18)" do
+    # jido is tier 1 (core) — a priority package whose upstream README defines a
+    # role the public site must mirror. The README-drift fixtures therefore also
+    # exercise the priority promotion path.
+    test "a material README change on a priority package creates an assigned review task" do
+      EcosystemDocs.sync_package_now("jido", repo: Repo, client: StubClient, fixture: :readme_drift_a)
+
+      second =
+        EcosystemDocs.sync_package_now("jido", repo: Repo, client: StubClient, fixture: :readme_drift_b)
+
+      # The drift is still surfaced as an informational review item (jido-e09-t32)
+      # and additionally promoted to an assigned review task for the priority package.
+      assert second.readme_drift_count == 1
+      assert second.package_role_review_count == 1
+      assert length(second.package_role_review) == 1
+
+      [task] = second.package_role_review
+
+      assert task.package_id == "jido"
+      assert task.package_name == "jido"
+      assert task.owner == "@mikehostetler"
+      assert task.category == :core
+      assert task.readme_source_id == "ecosystem_docs:jido:readme:readme"
+      assert task.previous_content_hash != task.current_content_hash
+      assert is_binary(task.previous_content_hash) and task.previous_content_hash != ""
+      assert is_binary(task.current_content_hash) and task.current_content_hash != ""
+      assert is_binary(task.readme_url) and task.readme_url != ""
+      assert {:ok, _detected, _offset} = DateTime.from_iso8601(task.detected_at)
+    end
+
+    test "a new README (no prior version) creates no review task" do
+      first =
+        EcosystemDocs.sync_package_now("jido", repo: Repo, client: StubClient, fixture: :readme_drift_a)
+
+      assert first.package_role_review == []
+      assert first.package_role_review_count == 0
+    end
+
+    test "an unchanged README creates no review task" do
+      EcosystemDocs.sync_package_now("jido", repo: Repo, client: StubClient, fixture: :readme_drift_a)
+
+      repeat =
+        EcosystemDocs.sync_package_now("jido", repo: Repo, client: StubClient, fixture: :readme_drift_a)
+
+      assert repeat.package_role_review == []
+      assert repeat.package_role_review_count == 0
+    end
+
+    test "a priority package's review task is attributed to its owner even in dry-run" do
+      EcosystemDocs.sync_package_now("jido", repo: Repo, client: StubClient, fixture: :readme_drift_a)
+
+      dry_run =
+        EcosystemDocs.sync_package_now("jido",
+          repo: Repo,
+          client: StubClient,
+          fixture: :readme_drift_b,
+          dry_run: true
+        )
+
+      # Detection is non-destructive: the assigned review task is produced even
+      # though nothing is written.
+      assert dry_run.mode == :dry_run
+      assert dry_run.package_role_review_count == 1
+
+      [task] = dry_run.package_role_review
+      assert task.owner == "@mikehostetler"
+      assert task.category == :core
+    end
+  end
+
   defp purge_docs do
     from(d in Document,
       join: c in assoc(d, :collection),

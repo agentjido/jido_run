@@ -51,6 +51,25 @@ defmodule AgentJido.Ecosystem do
                                     |> Enum.group_by(&SupportLevel.normalize(&1.support_level))
                                     |> Map.new()
 
+  # Priority packages (jido-e12-t18).
+  #
+  # The packages whose upstream README defines a role the public site documents
+  # and must keep aligned. These are the core (tier 1) and official (tier 2)
+  # packages the Jido team owns — the E09 exit criterion ("package roles and
+  # boundaries match current READMEs") applies to exactly this set. A material
+  # upstream README change on a priority package is promoted from an
+  # informational review item (jido-e09-t32) to an assigned review task during
+  # ecosystem ingestion; community (tier 3) packages only surface the item.
+  @priority_tiers [1, 2]
+
+  for tier <- @priority_tiers do
+    unless Enum.any?(@packages, &(&1.tier == tier)) do
+      raise ArgumentError,
+            "No ecosystem packages at tier #{tier}; the priority-package set " <>
+              "would be incomplete (jido-e12-t18)"
+    end
+  end
+
   @tags @packages
         |> Enum.flat_map(& &1.tags)
         |> Enum.uniq()
@@ -105,6 +124,35 @@ defmodule AgentJido.Ecosystem do
 
   @spec packages_by_tier(integer()) :: [Package.t()]
   def packages_by_tier(tier), do: Map.get(@packages_by_tier, tier, [])
+
+  @doc """
+  Returns the priority packages — the core (tier 1) and official (tier 2)
+  packages whose upstream README defines a role the public site documents and
+  must keep aligned.
+
+  A material upstream README change on a priority package creates an assigned
+  review task during ecosystem ingestion (jido-e12-t18); community (tier 3)
+  packages only surface the informational readme_drift review item
+  (jido-e09-t32).
+  """
+  @spec priority_packages() :: [Package.t()]
+  def priority_packages, do: Enum.filter(@packages, &(&1.tier in @priority_tiers))
+
+  @doc """
+  Returns `true` when the given package is a priority package — core (tier 1)
+  or official (tier 2). Accepts a `Package.t()` or a package id string.
+
+  See `priority_packages/0` (jido-e12-t18).
+  """
+  @spec priority_package?(Package.t() | String.t()) :: boolean()
+  def priority_package?(%Package{tier: tier}), do: tier in @priority_tiers
+
+  def priority_package?(id) when is_binary(id) do
+    case get_package(id) do
+      nil -> false
+      pkg -> priority_package?(pkg)
+    end
+  end
 
   @spec packages_by_support_level(SupportLevel.t() | String.t()) :: [Package.t()]
   def packages_by_support_level(level), do: Map.get(@packages_by_support_level, SupportLevel.normalize(level), [])

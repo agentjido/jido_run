@@ -7,6 +7,8 @@ defmodule AgentJido.ContentIngest.EcosystemDocs.Sync do
 
   alias AgentJido.ContentIngest.EcosystemDocs.{Extractor, HexDocsClient, ManifestParser, Resolver}
   alias AgentJido.ContentIngest.Source
+  alias AgentJido.Ecosystem
+  alias AgentJido.Ecosystem.Package
   alias AgentJido.Repo
   alias Arcana.{Collection, Document}
 
@@ -33,6 +35,29 @@ defmodule AgentJido.ContentIngest.EcosystemDocs.Sync do
           detected_at: String.t()
         }
 
+  @typedoc """
+  Assigned review task created when a priority package's upstream README
+  changes materially (jido-e12-t18).
+
+  A `readme_drift_item` (jido-e09-t32) on a priority package — core (tier 1) or
+  official (tier 2), the set whose README defines a role the public site must
+  mirror — is promoted to an assigned review task attributed to the package
+  owner. The task asks the owner to re-align the site's package record (its
+  documented role/boundaries) with the upstream README. Surfaced on the sync
+  summary as `package_role_review`.
+  """
+  @type package_role_review_task :: %{
+          package_id: String.t(),
+          package_name: String.t(),
+          owner: String.t(),
+          category: atom() | nil,
+          readme_source_id: String.t(),
+          readme_url: String.t() | nil,
+          previous_content_hash: String.t(),
+          current_content_hash: String.t(),
+          detected_at: String.t()
+        }
+
   @type summary :: %{
           mode: :apply | :dry_run,
           dry_run: boolean(),
@@ -46,6 +71,8 @@ defmodule AgentJido.ContentIngest.EcosystemDocs.Sync do
           deleted: non_neg_integer(),
           readme_drift: [readme_drift_item()],
           readme_drift_count: non_neg_integer(),
+          package_role_review: [package_role_review_task()],
+          package_role_review_count: non_neg_integer(),
           failed: [map()],
           failed_count: non_neg_integer(),
           started_at: DateTime.t(),
@@ -172,7 +199,8 @@ defmodule AgentJido.ContentIngest.EcosystemDocs.Sync do
       updated: package_summary.updated,
       skipped: package_summary.skipped,
       deleted: package_summary.deleted,
-      readme_drift: Map.get(package_summary, :readme_drift, [])
+      readme_drift: Map.get(package_summary, :readme_drift, []),
+      package_role_review: Map.get(package_summary, :package_role_review, [])
     }
   end
 
@@ -327,11 +355,13 @@ defmodule AgentJido.ContentIngest.EcosystemDocs.Sync do
       stale_deleted = delete_package_documents(repo, stale_docs, dry_run)
 
       readme_drift = detect_readme_drift(sources, existing_docs, detected_at)
+      package_role_review = detect_package_role_review(readme_drift)
 
       {:ok,
        summary
        |> Map.update!(:deleted, &(&1 + stale_deleted))
-       |> Map.put(:readme_drift, readme_drift)}
+       |> Map.put(:readme_drift, readme_drift)
+       |> Map.put(:package_role_review, package_role_review)}
     end
   end
 
@@ -387,6 +417,50 @@ defmodule AgentJido.ContentIngest.EcosystemDocs.Sync do
       detected_at: DateTime.to_iso8601(detected_at)
     }
   end
+
+  # jido-e12-t18: a material upstream README change on a priority package is
+  # promoted from an informational review item (jido-e09-t32) to an assigned
+  # review task attributed to the package owner. For priority packages — core
+  # (tier 1) and official (tier 2), the set whose README defines the role the
+  # public site must mirror (E09 exit criterion) — a material change creates
+  # owned, actionable work, not just a transient signal. Community (tier 3)
+  # packages keep the readme_drift item only.
+  defp detect_package_role_review(readme_drift_items) when is_list(readme_drift_items) do
+    readme_drift_items
+    |> Enum.filter(&priority_drift?/1)
+    |> Enum.map(&build_package_role_review_task/1)
+  end
+
+  defp priority_drift?(%{package_id: package_id}) when is_binary(package_id) do
+    Ecosystem.priority_package?(package_id)
+  end
+
+  defp priority_drift?(_item), do: false
+
+  defp build_package_role_review_task(item) do
+    package = Ecosystem.get_package(item.package_id)
+
+    %{
+      package_id: item.package_id,
+      package_name: item.package_name,
+      owner: package_owner(package),
+      category: package_category(package),
+      readme_source_id: item.readme_source_id,
+      readme_url: item.readme_url,
+      previous_content_hash: item.previous_content_hash,
+      current_content_hash: item.current_content_hash,
+      detected_at: item.detected_at
+    }
+  end
+
+  defp package_owner(%Package{tech_lead: tech_lead}) when is_binary(tech_lead) do
+    if String.trim(tech_lead) == "", do: "", else: tech_lead
+  end
+
+  defp package_owner(_package), do: ""
+
+  defp package_category(%Package{category: category}) when is_atom(category), do: category
+  defp package_category(_package), do: nil
 
   defp sync_source(repo, source, docs, dry_run, summary) do
     target_hash = metadata_value(source.metadata, "content_hash")
@@ -494,6 +568,8 @@ defmodule AgentJido.ContentIngest.EcosystemDocs.Sync do
       deleted: 0,
       readme_drift: [],
       readme_drift_count: 0,
+      package_role_review: [],
+      package_role_review_count: 0,
       failed: [],
       failed_count: 0,
       started_at: DateTime.utc_now() |> DateTime.truncate(:second),
@@ -511,6 +587,7 @@ defmodule AgentJido.ContentIngest.EcosystemDocs.Sync do
     |> Map.update!(:skipped, &(&1 + Map.get(package_summary, :skipped, 0)))
     |> Map.update!(:deleted, &(&1 + Map.get(package_summary, :deleted, 0)))
     |> Map.update!(:readme_drift, &(&1 ++ Map.get(package_summary, :readme_drift, [])))
+    |> Map.update!(:package_role_review, &(&1 ++ Map.get(package_summary, :package_role_review, [])))
   end
 
   defp add_failure(summary, package_id, reason) do
@@ -519,6 +596,7 @@ defmodule AgentJido.ContentIngest.EcosystemDocs.Sync do
 
   defp finalize_summary(summary) do
     drift = Map.get(summary, :readme_drift, [])
+    package_role_review = Map.get(summary, :package_role_review, [])
 
     %{
       summary
@@ -526,6 +604,8 @@ defmodule AgentJido.ContentIngest.EcosystemDocs.Sync do
         failed_count: length(summary.failed),
         readme_drift: drift,
         readme_drift_count: length(drift),
+        package_role_review: package_role_review,
+        package_role_review_count: length(package_role_review),
         finished_at: DateTime.utc_now() |> DateTime.truncate(:second)
     }
   end

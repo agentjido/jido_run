@@ -55,6 +55,7 @@ defmodule Mix.Tasks.Content.Ingest.EcosystemDocs do
     Mix.shell().info("deleted: #{summary.deleted}")
     Mix.shell().info("failed: #{summary.failed_count}")
     Mix.shell().info("readme_drift: #{summary.readme_drift_count}")
+    Mix.shell().info("package_role_review: #{summary.package_role_review_count}")
 
     Enum.each(summary.failed, fn failure ->
       Mix.shell().error("  - #{failure.package_id}: #{failure.reason}")
@@ -65,6 +66,15 @@ defmodule Mix.Tasks.Content.Ingest.EcosystemDocs do
       Mix.shell().info(
         "  README review: #{item.package_name} (#{item.readme_source_id}) drifted; " <>
           "review at #{item.readme_url}"
+      )
+    end)
+
+    # jido-e12-t18: each material package-role change on a priority package is
+    # an assigned review task attributed to its owner.
+    Enum.each(summary.package_role_review, fn task ->
+      Mix.shell().info(
+        "  Package-role review: #{task.package_name} (#{task.category}) " <>
+          "assigned to #{task.owner}; re-align role with #{task.readme_url}"
       )
     end)
   end
