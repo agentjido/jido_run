@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-27T06:29:26Z",
   "created": "2026-07-23T12:06:57Z",
   "description": "Backlog task: E10-T18\n\nWork area: MCP\n\nMain targets: MCP server\n\nComplete when: It returns the canonical example Markdown and metadata.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e10-t18",
@@ -22,8 +23,8 @@
     }
   ],
   "priority": 2,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E10-T18 — Add an example retrieval tool if MCP scope expands.",
   "type": "task",
-  "updated_at": "2026-07-27T06:29:25Z"
+  "updated_at": "2026-07-27T06:29:26Z"
 }
