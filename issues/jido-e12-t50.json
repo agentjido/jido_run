@@ -1,5 +1,5 @@
 {
-  "assignee": "",
+  "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:08:31Z",
@@ -13,8 +13,8 @@
   ],
   "parent": "jido-e12",
   "priority": 2,
-  "status": "open",
+  "status": "in_progress",
   "title": "E12-T50 — Review the threat and control model after material architecture changes.",
   "type": "task",
-  "updated_at": "2026-07-23T12:08:31Z"
+  "updated_at": "2026-07-27T10:12:16Z"
 }
