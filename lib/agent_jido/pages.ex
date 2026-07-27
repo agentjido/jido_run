@@ -267,6 +267,39 @@ defmodule AgentJido.Pages do
 
   @default_critical_review_days 90
 
+  # 180-day slow-changing review queue scope (jido-e12-t16).
+  #
+  # "Slow-changing" content = the conceptual foundation (the docs/concepts
+  # section) and the framework comparisons (the :compare category). These pages
+  # describe stable ideas and competitive positioning rather than executable
+  # steps, so they rotate on a slower 180-day cadence than the 90-day critical
+  # queue (jido-e12-t15). The slower window still guarantees a planned review:
+  # a comparison page whose competitor ships a major release, or a concept page
+  # whose underlying primitive is renamed, lands on the queue before it can
+  # quietly drift — each stale page becoming assigned work attributed to its
+  # owner. The window is twice the critical queue's because the content moves
+  # half as often.
+  @slow_review_docs_sections ~w(concepts)
+  @slow_review_categories ~w(compare)a
+
+  for section <- @slow_review_docs_sections do
+    unless Map.has_key?(@docs_section_shape, section) do
+      raise ArgumentError,
+            "Slow review docs section #{inspect(section)} has no docs pages; " <>
+              "the 180-day review queue's concepts scope would be empty (jido-e12-t16)"
+    end
+  end
+
+  for category <- @slow_review_categories do
+    unless Enum.any?(@published_pages, &(&1.category == category)) do
+      raise ArgumentError,
+            "Slow review category #{inspect(category)} has no published pages; " <>
+              "the 180-day review queue's comparisons scope would be empty (jido-e12-t16)"
+    end
+  end
+
+  @default_slow_review_days 180
+
   # Operational-control coverage gate (jido-e06-t37).
   #
   # The acceptance condition is exact: a reader can find pages for identity
@@ -931,6 +964,111 @@ defmodule AgentJido.Pages do
     end)
   end
 
+  # --- 180-day slow-changing review queue (jido-e12-t16) ---
+  #
+  # "Slow-changing" content = the conceptual foundation (docs/concepts) plus
+  # the framework comparisons (the :compare category). These pages move less
+  # often than executable notebooks, so they are reviewed on a 180-day cadence
+  # rather than the 90-day critical window (jido-e12-t15). The slower cadence
+  # still turns each stale page into assigned work so a concept or comparison
+  # cannot rot unnoticed between releases. See the @slow_review_* guards above.
+
+  @doc """
+  Returns the docs section slugs on the 180-day slow-changing review queue —
+  the conceptual foundation. Framework comparisons live in their own category
+  (see `slow_review_categories/0`). See E12-T16.
+  """
+  @spec slow_review_sections() :: [String.t()]
+  def slow_review_sections, do: @slow_review_docs_sections
+
+  @doc """
+  Returns the page categories on the 180-day slow-changing review queue in
+  addition to the concepts docs section — currently the `:compare` framework
+  comparisons. See E12-T16.
+  """
+  @spec slow_review_categories() :: [atom()]
+  def slow_review_categories, do: @slow_review_categories
+
+  @doc """
+  Returns the default review window (in days) a slow-changing page's
+  `last_validated` date stays fresh before the page joins the queue (180).
+  """
+  @spec default_slow_review_days() :: pos_integer()
+  def default_slow_review_days, do: @default_slow_review_days
+
+  @doc """
+  Returns the published slow-changing pages — the concepts docs section plus
+  the comparison category. These are the pages reviewed on a 180-day cadence
+  regardless of whether they are executable notebooks. See E12-T16.
+  """
+  @spec slow_pages() :: [Page.t()]
+  def slow_pages do
+    concepts =
+      :docs
+      |> pages_by_category()
+      |> Enum.filter(&(docs_section_for_page(&1) in @slow_review_docs_sections))
+
+    comparisons =
+      @slow_review_categories
+      |> Enum.flat_map(&pages_by_category/1)
+
+    concepts ++ comparisons
+  end
+
+  @doc """
+  Returns the 180-day slow-changing review queue — every concepts or
+  comparison page whose `last_validated` date falls outside the review window
+  (or is missing). These are the slow-changing pages that still receive a
+  planned review, each entry attributed to the page's owner so a stale page is
+  actionable assigned work, not merely findable.
+
+  The entry shape mirrors the critical review queue (jido-e12-t15):
+
+    * `:page` — the stale `Page.t()`.
+    * `:owner` — the accountable owner (empty when the page has none; executable
+      pages always carry one via the E12-T14 gate).
+    * `:section` — a scope label: the docs section slug (`"concepts"`) for a
+      concept page, or the category atom string (`"compare"`) for a comparison.
+    * `:last_validated` — the page's `last_validated` string, or `nil` when
+      none is recorded.
+    * `:days_since_validation` — whole days since `last_validated`, or `nil`
+      when the page has never been validated (the strongest staleness signal).
+
+  ## Options
+
+    * `:stale_after_days` — review window in days
+      (default `#{inspect(@default_slow_review_days)}`).
+    * `:today` — a `Date.t()` to evaluate against (defaults to `Date.utc_today/0`),
+      so the queue is deterministic under test.
+
+  See E12-T16.
+  """
+  @spec slow_review_queue(keyword()) :: [
+          %{
+            page: Page.t(),
+            owner: String.t(),
+            section: String.t(),
+            last_validated: String.t() | nil,
+            days_since_validation: non_neg_integer() | nil
+          }
+        ]
+  def slow_review_queue(opts \\ []) when is_list(opts) do
+    stale_after_days = Keyword.get(opts, :stale_after_days, @default_slow_review_days)
+    today = Keyword.get(opts, :today, Date.utc_today())
+
+    slow_pages()
+    |> Enum.filter(&stale?(&1, stale_after_days: stale_after_days, today: today))
+    |> Enum.map(fn page ->
+      %{
+        page: page,
+        owner: page.owner,
+        section: slow_scope_for_page(page),
+        last_validated: normalize_last_validated(page.last_validated),
+        days_since_validation: days_since_validation(page.last_validated, today)
+      }
+    end)
+  end
+
   # --- Private helpers ---
 
   defp normalize_path_lookup(path) when is_binary(path) do
@@ -966,6 +1104,13 @@ defmodule AgentJido.Pages do
   end
 
   defp docs_section_for_page(_page), do: nil
+
+  # Slow-changing review-queue scope label for a page (jido-e12-t16). Concepts
+  # pages are labelled by their docs section slug; comparison pages (and any
+  # future slow-changing category) by their category atom, so every queue entry
+  # carries one string scope label regardless of where the page lives.
+  defp slow_scope_for_page(%Page{category: :docs} = page), do: docs_section_for_page(page)
+  defp slow_scope_for_page(%Page{category: category}), do: Atom.to_string(category)
 
   defp normalize_docs_section(section) do
     section
