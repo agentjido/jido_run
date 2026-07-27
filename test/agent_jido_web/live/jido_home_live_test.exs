@@ -232,8 +232,9 @@ defmodule AgentJidoWeb.JidoHomeLiveTest do
 
       # The control claims the home operational-control section routes to proof:
       # supervision and the failure drill, the five capability surfaces, the
-      # three traceability records, the five integration boundaries, and the
-      # capstone integrated controlled-Agent example.
+      # three traceability records, the five integration boundaries, the
+      # capstone integrated controlled-Agent example, and the production-path
+      # index (jido-e07-t34) that links the full proof path step by step.
       expected = %{
         "supervision" => "/features/agents-that-self-heal",
         "failure-boundary-proof" => "/examples/failure-drill-agent",
@@ -250,7 +251,13 @@ defmodule AgentJidoWeb.JidoHomeLiveTest do
         "durable-storage" => "/docs/concepts/persistence",
         "siem-integration" => "/docs/operations/security-and-governance",
         "otel-export" => "/docs/reference/telemetry-and-observability",
-        "controlled-agent-example" => "/examples/controlled-agent"
+        "controlled-agent-example" => "/examples/controlled-agent",
+        "production-path-recovery" => "/docs/operations/supervision-and-failure-boundaries",
+        "production-path-state" => "/docs/operations/deployment-restart",
+        "production-path-failure" => "/docs/operations/retries-timeouts-and-provider-failure",
+        "production-path-observe" => "/docs/operations/telemetry-and-traces",
+        "production-path-health" => "/docs/operations/health-checks-and-readiness",
+        "production-path-proof" => "/examples/controlled-agent"
       }
 
       actual =
@@ -1356,6 +1363,73 @@ defmodule AgentJidoWeb.JidoHomeLiveTest do
       assert attr(link, "data-analytics-event") == "cta_clicked"
       assert attr(link, "data-analytics-source") == "home"
       assert attr(link, "data-analytics-target-url") == "/docs/operations"
+    end
+  end
+
+  describe "home production-path index links the full proof path (jido-e07-t34)" do
+    # Acceptance: "The main position links to the full proof path." The site's
+    # main position (the home page) folds a short, ordered production-path
+    # index into the platform/SRE evaluator CTA so a visitor can step through
+    # the long-running agent path and land on the one run that proves it. Each
+    # step links an Operations page; the index ends on the controlled-Agent
+    # example.
+
+    @ordered_steps [
+      {"production-path-recovery", "/docs/operations/supervision-and-failure-boundaries"},
+      {"production-path-state", "/docs/operations/deployment-restart"},
+      {"production-path-failure", "/docs/operations/retries-timeouts-and-provider-failure"},
+      {"production-path-observe", "/docs/operations/telemetry-and-traces"},
+      {"production-path-health", "/docs/operations/health-checks-and-readiness"}
+    ]
+
+    test "renders an ordered production-path index inside the operational-control CTA",
+         %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/")
+
+      cta = operational_control_cta(html)
+      assert cta != nil
+
+      index =
+        cta
+        |> Floki.find("ol#home-production-path-index")
+        |> List.first()
+
+      assert index != nil, "expected a production-path index in the platform/SRE evaluator CTA"
+
+      steps =
+        index
+        |> Floki.find("a[data-control-link]")
+        |> Enum.map(fn a ->
+          {hd(Floki.attribute(a, "data-control-link")), hd(Floki.attribute(a, "href"))}
+        end)
+
+      # The index mirrors the Operations hub's long-running agent path, in order.
+      assert steps == @ordered_steps
+    end
+
+    test "the index ends on the controlled-Agent run that proves the full path", %{
+      conn: conn
+    } do
+      {:ok, _view, html} = live(conn, "/")
+
+      proof =
+        operational_control_cta(html)
+        |> Floki.find("a[data-control-link='production-path-proof']")
+        |> List.first()
+
+      assert proof != nil, "expected the production-path index to link the full proof"
+      assert Floki.attribute(proof, "href") |> hd() == "/examples/controlled-agent"
+    end
+
+    test "every path destination resolves to a real page, not the 404 fallback", %{
+      conn: conn
+    } do
+      for {_slug, href} <- @ordered_steps do
+        assert get(conn, href).status in 200..399,
+               "expected #{href} to resolve to a real Operations page"
+      end
+
+      assert get(conn, "/examples/controlled-agent").status in 200..399
     end
   end
 

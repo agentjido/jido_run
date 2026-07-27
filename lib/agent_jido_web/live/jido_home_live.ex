@@ -989,7 +989,10 @@ defmodule AgentJidoWeb.JidoHomeLive do
   # Operations hub (/docs/operations) — the page that opens the long-running
   # agent architecture and the worked examples that prove each control surface —
   # with the governance page carried as a secondary link for the security
-  # evaluator.
+  # evaluator. A short production-path index (jido-e07-t34) is folded into that
+  # CTA so the site's main position links the full proof path: the ordered
+  # long-running agent path (each step an Operations page) ending on the
+  # controlled-Agent run that proves the complete path in one go.
   defp operational_control_section(assigns) do
     controls = [
       %{
@@ -1407,8 +1410,127 @@ defmodule AgentJidoWeb.JidoHomeLive do
         <h3 class="text-2xl sm:text-3xl font-bold tracking-tight mt-3 mb-3">
           Evaluate the operational-control architecture
         </h3>
-        <p class="home-muted-copy text-[15px] leading-relaxed max-w-xl mx-auto mb-5">
-          If you are approving Jido for production, the Operations hub opens the full architecture and its proof. Follow the long-running agent path — supervision and failure boundaries, capability constraints, causal traces and telemetry — with a worked example at each step, before you sign off.
+        <p class="home-muted-copy text-[15px] leading-relaxed max-w-xl mx-auto mb-6">
+          If you are approving Jido for production, the Operations hub opens the full architecture and its proof. Follow the long-running agent path below — a worked example at each step — before you sign off.
+        </p>
+
+        <%!-- Short production-path index (jido-e07-t34). The site's main
+             position must link to the full proof path: a compact, ordered index
+             of the long-running agent path that mirrors the Operations hub
+             (/docs/operations), so an evaluator scanning the home page can step
+             through the production path and land on the one run that proves it. --%>
+        <ol
+          id="home-production-path-index"
+          class="home-muted-copy text-[14px] leading-relaxed max-w-xl mx-auto text-left mb-6"
+          data-control-index="production-path"
+        >
+          <li class="flex gap-3 mb-2">
+            <span class="text-primary font-bold shrink-0">1.</span>
+            <span>
+              <.link
+                navigate="/docs/operations/supervision-and-failure-boundaries"
+                class="text-primary hover:underline font-semibold"
+                data-control-link="production-path-recovery"
+                data-analytics-event="control_proof_viewed"
+                data-analytics-source="home"
+                data-analytics-channel="home_operational_control"
+                data-analytics-section-id="production-path-recovery"
+                data-analytics-target-url="/docs/operations/supervision-and-failure-boundaries"
+              >
+                Define what recovery means
+              </.link>
+              — OTP supervision restarts a crashed AgentServer and bounds failure scope.
+            </span>
+          </li>
+          <li class="flex gap-3 mb-2">
+            <span class="text-primary font-bold shrink-0">2.</span>
+            <span>
+              <.link
+                navigate="/docs/operations/deployment-restart"
+                class="text-primary hover:underline font-semibold"
+                data-control-link="production-path-state"
+                data-analytics-event="control_proof_viewed"
+                data-analytics-source="home"
+                data-analytics-channel="home_operational_control"
+                data-analytics-section-id="production-path-state"
+                data-analytics-target-url="/docs/operations/deployment-restart"
+              >
+                Keep state across restart
+              </.link>
+              — decide what survives a process, application, and deployment restart, with a worked example.
+            </span>
+          </li>
+          <li class="flex gap-3 mb-2">
+            <span class="text-primary font-bold shrink-0">3.</span>
+            <span>
+              <.link
+                navigate="/docs/operations/retries-timeouts-and-provider-failure"
+                class="text-primary hover:underline font-semibold"
+                data-control-link="production-path-failure"
+                data-analytics-event="control_proof_viewed"
+                data-analytics-source="home"
+                data-analytics-channel="home_operational_control"
+                data-analytics-section-id="production-path-failure"
+                data-analytics-target-url="/docs/operations/retries-timeouts-and-provider-failure"
+              >
+                Handle failure modes
+              </.link>
+              — separate retry, timeout, and fallback for tool, HTTP, and model failures.
+            </span>
+          </li>
+          <li class="flex gap-3 mb-2">
+            <span class="text-primary font-bold shrink-0">4.</span>
+            <span>
+              <.link
+                navigate="/docs/operations/telemetry-and-traces"
+                class="text-primary hover:underline font-semibold"
+                data-control-link="production-path-observe"
+                data-analytics-event="control_proof_viewed"
+                data-analytics-source="home"
+                data-analytics-channel="home_operational_control"
+                data-analytics-section-id="production-path-observe"
+                data-analytics-target-url="/docs/operations/telemetry-and-traces"
+              >
+                Schedule and observe
+              </.link>
+              — add scheduling or event input, then telemetry and traces.
+            </span>
+          </li>
+          <li class="flex gap-3">
+            <span class="text-primary font-bold shrink-0">5.</span>
+            <span>
+              <.link
+                navigate="/docs/operations/health-checks-and-readiness"
+                class="text-primary hover:underline font-semibold"
+                data-control-link="production-path-health"
+                data-analytics-event="control_proof_viewed"
+                data-analytics-source="home"
+                data-analytics-channel="home_operational_control"
+                data-analytics-section-id="production-path-health"
+                data-analytics-target-url="/docs/operations/health-checks-and-readiness"
+              >
+                Check health and deploy
+              </.link>
+              — define process, dependency, and work health, and verify after every deploy.
+            </span>
+          </li>
+        </ol>
+
+        <p class="home-muted-copy text-[14px] leading-relaxed max-w-xl mx-auto mb-6">
+          The whole path resolves to one run:
+          <.link
+            navigate="/examples/controlled-agent"
+            class="text-primary hover:underline font-semibold"
+            data-control-link="production-path-proof"
+            data-analytics-event="control_proof_viewed"
+            data-analytics-source="home"
+            data-analytics-channel="home_operational_control"
+            data-analytics-section-id="production-path-proof"
+            data-analytics-target-url="/examples/controlled-agent"
+          >
+            run the Controlled Agent
+          </.link>
+          — one supervised agent proving the complete control path: who initiated work, what was allowed, what happened, and how failure was handled.
         </p>
         <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
           <.link

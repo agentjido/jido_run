@@ -1039,6 +1039,45 @@ defmodule AgentJido.PagesTest do
     end
   end
 
+  describe "the Docs hub carries a short production-path index (jido-e07-t34)" do
+    # Acceptance: "The main position links to the full proof path." The Docs hub
+    # (/docs) carries a short, ordered production-path index so a visitor can
+    # step through the long-running agent path from the documentation entry
+    # point and land on the one run that proves it.
+    @docs_hub_source Path.expand("../../priv/pages/docs/index.md", __DIR__)
+
+    @path_routes [
+      "/docs/operations/supervision-and-failure-boundaries",
+      "/docs/operations/deployment-restart",
+      "/docs/operations/retries-timeouts-and-provider-failure",
+      "/docs/operations/telemetry-and-traces",
+      "/docs/operations/health-checks-and-readiness"
+    ]
+
+    test "the Docs hub links each step of the production path" do
+      body = File.read!(@docs_hub_source)
+
+      for route <- @path_routes do
+        assert body =~ route,
+               "the Docs hub production-path index must link #{route}"
+      end
+    end
+
+    test "the Docs hub links the controlled-Agent run that proves the full path" do
+      body = File.read!(@docs_hub_source)
+
+      assert body =~ "/examples/controlled-agent",
+             "the Docs hub production-path index must link the integrated proof"
+    end
+
+    test "the Docs hub routes to the Operations hub as the long-form path" do
+      body = File.read!(@docs_hub_source)
+
+      assert body =~ "/docs/operations",
+             "the Docs hub production-path index must open the Operations hub"
+    end
+  end
+
   describe "onboarding and Operate pages link the compatibility matrix (jido-e09-t37)" do
     # Acceptance: "Builders do not need to infer compatible versions." The stack
     # compatibility matrix (jido-e09-t36) lists the explicit supported package
