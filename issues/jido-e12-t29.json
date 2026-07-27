@@ -1,5 +1,5 @@
 {
-  "assignee": "",
+  "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:08:10Z",
@@ -18,8 +18,8 @@
     }
   ],
   "priority": 2,
-  "status": "open",
+  "status": "in_progress",
   "title": "E12-T29 — Measure Docs search no-results and reformulations.",
   "type": "task",
-  "updated_at": "2026-07-24T12:55:02Z"
+  "updated_at": "2026-07-27T09:15:02Z"
 }
