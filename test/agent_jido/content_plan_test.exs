@@ -2,6 +2,7 @@ defmodule AgentJido.ContentPlanTest do
   use ExUnit.Case, async: true
 
   alias AgentJido.ContentPlan
+  alias AgentJido.Pages
 
   @training_entries [
     "training/agent-fundamentals",
@@ -79,5 +80,31 @@ defmodule AgentJido.ContentPlanTest do
                  String.starts_with?(ref, "ecosystem/")
              end)
     end)
+  end
+
+  # jido-e07-t25: no planned navigation may point at a page that is not
+  # published. The operations hub must not require or cross-link a route
+  # without a published page; an unpublished follow-up (e.g. backup and
+  # disaster recovery) stays as a standalone planned entry rather than hub
+  # navigation.
+  test "operations hub planned navigation resolves to published pages" do
+    hub = ContentPlan.get_entry!("operations/_hub")
+
+    navigation =
+      (hub.prompt_overrides[:required_links] || []) ++
+        (hub.related || [])
+
+    unresolved =
+      navigation
+      |> Enum.map(&to_string/1)
+      |> Enum.reject(fn ref ->
+        route = if String.starts_with?(ref, "/"), do: ref, else: "/" <> ref
+
+        match?({:ok, _, _}, Pages.resolve_page_for_path(route))
+      end)
+
+    assert unresolved == [],
+           "operations hub planned navigation points at unpublished routes: " <>
+             "#{inspect(unresolved)}"
   end
 end
