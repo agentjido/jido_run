@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-27T07:14:16Z",
   "created": "2026-07-23T12:07:26Z",
   "description": "Backlog task: E11-T13\n\nWork area: Community flow\n\nMain targets: Blog or release notes\n\nComplete when: The note states cause, correction, and regression protection.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e11-t13",
@@ -22,7 +23,7 @@
     }
   ],
   "priority": 2,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E11-T13 — Turn the Elixir Forum first-LLM fault into a short public fix note.",
   "type": "task",
   "updated_at": "2026-07-27T07:14:16Z"
