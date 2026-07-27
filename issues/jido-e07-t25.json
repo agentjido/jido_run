@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-27T02:27:47Z",
   "created": "2026-07-23T12:04:37Z",
   "description": "Backlog task: E07-T25\n\nWork area: Operational topics\n\nMain targets: Operations IA\n\nComplete when: No planned navigation points to a nonexistent page.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e07-t25",
@@ -22,7 +23,7 @@
     }
   ],
   "priority": 2,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E07-T25 — Add backup and disaster-recovery guidance or remove the route from plans.",
   "type": "task",
   "updated_at": "2026-07-27T02:27:47Z"
