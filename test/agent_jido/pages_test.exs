@@ -1354,6 +1354,147 @@ defmodule AgentJido.PagesTest do
     end
   end
 
+  describe "operations Fly.io deployment page (jido-e07-t26)" do
+    # Acceptance: "It matches this repo's staging and production process."
+    # The page documents the actual deploy process for this repository, traced
+    # to the real workflow and fly.toml files — not a generic Fly.io tutorial.
+    @fly_source Path.expand(
+                  "../../priv/pages/docs/operations/fly-io-deployment.md",
+                  __DIR__
+                )
+    @fly_route "/docs/operations/fly-io-deployment"
+    @stage_workflow ".github/workflows/fly-stage.yml"
+    @prod_workflow ".github/workflows/fly-prod.yml"
+    @stage_toml "build/agentjido-stage.toml"
+    @prod_toml "build/agentjido-prod.toml"
+
+    test "the page is published and routable" do
+      page = Pages.get_page_by_path(@fly_route)
+
+      assert page != nil
+      assert page.category == :docs
+      assert page.draft == false
+      assert Pages.route_for(page) == @fly_route
+    end
+
+    test "the page is linked from the operations hub" do
+      hub = File.read!(Path.expand("../../priv/pages/docs/operations.md", __DIR__))
+
+      assert hub =~ @fly_route
+    end
+
+    test "it documents both environments side by side" do
+      body = File.read!(@fly_source)
+
+      # The acceptance names staging and production specifically; both apps and
+      # hosts must appear so the page matches this repo's two environments.
+      assert body =~ "agentjido-stage"
+      assert body =~ "agentjido-prod"
+      assert body =~ "stage.jido.run"
+      assert body =~ "jido.run"
+    end
+
+    test "it cites the real workflow and fly.toml files the repo ships" do
+      # The deploy is driven from files in the repo; the page must name them so
+      # an operator can trace any claim. These files exist and are referenced.
+      assert File.regular?(Path.expand("../../" <> @stage_workflow, __DIR__))
+      assert File.regular?(Path.expand("../../" <> @prod_workflow, __DIR__))
+      assert File.regular?(Path.expand("../../" <> @stage_toml, __DIR__))
+      assert File.regular?(Path.expand("../../" <> @prod_toml, __DIR__))
+
+      body = File.read!(@fly_source)
+
+      assert body =~ @stage_workflow
+      assert body =~ @prod_workflow
+      assert body =~ @stage_toml
+      assert body =~ @prod_toml
+    end
+
+    test "it states the staging trigger and the production gate accurately" do
+      body = File.read!(@fly_source)
+
+      # Staging auto-deploys after CI on main; production is manual only. The
+      # asymmetry is the core of this repo's process.
+      assert body =~ "automatic after CI"
+      assert body =~ "workflow_run"
+      assert body =~ "workflow_dispatch"
+      assert body =~ "manual only"
+    end
+
+    test "it states both deploy commands and the strategy difference" do
+      body = File.read!(@fly_source)
+
+      # The exact flyctl commands the workflows run, including prod's strategy.
+      assert body =~ "flyctl deploy -c build/agentjido-stage.toml -a agentjido-stage --remote-only"
+      assert body =~ "flyctl deploy -c build/agentjido-prod.toml -a agentjido-prod --remote-only --strategy bluegreen"
+
+      # Stage is immediate (autoscale to zero); prod is blue-green (min 2, warm).
+      assert body =~ "immediate"
+      assert body =~ "bluegreen"
+      assert body =~ "min_machines_running = 2"
+    end
+
+    test "it documents the release build, boot, and runtime config the deploy runs" do
+      body = File.read!(@fly_source)
+
+      # The build (Dockerfile + mix release), boot (migrate then hivemind/Procfile),
+      # clustering (rel/env.sh.eex over IPv6), and runtime config (runtime.exs).
+      assert body =~ "Dockerfile"
+      assert body =~ "mix release"
+      assert body =~ "--remote-only"
+      assert body =~ "AgentJido.Release.migrate()"
+      assert body =~ "Procfile"
+      assert body =~ "rel/env.sh.eex"
+      assert body =~ "config/runtime.exs"
+    end
+
+    test "it documents the /status health gate every deploy waits on" do
+      body = File.read!(@fly_source)
+
+      # The deploy is verified by the /status check Fly polls (180s grace).
+      assert body =~ "/status"
+      assert body =~ "AgentJidoWeb.Plug.Heartbeat"
+      assert body =~ "180s"
+    end
+
+    test "it states the boundary: hosting is a repo choice, not a Jido property" do
+      body = File.read!(@fly_source)
+
+      # Jido is deployment-agnostic; Fly.io, secrets, and the database are owned
+      # by this repo. The acceptance is about *this repo's* process, so the page
+      # must not present hosting as a Jido guarantee.
+      assert body =~ ~r/deployment-agnostic/i
+      assert body =~ "FLY_API_TOKEN"
+      assert body =~ ~r/Jido does not ship a database/i
+    end
+
+    test "it cross-links deployment restart, health checks, and the readiness drill" do
+      body = File.read!(@fly_source)
+
+      assert body =~ "/docs/operations/deployment-restart"
+      assert body =~ "/docs/operations/health-checks-and-readiness"
+      assert body =~ "/docs/operations/production-readiness-checklist"
+    end
+
+    test "the page source has no placeholder markers" do
+      body = File.read!(@fly_source)
+
+      placeholder_patterns = [
+        ~r/content coming soon/i,
+        ~r/\bcoming soon\b/i,
+        ~r/\bTODO\b/,
+        ~r/\bTBD\b/,
+        ~r/lorem ipsum/i
+      ]
+
+      assert body =~ "draft: false"
+
+      Enum.each(placeholder_patterns, fn pattern ->
+        refute body =~ pattern
+      end)
+    end
+  end
+
   describe "operations retries, timeouts, and provider failure page (jido-e07-t05)" do
     # Acceptance: "It covers tool, HTTP, and model failures separately."
     @retries_source Path.expand(
