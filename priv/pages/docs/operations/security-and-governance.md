@@ -4,7 +4,7 @@
   category: :docs,
   legacy_paths: ["/docs/security-and-governance", "/docs/reference/security-and-governance"],
   tags: [:docs, :operations],
-  order: 370,
+  order: 371,
   last_validated: "2026-07-24",
   control_types: [
     :identity_context,

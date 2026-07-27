@@ -1495,6 +1495,230 @@ defmodule AgentJido.PagesTest do
     end
   end
 
+  describe "operations OTP release guidance page (jido-e07-t27)" do
+    # Acceptance: "Configuration, secrets, probes, and migration order are covered."
+    # The page documents how this repo assembles an OTP release — build, runtime
+    # configuration, secrets, the deploy probe, and the migration boot order —
+    # traced to the release files in the repo, not a generic Mix release tutorial.
+    @otp_release_source Path.expand(
+                          "../../priv/pages/docs/operations/otp-release.md",
+                          __DIR__
+                        )
+    @otp_release_route "/docs/operations/otp-release"
+    @dockerfile "Dockerfile"
+    @runtime_config "config/runtime.exs"
+    @compile_config "config/config.exs"
+    @prod_config "config/prod.exs"
+    @entrypoint "entrypoint"
+    @procfile "Procfile"
+    @release_module "lib/agent_jido/release.ex"
+    @migrate_overlay "rel/overlays/bin/migrate"
+    @env_sh "rel/env.sh.eex"
+    @heartbeat_plug "lib/agent_jido_web/plugs/heartbeat_plug.ex"
+
+    test "the page is published and routable" do
+      page = Pages.get_page_by_path(@otp_release_route)
+
+      assert page != nil
+      assert page.category == :docs
+      assert page.draft == false
+      assert Pages.route_for(page) == @otp_release_route
+    end
+
+    test "the page is linked from the operations hub" do
+      hub = File.read!(Path.expand("../../priv/pages/docs/operations.md", __DIR__))
+
+      assert hub =~ @otp_release_route
+    end
+
+    # The acceptance names four facets; each gets its own dedicated heading so
+    # configuration, secrets, probes, and migration order are presented as
+    # distinct, named sections rather than mentioned in passing.
+    test "configuration, secrets, probes, and migration order each have a dedicated section (the acceptance)" do
+      body = File.read!(@otp_release_source)
+
+      assert has_h2?(body, "Configuration")
+      assert has_h2?(body, "Secrets")
+      assert has_h2?(body, "Probes")
+      assert has_h2?(body, "Migration order")
+    end
+
+    test "it documents the compile-time vs runtime configuration split and the real config files" do
+      body = File.read!(@otp_release_source)
+
+      # All three real config files are named, split by when they take effect.
+      assert body =~ @compile_config
+      assert body =~ @prod_config
+      assert body =~ @runtime_config
+
+      # The central principle: runtime config is read at boot (after compile),
+      # so one release runs in both environments — stage and prod share an image.
+      assert body =~ ~r/runtime config|runtime\.exs.*boot/i
+      assert body =~ ~r/one release runs in both environments/i
+    end
+
+    test "it states secrets come from the environment, fail closed when missing, and are redacted" do
+      body = File.read!(@otp_release_source)
+
+      # The four required prod secrets are named — these are the real raise-on-
+      # missing values in runtime.exs.
+      assert body =~ "DATABASE_URL"
+      assert body =~ "SECRET_KEY_BASE"
+      assert body =~ "BREVO_API_KEY"
+      assert body =~ "OPENAI_API_KEY"
+
+      # The release fails closed: a missing required secret stops the boot.
+      assert body =~ ~r/fails? closed|fail-closed/i
+
+      # SECRET_KEY_BASE is generated with the real Phoenix task, not invented.
+      assert body =~ "mix phx.gen.secret"
+
+      # Secrets enter through runtime config from the environment, never source.
+      assert body =~ ~r/never from source|never.*committed|no credential is ever committed/i
+
+      # Secret hygiene is ongoing: output is redacted per the governance page.
+      assert body =~ ~r/redact/i
+      assert body =~ "/docs/operations/security-and-governance"
+    end
+
+    test "it documents the /status deploy probe and the build-hash check" do
+      body = File.read!(@otp_release_source)
+
+      # The two probe routes and the real plug that serves them.
+      assert body =~ "/status"
+      assert body =~ "/status/<hash>"
+      assert body =~ "AgentJidoWeb.Plug.Heartbeat"
+
+      # The deploy gate Fly polls: 180s grace, 30s interval.
+      assert body =~ "180s"
+      assert body =~ "30s"
+
+      # The probe is framed as the deploy/build gate, distinct from runtime health.
+      assert body =~ ~r/deploy.*gate|build gate/i
+      assert body =~ "/docs/operations/health-checks-and-readiness"
+    end
+
+    test "it states the migration boot order: migrate first, then serve" do
+      body = File.read!(@otp_release_source)
+
+      # The acceptance: the order is stated explicitly, not implied.
+      assert body =~ ~r/migrate first.*serve second|migrate.*before.*serv/i
+
+      # The entrypoint runs Release.migrate() ahead of hivemind/Procfile.
+      assert body =~ "AgentJido.Release.migrate"
+      assert body =~ "hivemind"
+      assert body =~ "web: /app/bin/server"
+
+      # The real Ecto surface: all pending migrations, applied blocking.
+      assert body =~ "Ecto.Migrator"
+      assert body =~ ":up"
+      assert body =~ "all: true"
+
+      # Migrations live in the real timestamped directory.
+      assert body =~ "priv/repo/migrations"
+    end
+
+    test "it names the discrete migration command and distinguishes schema migration from package upgrade" do
+      body = File.read!(@otp_release_source)
+
+      # The bin/migrate overlay waits for DNS and retries inside a bounded budget.
+      assert body =~ "bin/migrate"
+      assert body =~ "MIGRATE_MAX_ATTEMPTS"
+
+      # Database-schema migration at boot is distinguished from package upgrade
+      # order, which lives on the reference page — the two "migrations" are not
+      # conflated.
+      assert body =~ ~r/database-schema migration|schema.*migration/i
+      assert body =~ "/docs/reference/migrations-and-upgrade-paths"
+    end
+
+    test "the cited release files all exist in the repo" do
+      # The page traces every claim to a real file; assert each one is present.
+      cited = [
+        @dockerfile,
+        @runtime_config,
+        @compile_config,
+        @prod_config,
+        @entrypoint,
+        @procfile,
+        @release_module,
+        @migrate_overlay,
+        @env_sh,
+        @heartbeat_plug
+      ]
+
+      Enum.each(cited, fn path ->
+        assert File.regular?(Path.expand("../../" <> path, __DIR__)),
+               "cited release file does not exist: #{path}"
+      end)
+
+      body = File.read!(@otp_release_source)
+
+      # The page names each cited file so an operator can trace any claim.
+      assert body =~ @dockerfile
+      assert body =~ @entrypoint
+      assert body =~ @release_module
+      assert body =~ @migrate_overlay
+      assert body =~ @env_sh
+      assert body =~ @heartbeat_plug
+    end
+
+    test "it states the boundary: the release is a repo choice, not a Jido property" do
+      body = File.read!(@otp_release_source)
+
+      # Jido is deployment-agnostic; it ships no release and no database.
+      assert body =~ ~r/deployment-agnostic/i
+      assert body =~ ~r/ships no release|ships no database|does not ship a database/i
+    end
+
+    test "it links only to live operations and reference routes" do
+      body = File.read!(@otp_release_source)
+
+      internal_links =
+        Regex.scan(~r{\]\((/docs/[^)#]+)\)}, body, capture: :all_but_first)
+        |> List.flatten()
+        |> Enum.uniq()
+
+      assert internal_links != []
+
+      for path <- internal_links do
+        page = Pages.get_page_by_path(path)
+
+        assert page != nil,
+               "OTP release page links to a route that does not resolve: #{path}"
+
+        assert page.draft == false,
+               "OTP release page links to a draft page: #{path}"
+      end
+
+      # The sibling surfaces are cross-linked, so the release guidance is not
+      # presented in isolation from the operations it supports.
+      assert body =~ "/docs/operations/fly-io-deployment"
+      assert body =~ "/docs/operations/health-checks-and-readiness"
+      assert body =~ "/docs/reference/migrations-and-upgrade-paths"
+      assert body =~ "/docs/operations/production-readiness-checklist"
+      assert body =~ "/docs/operations/security-and-governance"
+    end
+
+    test "the page source has no placeholder markers" do
+      body = File.read!(@otp_release_source)
+
+      placeholder_patterns = [
+        ~r/content coming soon/i,
+        ~r/\bcoming soon\b/i,
+        ~r/\bTODO\b/,
+        ~r/\bTBD\b/,
+        ~r/lorem ipsum/i
+      ]
+
+      assert body =~ "draft: false"
+
+      Enum.each(placeholder_patterns, fn pattern ->
+        refute body =~ pattern
+      end)
+    end
+  end
+
   describe "operations retries, timeouts, and provider failure page (jido-e07-t05)" do
     # Acceptance: "It covers tool, HTTP, and model failures separately."
     @retries_source Path.expand(
