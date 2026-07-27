@@ -53,6 +53,24 @@ defmodule AgentJido.Specs.ContentGovernanceContractTest do
     assert governance =~ "AgentJido.OperationalControlProof.audit_queue/1"
   end
 
+  test "quarterly message review is a named cadence step (jido-e12-t36)" do
+    governance = File.read!(@governance_path)
+
+    # Acceptance: position, package roles, proof, and audience are reviewed
+    # together each quarter. The cadence must name the four dimensions, the
+    # "reviewed together" coherence rule, and the executable review.
+    assert governance =~ "Quarterly message review"
+
+    assert governance =~ "position"
+    assert governance =~ "package roles"
+    assert governance =~ "proof"
+    assert governance =~ "audience"
+
+    assert governance =~ "reviewed together"
+    assert governance =~ "AgentJido.MessageReview.review_queue/1"
+    assert governance =~ "reviewed_together?/1"
+  end
+
   test "governance contract captures publish gate criteria and review evidence" do
     governance = File.read!(@governance_path)
 
