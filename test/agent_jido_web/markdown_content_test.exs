@@ -505,4 +505,132 @@ defmodule AgentJidoWeb.MarkdownContentTest do
              "ecosystem markdown is missing the Security and governance proof link"
     end
   end
+
+  describe "content metadata in markdown output (jido-e10-t16)" do
+    # Acceptance: "Agents can assess freshness and maturity." Every Markdown
+    # payload — the `.md` route AND the MCP `markdown` field, which flows from
+    # this same resolver — carries a trailing `## Content metadata` block with
+    # content type, status, version, and last-validated, sourced from the same
+    # records the rendered hub uses. Blank values are omitted so a payload never
+    # carries a misleading empty field.
+
+    @metadata_header "## Content metadata"
+
+    test "every resolved public payload carries the content metadata block" do
+      paths = [
+        "/",
+        "/docs",
+        "/docs/operations/security-and-governance",
+        "/docs/getting-started/first-llm-agent",
+        "/build",
+        "/compare",
+        "/ecosystem",
+        "/ecosystem/jido",
+        "/examples",
+        "/examples/counter-agent",
+        "/community",
+        "/skills"
+      ]
+
+      for path <- paths do
+        {:ok, markdown} = MarkdownContent.resolve(path, "https://jido.run#{path}")
+
+        assert String.contains?(markdown, @metadata_header),
+               "#{path} markdown is missing the content metadata block"
+      end
+    end
+
+    test "a docs page carries content type, status, version, and last-validated" do
+      {:ok, markdown} =
+        MarkdownContent.resolve(
+          "/docs/getting-started/first-llm-agent",
+          "https://jido.run/docs/getting-started/first-llm-agent"
+        )
+
+      assert String.contains?(markdown, "- Content type: Documentation")
+      assert String.contains?(markdown, "- Status: Published")
+
+      # tested_with is author-set; the version line lists the validated packages.
+      assert markdown =~ ~r/- Version: .*\bjido\b/
+
+      assert String.contains?(markdown, "- Last validated:"),
+             "first-llm-agent markdown is missing the last-validated date"
+    end
+
+    test "a docs page's version line lists every validated package" do
+      {:ok, markdown} =
+        MarkdownContent.resolve(
+          "/docs/getting-started/first-llm-agent",
+          "https://jido.run/docs/getting-started/first-llm-agent"
+        )
+
+      # \bjido\b must not match the "jido" prefix of jido_ai (no word boundary
+      # before the underscore), so each package is matched as a distinct token.
+      for pkg <- ["jido", "jido_ai", "req_llm"] do
+        assert markdown =~ ~r/- Version: .*\b#{pkg}\b/,
+               "first-llm-agent version line is missing the #{pkg} package"
+      end
+    end
+
+    test "an ecosystem package carries content type, support-level status, and version" do
+      {:ok, markdown} =
+        MarkdownContent.resolve("/ecosystem/jido", "https://jido.run/ecosystem/jido")
+
+      assert String.contains?(markdown, "- Content type: Ecosystem package")
+
+      # Package maturity is its support level (Stable/Beta/Experimental).
+      assert markdown =~ ~r/- Status: (Stable|Beta|Experimental)/
+      assert String.contains?(markdown, "- Version:")
+
+      # Packages do not carry a last-validated date, so the line must be absent —
+      # a blank value never produces an empty metadata field.
+      refute String.contains?(markdown, "- Last validated:"),
+             "ecosystem package markdown carries an unvalidated last-validated field"
+    end
+
+    test "an example carries content type and a maturity status" do
+      {:ok, markdown} =
+        MarkdownContent.resolve(
+          "/examples/counter-agent",
+          "https://jido.run/examples/counter-agent"
+        )
+
+      assert String.contains?(markdown, "- Content type: Example")
+
+      # Example status is its package maturity (Stable/Beta/Experimental) or the
+      # live/draft lifecycle label.
+      assert markdown =~ ~r/- Status: (Stable|Beta|Experimental|Live|Draft)/
+    end
+
+    test "hub and fallback payloads carry at least their content type" do
+      for {path, content_type} <- [
+            {"/docs", "Documentation hub"},
+            {"/build", "Build hub"},
+            {"/compare", "Compare hub"},
+            {"/ecosystem", "Ecosystem hub"},
+            {"/examples", "Examples hub"},
+            {"/skills", "Skills catalog"},
+            {"/", "Site landing page"}
+          ] do
+        {:ok, markdown} = MarkdownContent.resolve(path, "https://jido.run#{path}")
+
+        assert String.contains?(markdown, "- Content type: #{content_type}"),
+               "#{path} markdown is missing its content type label"
+      end
+    end
+
+    test "the metadata block never emits a blank-valued field" do
+      # A package has no last-validated date; an inventory hub has no version or
+      # last-validated. None of these payloads should carry an empty field line
+      # (a label followed by a colon and nothing else).
+      blank_field = ~r/^- [A-Za-z][A-Za-z ]+:\s*$/m
+
+      for path <- ["/ecosystem/jido", "/docs", "/ecosystem", "/examples"] do
+        {:ok, markdown} = MarkdownContent.resolve(path, "https://jido.run#{path}")
+
+        refute Regex.match?(blank_field, markdown),
+               "#{path} markdown carries a blank content metadata field"
+      end
+    end
+  end
 end

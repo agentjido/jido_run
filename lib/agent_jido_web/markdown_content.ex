@@ -31,11 +31,11 @@ defmodule AgentJidoWeb.MarkdownContent do
   @spec resolve(String.t(), String.t()) :: {:ok, String.t()} | :no_match
   def resolve(path, absolute_url) when is_binary(path) and is_binary(absolute_url) do
     case resolve_path(path, absolute_url) do
-      {:ok, markdown} ->
-        {:ok, markdown}
+      {:ok, markdown, metadata} ->
+        {:ok, append_content_metadata(markdown, metadata)}
 
-      {:fallback, title, summary} ->
-        {:ok, fallback_markdown(title, absolute_url, summary)}
+      {:fallback, title, summary, metadata} ->
+        {:ok, fallback_markdown(title, absolute_url, summary) |> append_content_metadata(metadata)}
 
       :no_match ->
         :no_match
@@ -58,7 +58,7 @@ defmodule AgentJidoWeb.MarkdownContent do
   # same ORDER — not just the same inventory — instead of drifting against a
   # hand-written index page. See E06-T22 and E10-T13.
   defp resolve_from_pages("/docs") do
-    {:ok, docs_hub_markdown()}
+    {:ok, docs_hub_markdown(), hub_metadata("Documentation hub")}
   end
 
   # The Build and Compare hubs render a generated grid from
@@ -69,11 +69,11 @@ defmodule AgentJidoWeb.MarkdownContent do
   # an inventory of the leaf pages) so the browser and Markdown hubs stay
   # aligned. See E06-T23.
   defp resolve_from_pages("/build") do
-    {:ok, generic_hub_markdown(:build)}
+    {:ok, generic_hub_markdown(:build), hub_metadata("Build hub")}
   end
 
   defp resolve_from_pages("/compare") do
-    {:ok, generic_hub_markdown(:compare)}
+    {:ok, generic_hub_markdown(:compare), hub_metadata("Compare hub")}
   end
 
   defp resolve_from_pages(path) do
@@ -83,16 +83,18 @@ defmodule AgentJidoWeb.MarkdownContent do
         :no_match
 
       {:ok, page, _resolution} ->
+        metadata = page_metadata(page)
+
         case read_source_markdown(map_get(page, :source_path)) do
           {:ok, markdown} ->
             # Expand release placeholders so the public `.md` payload carries real
             # dependency requirements instead of raw `{{mix_dep:*}}` tokens. This
             # keeps the Markdown endpoint in parity with the rendered HTML page
             # (see E01-T08). Pages are the surface that uses these tokens.
-            {:ok, ReleaseCatalog.expand_placeholders(markdown)}
+            {:ok, ReleaseCatalog.expand_placeholders(markdown), metadata}
 
           _other ->
-            {:fallback, map_get(page, :title) || "Site Page", page_summary(page)}
+            {:fallback, map_get(page, :title) || "Site Page", page_summary(page), metadata}
         end
 
       :error ->
@@ -251,7 +253,8 @@ defmodule AgentJidoWeb.MarkdownContent do
   end
 
   defp resolve_from_blog("/blog") do
-    {:fallback, "Engineering Blog", "Product updates, release notes, and practical guides for building reliable AI agents in Elixir and on the BEAM."}
+    {:fallback, "Engineering Blog", "Product updates, release notes, and practical guides for building reliable AI agents in Elixir and on the BEAM.",
+     hub_metadata("Blog hub")}
   end
 
   defp resolve_from_blog("/blog/tags/" <> tag_path) do
@@ -261,7 +264,7 @@ defmodule AgentJidoWeb.MarkdownContent do
       try do
         posts = Blog.get_posts_by_tag!(tag)
 
-        {:fallback, "Blog tag: #{tag}", "Posts tagged with #{tag}. Matching posts: #{length(posts)}."}
+        {:fallback, "Blog tag: #{tag}", "Posts tagged with #{tag}. Matching posts: #{length(posts)}.", %{content_type: "Blog tag index"}}
       rescue
         Blog.NotFoundError -> :no_match
       end
@@ -274,13 +277,14 @@ defmodule AgentJidoWeb.MarkdownContent do
     if valid_single_segment?(slug) do
       try do
         post = Blog.get_post_by_id!(slug)
+        metadata = blog_metadata()
 
         case read_source_markdown(map_get(post, :source_path)) do
           {:ok, markdown} ->
-            {:ok, markdown}
+            {:ok, markdown, metadata}
 
           _other ->
-            {:fallback, map_get(post, :title) || "Blog Post", post_summary(post)}
+            {:fallback, map_get(post, :title) || "Blog Post", post_summary(post), metadata}
         end
       rescue
         Blog.NotFoundError -> :no_match
@@ -301,7 +305,7 @@ defmodule AgentJidoWeb.MarkdownContent do
   # support level, plus a full package inventory carrying each package's layer,
   # support level, and full link set. See E10-T12.
   defp resolve_from_ecosystem("/ecosystem", absolute_url) do
-    {:ok, ecosystem_hub_markdown(absolute_url)}
+    {:ok, ecosystem_hub_markdown(absolute_url), hub_metadata("Ecosystem hub")}
   end
 
   # The legacy matrix/package-matrix routes are 301-redirected to the hub by the
@@ -309,11 +313,11 @@ defmodule AgentJidoWeb.MarkdownContent do
   # them to the same generated hub (rather than a stub) so the inventory stays
   # useful if a redirect is ever removed. See E10-T12.
   defp resolve_from_ecosystem("/ecosystem/matrix", absolute_url) do
-    {:ok, ecosystem_hub_markdown(absolute_url)}
+    {:ok, ecosystem_hub_markdown(absolute_url), hub_metadata("Ecosystem hub")}
   end
 
   defp resolve_from_ecosystem("/ecosystem/package-matrix", absolute_url) do
-    {:ok, ecosystem_hub_markdown(absolute_url)}
+    {:ok, ecosystem_hub_markdown(absolute_url), hub_metadata("Ecosystem hub")}
   end
 
   defp resolve_from_ecosystem("/ecosystem/" <> id_path, _absolute_url) do
@@ -321,7 +325,7 @@ defmodule AgentJidoWeb.MarkdownContent do
       id_path
       |> String.trim()
       |> Ecosystem.get_public_package()
-      |> resolve_markdown_target("Ecosystem Package", &package_summary/1, &map_get(&1, :path), &map_get(&1, :title))
+      |> resolve_markdown_target("Ecosystem Package", &package_summary/1, &map_get(&1, :path), &map_get(&1, :title), &package_metadata/1)
     else
       :no_match
     end
@@ -543,7 +547,7 @@ defmodule AgentJidoWeb.MarkdownContent do
   # and so each entry carries the task, outcome, packages, maturity, and URL the
   # machine-readable delivery needs. See E10-T11.
   defp resolve_from_examples("/examples", absolute_url) do
-    {:ok, examples_hub_markdown(absolute_url)}
+    {:ok, examples_hub_markdown(absolute_url), hub_metadata("Examples hub")}
   end
 
   defp resolve_from_examples("/examples/" <> slug_path, _absolute_url) do
@@ -551,7 +555,7 @@ defmodule AgentJidoWeb.MarkdownContent do
       slug_path
       |> String.trim()
       |> Examples.get_example()
-      |> resolve_markdown_target("Example", &example_summary/1, &map_get(&1, :source_path), &map_get(&1, :title))
+      |> resolve_markdown_target("Example", &example_summary/1, &map_get(&1, :source_path), &map_get(&1, :title), &example_metadata/1)
     else
       :no_match
     end
@@ -654,7 +658,8 @@ defmodule AgentJidoWeb.MarkdownContent do
   end
 
   defp resolve_from_showcase("/community") do
-    {:fallback, "Jido Community", "Build agents with us. Join Discord, collaborate on GitHub, and contribute across the Jido ecosystem."}
+    {:fallback, "Jido Community", "Build agents with us. Join Discord, collaborate on GitHub, and contribute across the Jido ecosystem.",
+     %{content_type: "Community hub"}}
   end
 
   defp resolve_from_showcase("/community/showcase") do
@@ -664,44 +669,53 @@ defmodule AgentJidoWeb.MarkdownContent do
       "Community showcase of real projects built with Jido. " <>
         "#{count} project#{if count == 1, do: "", else: "s"} currently listed."
 
-    {:fallback, "Built with Jido Showcase", summary}
+    {:fallback, "Built with Jido Showcase", summary, %{content_type: "Community showcase"}}
   end
 
   defp resolve_from_showcase(_path), do: nil
 
-  defp resolve_markdown_target(nil, _default_title, _summary_fun, _path_fun, _title_fun), do: :no_match
+  defp resolve_markdown_target(nil, _default_title, _summary_fun, _path_fun, _title_fun, _metadata_fun) do
+    :no_match
+  end
 
-  defp resolve_markdown_target(item, default_title, summary_fun, path_fun, title_fun) do
+  defp resolve_markdown_target(item, default_title, summary_fun, path_fun, title_fun, metadata_fun) do
+    metadata = metadata_fun.(item)
+
     case read_source_markdown(path_fun.(item)) do
       {:ok, markdown} ->
-        {:ok, markdown}
+        {:ok, markdown, metadata}
 
       _other ->
-        {:fallback, title_fun.(item) || default_title, summary_fun.(item)}
+        {:fallback, title_fun.(item) || default_title, summary_fun.(item), metadata}
     end
   end
 
   defp resolve_misc("/") do
     {:fallback, "Agent Jido",
-     "The Elixir framework for long-running agent systems. Build supervised agents, typed tools, and explicit workflows on Elixir/OTP."}
+     "The Elixir framework for long-running agent systems. Build supervised agents, typed tools, and explicit workflows on Elixir/OTP.",
+     %{content_type: "Site landing page"}}
   end
 
   defp resolve_misc("/getting-started") do
-    {:fallback, "Getting Started", "First-step onboarding route for building your first agent workflow with Jido."}
+    {:fallback, "Getting Started", "First-step onboarding route for building your first agent workflow with Jido.",
+     %{content_type: "Onboarding route"}}
   end
 
   defp resolve_misc("/features") do
     {:fallback, "Jido Features",
-     "Runtime capabilities, orchestration strategies, and ecosystem components for long-running agent systems on Elixir/OTP."}
+     "Runtime capabilities, orchestration strategies, and ecosystem components for long-running agent systems on Elixir/OTP.",
+     %{content_type: "Features hub"}}
   end
 
   defp resolve_misc("/compare") do
-    {:fallback, "Compare Jido", "Compare Jido's supervised, explicit agent model with other agent and orchestration frameworks."}
+    {:fallback, "Compare Jido", "Compare Jido's supervised, explicit agent model with other agent and orchestration frameworks.",
+     %{content_type: "Compare hub"}}
   end
 
   defp resolve_misc("/skills") do
     {:fallback, "Jido Skills Catalog",
-     "Vendored upstream Jido package skills plus the router skill, surfaced as a public catalog page in the workbench."}
+     "Vendored upstream Jido package skills plus the router skill, surfaced as a public catalog page in the workbench.",
+     %{content_type: "Skills catalog"}}
   end
 
   defp resolve_misc(_path), do: nil
@@ -719,6 +733,138 @@ defmodule AgentJidoWeb.MarkdownContent do
     ---
     This markdown payload is generated from the rendered route when direct source markdown is not available.
     """
+  end
+
+  # --- Content metadata (jido-e10-t16) ---
+  #
+  # Every Markdown payload carries a trailing `## Content metadata` block so an
+  # agent reading the `.md` route (or the MCP `markdown` field, which flows from
+  # this same resolver) can assess the content's FRESHNESS and MATURITY without
+  # a second round-trip. The four fields named in the task — content type,
+  # status, version, and last-validated — are sourced from the same records the
+  # rendered HTML hub uses, so the machine and browser surfaces agree. Each line
+  # is omitted when its value is blank, so a payload never carries a misleading
+  # empty field.
+
+  defp append_content_metadata(markdown, metadata) when is_binary(markdown) and is_map(metadata) do
+    markdown <> content_metadata_block(metadata)
+  end
+
+  defp content_metadata_block(metadata) when is_map(metadata) do
+    lines =
+      [
+        metadata_line("Content type", metadata[:content_type]),
+        metadata_line("Status", metadata[:status]),
+        metadata_line("Version", metadata[:version]),
+        metadata_line("Last validated", metadata[:last_validated])
+      ]
+      |> Enum.reject(&is_nil/1)
+
+    case lines do
+      [] ->
+        ""
+
+      _ ->
+        "\n\n---\n\n## Content metadata\n\n" <> Enum.join(lines, "\n") <> "\n"
+    end
+  end
+
+  defp metadata_line(_label, nil), do: nil
+
+  defp metadata_line(label, value) when is_binary(value) do
+    case String.trim(value) do
+      "" -> nil
+      trimmed -> "- #{label}: #{trimmed}"
+    end
+  end
+
+  defp metadata_line(_label, _other), do: nil
+
+  defp hub_metadata(label), do: %{content_type: label}
+
+  # A page's content type is its category (the docs/build/compare/features/
+  # community/training bucket), so an agent knows what kind of artifact it has.
+  defp page_metadata(page) do
+    %{
+      content_type: page_content_type(page),
+      status: content_status_label_for(Pages.content_status(page)),
+      version: tested_with_label(map_get(page, :tested_with)),
+      last_validated: Pages.modification_date(page)
+    }
+  end
+
+  defp page_content_type(page) do
+    case map_get(page, :category) do
+      :docs -> "Documentation"
+      :build -> "Build guide"
+      :compare -> "Comparison"
+      :features -> "Feature"
+      :community -> "Community"
+      :training -> "Training"
+      other when is_atom(other) -> other |> Atom.to_string() |> String.capitalize()
+      _ -> "Page"
+    end
+  end
+
+  defp blog_metadata do
+    %{content_type: "Blog post"}
+  end
+
+  defp example_metadata(example) do
+    %{
+      content_type: "Example",
+      status: example_status_label(example),
+      version: tested_with_label(map_get(example, :tested_with)),
+      last_validated: present_string(map_get(example, :last_validated))
+    }
+  end
+
+  # An example's best maturity signal is its package_maturity (Stable/Beta/
+  # Experimental), which parallels a package's support level; fall back to the
+  # live/draft lifecycle label when no maturity is recorded.
+  defp example_status_label(example) do
+    case present_string(map_get(example, :package_maturity)) do
+      nil -> lifecycle_label(map_get(example, :status))
+      maturity -> maturity
+    end
+  end
+
+  defp lifecycle_label(:live), do: "Live"
+  defp lifecycle_label(:draft), do: "Draft"
+  defp lifecycle_label(other) when is_atom(other), do: other |> Atom.to_string() |> String.capitalize()
+  defp lifecycle_label(_), do: nil
+
+  defp package_metadata(pkg) do
+    %{
+      content_type: "Ecosystem package",
+      status: ecosystem_support_label(map_get(pkg, :support_level)),
+      version: present_string(map_get(pkg, :version))
+    }
+  end
+
+  defp content_status_label_for(:published), do: "Published"
+  defp content_status_label_for(:draft), do: "Draft"
+  defp content_status_label_for(:experimental), do: "Experimental"
+
+  defp content_status_label_for(other) when is_atom(other),
+    do: other |> Atom.to_string() |> String.capitalize()
+
+  defp content_status_label_for(_), do: nil
+
+  defp tested_with_label(value) when is_map(value) and map_size(value) > 0 do
+    value
+    |> Enum.map(fn {pkg, ver} -> "#{pkg} #{ver}" end)
+    |> Enum.sort()
+    |> Enum.join(", ")
+  end
+
+  defp tested_with_label(_), do: nil
+
+  defp present_string(value) do
+    case value |> to_string() |> String.trim() do
+      "" -> nil
+      other -> other
+    end
   end
 
   defp page_summary(page) do
