@@ -120,6 +120,26 @@ mix site.orphan_page_report
 
 A page is reachable when it appears in the sidebar menu (`in_menu`) **or** another published page or template links to it. The report lists any orphan pages (neither condition met) and exits non-zero when orphans are found. It writes `tmp/orphan_page_report.md` by default.
 
+## Monthly Content-Quality Dashboard
+
+Generate the monthly content-quality dashboard, which aggregates the five signals the monthly full sweep reviews — broken links, stale pages, version drift, failed Livebooks, and no-result search queries — into one report:
+
+```bash
+mix site.content_quality_report
+```
+
+Useful variants:
+
+```bash
+# Widen the no-result query lookback window
+mix site.content_quality_report --window-days 90
+
+# Write to a specific path
+mix site.content_quality_report --report tmp/july_dashboard.md
+```
+
+The dashboard is **informational** — it always exits 0 and never blocks a release; the per-signal release gates stay the source of blocking truth. The no-result-queries section needs the database; when it is absent that section renders `unavailable` and the rest of the dashboard still generates. It writes `tmp/content_quality_report.md` by default. See the *Monthly Content-Quality Dashboard* section of `specs/runbooks/release_punchlist.md` for signal sources.
+
 ## Contributing
 
 See `CONTRIBUTING.md`.

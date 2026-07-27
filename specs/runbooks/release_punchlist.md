@@ -214,3 +214,32 @@ A release **must not ship** a public content page that has no inbound link.
   but would become orphans if ever hidden, so they are prime candidates for an
   added related-content link.
 
+## Monthly Content-Quality Dashboard (`E12-T30`)
+
+The content-governance monthly full sweep (§12.3) reviews five content-quality
+signals. This dashboard aggregates them into one report so broken links, stale
+pages, version drift, failed Livebooks, and no-result search queries are **visible
+together** in the monthly read of where the site stands.
+
+- Check: `mix site.content_quality_report --report tmp/content_quality_report.md`.
+- Cadence: monthly (first business week), as the full-sweep review artifact. It
+  is **informational, not a gate** — it always exits 0 and never blocks a
+  release; the per-signal release gates (`site.link_audit`,
+  `site.orphan_page_report`, the Livebook coverage test) remain the blocking
+  truth. Triage the findings into sprint work.
+- Signals and sources:
+  - **Broken links** — `LinkAudit` internal scan (`include_heex: true`).
+  - **Stale pages** — 90-day critical queue (`Pages.critical_review_queue/1`),
+    180-day slow queue (`Pages.slow_review_queue/1`), and `Examples.stale_examples/1`.
+  - **Version drift** — page/example `tested_with` vs the ecosystem package's
+    current `version`.
+  - **Failed Livebooks** — runnable docs Livebooks with no matching drift test
+    (the coverage-gap proxy, since re-executing every notebook needs network/LLM
+    keys).
+  - **No-result queries** — `Analytics.dashboard_snapshot/3`
+    `docs_search_no_results` over a `--window-days` window (default 30).
+- Degradation: each signal is independent. The no-result-queries signal needs the
+  database; when it is absent, that section renders `unavailable` and the rest of
+  the dashboard still generates. Run `mix site.content_quality_report` with the
+  database connected to populate the no-result section.
+
