@@ -19,7 +19,8 @@ defmodule AgentJidoWeb.JidoCommunityLive do
        start_here_steps: start_here_steps(),
        participation_paths: participation_paths(),
        collaboration_links: collaboration_links(),
-       failure_story_request: failure_story_request()
+       failure_story_request: failure_story_request(),
+       ecosystem_digest: ecosystem_digest()
      )}
   end
 
@@ -106,6 +107,25 @@ defmodule AgentJidoWeb.JidoCommunityLive do
                 </li>
               <% end %>
             </ol>
+          </div>
+        </section>
+
+        <section id="community-ecosystem-digest" class="mb-16 opacity-0" phx-hook="ScrollReveal">
+          <div class="flex justify-between items-center mb-6">
+            <span class="text-sm font-bold tracking-wider uppercase">Ecosystem Digest</span>
+            <span class="text-[11px] text-muted-foreground">regular adopter round-up</span>
+          </div>
+          <div class="feature-card">
+            <h2 class="font-bold text-[15px] mb-2">{@ecosystem_digest.headline}</h2>
+            <p class="text-muted-foreground text-xs leading-relaxed mb-4">
+              {@ecosystem_digest.blurb}
+            </p>
+            <a
+              href={@ecosystem_digest.href}
+              class="inline-block text-xs font-semibold text-primary hover:opacity-80 transition-opacity"
+            >
+              {@ecosystem_digest.cta}
+            </a>
           </div>
         </section>
 
@@ -356,6 +376,21 @@ defmodule AgentJidoWeb.JidoCommunityLive do
         label: "how a first-LLM tutorial failure became a fix note and a test",
         href: "/blog/fix-first-llm-tutorial-provider-mismatch"
       }
+    }
+  end
+
+  defp ecosystem_digest do
+    # The recurring adopter-focused round-up (jido-e11, E11-T14): what is stable
+    # now, examples to run, supported upgrade paths, and the issues we want
+    # adopters to know about. Linked from the community hub for discoverability.
+    %{
+      headline: "What's stable, what to try, and what to watch for",
+      blurb:
+        "The ecosystem digest is the regular, honest round-up for adopters — " <>
+          "stable releases, runnable examples, supported migration paths, and " <>
+          "named known issues. Issue 1 covers the July 2026 pin set.",
+      href: "/blog/ecosystem-digest-2026-07",
+      cta: "Read the latest digest"
     }
   end
 end

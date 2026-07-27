@@ -887,6 +887,18 @@ defmodule AgentJidoWeb.PageLiveTest do
       assert html =~ "fix note and a test"
     end
 
+    test "links the latest ecosystem digest for adopter discoverability", %{conn: conn} do
+      {:ok, _view, html} = live(conn, "/community")
+
+      # The recurring adopter round-up (jido-e11, E11-T14) is linked from the
+      # community hub so an adopter can find what is stable, what to try, how to
+      # upgrade, and what to watch for.
+      assert html =~ ~s(id="community-ecosystem-digest")
+      assert html =~ "Ecosystem Digest"
+      assert html =~ "/blog/ecosystem-digest-2026-07"
+      assert html =~ "Read the latest digest"
+    end
+
     test "renders /community/showcase route", %{conn: conn} do
       {:ok, _view, html} = live(conn, "/community/showcase")
 
