@@ -47,4 +47,15 @@ defmodule AgentJidoWeb.JidoSkillsLiveTest do
     assert html =~ "Routes a task to the right package skill"
     assert html =~ "Generated meta-skill"
   end
+
+  # jido-e10 E10-T26: the "use the router when unsure" guidance from the upstream
+  # skills README must appear on the hub so users do not load the full skill
+  # catalog by default.
+  test "surfaces the 'use the router when unsure' guidance from the skills README", %{conn: conn} do
+    {:ok, _view, html} = live(conn, "/skills")
+
+    assert html =~ "use the router when unsure which package to start with"
+    assert html =~ "If you do not know which package skill to start with, use the router skill first"
+    assert html =~ "avoid loading the entire ecosystem by default"
+  end
 end

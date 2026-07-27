@@ -57,8 +57,20 @@ defmodule AgentJidoWeb.JidoSkillsLive do
         <section :if={@router_entries != []} class="mb-12">
           <div class="flex items-center justify-between mb-6">
             <span class="text-sm font-bold tracking-wider uppercase">Start Here</span>
-            <span class="text-[11px] text-muted-foreground">use the router when a task crosses package boundaries</span>
+            <span class="text-[11px] text-muted-foreground">use the router when unsure which package to start with</span>
           </div>
+
+          <%!-- jido-e10-t26: "use the router when unsure" guidance from the
+               upstream skills README, so users do not load the full catalog by
+               default. --%>
+          <p class="copy-measure text-sm leading-relaxed text-secondary-foreground mb-3">
+            If you do not know which package skill to start with, use the router skill first. The router will:
+          </p>
+          <ul class="copy-measure list-disc pl-5 text-sm leading-relaxed text-secondary-foreground mb-6 space-y-1">
+            <li>identify the anchor package skill,</li>
+            <li>pull in adjacent skills only when the task crosses their boundaries, and</li>
+            <li>avoid loading the entire ecosystem by default.</li>
+          </ul>
 
           <%= for entry <- @router_entries do %>
             <article id={"router-skill-card-#{entry.id}"} class="feature-card border-primary/30 bg-primary/5">
