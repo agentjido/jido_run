@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-27T03:22:22Z",
   "created": "2026-07-23T12:04:40Z",
   "description": "Backlog task: E07-T28\n\nWork area: Operational topics\n\nMain targets: Operations docs\n\nComplete when: The page is not a generic untested deployment recipe.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e07-t28",
@@ -22,8 +23,8 @@
     }
   ],
   "priority": 2,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E07-T28 — Add Kubernetes guidance only with a tested reference.",
   "type": "task",
-  "updated_at": "2026-07-27T03:22:21Z"
+  "updated_at": "2026-07-27T03:22:22Z"
 }
