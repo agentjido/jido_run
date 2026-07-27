@@ -8,6 +8,7 @@ defmodule AgentJido.Analytics.AnalyticsEvent do
 
   @event_values [
     "content_assistant_submitted",
+    "content_assistant_query_no_results",
     "content_assistant_reference_clicked",
     "content_assistant_answer_link_clicked",
     "content_assistant_restored",

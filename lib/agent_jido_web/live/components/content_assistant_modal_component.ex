@@ -553,6 +553,7 @@ defmodule AgentJidoWeb.ContentAssistantModalComponent do
     finalize_query_log(socket.assigns.query_log_id, query_status, results_count, latency_ms)
     capture_posthog_query_outcome(socket, response, socket.assigns.query_log_id, latency_ms)
     track_llm_request_outcome(socket, response)
+    track_no_results_event(socket, response, socket.assigns.query_log_id)
 
     assign(socket,
       query: query,
@@ -995,6 +996,33 @@ defmodule AgentJidoWeb.ContentAssistantModalComponent do
       latency_ms: max(latency_ms, 0)
     })
   end
+
+  # First-party no-result analytics (jido-e10-t06). Mirrors the page LiveView:
+  # records a discrete `content_assistant_query_no_results` event with no raw
+  # query text — the query is referenced by `query_log_id` (redacted + hashed
+  # row) and summarized as `query_length`, and the active search `filters` and
+  # `path` (route) are recorded. `filters` is empty until type filters ship
+  # (jido-e10-t07); the dimension is captured now so it is already recorded.
+  defp track_no_results_event(socket, %Response{answer_mode: :no_results} = response, query_log_id) do
+    analytics_module().track_event_safe(socket.assigns.current_scope, %{
+      event: "content_assistant_query_no_results",
+      source: "content_assistant",
+      channel: "content_assistant_modal",
+      path: socket.assigns.analytics_identity[:path] || "/",
+      query_log_id: query_log_id || response.query_log_id,
+      visitor_id: socket.assigns.analytics_identity[:visitor_id],
+      session_id: socket.assigns.analytics_identity[:session_id],
+      metadata:
+        analytics_metadata(response, %{
+          surface: "content_assistant_modal",
+          query_length: String.length(response.query || ""),
+          results_count: length(response.citations || []),
+          filters: %{}
+        })
+    })
+  end
+
+  defp track_no_results_event(_socket, _response, _query_log_id), do: :ok
 
   defp component_id(socket, assigns) do
     Map.get(assigns, :id) || Map.get(socket.assigns, :id) || "primary-nav-content-assistant-modal"

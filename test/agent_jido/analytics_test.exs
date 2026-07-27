@@ -32,6 +32,12 @@ defmodule AgentJido.AnalyticsTest do
   end
 
   describe "event tracking" do
+    test "content_assistant_query_no_results is an accepted event value" do
+      # First-party no-result analytics (jido-e10-t06): zero-hit searches must
+      # be recordable in the analytics_events table.
+      assert "content_assistant_query_no_results" in AnalyticsEvent.event_values()
+    end
+
     test "tracks event with server-side user identity and preserves metadata" do
       user = user_fixture()
       scope = Scope.for_user(user)

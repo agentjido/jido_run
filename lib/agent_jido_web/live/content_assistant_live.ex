@@ -856,10 +856,40 @@ defmodule AgentJidoWeb.ContentAssistantLive do
       emit_query_outcome(response, response.query, latency_ms)
       capture_posthog_query_outcome(socket, response, latency_ms)
       track_llm_request_outcome(socket, response)
+      track_no_results_event(socket, response)
     end
 
     socket
   end
+
+  # First-party no-result analytics (jido-e10-t06). Records a discrete
+  # `content_assistant_query_no_results` event so zero-hit searches are
+  # measurable in the first-party store alongside PostHog and the query log.
+  # The event carries no raw query text: the query is referenced by
+  # `query_log_id` (whose row stores a redacted + hashed query) and summarized
+  # as `query_length`, and the active search `filters` and `path` (route) are
+  # recorded. `filters` stays empty until result type filters ship
+  # (jido-e10-t07); the dimension is captured now so it is already recorded.
+  defp track_no_results_event(socket, %Response{answer_mode: :no_results} = response) do
+    analytics_module().track_event_safe(socket.assigns.current_scope, %{
+      event: "content_assistant_query_no_results",
+      source: "content_assistant",
+      channel: "content_assistant_page",
+      path: socket.assigns.analytics_identity[:path] || "/search",
+      query_log_id: socket.assigns.last_query_log_id || response.query_log_id,
+      visitor_id: socket.assigns.analytics_identity[:visitor_id],
+      session_id: socket.assigns.analytics_identity[:session_id],
+      metadata:
+        analytics_metadata(response, %{
+          surface: "content_assistant_page",
+          query_length: String.length(response.query || ""),
+          results_count: length(response.citations || []),
+          filters: %{}
+        })
+    })
+  end
+
+  defp track_no_results_event(_socket, _response), do: :ok
 
   defp elapsed_since_query_start(socket) do
     case Map.get(socket.assigns, :assistant_started_at) do

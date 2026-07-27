@@ -4,8 +4,12 @@ defmodule AgentJidoWeb.ContentAssistantLiveTest do
   import Phoenix.LiveViewTest
   import Plug.Conn
 
+  alias AgentJido.Analytics.AnalyticsEvent
+  alias AgentJido.Analytics.Redactor
   alias AgentJido.ContentAssistant.Response
   alias AgentJido.ContentAssistant.Result
+  alias AgentJido.QueryLogs.QueryLog
+  alias AgentJido.Repo
 
   @endpoint AgentJidoWeb.Endpoint
   @query_issued_event [:agent_jido, :content_assistant, :query, :issued]
@@ -201,6 +205,26 @@ defmodule AgentJidoWeb.ContentAssistantLiveTest do
              score: 0.78
            }
          ],
+         retrieval_status: :success,
+         llm_attempted?: false,
+         llm_enhanced?: false,
+         enhancement_blocked_reason: nil,
+         query_log_id: nil
+       }}
+    end
+
+    # A no-results query that carries a sensitive pattern (an email) and keeps
+    # the submitted query on the response, so the no-result analytics test can
+    # prove the query is recorded without leaking the raw email. Defined before
+    # the catch-all so the specific clause is matched.
+    def respond("contact me at leak@example.com please", _opts) do
+      {:ok,
+       %Response{
+         query: "contact me at leak@example.com please",
+         answer_markdown: "",
+         answer_html: "",
+         answer_mode: :no_results,
+         citations: [],
          retrieval_status: :success,
          llm_attempted?: false,
          llm_enhanced?: false,
@@ -516,6 +540,46 @@ defmodule AgentJidoWeb.ContentAssistantLiveTest do
       assert failure_measurements.latency_ms >= 0
       assert failure_meta.query_length == String.length("backend-down")
       refute_receive {:assistant_telemetry, @query_success_event, _, _}, 50
+    end
+
+    test "records a first-party no-result analytics event with query, filters, and route", %{conn: conn} do
+      conn = with_content_assistant_stub(conn)
+      {:ok, view, _html} = mount_live(conn)
+
+      sensitive_query = "contact me at leak@example.com please"
+
+      view
+      |> form("#content-assistant-form", assistant: %{q: sensitive_query})
+      |> render_submit()
+
+      assert_state(view, ~s(id="content-assistant-no-results-state"))
+
+      event =
+        Repo.get_by(AnalyticsEvent,
+          event: "content_assistant_query_no_results"
+        )
+
+      assert event, "expected a content_assistant_query_no_results analytics event"
+
+      # Route is recorded.
+      assert event.path == "/search"
+
+      # Query is recorded through the redacted query log row, never as raw text.
+      assert event.query_log_id
+
+      query_log = Repo.get(QueryLog, event.query_log_id)
+      assert query_log.query == Redactor.redact_query(sensitive_query)
+      refute query_log.query =~ "leak@example.com"
+
+      # Filters dimension and the outcome summary are recorded.
+      assert event.metadata["filters"] == %{}
+      assert event.metadata["results_count"] == 0
+      assert event.metadata["query_length"] == String.length(sensitive_query)
+      assert event.metadata["surface"] == "content_assistant_page"
+
+      # No sensitive data is stored on the analytics event itself.
+      refute Map.has_key?(event.metadata, "query")
+      refute inspect(event.metadata) =~ "leak@example.com"
     end
   end
 

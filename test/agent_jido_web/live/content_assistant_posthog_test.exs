@@ -180,6 +180,28 @@ defmodule AgentJidoWeb.ContentAssistantPostHogTest do
     assert no_results.properties["query_length"] == 4
     assert no_results.properties["results_count"] == 0
     assert no_results.properties["surface"] == "content_assistant_modal"
+
+    # First-party no-result analytics event (jido-e10-t06) records the query
+    # (via query_log_id + query_length), filters, and route without sensitive
+    # data, mirroring the PostHog lifecycle event.
+    assert_eventually(fn ->
+      AgentJido.Repo.get_by(AgentJido.Analytics.AnalyticsEvent,
+        event: "content_assistant_query_no_results"
+      )
+    end)
+
+    first_party =
+      AgentJido.Repo.get_by(AgentJido.Analytics.AnalyticsEvent,
+        event: "content_assistant_query_no_results"
+      )
+
+    assert first_party.path == "/docs/concepts/agents"
+    assert first_party.query_log_id
+    assert first_party.metadata["surface"] == "content_assistant_modal"
+    assert first_party.metadata["filters"] == %{}
+    assert first_party.metadata["results_count"] == 0
+    assert first_party.metadata["query_length"] == 4
+    refute Map.has_key?(first_party.metadata, "query")
   end
 
   defp set_posthog_shared(_context) do
