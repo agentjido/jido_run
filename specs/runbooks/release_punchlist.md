@@ -143,6 +143,7 @@ mix credo
 mix test
 mix phx.routes
 mix site.link_audit --include-heex
+mix site.orphan_page_report
 ```
 
 ## Severity and Triage
@@ -192,3 +193,24 @@ These gates run in `mix test` and block a release on failure:
 - **AI tutorial key/model provider consistency** — `test/agent_jido/first_llm_tutorial_consistency_test.exs`.
 - **Public example detail pages in the sitemap** — `test/agent_jido_web/controllers/sitemap_controller_test.exs`.
 - **Skills catalog renders cards** — `test/agent_jido/skills_catalog_test.exs`.
+- **No orphan public content pages** — `test/agent_jido/release/orphan_page_report_test.exs` (ceiling 0; every published page must appear in the sidebar menu or be the target of an internal link from `priv/pages`, `priv/blog`, `priv/examples`, `priv/ecosystem`, or `lib/agent_jido_web/**`).
+
+## Orphan-Page Report Gate (`E12-T20`)
+
+A release **must not ship** a public content page that has no inbound link.
+
+- Check: `mix site.orphan_page_report --report tmp/orphan_page_report.md`.
+- Scope: published `AgentJido.Pages` routes (docs, features, build, compare),
+  excluding the retired `/training/*` surface and the `/docs` index alias, which
+  mirrors the router's compile-time `@page_routes`.
+- Reachability rule: a page passes when it appears in the navigation menu
+  (`page.in_menu == true`, rendered by the section sidebar) **or** another
+  published page or HEEx template links to its route (a related-content link).
+  An orphan is a page that satisfies neither — it cannot be reached from
+  anywhere on the site.
+- Ceiling: **0** orphans. If a page must be hidden from the menu (`in_menu: false`),
+  add a cross-link to it from another page or template so it stays reachable.
+- The report also lists pages *reachable only via the menu* — those pass the gate
+  but would become orphans if ever hidden, so they are prime candidates for an
+  added related-content link.
+

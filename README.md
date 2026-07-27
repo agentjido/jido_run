@@ -110,6 +110,16 @@ mix site.link_audit --include-heex --allow-prefix /training
 
 The audit writes `tmp/link_audit_report.md` by default and exits non-zero on blocking issues.
 
+## Orphan-Page Report
+
+Run the orphan-page report to confirm every public content page has an inbound navigation or related-content link:
+
+```bash
+mix site.orphan_page_report
+```
+
+A page is reachable when it appears in the sidebar menu (`in_menu`) **or** another published page or template links to it. The report lists any orphan pages (neither condition met) and exits non-zero when orphans are found. It writes `tmp/orphan_page_report.md` by default.
+
 ## Contributing
 
 See `CONTRIBUTING.md`.
