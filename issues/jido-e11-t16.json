@@ -1,5 +1,5 @@
 {
-  "assignee": "",
+  "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:07:29Z",
@@ -18,8 +18,8 @@
     }
   ],
   "priority": 3,
-  "status": "open",
+  "status": "in_progress",
   "title": "E11-T16 — Add an adoption interview script.",
   "type": "task",
-  "updated_at": "2026-07-24T12:54:18Z"
+  "updated_at": "2026-07-27T10:29:45Z"
 }
