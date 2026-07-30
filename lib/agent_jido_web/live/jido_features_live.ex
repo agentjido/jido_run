@@ -39,6 +39,44 @@ defmodule AgentJidoWeb.JidoFeaturesLive do
           </p>
         </section>
 
+        <section
+          id="operational-control-introduction"
+          class="mb-16 rounded-lg border border-primary/20 bg-primary/5 p-8 opacity-0"
+          phx-hook="ScrollReveal"
+        >
+          <div class="mb-3 text-[11px] font-semibold uppercase tracking-widest text-primary">
+            Operational control
+          </div>
+          <h2 class="mb-4 text-2xl font-bold">Supervise, constrain, and inspect Agent work</h2>
+          <p class="copy-measure-wide mb-5 text-sm leading-relaxed text-secondary-foreground">
+            Jido gives your application explicit runtime surfaces:
+            <.link navigate="/docs/operations/supervision-and-failure-boundaries" class="text-primary hover:underline">
+              OTP supervision
+            </.link>
+            controls the Agent lifecycle,
+            <.link navigate="/docs/concepts/actions" class="text-primary hover:underline">
+              typed Actions
+            </.link>
+            define capabilities,
+            <.link navigate="/docs/operations/security-and-governance" class="text-primary hover:underline">
+              policy hooks
+            </.link>
+            can deny protected work,
+            <.link navigate="/docs/concepts/signals" class="text-primary hover:underline">
+              Signals
+            </.link>
+            carry causal context, and
+            <.link navigate="/docs/operations/telemetry-and-traces" class="text-primary hover:underline">
+              telemetry
+            </.link>
+            shows what the runtime did.
+          </p>
+          <p class="copy-measure-wide text-xs leading-relaxed text-muted-foreground">
+            Your application still owns authentication, policy sources, durable audit storage, and compliance controls.
+            Telemetry is operational observation; it is not an audit log.
+          </p>
+        </section>
+
         <section id="features-category-explorer" class="mb-16 opacity-0" phx-hook="ScrollReveal">
           <div class="flex justify-between items-center mb-6">
             <span class="text-sm font-bold tracking-wider uppercase">Features</span>
