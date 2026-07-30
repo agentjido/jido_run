@@ -16,11 +16,15 @@
     {
       "text": "Deferred: a vocabulary scan for framework/runtime/platform/infrastructure/ecosystem misuse is context-dependent (these words appear legitimately); the restricted-claim linter covers the high-risk terms. Reopen with a context-aware vocabulary check.",
       "timestamp": "2026-07-24T12:39:58Z"
+    },
+    {
+      "text": "Completed the framework/runtime/platform/infrastructure/ecosystem scan across public Pages content. Added canonical definitions, corrected three public pages, saved occurrence counts and review results, and added a category-misuse gate. Verification: vocabulary and brand scans, 3 tests, 0 failures. Commit: 15493403.",
+      "timestamp": "2026-07-30T13:07:26Z"
     }
   ],
   "priority": 2,
   "status": "in_progress",
   "title": "E03-T26 — Run a vocabulary scan for framework, runtime, platform, infrastructure, and ecosystem.",
   "type": "task",
-  "updated_at": "2026-07-30T13:07:25Z"
+  "updated_at": "2026-07-30T13:07:26Z"
 }
