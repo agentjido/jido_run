@@ -30,7 +30,7 @@ Contrast this with [Supervision and Failure Boundaries](/docs/operations/supervi
 
 ## Core observation events
 
-Every agent lifecycle transition, Action run, signal, and AI call emits standard `:telemetry` events from `jido` core. The work is done by `Jido.Observe` (agent and Action spans), `Jido.Telemetry` (the event stream and pre-built metrics), `Jido.AI.Observe` (LLM, tool, request, and strategy events), and `jido_signal` tracing (the signal causation and correlation chain). Events follow the `[:jido, ...]` namespace and use `:start` / `:stop` / `:exception` spans for duration. The full event catalog is in [Telemetry and observability](/docs/reference/telemetry-and-observability).
+Every agent lifecycle transition, Action run, signal, and AI call emits standard `:telemetry` events from the `jido` core package. The work is done by `Jido.Observe` (agent and Action spans), `Jido.Telemetry` (the event stream and pre-built metrics), `Jido.AI.Observe` (LLM, tool, request, and strategy events), and `jido_signal` tracing (the signal causation and correlation chain). Events follow the `[:jido, ...]` namespace and use `:start` / `:stop` / `:exception` spans for duration. The full event catalog is in [Telemetry and observability](/docs/reference/telemetry-and-observability).
 
 Because these are plain `:telemetry` events, any Elixir telemetry reporter attaches to them with **no Jido tracing package installed**:
 
