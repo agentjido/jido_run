@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-30T13:04:40Z",
   "created": "2026-07-23T12:02:02Z",
   "description": "Backlog task: E03-T24\n\nWork area: Tasks\n\nMain targets: All public content\n\nComplete when: Prose uses “Jido”; package and code contexts can use lowercase.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e03-t24",
@@ -23,7 +24,7 @@
     }
   ],
   "priority": 2,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E03-T24 — Run a case-sensitive brand scan.",
   "type": "task",
   "updated_at": "2026-07-30T13:04:40Z"
