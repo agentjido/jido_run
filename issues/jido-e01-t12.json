@@ -16,11 +16,15 @@
     {
       "text": "Deferred: a full HTML/Markdown/Livebook source-render parity test depends on the expanded-Livebook delivery (jido-e01-t09). Markdown parity is already covered by jido-e01-t08/T11. Reopen alongside T09.",
       "timestamp": "2026-07-24T12:32:36Z"
+    },
+    {
+      "text": "Completed the parity gate against the actual HTTP-delivered .livemd artifact. HTML, Markdown/Copy Markdown, and Livebook dependency tuples must equal ReleaseCatalog. Verification: 21 focused tests passed. Commit: ce727afa.",
+      "timestamp": "2026-07-30T12:52:21Z"
     }
   ],
   "priority": 0,
   "status": "in_progress",
   "title": "E01-T12 — Add a source/render parity test for code blocks.",
   "type": "task",
-  "updated_at": "2026-07-30T12:52:20Z"
+  "updated_at": "2026-07-30T12:52:21Z"
 }
