@@ -16,11 +16,15 @@
     {
       "text": "Deferred: a reliable case-sensitive brand scan must distinguish prose 'Jido' from lowercase code/package/path contexts, which is brittle to automate. The restricted-claim linter covers the enforceable terms. Reopen with a prose-aware scanner.",
       "timestamp": "2026-07-24T12:39:57Z"
+    },
+    {
+      "text": "Completed a prose-aware, case-sensitive scan of every published page. The scanner excludes frontmatter, code, package links, URLs, domains, and task IDs. One ambiguous plain package reference was made explicit as inline code. Final result: 1 test, 0 failures and zero lowercase brand uses. Commit: 21d0abc9.",
+      "timestamp": "2026-07-30T13:04:40Z"
     }
   ],
   "priority": 2,
   "status": "in_progress",
   "title": "E03-T24 — Run a case-sensitive brand scan.",
   "type": "task",
-  "updated_at": "2026-07-30T13:04:39Z"
+  "updated_at": "2026-07-30T13:04:40Z"
 }
