@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-30T12:59:53Z",
   "created": "2026-07-23T12:02:06Z",
   "description": "Backlog task: E03-T28\n\nWork area: Tasks\n\nMain targets: Features LiveView\n\nComplete when: It links lifecycle, Actions, policy hooks, Signals, and telemetry without a compliance claim.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e03-t28",
@@ -23,7 +24,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E03-T28 — Add a concise operational-control introduction to the Features hub.",
   "type": "task",
   "updated_at": "2026-07-30T12:59:53Z"
