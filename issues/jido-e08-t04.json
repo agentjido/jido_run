@@ -2,6 +2,8 @@
   "assignee": "",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-30T13:24:23Z",
+  "close_reason": "won't complete",
   "created": "2026-07-23T12:05:07Z",
   "description": "Backlog task: E08-T04\n\nWork area: Taxonomy and discovery\n\nMain targets: Examples hub\n\nComplete when: A user can see examples for `jido`, `jido_ai`, `jido_browser`, and other packages.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e08-t04",
@@ -26,8 +28,8 @@
     }
   ],
   "priority": 1,
-  "status": "deferred",
+  "status": "closed",
   "title": "E08-T04 — Add package filters.",
   "type": "task",
-  "updated_at": "2026-07-24T16:16:54Z"
+  "updated_at": "2026-07-30T13:24:23Z"
 }
