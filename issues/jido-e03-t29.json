@@ -16,6 +16,10 @@
     {
       "text": "Deferred: an 'Operational control' feature group requires features-data-model changes; the control proof lives under /docs/operations. Reopen with the features hub IA rework.",
       "timestamp": "2026-07-24T12:39:59Z"
+    },
+    {
+      "text": "Added a structured operational-control feature group for supervision, fail-closed policy, durable causal history, and correlated telemetry. Each card links to a published operating guide and keeps audit boundaries explicit. Verification: 6 focused tests, 0 failures. Commit: 5d66559d.",
+      "timestamp": "2026-07-30T13:00:39Z"
     }
   ],
   "priority": 1,
