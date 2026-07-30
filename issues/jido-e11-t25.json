@@ -3,6 +3,7 @@
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:07:38Z",
+  "defer_until": "2026-10-01",
   "description": "Backlog task: E11-T25\n\nWork area: Operational-control evidence\n\nMain targets: Controlled-Agent case study\n\nComplete when: The study connects supervision, causal history, telemetry, and operator action.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e11-t25",
   "labels": [
@@ -23,8 +24,8 @@
     }
   ],
   "priority": 1,
-  "status": "open",
+  "status": "deferred",
   "title": "E11-T25 — Include one incident or recovery story.",
   "type": "task",
-  "updated_at": "2026-07-30T13:08:20Z"
+  "updated_at": "2026-07-30T13:08:21Z"
 }
