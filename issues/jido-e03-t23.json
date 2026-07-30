@@ -16,6 +16,10 @@
     {
       "text": "Deferred: secondary CTA standardization across every page is a broad UI sweep; the primary CTA and definitions are set (home + style-voice). Reopen when running a site-wide CTA normalization pass.",
       "timestamp": "2026-07-24T12:39:57Z"
+    },
+    {
+      "text": "Defined exact uses and destinations for See examples, Read the guide, and Compare packages. Normalized shared/public labels to sentence case and added a contract test. Verification: 110 focused tests, 0 failures. Commit: 10329c9e.",
+      "timestamp": "2026-07-30T13:02:35Z"
     }
   ],
   "priority": 2,
