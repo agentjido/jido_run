@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-30T12:58:38Z",
   "created": "2026-07-23T12:00:37Z",
   "description": "Backlog task: E01-T07\n\nWork area: First LLM tutorial\n\nMain targets: `test/livebooks/README.md`, CI\n\nComplete when: The documented request completes when the key is available.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e01-t07",
@@ -23,7 +24,7 @@
     }
   ],
   "priority": 0,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E01-T07 — Run the external Livebook test with the documented provider in CI or a scheduled release gate.",
   "type": "task",
   "updated_at": "2026-07-30T12:58:38Z"
