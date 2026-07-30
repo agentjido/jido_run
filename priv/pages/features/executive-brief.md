@@ -1,7 +1,7 @@
 %{
   title: "Executive brief",
   category: :features,
-  description: "Technical decision summary for leaders evaluating Jido as runtime infrastructure for multi-agent systems.",
+  description: "Technical decision summary for leaders evaluating Jido as the Elixir framework for long-running agent systems.",
   doc_type: :explanation,
   audience: :beginner,
   draft: false,
@@ -33,7 +33,7 @@ This page is for engineering managers, CTOs, and architecture leads evaluating w
 
 | Decision question | If answer is yes | If answer is no |
 |---|---|---|
-| Do we need long-lived workflows with strict uptime constraints? | prioritize Jido runtime pilot | use lighter prototype path first |
+| Do we need long-lived workflows with strict uptime constraints? | prioritize a Jido pilot | use a lighter prototype path first |
 | Do we need explicit failure and recovery boundaries? | run supervised pilot with checklist gates | continue app-layer orchestration |
 | Do we need LLM capabilities now? | add `jido_ai` and `req_llm` incrementally | stay on runtime-only baseline |
 | Do we need mixed-stack integration? | use bounded service boundary and integration guides | defer integration complexity |

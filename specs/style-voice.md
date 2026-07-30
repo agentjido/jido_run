@@ -72,6 +72,16 @@ Name competitors when the comparison is specific and technical (e.g., "Unlike Cr
 - Workflow — lowercase unless starting a sentence; this is a general concept, not a Jido-specific type
 - Runtime — lowercase unless starting a sentence; describes Jido's operational model
 
+### Product vocabulary boundaries
+
+| Term | Defined use |
+|---|---|
+| **framework** | Jido's public product category: “the Elixir framework for long-running agent systems.” |
+| **runtime** | The `AgentServer` and OTP lifecycle mechanism inside the framework. Do not use “runtime” as a replacement product category. |
+| **platform** | The host application, operations environment, or a named third-party managed product. Jido is not a separate deployment platform. |
+| **infrastructure** | External technical systems or a clearly named lower-level package layer, such as LLM HTTP infrastructure. Do not use “infrastructure” as Jido's product category. |
+| **ecosystem** | The optional Jido package set. A builder can use the core framework without installing the full ecosystem. |
+
 ### Headings
 - Use sentence case for all headings ("Getting started with signals" not "Getting Started With Signals")
 - Exception: proper nouns and Jido-specific terms remain capitalized in headings ("Getting started with Jido Signals")

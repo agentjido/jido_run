@@ -1,6 +1,6 @@
 defmodule AgentJidoWeb.JidoFeaturesLive do
   @moduledoc """
-  Features landing page for the Jido platform.
+  Features landing page for the Jido framework.
   """
   use AgentJidoWeb, :live_view
 

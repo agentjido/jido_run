@@ -8,7 +8,7 @@
   order: 50
 }
 ---
-If your team is evaluating Jido from Python or TypeScript, this is the core point: Jido is a runtime architecture for agent systems. LLM integration is optional, not foundational.
+If your team is evaluating Jido from Python or TypeScript, this is the core point: Jido is the Elixir framework for long-running agent systems, and its AgentServer and OTP lifecycle give that framework a runtime-first architecture. LLM integration is optional, not foundational.
 
 ## At a glance
 
