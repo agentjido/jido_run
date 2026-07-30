@@ -3,6 +3,7 @@
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:07:39Z",
+  "defer_until": "2026-10-01",
   "description": "Backlog task: E11-T26\n\nWork area: Operational-control evidence\n\nMain targets: Adoption research\n\nComplete when: The team records the control questions that stop or support adoption.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e11-t26",
   "labels": [
@@ -23,7 +24,7 @@
     }
   ],
   "priority": 1,
-  "status": "open",
+  "status": "deferred",
   "title": "E11-T26 — Interview platform, SRE, or security evaluators.",
   "type": "task",
   "updated_at": "2026-07-30T13:08:21Z"
