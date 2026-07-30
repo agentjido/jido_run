@@ -3,6 +3,7 @@
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:07:41Z",
+  "defer_until": "2026-10-01",
   "description": "Backlog task: E11-T28\n\nWork area: Operational-control evidence\n\nMain targets: Home, Community, and case-study cards\n\nComplete when: Each short claim links to a named control, configuration, result, and limitation.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e11-t28",
   "labels": [
@@ -23,8 +24,8 @@
     }
   ],
   "priority": 2,
-  "status": "open",
+  "status": "deferred",
   "title": "E11-T28 — Add a verified operational-control proof strip.",
   "type": "task",
-  "updated_at": "2026-07-30T13:08:22Z"
+  "updated_at": "2026-07-30T13:08:23Z"
 }
