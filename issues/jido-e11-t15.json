@@ -2,6 +2,8 @@
   "assignee": "",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-30T13:24:27Z",
+  "close_reason": "won't complete",
   "created": "2026-07-23T12:07:28Z",
   "defer_until": "2026-10-01",
   "description": "Backlog task: E11-T15\n\nWork area: Community flow\n\nMain targets: Home and Community\n\nComplete when: Social proof appears only when evidence exists.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
@@ -23,8 +25,8 @@
     }
   ],
   "priority": 2,
-  "status": "deferred",
+  "status": "closed",
   "title": "E11-T15 — Add verified project cards to relevant home use cases.",
   "type": "task",
-  "updated_at": "2026-07-30T13:08:22Z"
+  "updated_at": "2026-07-30T13:24:27Z"
 }
