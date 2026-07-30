@@ -2,6 +2,8 @@
   "assignee": "",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-30T13:24:22Z",
+  "close_reason": "won't complete",
   "created": "2026-07-23T12:03:41Z",
   "description": "Backlog task: E06-T06\n\nWork area: Information architecture\n\nMain targets: Legacy redirects\n\nComplete when: Existing inbound links keep working.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e06-t06",
@@ -22,8 +24,8 @@
     }
   ],
   "priority": 1,
-  "status": "deferred",
+  "status": "closed",
   "title": "E06-T06 — Define redirects for every moved route.",
   "type": "task",
-  "updated_at": "2026-07-24T16:16:59Z"
+  "updated_at": "2026-07-30T13:24:22Z"
 }
