@@ -2,6 +2,8 @@
   "assignee": "",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-30T13:24:26Z",
+  "close_reason": "won't complete",
   "created": "2026-07-23T12:03:25Z",
   "defer_until": "2026-09-15",
   "description": "Backlog task: E05-T31\n\nWork area: Maintenance and validation\n\nMain targets: Analytics or moderated tests\n\nComplete when: Provider setup friction is visible.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
@@ -24,8 +26,8 @@
     }
   ],
   "priority": 2,
-  "status": "deferred",
+  "status": "closed",
   "title": "E05-T31 — Measure median time to first LLM response.",
   "type": "task",
-  "updated_at": "2026-07-30T13:08:16Z"
+  "updated_at": "2026-07-30T13:24:26Z"
 }
