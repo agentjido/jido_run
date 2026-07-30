@@ -16,11 +16,15 @@
     {
       "text": "Deferred: verified operational-control proof strip requires real verified projects.",
       "timestamp": "2026-07-24T12:54:20Z"
+    },
+    {
+      "text": "Formal deferral for site-facelift closeout: verified project proof is not available, and adding a card or proof strip would create unsupported social proof. Reactivate when a project owner verifies the Jido relationship, configuration, result, and limitation.",
+      "timestamp": "2026-07-30T13:08:22Z"
     }
   ],
   "priority": 2,
   "status": "open",
   "title": "E11-T28 — Add a verified operational-control proof strip.",
   "type": "task",
-  "updated_at": "2026-07-24T12:54:20Z"
+  "updated_at": "2026-07-30T13:08:22Z"
 }
