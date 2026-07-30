@@ -16,11 +16,15 @@
     {
       "text": "Deferred: a dedicated operational-control introduction on the Features hub is a features-IA change; the control story is currently told on the home pillars + /docs/operations. Reopen when the features hub IA is reworked (pairs with E06).",
       "timestamp": "2026-07-24T12:39:59Z"
+    },
+    {
+      "text": "Added a concise operational-control introduction to the Features hub. It links lifecycle supervision, typed Actions, policy hooks, Signals, and telemetry, and it states the application-owned audit and compliance boundary. Verification: 5 focused tests, 0 failures. Commit: 69a7e9ac.",
+      "timestamp": "2026-07-30T12:59:53Z"
     }
   ],
   "priority": 1,
   "status": "in_progress",
   "title": "E03-T28 — Add a concise operational-control introduction to the Features hub.",
   "type": "task",
-  "updated_at": "2026-07-30T12:59:52Z"
+  "updated_at": "2026-07-30T12:59:53Z"
 }
