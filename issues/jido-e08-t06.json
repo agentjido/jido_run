@@ -2,6 +2,8 @@
   "assignee": "",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-30T13:24:23Z",
+  "close_reason": "won't complete",
   "created": "2026-07-23T12:05:09Z",
   "description": "Backlog task: E08-T06\n\nWork area: Taxonomy and discovery\n\nMain targets: Examples hub\n\nComplete when: A user knows whether a key or network call is required.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e08-t06",
@@ -26,8 +28,8 @@
     }
   ],
   "priority": 1,
-  "status": "deferred",
+  "status": "closed",
   "title": "E08-T06 — Add deterministic/live mode filters.",
   "type": "task",
-  "updated_at": "2026-07-24T16:16:55Z"
+  "updated_at": "2026-07-30T13:24:23Z"
 }
