@@ -3,6 +3,7 @@
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:07:36Z",
+  "defer_until": "2026-10-01",
   "description": "Backlog task: E11-T23\n\nWork area: Operational-control evidence\n\nMain targets: Community showcase\n\nComplete when: A real deployment shows its controls, limitations, failure behavior, and operator workflow.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e11-t23",
   "labels": [
@@ -23,7 +24,7 @@
     }
   ],
   "priority": 1,
-  "status": "open",
+  "status": "deferred",
   "title": "E11-T23 — Publish one controlled-Agent case study.",
   "type": "task",
   "updated_at": "2026-07-30T13:08:18Z"
