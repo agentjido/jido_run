@@ -3,6 +3,7 @@
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:03:24Z",
+  "defer_until": "2026-09-15",
   "description": "Backlog task: E05-T30\n\nWork area: Maintenance and validation\n\nMain targets: Analytics or moderated tests\n\nComplete when: A time claim can use measured data.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e05-t30",
   "labels": [
@@ -23,7 +24,7 @@
     }
   ],
   "priority": 2,
-  "status": "open",
+  "status": "deferred",
   "title": "E05-T30 — Measure median time to first core Agent success.",
   "type": "task",
   "updated_at": "2026-07-30T13:08:16Z"
