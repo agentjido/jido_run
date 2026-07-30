@@ -16,11 +16,15 @@
     {
       "text": "Deferred: platform/SRE/security evaluator interviews require real participants.",
       "timestamp": "2026-07-24T12:54:19Z"
+    },
+    {
+      "text": "Formal deferral for site-facelift closeout: no platform, SRE, or security evaluator participant is available. Reactivate when at least one named participant accepts the adoption interview and evidence-use terms.",
+      "timestamp": "2026-07-30T13:08:21Z"
     }
   ],
   "priority": 1,
   "status": "open",
   "title": "E11-T26 — Interview platform, SRE, or security evaluators.",
   "type": "task",
-  "updated_at": "2026-07-24T12:54:19Z"
+  "updated_at": "2026-07-30T13:08:21Z"
 }
