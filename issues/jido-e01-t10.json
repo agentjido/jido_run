@@ -16,11 +16,15 @@
     {
       "text": "Deferred: Copy Markdown copies client-side source; making it copy rendered-equivalent (expanded) source depends on the same expanded-source serving as jido-e01-t09. Reopen alongside T09.",
       "timestamp": "2026-07-24T12:32:35Z"
+    },
+    {
+      "text": "Verified Copy Markdown uses the expanded .md response and matches rendered dependency code. Cross-surface parity tests pass. Commit: ce727afa.",
+      "timestamp": "2026-07-30T12:52:21Z"
     }
   ],
   "priority": 0,
   "status": "in_progress",
   "title": "E01-T10 — Make “Copy Markdown” copy rendered-equivalent source.",
   "type": "task",
-  "updated_at": "2026-07-30T12:52:20Z"
+  "updated_at": "2026-07-30T12:52:21Z"
 }
