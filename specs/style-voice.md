@@ -122,6 +122,20 @@ Name competitors when the comparison is specific and technical (e.g., "Unlike Cr
 - Section-specific alternatives: "Start Training", "Explore Features", "See the Ecosystem"
 - CTA must always link to a real, populated destination
 
+### Secondary CTA convention
+
+Use these labels for these exact tasks:
+
+| Label | Use | Destination |
+|---|---|---|
+| **See examples** | Show runnable proof after a feature, capability, or build claim. | `/examples` for the catalog, or one published `/examples/<slug>` page for direct proof. |
+| **Read the guide** | Move from an overview or proof into implementation instructions. | One specific published `/docs/...` guide. Do not use this label for the Docs hub. |
+| **Compare packages** | Help a builder compare package role, maturity, dependencies, and support. | `/ecosystem?map=open#compare`. Do not use this label for competitor comparisons. |
+
+Write secondary CTA labels in sentence case. An arrow can follow the label, but
+it is not part of the label. Do not replace these labels with vague text such
+as "Learn more."
+
 ---
 
 ## Claim Policy (`jido-e02`, E02-T18..T22, E02-T38)
