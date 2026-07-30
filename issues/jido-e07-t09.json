@@ -15,11 +15,15 @@
     {
       "text": "Open: dedicated 'Deployment and restart verification' page not yet published.",
       "timestamp": "2026-07-24T12:50:33Z"
+    },
+    {
+      "text": "Completed repeatable post-deploy verification. Added a six-step operator check, a runnable command, stated failure conditions, and a regression test. Verification: MIX_ENV=test mix test test/agent_jido/demos/deployment_restart_test.exs test/agent_jido/pages_test.exs (278 tests, 0 failures; 272 excluded by tags). Commit: 5d3d9a34.",
+      "timestamp": "2026-07-30T12:49:52Z"
     }
   ],
   "priority": 1,
   "status": "in_progress",
   "title": "E07-T09 — Publish “Deployment and restart verification.”",
   "type": "task",
-  "updated_at": "2026-07-25T04:03:13Z"
+  "updated_at": "2026-07-30T12:49:52Z"
 }
