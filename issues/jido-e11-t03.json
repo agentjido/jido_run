@@ -3,6 +3,7 @@
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:07:16Z",
+  "defer_until": "2026-10-01",
   "description": "Backlog task: E11-T03\n\nWork area: Case studies\n\nMain targets: Community showcase\n\nComplete when: It proves Jido use, not only ReqLLM or Jido-inspired patterns.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e11-t03",
   "labels": [
@@ -22,7 +23,7 @@
     }
   ],
   "priority": 1,
-  "status": "open",
+  "status": "deferred",
   "title": "E11-T03 — Publish one long-running core Agent case study.",
   "type": "task",
   "updated_at": "2026-07-30T13:08:17Z"
