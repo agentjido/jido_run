@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-30T13:00:39Z",
   "created": "2026-07-23T12:02:07Z",
   "description": "Backlog task: E03-T29\n\nWork area: Tasks\n\nMain targets: Features records and index\n\nComplete when: The group routes to supervision, policy, audit-history, and observability pages.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e03-t29",
@@ -23,7 +24,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E03-T29 — Add an “Operational control” feature group.",
   "type": "task",
   "updated_at": "2026-07-30T13:00:39Z"
