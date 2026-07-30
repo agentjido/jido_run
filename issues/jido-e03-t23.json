@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-30T13:02:36Z",
   "created": "2026-07-23T12:02:01Z",
   "description": "Backlog task: E03-T23\n\nWork area: Tasks\n\nMain targets: Shared components\n\nComplete when: “See examples,” “Read the guide,” and “Compare packages” have defined uses.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e03-t23",
@@ -23,8 +24,8 @@
     }
   ],
   "priority": 2,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E03-T23 — Standardize secondary CTA labels.",
   "type": "task",
-  "updated_at": "2026-07-30T13:02:35Z"
+  "updated_at": "2026-07-30T13:02:36Z"
 }
