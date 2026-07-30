@@ -16,6 +16,10 @@
     {
       "text": "Deferred: a route crawl that follows every link from every published page requires running the Phoenix endpoint in CI. The static link audit (now at 0 unmatched, enforced by the jido-e12 release gate) already guarantees every internal link resolves to a route or redirect. Reopen when an endpoint-crawl CI job is added.",
       "timestamp": "2026-07-24T12:32:37Z"
+    },
+    {
+      "text": "Completed a Phoenix endpoint crawl for every published page and every rendered internal destination. It follows internal redirects and accepts valid external redirects. The first run found a real unpublished-example link, which now points to the published Coding Assistant example. Verification: 1 full crawl test, 0 failures, 53.5 seconds. Commit: e0598261.",
+      "timestamp": "2026-07-30T12:56:37Z"
     }
   ],
   "priority": 1,
