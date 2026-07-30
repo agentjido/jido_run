@@ -182,7 +182,7 @@ case greeting do
     IO.puts(text)
 
   {:error, reason} ->
-    IO.puts("Greeting failed: #{inspect(reason)}")
+    raise "Documented OpenAI request failed: #{inspect(reason)}"
 
   {:skip, :no_openai_key} ->
     IO.puts("Skipped request. Set OPENAI_API_KEY or LB_OPENAI_API_KEY to run it.")
