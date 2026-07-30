@@ -3,6 +3,7 @@
   "blocked_by": [],
   "blocks": [],
   "created": "2026-07-23T12:07:20Z",
+  "defer_until": "2026-10-01",
   "description": "Backlog task: E11-T07\n\nWork area: Case studies\n\nMain targets: Case-study pages\n\nComplete when: Readers can assess relevance and maturity.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e11-t07",
   "labels": [
@@ -22,7 +23,7 @@
     }
   ],
   "priority": 1,
-  "status": "open",
+  "status": "deferred",
   "title": "E11-T07 — Add package versions and support levels.",
   "type": "task",
   "updated_at": "2026-07-30T13:08:19Z"
