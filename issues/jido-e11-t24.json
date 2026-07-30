@@ -2,6 +2,8 @@
   "assignee": "",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-30T13:24:25Z",
+  "close_reason": "won't complete",
   "created": "2026-07-23T12:07:37Z",
   "defer_until": "2026-10-01",
   "description": "Backlog task: E11-T24\n\nWork area: Operational-control evidence\n\nMain targets: Controlled-Agent case study\n\nComplete when: The study shows what was denied, where it was denied, and how an operator found the evidence.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
@@ -24,8 +26,8 @@
     }
   ],
   "priority": 1,
-  "status": "deferred",
+  "status": "closed",
   "title": "E11-T24 — Include one denied-operation story.",
   "type": "task",
-  "updated_at": "2026-07-30T13:08:20Z"
+  "updated_at": "2026-07-30T13:24:25Z"
 }
