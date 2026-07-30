@@ -25,20 +25,14 @@ defmodule AgentJidoWeb.SourceRenderCodeParityTest do
       time and expands it again with `ReleaseCatalog.expand_placeholders/1`.
     * Copied source — the "Copy Markdown" button's `data-copy-source-url` points
       at the `.md` route, so the clipboard text IS the Markdown payload above.
-    * Livebook — the "Run in Livebook" link points at the page's `.livemd`
-      source, the shared origin the other three render from.
+    * Livebook — the "Run in Livebook" link points at the expanded `.livemd`
+      artifact served by this site.
 
   Expected tuples are derived from `ReleaseCatalog` (not hand-copied versions),
   so this gate tracks a registry bump instead of going stale beside it.
 
-  Pairs with jido-e01-t09 (expanded-Livebook delivery): the served Livebook URL
-  currently hands Livebook the raw `.livemd`, which still carries the
-  `{{mix_dep:…}}` tokens unexpanded. The Livebook assertion here therefore
-  locks the shared *origin* — the `.livemd` source, expanded with the same
-  `ReleaseCatalog` the HTML and Markdown paths use, carries the identical
-  tuples. Making the raw served URL expand before hand-off is the deferred
-  jido-e01-t09 delivery change; this test is the gate that proves the source the
-  other three surfaces agree on.
+  The Livebook assertion requests the public artifact, so this gate fails if
+  delivery leaks an unexpanded token or points Livebook at a different source.
   """
 
   use AgentJidoWeb.ConnCase, async: true
@@ -53,7 +47,6 @@ defmodule AgentJidoWeb.SourceRenderCodeParityTest do
   # onboarding dependencies via `{{mix_dep:…}}` tokens, exposes a Copy Markdown
   # button (docs category), and links a Run-in-Livebook source.
   @page_route "/docs/getting-started/first-llm-agent"
-  @page_source "priv/pages/docs/getting-started/first-llm-agent.livemd"
   @absolute_url "https://jido.run#{@page_route}"
 
   # The dependency package ids this page declares. These are stable content
@@ -122,11 +115,10 @@ defmodule AgentJidoWeb.SourceRenderCodeParityTest do
     page
   end
 
-  defp expanded_livebook_source do
-    @page_source
-    |> File.read!()
-    # The same expansion the HTML and Markdown paths apply to this source.
-    |> ReleaseCatalog.expand_placeholders()
+  defp expanded_livebook_source(conn) do
+    conn = get(conn, @page_route <> ".livemd")
+
+    assert response(conn, 200)
   end
 
   describe "HTML surface — the rendered page" do
@@ -204,13 +196,9 @@ defmodule AgentJidoWeb.SourceRenderCodeParityTest do
   end
 
   describe "Livebook surface — the Run-in-Livebook source" do
-    # The Run-in-Livebook link points at the page's `.livemd` source — the
-    # single origin the HTML and Markdown surfaces render from. Parity here
-    # means that source, expanded with the same `ReleaseCatalog` the other
-    # surfaces use, carries the identical dependency tuples. (The raw served URL
-    # does not expand tokens before hand-off yet — that delivery change is the
-    # deferred jido-e01-t09; this gate locks the shared origin so the source
-    # itself cannot drift from the rendered surfaces.)
+    # The Run-in-Livebook link points at the expanded `.livemd` artifact served
+    # by this site. The test requests that artifact through the public HTTP path,
+    # so parity covers delivery and not only the source file.
 
     test "the Run-in-Livebook link points at the page's .livemd source", %{conn: conn} do
       {:ok, _view, html} = live(conn, @page_route)
@@ -223,12 +211,12 @@ defmodule AgentJidoWeb.SourceRenderCodeParityTest do
       assert livebook_url =~ "livebook.dev/run?url=",
              "the Run-in-Livebook URL is not a livebook.dev run link"
 
-      assert String.ends_with?(URI.decode(livebook_url), @page_source),
-             "the Run-in-Livebook URL does not point at the page's .livemd source"
+      assert String.ends_with?(URI.decode(livebook_url), @page_route <> ".livemd"),
+             "the Run-in-Livebook URL does not point at the expanded .livemd artifact"
     end
 
-    test "the expanded .livemd source carries every declared dependency tuple" do
-      source = expanded_livebook_source()
+    test "the expanded .livemd response carries every declared dependency tuple", %{conn: conn} do
+      source = expanded_livebook_source(conn)
       tuples = dependency_tuples(source)
 
       for {id, req} <- expected_tuples() do
@@ -253,7 +241,7 @@ defmodule AgentJidoWeb.SourceRenderCodeParityTest do
          %{conn: conn} do
       {:ok, _view, html} = live(conn, @page_route)
       {:ok, markdown} = MarkdownContent.resolve(@page_route, @absolute_url)
-      livebook_source = expanded_livebook_source()
+      livebook_source = expanded_livebook_source(conn)
 
       html_tuples = html |> html_code_text() |> declared_tuples()
       markdown_tuples = declared_tuples(markdown)
