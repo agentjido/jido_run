@@ -2,6 +2,8 @@
   "assignee": "",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-30T13:24:23Z",
+  "close_reason": "won't complete",
   "created": "2026-07-23T12:05:39Z",
   "description": "Backlog task: E08-T36\n\nWork area: Operational-control proof\n\nMain targets: Examples LiveView\n\nComplete when: A user can select an exact control and find its runnable proof.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e08-t36",
@@ -23,8 +25,8 @@
     }
   ],
   "priority": 1,
-  "status": "deferred",
+  "status": "closed",
   "title": "E08-T36 — Add operational-control filters to the Examples hub.",
   "type": "task",
-  "updated_at": "2026-07-24T16:16:56Z"
+  "updated_at": "2026-07-30T13:24:23Z"
 }
