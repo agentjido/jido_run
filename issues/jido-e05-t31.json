@@ -16,11 +16,15 @@
     {
       "text": "Deferred: measuring median time to first LLM response requires measurement; not yet run.",
       "timestamp": "2026-07-24T12:48:44Z"
+    },
+    {
+      "text": "Formal deferral for site-facelift closeout: no moderated participant timing data or equivalent production funnel timing exists, so a median would be fabricated. Reactivate when at least five independent onboarding sessions are scheduled and the start event, success event, participant background, failures, and elapsed time can be recorded under specs/benchmark-methodology.md.",
+      "timestamp": "2026-07-30T13:08:16Z"
     }
   ],
   "priority": 2,
   "status": "open",
   "title": "E05-T31 — Measure median time to first LLM response.",
   "type": "task",
-  "updated_at": "2026-07-24T12:48:44Z"
+  "updated_at": "2026-07-30T13:08:16Z"
 }
