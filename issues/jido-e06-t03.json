@@ -2,6 +2,8 @@
   "assignee": "",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-30T13:24:21Z",
+  "close_reason": "won't complete",
   "created": "2026-07-23T12:03:38Z",
   "description": "Backlog task: E06-T03\n\nWork area: Information architecture\n\nMain targets: Docs IA\n\nComplete when: Task and tutorial content share one user-facing area.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e06-t03",
@@ -22,8 +24,8 @@
     }
   ],
   "priority": 1,
-  "status": "deferred",
+  "status": "closed",
   "title": "E06-T03 — Move Learn tutorials under Build.",
   "type": "task",
-  "updated_at": "2026-07-24T16:16:58Z"
+  "updated_at": "2026-07-30T13:24:21Z"
 }
