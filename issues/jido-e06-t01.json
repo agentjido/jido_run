@@ -2,6 +2,8 @@
   "assignee": "",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-30T13:24:20Z",
+  "close_reason": "won't complete",
   "created": "2026-07-23T12:03:36Z",
   "description": "Backlog task: E06-T01\n\nWork area: Information architecture\n\nMain targets: Content outline, taxonomy, Docs navigation\n\nComplete when: The main order follows adoption work.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e06-t01",
@@ -22,8 +24,8 @@
     }
   ],
   "priority": 1,
-  "status": "deferred",
+  "status": "closed",
   "title": "E06-T01 — Change primary Docs sections to Start, Build, Operate, Reference, Ecosystem, and Contribute.",
   "type": "task",
-  "updated_at": "2026-07-24T16:16:57Z"
+  "updated_at": "2026-07-30T13:24:20Z"
 }
