@@ -26,13 +26,13 @@ defmodule AgentJido.EcosystemSupportLevelTest do
   end
 
   test "aligns published package versions with the official ecosystem inventory" do
-    assert Ecosystem.get_package!("jido").version == "2.2.0"
+    assert Ecosystem.get_package!("jido").version == "2.3.2"
     assert Ecosystem.get_package!("jido_action").version == "2.2.1"
-    assert Ecosystem.get_package!("jido_ai").version == "2.1.0"
+    assert Ecosystem.get_package!("jido_ai").version == "2.2.0"
     assert Ecosystem.get_package!("jido_browser").version == "2.0.0"
-    assert Ecosystem.get_package!("jido_signal").version == "2.1.1"
-    assert Ecosystem.get_package!("llm_db").version == "2026.5.0"
-    assert Ecosystem.get_package!("req_llm").version == "1.11.0"
+    assert Ecosystem.get_package!("jido_signal").version == "2.2.2"
+    assert Ecosystem.get_package!("llm_db").version == "2026.7.2"
+    assert Ecosystem.get_package!("req_llm").version == "1.17.1"
   end
 
   test "groups public packages by support level" do

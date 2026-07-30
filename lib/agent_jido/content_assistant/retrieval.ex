@@ -422,7 +422,11 @@ defmodule AgentJido.ContentAssistant.Retrieval do
     searchable_text =
       join_searchable_text([example.slug, tags, tasks, description, outcome, packages])
 
-    score = lexical_score(title, searchable_text, terms, query_downcase)
+    # When the query states example intent, rank the example on the topic
+    # terms. The generic word "example" appears in many descriptions and can
+    # otherwise fill the result limit with unrelated examples before a
+    # canonical task match reaches the caller.
+    score = lexical_score(title, searchable_text, example_topic_terms(terms), query_downcase)
 
     if score > 0 do
       snippet_source =
@@ -439,6 +443,11 @@ defmodule AgentJido.ContentAssistant.Retrieval do
         score: score
       }
     end
+  end
+
+  defp example_topic_terms(terms) do
+    topic_terms = Enum.reject(terms, &(&1 in @example_intent_terms))
+    if topic_terms == [], do: terms, else: topic_terms
   end
 
   defp build_skill_fallback_result(entry, terms, query_downcase) do

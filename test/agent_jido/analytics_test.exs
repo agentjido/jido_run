@@ -719,6 +719,12 @@ defmodule AgentJido.AnalyticsTest do
       actor = user_fixture()
       scope = Scope.for_user(actor)
 
+      baseline =
+        admin_scope
+        |> Analytics.dashboard_snapshot(7)
+        |> Map.fetch!(:long_running_path_entry)
+        |> Map.new(fn row -> {row.section_id, row.visitors} end)
+
       # Visitor A first steps onto the long-running path at the operations hub,
       # then later opens the telemetry page. Their first entry is the hub, so the
       # later operations page never re-counts as a second conversion.
@@ -779,8 +785,8 @@ defmodule AgentJido.AnalyticsTest do
 
       # The hub counts visitor A once (their later telemetry view never re-counts
       # as a new conversion). The telemetry page counts visitor B once.
-      assert rows["operations"] == 1
-      assert rows["telemetry-and-traces"] == 1
+      assert rows["operations"] - Map.get(baseline, "operations", 0) == 1
+      assert rows["telemetry-and-traces"] - Map.get(baseline, "telemetry-and-traces", 0) == 1
 
       # The non-entry docs event is excluded from the long-running path breakdown.
       refute Map.has_key?(rows, "get-started")
@@ -788,7 +794,8 @@ defmodule AgentJido.AnalyticsTest do
       # Two first conversions total — visitor A's repeat operations-page view
       # never re-counts as a new conversion.
       total = Enum.sum(Enum.map(snapshot.long_running_path_entry, & &1.visitors))
-      assert total == 2
+      baseline_total = baseline |> Map.values() |> Enum.sum()
+      assert total - baseline_total == 2
     end
   end
 

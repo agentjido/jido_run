@@ -24,7 +24,7 @@
   api_stability: "evolving — 2.0 shipped, but expect continued API refinements across early 2.x",
   stub: false,
   support: :maintained,
-  landing_summary: "Jido is the Elixir agent framework for building long-running, long-running, multi-agent systems on OTP and the BEAM.",
+  landing_summary: "Jido is the Elixir agent framework for building long-running, multi-agent systems on OTP and the BEAM.",
   seo: %{
     title: "Jido Elixir agent framework for long-running multi-agent systems",
     description: "Jido is an Elixir agent framework for long-running, deterministic, multi-agent systems on OTP. Learn when to use it, the key modules, and where to start.",
@@ -181,7 +181,7 @@
     snippet: """
     defp deps do
       [
-        {:jido, "~> 2.2.0"}
+        {:jido, "~> 2.3"}
       ]
     end
     """

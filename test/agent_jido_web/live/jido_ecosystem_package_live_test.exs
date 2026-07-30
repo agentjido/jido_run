@@ -13,7 +13,7 @@ defmodule AgentJidoWeb.JidoEcosystemPackageLiveTest do
     {:ok, _view, html} = live(conn, "/ecosystem/jido")
 
     assert html =~ "Jido"
-    assert html =~ "long-running, autonomous, multi-agent systems on OTP and the BEAM"
+    assert html =~ "long-running, multi-agent systems on OTP and the BEAM"
     assert html =~ "WHEN TO USE Jido"
     assert html =~ "Use This When"
     assert html =~ "Not The Right Fit When"
@@ -38,7 +38,7 @@ defmodule AgentJidoWeb.JidoEcosystemPackageLiveTest do
     assert html =~ "DEEP DIVE"
     assert html =~ "Add to mix.exs"
     assert html =~ "defp deps do"
-    assert html =~ "~&gt; 2.2.0"
+    assert html =~ "~&gt; 2.3"
     assert html =~ "View package metadata source"
     refute html =~ "Ecosystem Fit"
     refute html =~ "IMPORTANT PACKAGES"
@@ -52,7 +52,7 @@ defmodule AgentJidoWeb.JidoEcosystemPackageLiveTest do
     assert html =~ "AT A GLANCE"
     assert html =~ "DEEP DIVE"
     assert html =~ ~s(href="https://github.com/agentjido/jido_chat")
-    refute html =~ "WHEN TO USE Jido Chat"
+    assert html =~ "WHEN TO USE Jido Chat"
     refute html =~ "START HERE"
     refute html =~ "KEY MODULES"
     refute html =~ "RELATED PACKAGES"
@@ -71,7 +71,7 @@ defmodule AgentJidoWeb.JidoEcosystemPackageLiveTest do
     assert html =~ "Uses a websocket-only ingress model and does not include webhook ingestion support."
     assert html =~ "Provides standalone transport implementation without external adapter dependencies"
     assert html =~ ~s(href="https://github.com/www-zaq-ai/jido_chat_mattermost")
-    refute html =~ "WHEN TO USE Jido Chat Mattermost"
+    assert html =~ "WHEN TO USE Jido Chat Mattermost"
     refute html =~ "START HERE"
     refute html =~ "KEY MODULES"
     refute html =~ "FAQ"
@@ -652,7 +652,7 @@ defmodule AgentJidoWeb.JidoEcosystemPackageLiveTest do
       |> get("/ecosystem/jido")
       |> html_response(200)
 
-    assert html =~ "Jido Elixir agent framework for autonomous multi-agent systems"
+    assert html =~ "Jido Elixir agent framework for long-running multi-agent systems"
     assert html =~ "Jido: Elixir agent framework on OTP"
     assert html =~ "Build long-running, multi-agent Elixir systems with a deterministic runtime, explicit directives, and BEAM-native supervision."
 

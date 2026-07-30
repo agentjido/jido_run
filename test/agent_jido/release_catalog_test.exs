@@ -5,18 +5,18 @@ defmodule AgentJido.ReleaseCatalogTest do
   alias AgentJido.ReleaseCatalog
 
   test "exposes current package versions and requirements from ecosystem metadata" do
-    assert ReleaseCatalog.version("jido") == "2.2.0"
-    assert ReleaseCatalog.requirement("jido") == "~> 2.2"
-    assert ReleaseCatalog.version("jido_ai") == "2.1.0"
-    assert ReleaseCatalog.requirement("jido_ai") == "~> 2.1"
-    assert ReleaseCatalog.version("req_llm") == "1.11.0"
-    assert ReleaseCatalog.requirement("req_llm") == "~> 1.11"
+    assert ReleaseCatalog.version("jido") == "2.3.2"
+    assert ReleaseCatalog.requirement("jido") == "~> 2.3"
+    assert ReleaseCatalog.version("jido_ai") == "2.2.0"
+    assert ReleaseCatalog.requirement("jido_ai") == "~> 2.2"
+    assert ReleaseCatalog.version("req_llm") == "1.17.1"
+    assert ReleaseCatalog.requirement("req_llm") == "~> 1.17"
   end
 
   test "renders mix dependency snippets from release metadata" do
-    assert ReleaseCatalog.mix_dep("jido") == ~s({:jido, "~> 2.2"})
-    assert ReleaseCatalog.mix_dep("jido_ai") == ~s({:jido_ai, "~> 2.1"})
-    assert ReleaseCatalog.mix_dep("req_llm") == ~s({:req_llm, "~> 1.11"})
+    assert ReleaseCatalog.mix_dep("jido") == ~s({:jido, "~> 2.3"})
+    assert ReleaseCatalog.mix_dep("jido_ai") == ~s({:jido_ai, "~> 2.2"})
+    assert ReleaseCatalog.mix_dep("req_llm") == ~s({:req_llm, "~> 1.17"})
   end
 
   test "expands placeholders in static markdown and livebook content" do
@@ -37,9 +37,9 @@ defmodule AgentJido.ReleaseCatalogTest do
     {attrs, body} = LivebookParser.parse("placeholder-example.md", raw)
 
     assert attrs.title == "Placeholder Example"
-    assert body =~ ~s({:jido, "~> 2.2"})
-    assert body =~ ~s({:jido_ai, "~> 2.1"})
-    assert body =~ ~s({:req_llm, "~> 1.11"})
+    assert body =~ ~s({:jido, "~> 2.3"})
+    assert body =~ ~s({:jido_ai, "~> 2.2"})
+    assert body =~ ~s({:req_llm, "~> 1.17"})
     refute body =~ "{{mix_dep:"
   end
 
@@ -72,9 +72,9 @@ defmodule AgentJido.ReleaseCatalogTest do
         source
       )
 
-    assert body =~ ~s({:jido, "~> 2.2"})
-    assert body =~ ~s({:jido_ai, "~> 2.1"})
-    assert body =~ ~s({:req_llm, "~> 1.11"})
+    assert body =~ ~s({:jido, "~> 2.3"})
+    assert body =~ ~s({:jido_ai, "~> 2.2"})
+    assert body =~ ~s({:req_llm, "~> 1.17"})
     refute body =~ ~s(github: "agentjido/jido_ai")
   end
 end

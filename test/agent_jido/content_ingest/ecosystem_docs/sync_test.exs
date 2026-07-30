@@ -217,7 +217,7 @@ defmodule AgentJido.ContentIngest.EcosystemDocs.SyncTest do
     assert third.updated == 1
     assert third.deleted >= 2
     assert managed_doc_count() == 2
-    assert latest_package_version() == "2.2.0"
+    assert latest_package_version() == "2.3.2"
   end
 
   test "sync_now removes previously indexed docs when the exact release is unpublished" do
