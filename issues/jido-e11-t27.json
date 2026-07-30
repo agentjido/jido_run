@@ -16,11 +16,15 @@
     {
       "text": "Deferred: security/compliance statement review with evidence owners requires real evidence.",
       "timestamp": "2026-07-24T12:54:20Z"
+    },
+    {
+      "text": "Formal deferral for site-facelift closeout: an evidence-owner review requires named evidence owners and verified case-study evidence. Reactivate after a case study is accepted and its owner is available for statement review.",
+      "timestamp": "2026-07-30T13:08:21Z"
     }
   ],
   "priority": 1,
   "status": "open",
   "title": "E11-T27 — Review every security or compliance statement with the evidence owner.",
   "type": "task",
-  "updated_at": "2026-07-24T12:54:20Z"
+  "updated_at": "2026-07-30T13:08:21Z"
 }
