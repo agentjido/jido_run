@@ -18,7 +18,7 @@ If your team is evaluating Jido from Python or TypeScript, this is the core poin
 | Core runtime packages | [jido](/ecosystem/jido), [jido_action](/ecosystem/jido_action), [jido_signal](/ecosystem/jido_signal) |
 | Optional intelligence layer | [jido_ai](/ecosystem/jido_ai), [req_llm](/ecosystem/req_llm), [llm_db](/ecosystem/llm_db) |
 | Package status | Core packages are Beta; `req_llm` and `llm_db` are Stable; `jido_ai` is Beta |
-| First proof path | [Counter Agent](/examples/counter-agent) (non-LLM) -> [Document-grounded policy Q&A](/examples/document-grounded-policy-qna-agent) (LLM add-on) |
+| First proof path | [Counter Agent](/examples/counter-agent) (non-LLM) -> [Coding Assistant](/examples/coding-assistant) (LLM add-on) |
 
 ## The runtime argument
 
