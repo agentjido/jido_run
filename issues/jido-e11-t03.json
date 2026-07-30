@@ -15,11 +15,15 @@
     {
       "text": "Deferred: long-running core Agent case study requires a real production deployment to document; no such deployment is available to evidence.",
       "timestamp": "2026-07-24T12:54:15Z"
+    },
+    {
+      "text": "Formal deferral for site-facelift closeout: the acceptance condition requires a verified real deployment, and none is available in repository evidence. Reactivate when a deployment owner agrees to provide architecture, versions, controls, limitations, failure behavior, and publishable results.",
+      "timestamp": "2026-07-30T13:08:17Z"
     }
   ],
   "priority": 1,
   "status": "open",
   "title": "E11-T03 — Publish one long-running core Agent case study.",
   "type": "task",
-  "updated_at": "2026-07-24T12:54:15Z"
+  "updated_at": "2026-07-30T13:08:17Z"
 }
