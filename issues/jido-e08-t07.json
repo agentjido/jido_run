@@ -2,6 +2,8 @@
   "assignee": "",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-30T13:24:27Z",
+  "close_reason": "won't complete",
   "created": "2026-07-23T12:05:10Z",
   "description": "Backlog task: E08-T07\n\nWork area: Taxonomy and discovery\n\nMain targets: Examples LiveView\n\nComplete when: Filtered links can be shared from home and docs.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e08-t07",
@@ -22,8 +24,8 @@
     }
   ],
   "priority": 2,
-  "status": "deferred",
+  "status": "closed",
   "title": "E08-T07 — Persist filter state in the URL.",
   "type": "task",
-  "updated_at": "2026-07-24T16:16:56Z"
+  "updated_at": "2026-07-30T13:24:27Z"
 }
