@@ -15,11 +15,15 @@
     {
       "text": "Deferred: verified project cards on home use cases require real verified projects.",
       "timestamp": "2026-07-24T12:54:18Z"
+    },
+    {
+      "text": "Formal deferral for site-facelift closeout: verified project proof is not available, and adding a card or proof strip would create unsupported social proof. Reactivate when a project owner verifies the Jido relationship, configuration, result, and limitation.",
+      "timestamp": "2026-07-30T13:08:22Z"
     }
   ],
   "priority": 2,
   "status": "open",
   "title": "E11-T15 — Add verified project cards to relevant home use cases.",
   "type": "task",
-  "updated_at": "2026-07-24T12:54:18Z"
+  "updated_at": "2026-07-30T13:08:22Z"
 }
