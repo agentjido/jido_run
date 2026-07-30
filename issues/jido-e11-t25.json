@@ -16,11 +16,15 @@
     {
       "text": "Deferred: incident/recovery story requires a real deployment.",
       "timestamp": "2026-07-24T12:54:19Z"
+    },
+    {
+      "text": "Formal deferral for site-facelift closeout: this story must come from a real controlled-Agent deployment and cannot be inferred from a demo. Reactivate with an owner-approved incident or denied-operation record for jido-e11-t23.",
+      "timestamp": "2026-07-30T13:08:20Z"
     }
   ],
   "priority": 1,
   "status": "open",
   "title": "E11-T25 — Include one incident or recovery story.",
   "type": "task",
-  "updated_at": "2026-07-24T12:54:19Z"
+  "updated_at": "2026-07-30T13:08:20Z"
 }
