@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-30T12:49:52Z",
   "created": "2026-07-23T12:04:21Z",
   "description": "Backlog task: E07-T09\n\nWork area: Core linear path\n\nMain targets: Operations docs\n\nComplete when: It includes a repeatable post-deploy check.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e07-t09",
@@ -22,7 +23,7 @@
     }
   ],
   "priority": 1,
-  "status": "in_progress",
+  "status": "closed",
   "title": "E07-T09 — Publish “Deployment and restart verification.”",
   "type": "task",
   "updated_at": "2026-07-30T12:49:52Z"
