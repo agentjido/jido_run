@@ -9,9 +9,15 @@
     "site-facelift",
     "backlog-2026-07-23"
   ],
+  "comments": [
+    {
+      "text": "Completion evidence: all locally executable site-uplift work is closed. Full MIX_ENV=test mix test: 2630 tests, 0 failures, 511 excluded, 5 skipped. mix format --check-formatted passed. mix credo --min-priority higher passed with no issues. Public-route and external Livebook verification passed in the completed child tasks. Fifteen evidence tasks remain formally deferred with exact reactivation conditions: E05 timing tasks wait for participant timing data; E11 deployment, evidence, and participant tasks wait for verified external inputs. Verification cleanup commit: 4296361f.",
+      "timestamp": "2026-07-30T13:19:43Z"
+    }
+  ],
   "priority": 0,
   "status": "open",
   "title": "Jido site facelift and adoption backlog",
   "type": "epic",
-  "updated_at": "2026-07-23T12:00:00Z"
+  "updated_at": "2026-07-30T13:19:43Z"
 }
