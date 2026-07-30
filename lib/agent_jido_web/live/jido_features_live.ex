@@ -12,7 +12,8 @@ defmodule AgentJidoWeb.JidoFeaturesLive do
      assign(socket,
        page_title: "How Jido Works",
        meta_description: "The architecture behind agents that stay up, recover from crashes, and coordinate under real load.",
-       categories: categories()
+       categories: categories(),
+       control_features: operational_control_features()
      )}
   end
 
@@ -75,6 +76,24 @@ defmodule AgentJidoWeb.JidoFeaturesLive do
             Your application still owns authentication, policy sources, durable audit storage, and compliance controls.
             Telemetry is operational observation; it is not an audit log.
           </p>
+        </section>
+
+        <section id="operational-control-features" class="mb-16 opacity-0" phx-hook="ScrollReveal">
+          <div class="mb-6 flex items-end justify-between gap-4">
+            <div>
+              <div class="mb-2 text-[11px] font-semibold uppercase tracking-widest text-primary">
+                Operational-control features
+              </div>
+              <h2 class="text-2xl font-bold">Follow each control to its operating guide</h2>
+            </div>
+            <.link navigate="/docs/operations" class="text-xs font-medium text-primary hover:underline">
+              Open the operations path →
+            </.link>
+          </div>
+
+          <div class="grid gap-4 md:grid-cols-2">
+            <.control_feature_card :for={feature <- @control_features} feature={feature} />
+          </div>
         </section>
 
         <section id="features-category-explorer" class="mb-16 opacity-0" phx-hook="ScrollReveal">
@@ -201,6 +220,65 @@ defmodule AgentJidoWeb.JidoFeaturesLive do
   defp status_label(:experimental), do: "Experimental"
   defp status_label(:planned), do: "Planned"
   defp status_label(_), do: "Unknown"
+
+  attr :feature, :map, required: true
+
+  defp control_feature_card(assigns) do
+    ~H"""
+    <article
+      class="feature-card h-full"
+      data-operational-control={@feature.id}
+    >
+      <div class="mb-2 text-[10px] font-semibold uppercase tracking-wider text-primary">
+        {@feature.control_type}
+      </div>
+      <h3 class="mb-2 text-[15px] font-bold">{@feature.title}</h3>
+      <p class="mb-4 text-xs leading-relaxed text-muted-foreground">
+        {@feature.summary}
+      </p>
+      <.link navigate={@feature.href} class="text-xs font-medium text-primary hover:underline">
+        {@feature.link_label} →
+      </.link>
+    </article>
+    """
+  end
+
+  defp operational_control_features do
+    [
+      %{
+        id: "supervision",
+        control_type: "Lifecycle and recovery",
+        title: "Supervision with stated failure boundaries",
+        summary: "Set restart strategy, intensity, escalation, and the state outcome that operators must verify.",
+        href: "/docs/operations/supervision-and-failure-boundaries",
+        link_label: "Review supervision"
+      },
+      %{
+        id: "policy",
+        control_type: "Authorization and policy",
+        title: "Fail-closed policy hooks",
+        summary: "Use application policy and principal context to deny protected Actions before their effects run.",
+        href: "/docs/operations/security-and-governance",
+        link_label: "Review policy boundaries"
+      },
+      %{
+        id: "causal-history",
+        control_type: "History and investigation",
+        title: "Durable causal history",
+        summary: "Persist Signal causation for replay and investigation, with application-owned access and retention.",
+        href: "/docs/operations/journal-retention-access-and-deletion",
+        link_label: "Review history duties"
+      },
+      %{
+        id: "observability",
+        control_type: "Observation and traces",
+        title: "Correlated telemetry",
+        summary: "Follow Agent lifecycle, Actions, Signals, and provider calls without treating telemetry as an audit log.",
+        href: "/docs/operations/telemetry-and-traces",
+        link_label: "Review telemetry"
+      }
+    ]
+  end
 
   # Each card carries a `proof` link to the single runnable example that backs
   # its production claim (jido-e11-t20). The slugs are verified live in

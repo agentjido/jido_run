@@ -25,6 +25,26 @@ defmodule AgentJidoWeb.JidoFeaturesLiveTest do
     refute html =~ "compliance-ready"
   end
 
+  test "routes the operational-control feature group to operating guides (jido-e03-t29)", %{conn: conn} do
+    {:ok, _view, html} = live(conn, "/features")
+
+    assert html =~ "operational-control-features"
+
+    expected_routes = [
+      {"supervision", "/docs/operations/supervision-and-failure-boundaries"},
+      {"policy", "/docs/operations/security-and-governance"},
+      {"causal-history", "/docs/operations/journal-retention-access-and-deletion"},
+      {"observability", "/docs/operations/telemetry-and-traces"}
+    ]
+
+    for {control, route} <- expected_routes do
+      assert html =~ ~s(data-operational-control="#{control}")
+      assert html =~ ~s(href="#{route}")
+    end
+
+    assert html =~ "without treating telemetry as an audit log"
+  end
+
   test "legacy partners route returns branded 404 page", %{conn: conn} do
     conn = get(conn, "/partners")
     body = response(conn, 404)
