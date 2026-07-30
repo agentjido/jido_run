@@ -141,6 +141,27 @@ It does not, by itself:
 - **Re-deliver in-flight work.** Work that was in a mailbox or mid-call when the old deployment stopped is gone. An external source that must re-drive it needs idempotent Actions and durable intent — see [Scheduling and Event Input](/docs/operations/scheduling-and-event-input).
 - **Serve as an audit trail.** Observing post-deploy state is an operational check, not a tamper-evident record — see [Security and governance](/docs/operations/security-and-governance).
 
+## Repeatable post-deploy verification
+
+Run this check after each deploy that changes Agent startup, supervision, or persistence:
+
+1. Start the new release and confirm that its top-level supervisor is alive.
+2. Resolve the Agent by its stable logical ID. Do not reuse a PID from the old release.
+3. Call `Jido.AgentServer.status/1` and confirm that the Agent is ready.
+4. Call `Jido.AgentServer.state/1` and compare the result with the documented deploy outcome:
+   - A restart-only Agent must have its stated initial state.
+   - A resumable Agent must have the last durable checkpoint or replayed state.
+5. Send one idempotent verification Signal and confirm the expected state transition.
+6. Record the release version, Agent ID, observed state, and result in the deployment record.
+
+For the example on this page, the repeatable release check is:
+
+```bash
+MIX_ENV=test mix test test/agent_jido/demos/deployment_restart_test.exs
+```
+
+The check fails if the old tree survives, the new Agent cannot be resolved, the new Agent is not ready, or the restart state is not `events: 0`.
+
 ## Run it yourself
 
 The example ships with a test that encodes the acceptance condition — the whole deployment is replaced (old supervisor and agent dead, new ones live), and the workflow safely restarts at its initial state (the counter that read `3` reads `0` after the redeploy), with resume stated as the application-owned alternative:

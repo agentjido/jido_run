@@ -1366,6 +1366,17 @@ defmodule AgentJido.PagesTest do
       assert body =~ @deploy_demo_test
     end
 
+    test "it includes a repeatable post-deploy verification check (jido-e07-t09)" do
+      body = File.read!(@deploy_source)
+
+      assert has_h2?(body, "Repeatable post-deploy verification")
+      assert body =~ "Jido.AgentServer.status/1"
+      assert body =~ "Jido.AgentServer.state/1"
+      assert body =~ "stable logical ID"
+      assert body =~ "idempotent verification Signal"
+      assert body =~ "MIX_ENV=test mix test #{@deploy_demo_test}"
+    end
+
     test "it cross-links supervision, the process-crash example, and the readiness drill" do
       body = File.read!(@deploy_source)
 
