@@ -2,6 +2,8 @@
   "assignee": "",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-30T13:24:22Z",
+  "close_reason": "won't complete",
   "created": "2026-07-23T12:05:05Z",
   "description": "Backlog task: E08-T02\n\nWork area: Taxonomy and discovery\n\nMain targets: `jido_examples_live.ex`\n\nComplete when: Title, outcome, package, and task text are searchable.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
   "id": "jido-e08-t02",
@@ -26,8 +28,8 @@
     }
   ],
   "priority": 1,
-  "status": "deferred",
+  "status": "closed",
   "title": "E08-T02 — Add text search to the Examples hub.",
   "type": "task",
-  "updated_at": "2026-07-24T16:16:53Z"
+  "updated_at": "2026-07-30T13:24:22Z"
 }
