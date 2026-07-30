@@ -15,11 +15,15 @@
     {
       "text": "Deferred: architecture diagram per case study depends on real studies (T03-T05).",
       "timestamp": "2026-07-24T12:54:16Z"
+    },
+    {
+      "text": "Formal deferral for site-facelift closeout: this task depends on a verified detailed case study from jido-e11-t03, jido-e11-t04, or jido-e11-t05. Reactivate with the first accepted case-study evidence package.",
+      "timestamp": "2026-07-30T13:08:19Z"
     }
   ],
   "priority": 1,
   "status": "open",
   "title": "E11-T06 — Add an architecture diagram to every detailed case study.",
   "type": "task",
-  "updated_at": "2026-07-24T12:54:16Z"
+  "updated_at": "2026-07-30T13:08:19Z"
 }
