@@ -2,6 +2,8 @@
   "assignee": "",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-07-30T13:24:26Z",
+  "close_reason": "won't complete",
   "created": "2026-07-23T12:07:40Z",
   "defer_until": "2026-10-01",
   "description": "Backlog task: E11-T27\n\nWork area: Operational-control evidence\n\nMain targets: Case studies and marketing copy\n\nComplete when: Unsupported certification, regulatory, tamper-evidence, or complete-control language is absent.\n\nSource: Jido Site Improvement Backlog 2026-07-23.md",
@@ -24,8 +26,8 @@
     }
   ],
   "priority": 1,
-  "status": "deferred",
+  "status": "closed",
   "title": "E11-T27 — Review every security or compliance statement with the evidence owner.",
   "type": "task",
-  "updated_at": "2026-07-30T13:08:22Z"
+  "updated_at": "2026-07-30T13:24:26Z"
 }
