@@ -15,11 +15,15 @@
     {
       "text": "Deferred: 'what did not work' tradeoff notes depend on real studies.",
       "timestamp": "2026-07-24T12:54:17Z"
+    },
+    {
+      "text": "Formal deferral for site-facelift closeout: this task depends on a verified detailed case study from jido-e11-t03, jido-e11-t04, or jido-e11-t05. Reactivate with the first accepted case-study evidence package.",
+      "timestamp": "2026-07-30T13:08:20Z"
     }
   ],
   "priority": 1,
   "status": "open",
   "title": "E11-T08 — Add “What did not work” or tradeoff notes.",
   "type": "task",
-  "updated_at": "2026-07-24T12:54:17Z"
+  "updated_at": "2026-07-30T13:08:20Z"
 }
