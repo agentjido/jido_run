@@ -1,5 +1,5 @@
 {
-  "assignee": "",
+  "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
   "created": "2026-08-01T13:52:03Z",
@@ -17,8 +17,8 @@
     }
   ],
   "priority": 2,
-  "status": "open",
+  "status": "in_progress",
   "title": "Prepare first site-facelift rollout batch",
   "type": "task",
-  "updated_at": "2026-08-01T13:54:37Z"
+  "updated_at": "2026-08-01T13:54:44Z"
 }
