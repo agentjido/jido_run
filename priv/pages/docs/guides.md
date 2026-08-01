@@ -21,4 +21,4 @@ You know what you want to build - these guides show you how. Unlike [Learn tutor
 ## Next steps
 
 - [Concepts](/docs/concepts) - understand the primitives behind these patterns
-- [Operations](/docs/operations) - deploy, monitor, and scale your agent systems
+- [Error handling and recovery](/docs/guides/error-handling-and-recovery) - define failures, retries, and recovery paths

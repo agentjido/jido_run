@@ -110,7 +110,7 @@ defmodule AgentJido.PagesTest do
       assert Pages.docs_section_for_path("/docs/concepts/key-concepts") == "concepts"
     end
 
-    test "livebook docs expose a run URL using raw GitHub content" do
+    test "livebook docs expose a run URL using the expanded site artifact" do
       page =
         Pages.pages_by_category(:docs)
         |> Enum.find(& &1.is_livebook)
@@ -118,7 +118,7 @@ defmodule AgentJido.PagesTest do
       assert page != nil
       assert is_binary(page.livebook_url)
       assert page.livebook_url =~ "https://livebook.dev/run?url="
-      assert page.livebook_url =~ URI.encode_www_form("https://raw.githubusercontent.com/")
+      assert page.livebook_url =~ URI.encode_www_form("https://jido.run#{page.path}.livemd")
     end
   end
 

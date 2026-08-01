@@ -1,8 +1,15 @@
 # Jido Proof Inventory
 
-Version: 1.0  
-Last updated: 2026-02-28  
-Primary inputs: `specs/positioning.md` §9 (Messaging Pillars), §7 (Persona Coverage), §8 (Ecosystem Proof Architecture)
+Version: 2.0
+Last updated: 2026-07-23
+Positioning anchor: `Jido is the Elixir framework for long-running agent systems.` (`jido-e02`)
+Primary inputs: `specs/positioning.md` §11 (Canon), `specs/audits/control-inventory-2026-07-23.md`
+
+> **Refresh (2026-07-23):** Operations content remains planned for `E07` and is
+> not public proof in the E00–E03 rollout. Retired `/training/*` modules are no
+> longer proof assets. Use current public Docs and Examples until the Operations
+> paths pass their own rollout gate. See the Control Proof section for the
+> operational-control claim fields (`jido-e02` T28/T44).
 
 > **Purpose:** Map every positioning claim to concrete, verifiable proof. If a cell is empty, the claim is unsupported. Fill this in before publishing any major page.
 >
@@ -273,3 +280,19 @@ _Ranked by positioning impact × effort._
 ---
 
 _This document is a living inventory. Update status columns as assets are created. Every ❌ is a positioning claim without proof._
+
+---
+
+## Control Proof Fields (`jido-e02` T44)
+
+Every operational-control claim records: package, version/configuration, the test or example that proves it, durability, and the limitation. Control proof does not use one concept (e.g., telemetry) as proof of another (e.g., audit).
+
+| Control claim | Mechanism | Proof | Limitation |
+|---|---|---|---|
+| Supervised lifecycle | AgentServer + OTP supervision | Design intent documented; Operations checklist and failure drill pending `E07`/`E08` | Restart ≠ state recovery; persistence is application-supplied |
+| Fail-closed authorization | `prepare_action/3` plugin hook | Design intent documented; security guide and controlled-agent example pending `E07`/`E08` | Not a built-in IAM/RBAC product |
+| Causal history | durable Signal Journal adapter | Design intent documented; durable restart proof pending `E07`/`E08` | Default is not durable; retention is application-defined |
+| Correlated telemetry | `Jido.Observe`, optional `jido_otel` | Current telemetry docs describe the mechanism; correlated OTel proof remains pending `E07`/`E08` | Telemetry is not an audit log |
+| Cost/quota control | `jido_ai` tool/effect/prompt/quota policies | AI operations guide and quota example pending `E07`/`E08` | Application sets the budgets |
+
+Claims in the "Proof" column marked "pending" require the long-running reference application (`specs/operations-reference-architecture.md`) before they become public proof.

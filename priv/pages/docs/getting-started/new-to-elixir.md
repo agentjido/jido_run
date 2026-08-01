@@ -174,7 +174,7 @@ If you get stuck on Elixir syntax during the tutorials, refer back to the concep
 As you work through the tutorials, the [Concepts](/docs/concepts) section explains each Jido primitive in depth. These pages are the most comprehensive part of the documentation and worth reading alongside the tutorials:
 
 - **[Agents](/docs/concepts/agents)** - the core data model and `cmd/2` contract
-- **[Actions](/docs/concepts/actions)** - how pure functions drive state transitions
+- **[Actions](/docs/concepts/actions)** - how Actions drive state transitions
 - **[Signals](/docs/concepts/signals)** - typed events for communication between agents
 - **[Directives](/docs/concepts/directives)** - how side effects are described and executed
 

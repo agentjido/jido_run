@@ -1,5 +1,5 @@
 %{
-  title: "Agents that self-heal",
+  title: "Supervised failure handling",
   category: :features,
   description: "Each agent runs in its own BEAM process under OTP supervision. Crashes are recovered automatically.",
   doc_type: :explanation,
@@ -82,7 +82,7 @@ Jido's deterministic `cmd/2` model reinforces this: agent state transitions are 
 - **Coordination:** [Agents that work together](/features/multi-agent-coordination)
 - **Observability:** [Observe everything](/features/observe-everything)
 - **Adoption path:** [Start small, grow safely](/features/start-small)
-- **Reference docs:** [Architecture](/docs/reference/architecture)
+- **Reference docs:** [Architecture](/docs/reference/behavior-first-architecture)
 
 ## Get Building
 

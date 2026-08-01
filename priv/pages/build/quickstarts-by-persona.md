@@ -24,21 +24,21 @@ Pick the persona path that matches your current bottleneck, finish one milestone
 - First milestone: run one supervised agent and verify deterministic state updates.
 - Start: [Counter Agent example](/examples/counter-agent)
 - Next training: [Agent Fundamentals on the BEAM](/training/agent-fundamentals)
-- Ops/reference follow-up: [Architecture](/docs/reference/architecture)
+- Ops/reference follow-up: [Architecture](/docs/reference/behavior-first-architecture)
 
 ### AI product engineer
 
 - First milestone: ship one user-facing workflow backed by explicit actions.
 - Start: [Demand Tracker Agent example](/examples/demand-tracker-agent)
 - Next training: [Actions and Validation](/training/actions-validation)
-- Ops/reference follow-up: [Production Readiness Checklist](/docs/operations/production-readiness-checklist)
+- Ops/reference follow-up: [Error handling and recovery](/docs/guides/error-handling-and-recovery)
 
 ### Python AI engineer
 
 - First milestone: understand where BEAM runtime boundaries improve reliability and orchestration.
 - Start: [BEAM for AI Builders](/features/beam-for-ai-builders)
 - Next training: [LiveView + Jido Integration Patterns](/training/liveview-integration)
-- Ops/reference follow-up: [Security and Governance](/docs/operations/security-and-governance)
+- Ops/reference follow-up: [Plugins](/docs/concepts/plugins)
 
 ### TypeScript fullstack engineer
 
@@ -52,7 +52,7 @@ Pick the persona path that matches your current bottleneck, finish one milestone
 - First milestone: define runtime health checks and incident response expectations before launch.
 - Start: [Observe everything](/features/observe-everything)
 - Next training: [Production Readiness: Supervision, Telemetry, and Failure Modes](/training/production-readiness)
-- Ops/reference follow-up: [Incident Playbooks](/docs/operations/incident-playbooks)
+- Ops/reference follow-up: [Error handling and recovery](/docs/guides/error-handling-and-recovery)
 
 ## Proof check: first value in one command loop
 

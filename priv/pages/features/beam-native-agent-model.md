@@ -101,7 +101,7 @@ No process, no supervision tree, no LLM. Just a pure state transition you can as
 - **Runtime reliability:** [Agents that self-heal](/features/agents-that-self-heal)
 - **Coordination contracts:** [Multi-agent coordination](/features/multi-agent-coordination)
 - **Hands-on training:** [Agent fundamentals](/training/agent-fundamentals)
-- **Reference docs:** [Architecture](/docs/reference/architecture), [Key concepts](/docs/concepts)
+- **Reference docs:** [Architecture](/docs/reference/behavior-first-architecture), [Key concepts](/docs/concepts)
 
 ## Get Building
 

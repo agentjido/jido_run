@@ -181,6 +181,6 @@ Operationally, this is where `AgentServer` and supervision matter. Supervisors h
 ## Next steps
 
 - [Agent runtime](/docs/concepts/agent-runtime) - run agents under OTP supervision with process management
-- [Actions](/docs/concepts/actions) - learn how pure functions transform agent state
+- [Actions](/docs/concepts/actions) - learn how Actions transform agent state
 - [Directives](/docs/concepts/directives) - understand effect payloads returned by actions
 - [Strategy](/docs/concepts/strategy) - plug in custom execution models

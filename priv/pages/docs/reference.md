@@ -14,7 +14,6 @@
 - [Configuration](/docs/reference/configuration) - all config keys with defaults and examples for `jido` and `jido_ai`
 - [Telemetry and observability](/docs/reference/telemetry-and-observability) - every telemetry event, metric definition, and log level control
 - [ReqLLM and LLMDB](/docs/reference/req-llm-and-llmdb) - provider-agnostic LLM client and model metadata database
-- [Debugging](/docs/reference/debugging) - runtime introspection and debug tooling
 - [Glossary](/docs/reference/glossary) - canonical definitions for every Jido term
 
 ## API documentation (HexDocs)

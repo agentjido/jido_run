@@ -12,7 +12,8 @@ defmodule AgentJidoWeb.SEO do
     site: &__MODULE__.site_config/1,
     open_graph:
       SEO.OpenGraph.build(
-        description: "Agent Jido is the Elixir Autonomous Agent Framework",
+        description:
+          "The Elixir framework for long-running agent systems. Build supervised agents, typed tools, and explicit workflows on Elixir/OTP.",
         site_name: "Agent Jido",
         locale: "en_US"
       ),
@@ -30,7 +31,7 @@ defmodule AgentJidoWeb.SEO do
   def site_config(_conn) do
     SEO.Site.build(
       default_title: "Agent Jido",
-      description: "Agent Jido is the Elixir Autonomous Agent Framework",
+      description: "The Elixir framework for long-running agent systems. Build supervised agents, typed tools, and explicit workflows on Elixir/OTP.",
       title_suffix: " · Agent Jido"
       # theme_color: "#663399",
       # windows_tile_color: "#663399",

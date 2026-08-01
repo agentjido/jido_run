@@ -80,7 +80,7 @@ Each tutorial takes under fifteen minutes and ends with a working result you can
 Jido's architecture is built on a small set of composable primitives. The [Concepts](/docs/concepts) section covers each one in depth - read these alongside or after the tutorials to solidify your mental model.
 
 - **[Agents](/docs/concepts/agents)** - immutable structs with schema-validated state and the `cmd/2` contract
-- **[Actions](/docs/concepts/actions)** - pure functions with compile-time schemas that drive state transitions
+- **[Actions](/docs/concepts/actions)** - validated Actions with compile-time schemas that drive state transitions
 - **[Directives](/docs/concepts/directives)** - effect descriptions returned from actions, executed by the runtime
 - **[Signals](/docs/concepts/signals)** - typed events for inter-agent communication and routing
 - **[Agent runtime](/docs/concepts/agent-runtime)** - the OTP process layer that wraps agents for supervision

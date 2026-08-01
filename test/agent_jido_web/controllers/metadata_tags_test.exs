@@ -9,12 +9,12 @@ defmodule AgentJidoWeb.MetadataTagsTest do
     conn = get(conn, "/")
     body = response(conn, 200)
 
-    assert body =~ "Build AI Agents That Run in Production · Agent Jido"
+    assert body =~ "Jido — the Elixir framework for long-running agent systems · Agent Jido"
 
     assert_meta_content(
       body,
       "description",
-      "Jido is an open-source agent framework for Elixir. Build supervised AI agents with fault tolerance, tool calling, and multi-agent coordination built in."
+      "Jido is the Elixir framework for long-running agent systems. Build supervised agents, typed tools, and explicit workflows on Elixir/OTP."
     )
 
     assert body =~ ~r/<link rel="canonical" href="#{Regex.escape(AgentJidoWeb.Endpoint.url() <> "/")}"\s*\/?>/

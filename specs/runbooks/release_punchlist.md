@@ -123,3 +123,24 @@ Fill before release cut:
 - Hard-gate status:
 - Remaining accepted risks:
 - Follow-up tickets:
+
+## Unmatched-Link Regression Gate (`E00-T07`)
+
+A release **must not increase** the number of unmatched internal links.
+
+- Baseline (2026-07-23, frozen): **64 unmatched internal links** across 603
+  internal links and 173 route patterns.
+  Artifact: `specs/audits/link-audit-baseline-2026-07-23.md`.
+- Current ceiling: **4**. The remaining unmatched links are contained inside
+  the draft Operations hub and target its four unpublished child pages. Public
+  route crawling is at zero failures. This is the max allowed count until the
+  Operations batch publishes or removes those draft routes.
+- Check: `mix site.link_audit --include-heex --report tmp/link_audit_report.md`.
+  The audit scans `priv/pages/**/*.{md,livemd}` and `lib/agent_jido_web/**/*.{heex,ex}`
+  (Livebooks were added to the input set in `E00-T04`), and treats paths with a
+  `LegacyRedirects` destination as matched (`E01-T13/T14/T15`).
+- Gate rule: the `Unmatched internal links` count in a PR must be less than or
+  equal to the current ceiling. A net increase blocks the release until the links
+  are fixed or each new unmatched link is given an intentional redirect.
+- Lowering the count is always allowed and encouraged; update the current ceiling
+  above (and the frozen baseline stays as the historical record).

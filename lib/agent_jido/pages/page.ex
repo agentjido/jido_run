@@ -256,7 +256,7 @@ defmodule AgentJido.Pages.Page do
     menu_path = derive_menu_path(path)
 
     github_url = build_github_url(doc_root, path, is_livebook)
-    livebook_url = Map.get(attrs, :livebook_url) || build_livebook_url(github_url, is_livebook)
+    livebook_url = Map.get(attrs, :livebook_url) || build_livebook_url(path, is_livebook)
 
     word_count = compute_word_count(body)
     reading_time_minutes = max(1, div(word_count, 200))
@@ -379,14 +379,11 @@ defmodule AgentJido.Pages.Page do
     "#{@github_repo}/blob/main#{doc_root}#{path}.md"
   end
 
-  defp build_livebook_url(github_url, true = _is_livebook) do
-    raw_github_url =
-      github_url
-      |> String.replace("https://github.com/", "https://raw.githubusercontent.com/")
-      |> String.replace("/blob/", "/")
+  defp build_livebook_url(path, true = _is_livebook) do
+    expanded_source_url = "https://jido.run#{path}.livemd"
 
-    "https://livebook.dev/run?url=#{URI.encode_www_form(raw_github_url)}"
+    "https://livebook.dev/run?url=#{URI.encode_www_form(expanded_source_url)}"
   end
 
-  defp build_livebook_url(_github_url, false = _is_livebook), do: nil
+  defp build_livebook_url(_path, false = _is_livebook), do: nil
 end

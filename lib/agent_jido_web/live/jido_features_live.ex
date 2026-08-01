@@ -1,6 +1,6 @@
 defmodule AgentJidoWeb.JidoFeaturesLive do
   @moduledoc """
-  Features landing page for the Jido platform.
+  Features landing page for the Jido framework.
   """
   use AgentJidoWeb, :live_view
 
@@ -74,7 +74,7 @@ defmodule AgentJidoWeb.JidoFeaturesLive do
                 navigate="/examples"
                 class="border border-primary/30 text-primary hover:bg-primary/10 text-[13px] font-medium px-7 py-3 rounded transition-colors"
               >
-                SEE EXAMPLES
+                See examples
               </.link>
             </div>
           </div>

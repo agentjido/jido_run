@@ -24,6 +24,8 @@
 
 This notebook is self-contained: install the dependencies, configure a provider key, start the default Jido runtime, and send one prompt through an AI agent. If you already completed [Your first agent](/docs/getting-started/first-agent), still run this notebook top to bottom because it defines its own module.
 
+> **Required environment variable:** `OPENAI_API_KEY` (or `LB_OPENAI_API_KEY` when running inside Livebook). Set it before running the request cell. This notebook selects an explicit `openai:` model that matches that key.
+
 ```elixir
 Mix.install([
   {{mix_dep:jido}},
@@ -65,7 +67,7 @@ defmodule MyAgentApp.Greeter do
     name: "greeter",
     description: "Generates a friendly greeting",
     tools: [],
-    model: :fast,
+    model: "openai:gpt-4o-mini",
     system_prompt: """
     You are a friendly greeter.
     Generate a short, warm welcome message.
@@ -74,7 +76,17 @@ defmodule MyAgentApp.Greeter do
 end
 ```
 
-`model: :fast` uses the default fast model alias from `jido_ai`. You can swap in a provider-specific string later, but the alias keeps the tutorial portable.
+`model: "openai:gpt-4o-mini"` names an explicit provider and model. The configured key is an OpenAI key, so the model must be an `openai:` model — a provider/model mismatch is the most common first-run failure. Model aliases like `:fast` are convenient, but each alias resolves to one fixed provider, so they are introduced later, once this explicit request succeeds.
+
+Before running the request, confirm the configured key provider matches the selected model provider:
+
+```elixir
+# Provider/model check: the key configured above is an OpenAI key, and the
+# model is an explicit openai: model. A mismatch here is the most common
+# first-run failure, so state both values up front.
+IO.puts("Key provider:    openai")
+IO.puts("Selected model:  openai:gpt-4o-mini")
+```
 
 ## Start the runtime and agent
 
@@ -113,7 +125,7 @@ case greeting do
     IO.puts(text)
 
   {:error, reason} ->
-    IO.puts("Greeting failed: #{inspect(reason)}")
+    raise "Documented OpenAI request failed: #{inspect(reason)}"
 
   {:skip, :no_openai_key} ->
     IO.puts("Skipped request. Set OPENAI_API_KEY or LB_OPENAI_API_KEY to run it.")

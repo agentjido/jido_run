@@ -8,9 +8,9 @@ defmodule AgentJidoWeb.JidoHomeLive do
   def mount(_params, _session, socket) do
     {:ok,
      assign(socket,
-       page_title: "Build AI Agents That Run in Production",
+       page_title: "Jido — the Elixir framework for long-running agent systems",
        meta_description:
-         "Jido is an open-source agent framework for Elixir. Build supervised AI agents with fault tolerance, tool calling, and multi-agent coordination built in."
+         "Jido is the Elixir framework for long-running agent systems. Build supervised agents, typed tools, and explicit workflows on Elixir/OTP."
      )}
   end
 
@@ -46,12 +46,12 @@ defmodule AgentJidoWeb.JidoHomeLive do
       </div>
 
       <h1 class="text-4xl sm:text-[42px] font-bold leading-tight mb-5 tracking-tight">
-        Build AI agents that <br />
-        <span class="text-primary">run in production.</span>
+        Build long-running agents <br />
+        <span class="text-primary">on the BEAM.</span>
       </h1>
 
       <p class="text-secondary-foreground text-[15px] leading-relaxed mb-6 max-w-lg mx-auto">
-        Jido is an agent framework for Elixir. Define agents, give them tools, and let them work together, with fault tolerance and supervision built in.
+        Jido gives Elixir teams supervised Agent processes, typed tools, and explicit workflows. Add one Agent to your current application, then add AI and coordination when you need them.
       </p>
 
       <div class="flex items-center gap-4 justify-center mb-12">
@@ -59,7 +59,7 @@ defmodule AgentJidoWeb.JidoHomeLive do
           navigate="/docs/getting-started"
           class="bg-primary text-primary-foreground hover:bg-primary/90 text-[13px] font-bold px-7 py-5 rounded transition-colors"
         >
-          GET STARTED →
+          BUILD YOUR FIRST AGENT →
         </.link>
         <.link
           navigate="/examples"
@@ -128,9 +128,9 @@ defmodule AgentJidoWeb.JidoHomeLive do
       phx-hook="ScrollReveal"
     >
       <div class="text-center mb-16">
-        <h2 class="text-3xl font-bold tracking-tight mb-4">What people build with Jido</h2>
+        <h2 class="text-3xl font-bold tracking-tight mb-4">What you can build with Jido</h2>
         <p class="home-muted-copy text-sm leading-relaxed max-w-lg mx-auto">
-          From single-purpose assistants to teams of agents that coordinate autonomously.
+          From single-purpose assistants to coordinated multi-agent workflows.
         </p>
       </div>
 
@@ -154,8 +154,9 @@ defmodule AgentJidoWeb.JidoHomeLive do
     pillars = [
       %{
         icon: "◉",
-        title: "Agents that self-heal",
-        desc: "When an agent crashes, its supervisor restarts it automatically with clean state. No orchestrator, no manual recovery, no downtime.",
+        title: "Supervised failure handling",
+        desc:
+          "OTP supervision contains failures and restarts a crashed AgentServer by your restart strategy. Add persistence and idempotent Actions when work must survive a restart.",
         icon_color_class: "text-accent-green",
         chip_class: "home-pillar-chip home-pillar-chip-green",
         link_class: "home-pillar-link home-pillar-link-green",
@@ -173,9 +174,9 @@ defmodule AgentJidoWeb.JidoHomeLive do
       },
       %{
         icon: "⬡",
-        title: "Observe everything",
+        title: "Instrument agent lifecycles",
         desc:
-          "Built-in telemetry and tracing across every agent. See what's happening, trace workflows across processes, catch problems before users do.",
+          "Jido emits telemetry for lifecycle and Action execution. Add OpenTelemetry export via jido_otel when its maturity fits your application.",
         icon_color_class: "text-accent-yellow",
         chip_class: "home-pillar-chip home-pillar-chip-yellow",
         link_class: "home-pillar-link home-pillar-link-yellow",
@@ -289,13 +290,13 @@ defmodule AgentJidoWeb.JidoHomeLive do
       %{
         icon: "◉",
         title: "Process isolation",
-        desc: "Each agent runs in its own lightweight process with isolated memory. One agent failing never takes down another.",
+        desc: "Each Agent runs in its own lightweight process with isolated memory, so a failure is bounded by your supervision topology.",
         tone: :green
       },
       %{
         icon: "⟳",
         title: "Supervision and recovery",
-        desc: "OTP supervisors detect crashes and restart agents in milliseconds. Failure recovery is built into the runtime, not bolted on.",
+        desc: "OTP supervisors detect crashes and restart Agents by your restart strategy. Failure handling is part of the runtime, not bolted on.",
         tone: :yellow
       },
       %{
@@ -313,7 +314,7 @@ defmodule AgentJidoWeb.JidoHomeLive do
       <div class="home-why-otp-header">
         <h2 class="text-2xl font-bold tracking-tight mb-3">Why an agent framework on Elixir?</h2>
         <p class="home-muted-copy text-sm max-w-md mx-auto leading-relaxed">
-          The same runtime that powers WhatsApp and Discord turns out to be ideal for agent workloads.
+          The BEAM was designed for long-running, concurrent, fault-tolerant systems — the same qualities agent workloads need.
         </p>
       </div>
 

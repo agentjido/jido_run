@@ -61,6 +61,29 @@ defmodule AgentJidoWeb.LLMResponsePlugTest do
     assert body =~ "## Agents are pure data"
   end
 
+  test "Livebook routes return expanded runnable source", %{conn: conn} do
+    conn = get(conn, "/docs/getting-started/first-llm-agent.livemd")
+
+    body = response(conn, 200)
+    link = get_resp_header(conn, "link") |> List.first()
+
+    assert get_resp_header(conn, "content-type") |> List.first() =~ "text/markdown"
+    assert get_resp_header(conn, "x-robots-tag") == ["noindex"]
+
+    assert link =~
+             "<#{AgentJidoWeb.Endpoint.url()}/docs/getting-started/first-llm-agent>; rel=\"canonical\""
+
+    assert body =~ ~s({:jido, "#{AgentJido.ReleaseCatalog.requirement("jido")}"})
+    assert body =~ ~s({:jido_ai, "#{AgentJido.ReleaseCatalog.requirement("jido_ai")}"})
+    refute body =~ "{{mix_dep:"
+  end
+
+  test "non-Livebook pages do not get a .livemd artifact", %{conn: conn} do
+    conn = get(conn, "/docs/concepts/agents.livemd")
+
+    assert response(conn, 404)
+  end
+
   test "legacy docs redirects remain unchanged even with markdown accept header", %{conn: conn} do
     conn =
       conn
