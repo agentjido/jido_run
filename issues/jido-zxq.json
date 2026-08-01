@@ -1,0 +1,14 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-08-01T13:52:03Z",
+  "description": "Freeze work/site-facelift at its current remote-backed tip. Build the first deployable rollout batch from the Beadwork dependency cut E00-E03: baseline/release controls, critical trust repair, positioning/vocabulary canon, and global copy/claim normalization. Reconstruct the batch by task and file ownership instead of copying the full historical commit range. Exclude work that depends on later E04-E12 product surfaces. Run QA and refinement, commit with the ticket ID, push, and open one review PR to main.",
+  "id": "jido-zxq",
+  "labels": [],
+  "priority": 2,
+  "status": "open",
+  "title": "Prepare first site-facelift rollout batch",
+  "type": "task",
+  "updated_at": "2026-08-01T13:52:03Z"
+}
