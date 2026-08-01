@@ -10,11 +10,15 @@
     {
       "text": "Frozen source branch at immutable remote tag archive/site-facelift-2026-08-01 -\u003e 4296361f7823a830259ded84ea351f36c37294db. work/site-facelift remains unchanged.",
       "timestamp": "2026-08-01T13:52:47Z"
+    },
+    {
+      "text": "Batch boundary from Beadwork: include E00 baseline/release controls; E01 trust repair plus later independent provider, artifact-parity, and route-crawl refinements; E02 positioning/vocabulary canon; E03 global copy, claim, CTA, brand, vocabulary, and machine-summary work. Hold E03-T28/T29 because their final implementation links to E07 Operations surfaces. Keep the unmatched-link gate at the actual first-batch count instead of importing the E07-dependent zero baseline.",
+      "timestamp": "2026-08-01T13:54:37Z"
     }
   ],
   "priority": 2,
   "status": "open",
   "title": "Prepare first site-facelift rollout batch",
   "type": "task",
-  "updated_at": "2026-08-01T13:52:47Z"
+  "updated_at": "2026-08-01T13:54:37Z"
 }
