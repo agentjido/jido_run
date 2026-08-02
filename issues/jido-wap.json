@@ -6,6 +6,12 @@
   "description": "Address all confirmed review findings on PR #192: use deployed endpoint for Livebook URLs; align the link-audit command with the accepted ceiling; replace public retired Training and getting-started links and remove the legacy sitemap URL; make Livebook route tests part of normal PR CI; correct Agent versus AgentServer homepage vocabulary; crawl all public root routes; update the release runbook to the new positioning canon. Add regression tests, run full release gates, commit, push, and update the existing PR.",
   "id": "jido-wap",
   "labels": [],
+  "comments": [
+    {
+      "text": "Scope confirmed: one unresolved GitHub thread for the hard-coded Livebook host plus six local review findings. User requested all findings. No GitHub thread replies or resolution until fixes are pushed and verified.",
+      "timestamp": "2026-08-02T00:34:23Z"
+    }
+  ],
   "priority": 2,
   "status": "in_progress",
   "title": "Fix PR 192 review findings",
