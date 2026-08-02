@@ -8,7 +8,7 @@
   order: 50
 }
 ---
-If your team is evaluating Jido from Python or TypeScript, this is the core point: Jido is a runtime architecture for agent systems. LLM integration is optional, not foundational.
+If your team is evaluating Jido from Python or TypeScript, this is the core point: Jido is the Elixir framework for long-running agent systems, and its AgentServer and OTP lifecycle give that framework a runtime-first architecture. LLM integration is optional, not foundational.
 
 ## At a glance
 
@@ -18,7 +18,7 @@ If your team is evaluating Jido from Python or TypeScript, this is the core poin
 | Core runtime packages | [jido](/ecosystem/jido), [jido_action](/ecosystem/jido_action), [jido_signal](/ecosystem/jido_signal) |
 | Optional intelligence layer | [jido_ai](/ecosystem/jido_ai), [req_llm](/ecosystem/req_llm), [llm_db](/ecosystem/llm_db) |
 | Package status | Core packages are Beta; `req_llm` and `llm_db` are Stable; `jido_ai` is Beta |
-| First proof path | [Counter Agent](/examples/counter-agent) (non-LLM) -> [Document-grounded policy Q&A](/examples/document-grounded-policy-qna-agent) (LLM add-on) |
+| First proof path | [Counter Agent](/examples/counter-agent) (non-LLM) -> [First LLM agent](/docs/getting-started/first-llm-agent) (LLM add-on) |
 
 ## The runtime argument
 
@@ -75,7 +75,7 @@ This is runtime coordination and scheduling behavior with no required LLM depend
 - **Adoption planning:** [Start small, grow safely](/features/start-small)
 - **Build path:** [Mixed-stack integration](/build/mixed-stack-integration)
 - **Agent model foundations:** [BEAM-native agent model](/features/beam-native-agent-model)
-- **Training:** [LiveView integration](/training/liveview-integration), [Production readiness](/training/production-readiness)
+- **Guides:** [Elixir developers](/docs/getting-started/elixir-developers), [Error handling and recovery](/docs/guides/error-handling-and-recovery)
 
 ## Get Building
 

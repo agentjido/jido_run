@@ -1,6 +1,6 @@
 # Website Release Punchlist
 
-Last updated: 2026-02-20
+Last updated: 2026-08-01
 
 ## Purpose
 
@@ -10,11 +10,11 @@ This runbook is the operator checklist for release readiness.
 
 ## Launch Scope Assumptions
 
-- Training pages are intentionally hidden for this launch.
-- Any existing `/training` or `/training/*` links are release defects unless explicitly accepted as temporary 404 behavior.
-- Core positioning is locked from `specs/README.md`:
-  - Anchor phrase: `Jido is a runtime for reliable, multi-agent systems.`
-  - Hero headline/subhead and top nav labels are fixed for launch.
+- Training pages are retired. Redirects exist only for old external traffic.
+- Internal source links must use canonical Docs and Examples routes.
+- Core positioning is locked from Sections 1 and 11 of `specs/positioning.md`:
+  - Category and anchor phrase: `Jido is the Elixir framework for long-running agent systems.`
+  - Homepage copy and global metadata must follow the claim boundaries in the positioning canon.
 
 ## Required Hard Gates
 
@@ -94,7 +94,7 @@ mix site.link_audit --include-heex --check-external
 Notes:
 
 - The audit intentionally ignores global `/*path` catch-all routing so links that only land on 404 are still flagged.
-- Use `--allow-prefix /training` only if you intentionally want to suppress hidden-training findings for a specific release cycle.
+- Do not suppress retired Training paths in a release audit. Internal source links must use canonical routes.
 - `scripts/link_audit.sh` remains available as a compatibility wrapper around `mix site.link_audit`.
 
 ## Release-Day Command Set
@@ -123,3 +123,25 @@ Fill before release cut:
 - Hard-gate status:
 - Remaining accepted risks:
 - Follow-up tickets:
+
+## Unmatched-Link Regression Gate (`E00-T07`)
+
+A release **must not increase** the number of unmatched internal links.
+
+- Baseline (2026-07-23, frozen): **64 unmatched internal links** across 603
+  internal links and 173 route patterns.
+  Artifact: `specs/audits/link-audit-baseline-2026-07-23.md`.
+- Current ceiling: **4**. The remaining unmatched links are contained inside
+  the draft Operations hub and target its four unpublished child pages. Public
+  route crawling is at zero failures. This is the max allowed count until the
+  Operations batch publishes or removes those draft routes.
+- Check: `mix site.link_audit --include-heex --report tmp/link_audit_report.md`.
+  The audit scans `priv/pages/**/*.{md,livemd}` and `lib/agent_jido_web/**/*.{heex,ex}`
+  (Livebooks were added to the input set in `E00-T04`). The command permits the
+  current ceiling of four unmatched links by default. Links to legacy redirects
+  remain unmatched so that internal source must use canonical routes.
+- Gate rule: the `Unmatched internal links` count in a PR must be less than or
+  equal to the current ceiling. A net increase blocks the release until the links
+  are fixed or the ceiling is explicitly reviewed and raised.
+- Lowering the count is always allowed and encouraged; update the current ceiling
+  above (and the frozen baseline stays as the historical record).

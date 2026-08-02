@@ -59,4 +59,4 @@ Create a production-readiness checklist for one critical agent flow:
 
 ## Next Module
 
-You completed the initial curriculum. Revisit [Agent Fundamentals on the BEAM](/training/agent-fundamentals) to onboard teammates, then iterate with workload-specific modules.
+You completed the initial curriculum. Revisit [Your first agent](/docs/getting-started/first-agent) to onboard teammates, then iterate with workload-specific guides.

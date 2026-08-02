@@ -142,4 +142,4 @@ The process stays alive after completion until explicitly stopped or cleaned up 
 - [Agents](/docs/concepts/agents) -- understand the pure decision logic that AgentServer executes
 - [Signals](/docs/concepts/signals) -- learn about typed envelopes and routing patterns
 - [Directives](/docs/concepts/directives) -- explore the side-effect payloads that drive the runtime
-- [Actions](/docs/concepts/actions) -- see how pure functions transform agent state
+- [Actions](/docs/concepts/actions) -- see how Actions transform agent state

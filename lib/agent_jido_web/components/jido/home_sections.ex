@@ -14,7 +14,7 @@ defmodule AgentJidoWeb.Jido.HomeSections do
 
   attr :primary_label, :string, default: "GET BUILDING →"
   attr :primary_path, :string, default: "/docs/getting-started"
-  attr :secondary_label, :string, default: "SEE EXAMPLES"
+  attr :secondary_label, :string, default: "See examples"
   attr :secondary_path, :string, default: "/examples"
 
   @doc """

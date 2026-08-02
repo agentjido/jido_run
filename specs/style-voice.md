@@ -1,8 +1,8 @@
 # Voice, Tone, and Style Guide
 
-Version: 1.0  
-Last updated: 2026-02-12  
-Positioning anchor: `Jido is a runtime for reliable, multi-agent systems.`
+Version: 2.0
+Last updated: 2026-07-23
+Positioning anchor: `Jido is the Elixir framework for long-running agent systems.` (see `specs/positioning.md` Section 11; `jido-e02`)
 
 ## Register
 
@@ -72,6 +72,16 @@ Name competitors when the comparison is specific and technical (e.g., "Unlike Cr
 - Workflow — lowercase unless starting a sentence; this is a general concept, not a Jido-specific type
 - Runtime — lowercase unless starting a sentence; describes Jido's operational model
 
+### Product vocabulary boundaries
+
+| Term | Defined use |
+|---|---|
+| **framework** | Jido's public product category: “the Elixir framework for long-running agent systems.” |
+| **runtime** | The `AgentServer` and OTP lifecycle mechanism inside the framework. Do not use “runtime” as a replacement product category. |
+| **platform** | The host application, operations environment, or a named third-party managed product. Jido is not a separate deployment platform. |
+| **infrastructure** | External technical systems or a clearly named lower-level package layer, such as LLM HTTP infrastructure. Do not use “infrastructure” as Jido's product category. |
+| **ecosystem** | The optional Jido package set. A builder can use the core framework without installing the full ecosystem. |
+
 ### Headings
 - Use sentence case for all headings ("Getting started with signals" not "Getting Started With Signals")
 - Exception: proper nouns and Jido-specific terms remain capitalized in headings ("Getting started with Jido Signals")
@@ -121,3 +131,61 @@ Name competitors when the comparison is specific and technical (e.g., "Unlike Cr
 - Default CTA across the site: **Get Building**
 - Section-specific alternatives: "Start Training", "Explore Features", "See the Ecosystem"
 - CTA must always link to a real, populated destination
+
+### Secondary CTA convention
+
+Use these labels for these exact tasks:
+
+| Label | Use | Destination |
+|---|---|---|
+| **See examples** | Show runnable proof after a feature, capability, or build claim. | `/examples` for the catalog, or one published `/examples/<slug>` page for direct proof. |
+| **Read the guide** | Move from an overview or proof into implementation instructions. | One specific published `/docs/...` guide. Do not use this label for the Docs hub. |
+| **Compare packages** | Help a builder compare package role, maturity, dependencies, and support. | `/ecosystem#compare`. Do not use this label for competitor comparisons. |
+
+Write secondary CTA labels in sentence case. An arrow can follow the label, but
+it is not part of the label. Do not replace these labels with vague text such
+as "Learn more."
+
+---
+
+## Claim Policy (`jido-e02`, E02-T18..T22, E02-T38)
+
+Copy must stay inside the claim boundaries in `specs/positioning.md` Section 11.
+The release claim linter (`jido-e12`, E12-T01/T02/T37) enforces the lists below.
+
+### Restricted claims — reject unless an approved proof reference is cited
+self-healing, no downtime, uptime guarantees, observe everything, secure by
+default, compliance-ready, enterprise governance, complete audit trail.
+
+### Proof-required claims — need named evidence
+production-grade, production-ready, production-proven.
+
+### Definition-required claims — must define scope, controls, and stop conditions
+autonomous.
+
+### Qualifier claims — name the tested behavior or package maturity
+reliable, recover, durable, scale, safe, tracing, identity-aware, authorized,
+auditable, governed, controlled.
+
+### Proof levels
+1. Design intent
+2. Tested behavior
+3. Benchmark
+4. Production evidence
+
+Each public claim should be able to name its proof level.
+
+### Operational-control copy rules (E02-T30..T33)
+- Prefer: long-running, supervised, explicit, typed, observable, stateful,
+  event-driven, bounded failure, restart policy, existing Elixir application,
+  add AI when needed.
+- "Control" must name the exact type: lifecycle, capability, authorization,
+  quota, trace, or recovery control. Avoid bare "control" as an adjective.
+- Telemetry is not an audit log. Agent IDs are not authenticated principals.
+  State these distinctions where a reader could infer compliance.
+
+### Default SEO/category language (E03-T01)
+Title: `Jido: the Elixir framework for long-running agent systems`.
+Description: `Build supervised agents, typed tools, and explicit workflows on
+Elixir/OTP. Start with one Agent in your current application and add AI when you
+need it.`

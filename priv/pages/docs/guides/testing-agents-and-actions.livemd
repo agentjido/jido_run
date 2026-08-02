@@ -40,7 +40,7 @@ This guide runs entirely locally. No provider keys or network calls are required
 
 ## Testing actions in isolation
 
-Actions are pure functions. Test them by calling `run/2` directly with a params map and a context map.
+Actions are validated units of work. They can be pure functions that transform state, or effectful units that perform I/O. Test them by calling `run/2` directly with a params map and a context map.
 
 ### Define an action
 

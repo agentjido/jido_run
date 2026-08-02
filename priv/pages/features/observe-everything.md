@@ -1,5 +1,5 @@
 %{
-  title: "Observe everything",
+  title: "Instrument agent lifecycles",
   category: :features,
   description: "Built-in telemetry and OpenTelemetry tracing across every agent lifecycle transition.",
   doc_type: :explanation,
@@ -90,8 +90,8 @@ This exposes agent execution metrics alongside your existing Phoenix and Ecto da
 - **Agent foundations:** [How Jido agents work](/features/how-agents-work)
 - **Fault tolerance:** [Agents that self-heal](/features/agents-that-self-heal)
 - **Coordination:** [Agents that work together](/features/multi-agent-coordination)
-- **Production readiness:** [Production readiness checklist](/docs/operations/production-readiness-checklist)
-- **Reference docs:** [Incident playbooks](/docs/operations/incident-playbooks)
+- **Failure handling:** [Error handling and recovery](/docs/guides/error-handling-and-recovery)
+- **Reference docs:** [Telemetry and observability](/docs/reference/telemetry-and-observability)
 
 ## Get Building
 

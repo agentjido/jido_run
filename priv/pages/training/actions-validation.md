@@ -59,4 +59,4 @@ Implement `SetPriceAction` for a listing agent:
 
 ## Next Module
 
-Continue with [Signals, Routing, and Agent Communication](/training/signals-routing).
+Continue with [Signals](/docs/concepts/signals).

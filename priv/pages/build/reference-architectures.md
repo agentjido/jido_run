@@ -18,7 +18,7 @@ Best for one team shipping one bounded workflow inside an existing Elixir servic
 - Required packages: `jido`, `jido_action`
 - Optional packages: `jido_signal`, `jido_live_dashboard`
 - First proof route: [Counter Agent example](/examples/counter-agent)
-- Validation route: [Agent Fundamentals on the BEAM](/training/agent-fundamentals)
+- Validation route: [Your first agent](/docs/getting-started/first-agent)
 
 Tradeoff: lowest integration overhead, but domain boundaries can blur as workflows expand.
 
@@ -29,7 +29,7 @@ Best for systems that need explicit coordination across multiple agents and work
 - Required packages: `jido`, `jido_action`, `jido_signal`
 - Optional packages: `jido_messaging`, `jido_ai`
 - First proof route: [Demand Tracker Agent example](/examples/demand-tracker-agent)
-- Validation route: [Signals and Routing](/training/signals-routing)
+- Validation route: [Signals](/docs/concepts/signals)
 
 Tradeoff: stronger isolation and routing clarity, with additional coordination complexity.
 
@@ -50,7 +50,7 @@ Best for teams where product surfaces are not Elixir-native but reliability and 
 - Required packages: `jido`, `jido_signal`
 - Optional packages: `req_llm`, `jido_ai`, `agent_jido`
 - First proof route: [BEAM for AI Builders](/features/beam-for-ai-builders)
-- Validation route: [LiveView + Jido Integration Patterns](/training/liveview-integration)
+- Validation route: [Elixir developers](/docs/getting-started/elixir-developers)
 
 Tradeoff: clearer failure containment and control-plane behavior, with cross-language contract design work.
 
@@ -72,9 +72,9 @@ This provides an implementation reference for supervised runtime topology and ex
 
 1. Choose the smallest pattern that supports your near-term workflow complexity.
 2. Map each critical workflow to one owning agent and one fallback path.
-3. Confirm observability and recovery expectations with [Production Readiness Checklist](/docs/operations/production-readiness-checklist).
-4. Review runtime and package rationale with [Architecture](/docs/reference/architecture).
+3. Confirm observability and recovery expectations with [Error handling and recovery](/docs/guides/error-handling-and-recovery).
+4. Review runtime and package rationale with [Architecture](/docs/reference/behavior-first-architecture).
 
 ## Get Building
 
-After selecting a topology, execute a bounded build path from [Quickstarts by Persona](/build/quickstarts-by-persona) and validate the rollout with [Production Readiness: Supervision, Telemetry, and Failure Modes](/training/production-readiness).
+After selecting a topology, execute a bounded build path from [Quickstarts by Persona](/build/quickstarts-by-persona) and validate the rollout with [Error handling and recovery](/docs/guides/error-handling-and-recovery).

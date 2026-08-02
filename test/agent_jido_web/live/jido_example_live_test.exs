@@ -118,12 +118,17 @@ defmodule AgentJidoWeb.JidoExampleLiveTest do
   describe "/examples/counter-agent" do
     test "renders related guides and livebooks", %{conn: conn} do
       {:ok, _view, html} = live(conn, "/examples/counter-agent?tab=explanation")
+      livebook_page = AgentJido.Pages.get_page_by_path("/docs/learn/first-workflow")
+
+      livebook_url =
+        AgentJido.Pages.Page.livebook_url(livebook_page, AgentJidoWeb.Endpoint.url())
 
       assert html =~ "Related guides and notebooks"
       assert html =~ "/docs/getting-started/first-agent"
       assert html =~ "/docs/concepts/actions"
       assert html =~ "/docs/learn/first-workflow"
-      assert html =~ "livebook.dev/run?url="
+      assert html =~ livebook_url
+      refute html =~ URI.encode_www_form("https://jido.run/docs/learn/first-workflow.livemd")
     end
 
     test "tabs patch cleanly for history navigation", %{conn: conn} do

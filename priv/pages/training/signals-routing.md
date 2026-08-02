@@ -59,4 +59,4 @@ Model a two-agent workflow for order fulfillment:
 
 ## Next Module
 
-Continue with [Directives, Scheduling, and Time-Based Behavior](/training/directives-scheduling).
+Continue with [Directives](/docs/concepts/directives).

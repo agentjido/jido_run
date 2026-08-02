@@ -23,7 +23,7 @@ defmodule AgentJido.Pages.Page do
   - `source_path` - Original file path on disk
   - `is_livebook` - Whether this is a .livemd file
   - `github_url` - Link to view on GitHub
-  - `livebook_url` - Link to run in Livebook
+  - `livebook_url` - Optional explicit link override for running in Livebook
   - `menu_path` - List of path segments for menu hierarchy
   - `draft` - If true, page is hidden from listings
   - `in_menu` - If false, page is hidden from navigation menu
@@ -223,6 +223,25 @@ defmodule AgentJido.Pages.Page do
   def schema, do: @schema
 
   @doc """
+  Returns the Livebook run URL for a page at the supplied deployed endpoint.
+
+  An explicit frontmatter URL takes priority. Generated URLs use the runtime
+  endpoint so local, staging, and production pages load their own artifacts.
+  """
+  @spec livebook_url(t(), String.t()) :: String.t() | nil
+  def livebook_url(%__MODULE__{livebook_url: url}, _endpoint_url)
+      when is_binary(url) and url != "",
+      do: url
+
+  def livebook_url(%__MODULE__{is_livebook: true, path: path}, endpoint_url)
+      when is_binary(endpoint_url) and endpoint_url != "" do
+    source_url = String.trim_trailing(endpoint_url, "/") <> path <> ".livemd"
+    "https://livebook.dev/run?url=#{URI.encode_www_form(source_url)}"
+  end
+
+  def livebook_url(%__MODULE__{}, _endpoint_url), do: nil
+
+  @doc """
   Builds a Page struct from a file.
 
   Called by NimblePublisher at compile time for each file matching the glob.
@@ -256,7 +275,7 @@ defmodule AgentJido.Pages.Page do
     menu_path = derive_menu_path(path)
 
     github_url = build_github_url(doc_root, path, is_livebook)
-    livebook_url = Map.get(attrs, :livebook_url) || build_livebook_url(github_url, is_livebook)
+    livebook_url = Map.get(attrs, :livebook_url)
 
     word_count = compute_word_count(body)
     reading_time_minutes = max(1, div(word_count, 200))
@@ -378,15 +397,4 @@ defmodule AgentJido.Pages.Page do
   defp build_github_url(doc_root, path, false = _is_livebook) do
     "#{@github_repo}/blob/main#{doc_root}#{path}.md"
   end
-
-  defp build_livebook_url(github_url, true = _is_livebook) do
-    raw_github_url =
-      github_url
-      |> String.replace("https://github.com/", "https://raw.githubusercontent.com/")
-      |> String.replace("/blob/", "/")
-
-    "https://livebook.dev/run?url=#{URI.encode_www_form(raw_github_url)}"
-  end
-
-  defp build_livebook_url(_github_url, false = _is_livebook), do: nil
 end

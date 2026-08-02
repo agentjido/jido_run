@@ -15,9 +15,9 @@ Use this section when you already understand the runtime model and need a concre
 
 - Pick a starting path by role in [Quickstarts by Persona](/build/quickstarts-by-persona).
 - Choose a topology before coding in [Reference Architectures](/build/reference-architectures).
-- Validate design and operations assumptions with [Architecture](/docs/reference/architecture) and [Production Readiness Checklist](/docs/operations/production-readiness-checklist).
+- Validate design and operations assumptions with [Architecture](/docs/reference/behavior-first-architecture) and [Error handling and recovery](/docs/guides/error-handling-and-recovery).
 
-## Wave A map
+## Build guides at a glance
 
 | Guide | Use it when | Outcome |
 | --- | --- | --- |

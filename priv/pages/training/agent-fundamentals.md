@@ -59,4 +59,4 @@ Build a small `InventoryAgent` with fields `sku`, `quantity`, and `updated_at`.
 
 ## Next Module
 
-Continue with [Actions and Schema Validation](/training/actions-validation).
+Continue with [Actions](/docs/concepts/actions).

@@ -31,7 +31,7 @@ Go to [Contributors](/docs/contributors) for contributor-facing package standard
 Go to [Reference](/docs/reference) for complete API docs, configuration options, and architecture details.
 
 **Preparing for or running production?**
-See [Operations](/docs/operations) for deployment, monitoring, scaling, and reliability.
+See [Error handling and recovery](/docs/guides/error-handling-and-recovery) for failure, retry, and recovery guidance.
 
 ## New to Jido?
 

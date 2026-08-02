@@ -23,6 +23,7 @@ defmodule AgentJido.ContentOntology.Exporter do
   alias AgentJido.Ecosystem
   alias AgentJido.Examples
   alias AgentJido.Pages
+  alias AgentJido.Pages.Page
 
   @repo_base "https://github.com/agentjido/agentjido_xyz/blob/main/"
   @default_internal_hosts ["localhost", "127.0.0.1"]
@@ -215,7 +216,7 @@ defmodule AgentJido.ContentOntology.Exporter do
           word_count: Map.get(page, :word_count),
           reading_time_minutes: Map.get(page, :reading_time_minutes),
           github_url: normalize_optional(page.github_url),
-          livebook_url: normalize_optional(Map.get(page, :livebook_url)),
+          livebook_url: normalize_optional(Page.livebook_url(page, AgentJidoWeb.Endpoint.url())),
           legacy_routes: List.wrap(Map.get(page, :legacy_paths, [])),
           doc_type: map_value(page, :doc_type),
           audience: map_value(page, :audience),

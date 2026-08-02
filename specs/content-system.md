@@ -102,3 +102,29 @@ mix site.link_audit --include-heex
   - `specs/content-outline.md`
   - `specs/content-system.md`
   - `specs/taxonomy.md`
+
+## 8) Canonical source per rendered surface (`E00-T06`)
+
+Each rendered surface has one named canonical source. When the same surface is
+served in multiple forms (browser HTML, Markdown, Livebook, search, MCP), all
+forms derive from the source listed here.
+
+| Surface | Canonical source | Also served as |
+|---|---|---|
+| Home page | `lib/agent_jido_web/live/jido_home_live.ex` (+ `components/jido/home_sections.ex`) | (no static equivalent — `E04`) |
+| Docs hub | `priv/pages/docs/index.md` aligned to the docs hub LiveView | HTML, Markdown fallback (`E10-T13`) |
+| Docs leaf (Markdown) | `priv/pages/docs/**/*.md` | HTML, `.md` endpoint (expanded — `E01-T08`) |
+| Docs leaf (Livebook) | `priv/pages/docs/**/*.livemd` | HTML, `.md` endpoint, downloadable Livebook (`E01-T09`), Run-in-Livebook |
+| Build / Compare / Features leaf | `priv/pages/{build,compare,features}/*.md` | HTML, Markdown (`E10-T10`, `E10-T12`) |
+| Examples hub | `lib/agent_jido_web/live/jido_examples_live.ex` (data: `priv/examples/*.md`) | HTML, Markdown (`E10-T11`) |
+| Example detail | `priv/examples/*.md` (+ embedded source) | HTML, sitemap (`E08-T31`, `E10-T21`) |
+| Ecosystem hub | Ecosystem LiveView (data: `priv/ecosystem/*.md`, `layering.ex`) | HTML, Markdown (`E10-T12`) |
+| Ecosystem detail | `priv/ecosystem/*.md` (+ registry data) | HTML |
+| Skills catalog | vendored `priv/skills/**/SKILL.md` | LiveView cards (currently empty — `E10-T23`) |
+| Markdown delivery | `lib/agent_jido_web/markdown_content.ex` | `.md` and `Accept: text/markdown` |
+| Sitemap | `lib/agent_jido_web/controllers/sitemap_controller.ex` | `/sitemap.xml` |
+| Search index | search ingestion pipeline | cited search results |
+| MCP | MCP docs server (`lib/mix/tasks/mcp.docs.ex` + server) | MCP tool responses |
+
+Rule: a change to a canonical source must update every "also served as" form in
+the same PR. Parity is enforced by `E01-T11`/`E01-T12` and `E10-T34`.

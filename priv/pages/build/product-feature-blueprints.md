@@ -21,8 +21,8 @@ Use these patterns to map feature intent to agent boundaries, package choices, a
 
 - Complete one bounded implementation from [Quickstarts by Persona](/build/quickstarts-by-persona) or [Counter Agent](/examples/counter-agent).
 - Choose runtime boundaries in [Reference Architectures](/build/reference-architectures).
-- Validate package intent with [Compare Packages](/ecosystem#compare).
-- Review release guardrails in [Production Readiness: Supervision, Telemetry, and Failure Modes](/training/production-readiness).
+- Validate package intent with [Compare packages](/ecosystem#compare).
+- Review release guardrails in [Error handling and recovery](/docs/guides/error-handling-and-recovery).
 
 ## Blueprint format
 
@@ -52,7 +52,7 @@ Readiness checks:
 - Outcome: One production support flow that answers with tool-backed context.
 - Required packages: `jido`, `jido_action`, `jido_ai`
 - Proof route: [Examples index](/examples)
-- Launch checks: [Security and Governance](/docs/operations/security-and-governance), [Actions and Validation](/training/actions-validation)
+- Launch checks: [Plugins](/docs/concepts/plugins), [Actions](/docs/concepts/actions)
 - Non-goals: autonomous ticket closure, cross-team escalation routing
 
 ### Blueprint B: Demand operations workflow
@@ -60,7 +60,7 @@ Readiness checks:
 - Outcome: One event-driven demand scoring flow with deterministic state transitions.
 - Required packages: `jido`, `jido_action`, `jido_signal`
 - Proof route: [Demand Tracker Agent example](/examples/demand-tracker-agent)
-- Launch checks: [Signals and Routing](/training/signals-routing), [Incident Playbooks](/docs/operations/incident-playbooks)
+- Launch checks: [Signals](/docs/concepts/signals), [Error handling and recovery](/docs/guides/error-handling-and-recovery)
 - Non-goals: full forecasting pipeline, multi-region replication
 
 ### Blueprint C: Internal ops co-pilot
@@ -68,7 +68,7 @@ Readiness checks:
 - Outcome: One operator workflow that proposes actions and records directive results.
 - Required packages: `jido`, `jido_signal`, `jido_ai`
 - Proof route: [Jido Documentation](/docs)
-- Launch checks: [Production Readiness Checklist](/docs/operations/production-readiness-checklist), [Production Readiness: Supervision, Telemetry, and Failure Modes](/training/production-readiness)
+- Launch checks: [Error handling and recovery](/docs/guides/error-handling-and-recovery)
 - Non-goals: replacing existing incident command process, auto-approval of high-risk actions
 
 ## Proof check: feature blueprint stays bounded

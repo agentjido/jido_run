@@ -4,6 +4,7 @@ defmodule AgentJidoWeb.Jido.DocsComponents do
   """
   use AgentJidoWeb, :html
 
+  alias AgentJido.Pages.Page
   alias AgentJidoWeb.Jido.Nav
   alias AgentJidoWeb.MarkdownLinks
 
@@ -301,12 +302,8 @@ defmodule AgentJidoWeb.Jido.DocsComponents do
 
   defp livebook_url(nil), do: nil
 
-  defp livebook_url(doc) do
-    case Map.get(doc, :livebook_url) do
-      url when is_binary(url) and url != "" -> url
-      _ -> nil
-    end
-  end
+  defp livebook_url(%Page{} = doc),
+    do: Page.livebook_url(doc, AgentJidoWeb.Endpoint.url())
 
   defp livebook_notice(nil), do: nil
 

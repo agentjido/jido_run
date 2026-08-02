@@ -17,7 +17,7 @@ This comparison is about operating model fit, not vendor ranking. Prototype-firs
 | Best for | Teams evaluating architecture posture for production agent systems |
 | Core question | Are we optimizing for fastest prototype or most predictable operation over time? |
 | Jido posture | Runtime-first: explicit lifecycle, coordination, and operations boundaries |
-| First proof path | [Multi-agent coordination](/features/multi-agent-coordination) -> [Production readiness checklist](/docs/operations/production-readiness-checklist) |
+| First proof path | [Multi-agent coordination](/features/multi-agent-coordination) -> [Error handling and recovery](/docs/guides/error-handling-and-recovery) |
 
 ## Fit-for-purpose comparison
 
@@ -84,4 +84,4 @@ Use prototype-first stacks when your primary constraint is very short-cycle idea
 
 ## Get Building
 
-Run a bounded comparison: start with [Counter Agent](/examples/counter-agent), then map production criteria using the [production readiness checklist](/docs/operations/production-readiness-checklist).
+Run a bounded comparison: start with [Counter Agent](/examples/counter-agent), then map failure criteria using [Error handling and recovery](/docs/guides/error-handling-and-recovery).

@@ -89,10 +89,10 @@ defmodule AgentJidoWeb.PageLiveTest do
       assert html =~ ~s(id="quick-start")
       assert html =~ "Quick start"
       assert html =~ "Define an agent, start it supervised, ask it questions."
-      assert html =~ "lib/my_app/weather_agent.ex"
+      assert html =~ "lib/my_app/support_agent.ex"
       assert html =~ "iex -S mix"
       assert html =~ "View full example"
-      assert html =~ ~s(href="/training/agent-fundamentals")
+      assert html =~ ~s(href="/docs/getting-started/first-agent")
     end
 
     test "renders why elixir section with expected feature links", %{conn: conn} do
@@ -114,9 +114,9 @@ defmodule AgentJidoWeb.PageLiveTest do
       assert html =~ ~s(id="home-build-agent-cta")
       assert html =~ "Build your first agent"
       assert html =~ "GET BUILDING"
-      assert html =~ "START TRAINING"
+      assert html =~ "See examples"
       assert html =~ ~s(href="/docs/getting-started")
-      assert html =~ ~s(href="/training")
+      assert html =~ ~s(href="/examples")
     end
   end
 
@@ -266,16 +266,16 @@ defmodule AgentJidoWeb.PageLiveTest do
     end
 
     test "docs right rail includes Livebook run link for livebook-backed docs pages", %{conn: conn} do
-      page = Pages.get_page_by_path("/docs/concepts/agents")
+      page = Pages.get_page_by_path("/docs/getting-started/first-agent")
       assert page != nil
       assert page.is_livebook
-      assert is_binary(page.livebook_url)
+      livebook_url = AgentJido.Pages.Page.livebook_url(page, AgentJidoWeb.Endpoint.url())
+      assert is_binary(livebook_url)
 
-      {:ok, _view, html} = live(conn, "/docs/concepts/agents")
+      {:ok, _view, html} = live(conn, "/docs/getting-started/first-agent")
 
-      assert html =~ "Run this in Livebook"
-      assert html =~ page.livebook_url
-      assert html =~ ~s(id="what-this-solves")
+      assert html =~ "Run in Livebook"
+      assert html =~ livebook_url
     end
 
     test "AI chat agent page links to a published chat response cookbook page", %{conn: conn} do

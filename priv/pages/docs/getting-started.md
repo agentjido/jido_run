@@ -41,7 +41,17 @@ Both paths feed into the same four-step onboarding ladder:
 3. **[Your first LLM agent](/docs/getting-started/first-llm-agent)** - wire up an LLM so your agent can reason about instructions
 4. **[Build your first workflow](/docs/learn/first-workflow)** - compose actions into a multi-step workflow that runs as a single unit
 
-Each tutorial builds on the last and takes under fifteen minutes.
+Each tutorial builds on the last.
+
+## Controls and identity
+
+These tutorials focus on getting an agent running. A few things to know up front:
+
+- **Tools and supervision are built in.** Actions are typed and validated, and agents run under OTP supervision.
+- **Identity and authorization are yours to supply.** Agent, Signal, and request IDs are correlation metadata, not authenticated principals. A fail-closed authorization hook (`prepare_action/3`) is there when you need it, but Jido is not an IAM system.
+- **Telemetry is not an audit log.** Jido emits telemetry for understanding your system; durable history needs a configured Signal Journal.
+
+See [Plugins](/docs/concepts/plugins) for application-defined policy and authorization hooks.
 
 ## After getting started
 

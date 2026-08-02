@@ -161,6 +161,6 @@ Strategy state lives inside `agent.state` under the reserved key `:__strategy__`
 ## Next steps
 
 - [Agents](/docs/concepts/agents) for the full agent contract and `cmd/2` lifecycle
-- [Actions](/docs/concepts/actions) to understand the pure functions that strategies execute
+- [Actions](/docs/concepts/actions) to understand the Actions that strategies execute
 - [Directives](/docs/concepts/directives) for the effect payloads that strategies return
 - [Agent runtime](/docs/concepts/agent-runtime) to run strategy-backed agents under OTP supervision

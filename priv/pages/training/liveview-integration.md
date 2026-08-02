@@ -59,4 +59,4 @@ Build a LiveView for the demand tracker:
 
 ## Next Module
 
-Continue with [Production Readiness: Supervision, Telemetry, and Failure Modes](/training/production-readiness).
+Continue with [Error handling and recovery](/docs/guides/error-handling-and-recovery).

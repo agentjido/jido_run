@@ -16,6 +16,7 @@ defmodule AgentJido.Release.LinkAudit do
           route_count: non_neg_integer(),
           internal_count: non_neg_integer(),
           unmatched_internal: [link_ref()],
+          max_unmatched: non_neg_integer(),
           external_count: non_neg_integer(),
           external_warnings: [external_ref()],
           external_failures: [external_ref()],
@@ -28,6 +29,7 @@ defmodule AgentJido.Release.LinkAudit do
           | {:include_heex, boolean()}
           | {:check_external, boolean()}
           | {:allow_prefixes, [String.t()]}
+          | {:max_unmatched, non_neg_integer()}
           | {:report_path, String.t()}
 
   @internal_md_link ~r/\]\((\/[^)\s]+)\)/
@@ -38,7 +40,8 @@ defmodule AgentJido.Release.LinkAudit do
   Run the link audit and write the markdown report.
 
   Returns `{:ok, report}` when no blocking findings exist and `{:error, report}`
-  when unmatched internal links or external hard failures are detected.
+  when unmatched internal links exceed `:max_unmatched` or external hard
+  failures are detected. The library default is zero.
   """
   @spec run([option()]) :: {:ok, report()} | {:error, report()}
   def run(opts \\ []) do
@@ -46,7 +49,12 @@ defmodule AgentJido.Release.LinkAudit do
     include_heex = Keyword.get(opts, :include_heex, false)
     check_external = Keyword.get(opts, :check_external, false)
     allowed_prefixes = Keyword.get(opts, :allow_prefixes, [])
+    max_unmatched = Keyword.get(opts, :max_unmatched, 0)
     report_path = opts |> Keyword.get(:report_path, "tmp/link_audit_report.md") |> resolve_report_path(root)
+
+    if not (is_integer(max_unmatched) and max_unmatched >= 0) do
+      raise ArgumentError, ":max_unmatched must be a non-negative integer"
+    end
 
     routes = route_patterns()
 
@@ -57,7 +65,10 @@ defmodule AgentJido.Release.LinkAudit do
 
     unmatched_internal =
       internal_links
-      |> Enum.reject(&(ignored_path?(&1.path) or matches_any_route?(&1.path, routes) or allowed_unmatched?(&1.path, allowed_prefixes)))
+      |> Enum.reject(
+        &(ignored_path?(&1.path) or matches_any_route?(&1.path, routes) or
+            allowed_unmatched?(&1.path, allowed_prefixes))
+      )
 
     {external_count, external_warnings, external_failures} =
       if check_external do
@@ -74,6 +85,7 @@ defmodule AgentJido.Release.LinkAudit do
       route_count: length(routes),
       internal_count: length(internal_links),
       unmatched_internal: Enum.sort_by(unmatched_internal, &{&1.path, &1.source}),
+      max_unmatched: max_unmatched,
       external_count: external_count,
       external_warnings: Enum.sort_by(external_warnings, &{&1.url, &1.source}),
       external_failures: Enum.sort_by(external_failures, &{&1.url, &1.source}),
@@ -83,7 +95,8 @@ defmodule AgentJido.Release.LinkAudit do
 
     write_report(report)
 
-    if report.unmatched_internal == [] and report.external_failures == [] do
+    if length(report.unmatched_internal) <= report.max_unmatched and
+         report.external_failures == [] do
       {:ok, report}
     else
       {:error, report}
@@ -101,6 +114,7 @@ defmodule AgentJido.Release.LinkAudit do
       "- Route patterns checked: #{report.route_count}\n",
       "- Internal links checked: #{report.internal_count}\n",
       "- Unmatched internal links: #{length(report.unmatched_internal)}\n",
+      "- Maximum allowed unmatched links: #{report.max_unmatched}\n",
       external_header_lines(report),
       allowed_prefix_line(report),
       "\n",
@@ -124,7 +138,7 @@ defmodule AgentJido.Release.LinkAudit do
   defp collect_markdown_internal_links(root) do
     root
     |> markdown_paths()
-    |> Enum.flat_map(&scan_file_for_links(root, &1, @internal_md_link, :md, :path))
+    |> Enum.flat_map(&scan_file_for_links(root, &1, @internal_md_link, :md, :path, skip_code_fences: true))
     |> Enum.uniq()
   end
 
@@ -143,29 +157,64 @@ defmodule AgentJido.Release.LinkAudit do
   defp collect_markdown_external_links(root) do
     root
     |> markdown_paths()
-    |> Enum.flat_map(&scan_file_for_links(root, &1, @external_md_link, :md, :url))
+    |> Enum.flat_map(&scan_file_for_links(root, &1, @external_md_link, :md, :url, skip_code_fences: true))
     |> Enum.uniq()
   end
 
-  defp scan_file_for_links(root, path, regex, kind, value_key) do
+  defp scan_file_for_links(root, path, regex, kind, value_key, opts \\ []) do
+    skip_code_fences = Keyword.get(opts, :skip_code_fences, false)
     relative = Path.relative_to(path, root)
 
-    path
-    |> File.stream!([], :line)
-    |> Stream.with_index(1)
-    |> Enum.flat_map(fn {line, line_number} ->
-      Regex.scan(regex, line)
-      |> Enum.map(fn
-        [_full, captured] when value_key == :path ->
-          %{path: normalize_path(captured), source: "#{relative}:#{line_number}", kind: kind}
+    # Track fenced code blocks so links written inside ```, ~~~`, or indented
+    # Elixir cells are not mistaken for navigation links. This matters most for
+    # Livebooks, whose code cells frequently contain brackets and parentheses.
+    {_, links} =
+      path
+      |> File.stream!([], :line)
+      |> Stream.with_index(1)
+      |> Enum.reduce({false, []}, fn {line, line_number}, {in_fence?, acc} ->
+        cond do
+          skip_code_fences and fence_boundary?(line) ->
+            {not in_fence?, acc}
 
-        [_full, captured] when value_key == :url ->
-          %{url: String.trim(captured), source: "#{relative}:#{line_number}", kind: kind}
+          skip_code_fences and in_fence? ->
+            {in_fence?, acc}
+
+          true ->
+            matches = extract_matches(regex, line, value_key, relative, line_number, kind)
+
+            {in_fence?, Enum.reduce(matches, acc, fn match, inner -> [match | inner] end)}
+        end
       end)
-    end)
+
+    Enum.reverse(links)
   end
 
-  defp markdown_paths(root), do: Path.wildcard(Path.join(root, "priv/pages/**/*.md")) |> Enum.sort()
+  defp extract_matches(regex, line, value_key, relative, line_number, kind) do
+    regex
+    |> Regex.scan(line)
+    |> Enum.map(&build_link_match(&1, value_key, relative, line_number, kind))
+  end
+
+  defp build_link_match([_full, captured], :path, relative, line_number, kind) do
+    %{path: normalize_path(captured), source: "#{relative}:#{line_number}", kind: kind}
+  end
+
+  defp build_link_match([_full, captured], :url, relative, line_number, kind) do
+    %{url: String.trim(captured), source: "#{relative}:#{line_number}", kind: kind}
+  end
+
+  defp fence_boundary?(line) do
+    trimmed = String.trim_leading(line)
+    String.starts_with?(trimmed, "```") or String.starts_with?(trimmed, "~~~")
+  end
+
+  defp markdown_paths(root) do
+    (Path.wildcard(Path.join(root, "priv/pages/**/*.md")) ++
+       Path.wildcard(Path.join(root, "priv/pages/**/*.livemd")))
+    |> Enum.uniq()
+    |> Enum.sort()
+  end
 
   defp heex_paths(root) do
     (Path.wildcard(Path.join(root, "lib/agent_jido_web/**/*.heex")) ++

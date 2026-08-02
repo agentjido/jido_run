@@ -3,12 +3,14 @@ defmodule AgentJidoWeb.Plugs.LLMResponse do
   Adds LLM discovery headers and serves markdown responses for supported
   public routes when clients request `Accept: text/markdown`.
 
-  Also supports explicit `.md` URLs as a deterministic markdown endpoint.
+  Also supports explicit `.md` URLs as a deterministic Markdown endpoint and
+  explicit `.livemd` URLs as expanded Livebook artifacts.
   """
   import Plug.Conn
 
   alias AgentJidoWeb.MarkdownContent
   alias AgentJidoWeb.MarkdownLinks
+  alias AgentJidoWeb.LivebookContent
 
   @behaviour Plug
 
@@ -18,16 +20,38 @@ defmodule AgentJidoWeb.Plugs.LLMResponse do
   @impl Plug
   def call(%Plug.Conn{method: method, request_path: request_path} = conn, _opts)
       when method in ["GET", "HEAD"] and is_binary(request_path) do
-    case markdown_paths(request_path) do
-      {canonical_path, markdown_path} ->
-        handle_markdown_match(conn, request_path, canonical_path, markdown_path)
+    if livebook_route_request?(request_path) do
+      render_livebook(conn, request_path)
+    else
+      case markdown_paths(request_path) do
+        {canonical_path, markdown_path} ->
+          handle_markdown_match(conn, request_path, canonical_path, markdown_path)
+
+        :no_match ->
+          conn
+      end
+    end
+  end
+
+  def call(conn, _opts), do: conn
+
+  defp render_livebook(conn, request_path) do
+    canonical_path = String.trim_trailing(request_path, ".livemd")
+
+    case LivebookContent.resolve(canonical_path) do
+      {:ok, source} ->
+        canonical_url = MarkdownLinks.absolute_url(canonical_path)
+
+        conn
+        |> put_markdown_seo_headers(canonical_url)
+        |> put_resp_content_type("text/markdown", "utf-8")
+        |> send_resp(200, source)
+        |> halt()
 
       :no_match ->
         conn
     end
   end
-
-  def call(conn, _opts), do: conn
 
   defp handle_markdown_match(conn, request_path, canonical_path, markdown_path) do
     if MarkdownContent.eligible_public_path?(canonical_path) do
@@ -145,6 +169,10 @@ defmodule AgentJidoWeb.Plugs.LLMResponse do
 
   defp markdown_route_request?(path) when is_binary(path) do
     String.ends_with?(path, ".md")
+  end
+
+  defp livebook_route_request?(path) when is_binary(path) do
+    String.ends_with?(path, ".livemd")
   end
 
   defp parse_comma_separated_values(nil), do: []

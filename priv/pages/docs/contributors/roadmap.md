@@ -41,7 +41,7 @@ This page is about sequencing and emphasis. Use [Package Support Levels](/docs/c
 
 ### Durability and Persistence
 
-This is Mike Hostetler's primary personal epic. The goal is to make persistence a first-class part of the platform: durable agent state, state that survives runtime sessions, and a coherent long-term storage story across the ecosystem.
+This is Mike Hostetler's primary personal epic. The goal is to make persistence a first-class framework capability: durable Agent state, state that survives runtime sessions, and a coherent long-term storage story across the ecosystem.
 
 ### Observability and UI
 

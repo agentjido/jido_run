@@ -400,7 +400,7 @@ defmodule AgentJidoWeb.JidoEcosystemLive do
             </p>
             <div class="flex gap-3 justify-center">
               <.link
-                navigate="/getting-started"
+                navigate="/docs/getting-started"
                 class="bg-primary text-primary-foreground hover:bg-primary/90 text-[13px] font-bold px-7 py-3 rounded transition-colors"
               >
                 GET STARTED →

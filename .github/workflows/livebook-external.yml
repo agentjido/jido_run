@@ -1,0 +1,61 @@
+name: External Livebook release gate
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 13 * * 1"
+
+concurrency:
+  group: external-livebook-release-gate
+  cancel-in-progress: false
+
+env:
+  OTP_VERSION: "27.3"
+  ELIXIR_VERSION: "1.18.4"
+  MIX_ENV: test
+  INCLUDE_LIVEBOOK_TESTS: "true"
+
+jobs:
+  first-llm-agent:
+    name: First LLM Agent with OpenAI
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+    steps:
+      - name: Require the documented provider key
+        run: |
+          if [ -z "$OPENAI_API_KEY" ]; then
+            echo "Add OPENAI_API_KEY as an Actions secret before this release gate can run."
+            exit 1
+          fi
+
+      - name: Checkout code
+        uses: actions/checkout@v7.0.1
+
+      - name: Setup Elixir
+        uses: erlef/setup-beam@v1
+        with:
+          otp-version: ${{ env.OTP_VERSION }}
+          elixir-version: ${{ env.ELIXIR_VERSION }}
+          install-hex: false
+          install-rebar: false
+
+      - name: Install native runtime libraries
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libopenblas0
+
+      - name: Install Hex and Rebar
+        run: |
+          mix local.hex --force
+          mix local.rebar --force
+
+      - name: Restore dependencies
+        run: mix deps.get
+
+      - name: Run the documented OpenAI request
+        run: mix test test/livebooks/docs/first_llm_agent_external_test.exs --only livebook_external

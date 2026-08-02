@@ -48,7 +48,9 @@
       </script>
     <% end %>
 
-    <% default_description = "Agent Jido is the Elixir Autonomous Agent Framework"
+    <% default_description =
+      "The Elixir framework for long-running agent systems. Build supervised agents, typed tools, and explicit workflows on Elixir/OTP."
+
     status = @conn.status
     canonical_allowed? = is_nil(status) or status == 200
 
