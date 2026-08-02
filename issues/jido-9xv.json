@@ -2,6 +2,7 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-08-02T20:38:53Z",
   "created": "2026-08-02T20:08:23Z",
   "description": "Add safe homepage critical CSS, load the full stylesheet without blocking first paint, preserve CSP and no-JavaScript behavior, and verify with local Chrome and PageSpeed-compatible audits.",
   "id": "jido-9xv",
@@ -13,8 +14,8 @@
     }
   ],
   "priority": 2,
-  "status": "in_progress",
+  "status": "closed",
   "title": "Eliminate homepage render-blocking CSS",
   "type": "task",
-  "updated_at": "2026-08-02T20:38:25Z"
+  "updated_at": "2026-08-02T20:38:53Z"
 }
