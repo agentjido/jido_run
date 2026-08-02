@@ -1,0 +1,14 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-08-02T00:34:17Z",
+  "description": "Address all confirmed review findings on PR #192: use deployed endpoint for Livebook URLs; align the link-audit command with the accepted ceiling; replace public retired Training and getting-started links and remove the legacy sitemap URL; make Livebook route tests part of normal PR CI; correct Agent versus AgentServer homepage vocabulary; crawl all public root routes; update the release runbook to the new positioning canon. Add regression tests, run full release gates, commit, push, and update the existing PR.",
+  "id": "jido-wap",
+  "labels": [],
+  "priority": 2,
+  "status": "open",
+  "title": "Fix PR 192 review findings",
+  "type": "task",
+  "updated_at": "2026-08-02T00:34:17Z"
+}
