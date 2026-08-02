@@ -6,9 +6,15 @@
   "description": "Add safe homepage critical CSS, load the full stylesheet without blocking first paint, preserve CSP and no-JavaScript behavior, and verify with local Chrome and PageSpeed-compatible audits.",
   "id": "jido-9xv",
   "labels": [],
+  "comments": [
+    {
+      "text": "Implemented a homepage-only 24 KB critical CSS bundle (5.4 KB gzip), a CSP-safe non-blocking full stylesheet loader, and a no-JavaScript fallback. Full app.css remains byte-for-byte unchanged. Local Lighthouse mobile and desktop render-blocking audits now pass. Full tests, compilation, formatting, Credo, and asset builds pass.",
+      "timestamp": "2026-08-02T20:38:25Z"
+    }
+  ],
   "priority": 2,
   "status": "in_progress",
   "title": "Eliminate homepage render-blocking CSS",
   "type": "task",
-  "updated_at": "2026-08-02T20:08:35Z"
+  "updated_at": "2026-08-02T20:38:25Z"
 }
