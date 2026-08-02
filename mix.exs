@@ -142,8 +142,17 @@ defmodule AgentJido.MixProject do
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
       "assets.setup": ["cmd --cd assets npm ci", "tailwind.install --if-missing", "esbuild.install --if-missing"],
-      "assets.build": ["tailwind default", "esbuild default"],
-      "assets.deploy": ["tailwind default --minify", "esbuild default --minify", "phx.digest"],
+      "assets.build": [
+        "tailwind default",
+        "tailwind home_critical --minify",
+        "esbuild default"
+      ],
+      "assets.deploy": [
+        "tailwind default --minify",
+        "tailwind home_critical --minify",
+        "esbuild default --minify",
+        "phx.digest"
+      ],
       "arcana.refresh": [
         "content.ingest.local --graph-concurrency 1",
         "arcana.graph.detect_communities --quiet",

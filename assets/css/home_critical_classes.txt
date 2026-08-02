@@ -1,0 +1,43 @@
+<!--
+  Tailwind scans this source file to build only the homepage first-screen utilities.
+  Keep these class lists in sync with the root layout, staging bar, primary
+  navigation, and homepage hero.
+-->
+<div class="antialiased font-mono"></div>
+<div class="min-h-screen flex flex-col bg-background text-foreground"></div>
+
+<!-- Staging and signed-in utility bars -->
+<div class="border-b border-accent-yellow/30 bg-accent-yellow/10 border-border/70 bg-background/70 backdrop-blur-sm"></div>
+<div class="container mx-auto flex max-w-[1200px] flex-col gap-2 px-4 py-2 text-[11px] text-foreground sm:flex-row sm:items-center sm:justify-between sm:px-6"></div>
+<div class="min-w-0 items-center gap-2 rounded-full border border-accent-yellow/40 bg-background/80 px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.16em] text-accent-yellow truncate text-foreground/85 font-semibold transition-colors hover:text-foreground"></div>
+<div class="container mx-auto flex max-w-[1200px] items-center justify-between gap-4 px-4 py-1.5 text-[11px] text-muted-foreground sm:px-6 font-medium text-foreground/90"></div>
+
+<!-- Marketing header and primary navigation -->
+<header class="sticky top-0 z-50 bg-background/80 backdrop-blur-md pt-6 pb-12"></header>
+<nav class="container max-w-[1000px] mx-auto px-6 nav-surface flex items-center justify-between px-4 py-3 sm:px-6 sm:py-4"></nav>
+<div class="flex items-center gap-6 hidden md:flex gap-3"></div>
+<a class="flex items-center gap-2.5 text-xs transition-colors text-secondary-foreground hover:text-foreground"></a>
+<div class="rounded flex items-center justify-center font-bold text-primary-foreground bg-gradient-to-br from-primary to-accent-yellow transition-all duration-300 w-7 h-7 text-sm"></div>
+<span class="font-bold tracking-wide transition-all duration-300 text-base"></span>
+<button class="inline-flex h-9 w-9 items-center justify-center rounded border border-border bg-surface text-muted-foreground text-foreground transition-colors hover:text-foreground hover:border-foreground/40 md:hidden"></button>
+<svg class="hidden h-4 w-4 h-5 w-5 hero-bars-3"></svg>
+<button class="inline-flex items-center gap-2 rounded border border-primary/30 bg-primary/5 px-3 py-2 text-xs font-medium text-primary transition-colors hover:bg-primary/[0.12]"></button>
+<svg class="h-3.5 w-3.5 hero-magnifying-glass"></svg>
+<span class="ml-1 hidden rounded border border-primary/30 bg-primary/5 px-1.5 py-0.5 text-[10px] font-normal text-primary lg:inline-flex"></span>
+<div class="hidden md:hidden mt-3 nav-surface p-4 space-y-2 relative z-[100]"></div>
+
+<!-- Homepage hero and the hidden start of the next section -->
+<main class="flex-1"></main>
+<div class="container max-w-[1000px] mx-auto px-6"></div>
+<section class="text-center mb-16 animate-fade-in opacity-0"></section>
+<div class="inline-block bg-primary/10 border border-primary/30 px-4 py-2 rounded mb-6"></div>
+<span class="home-eyebrow-label text-[11px] font-semibold tracking-widest"></span>
+<h1 class="text-4xl sm:text-[42px] font-bold leading-tight mb-5 tracking-tight"></h1>
+<span class="text-primary"></span>
+<p class="text-secondary-foreground text-[15px] leading-relaxed mb-6 max-w-lg mx-auto"></p>
+<div class="flex items-center gap-4 justify-center mb-12"></div>
+<a class="bg-primary text-primary-foreground hover:bg-primary/90 text-[13px] font-bold px-7 py-5 rounded transition-colors"></a>
+<a class="home-subtle-link text-[13px] font-semibold transition-colors"></a>
+<p class="home-muted-copy text-[11px] leading-relaxed max-w-xl mx-auto -mt-6"></p>
+<a class="text-primary hover:underline font-semibold ml-1"></a>
+<span class="mx-2"></span>

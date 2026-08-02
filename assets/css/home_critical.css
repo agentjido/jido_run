@@ -1,0 +1,38 @@
+@import "tailwindcss" source(none);
+
+@source "./home_critical_classes.txt";
+
+@import "./fonts_critical.css";
+@import "./theme.css";
+
+@plugin "./tailwind_heroicons.js";
+
+@layer components {
+  .nav-surface {
+    @apply bg-card border border-border rounded-md;
+  }
+
+  #home-page .home-eyebrow-label {
+    color: hsl(var(--foreground));
+  }
+
+  #home-page .home-subtle-link {
+    color: hsl(var(--secondary-foreground));
+  }
+
+  #home-page .home-subtle-link:hover {
+    color: hsl(var(--primary));
+  }
+
+  #home-page .home-muted-copy {
+    color: hsl(var(--muted-foreground));
+  }
+
+  .dark #home-page .home-subtle-link {
+    color: hsl(0 0% 72%);
+  }
+
+  .dark #home-page .home-muted-copy {
+    color: hsl(0 0% 58%);
+  }
+}

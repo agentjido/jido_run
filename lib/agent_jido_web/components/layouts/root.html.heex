@@ -5,7 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="csrf-token" content={get_csrf_token()} />
 
-    <link phx-track-static rel="stylesheet" href={~p"/assets/app.css"} />
+    <%= if @conn.request_path == "/" do %>
+      <style data-home-critical-css>
+        <%= Phoenix.HTML.raw(home_critical_css()) %>
+      </style>
+      <link
+        id="app-stylesheet"
+        phx-track-static
+        rel="stylesheet"
+        href={~p"/assets/app.css"}
+        media="print"
+      />
+      <script nonce={@conn.assigns[:csp_nonce]}>
+        (function() {
+          var stylesheet = document.getElementById('app-stylesheet');
+          var activateStylesheet = function() {
+            stylesheet.media = 'all';
+          };
+
+          if (stylesheet.sheet) {
+            activateStylesheet();
+          } else {
+            stylesheet.addEventListener('load', activateStylesheet, { once: true });
+          }
+        })();
+      </script>
+      <noscript>
+        <link phx-track-static rel="stylesheet" href={~p"/assets/app.css"} />
+      </noscript>
+    <% else %>
+      <link phx-track-static rel="stylesheet" href={~p"/assets/app.css"} />
+    <% end %>
     <link rel="preload" href={~p"/fonts/ibm-plex-mono/ibm-plex-mono-latin-500.woff2"} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={~p"/fonts/ibm-plex-mono/ibm-plex-mono-latin-700.woff2"} as="font" type="font/woff2" crossorigin />
 
