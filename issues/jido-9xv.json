@@ -11,11 +11,15 @@
     {
       "text": "Implemented a homepage-only 24 KB critical CSS bundle (5.4 KB gzip), a CSP-safe non-blocking full stylesheet loader, and a no-JavaScript fallback. Full app.css remains byte-for-byte unchanged. Local Lighthouse mobile and desktop render-blocking audits now pass. Full tests, compilation, formatting, Credo, and asset builds pass.",
       "timestamp": "2026-08-02T20:38:25Z"
+    },
+    {
+      "text": "Merged PR #194 as c1da6005. Main CI passed. Stage deployment 30771112725 passed and stage mobile Lighthouse scored 98 with the render-blocking audit passing. Production blue-green deployment 30771408894 passed. Production mobile Lighthouse scored 97 with 0 ms total blocking time and the render-blocking audit passing.",
+      "timestamp": "2026-08-02T23:05:56Z"
     }
   ],
   "priority": 2,
   "status": "closed",
   "title": "Eliminate homepage render-blocking CSS",
   "type": "task",
-  "updated_at": "2026-08-02T20:38:53Z"
+  "updated_at": "2026-08-02T23:05:56Z"
 }
