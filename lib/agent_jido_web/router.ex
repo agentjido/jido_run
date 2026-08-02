@@ -29,9 +29,6 @@ defmodule AgentJidoWeb.Router do
     plug(:protect_from_forgery)
     plug(:put_secure_browser_headers)
     plug(:fetch_current_scope_for_user)
-    plug(AgentJidoWeb.Plugs.LegacyRouteRedirect)
-    plug(AgentJidoWeb.Plugs.LegacyBlogTagRedirect)
-    plug(AgentJidoWeb.Plugs.LegacyBlogSlugRedirect)
     plug(AgentJidoWeb.Plugs.LLMResponse)
     plug(AgentJidoWeb.Plugs.AnalyticsIdentity)
   end

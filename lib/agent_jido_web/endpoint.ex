@@ -13,6 +13,9 @@ defmodule AgentJidoWeb.Endpoint do
 
   plug AgentJidoWeb.Plug.Heartbeat
   plug(:canonical_host)
+  plug AgentJidoWeb.Plugs.LegacyRouteRedirect
+  plug AgentJidoWeb.Plugs.LegacyBlogTagRedirect
+  plug AgentJidoWeb.Plugs.LegacyBlogSlugRedirect
 
   defp canonical_host(conn, _opts) do
     :agent_jido

@@ -59,5 +59,7 @@ defmodule AgentJidoWeb.SitemapControllerTest do
     refute body =~ "/blog/announcing-req_llm-1_0"
     refute body =~ "/blog/introducing-req_llm"
     refute body =~ "/blog/jido_signal"
+    assert body =~ "/blog/jido-assembly-slack-clone"
+    refute body =~ "/blog/jido-assembly<"
   end
 end
