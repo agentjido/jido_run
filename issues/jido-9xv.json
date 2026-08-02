@@ -1,0 +1,14 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-08-02T20:08:23Z",
+  "description": "Add safe homepage critical CSS, load the full stylesheet without blocking first paint, preserve CSP and no-JavaScript behavior, and verify with local Chrome and PageSpeed-compatible audits.",
+  "id": "jido-9xv",
+  "labels": [],
+  "priority": 2,
+  "status": "open",
+  "title": "Eliminate homepage render-blocking CSS",
+  "type": "task",
+  "updated_at": "2026-08-02T20:08:23Z"
+}
