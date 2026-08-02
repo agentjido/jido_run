@@ -29,4 +29,16 @@ defmodule AgentJidoWeb.CanonClaimScanTest do
              "#{file} still contains superseded/unproven claim: #{inspect(banned)}"
     end
   end
+
+  test "homepage copy keeps Agent data separate from AgentServer processes" do
+    homepage = File.read!("lib/agent_jido_web/live/jido_home_live.ex")
+
+    assert homepage =~ "supervised AgentServer processes"
+    assert homepage =~ "Each AgentServer runs in its own lightweight process"
+    assert homepage =~ "restart AgentServers"
+
+    refute homepage =~ "supervised Agent processes"
+    refute homepage =~ "Each Agent runs in its own lightweight process"
+    refute homepage =~ "restart Agents by your restart strategy"
+  end
 end

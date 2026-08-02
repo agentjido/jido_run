@@ -75,7 +75,7 @@ This is runtime coordination and scheduling behavior with no required LLM depend
 - **Adoption planning:** [Start small, grow safely](/features/start-small)
 - **Build path:** [Mixed-stack integration](/build/mixed-stack-integration)
 - **Agent model foundations:** [BEAM-native agent model](/features/beam-native-agent-model)
-- **Training:** [LiveView integration](/training/liveview-integration), [Production readiness](/training/production-readiness)
+- **Guides:** [Elixir developers](/docs/getting-started/elixir-developers), [Error handling and recovery](/docs/guides/error-handling-and-recovery)
 
 ## Get Building
 

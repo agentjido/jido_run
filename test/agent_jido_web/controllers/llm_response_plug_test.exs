@@ -1,8 +1,6 @@
 defmodule AgentJidoWeb.LLMResponsePlugTest do
   use AgentJidoWeb.ConnCase, async: true
 
-  @moduletag :flaky
-
   test "html response includes LLM discovery headers for supported routes", %{conn: conn} do
     conn = get(conn, "/docs")
     assert response(conn, 200)
@@ -76,6 +74,17 @@ defmodule AgentJidoWeb.LLMResponsePlugTest do
     assert body =~ ~s({:jido, "#{AgentJido.ReleaseCatalog.requirement("jido")}"})
     assert body =~ ~s({:jido_ai, "#{AgentJido.ReleaseCatalog.requirement("jido_ai")}"})
     refute body =~ "{{mix_dep:"
+  end
+
+  test "Livebook run links use the deployed endpoint", %{conn: conn} do
+    body = conn |> get("/docs/getting-started/first-llm-agent") |> response(200)
+
+    source_url =
+      AgentJidoWeb.Endpoint.url() <>
+        "/docs/getting-started/first-llm-agent.livemd"
+
+    assert body =~ URI.encode_www_form(source_url)
+    refute body =~ URI.encode_www_form("https://jido.run/docs/getting-started/first-llm-agent.livemd")
   end
 
   test "non-Livebook pages do not get a .livemd artifact", %{conn: conn} do

@@ -18,14 +18,11 @@ defmodule Mix.Tasks.Site.LinkAuditTest do
     {:ok, report_path: report_path}
   end
 
-  @tag skip: "IA/content taxonomy transition; temporarily disabled for CI unblock"
-  test "runs and writes a report when configured for launch hidden routes", %{report_path: report_path} do
+  test "runs with the release ceiling and writes a report", %{report_path: report_path} do
     output =
       capture_io(fn ->
         LinkAudit.run([
           "--include-heex",
-          "--allow-prefix",
-          "/training",
           "--report",
           report_path
         ])
@@ -33,7 +30,8 @@ defmodule Mix.Tasks.Site.LinkAuditTest do
 
     assert output =~ "Route patterns checked"
     assert output =~ "Internal links checked"
-    assert output =~ "Unmatched internal links: 0"
+    assert output =~ "Unmatched internal links: 4"
+    assert output =~ "Maximum allowed unmatched links: 4"
     assert output =~ "Report written:"
 
     assert File.exists?(report_path)
@@ -42,24 +40,23 @@ defmodule Mix.Tasks.Site.LinkAuditTest do
 
   # Release regression gate (jido-e00 T07 / jido-e12 T04): the unmatched
   # internal-link count must not grow. Current ceiling is the observed count;
-  # a PR that increases it must fix the links, redirect them, or consciously
+  # a PR that increases it must fix the links or consciously
   # bump this number (and update specs/runbooks/release_punchlist.md).
   @link_ceiling 4
 
   test "release gate: unmatched internal links do not exceed the ceiling", %{report_path: report_path} do
-    result = AgentJido.Release.LinkAudit.run(include_heex: true, report_path: report_path)
-
-    report =
-      case result do
-        {:ok, report} -> report
-        {:error, report} -> report
-      end
+    assert {:ok, report} =
+             AgentJido.Release.LinkAudit.run(
+               include_heex: true,
+               max_unmatched: @link_ceiling,
+               report_path: report_path
+             )
 
     count = length(report.unmatched_internal)
 
     assert count <= @link_ceiling,
            "unmatched internal links (#{count}) exceed the release ceiling (#{@link_ceiling}). " <>
-             "Fix the new links, give them a legacy redirect, or lower/bump the ceiling in " <>
+             "Fix the new links or lower/bump the ceiling in " <>
              "specs/runbooks/release_punchlist.md and here."
   end
 

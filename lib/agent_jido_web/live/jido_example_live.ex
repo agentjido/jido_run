@@ -15,6 +15,7 @@ defmodule AgentJidoWeb.JidoExampleLive do
 
   alias AgentJido.Examples
   alias AgentJido.Pages
+  alias AgentJido.Pages.Page
 
   @valid_tabs ~w(demo explanation source)
 
@@ -379,10 +380,22 @@ defmodule AgentJidoWeb.JidoExampleLive do
 
   defp maybe_docs_livebook_resource(path, resource, true) do
     case Pages.get_page_by_path(path) do
-      %{title: title, livebook_url: livebook_url} when is_binary(livebook_url) and livebook_url != "" ->
+      %Page{} = page ->
+        livebook_resource(page, resource)
+
+      _other ->
+        nil
+    end
+  end
+
+  defp maybe_docs_livebook_resource(_path, _resource, false), do: nil
+
+  defp livebook_resource(page, resource) do
+    case Page.livebook_url(page, AgentJidoWeb.Endpoint.url()) do
+      livebook_url when is_binary(livebook_url) and livebook_url != "" ->
         %{
           kind: "Livebook",
-          label: resource_value(resource, :livebook_label, title),
+          label: resource_value(resource, :livebook_label, page.title),
           href: livebook_url,
           description:
             resource_value(
@@ -398,8 +411,6 @@ defmodule AgentJidoWeb.JidoExampleLive do
         nil
     end
   end
-
-  defp maybe_docs_livebook_resource(_path, _resource, false), do: nil
 
   defp external_resource(resource) do
     href = resource_value(resource, :href, resource_value(resource, :url))

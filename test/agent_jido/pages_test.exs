@@ -116,9 +116,13 @@ defmodule AgentJido.PagesTest do
         |> Enum.find(& &1.is_livebook)
 
       assert page != nil
-      assert is_binary(page.livebook_url)
-      assert page.livebook_url =~ "https://livebook.dev/run?url="
-      assert page.livebook_url =~ URI.encode_www_form("https://jido.run#{page.path}.livemd")
+      livebook_url = AgentJido.Pages.Page.livebook_url(page, AgentJidoWeb.Endpoint.url())
+
+      assert is_binary(livebook_url)
+      assert livebook_url =~ "https://livebook.dev/run?url="
+
+      assert livebook_url =~
+               URI.encode_www_form("#{AgentJidoWeb.Endpoint.url()}#{page.path}.livemd")
     end
   end
 

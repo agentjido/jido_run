@@ -59,4 +59,4 @@ Extend a demand tracker with auto-decay:
 
 ## Next Module
 
-Continue with [LiveView + Jido Integration Patterns](/training/liveview-integration).
+Continue with [Elixir developers](/docs/getting-started/elixir-developers).

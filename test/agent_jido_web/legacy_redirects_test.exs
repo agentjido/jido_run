@@ -25,6 +25,23 @@ defmodule AgentJidoWeb.LegacyRedirectsTest do
       assert LegacyRedirects.destination("/getting-started") == "/docs/getting-started"
     end
 
+    test "published source does not link to retired Training or getting-started routes" do
+      public_source =
+        AgentJido.Pages.all_pages()
+        |> Enum.reject(&(&1.category == :training))
+        |> Enum.map_join("\n", &File.read!(&1.source_path))
+
+      refute public_source =~ ~r{\]\(/training(?:/|\))}
+
+      web_source =
+        ["ex", "heex", "eex"]
+        |> Enum.flat_map(&Path.wildcard("lib/agent_jido_web/**/*.#{&1}"))
+        |> Enum.map_join("\n", &File.read!/1)
+
+      assert web_source != ""
+      refute web_source =~ ~r{(?:navigate|href)="/getting-started"}
+    end
+
     test ".md variants of redirected routes resolve to a markdown destination" do
       dest = LegacyRedirects.destination("/getting-started.md")
       assert is_binary(dest)

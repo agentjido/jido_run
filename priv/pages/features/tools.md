@@ -102,7 +102,7 @@ assert result.found == true
 - **Agent foundations:** [How Jido agents work](/features/how-agents-work)
 - **Model support:** [Any model, any provider](/features/llm-support)
 - **Coordination:** [Agents that work together](/features/multi-agent-coordination)
-- **Hands-on:** [Agent fundamentals](/training/agent-fundamentals)
+- **Hands-on:** [Your first agent](/docs/getting-started/first-agent)
 
 ## Get Building
 

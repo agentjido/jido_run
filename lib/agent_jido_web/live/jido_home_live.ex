@@ -51,7 +51,7 @@ defmodule AgentJidoWeb.JidoHomeLive do
       </h1>
 
       <p class="text-secondary-foreground text-[15px] leading-relaxed mb-6 max-w-lg mx-auto">
-        Jido gives Elixir teams supervised Agent processes, typed tools, and explicit workflows. Add one Agent to your current application, then add AI and coordination when you need them.
+        Jido gives Elixir teams supervised AgentServer processes, typed tools, and explicit workflows. Add one Agent to your current application, then add AI and coordination when you need them.
       </p>
 
       <div class="flex items-center gap-4 justify-center mb-12">
@@ -290,13 +290,15 @@ defmodule AgentJidoWeb.JidoHomeLive do
       %{
         icon: "◉",
         title: "Process isolation",
-        desc: "Each Agent runs in its own lightweight process with isolated memory, so a failure is bounded by your supervision topology.",
+        desc:
+          "Each AgentServer runs in its own lightweight process and owns one Agent's state, so a failure is bounded by your supervision topology.",
         tone: :green
       },
       %{
         icon: "⟳",
         title: "Supervision and recovery",
-        desc: "OTP supervisors detect crashes and restart Agents by your restart strategy. Failure handling is part of the runtime, not bolted on.",
+        desc:
+          "OTP supervisors detect crashes and restart AgentServers by your restart strategy. Failure handling is part of the runtime, not bolted on.",
         tone: :yellow
       },
       %{
@@ -414,8 +416,8 @@ defmodule AgentJidoWeb.JidoHomeLive do
         <div class="code-header mt-1">
           <span class="home-muted-copy text-xs">iex -S mix</span>
           <div class="flex items-center gap-3">
-            <.link navigate="/training/agent-fundamentals" class="home-quickstart-header-link">
-              TRAINING
+            <.link navigate="/docs/getting-started/first-agent" class="home-quickstart-header-link">
+              TUTORIAL
             </.link>
             <.link navigate="/docs" class="home-subtle-link text-[10px]">
               DOCS

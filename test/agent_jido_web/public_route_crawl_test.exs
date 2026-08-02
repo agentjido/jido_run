@@ -15,11 +15,24 @@ defmodule AgentJidoWeb.PublicRouteCrawlTest do
   @redirect_statuses [301, 302, 307, 308]
   @internal_hosts [nil, "jido.run", "www.jido.run", "localhost"]
   @max_redirects 5
+  @public_root_routes ~w(
+    /
+    /about
+    /blog
+    /build
+    /community
+    /community/showcase
+    /compare
+    /docs
+    /ecosystem
+    /examples
+    /features
+    /skills
+  )
 
   test "every internal destination from every published page resolves" do
     source_results =
-      Pages.all_pages()
-      |> Enum.map(&Pages.route_for/1)
+      (Enum.map(Pages.all_pages(), &Pages.route_for/1) ++ @public_root_routes)
       |> Enum.uniq()
       |> Enum.sort()
       |> Enum.map(&load_source/1)

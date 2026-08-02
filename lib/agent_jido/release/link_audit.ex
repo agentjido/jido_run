@@ -16,6 +16,7 @@ defmodule AgentJido.Release.LinkAudit do
           route_count: non_neg_integer(),
           internal_count: non_neg_integer(),
           unmatched_internal: [link_ref()],
+          max_unmatched: non_neg_integer(),
           external_count: non_neg_integer(),
           external_warnings: [external_ref()],
           external_failures: [external_ref()],
@@ -28,6 +29,7 @@ defmodule AgentJido.Release.LinkAudit do
           | {:include_heex, boolean()}
           | {:check_external, boolean()}
           | {:allow_prefixes, [String.t()]}
+          | {:max_unmatched, non_neg_integer()}
           | {:report_path, String.t()}
 
   @internal_md_link ~r/\]\((\/[^)\s]+)\)/
@@ -38,7 +40,8 @@ defmodule AgentJido.Release.LinkAudit do
   Run the link audit and write the markdown report.
 
   Returns `{:ok, report}` when no blocking findings exist and `{:error, report}`
-  when unmatched internal links or external hard failures are detected.
+  when unmatched internal links exceed `:max_unmatched` or external hard
+  failures are detected. The library default is zero.
   """
   @spec run([option()]) :: {:ok, report()} | {:error, report()}
   def run(opts \\ []) do
@@ -46,7 +49,12 @@ defmodule AgentJido.Release.LinkAudit do
     include_heex = Keyword.get(opts, :include_heex, false)
     check_external = Keyword.get(opts, :check_external, false)
     allowed_prefixes = Keyword.get(opts, :allow_prefixes, [])
+    max_unmatched = Keyword.get(opts, :max_unmatched, 0)
     report_path = opts |> Keyword.get(:report_path, "tmp/link_audit_report.md") |> resolve_report_path(root)
+
+    if not (is_integer(max_unmatched) and max_unmatched >= 0) do
+      raise ArgumentError, ":max_unmatched must be a non-negative integer"
+    end
 
     routes = route_patterns()
 
@@ -59,7 +67,7 @@ defmodule AgentJido.Release.LinkAudit do
       internal_links
       |> Enum.reject(
         &(ignored_path?(&1.path) or matches_any_route?(&1.path, routes) or
-            legacy_redirect?(&1.path) or allowed_unmatched?(&1.path, allowed_prefixes))
+            allowed_unmatched?(&1.path, allowed_prefixes))
       )
 
     {external_count, external_warnings, external_failures} =
@@ -77,6 +85,7 @@ defmodule AgentJido.Release.LinkAudit do
       route_count: length(routes),
       internal_count: length(internal_links),
       unmatched_internal: Enum.sort_by(unmatched_internal, &{&1.path, &1.source}),
+      max_unmatched: max_unmatched,
       external_count: external_count,
       external_warnings: Enum.sort_by(external_warnings, &{&1.url, &1.source}),
       external_failures: Enum.sort_by(external_failures, &{&1.url, &1.source}),
@@ -86,7 +95,8 @@ defmodule AgentJido.Release.LinkAudit do
 
     write_report(report)
 
-    if report.unmatched_internal == [] and report.external_failures == [] do
+    if length(report.unmatched_internal) <= report.max_unmatched and
+         report.external_failures == [] do
       {:ok, report}
     else
       {:error, report}
@@ -104,6 +114,7 @@ defmodule AgentJido.Release.LinkAudit do
       "- Route patterns checked: #{report.route_count}\n",
       "- Internal links checked: #{report.internal_count}\n",
       "- Unmatched internal links: #{length(report.unmatched_internal)}\n",
+      "- Maximum allowed unmatched links: #{report.max_unmatched}\n",
       external_header_lines(report),
       allowed_prefix_line(report),
       "\n",
@@ -256,13 +267,6 @@ defmodule AgentJido.Release.LinkAudit do
 
   defp allowed_unmatched?(path, prefixes) do
     Enum.any?(prefixes, &String.starts_with?(path, &1))
-  end
-
-  # A link to a path that the site redirects (301) to a canonical route is not
-  # broken. This keeps the audit in parity with the runtime LegacyRedirects
-  # table (jido-e01: E01-T13/T14/T15).
-  defp legacy_redirect?(path) do
-    is_binary(AgentJidoWeb.LegacyRedirects.destination(path))
   end
 
   defp check_external_links(external_links) do

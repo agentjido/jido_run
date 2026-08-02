@@ -8,6 +8,7 @@ defmodule AgentJido.MCP.DocsTools do
   alias AgentJido.ContentAssistant.URL
   alias AgentJido.MCP
   alias AgentJido.Pages
+  alias AgentJido.Pages.Page
   alias AgentJidoWeb.MarkdownContent
 
   @docs_collection ["site_docs"]
@@ -105,7 +106,7 @@ defmodule AgentJido.MCP.DocsTools do
           "section" => Pages.docs_section_for_path(canonical_path),
           "markdown" => markdown,
           "github_url" => page.github_url,
-          "livebook_url" => page.livebook_url,
+          "livebook_url" => Page.livebook_url(page, MCP.endpoint_url()),
           "legacy_resolution" => legacy_resolution_payload(normalized_path, canonical_path, resolution)
         }
         |> Enum.reject(fn {_key, value} -> is_nil(value) end)

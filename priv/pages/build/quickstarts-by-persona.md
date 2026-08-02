@@ -23,35 +23,35 @@ Pick the persona path that matches your current bottleneck, finish one milestone
 
 - First milestone: run one supervised agent and verify deterministic state updates.
 - Start: [Counter Agent example](/examples/counter-agent)
-- Next training: [Agent Fundamentals on the BEAM](/training/agent-fundamentals)
+- Next guide: [Your first agent](/docs/getting-started/first-agent)
 - Ops/reference follow-up: [Architecture](/docs/reference/behavior-first-architecture)
 
 ### AI product engineer
 
 - First milestone: ship one user-facing workflow backed by explicit actions.
 - Start: [Demand Tracker Agent example](/examples/demand-tracker-agent)
-- Next training: [Actions and Validation](/training/actions-validation)
+- Next guide: [Actions](/docs/concepts/actions)
 - Ops/reference follow-up: [Error handling and recovery](/docs/guides/error-handling-and-recovery)
 
 ### Python AI engineer
 
 - First milestone: understand where BEAM runtime boundaries improve reliability and orchestration.
 - Start: [BEAM for AI Builders](/features/beam-for-ai-builders)
-- Next training: [LiveView + Jido Integration Patterns](/training/liveview-integration)
+- Next guide: [Elixir developers](/docs/getting-started/elixir-developers)
 - Ops/reference follow-up: [Plugins](/docs/concepts/plugins)
 
 ### TypeScript fullstack engineer
 
 - First milestone: model one multi-step workflow with clear signal boundaries.
 - Start: [Multi-Agent Coordination](/features/multi-agent-coordination)
-- Next training: [Signals and Routing](/training/signals-routing)
+- Next guide: [Signals](/docs/concepts/signals)
 - Ops/reference follow-up: [Guides](/docs/guides)
 
 ### Platform and SRE engineer
 
 - First milestone: define runtime health checks and incident response expectations before launch.
 - Start: [Observe everything](/features/observe-everything)
-- Next training: [Production Readiness: Supervision, Telemetry, and Failure Modes](/training/production-readiness)
+- Next guide: [Error handling and recovery](/docs/guides/error-handling-and-recovery)
 - Ops/reference follow-up: [Error handling and recovery](/docs/guides/error-handling-and-recovery)
 
 ## Proof check: first value in one command loop

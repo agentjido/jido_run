@@ -99,7 +99,7 @@ Signal processed
 
 ## Next links
 
-- Training: [LiveView + Jido Integration Patterns](/training/liveview-integration)
+- Guide: [Elixir developers](/docs/getting-started/elixir-developers)
 - Docs: [Guides](/docs/guides)
 - Related build page: [Product Feature Blueprints](/build/product-feature-blueprints)
 - Context page: [BEAM for AI Builders](/features/beam-for-ai-builders)
