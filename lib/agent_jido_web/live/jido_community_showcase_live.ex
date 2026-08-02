@@ -6,6 +6,7 @@ defmodule AgentJidoWeb.JidoCommunityShowcaseLive do
   use AgentJidoWeb, :live_view
 
   alias AgentJido.Community.Showcase
+  alias AgentJidoWeb.StructuredData
 
   import AgentJidoWeb.Jido.MarketingLayouts
 
@@ -19,6 +20,13 @@ defmodule AgentJidoWeb.JidoCommunityShowcaseLive do
      assign(socket,
        page_title: "Built with Jido",
        meta_description: "Community showcase of real projects built with Jido.",
+       structured_data: [
+         StructuredData.breadcrumb_list([
+           {"Jido", "/"},
+           {"Community", "/community"},
+           {"Showcase", "/community/showcase"}
+         ])
+       ],
        projects: projects,
        submit_url: @submit_url
      )}

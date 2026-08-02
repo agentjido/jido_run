@@ -8,6 +8,7 @@ defmodule AgentJidoWeb.BlogLive do
 
   alias AgentJido.Blog
   alias AgentJidoWeb.MarkdownLinks
+  alias AgentJidoWeb.StructuredData
 
   @blog_index_description "Product updates, technical write-ups, and release notes from the Jido project."
 
@@ -274,6 +275,7 @@ defmodule AgentJidoWeb.BlogLive do
     assign(socket,
       page_title: "Blog",
       meta_description: @blog_index_description,
+      structured_data: [StructuredData.breadcrumb_list([{"Jido", "/"}, {"Blog", "/blog"}])],
       markdown_action: nil,
       posts: Blog.all_posts(),
       tags: Blog.all_tags()
@@ -295,6 +297,17 @@ defmodule AgentJidoWeb.BlogLive do
       canonical_url: canonical_url,
       robots: if(noindex?, do: ["noindex", "nofollow"]),
       og_image: seo_value(seo, :og_image),
+      structured_data:
+        if(noindex?,
+          do: [],
+          else: [
+            StructuredData.breadcrumb_list([
+              {"Jido", "/"},
+              {"Blog", "/blog"},
+              {post.title, "/blog/#{post.id}"}
+            ])
+          ]
+        ),
       post: post,
       markdown_action: markdown_action,
       seo: seo
@@ -305,6 +318,13 @@ defmodule AgentJidoWeb.BlogLive do
     assign(socket,
       page_title: "Blog: #{tag}",
       meta_description: tag_meta_description(tag),
+      structured_data: [
+        StructuredData.breadcrumb_list([
+          {"Jido", "/"},
+          {"Blog", "/blog"},
+          {"Tag: #{tag}", "/blog/tags/#{tag}"}
+        ])
+      ],
       markdown_action: nil,
       posts: Blog.get_posts_by_tag!(tag),
       tag: tag,

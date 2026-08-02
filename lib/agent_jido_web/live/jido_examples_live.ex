@@ -8,6 +8,7 @@ defmodule AgentJidoWeb.JidoExamplesLive do
   import AgentJidoWeb.Jido.MarketingLayouts
 
   alias AgentJido.Examples
+  alias AgentJidoWeb.StructuredData
 
   @category_order [:core, :ai, :production]
 
@@ -22,6 +23,9 @@ defmodule AgentJidoWeb.JidoExamplesLive do
        :meta_description,
        "Run practical examples that show how to design, coordinate, and operate agents with Jido."
      )
+     |> assign(:structured_data, [
+       StructuredData.breadcrumb_list([{"Jido", "/"}, {"Examples", "/examples"}])
+     ])
      |> assign(:admin_can_toggle_drafts, admin_can_toggle_drafts)
      |> assign(:default_include_drafts, admin_can_toggle_drafts)
      |> assign(:include_drafts, admin_can_toggle_drafts)

@@ -6,6 +6,7 @@ defmodule AgentJidoWeb.JidoEcosystemPackageLive do
   alias AgentJido.Ecosystem.SupportLevel
   alias AgentJido.GithubStarsTracker
   alias AgentJidoWeb.MarkdownLinks
+  alias AgentJidoWeb.StructuredData
 
   import AgentJidoWeb.Jido.MarketingCards
   import AgentJidoWeb.Jido.MarketingLayouts
@@ -865,15 +866,11 @@ defmodule AgentJidoWeb.JidoEcosystemPackageLive do
 
   defp package_structured_data(pkg, summary, keywords, faq_items) do
     [
-      %{
-        "@context" => "https://schema.org",
-        "@type" => "BreadcrumbList",
-        "itemListElement" => [
-          breadcrumb_item(1, "Jido", "/"),
-          breadcrumb_item(2, "Ecosystem", "/ecosystem"),
-          breadcrumb_item(3, pkg.title, "/ecosystem/#{pkg.id}")
-        ]
-      },
+      StructuredData.breadcrumb_list([
+        {"Jido", "/"},
+        {"Ecosystem", "/ecosystem"},
+        {pkg.title, "/ecosystem/#{pkg.id}"}
+      ]),
       software_source_code_schema(pkg, summary, keywords),
       faq_page_schema(faq_items)
     ]
@@ -925,15 +922,6 @@ defmodule AgentJidoWeb.JidoEcosystemPackageLive do
             }
           }
         end)
-    }
-  end
-
-  defp breadcrumb_item(position, name, path) do
-    %{
-      "@type" => "ListItem",
-      "position" => position,
-      "name" => name,
-      "item" => MarkdownLinks.absolute_url(path)
     }
   end
 

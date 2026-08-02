@@ -8,6 +8,7 @@ defmodule AgentJidoWeb.JidoEcosystemLive do
   alias AgentJido.GithubStarsTracker
   alias AgentJidoWeb.Jido.Nav
   alias AgentJidoWeb.MarkdownLinks
+  alias AgentJidoWeb.StructuredData
 
   import AgentJidoWeb.Jido.MarketingCards
   import AgentJidoWeb.Jido.MarketingLayouts
@@ -34,7 +35,10 @@ defmodule AgentJidoWeb.JidoEcosystemLive do
        layer_count: 0,
        support_levels: Ecosystem.support_levels(),
        orbit_payload_json: Jason.encode!(build_orbit_payload([])),
-       structured_data: [ecosystem_item_list(public_packages)]
+       structured_data: [
+         StructuredData.breadcrumb_list([{"Jido", "/"}, {"Ecosystem", "/ecosystem"}]),
+         ecosystem_item_list(public_packages)
+       ]
      )}
   end
 

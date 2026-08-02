@@ -6,6 +6,7 @@ defmodule AgentJidoWeb.JidoSkillsLive do
   use AgentJidoWeb, :live_view
 
   alias AgentJido.UpstreamSkillCatalog
+  alias AgentJidoWeb.StructuredData
 
   import AgentJidoWeb.Jido.MarketingLayouts
 
@@ -15,6 +16,7 @@ defmodule AgentJidoWeb.JidoSkillsLive do
      assign(socket,
        page_title: "Jido Skills",
        meta_description: "Package-oriented Jido skills catalog with one card per external package and a router skill for package selection.",
+       structured_data: [StructuredData.breadcrumb_list([{"Jido", "/"}, {"Skills", "/skills"}])],
        package_entries: UpstreamSkillCatalog.package_entries(),
        router_entries: UpstreamSkillCatalog.router_entries(),
        repo_url: UpstreamSkillCatalog.repo_url()

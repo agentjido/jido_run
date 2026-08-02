@@ -8,6 +8,7 @@ defmodule AgentJidoWeb.JidoCommunityLive do
   import AgentJidoWeb.Jido.MarketingLayouts
 
   alias AgentJidoWeb.Jido.Nav
+  alias AgentJidoWeb.StructuredData
 
   @impl true
   def mount(_params, _session, socket) do
@@ -15,6 +16,7 @@ defmodule AgentJidoWeb.JidoCommunityLive do
      assign(socket,
        page_title: "Jido Community",
        meta_description: "Build agents with us. Join Discord, collaborate on GitHub, and contribute across the Jido ecosystem.",
+       structured_data: [StructuredData.breadcrumb_list([{"Jido", "/"}, {"Community", "/community"}])],
        welcome_actions: welcome_actions(),
        start_here_steps: start_here_steps(),
        participation_paths: participation_paths(),

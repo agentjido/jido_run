@@ -6,12 +6,15 @@ defmodule AgentJidoWeb.JidoFeaturesLive do
 
   import AgentJidoWeb.Jido.MarketingLayouts
 
+  alias AgentJidoWeb.StructuredData
+
   @impl true
   def mount(_params, _session, socket) do
     {:ok,
      assign(socket,
        page_title: "How Jido Works",
        meta_description: "The architecture behind agents that stay up, recover from crashes, and coordinate under real load.",
+       structured_data: [StructuredData.breadcrumb_list([{"Jido", "/"}, {"How Jido Works", "/features"}])],
        categories: categories()
      )}
   end

@@ -2,6 +2,7 @@ defmodule AgentJidoWeb.JidoGettingStartedLive do
   use AgentJidoWeb, :live_view
 
   alias AgentJido.ReleaseCatalog
+  alias AgentJidoWeb.StructuredData
 
   import AgentJidoWeb.Jido.MarketingLayouts
   import AgentJidoWeb.Jido.MarketingCode
@@ -11,7 +12,8 @@ defmodule AgentJidoWeb.JidoGettingStartedLive do
     {:ok,
      assign(socket,
        page_title: "Getting Started with Jido",
-       meta_description: "Install Jido and build your first Elixir/OTP multi-agent workflow in minutes."
+       meta_description: "Install Jido and build your first Elixir/OTP multi-agent workflow in minutes.",
+       structured_data: [StructuredData.breadcrumb_list([{"Jido", "/"}, {"Getting Started", "/getting-started"}])]
      )}
   end
 

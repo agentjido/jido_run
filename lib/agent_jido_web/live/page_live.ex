@@ -12,6 +12,7 @@ defmodule AgentJidoWeb.PageLive do
   alias AgentJido.Analytics
   alias AgentJido.Pages
   alias AgentJidoWeb.MarkdownLinks
+  alias AgentJidoWeb.StructuredData
 
   import AgentJidoWeb.Jido.DocsComponents
   import AgentJidoWeb.Jido.MarketingLayouts
@@ -81,6 +82,7 @@ defmodule AgentJidoWeb.PageLive do
        documents: documents,
        markdown_copy_url: nil,
        selected_document: nil,
+       structured_data: [StructuredData.breadcrumb_list([{"Jido", "/"}, {"Documentation", "/docs"}])],
        docs_secondary_tabs: secondary_tabs,
        docs_sidebar_nav: sidebar,
        docs_sections: sections,
@@ -104,6 +106,7 @@ defmodule AgentJidoWeb.PageLive do
        modules: modules,
        track_groups: track_groups,
        page: nil,
+       structured_data: [StructuredData.breadcrumb_list([{"Jido", "/"}, {"Learn", "/docs/learn"}])],
        markdown_action: nil,
        selected_document: nil,
        toc: []
@@ -122,6 +125,7 @@ defmodule AgentJidoWeb.PageLive do
        category: category,
        markdown_copy_url: nil,
        pages: pages,
+       structured_data: [index_breadcrumb_list(category)],
        page: nil,
        markdown_action: nil,
        selected_document: nil,
@@ -162,6 +166,7 @@ defmodule AgentJidoWeb.PageLive do
           layout_type: layout_type,
           category: page.category,
           page: page,
+          structured_data: page_structured_data(page, noindex?),
           markdown_action: markdown_action,
           markdown_copy_url: markdown_copy_url,
           selected_document: page,
@@ -231,6 +236,26 @@ defmodule AgentJidoWeb.PageLive do
       description: "Explore practical resources for building and operating production systems with Jido."
     }
   end
+
+  defp index_breadcrumb_list(:build) do
+    StructuredData.breadcrumb_list([{"Jido", "/"}, {"Build", "/build"}])
+  end
+
+  defp index_breadcrumb_list(:compare) do
+    StructuredData.breadcrumb_list([{"Jido", "/"}, {"Compare", "/compare"}])
+  end
+
+  defp index_breadcrumb_list(:community) do
+    StructuredData.breadcrumb_list([{"Jido", "/"}, {"Community", "/community"}])
+  end
+
+  defp index_breadcrumb_list(category) do
+    label = category |> to_string() |> Phoenix.Naming.humanize()
+    StructuredData.breadcrumb_list([{"Jido", "/"}, {label, "/#{category}"}])
+  end
+
+  defp page_structured_data(_page, true), do: []
+  defp page_structured_data(page, false), do: [StructuredData.page_breadcrumb_list(page)]
 
   defp page_meta_description(page) do
     case page.description |> to_string() |> String.trim() do

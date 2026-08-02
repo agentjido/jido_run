@@ -15,6 +15,7 @@ defmodule AgentJidoWeb.JidoExampleLive do
 
   alias AgentJido.Examples
   alias AgentJido.Pages
+  alias AgentJidoWeb.StructuredData
 
   @valid_tabs ~w(demo explanation source)
 
@@ -51,7 +52,14 @@ defmodule AgentJidoWeb.JidoExampleLive do
      |> assign(:active_source_index, active_source_index)
      |> assign(:related_resources, related_resources_for(example))
      |> assign(:page_title, example.title)
-     |> assign(:meta_description, example.description)}
+     |> assign(:meta_description, example.description)
+     |> assign(:structured_data, [
+       StructuredData.breadcrumb_list([
+         {"Jido", "/"},
+         {"Examples", "/examples"},
+         {example.title, "/examples/#{example.slug}"}
+       ])
+     ])}
   end
 
   @impl true
