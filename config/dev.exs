@@ -18,7 +18,8 @@ config :agent_jido, AgentJidoWeb.Endpoint,
   secret_key_base: "qXyAXb8wM9khEccdBemhob07c1Yt8nliLd49XNOSVX4xy31QW+8vBUqH38uFZpHg",
   watchers: [
     esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]},
-    tailwind: {Tailwind, :install_and_run, [:default, ~w(--watch)]}
+    tailwind: {Tailwind, :install_and_run, [:default, ~w(--watch)]},
+    tailwind_home_critical: {Tailwind, :install_and_run, [:home_critical, ~w(--minify --watch)]}
   ]
 
 config :phoenix_live_view,

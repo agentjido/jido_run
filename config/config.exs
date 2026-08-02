@@ -229,6 +229,13 @@ config :tailwind,
       --output=priv/static/assets/app.css
     ),
     cd: Path.expand("..", __DIR__)
+  ],
+  home_critical: [
+    args: ~w(
+      --input=assets/css/home_critical.css
+      --output=assets/css/home_critical.generated.css
+    ),
+    cd: Path.expand("..", __DIR__)
   ]
 
 # Configures Elixir's Logger
