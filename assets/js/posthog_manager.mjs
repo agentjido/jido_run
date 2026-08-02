@@ -104,8 +104,8 @@ export function createPostHogManager({
   cancelIdleCallbackFn,
   setTimeoutFn,
   clearTimeoutFn,
-  initIdleTimeoutMs = 3_500,
-  initFallbackDelayMs = 3_500,
+  initIdleTimeoutMs = 2_000,
+  initFallbackDelayMs = 8_000,
   interactionEvents = DEFAULT_INTERACTION_EVENTS,
 } = {}) {
   const timeout = typeof setTimeoutFn === "function" ? setTimeoutFn : setTimeout;
@@ -366,8 +366,13 @@ export function createPostHogManager({
             autocapture: false,
             capture_pageview: false,
             capture_pageleave: initialPageleaveEnabled,
+            capture_dead_clicks: false,
+            capture_exceptions: false,
+            capture_performance: false,
             disable_session_recording: true,
+            disable_surveys: true,
             mask_all_text: false,
+            rageclick: false,
             session_recording: {
               blockClass: config.blockClass || "ph-no-capture",
               maskTextClass: config.maskTextClass || "ph-mask",
@@ -404,20 +409,20 @@ export function createPostHogManager({
 
     attachInitListeners();
 
-    if (typeof requestIdleCallbackFn === "function") {
-      state.initIdleCallbackId = requestIdleCallbackFn(
-        () => {
-          state.initIdleCallbackId = null;
-          void initNow();
-        },
-        { timeout: initIdleTimeoutMs }
-      );
-      return;
-    }
-
     state.initTimeoutId = timeout(() => {
       state.initTimeoutId = null;
-      void initNow();
+
+      if (typeof requestIdleCallbackFn === "function") {
+        state.initIdleCallbackId = requestIdleCallbackFn(
+          () => {
+            state.initIdleCallbackId = null;
+            void initNow();
+          },
+          { timeout: initIdleTimeoutMs }
+        );
+      } else {
+        void initNow();
+      }
     }, initFallbackDelayMs);
   }
 

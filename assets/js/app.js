@@ -8,6 +8,7 @@ import HashScrollLink from "./hooks/hash_scroll_link";
 import ContentAssistantTurnstile from "./hooks/content_assistant_turnstile.mjs";
 import EcosystemOrbit from "./hooks/ecosystem_orbit";
 import { createPostHogManager, normalizePath } from "./posthog_manager.mjs";
+import { isAutomatedBrowser } from "./browser_environment.mjs";
 
 const ANALYTICS_FLUSH_INTERVAL_MS = 1000;
 
@@ -191,13 +192,6 @@ Hooks.ScrollShrink = {
 
 const csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content");
 
-function shouldConnectLiveSocket() {
-  const userAgent = navigator.userAgent || "";
-  const automatedUserAgent = userAgent.includes("HeadlessChrome") || userAgent.includes("Lighthouse");
-
-  return !navigator.webdriver && !automatedUserAgent;
-}
-
 const liveSocket = new LiveSocket("/live", Socket, {
   hooks: Hooks,
   params: { _csrf_token: csrfToken },
@@ -215,7 +209,7 @@ window.addEventListener("resize", syncUtilityTopBarHeight);
 syncUtilityTopBarHeight();
 postHogManager.scheduleInit();
 
-if (shouldConnectLiveSocket()) {
+if (!isAutomatedBrowser()) {
   liveSocket.connect();
 }
 

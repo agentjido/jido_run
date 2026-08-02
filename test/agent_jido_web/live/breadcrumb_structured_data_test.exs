@@ -44,7 +44,7 @@ defmodule AgentJidoWeb.BreadcrumbStructuredDataTest do
   end
 
   defp breadcrumb_names(html) do
-    ~r{<script type="application/ld\+json">\s*(.*?)\s*</script>}s
+    ~r{<script[^>]*\btype="application/ld\+json"[^>]*>\s*(.*?)\s*</script>}s
     |> Regex.scan(html, capture: :all_but_first)
     |> Enum.map(fn [json] -> Jason.decode!(json) end)
     |> Enum.find(&(&1["@type"] == "BreadcrumbList"))

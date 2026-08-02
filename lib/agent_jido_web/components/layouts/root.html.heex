@@ -6,10 +6,10 @@
     <meta name="csrf-token" content={get_csrf_token()} />
 
     <link phx-track-static rel="stylesheet" href={~p"/assets/app.css"} />
-    <link rel="preload" href={~p"/fonts/ibm-plex-mono/ibm-plex-mono-latin-400.woff2"} as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href={~p"/fonts/ibm-plex-mono/ibm-plex-mono-latin-600.woff2"} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={~p"/fonts/ibm-plex-mono/ibm-plex-mono-latin-500.woff2"} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={~p"/fonts/ibm-plex-mono/ibm-plex-mono-latin-700.woff2"} as="font" type="font/woff2" crossorigin />
 
-    <script>
+    <script nonce={@conn.assigns[:csp_nonce]}>
       (function() {
         var stored = localStorage.getItem('theme');
         var systemPrefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
@@ -33,18 +33,18 @@
       ) %>
 
     <%= if posthog_config do %>
-      <script>
+      <script nonce={@conn.assigns[:csp_nonce]}>
         window.__agentJidoPostHog = <%= Phoenix.HTML.raw(Jason.encode!(posthog_config)) %>;
       </script>
     <% end %>
 
-    <script phx-track-static type="module" src={~p"/assets/app.js"}>
+    <script nonce={@conn.assigns[:csp_nonce]} phx-track-static type="module" src={~p"/assets/app.js"}>
     </script>
 
     <%= if Application.get_env(:agent_jido, :enable_analytics) do %>
       <!-- Privacy-friendly analytics by Plausible -->
       <link rel="preconnect" href="https://plausible.io" crossorigin />
-      <script defer data-domain="jido.run" src="https://plausible.io/js/script.js">
+      <script nonce={@conn.assigns[:csp_nonce]} defer data-domain="jido.run" src="https://plausible.io/js/script.js">
       </script>
     <% end %>
 
@@ -174,7 +174,7 @@
     <meta name="twitter:image" content={og_image} />
 
     <%= for json <- structured_data do %>
-      <script type="application/ld+json">
+      <script nonce={@conn.assigns[:csp_nonce]} type="application/ld+json">
         <%= Phoenix.HTML.raw(json) %>
       </script>
     <% end %>

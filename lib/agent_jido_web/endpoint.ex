@@ -41,6 +41,7 @@ defmodule AgentJidoWeb.Endpoint do
     at: "/",
     from: :agent_jido,
     gzip: true,
+    headers: {AgentJidoWeb.StaticAssetHeaders, :headers, []},
     only: AgentJidoWeb.static_paths()
 
   if Code.ensure_loaded?(Tidewave) do

@@ -106,17 +106,22 @@ test("buffers path syncs and events until PostHog is initialized", async () => {
   );
   assert.equal(posthog.startedRecordingCount, 1);
   assert.equal(posthog.stoppedRecordingCount, 0);
+  assert.equal(posthog.initCalls[0].options.capture_dead_clicks, false);
+  assert.equal(posthog.initCalls[0].options.capture_exceptions, false);
+  assert.equal(posthog.initCalls[0].options.capture_performance, false);
+  assert.equal(posthog.initCalls[0].options.disable_surveys, true);
+  assert.equal(posthog.initCalls[0].options.rageclick, false);
   assert.equal(posthog.captured[0].payload.path, "/blog/jido-2-0-is-here");
   assert.equal(posthog.captured[1].payload.surface, "docs_page");
   assert.equal(posthog.captured[1].payload.query_length, "secret query text".length);
   assert.ok(!Object.hasOwn(posthog.captured[1].payload, "query"));
 });
 
-test("defers PostHog import until idle work runs", async () => {
+test("defers PostHog import until the delay and idle work run", async () => {
   const posthog = createMockPostHog();
   let idleCallback = null;
   let importCount = 0;
-  let timeoutScheduled = false;
+  let timeoutCallback = null;
 
   const manager = createPostHogManager({
     windowRef: {
@@ -145,8 +150,8 @@ test("defers PostHog import until idle work runs", async () => {
       return 1;
     },
     cancelIdleCallbackFn: () => {},
-    setTimeoutFn: () => {
-      timeoutScheduled = true;
+    setTimeoutFn: (callback) => {
+      timeoutCallback = callback;
       return 2;
     },
     clearTimeoutFn: () => {},
@@ -155,9 +160,11 @@ test("defers PostHog import until idle work runs", async () => {
   manager.scheduleInit();
 
   assert.equal(importCount, 0);
-  assert.ok(typeof idleCallback === "function");
-  assert.equal(timeoutScheduled, false);
+  assert.equal(idleCallback, null);
+  assert.ok(typeof timeoutCallback === "function");
 
+  timeoutCallback();
+  assert.ok(typeof idleCallback === "function");
   idleCallback();
   await manager.state.initPromise;
 
