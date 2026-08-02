@@ -43,10 +43,10 @@ defmodule AgentJido.PagesTest do
       assert categories == Enum.uniq(categories)
     end
 
-    test "includes docs and training categories" do
+    test "includes the main public page categories" do
       categories = Pages.all_categories()
       assert :docs in categories
-      assert :training in categories
+      assert :features in categories
     end
   end
 
@@ -409,28 +409,28 @@ defmodule AgentJido.PagesTest do
 
   describe "neighbors/1" do
     test "returns prev and next pages within same category" do
-      training = Pages.pages_by_category(:training)
+      features = Pages.pages_by_category(:features)
 
-      if length(training) >= 3 do
-        middle = Enum.at(training, 1)
+      if length(features) >= 3 do
+        middle = Enum.at(features, 1)
         {prev, next} = Pages.neighbors(middle.id)
 
-        assert prev == Enum.at(training, 0)
-        assert next == Enum.at(training, 2)
+        assert prev == Enum.at(features, 0)
+        assert next == Enum.at(features, 2)
       end
     end
 
     test "returns nil for prev on first page in category" do
-      training = Pages.pages_by_category(:training)
-      first = hd(training)
+      features = Pages.pages_by_category(:features)
+      first = hd(features)
       {prev, _next} = Pages.neighbors(first.id)
 
       assert prev == nil
     end
 
     test "returns nil for next on last page in category" do
-      training = Pages.pages_by_category(:training)
-      last = List.last(training)
+      features = Pages.pages_by_category(:features)
+      last = List.last(features)
       {_prev, next} = Pages.neighbors(last.id)
 
       assert next == nil
@@ -532,12 +532,12 @@ defmodule AgentJido.PagesTest do
         "/docs/architecture" => "/docs/reference/architecture",
         "/docs/configuration" => "/docs/reference/configuration",
         "/docs/glossary" => "/docs/reference/glossary",
-        "/docs/production-readiness-checklist" => "/docs/operations/production-readiness-checklist",
-        "/docs/reference/production-readiness-checklist" => "/docs/operations/production-readiness-checklist",
-        "/docs/security-and-governance" => "/docs/operations/security-and-governance",
-        "/docs/reference/security-and-governance" => "/docs/operations/security-and-governance",
-        "/docs/incident-playbooks" => "/docs/operations/incident-playbooks",
-        "/docs/reference/incident-playbooks" => "/docs/operations/incident-playbooks"
+        "/training/agent-fundamentals" => "/docs/learn/agent-fundamentals",
+        "/training/actions-validation" => "/docs/learn/actions-validation",
+        "/training/signals-routing" => "/docs/learn/signals-routing",
+        "/training/directives-scheduling" => "/docs/learn/directives-scheduling",
+        "/training/liveview-integration" => "/docs/learn/liveview-integration",
+        "/training/production-readiness" => "/docs/learn/production-readiness"
       }
 
       Enum.each(legacy_to_canonical, fn {legacy_path, canonical_path} ->
@@ -547,22 +547,29 @@ defmodule AgentJido.PagesTest do
     end
   end
 
-  describe "training pages" do
-    test "training pages have track and difficulty" do
-      training = Pages.pages_by_category(:training)
-      assert length(training) == 6
+  describe "migrated training lessons" do
+    test "lessons are published as docs with training metadata" do
+      lesson_paths = [
+        "/docs/learn/agent-fundamentals",
+        "/docs/learn/actions-validation",
+        "/docs/learn/signals-routing",
+        "/docs/learn/directives-scheduling",
+        "/docs/learn/liveview-integration",
+        "/docs/learn/production-readiness"
+      ]
 
-      Enum.each(training, fn page ->
+      lessons = Enum.map(lesson_paths, &Pages.get_page_by_path!/1)
+
+      Enum.each(lessons, fn page ->
+        assert page.category == :docs
         assert page.track != nil
         assert page.difficulty != nil
         assert page.duration_minutes != nil
       end)
     end
 
-    test "training pages are sorted by order" do
-      training = Pages.pages_by_category(:training)
-      orders = Enum.map(training, & &1.order)
-      assert orders == Enum.sort(orders)
+    test "retired training category is empty" do
+      assert Pages.pages_by_category(:training) == []
     end
   end
 

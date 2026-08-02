@@ -1,6 +1,7 @@
 %{
   title: "Actions and Schema Validation",
-  category: :training,
+  category: :docs,
+  legacy_paths: ["/training/actions-validation"],
   description: "Design robust action contracts with clear input schemas, defaults, and validation failures that are safe to expose to callers.",
   track: :foundations,
   difficulty: :beginner,
@@ -59,4 +60,4 @@ Implement `SetPriceAction` for a listing agent:
 
 ## Next Module
 
-Continue with [Signals, Routing, and Agent Communication](/training/signals-routing).
+Continue with [Signals, Routing, and Agent Communication](/docs/learn/signals-routing).

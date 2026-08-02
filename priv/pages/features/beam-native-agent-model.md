@@ -17,7 +17,7 @@ Jido's agent model is not a wrapper around prompt chains. Each Agent is a BEAM p
 | Best for | Elixir engineers, architects evaluating runtime foundations, teams comparing agent abstractions |
 | Core packages | [jido](/ecosystem/jido), [jido_action](/ecosystem/jido_action) |
 | Package status | `jido` (Beta), `jido_action` (Beta) |
-| First proof path | [Counter Agent](/examples/counter-agent) → [Agent fundamentals training](/training/agent-fundamentals) |
+| First proof path | [Counter Agent](/examples/counter-agent) → [Agent fundamentals training](/docs/learn/agent-fundamentals) |
 | Adoption stance | Understand the model first, then build one supervised workflow |
 
 ## Why the agent abstraction matters
@@ -100,9 +100,9 @@ No process, no supervision tree, no LLM. Just a pure state transition you can as
 
 - **Runtime reliability:** [Agents that self-heal](/features/agents-that-self-heal)
 - **Coordination contracts:** [Multi-agent coordination](/features/multi-agent-coordination)
-- **Hands-on training:** [Agent fundamentals](/training/agent-fundamentals)
-- **Reference docs:** [Architecture](/docs/reference/architecture), [Key concepts](/docs/concepts)
+- **Hands-on training:** [Agent fundamentals](/docs/learn/agent-fundamentals)
+- **Reference docs:** [Architecture](/docs/reference/behavior-first-architecture), [Key concepts](/docs/concepts)
 
 ## Get Building
 
-Start with [Counter Agent](/examples/counter-agent) to see the model in action, then read [Agent fundamentals](/training/agent-fundamentals) to build your own.
+Start with [Counter Agent](/examples/counter-agent) to see the model in action, then read [Agent fundamentals](/docs/learn/agent-fundamentals) to build your own.

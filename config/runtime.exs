@@ -54,6 +54,7 @@ default_mailer_from_email =
 
 config :agent_jido,
   canonical_host: canonical_host,
+  site_indexable: env!("SITE_INDEXABLE", :boolean, true),
   # Set to true/false to control Plausible analytics loading, only in production
   enable_analytics: env!("ENABLE_ANALYTICS", :boolean, false),
   discord_invite_link: env!("DISCORD_INVITE_LINK", :string, "https://discord.gg/dMh8CqEH8Q"),

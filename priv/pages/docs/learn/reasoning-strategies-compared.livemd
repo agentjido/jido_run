@@ -329,4 +329,4 @@ mix jido_ai --agent MyApp.ReleaseDecisionAdaptiveAgent "Should we ship or delay?
 
 - Compare these strategy wrappers with the general-purpose [AI agent with tools](/docs/learn/ai-agent-with-tools) guide
 - Build longer-lived conversations in [Build an AI chat agent](/docs/learn/ai-chat-agent)
-- Read the [Reasoning Strategies reference](/docs/reference/concepts/reasoning-strategies) for the full strategy matrix
+- Read the [Strategy concept guide](/docs/concepts/strategy) for the core execution model

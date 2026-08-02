@@ -4,7 +4,6 @@ defmodule AgentJidoWeb.SitemapControllerTest do
   alias AgentJido.Blog
   alias AgentJido.Ecosystem
   alias AgentJido.Examples
-  alias AgentJido.Pages
 
   test "returns raw xml sitemap payload", %{conn: conn} do
     conn = get(conn, "/sitemap.xml")
@@ -36,10 +35,9 @@ defmodule AgentJidoWeb.SitemapControllerTest do
       |> get("/sitemap.xml")
       |> response(200)
 
-    # Training pages are intentionally retired from public routing
-    for page <- Pages.pages_by_category(:training) do
-      refute body =~ Pages.route_for(page)
-    end
+    assert body =~ "/docs/learn/agent-fundamentals"
+    assert body =~ "/docs/learn/production-readiness"
+    refute body =~ "/training/agent-fundamentals"
 
     assert body =~ "/features"
     assert body =~ "/community/showcase"

@@ -1,6 +1,7 @@
 %{
   title: "Directives, Scheduling, and Time-Based Behavior",
-  category: :training,
+  category: :docs,
+  legacy_paths: ["/training/directives-scheduling"],
   description: "Build recurring and delayed behavior using directives, including schedule-driven loops and safe shutdown logic.",
   track: :coordination,
   difficulty: :intermediate,
@@ -59,4 +60,4 @@ Extend a demand tracker with auto-decay:
 
 ## Next Module
 
-Continue with [LiveView + Jido Integration Patterns](/training/liveview-integration).
+Continue with [LiveView + Jido Integration Patterns](/docs/learn/liveview-integration).

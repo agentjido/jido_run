@@ -14,6 +14,14 @@ defmodule AgentJido.Site do
   end
 
   @doc """
+  Returns true when search engines can index this site.
+  """
+  @spec indexable?() :: boolean()
+  def indexable? do
+    Application.get_env(:agent_jido, :site_indexable, true)
+  end
+
+  @doc """
   Returns the host configured on the endpoint URL.
   """
   @spec endpoint_host() :: String.t() | nil

@@ -92,7 +92,7 @@ defmodule AgentJidoWeb.PageLiveTest do
       assert html =~ "lib/my_app/weather_agent.ex"
       assert html =~ "iex -S mix"
       assert html =~ "View full example"
-      assert html =~ ~s(href="/training/agent-fundamentals")
+      assert html =~ ~s(href="/docs/learn/agent-fundamentals")
     end
 
     test "renders why elixir section with expected feature links", %{conn: conn} do
@@ -410,15 +410,15 @@ defmodule AgentJidoWeb.PageLiveTest do
         "/docs/chat-response" => "/docs/guides/cookbook/chat-response",
         "/docs/tool-response" => "/docs/guides/cookbook/tool-response",
         "/docs/weather-tool-response" => "/docs/guides/cookbook/weather-tool-response",
-        "/docs/architecture" => "/docs/reference/architecture",
+        "/docs/architecture" => "/docs/reference/behavior-first-architecture",
         "/docs/configuration" => "/docs/reference/configuration",
         "/docs/glossary" => "/docs/reference/glossary",
-        "/docs/production-readiness-checklist" => "/docs/operations/production-readiness-checklist",
-        "/docs/reference/production-readiness-checklist" => "/docs/operations/production-readiness-checklist",
-        "/docs/security-and-governance" => "/docs/operations/security-and-governance",
-        "/docs/reference/security-and-governance" => "/docs/operations/security-and-governance",
-        "/docs/incident-playbooks" => "/docs/operations/incident-playbooks",
-        "/docs/reference/incident-playbooks" => "/docs/operations/incident-playbooks"
+        "/docs/production-readiness-checklist" => "/docs/learn/production-readiness",
+        "/docs/reference/production-readiness-checklist" => "/docs/learn/production-readiness",
+        "/docs/operations/production-readiness-checklist" => "/docs/learn/production-readiness",
+        "/docs/incident-playbooks" => "/docs/guides/error-handling-and-recovery",
+        "/docs/reference/incident-playbooks" => "/docs/guides/error-handling-and-recovery",
+        "/docs/operations/incident-playbooks" => "/docs/guides/error-handling-and-recovery"
       }
 
       Enum.each(legacy_to_canonical, fn {legacy, canonical} ->
@@ -436,7 +436,6 @@ defmodule AgentJidoWeb.PageLiveTest do
       {:ok, _view, html} = live(conn, "/docs/learn/first-workflow")
 
       assert html =~ ~s(href="/docs/concepts/actions")
-      refute html =~ ~s(href="/docs/learn/actions-validation")
     end
   end
 
@@ -474,12 +473,9 @@ defmodule AgentJidoWeb.PageLiveTest do
       assert response(conn, 404)
     end
 
-    test "training detail routes return 404", %{conn: conn} do
-      training_page = Pages.pages_by_category(:training) |> hd()
-      training_path = Pages.route_for(training_page)
-
-      conn = get(conn, training_path)
-      assert response(conn, 404)
+    test "training detail routes redirect to docs lessons", %{conn: conn} do
+      conn = get(conn, "/training/agent-fundamentals")
+      assert redirected_to(conn, 301) == "/docs/learn/agent-fundamentals"
     end
 
     test "search route renders search page", %{conn: conn} do

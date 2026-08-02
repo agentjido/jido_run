@@ -1,6 +1,7 @@
 %{
   title: "Production Readiness: Supervision, Telemetry, and Failure Modes",
-  category: :training,
+  category: :docs,
+  legacy_paths: ["/training/production-readiness"],
   description: "Harden agent workloads for production with explicit supervision strategy, telemetry instrumentation, and controlled failure recovery.",
   track: :operations,
   difficulty: :advanced,
@@ -59,4 +60,4 @@ Create a production-readiness checklist for one critical agent flow:
 
 ## Next Module
 
-You completed the initial curriculum. Revisit [Agent Fundamentals on the BEAM](/training/agent-fundamentals) to onboard teammates, then iterate with workload-specific modules.
+You completed the initial curriculum. Revisit [Agent Fundamentals on the BEAM](/docs/learn/agent-fundamentals) to onboard teammates, then iterate with workload-specific modules.

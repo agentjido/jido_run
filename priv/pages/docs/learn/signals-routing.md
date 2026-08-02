@@ -1,6 +1,7 @@
 %{
   title: "Signals, Routing, and Agent Communication",
-  category: :training,
+  category: :docs,
+  legacy_paths: ["/training/signals-routing"],
   description: "Coordinate agents through explicit signal contracts and routing strategies that keep producer and consumer responsibilities decoupled.",
   track: :coordination,
   difficulty: :intermediate,
@@ -59,4 +60,4 @@ Model a two-agent workflow for order fulfillment:
 
 ## Next Module
 
-Continue with [Directives, Scheduling, and Time-Based Behavior](/training/directives-scheduling).
+Continue with [Directives, Scheduling, and Time-Based Behavior](/docs/learn/directives-scheduling).

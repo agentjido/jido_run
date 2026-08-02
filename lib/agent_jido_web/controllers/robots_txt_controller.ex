@@ -6,15 +6,26 @@ defmodule AgentJidoWeb.RobotsTxtController do
   """
   @spec index(Plug.Conn.t(), map()) :: Plug.Conn.t()
   def index(conn, _params) do
-    body = """
+    body = robots_body(AgentJido.Site.indexable?())
+
+    conn
+    |> put_resp_content_type("text/plain", "utf-8")
+    |> send_resp(200, body)
+  end
+
+  defp robots_body(true) do
+    """
     User-agent: *
     Allow: /
 
     Sitemap: #{AgentJidoWeb.Endpoint.url()}/sitemap.xml
     """
+  end
 
-    conn
-    |> put_resp_content_type("text/plain", "utf-8")
-    |> send_resp(200, body)
+  defp robots_body(false) do
+    """
+    User-agent: *
+    Allow: /
+    """
   end
 end

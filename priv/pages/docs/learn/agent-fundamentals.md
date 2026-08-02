@@ -1,6 +1,7 @@
 %{
   title: "Agent Fundamentals on the BEAM",
-  category: :training,
+  category: :docs,
+  legacy_paths: ["/training/agent-fundamentals"],
   description: "Learn the core Jido mental model: agents as data, actions as transitions, and supervision-managed execution boundaries.",
   track: :foundations,
   difficulty: :beginner,
@@ -59,4 +60,4 @@ Build a small `InventoryAgent` with fields `sku`, `quantity`, and `updated_at`.
 
 ## Next Module
 
-Continue with [Actions and Schema Validation](/training/actions-validation).
+Continue with [Actions and Schema Validation](/docs/learn/actions-validation).

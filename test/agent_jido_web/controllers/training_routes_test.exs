@@ -1,8 +1,6 @@
 defmodule AgentJidoWeb.TrainingRoutesTest do
   use AgentJidoWeb.ConnCase, async: true
 
-  alias AgentJido.Pages
-
   @moduletag :flaky
 
   test "GET /training is not routable", %{conn: conn} do
@@ -13,16 +11,10 @@ defmodule AgentJidoWeb.TrainingRoutesTest do
     assert body =~ "training routes"
   end
 
-  test "GET /training/:id is not routable", %{conn: conn} do
-    training_route =
-      Pages.pages_by_category(:training)
-      |> hd()
-      |> Pages.route_for()
+  test "GET /training/:id redirects to its docs lesson", %{conn: conn} do
+    conn = get(conn, "/training/agent-fundamentals")
 
-    conn = get(conn, training_route)
-    body = response(conn, 404)
-    assert body =~ "Page not found"
-    assert body =~ training_route
+    assert redirected_to(conn, 301) == "/docs/learn/agent-fundamentals"
   end
 
   test "GET /search renders the search experience", %{conn: conn} do

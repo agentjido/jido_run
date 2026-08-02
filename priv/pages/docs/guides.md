@@ -21,4 +21,4 @@ You know what you want to build - these guides show you how. Unlike [Learn tutor
 ## Next steps
 
 - [Concepts](/docs/concepts) - understand the primitives behind these patterns
-- [Operations](/docs/operations) - deploy, monitor, and scale your agent systems
+- [Production readiness](/docs/learn/production-readiness) - prepare supervision, telemetry, and recovery controls

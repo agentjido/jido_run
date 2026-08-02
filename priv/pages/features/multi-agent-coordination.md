@@ -18,7 +18,7 @@ When agents need to work together, Jido keeps the contracts explicit. Signals de
 | Core packages | [jido_signal](/ecosystem/jido_signal), [jido_action](/ecosystem/jido_action), [jido](/ecosystem/jido) |
 | Strategy add-ons | [jido_behaviortree](/ecosystem/jido_behaviortree), [jido_runic](/ecosystem/jido_runic) |
 | Package status | `jido_signal` (Beta), `jido_action` (Beta), strategy add-ons (Experimental) |
-| First proof path | [Demand Tracker Agent](/examples/demand-tracker-agent) -> [Signals routing training](/training/signals-routing) |
+| First proof path | [Demand Tracker Agent](/examples/demand-tracker-agent) -> [Signals routing training](/docs/learn/signals-routing) |
 
 ## Why coordination gets fragile
 
@@ -87,9 +87,9 @@ For scheduling and recurring behaviors, Directives also model time-based orchest
 - **Agent model foundations:** [BEAM-native agent model](/features/beam-native-agent-model)
 - **Fault tolerance:** [Agents that self-heal](/features/agents-that-self-heal)
 - **Observability:** [Observe everything](/features/observe-everything)
-- **Training paths:** [Signals routing](/training/signals-routing), [Directives scheduling](/training/directives-scheduling)
-- **Reference docs:** [Architecture](/docs/reference/architecture), [Guides](/docs/guides)
+- **Training paths:** [Signals routing](/docs/learn/signals-routing), [Directives scheduling](/docs/learn/directives-scheduling)
+- **Reference docs:** [Architecture](/docs/reference/behavior-first-architecture), [Guides](/docs/guides)
 
 ## Get Building
 
-Start with [Demand Tracker Agent](/examples/demand-tracker-agent), then validate your first route table with [Signals routing training](/training/signals-routing).
+Start with [Demand Tracker Agent](/examples/demand-tracker-agent), then validate your first route table with [Signals routing training](/docs/learn/signals-routing).

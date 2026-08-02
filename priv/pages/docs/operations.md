@@ -13,10 +13,10 @@ You're shipping to production or already running there. These pages cover what y
 
 ## Operations pages
 
-- [Production readiness checklist](/docs/operations/production-readiness-checklist) - pre-launch verification for supervision trees, config, telemetry, and resource limits
-- [Security and governance](/docs/operations/security-and-governance) - secret management, API key rotation, audit logging, and access controls
-- [Incident playbooks](/docs/operations/incident-playbooks) - step-by-step response procedures for common failure modes
-- [Backup and disaster recovery](/docs/operations/backup-and-disaster-recovery) - data protection, state snapshots, and recovery procedures
+- [Production readiness checklist](/docs/learn/production-readiness) - pre-launch verification for supervision trees, config, telemetry, and resource limits
+- Security and governance - secret management, API key rotation, audit logging, and access controls
+- [Incident playbooks](/docs/guides/error-handling-and-recovery) - step-by-step response procedures for common failure modes
+- Backup and disaster recovery - data protection, state snapshots, and recovery procedures
 
 ## Next steps
 

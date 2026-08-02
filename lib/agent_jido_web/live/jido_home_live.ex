@@ -413,7 +413,7 @@ defmodule AgentJidoWeb.JidoHomeLive do
         <div class="code-header mt-1">
           <span class="home-muted-copy text-xs">iex -S mix</span>
           <div class="flex items-center gap-3">
-            <.link navigate="/training/agent-fundamentals" class="home-quickstart-header-link">
+            <.link navigate="/docs/learn/agent-fundamentals" class="home-quickstart-header-link">
               TRAINING
             </.link>
             <.link navigate="/docs" class="home-subtle-link text-[10px]">

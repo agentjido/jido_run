@@ -20,6 +20,7 @@ strategy = "immediate"
 FLY_APP_NAME = 'agentjido-stage'
 PHX_HOST = 'stage.jido.run'
 CANONICAL_HOST = 'stage.jido.run'
+SITE_INDEXABLE = "false"
 PORT = '8080'
 PRIMARY_REGION = "ord"
 ARCANA_EMBEDDER = "openai"

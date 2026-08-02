@@ -21,7 +21,7 @@ If you are still selecting first milestones, start with [Quickstarts by Persona]
 - A running Jido runtime boundary in your Elixir app (see [Build with Jido](/build)).
 - One external service (Python, Node.js, JVM, or .NET) that can call HTTP endpoints or publish events.
 - Team agreement on one pilot workflow with explicit success and rollback criteria.
-- Baseline guardrails from [Security and Governance](/docs/operations/security-and-governance).
+- A production-safe configuration baseline from [Installation and setup](/docs/getting-started/installation).
 
 ## Boundary pattern A: API-first handoff
 
@@ -70,7 +70,7 @@ This call pattern is the same shape used by `mix agentjido.signal`, giving you a
 1. Start with one high-friction workflow and one owning team.
 2. Version the boundary payload and reject unknown fields at ingress.
 3. Define one fallback path in the external service if Jido boundary checks fail.
-4. Add runtime checks from [Production Readiness Checklist](/docs/operations/production-readiness-checklist) before expanding scope.
+4. Add runtime checks from [Production Readiness Checklist](/docs/learn/production-readiness) before expanding scope.
 
 ## Proof surface in this repository
 
@@ -99,7 +99,7 @@ Signal processed
 
 ## Next links
 
-- Training: [LiveView + Jido Integration Patterns](/training/liveview-integration)
+- Training: [LiveView + Jido Integration Patterns](/docs/learn/liveview-integration)
 - Docs: [Guides](/docs/guides)
 - Related build page: [Product Feature Blueprints](/build/product-feature-blueprints)
 - Context page: [BEAM for AI Builders](/features/beam-for-ai-builders)

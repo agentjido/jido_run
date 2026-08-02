@@ -3,10 +3,10 @@ defmodule AgentJidoWeb.JidoEcosystemPackageLiveTest do
 
   import Phoenix.LiveViewTest
 
-  test "private packages are not accessible from public ecosystem routes", %{conn: conn} do
-    assert_raise AgentJido.Ecosystem.NotFoundError, fn ->
-      live(conn, "/ecosystem/jido_memory_os")
-    end
+  test "deprecated memory package redirects to its replacement", %{conn: conn} do
+    conn = get(conn, "/ecosystem/jido_memory_os")
+
+    assert redirected_to(conn, 301) == "/ecosystem/jido_memory"
   end
 
   test "renders jido as a curated landing page", %{conn: conn} do

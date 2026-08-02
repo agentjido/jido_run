@@ -23,36 +23,36 @@ Pick the persona path that matches your current bottleneck, finish one milestone
 
 - First milestone: run one supervised agent and verify deterministic state updates.
 - Start: [Counter Agent example](/examples/counter-agent)
-- Next training: [Agent Fundamentals on the BEAM](/training/agent-fundamentals)
-- Ops/reference follow-up: [Architecture](/docs/reference/architecture)
+- Next training: [Agent Fundamentals on the BEAM](/docs/learn/agent-fundamentals)
+- Ops/reference follow-up: [Architecture](/docs/reference/behavior-first-architecture)
 
 ### AI product engineer
 
 - First milestone: ship one user-facing workflow backed by explicit actions.
 - Start: [Demand Tracker Agent example](/examples/demand-tracker-agent)
-- Next training: [Actions and Validation](/training/actions-validation)
-- Ops/reference follow-up: [Production Readiness Checklist](/docs/operations/production-readiness-checklist)
+- Next training: [Actions and Validation](/docs/learn/actions-validation)
+- Ops/reference follow-up: [Production Readiness Checklist](/docs/learn/production-readiness)
 
 ### Python AI engineer
 
 - First milestone: understand where BEAM runtime boundaries improve reliability and orchestration.
 - Start: [BEAM for AI Builders](/features/beam-for-ai-builders)
-- Next training: [LiveView + Jido Integration Patterns](/training/liveview-integration)
-- Ops/reference follow-up: [Security and Governance](/docs/operations/security-and-governance)
+- Next training: [LiveView + Jido Integration Patterns](/docs/learn/liveview-integration)
+- Ops/reference follow-up: [Production Readiness](/docs/learn/production-readiness)
 
 ### TypeScript fullstack engineer
 
 - First milestone: model one multi-step workflow with clear signal boundaries.
 - Start: [Multi-Agent Coordination](/features/multi-agent-coordination)
-- Next training: [Signals and Routing](/training/signals-routing)
+- Next training: [Signals and Routing](/docs/learn/signals-routing)
 - Ops/reference follow-up: [Guides](/docs/guides)
 
 ### Platform and SRE engineer
 
 - First milestone: define runtime health checks and incident response expectations before launch.
 - Start: [Observe everything](/features/observe-everything)
-- Next training: [Production Readiness: Supervision, Telemetry, and Failure Modes](/training/production-readiness)
-- Ops/reference follow-up: [Incident Playbooks](/docs/operations/incident-playbooks)
+- Next training: [Production Readiness: Supervision, Telemetry, and Failure Modes](/docs/learn/production-readiness)
+- Ops/reference follow-up: [Incident Playbooks](/docs/guides/error-handling-and-recovery)
 
 ## Proof check: first value in one command loop
 

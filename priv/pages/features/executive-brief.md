@@ -26,7 +26,7 @@ This page is for engineering managers, CTOs, and architecture leads evaluating w
 |---|---|---|
 | Reliability by architecture | Lower blast radius and clearer recovery posture | [jido](/ecosystem/jido) |
 | Explicit coordination | Easier code review, ownership boundaries, and testing | [jido_signal](/ecosystem/jido_signal), [jido_action](/ecosystem/jido_action) |
-| Operations visibility | Better incident workflows and readiness gates | [jido_otel](/ecosystem/jido_otel), [docs checklist](/docs/operations/production-readiness-checklist) |
+| Operations visibility | Better incident workflows and readiness gates | [jido_otel](/ecosystem/jido_otel), [docs checklist](/docs/learn/production-readiness) |
 | Incremental adoption | Avoid full-platform rewrite before proving value | [Start small, grow safely](/features/start-small) |
 
 ## Decision criteria matrix
@@ -80,7 +80,7 @@ This is the same runtime model used for larger adoption phases.
 - Build one pilot scope in [Quickstarts by persona](/build/quickstarts-by-persona).
 - Review package choices in [Compare packages](/ecosystem#compare).
 - **Agent model foundations:** [BEAM-native agent model](/features/beam-native-agent-model)
-- Validate rollout criteria with [Production readiness checklist](/docs/operations/production-readiness-checklist).
+- Validate rollout criteria with [Production readiness checklist](/docs/learn/production-readiness).
 
 ## Get Building
 

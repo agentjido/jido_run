@@ -90,8 +90,8 @@ This exposes agent execution metrics alongside your existing Phoenix and Ecto da
 - **Agent foundations:** [How Jido agents work](/features/how-agents-work)
 - **Fault tolerance:** [Agents that self-heal](/features/agents-that-self-heal)
 - **Coordination:** [Agents that work together](/features/multi-agent-coordination)
-- **Production readiness:** [Production readiness checklist](/docs/operations/production-readiness-checklist)
-- **Reference docs:** [Incident playbooks](/docs/operations/incident-playbooks)
+- **Production readiness:** [Production readiness checklist](/docs/learn/production-readiness)
+- **Reference docs:** [Incident playbooks](/docs/guides/error-handling-and-recovery)
 
 ## Get Building
 

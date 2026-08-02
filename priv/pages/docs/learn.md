@@ -10,6 +10,17 @@
 
 Hands-on tutorials that progressively build your understanding of Jido, from composing simple workflows to orchestrating multi-agent AI systems. Complete [Getting Started](/docs/getting-started) before diving in.
 
+## Core training series
+
+Learn the main Jido runtime model in a guided sequence.
+
+- [Agent fundamentals on the BEAM](/docs/learn/agent-fundamentals) - separate agent state from process lifetime
+- [Actions and schema validation](/docs/learn/actions-validation) - define safe action contracts
+- [Signals, routing, and agent communication](/docs/learn/signals-routing) - connect agents with stable signals
+- [Directives, scheduling, and time-based behavior](/docs/learn/directives-scheduling) - model side effects and recurring work
+- [LiveView and Jido integration patterns](/docs/learn/liveview-integration) - connect user events to agent state
+- [Production readiness](/docs/learn/production-readiness) - prepare supervision, telemetry, and recovery controls
+
 ## Jido core mastery
 
 Build increasingly powerful agents using Jido's core primitives.

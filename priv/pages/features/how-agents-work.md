@@ -89,7 +89,7 @@ Each `AgentServer` process owns exactly one agent struct. The supervisor watches
 - **Coordination:** [Agents that work together](/features/multi-agent-coordination)
 - **Fault tolerance:** [Agents that self-heal](/features/agents-that-self-heal)
 - **Model support:** [Any model, any provider](/features/llm-support)
-- **Hands-on:** [Agent fundamentals](/training/agent-fundamentals)
+- **Hands-on:** [Agent fundamentals](/docs/learn/agent-fundamentals)
 
 ## Get Building
 

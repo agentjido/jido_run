@@ -1,6 +1,7 @@
 %{
   title: "LiveView + Jido Integration Patterns",
-  category: :training,
+  category: :docs,
+  legacy_paths: ["/training/liveview-integration"],
   description: "Connect LiveView UIs to agent state transitions with deterministic rendering, command handlers, and event-driven updates.",
   track: :integration,
   difficulty: :intermediate,
@@ -59,4 +60,4 @@ Build a LiveView for the demand tracker:
 
 ## Next Module
 
-Continue with [Production Readiness: Supervision, Telemetry, and Failure Modes](/training/production-readiness).
+Continue with [Production Readiness: Supervision, Telemetry, and Failure Modes](/docs/learn/production-readiness).
