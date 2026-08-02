@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 900" role="img" aria-labelledby="title description">
+  <title id="title">Jido Assembly architecture</title>
+  <desc id="description">A layered diagram that shows the Hologram interface, the Jido Assembly application, the Jido ecosystem packages, SQLite storage, and Telegram and Discord providers.</desc>
+  <defs>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#020617" flood-opacity="0.35" />
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#94a3b8" />
+    </marker>
+    <marker id="signal-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#34d399" />
+    </marker>
+    <marker id="bridge-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#c084fc" />
+    </marker>
+  </defs>
+
+  <rect width="1400" height="900" fill="#0b1220" />
+  <text x="70" y="58" fill="#f8fafc" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="700">How Jido Assembly fits together</text>
+  <text x="70" y="86" fill="#94a3b8" font-family="Arial, Helvetica, sans-serif" font-size="18">Commands flow down. Committed Signals flow back to subscribed clients.</text>
+
+  <g fill="none" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)">
+    <path d="M 700 240 L 700 300" />
+    <path d="M 620 440 L 620 478 L 212 478 L 212 520" />
+    <path d="M 680 440 L 680 478 L 527 478 L 527 520" />
+    <path d="M 355 605 L 385 605" />
+    <path d="M 527 680 L 527 760" />
+  </g>
+
+  <path d="M 670 605 L 700 605" fill="none" stroke="#34d399" stroke-width="3" marker-end="url(#signal-arrow)" />
+  <path d="M 842 520 C 842 470, 1290 470, 1290 240" fill="none" stroke="#34d399" stroke-width="3" stroke-dasharray="10 8" marker-end="url(#signal-arrow)" />
+  <text x="1010" y="458" fill="#6ee7b7" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="600">broadcast actions over SSE</text>
+
+  <path d="M 670 640 C 760 725, 925 725, 1015 640" fill="none" stroke="#c084fc" stroke-width="3" marker-start="url(#bridge-arrow)" marker-end="url(#bridge-arrow)" />
+  <text x="842" y="718" text-anchor="middle" fill="#d8b4fe" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="600">provider routing</text>
+  <path d="M 1172 680 L 1172 760" fill="none" stroke="#c084fc" stroke-width="3" marker-start="url(#bridge-arrow)" marker-end="url(#bridge-arrow)" />
+
+  <g filter="url(#shadow)">
+    <rect x="70" y="100" width="1260" height="140" rx="20" fill="#172033" stroke="#f97316" stroke-width="3" />
+    <text x="105" y="145" fill="#fdba74" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700">Hologram UI</text>
+    <text x="105" y="174" fill="#cbd5e1" font-family="Arial, Helvetica, sans-serif" font-size="17">Elixir pages and components compiled for the browser</text>
+    <rect x="105" y="192" width="330" height="32" rx="16" fill="#431407" />
+    <text x="270" y="214" text-anchor="middle" fill="#fed7aa" font-family="Arial, Helvetica, sans-serif" font-size="15">client actions and local state</text>
+    <rect x="535" y="192" width="330" height="32" rx="16" fill="#431407" />
+    <text x="700" y="214" text-anchor="middle" fill="#fed7aa" font-family="Arial, Helvetica, sans-serif" font-size="15">channels, threads, search, presence</text>
+    <rect x="965" y="192" width="330" height="32" rx="16" fill="#431407" />
+    <text x="1130" y="214" text-anchor="middle" fill="#fed7aa" font-family="Arial, Helvetica, sans-serif" font-size="15">real-time broadcast actions</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="70" y="300" width="1260" height="140" rx="20" fill="#172033" stroke="#60a5fa" stroke-width="3" />
+    <text x="105" y="345" fill="#93c5fd" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700">Jido Assembly application</text>
+    <text x="105" y="374" fill="#cbd5e1" font-family="Arial, Helvetica, sans-serif" font-size="17">The Slack-like product layer that joins UI events to Jido packages</text>
+    <rect x="105" y="392" width="330" height="32" rx="16" fill="#172554" />
+    <text x="270" y="414" text-anchor="middle" fill="#bfdbfe" font-family="Arial, Helvetica, sans-serif" font-size="15">Hologram server commands</text>
+    <rect x="535" y="392" width="330" height="32" rx="16" fill="#172554" />
+    <text x="700" y="414" text-anchor="middle" fill="#bfdbfe" font-family="Arial, Helvetica, sans-serif" font-size="15">chat context and read models</text>
+    <rect x="965" y="392" width="330" height="32" rx="16" fill="#172554" />
+    <text x="1130" y="414" text-anchor="middle" fill="#bfdbfe" font-family="Arial, Helvetica, sans-serif" font-size="15">Agent and bridge orchestration</text>
+  </g>
+
+  <g filter="url(#shadow)" font-family="Arial, Helvetica, sans-serif">
+    <rect x="70" y="520" width="285" height="160" rx="18" fill="#142b2a" stroke="#2dd4bf" stroke-width="3" />
+    <text x="95" y="562" fill="#5eead4" font-size="22" font-weight="700">Jido + Jido AI</text>
+    <text x="95" y="596" fill="#d1fae5" font-size="16">Agent definitions</text>
+    <text x="95" y="623" fill="#d1fae5" font-size="16">Supervised runtimes</text>
+    <text x="95" y="650" fill="#d1fae5" font-size="16">LLM-backed participants</text>
+
+    <rect x="385" y="520" width="285" height="160" rx="18" fill="#1d2538" stroke="#818cf8" stroke-width="3" />
+    <text x="410" y="562" fill="#a5b4fc" font-size="22" font-weight="700">Jido Messaging</text>
+    <text x="410" y="596" fill="#e0e7ff" font-size="16">Rooms and messages</text>
+    <text x="410" y="623" fill="#e0e7ff" font-size="16">Threads and reactions</text>
+    <text x="410" y="650" fill="#e0e7ff" font-size="16">Persistence and bridges</text>
+
+    <rect x="700" y="520" width="285" height="160" rx="18" fill="#142b2a" stroke="#34d399" stroke-width="3" />
+    <text x="725" y="562" fill="#6ee7b7" font-size="22" font-weight="700">Jido Signal</text>
+    <text x="725" y="596" fill="#d1fae5" font-size="16">CloudEvents envelopes</text>
+    <text x="725" y="623" fill="#d1fae5" font-size="16">Event routing</text>
+    <text x="725" y="650" fill="#d1fae5" font-size="16">Committed write Signals</text>
+
+    <rect x="1015" y="520" width="315" height="160" rx="18" fill="#30243c" stroke="#c084fc" stroke-width="3" />
+    <text x="1040" y="562" fill="#d8b4fe" font-size="22" font-weight="700">Jido Chat</text>
+    <text x="1040" y="596" fill="#f3e8ff" font-size="16">Provider-neutral contracts</text>
+    <text x="1040" y="623" fill="#f3e8ff" font-size="16">Room bindings</text>
+    <text x="1040" y="650" fill="#f3e8ff" font-size="16">Telegram and Discord adapters</text>
+  </g>
+
+  <g filter="url(#shadow)" font-family="Arial, Helvetica, sans-serif">
+    <rect x="397" y="760" width="260" height="80" rx="16" fill="#172033" stroke="#94a3b8" stroke-width="2" />
+    <text x="527" y="794" text-anchor="middle" fill="#f8fafc" font-size="20" font-weight="700">SQLite</text>
+    <text x="527" y="820" text-anchor="middle" fill="#cbd5e1" font-size="15">local durable state</text>
+
+    <rect x="1015" y="760" width="315" height="80" rx="16" fill="#172033" stroke="#94a3b8" stroke-width="2" />
+    <text x="1172" y="794" text-anchor="middle" fill="#f8fafc" font-size="20" font-weight="700">Telegram + Discord</text>
+    <text x="1172" y="820" text-anchor="middle" fill="#cbd5e1" font-size="15">optional live providers</text>
+  </g>
+
+  <g font-family="Arial, Helvetica, sans-serif" font-size="14">
+    <line x1="415" y1="872" x2="475" y2="872" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)" />
+    <text x="490" y="877" fill="#cbd5e1">Command or write</text>
+    <line x1="650" y1="872" x2="710" y2="872" stroke="#34d399" stroke-width="3" marker-end="url(#signal-arrow)" />
+    <text x="725" y="877" fill="#cbd5e1">Committed Signal</text>
+    <line x1="910" y1="872" x2="970" y2="872" stroke="#c084fc" stroke-width="3" marker-start="url(#bridge-arrow)" marker-end="url(#bridge-arrow)" />
+    <text x="985" y="877" fill="#cbd5e1">Provider traffic</text>
+  </g>
+</svg>
