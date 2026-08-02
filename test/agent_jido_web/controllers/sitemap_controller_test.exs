@@ -3,6 +3,7 @@ defmodule AgentJidoWeb.SitemapControllerTest do
 
   alias AgentJido.Blog
   alias AgentJido.Ecosystem
+  alias AgentJido.Examples
   alias AgentJido.Pages
 
   test "returns raw xml sitemap payload", %{conn: conn} do
@@ -44,6 +45,21 @@ defmodule AgentJidoWeb.SitemapControllerTest do
     assert body =~ "/community/showcase"
     refute body =~ "/partners"
     refute body =~ "/benchmarks"
+  end
+
+  test "includes only canonical live example URLs", %{conn: conn} do
+    body =
+      conn
+      |> get("/sitemap.xml")
+      |> response(200)
+
+    for example <- Examples.all_examples() do
+      assert body =~ "<loc>#{AgentJidoWeb.Endpoint.url()}/examples/#{example.slug}</loc>"
+    end
+
+    refute body =~ ~r{<loc>[^<]+/examples/[^<]+\?}
+    refute body =~ "/examples/incident-triage"
+    refute body =~ "/examples/workflow-coordinator"
   end
 
   test "includes canonical blog URLs and excludes legacy underscore slugs", %{conn: conn} do

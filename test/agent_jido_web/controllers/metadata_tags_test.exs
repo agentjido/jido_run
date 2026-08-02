@@ -71,6 +71,20 @@ defmodule AgentJidoWeb.MetadataTagsTest do
              ~r/<meta property="og:image" content="#{Regex.escape(expected_og)}"\s*\/?>/
   end
 
+  test "query-string views point to the clean canonical URL", %{conn: conn} do
+    path = "/examples/runic-structured-llm-branching"
+
+    body =
+      conn
+      |> get(path <> "?source=2&tab=source")
+      |> response(200)
+
+    assert body =~
+             ~r/<link rel="canonical" href="#{Regex.escape(AgentJidoWeb.Endpoint.url() <> path)}"\s*\/?>/
+
+    refute body =~ ~r/<link rel="canonical" href="[^"]+\?/
+  end
+
   test "GET /docs uses section-specific metadata", %{conn: conn} do
     conn = get(conn, "/docs")
     body = response(conn, 200)

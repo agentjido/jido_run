@@ -6,6 +6,7 @@ defmodule AgentJidoWeb.SitemapController do
 
   alias AgentJido.Blog
   alias AgentJido.Ecosystem
+  alias AgentJido.Examples
   alias AgentJido.Pages
 
   def index(conn, _params) do
@@ -17,7 +18,8 @@ defmodule AgentJidoWeb.SitemapController do
       Phoenix.Template.render_to_string(AgentJidoWeb.SitemapHTML, "index", "xml",
         blog_posts: Blog.all_posts(),
         pages: pages,
-        ecosystem_packages: Ecosystem.public_packages()
+        ecosystem_packages: Ecosystem.public_packages(),
+        examples: Examples.all_examples()
       )
 
     conn
