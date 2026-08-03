@@ -10,51 +10,49 @@ content_intent: :case_study,
 capability_theme: :coordination_orchestration,
 evidence_surface: :case_study,
 related_docs: [
-  "/docs/concepts/agents",
-  "/docs/concepts/signals",
-  "/docs/concepts/agent-runtime"
+"/docs/concepts/agents",
+"/docs/concepts/signals",
+"/docs/concepts/agent-runtime"
 ],
 related_posts: ["jido-2-0-is-here"],
 validation: %{
-  repos: ["jido_assembly"],
-  source_modules: [
-    "Jido.Assembly.Agents",
-    "Jido.Assembly.Chat",
-    "Jido.Assembly.Pages.Assembly.Commands"
-  ],
-  source_files: [
-    "lib/jido_assembly/agents.ex",
-    "lib/jido_assembly/chat.ex",
-    "app/pages/assembly/commands.ex"
-  ],
-  ecosystem_packages: ~w(jido jido_ai jido_messaging jido_signal jido_chat),
-  min_elixir_version: "1.15",
-  claims: [
-    "Agent replies use the same Jido Messaging persistence path as human messages.",
-    "Telegram and Discord adapters connect to the canonical ops workflow room.",
-    "Hologram actions handle client state and commands handle server work."
-  ],
-  evergreen: false
+repos: ["jido_assembly"],
+source_modules: [
+"Jido.Assembly.Agents",
+"Jido.Assembly.Chat",
+"Jido.Assembly.Pages.Assembly.Commands"
+],
+source_files: [
+"lib/jido_assembly/agents.ex",
+"lib/jido_assembly/chat.ex",
+"app/pages/assembly/commands.ex"
+],
+ecosystem_packages: ~w(jido jido_ai jido_messaging jido_signal jido_chat),
+min_elixir_version: "1.15",
+claims: [
+"Agent replies use the same Jido Messaging persistence path as human messages.",
+"Telegram and Discord adapters connect to the canonical ops workflow room.",
+"Hologram actions handle client state and commands handle server work."
+],
+evergreen: false
 },
 freshness: %{
-  stale_after_days: 180,
-  last_refreshed_at: "2026-08-01",
-  last_validated_at: "2026-08-01",
-  validation_status: :valid,
-  validated_by: "agentjido/jido_assembly@20d790a",
-  validation_notes: "Architecture and package claims were checked against the Jido Assembly main branch."
+stale_after_days: 180,
+last_refreshed_at: "2026-08-01",
+last_validated_at: "2026-08-01",
+validation_status: :valid,
+validated_by: "agentjido/jido_assembly@20d790a",
+validation_notes: "Architecture and package claims were checked against the Jido Assembly main branch."
 }
 }
 
 ---
 
-[Jido Assembly](https://github.com/agentjido/jido_assembly) is a showcase for what the Jido ecosystem can build.
-
-It is a Slack clone.
+[Jido Assembly](https://github.com/agentjido/jido_assembly) is a showcase for what the Jido ecosystem can build. It's a multi-user chat application - a Slack clone - to showcase the power of Jido, AI Agents, Hologram and the BEAM.
 
 We built it as an architecture case study for agent-native applications. People chat in channels, direct messages, and threads. Jido Agents join those rooms as participants. Jido Messaging persists the chat model. Jido Chat connects the main ops room to Telegram and Discord. Hologram provides the interactive Elixir user interface.
 
-In Assembly, agent-native means that Agents use the same rooms, messages, threads, and events as people. They are application participants, not a separate chatbot feature. A Jido Agent is a module with state and behavior that runs through the Jido runtime. It is different from Elixir's `Agent` abstraction.
+In Assembly, agent-native means that Agents use the same rooms, messages, threads, and events as people. They are application participants, not a separate chatbot feature. A Jido Agent is a module with state and behavior that runs through the Jido runtime.
 
 Assembly puts that model in one working application. A person can start an Agent round. Agent replies appear in the same room as human messages. When a bridge is configured, top-level messages from the Assembly composer can also fan out to Telegram and Discord. Every subscribed client can receive the committed result.
 
@@ -174,12 +172,12 @@ LiveView keeps its primary view state in server-side socket assigns. Browser eve
 
 Hologram keeps component state in the browser and compiles the required Elixir code to JavaScript. [Actions](https://hologram.page/docs/actions) run on the client. [Commands](https://hologram.page/docs/commands) run on the server when the interface needs a database, API, or other protected resource. Hologram uses HTTP/2 for Action-to-Command requests and Server-Sent Events for broadcast actions. Its [architecture guide](https://hologram.page/docs/architecture) documents this split.
 
-| Concern | LiveView | Hologram |
-|---|---|---|
-| Primary state | Server socket assigns | Browser component state |
-| Client-only behavior | JavaScript commands or hooks | Actions compiled from Elixir |
-| Server work | LiveView event handlers and application contexts | Commands and application contexts |
-| Server-to-client updates | Rendered diffs over the LiveView connection | Broadcast actions over Server-Sent Events |
+| Concern                  | LiveView                                         | Hologram                                  |
+| ------------------------ | ------------------------------------------------ | ----------------------------------------- |
+| Primary state            | Server socket assigns                            | Browser component state                   |
+| Client-only behavior     | JavaScript commands or hooks                     | Actions compiled from Elixir              |
+| Server work              | LiveView event handlers and application contexts | Commands and application contexts         |
+| Server-to-client updates | Rendered diffs over the LiveView connection      | Broadcast actions over Server-Sent Events |
 
 Assembly has many local interface events. People switch rooms, open threads, edit drafts, select demo participants, and operate panels. Hologram runs these actions in the browser with Elixir code. Durable writes, Agent calls, searches, and bridge operations remain server Commands.
 
@@ -193,13 +191,13 @@ There is a tradeoff. Hologram does not yet provide a LiveViewTest-style API for 
 
 Each package has one clear role in the application.
 
-| Package | Responsibility in Assembly |
-|---|---|
-| Jido and Jido AI | Run the Triage, Bridge, and Runbook Agents. |
-| Jido Messaging | Own rooms, participants, messages, threads, reactions, persistence, and bridge policy. |
-| Jido Signal | Represent and route committed application events. |
-| Jido Chat | Connect provider-neutral chat operations to Telegram and Discord. |
-| Hologram | Run client Actions, call server Commands, and apply real-time user interface updates. |
+| Package          | Responsibility in Assembly                                                             |
+| ---------------- | -------------------------------------------------------------------------------------- |
+| Jido and Jido AI | Run the Triage, Bridge, and Runbook Agents.                                            |
+| Jido Messaging   | Own rooms, participants, messages, threads, reactions, persistence, and bridge policy. |
+| Jido Signal      | Represent and route committed application events.                                      |
+| Jido Chat        | Connect provider-neutral chat operations to Telegram and Discord.                      |
+| Hologram         | Run client Actions, call server Commands, and apply real-time user interface updates.  |
 
 The responsibilities stay separate. Jido AI produces an Agent response, but Jido Messaging owns the room and message records. Jido Chat connects providers, but it does not create a second message model. Jido Signal carries committed events. Hologram applies those events to the interface.
 
