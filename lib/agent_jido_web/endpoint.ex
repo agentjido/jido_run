@@ -13,6 +13,7 @@ defmodule AgentJidoWeb.Endpoint do
 
   plug AgentJidoWeb.Plug.Heartbeat
   plug(:canonical_host)
+  plug AgentJidoWeb.Plugs.PlausibleProxy
   plug AgentJidoWeb.Plugs.SearchEnginePolicy
   plug AgentJidoWeb.Plugs.LegacyRouteRedirect
   plug AgentJidoWeb.Plugs.LegacyBlogTagRedirect

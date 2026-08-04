@@ -73,8 +73,11 @@
 
     <%= if Application.get_env(:agent_jido, :enable_analytics) do %>
       <!-- Privacy-friendly analytics by Plausible -->
-      <link rel="preconnect" href="https://plausible.io" crossorigin />
-      <script nonce={@conn.assigns[:csp_nonce]} defer data-domain="jido.run" src="https://plausible.io/js/script.js">
+      <script nonce={@conn.assigns[:csp_nonce]} async src={AgentJidoWeb.Plugs.PlausibleProxy.script_path()}>
+      </script>
+      <script nonce={@conn.assigns[:csp_nonce]}>
+        window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+        plausible.init({endpoint: <%= Phoenix.HTML.raw(Jason.encode!(AgentJidoWeb.Plugs.PlausibleProxy.event_path())) %>})
       </script>
     <% end %>
 

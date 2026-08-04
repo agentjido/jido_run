@@ -26,6 +26,13 @@ config :agent_jido,
 
 config :agent_jido, AgentJido.Repo, types: AgentJido.PostgrexTypes
 
+config :agent_jido, :plausible_proxy,
+  site_domain: "jido.run",
+  script_path: "/_q/s.js",
+  event_path: "/_q/e",
+  script_url: "https://plausible.io/js/pa-rWEdo2cnsZEgMDZ956LgN.js",
+  event_url: "https://plausible.io/api/event"
+
 config :agent_jido, Oban,
   engine: Oban.Engines.Basic,
   repo: AgentJido.Repo,
