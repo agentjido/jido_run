@@ -23,8 +23,8 @@ defmodule AgentJidoWeb.Plugs.PlausibleProxy do
   Proxies the Plausible tracker and event endpoint through fixed first-party paths.
 
   The proxy is active only when site analytics are enabled. It accepts events only
-  for the configured site domain and forwards the Fly client IP instead of the
-  application server IP.
+  for the configured site domain and forwards the original client IP instead of
+  the Cloudflare or Fly proxy IP.
   """
 
   import Plug.Conn
@@ -192,10 +192,13 @@ defmodule AgentJidoWeb.Plugs.PlausibleProxy do
   end
 
   defp client_ip(conn) do
-    conn
-    |> get_req_header("fly-client-ip")
-    |> List.first()
-    |> normalize_ip()
+    ["cf-connecting-ip", "fly-client-ip"]
+    |> Enum.find_value(fn header ->
+      conn
+      |> get_req_header(header)
+      |> List.first()
+      |> normalize_ip()
+    end)
     |> case do
       nil -> conn.remote_ip |> :inet.ntoa() |> to_string()
       ip -> ip

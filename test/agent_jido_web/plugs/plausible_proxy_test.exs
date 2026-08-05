@@ -116,6 +116,25 @@ defmodule AgentJidoWeb.Plugs.PlausibleProxyTest do
     refute Enum.any?(headers, fn {name, _value} -> name == "cookie" end)
   end
 
+  test "prefers the original Cloudflare client IP over the Fly proxy IP" do
+    fake_response(%Finch.Response{status: 202, headers: [], body: "{}"})
+
+    body = Jason.encode!(%{"n" => "pageview", "d" => "jido.run"})
+
+    :post
+    |> conn("/_q/e", body)
+    |> put_req_header("content-type", "text/plain")
+    |> put_req_header("user-agent", "Test Browser/1.0")
+    |> put_req_header("cf-connecting-ip", "198.51.100.24")
+    |> put_req_header("fly-client-ip", "203.0.113.42")
+    |> PlausibleProxy.call(@settings)
+
+    assert_received {:proxy_request, :post, "https://plausible.io/api/event", headers, ^body, _options}
+
+    assert {"x-forwarded-for", "198.51.100.24"} in headers
+    refute {"x-forwarded-for", "203.0.113.42"} in headers
+  end
+
   test "rejects events for another Plausible site" do
     body = Jason.encode!(%{"n" => "pageview", "d" => "other.example"})
 
