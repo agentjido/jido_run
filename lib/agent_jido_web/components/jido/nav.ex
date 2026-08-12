@@ -30,7 +30,7 @@ defmodule AgentJidoWeb.Jido.Nav do
     {:discord, "Discord", @discord_url},
     {:github, "GitHub", "https://github.com/agentjido/jido"},
     {:x, "x.com", "https://x.com/agentjido"},
-    {:llmdb, "LLMDB", "https://llmdb.xyz"}
+    {:llmdb, "LLMDB", "https://llmcatalog.dev"}
   ]
 
   @github_url "https://github.com/agentjido/jido"

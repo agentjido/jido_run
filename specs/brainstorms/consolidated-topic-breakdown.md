@@ -102,7 +102,7 @@ Priority tiers:
 
 | # | Topic | Status | File / Placement | Priority | Notes |
 |---|---|---|---|---|---|
-| 5.1 | `[NEW]` Provider Capability and Fallback Matrix | — | `docs/provider-capability-and-fallback-matrix.md` | P0 | Provider support, fallback routing, rate limits, LLMDB.xyz refs (TOPIC-005) |
+| 5.1 | `[NEW]` Provider Capability and Fallback Matrix | — | `docs/provider-capability-and-fallback-matrix.md` | P0 | Provider support, fallback routing, rate limits, LLM Catalog refs (TOPIC-005) |
 | 5.2 | Configuration Reference | draft | `docs/configuration.md` | P0 | Thread provider config (TOPIC-005 secondary) |
 | 5.3 | Composable Ecosystem (feature page) | published | `features/composable-ecosystem.md` | — | Done; thread ReqLLM visibility on update (TOPIC-004) |
 
@@ -302,7 +302,7 @@ From TOPIC-001 and TOPIC-004 — these are **not standalone pages** but expansio
 
 1. **"LLM optional by design"** — thread into: key-concepts, architecture-overview, getting-started, first-agent, features/overview, quickstarts-by-persona
 2. **ReqLLM first-class visibility** — thread into: composable-ecosystem, reference-req-llm, reference-jido-ai, ai-chat-agent, tool-use, package-matrix
-3. **LLMDB.xyz mentions** — thread into: provider-capability matrix, reference-req-llm, configuration
+3. **LLM Catalog mentions** — thread into: provider-capability matrix, reference-req-llm, configuration
 4. **Runtime-first language primary** — every page; model layer stays optional framing
 
 ---

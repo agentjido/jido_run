@@ -43,7 +43,7 @@ req = Req.new() |> ReqLLM.attach()
 
 ## LLMDB
 
-A model metadata database that tracks capabilities, pricing, context window sizes, and feature support across LLM providers. Available as both an Elixir library and a web interface at [llmdb.xyz](https://llmdb.xyz).
+A model metadata database that tracks capabilities, pricing, context window sizes, and feature support across LLM providers. Available as both an Elixir library and a web interface at [llmcatalog.dev](https://llmcatalog.dev).
 
 **What it provides:**
 
@@ -70,7 +70,7 @@ LLMDB.list(provider: :anthropic, supports: :tool_calling)
 
 **In the Jido ecosystem**, LLMDB provides the model metadata that `jido_ai` uses when resolving aliases and validating token budgets.
 
-→ [LLMDB web interface](https://llmdb.xyz) · [GitHub](https://github.com/agentjido/llmdb)
+→ [LLMDB web interface](https://llmcatalog.dev) · [GitHub](https://github.com/agentjido/llmdb)
 
 ## Next steps
 

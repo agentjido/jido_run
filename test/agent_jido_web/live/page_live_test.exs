@@ -133,7 +133,7 @@ defmodule AgentJidoWeb.PageLiveTest do
       assert html =~ "Jido #{jido_version}"
 
       assert html =~ ~s(href="/ecosystem")
-      assert html =~ ~s(href="https://llmdb.xyz")
+      assert html =~ ~s(href="https://llmcatalog.dev")
       assert html =~ ~s(href="https://jido.run/discord")
       refute html =~ ~s(href="https://discord.gg/jido")
       assert html =~ ~s(id="primary-nav-content-assistant-trigger")

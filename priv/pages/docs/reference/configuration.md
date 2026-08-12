@@ -116,7 +116,7 @@ config :jido_ai,
 
 The table above shows built-in defaults. Your config merges on top — define only the aliases you want to change. Use aliases in code with `Jido.AI.resolve_model(:fast)`.
 
-A full list of supported provider/model IDs is available at [llmdb.xyz](https://llmdb.xyz).
+A full list of supported provider/model IDs is available at [llmcatalog.dev](https://llmcatalog.dev).
 
 ### LLM defaults
 

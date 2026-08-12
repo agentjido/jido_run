@@ -29,7 +29,7 @@ Full module docs, typespecs, and function references live on HexDocs:
 | `jido_signal` | CloudEvents-based signal system — typed event envelopes and routing | [hexdocs.pm/jido_signal](https://hexdocs.pm/jido_signal) |
 | `jido_browser` | Browser automation — navigation, extraction, forms, and screenshots | [hexdocs.pm/jido_browser](https://hexdocs.pm/jido_browser) |
 | `req_llm` | HTTP client for LLM providers — retries, rate limiting, streaming | [hexdocs.pm/req_llm](https://hexdocs.pm/req_llm) |
-| `llmdb` | LLM model metadata database — capabilities, pricing, and context limits | [llmdb.xyz](https://llmdb.xyz) |
+| `llmdb` | LLM model metadata database — capabilities, pricing, and context limits | [llmcatalog.dev](https://llmcatalog.dev) |
 
 For package overviews and installation instructions, see the [Ecosystem page](/ecosystem).
 

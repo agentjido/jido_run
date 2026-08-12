@@ -29,4 +29,4 @@
 - https://jido.run/ecosystem
 - https://hexdocs.pm/llm_db/readme.html
 - https://hex.pm/packages/llm_db
-- https://github.com/agentjido/llm_db
+- https://github.com/agentjido/llmdb
