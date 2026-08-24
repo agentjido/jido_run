@@ -12,9 +12,10 @@ defmodule AgentJido.MixProject do
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps(),
-      # Cowlib 2.18.0 is the latest release; acknowledge its two upstream advisories
-      # until Nine Nines publishes a patched version.
-      hex: [ignore_advisories: ["CVE-2026-43969", "CVE-2026-43966"]],
+      # No patched Cowlib Hex release is available yet.
+      hex: [
+        ignore_advisories: ["CVE-2026-43971", "CVE-2026-43969", "CVE-2026-43966"]
+      ],
       dialyzer: dialyzer()
     ]
   end
