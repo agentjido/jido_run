@@ -85,7 +85,7 @@ defmodule AgentJido.MixProject do
       {:pgvector, "~> 0.3"},
 
       # RAG
-      {:arcana, "~> 2.0"},
+      {:arcana, "~> 3.0"},
       {:leidenfold, "~> 0.3"},
       # leidenfold uses rustler_precompiled NIFs (rustler is optional there),
       # so override to satisfy extractous_ex (via jido_browser) needing ~> 0.37
