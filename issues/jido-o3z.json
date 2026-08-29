@@ -1,0 +1,14 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-08-29T22:20:04Z",
+  "description": "Create docs/inbox on the v3-spike branch. Move the current top-level docs files into the inbox and move the complete specs tree into docs/inbox/specs while preserving its structure for one-by-one ingestion.",
+  "id": "jido-o3z",
+  "labels": [],
+  "priority": 2,
+  "status": "open",
+  "title": "Create formal docs ingestion inbox",
+  "type": "task",
+  "updated_at": "2026-08-29T22:20:04Z"
+}
