@@ -2,14 +2,15 @@
   "assignee": "Mike Hostetler",
   "blocked_by": [],
   "blocks": [],
+  "closed_at": "2026-08-29T22:42:46Z",
   "created": "2026-08-29T22:31:06Z",
   "description": "Define docs/AGENTS.md and the canonical docs directory shape. Review and promote ten foundational inbox specs into strategy, architecture, and standards. Move each original to docs/archive/2026-08-29-batch-01 and update active repository references.",
   "id": "jido-n8z.1",
   "labels": [],
   "parent": "jido-n8z",
   "priority": 2,
-  "status": "in_progress",
+  "status": "closed",
   "title": "Ingest first ten foundational documents",
   "type": "task",
-  "updated_at": "2026-08-29T22:31:15Z"
+  "updated_at": "2026-08-29T22:42:46Z"
 }
