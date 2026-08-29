@@ -1,0 +1,14 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-08-29T22:31:01Z",
+  "description": "Create and maintain the canonical docs structure for jido.run. Process raw inbox documents in reviewed batches, publish current canonical documents, and preserve each original in a dated archive.",
+  "id": "jido-n8z",
+  "labels": [],
+  "priority": 2,
+  "status": "open",
+  "title": "Build formal jido.run documentation system",
+  "type": "epic",
+  "updated_at": "2026-08-29T22:31:01Z"
+}
