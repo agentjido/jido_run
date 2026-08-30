@@ -1,0 +1,15 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-08-30T10:17:38Z",
+  "description": "Review ten current-state, positioning, planning, proof, contributor, taxonomy, and versioning inbox documents. Promote or merge current material into canonical docs and archive the original sources as Batch 02.",
+  "id": "jido-n8z.2",
+  "labels": [],
+  "parent": "jido-n8z",
+  "priority": 2,
+  "status": "open",
+  "title": "Ingest second documentation planning batch",
+  "type": "task",
+  "updated_at": "2026-08-30T10:17:38Z"
+}
