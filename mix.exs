@@ -69,7 +69,7 @@ defmodule AgentJido.MixProject do
       {:telemetry_metrics, "~> 1.0"},
       {:telemetry_poller, "~> 1.0"},
       {:jason, "~> 1.2"},
-      {:dns_cluster, "~> 0.2.0"},
+      {:dns_cluster, "~> 0.3.0"},
 
       # Content / Markdown
       {:nimble_publisher, "~> 2.0"},
