@@ -42,7 +42,7 @@ defmodule AgentJido.MixProject do
       {:phoenix_ecto, "~> 4.6"},
       {:phoenix_html, "~> 4.1"},
       {:phoenix_live_view, "~> 1.1"},
-      {:phoenix_live_dashboard, "~> 0.8.7"},
+      {:phoenix_live_dashboard, "~> 0.9.0"},
       {:phoenix_live_reload, "~> 1.6", only: :dev},
       {:heroicons, github: "tailwindlabs/heroicons", tag: "v2.2.0", app: false, compile: false, sparse: "optimized"},
       {:floki, "~> 0.38"},
