@@ -101,10 +101,10 @@ jobs:
             exit 0
           fi
 
-          # Hex currently reports no fixed cowlib release for these advisories.
+          # Hex currently reports no fixed Cowlib or Gun release for these advisories.
           unignored_advisories="$(
             grep -E '^[[:space:]]+[[:alnum:]_.-]+ [^[:space:]]+ - ' hex-audit.log \
-              | grep -Ev '^[[:space:]]+cowlib [^[:space:]]+ - EEF-CVE-2026-4396(6|9) ' \
+              | grep -Ev '^[[:space:]]+(cowlib [^[:space:]]+ - EEF-CVE-2026-439(66|69|71)|gun [^[:space:]]+ - GHSA-w4f7-4cxr-rv3c) ' \
               || true
           )"
 
@@ -113,7 +113,7 @@ jobs:
             exit "$audit_status"
           fi
 
-          echo "Only ignored cowlib advisories EEF-CVE-2026-43966 and EEF-CVE-2026-43969 were found."
+          echo "Only ignored Cowlib and Gun advisories with no patched Hex release were found."
 
   test:
     name: Test
