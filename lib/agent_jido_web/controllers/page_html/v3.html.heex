@@ -1,0 +1,271 @@
+<div class="min-h-screen bg-background text-foreground">
+  <AgentJidoWeb.Jido.MarketingLayouts.marketing_header current_path="/v3" />
+
+  <main id="jido-v3-showcase" class="overflow-hidden">
+    <article class="mx-auto max-w-[900px] px-6 pb-24">
+      <header class="border-b border-border pb-16 pt-4 md:pb-20 md:pt-8">
+        <div class="mb-8 flex flex-wrap items-center gap-2.5">
+          <span class="rounded-full border border-primary/40 bg-primary/10 px-3 py-1 text-[11px] font-bold tracking-[0.18em] text-primary">
+            JIDO V3
+          </span>
+          <span class="rounded-full border border-accent-yellow/40 bg-accent-yellow/10 px-3 py-1 text-[11px] font-bold tracking-[0.18em] text-accent-yellow">
+            COMING SOON
+          </span>
+          <span class="ml-1 text-xs text-muted-foreground">ElixirConf preview</span>
+        </div>
+
+        <h1 class="max-w-4xl text-4xl font-bold leading-[1.08] tracking-tight sm:text-5xl md:text-6xl">
+          Build large-scale Actor and Agent systems <span class="text-primary">on the BEAM.</span>
+        </h1>
+
+        <p class="mt-7 max-w-2xl text-base leading-8 text-secondary-foreground md:text-lg">
+          Jido V3 is built for production Actor and Agent systems. Concurrency, supervision,
+          recovery, and ownership stay explicit as the system grows from one Agent to many.
+        </p>
+
+        <p class="mt-5 max-w-2xl text-sm leading-7 text-muted-foreground">
+          V3 refines and simplifies Jido from lessons learned in V2 and the emerging disciplines of
+          agentic engineering and harness engineering. The code below shows the result.
+        </p>
+      </header>
+
+      <nav aria-label="Jido V3 highlights" class="border-b border-border py-7">
+        <ol class="grid gap-3 text-xs text-muted-foreground sm:grid-cols-3 lg:grid-cols-6">
+          <li><a href="#agents" class="hover:text-primary">01 · Agent</a></li>
+          <li><a href="#flows" class="hover:text-primary">02 · Flow</a></li>
+          <li><a href="#turns" class="hover:text-primary">03 · Turn</a></li>
+          <li><a href="#plugins" class="hover:text-primary">04 · Plugin</a></li>
+          <li><a href="#topologies" class="hover:text-primary">05 · Topology</a></li>
+          <li><a href="#features" class="hover:text-primary">06 · Production</a></li>
+        </ol>
+      </nav>
+
+      <section id="agents" class="scroll-mt-28 border-b border-border py-16 md:py-20">
+        <div class="mb-8 grid gap-5 md:grid-cols-[9rem_1fr]">
+          <p class="text-xs font-bold tracking-[0.16em] text-primary">01 · JIDO.AGENT</p>
+          <div>
+            <h2 class="text-2xl font-bold tracking-tight md:text-3xl">One typed unit of state and behavior.</h2>
+            <p class="mt-4 max-w-2xl text-sm leading-7 text-secondary-foreground md:text-base">
+              An Agent declares validated state and maps Signals to work. One-use Actions stay beside the route they
+              serve. Reusable behavior remains a named Action.
+            </p>
+          </div>
+        </div>
+
+        <AgentJidoWeb.Jido.MarketingCode.code_block
+          title="lib/my_app/counter.ex"
+          code={@snippets.agent}
+        />
+
+        <div class="mt-6 grid gap-3 text-sm text-muted-foreground sm:grid-cols-3">
+          <p class="rounded-lg border border-border bg-elevated/40 p-4">
+            <strong class="text-foreground">Static schemas</strong><br />at every data boundary
+          </p>
+          <p class="rounded-lg border border-border bg-elevated/40 p-4">
+            <strong class="text-foreground">Generated helpers</strong><br />for application commands
+          </p>
+          <p class="rounded-lg border border-border bg-elevated/40 p-4">
+            <strong class="text-foreground">Complete state</strong><br />from every successful Turn
+          </p>
+        </div>
+      </section>
+
+      <section id="flows" class="scroll-mt-28 border-b border-border py-16 md:py-20">
+        <div class="mb-8 grid gap-5 md:grid-cols-[9rem_1fr]">
+          <p class="text-xs font-bold tracking-[0.16em] text-primary">02 · JIDO.FLOW</p>
+          <div>
+            <h2 class="text-2xl font-bold tracking-tight md:text-3xl">Compose work as a typed graph.</h2>
+            <p class="mt-4 max-w-2xl text-sm leading-7 text-secondary-foreground md:text-base">
+              Map prices each order with bounded parallel work and keeps the input order. Reduce then builds one
+              summary in sequence. Result references make the data path explicit.
+            </p>
+          </div>
+        </div>
+
+        <div class="rounded-xl border border-primary/30 bg-primary/[0.035] p-1 sm:p-2">
+          <AgentJidoWeb.Jido.MarketingCode.code_block
+            title="lib/my_app/price_orders.ex"
+            code={@snippets.flow}
+          />
+        </div>
+
+        <div class="mt-7 flex flex-wrap gap-2" aria-label="Jido Flow components">
+          <%= for component <- ~w(Step Choice Map Reduce Iterate Dispatch Nested\ Flow) do %>
+            <span class="rounded-full border border-border bg-elevated/50 px-3 py-1.5 text-xs text-secondary-foreground">
+              {component}
+            </span>
+          <% end %>
+        </div>
+
+        <a
+          href="https://hex.pm/packages/jido_action"
+          class="mt-7 inline-flex text-xs font-bold tracking-wide text-primary hover:underline"
+        >
+          EXPLORE JIDO ACTION V3 ON HEX →
+        </a>
+      </section>
+
+      <section id="turns" class="scroll-mt-28 border-b border-border py-16 md:py-20">
+        <div class="mb-8 grid gap-5 md:grid-cols-[9rem_1fr]">
+          <p class="text-xs font-bold tracking-[0.16em] text-primary">03 · TURNS</p>
+          <div>
+            <h2 class="text-2xl font-bold tracking-tight md:text-3xl">One Signal. One candidate. One commit.</h2>
+            <p class="mt-4 max-w-2xl text-sm leading-7 text-secondary-foreground md:text-base">
+              AgentServer serializes each Turn. It routes the Signal, runs one Action or Flow, validates the complete
+              candidate, commits it, and then dispatches typed effects.
+            </p>
+          </div>
+        </div>
+
+        <ol
+          aria-label="Jido Turn lifecycle"
+          class="mb-8 grid gap-px overflow-hidden rounded-lg border border-border bg-border text-center text-xs sm:grid-cols-5"
+        >
+          <li class="bg-elevated px-3 py-4"><span class="block text-primary">01</span>Signal</li>
+          <li class="bg-elevated px-3 py-4"><span class="block text-primary">02</span>Route</li>
+          <li class="bg-elevated px-3 py-4"><span class="block text-primary">03</span>Execute</li>
+          <li class="bg-elevated px-3 py-4"><span class="block text-primary">04</span>Commit</li>
+          <li class="bg-elevated px-3 py-4"><span class="block text-primary">05</span>Dispatch</li>
+        </ol>
+
+        <AgentJidoWeb.Jido.MarketingCode.code_block title="iex -S mix" code={@snippets.turn} />
+      </section>
+
+      <section id="plugins" class="scroll-mt-28 border-b border-border py-16 md:py-20">
+        <div class="mb-8 grid gap-5 md:grid-cols-[9rem_1fr]">
+          <p class="text-xs font-bold tracking-[0.16em] text-primary">04 · JIDO.PLUGIN</p>
+          <div>
+            <h2 class="text-2xl font-bold tracking-tight md:text-3xl">Give every capability an owner.</h2>
+            <p class="mt-4 max-w-2xl text-sm leading-7 text-secondary-foreground md:text-base">
+              A Plugin owns its state, live resources, admission rules, and post-commit directives. Actions and Flows
+              keep ownership of domain behavior.
+            </p>
+          </div>
+        </div>
+
+        <AgentJidoWeb.Jido.MarketingCode.code_block title="inside an Agent definition" code={@snippets.plugin} />
+      </section>
+
+      <section id="topologies" class="scroll-mt-28 border-b border-border py-16 md:py-20">
+        <div class="mb-8 grid gap-5 md:grid-cols-[9rem_1fr]">
+          <p class="text-xs font-bold tracking-[0.16em] text-primary">05 · JIDO.TOPOLOGY</p>
+          <div>
+            <h2 class="text-2xl font-bold tracking-tight md:text-3xl">Make scale and ownership visible.</h2>
+            <p class="mt-4 max-w-2xl text-sm leading-7 text-secondary-foreground md:text-base">
+              This is the base for large Agent swarms. One definition gives a coordinator lifecycle ownership of 1,000
+              workers, connects them to a Signal bus, and sets a startup limit. The OTP structure stays visible.
+            </p>
+          </div>
+        </div>
+
+        <AgentJidoWeb.Jido.MarketingCode.code_block title="lib/my_app/worker_swarm.ex" code={@snippets.topology} />
+      </section>
+
+      <section id="features" class="scroll-mt-28 border-b border-border py-16 md:py-20">
+        <div class="mb-9 grid gap-5 md:grid-cols-[9rem_1fr]">
+          <p class="text-xs font-bold tracking-[0.16em] text-primary">06 · PRODUCTION</p>
+          <div>
+            <h2 class="text-2xl font-bold tracking-tight md:text-3xl">Production rules are part of the design.</h2>
+            <p class="mt-4 max-w-2xl text-sm leading-7 text-secondary-foreground md:text-base">
+              Jido puts validation, load limits, state changes, and system ownership in definitions that developers can
+              inspect and test.
+            </p>
+          </div>
+        </div>
+
+        <div class="grid gap-4 sm:grid-cols-2">
+          <div class="rounded-xl border border-border bg-elevated/40 p-6">
+            <p class="text-xs font-bold tracking-[0.14em] text-primary">VALIDATED, BOUNDED GRAPHS</p>
+            <h3 class="mt-3 text-lg font-bold">Find graph errors before startup.</h3>
+            <p class="mt-3 text-sm leading-7 text-muted-foreground">
+              Compile-time checks reject invalid references and graph shapes. Map concurrency and Iterate limits make
+              agentic backpressure explicit.
+            </p>
+          </div>
+
+          <div class="rounded-xl border border-border bg-elevated/40 p-6">
+            <p class="text-xs font-bold tracking-[0.14em] text-primary">PORTABLE DEFINITIONS</p>
+            <h3 class="mt-3 text-lg font-bold">Build the system at runtime.</h3>
+            <p class="mt-3 text-sm leading-7 text-muted-foreground">
+              Agent, Flow, and Topology definitions can be built at runtime and stored as versioned JSON documents. A
+              trusted registry controls which modules can load.
+            </p>
+          </div>
+
+          <div class="rounded-xl border border-border bg-elevated/40 p-6">
+            <p class="text-xs font-bold tracking-[0.14em] text-primary">COMMIT BEFORE EFFECTS</p>
+            <h3 class="mt-3 text-lg font-bold">Keep state and effects in order.</h3>
+            <p class="mt-3 text-sm leading-7 text-muted-foreground">
+              A Turn validates and commits its state candidate before it sends typed directives. A failed candidate
+              cannot start external work.
+            </p>
+          </div>
+
+          <div class="rounded-xl border border-border bg-elevated/40 p-6">
+            <p class="text-xs font-bold tracking-[0.14em] text-primary">RECOVERY AND TRACEABILITY</p>
+            <h3 class="mt-3 text-lg font-bold">See what the Agent committed.</h3>
+            <p class="mt-3 text-sm leading-7 text-muted-foreground">
+              State revisions, public snapshots, and semantic events make each path from Signal to commit available for
+              recovery, tests, and production tools.
+            </p>
+          </div>
+        </div>
+
+        <div class="mt-12 rounded-xl border border-primary/30 bg-primary/[0.035] p-6 sm:p-8">
+          <div class="mb-7 flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <p class="text-xs font-bold tracking-[0.14em] text-primary">JIDO AI</p>
+              <h3 class="mt-3 text-xl font-bold">Reasoning strategies, one Agent DSL.</h3>
+            </div>
+            <span class="rounded-full border border-accent-yellow/40 bg-accent-yellow/10 px-3 py-1 text-[10px] font-bold tracking-[0.16em] text-accent-yellow">
+              COMING SOON
+            </span>
+          </div>
+
+          <p class="mb-7 max-w-2xl text-sm leading-7 text-muted-foreground">
+            Add model aliases, tools, structured results, and a reasoning strategy to an Agent. ReAct and several
+            search and planning strategies will use the same Turn and Flow contracts.
+          </p>
+
+          <AgentJidoWeb.Jido.MarketingCode.code_block title="a small Jido AI definition" code={@snippets.ai} />
+        </div>
+      </section>
+
+      <footer class="py-16 md:py-20">
+        <div class="flex flex-wrap items-center gap-3">
+          <p class="text-xs font-bold tracking-[0.16em] text-primary">FROM ONE TO MANY</p>
+          <span class="rounded-full border border-accent-yellow/40 bg-accent-yellow/10 px-3 py-1 text-[10px] font-bold tracking-[0.16em] text-accent-yellow">
+            COMING SOON
+          </span>
+        </div>
+        <h2 class="mt-5 max-w-3xl text-3xl font-bold leading-tight tracking-tight md:text-4xl">
+          The same contracts hold as the system grows.
+        </h2>
+        <p class="mt-6 max-w-2xl text-sm leading-7 text-secondary-foreground md:text-base">
+          An Agent handles one Signal. A Flow composes the work. A Turn commits the state. Plugins own capabilities.
+          A Topology runs the system under OTP.
+        </p>
+
+        <div class="mt-9 flex flex-wrap gap-3">
+          <a
+            href="https://github.com/agentjido/jido/blob/v3-spike/guides/migration.md"
+            class="rounded bg-primary px-5 py-3 text-xs font-bold text-primary-foreground transition-opacity hover:opacity-90"
+          >
+            READ THE MIGRATION GUIDE
+          </a>
+          <a
+            href="https://github.com/agentjido/jido"
+            class="rounded border border-border px-5 py-3 text-xs font-bold transition-colors hover:border-primary/60 hover:text-primary"
+          >
+            GITHUB
+          </a>
+        </div>
+
+        <p class="mt-10 text-xs leading-6 text-muted-foreground">
+          Jido V3 is not available yet. Preview APIs may change before release. These samples track the current V3
+          candidate and are not executed by this website.
+        </p>
+      </footer>
+    </article>
+  </main>
+</div>
