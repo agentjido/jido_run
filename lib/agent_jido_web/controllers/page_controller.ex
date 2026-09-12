@@ -1,17 +1,10 @@
 defmodule AgentJidoWeb.PageController do
   use AgentJidoWeb, :controller
 
-  alias AgentJidoWeb.Showcase.V3
-
   def v3(conn, _params) do
-    render(conn, :v3,
-      page_title: "Jido V3: Large-scale Actor and Agent Systems on the BEAM",
-      meta_description: "Coming soon: a code-first preview of Jido V3 for large-scale, production Actor and Agent systems on the BEAM.",
-      og_title: "Jido V3 is coming soon",
-      og_description: "See typed Actors and Agents, composable Flows, explicit Turns, owned Plugins, and supervised Topologies in Jido V3.",
-      robots: ["noindex", "nofollow"],
-      snippets: V3.snippets()
-    )
+    conn
+    |> put_status(:moved_permanently)
+    |> redirect(to: ~p"/")
   end
 
   def discord(conn, _params) do
