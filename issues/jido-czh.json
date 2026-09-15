@@ -1,0 +1,14 @@
+{
+  "assignee": "",
+  "blocked_by": [],
+  "blocks": [],
+  "created": "2026-09-15T11:45:55Z",
+  "description": "Review outstanding Dependabot PRs and Hex/npm outdated packages on agentjido/jido_run, apply compatible updates, refresh mix.lock and assets lockfiles, adjust mix.exs version constraints where they would block the new versions, and verify with mix hex.audit, mix quality, and mix test.\n\nOutstanding Dependabot PRs (against upstream/main):\n- req_llm 1.21.1 -\u003e 1.22.0\n- jido_studio, jido_messaging, jido_live_dashboard git SHAs\n- jido_runic git SHA (CI currently failing: Runic.Identity.CanonicalError MapSet)\n- hackney 4.6.0 -\u003e 4.7.4 (requires mix.exs constraint change)\n- dotenvy 1.1.1 -\u003e 1.2.0\n- emlx 0.4.1 -\u003e 0.4.2\n- dialyxir 1.4.7 -\u003e 1.4.8\n- git_ops 2.12.2 -\u003e 2.12.3\n- posthog-js 1.427.2 -\u003e 1.430.2\n\nAlso evaluate cowlib 2.20.0 vs ignored CVEs.",
+  "id": "jido-czh",
+  "labels": [],
+  "priority": 2,
+  "status": "open",
+  "title": "Review and apply outstanding dependency updates",
+  "type": "task",
+  "updated_at": "2026-09-15T11:45:55Z"
+}
