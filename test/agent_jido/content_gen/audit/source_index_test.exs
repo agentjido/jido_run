@@ -31,6 +31,21 @@ defmodule AgentJido.ContentGen.Audit.SourceIndexTest do
     refute SourceIndex.export_exists?(index, "Jido.Worker", "missing", 0)
   end
 
+  test "normalize restores MapSets from list-shaped Runic payloads" do
+    index =
+      SourceIndex.normalize(%{
+        "modules" => ["Jido.Worker"],
+        "exports" => [{"Jido.Worker", "run", 1}],
+        "package_paths" => %{"jido" => "/tmp/jido"},
+        "scanned_files" => 1
+      })
+
+    assert %MapSet{} = index.modules
+    assert %MapSet{} = index.exports
+    assert SourceIndex.module_exists?(index, "Jido.Worker")
+    assert SourceIndex.export_exists?(index, "Jido.Worker", "run", 1)
+  end
+
   defp tmp_dir!(prefix) do
     path = Path.join(System.tmp_dir!(), "#{prefix}_#{System.unique_integer([:positive])}")
     :ok = File.mkdir_p(path)

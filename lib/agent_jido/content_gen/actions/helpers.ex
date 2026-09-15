@@ -150,9 +150,36 @@ defmodule AgentJido.ContentGen.Actions.Helpers do
 
   def normalize_structure_plan(_), do: {:error, "invalid structure response payload"}
 
+  @doc """
+  Converts MapSet structs into sorted lists so Runic identity encoding can
+  digest workflow values. SourceIndex lookups rehydrate MapSets on demand.
+  """
+  @spec identity_safe(term()) :: term()
+  def identity_safe(%MapSet{} = set) do
+    set
+    |> MapSet.to_list()
+    |> Enum.map(&identity_safe/1)
+    |> Enum.sort()
+  end
+
+  def identity_safe(map) when is_map(map) and not is_struct(map) do
+    Map.new(map, fn {key, value} -> {identity_safe(key), identity_safe(value)} end)
+  end
+
+  def identity_safe(list) when is_list(list), do: Enum.map(list, &identity_safe/1)
+
+  def identity_safe(tuple) when is_tuple(tuple) do
+    tuple
+    |> Tuple.to_list()
+    |> Enum.map(&identity_safe/1)
+    |> List.to_tuple()
+  end
+
+  def identity_safe(other), do: other
+
   @spec default_context(map(), map()) :: map()
   def default_context(entry, run_opts) do
-    %{
+    identity_safe(%{
       entry: entry,
       run_opts: run_opts,
       opts: run_opts.opts,
@@ -188,7 +215,7 @@ defmodule AgentJido.ContentGen.Actions.Helpers do
       entry_result: nil,
       output_excerpt: nil,
       cleanup_reason: nil
-    }
+    })
   end
 
   @spec halt_with_entry_result(map(), atom(), String.t(), String.t(), map()) :: map()
