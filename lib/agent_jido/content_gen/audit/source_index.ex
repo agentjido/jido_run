@@ -58,15 +58,39 @@ defmodule AgentJido.ContentGen.Audit.SourceIndex do
     }
   end
 
+  @spec normalize(t() | map()) :: t()
+  def normalize(index) when is_map(index) do
+    %{
+      modules: to_mapset(fetch_index(index, :modules)),
+      exports: to_mapset(fetch_index(index, :exports)),
+      package_paths: fetch_index(index, :package_paths) || %{},
+      scanned_files: fetch_index(index, :scanned_files) || 0
+    }
+  end
+
   @spec module_exists?(t(), String.t()) :: boolean()
   def module_exists?(index, module_name) do
-    MapSet.member?(index.modules, normalize_module(module_name))
+    index
+    |> normalize()
+    |> Map.fetch!(:modules)
+    |> MapSet.member?(normalize_module(module_name))
   end
 
   @spec export_exists?(t(), String.t(), String.t(), non_neg_integer()) :: boolean()
   def export_exists?(index, module_name, function_name, arity) do
-    MapSet.member?(index.exports, {normalize_module(module_name), to_string(function_name), arity})
+    index
+    |> normalize()
+    |> Map.fetch!(:exports)
+    |> MapSet.member?({normalize_module(module_name), to_string(function_name), arity})
   end
+
+  defp fetch_index(index, key) do
+    Map.get(index, key) || Map.get(index, Atom.to_string(key))
+  end
+
+  defp to_mapset(%MapSet{} = set), do: set
+  defp to_mapset(list) when is_list(list), do: MapSet.new(list)
+  defp to_mapset(nil), do: MapSet.new()
 
   defp resolve_package_path(package_id, source_root) do
     cwd = File.cwd!()

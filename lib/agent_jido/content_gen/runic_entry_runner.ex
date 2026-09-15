@@ -56,7 +56,7 @@ defmodule AgentJido.ContentGen.RunicEntryRunner do
     signal =
       Jido.Signal.new!(
         "runic.feed",
-        %{data: %{entry: entry, run_opts: run_opts}},
+        %{data: %{entry: entry, run_opts: Helpers.identity_safe(run_opts)}},
         source: "/content_gen/runic_entry_runner"
       )
 

@@ -12,7 +12,8 @@ defmodule AgentJido.MixProject do
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps(),
-      # No patched Cowlib Hex release is available yet.
+      # Cowlib 2.20.0 is the latest Hex release; keep ignoring the remaining
+      # upstream advisories until Nine Nines publishes a patched version.
       hex: [
         ignore_advisories: ["CVE-2026-43971", "CVE-2026-43969", "CVE-2026-43966"]
       ],
@@ -51,7 +52,8 @@ defmodule AgentJido.MixProject do
       {:plug, "~> 1.14"},
       {:plug_cowboy, "~> 2.5"},
       {:bandit, "~> 1.0"},
-      {:hackney, "~> 4.6.0", override: true},
+      {:hackney, "~> 4.7.4", override: true},
+      {:cowlib, "~> 2.20", override: true},
       {:remote_ip, "~> 1.2"},
       {:plug_canonical_host, "~> 2.0"},
       {:multipart, "~> 0.4", override: true},
@@ -81,7 +83,7 @@ defmodule AgentJido.MixProject do
       {:decimal, "~> 3.0", override: true},
       {:ecto_sql, "~> 3.14"},
       {:postgrex, "~> 0.19"},
-      {:oban, "~> 2.23"},
+      {:oban, "~> 2.24"},
       {:pgvector, "~> 0.3"},
 
       # RAG
@@ -92,14 +94,14 @@ defmodule AgentJido.MixProject do
       {:rustler, "~> 0.37", override: true},
 
       # Nx backend (Apple Silicon)
-      {:emlx, "~> 0.2", only: [:dev, :test]},
+      {:emlx, "~> 0.4", only: [:dev, :test]},
 
       # AI / Jido
-      {:jido, "~> 2.1", override: true},
-      {:jido_action, "~> 2.1", override: true},
-      {:jido_signal, "~> 2.0", override: true},
-      {:jido_ai, "~> 2.0", override: true},
-      {:jido_browser, "~> 2.1"},
+      {:jido, "~> 2.3", override: true},
+      {:jido_action, "~> 2.3", override: true},
+      {:jido_signal, "~> 2.3", override: true},
+      {:jido_ai, "~> 2.3", override: true},
+      {:jido_browser, "~> 2.4"},
       {:jido_runic, github: "agentjido/jido_runic", branch: "main"},
       {:jido_live_dashboard, github: "agentjido/jido_live_dashboard", branch: "main"},
       {:libgraph, github: "zblanco/libgraph", branch: "zw/multigraph-indexes", override: true},
@@ -107,7 +109,7 @@ defmodule AgentJido.MixProject do
       {:jido_messaging, github: "agentjido/jido_messaging", branch: "main"},
       {:telegex, github: "mikehostetler/telegex", ref: "a07f4e1", override: true},
       {:nostrum, "~> 0.10", runtime: false},
-      {:req_llm, "~> 1.7", override: true},
+      {:req_llm, "~> 1.22", override: true},
       {:timex, "~> 3.7", override: true},
       {:gettext, "~> 1.0", override: true},
 
@@ -118,12 +120,12 @@ defmodule AgentJido.MixProject do
       {:zoi, "~> 0.18"},
 
       # Config / Env
-      {:dotenvy, "~> 1.0"},
+      {:dotenvy, "~> 1.2"},
 
       # Dev Tools
       {:tidewave, "~> 0.5", only: :dev},
       {:mix_test_watch, "~> 1.0", only: [:dev, :test], runtime: false},
-      {:git_ops, "~> 2.9", only: :dev, runtime: false},
+      {:git_ops, "~> 2.12", only: :dev, runtime: false},
       {:git_hooks, "~> 0.8", only: [:dev, :test], runtime: false},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false}
