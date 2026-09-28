@@ -68,7 +68,7 @@ defmodule AgentJidoWeb.Examples.CounterAgentLive do
 
       <%!-- Custom increment --%>
       <div class="flex items-center justify-center gap-2">
-        <form phx-change="set_increment_by" class="flex items-center gap-2">
+        <form id="counter-increment-form" phx-change="set_increment_by" class="flex items-center gap-2">
           <label class="text-xs text-muted-foreground">Increment by:</label>
           <input
             type="number"

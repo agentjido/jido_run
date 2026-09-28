@@ -1,7 +1,7 @@
 defmodule AgentJido.MCP.StdioTest do
   use ExUnit.Case, async: false
 
-  @moduletag timeout: 15_000
+  @moduletag timeout: 45_000
 
   test "stdio transport serves newline-delimited MCP JSON-RPC" do
     mix = System.find_executable("mix") || flunk("mix executable not found")
@@ -39,7 +39,8 @@ defmodule AgentJido.MCP.StdioTest do
       "params" => %{"protocolVersion" => "2025-11-25", "clientInfo" => %{"name" => "stdio-test"}}
     })
 
-    init_response = receive_json(port)
+    # The first reply includes Mix and application startup in the child process.
+    init_response = receive_json(port, 30_000)
     assert init_response["result"]["serverInfo"]["name"] == "agent_jido_docs"
 
     send_json(port, %{"jsonrpc" => "2.0", "method" => "notifications/initialized"})
@@ -59,7 +60,7 @@ defmodule AgentJido.MCP.StdioTest do
     Port.command(port, Jason.encode!(payload) <> "\n")
   end
 
-  defp receive_json(port) do
+  defp receive_json(port, timeout \\ 5_000) do
     receive do
       {^port, {:data, data}} ->
         data
@@ -69,7 +70,7 @@ defmodule AgentJido.MCP.StdioTest do
       {^port, {:exit_status, status}} ->
         flunk("stdio server exited before replying with status #{status}")
     after
-      5_000 -> flunk("timed out waiting for stdio response")
+      timeout -> flunk("timed out waiting for stdio response")
     end
   end
 end

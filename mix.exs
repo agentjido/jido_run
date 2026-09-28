@@ -52,7 +52,7 @@ defmodule AgentJido.MixProject do
       {:plug, "~> 1.14"},
       {:plug_cowboy, "~> 2.5"},
       {:bandit, "~> 1.0"},
-      {:hackney, "~> 4.7.4", override: true},
+      {:hackney, "~> 4.8", override: true},
       {:cowlib, "~> 2.20", override: true},
       {:remote_ip, "~> 1.2"},
       {:plug_canonical_host, "~> 2.0"},

@@ -22,7 +22,7 @@ defmodule AgentJido.Application do
       ] ++
         github_stars_tracker_children() ++
         [
-          Arcana.TaskSupervisor,
+          ArcanaWeb.TaskSupervisor,
           AgentJido.ContentIngest.EcosystemDocs.Crawler
         ] ++
         arcana_embedder_children() ++
