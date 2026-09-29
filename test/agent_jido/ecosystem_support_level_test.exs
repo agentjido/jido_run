@@ -5,12 +5,13 @@ defmodule AgentJido.EcosystemSupportLevelTest do
   alias AgentJido.Ecosystem.SupportLevel
 
   test "exposes the canonical support levels in display order" do
-    assert SupportLevel.levels() == [:stable, :beta, :experimental]
+    assert SupportLevel.levels() == [:stable, :beta, :experimental, :unsupported]
 
     assert Enum.map(SupportLevel.all(), & &1.label) == [
              "Stable",
              "Beta",
-             "Experimental"
+             "Experimental",
+             "Unsupported"
            ]
   end
 
@@ -23,6 +24,7 @@ defmodule AgentJido.EcosystemSupportLevelTest do
     assert Ecosystem.get_package!("jido_memory").support_level == :stable
     assert Ecosystem.get_package!("jido_mcp").support_level == :beta
     assert Ecosystem.get_package!("jido_messaging").support_level == :beta
+    assert Ecosystem.get_package!("jido_lib").support_level == :unsupported
   end
 
   test "aligns published package versions with the official ecosystem inventory" do

@@ -337,7 +337,11 @@ Ring 3 — Application (outer orbit):
 
 `workflow_products`
 
-- `jido_code`, `jido_lib`
+- `jido_code`
+
+Archived workflow products:
+
+- `jido_lib` (deprecated and unsupported; historical example only)
 
 `reference_app`
 

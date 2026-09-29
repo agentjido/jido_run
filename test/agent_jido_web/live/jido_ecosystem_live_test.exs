@@ -15,6 +15,7 @@ defmodule AgentJidoWeb.JidoEcosystemLiveTest do
     assert html =~ "Stable"
     assert html =~ "Beta"
     assert html =~ "Experimental"
+    assert html =~ "Unsupported"
     refute html =~ "Ongoing maintenance, compatibility work, and careful API evolution."
     assert html =~ "PACKAGE EXPLORER"
     assert html =~ "ECOSYSTEM MAP"

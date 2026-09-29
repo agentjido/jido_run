@@ -2,8 +2,8 @@
   name: "jido_lib",
   title: "Jido Lib",
   graph_label: "Jido Lib",
-  version: "0.1.0",
-  tagline: "GitHub triage and PR orchestration workflows composed over the CLI-agent stack",
+  version: "unreleased",
+  tagline: "Archived GitHub workflow experiments retained as an unsupported historical example",
   license: "Apache-2.0",
   visibility: :public,
   category: :tools,
@@ -15,16 +15,17 @@
   github_repo: "jido_lib",
   tech_lead: "@mikehostetler",
   elixir: "~> 1.18",
-  maturity: :beta,
-  support_level: :beta,
+  maturity: :experimental,
+  support_level: :unsupported,
   hex_status: "unreleased",
-  api_stability: "unstable - module set and APIs are evolving",
+  api_stability: "archived - no supported API",
   stub: false,
-  support: :best_effort,
+  support: :unsupported,
   limitations: [
-    "Not published to Hex - available via GitHub dependency",
-    "Still owns Sprite lifecycle actions and runtime integration steps that overlap with harness ownership",
-    "Workflow APIs are consolidating around provider-swappable patterns"
+    "Archived, deprecated, and unsupported",
+    "Version 0.1.0 was never tagged or published to Hex or as a GitHub release",
+    "No dependency updates, bug fixes, security fixes, or releases",
+    "Historical example only; do not use for new work"
   ],
   ecosystem_deps: [
     "jido_harness",
@@ -39,38 +40,36 @@
     "jido_ai"
   ],
   key_features: [
-    "Canonical GitHub PR bot workflow API",
-    "Canonical GitHub issue triage workflow API",
-    "Provider-swappable orchestration over Harness adapters",
-    "Workflow composition across shell, VFS, runic, and AI strategy layers",
-    "Reusable implementation patterns for production automation agents"
+    "Historical GitHub PR and issue-triage workflow experiments",
+    "Historical provider-swappable orchestration over Harness adapters",
+    "Historical composition patterns across shell, VFS, Runic, and AI layers"
   ]
 }
 ---
 ## Overview
 
-Jido Lib provides domain-oriented orchestration modules for GitHub triage and PR workflows that compose the lower-level CLI-agent runtime stack.
+Jido Lib was an experimental package for GitHub triage and PR workflows. The repository is archived, deprecated, and unsupported. It remains available only as a historical example.
 
 ## Purpose
 
-Jido Lib is the application orchestration layer for reusable GitHub workflow automation.
+The package has no active product role and no successor. Do not use it for new work.
 
 ## Boundary Lines
 
-- Owns domain workflows, orchestration composition, and workflow-level policy.
-- Coordinates providers through Harness and adjacent runtime packages.
-- Should not redefine provider contracts or permanently own shared runtime bootstrap responsibilities.
+- The historical code composed domain workflows and workflow-level policy.
+- The historical code coordinated providers through Harness and adjacent runtime packages.
+- No module, task, policy, test, or guide is an active Jido interface.
 
 ## Major Components
 
 ### GitHub Agent APIs
 
-Includes canonical entry points for issue triage and PR bot orchestration.
+Contains former entry points for issue triage and PR bot orchestration.
 
 ### Workflow Composition
 
-Builds on Jido action and runic primitives to model multi-step automation pipelines.
+Shows historical use of Jido action and Runic primitives for multi-step automation pipelines.
 
 ### Utility Modules
 
-Provides practical helpers for integrating shell, workspace, and CLI-based agent components.
+Contains historical helpers for shell, workspace, and CLI-based agent components.

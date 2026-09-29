@@ -10,7 +10,7 @@ defmodule AgentJidoWeb.Jido.MarketingCards do
   attr :layer, :atom, values: [:core, :ai, :foundation, :app], required: true
   attr :path, :string, default: nil
   attr :links, :list, default: []
-  attr :support_level, :atom, values: [:stable, :beta, :experimental], default: :experimental
+  attr :support_level, :atom, values: [:stable, :beta, :experimental, :unsupported], default: :experimental
   attr :dependency_labels, :list, default: []
 
   def package_card(assigns) do
@@ -73,7 +73,7 @@ defmodule AgentJidoWeb.Jido.MarketingCards do
     """
   end
 
-  attr :level, :atom, values: [:stable, :beta, :experimental], required: true
+  attr :level, :atom, values: [:stable, :beta, :experimental, :unsupported], required: true
 
   def support_level_badge(assigns) do
     ~H"""
@@ -131,4 +131,5 @@ defmodule AgentJidoWeb.Jido.MarketingCards do
   defp support_level_label(:stable), do: "stable"
   defp support_level_label(:beta), do: "beta"
   defp support_level_label(:experimental), do: "experimental"
+  defp support_level_label(:unsupported), do: "unsupported"
 end

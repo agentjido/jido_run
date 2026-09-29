@@ -15,7 +15,7 @@ defmodule AgentJidoWeb.JidoEcosystemLive do
 
   @layer_order [:foundation, :core, :ai, :app]
   @layer_filter_order [:all, :foundation, :core, :ai, :app]
-  @support_level_order [:stable, :beta, :experimental]
+  @support_level_order [:stable, :beta, :experimental, :unsupported]
 
   @impl true
   def mount(_params, _session, socket) do

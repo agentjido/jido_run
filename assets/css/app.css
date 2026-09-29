@@ -98,6 +98,10 @@
     background: hsl(var(--accent-red) / 0.15);
   }
 
+  .support-badge-unsupported {
+    @apply inline-flex items-center rounded-sm border border-destructive/30 bg-destructive/10 px-1.5 py-0.5 text-[9px] font-bold tracking-wider text-destructive;
+  }
+
   .code-block {
     @apply rounded-lg border overflow-hidden;
     border-color: hsl(var(--code-border));

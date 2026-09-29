@@ -3,11 +3,11 @@ defmodule AgentJido.Ecosystem.SupportLevel do
   Canonical public support-level taxonomy for Jido ecosystem packages.
 
   This taxonomy defines what the project means operationally when a package is
-  described as stable, beta, or experimental. Ecosystem package metadata can
+  described as stable, beta, experimental, or unsupported. Ecosystem package metadata can
   attach one of these levels so site pages and docs use the same language.
   """
 
-  @levels [:stable, :beta, :experimental]
+  @levels [:stable, :beta, :experimental, :unsupported]
 
   @definitions %{
     stable: %{
@@ -32,10 +32,18 @@ defmodule AgentJido.Ecosystem.SupportLevel do
       summary: "Early work, active exploration, or research-oriented package design where the shape is not yet settled.",
       short_commitment: "Open exploration with no stability guarantee.",
       commitment: "Anything can change. Experimental work may be rewritten, archived, or removed entirely if it does not prove out."
+    },
+    unsupported: %{
+      id: :unsupported,
+      label: "Unsupported",
+      summary: "Archived or deprecated work that remains available only for historical reference.",
+      short_commitment: "No maintenance, compatibility, security, or release commitment.",
+      commitment:
+        "We do not maintain this package, fix bugs or security issues, update dependencies, or publish releases. Do not use it for new work."
     }
   }
 
-  @type t :: :stable | :beta | :experimental
+  @type t :: :stable | :beta | :experimental | :unsupported
   @type definition :: %{
           id: t(),
           label: String.t(),

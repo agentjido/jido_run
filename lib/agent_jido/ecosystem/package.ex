@@ -132,7 +132,7 @@ defmodule AgentJido.Ecosystem.Package do
                 |> Zoi.default([]),
               key_features: Zoi.any(description: "List of feature highlight strings") |> Zoi.default([]),
               support_level:
-                Zoi.atom(description: "Public support level (stable, beta, experimental)")
+                Zoi.atom(description: "Public support level (stable, beta, experimental, unsupported)")
                 |> Zoi.optional(),
               maturity:
                 Zoi.atom(description: "Maturity tier (stable, beta, experimental, planned)")
