@@ -22,7 +22,7 @@ defmodule AgentJido.Demos.PluginBasics.NotesPlugin do
 
   @impl Jido.Plugin
   def mount(_agent, config) do
-    {:ok, %{label: Map.get(config, :label, "default")}}
+    {:ok, %{entries: [], label: Map.get(config, :label, "default")}}
   end
 
   @impl Jido.Plugin
