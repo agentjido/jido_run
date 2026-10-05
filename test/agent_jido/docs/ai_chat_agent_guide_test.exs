@@ -35,6 +35,8 @@ defmodule AgentJido.Docs.AIChatAgentGuideTest do
           agent.state
         end
 
+      updated_state = Map.put_new(updated_state, :requests, %{})
+
       super(%{agent | state: updated_state}, {:ai_react_start, updated_params})
     end
 
