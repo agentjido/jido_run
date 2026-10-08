@@ -97,10 +97,10 @@ defmodule AgentJido.MixProject do
       {:emlx, "~> 0.4", only: [:dev, :test]},
 
       # AI / Jido
-      {:jido, "~> 2.3", override: true},
+      {:jido, git: "https://github.com/agentjido/jido.git", ref: "0c8853bf451a40330b7192c9d2200a06f9c61261", override: true},
       {:jido_action, "~> 2.3", override: true},
-      {:jido_signal, "~> 2.3", override: true},
-      {:jido_ai, "~> 2.3", override: true},
+      {:jido_signal, "~> 2.3 and >= 2.3.1", override: true},
+      {:jido_ai, git: "https://github.com/agentjido/jido_ai.git", ref: "9558c18a31380c00d0694ea5c747dd40ac50ead9", override: true},
       {:jido_browser, "~> 2.4"},
       {:jido_runic, github: "agentjido/jido_runic", branch: "main"},
       {:jido_live_dashboard, github: "agentjido/jido_live_dashboard", branch: "main"},
@@ -117,7 +117,7 @@ defmodule AgentJido.MixProject do
       {:image, "~> 0.54"},
 
       # Schema validation
-      {:zoi, "~> 0.18"},
+      {:zoi, "~> 0.18.11"},
 
       # Config / Env
       {:dotenvy, "~> 1.2"},
