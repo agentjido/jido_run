@@ -7,11 +7,7 @@ allowed-tools: read_file grep git_diff
 metadata:
   author: agent-jido-demo
   version: "1.0.0"
-  jido_ai:
-    tags:
-      - demo
-      - code-review
-      - runtime
+  jido_ai.tags: "demo code-review runtime"
 ---
 
 # Demo Code Review

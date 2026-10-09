@@ -10,12 +10,7 @@ metadata:
   host_repo: jido.run
   intended_runtimes: Jido.AI, jido_skill, Codex
   boundary: package repo implementation with workbench docs and example follow-up
-  jido_ai:
-    tags:
-      - builder
-      - scaffold
-      - agent
-      - strategy
+  jido_ai.tags: "builder scaffold agent strategy"
 ---
 
 # Builder Agent Scaffold
