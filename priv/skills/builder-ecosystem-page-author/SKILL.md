@@ -10,11 +10,12 @@ metadata:
   host_repo: jido.run
   intended_runtimes: Jido.AI, jido_skill, Codex
   boundary: workbench-only skill for package inventory and ecosystem documentation
-tags:
-  - builder
-  - docs
-  - ecosystem
-  - catalog
+  jido_ai:
+    tags:
+      - builder
+      - docs
+      - ecosystem
+      - catalog
 ---
 
 # Builder Ecosystem Page Author

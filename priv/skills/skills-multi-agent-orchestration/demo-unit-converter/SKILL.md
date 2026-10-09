@@ -6,10 +6,11 @@ allowed-tools: convert_temperature convert_distance
 metadata:
   author: agent-jido-demo
   version: "1.0.0"
-tags:
-  - demo
-  - conversion
-  - orchestration
+  jido_ai:
+    tags:
+      - demo
+      - conversion
+      - orchestration
 ---
 
 # Demo Unit Converter
