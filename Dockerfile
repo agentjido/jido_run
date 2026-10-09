@@ -27,8 +27,9 @@ RUN apt-get update -y && apt-get install -y build-essential git nodejs npm curl 
 # prepare build dir
 WORKDIR /app
 
-# install hex + rebar
-RUN mix local.hex --force && \
+# Pin Hex so Docker cannot reuse an older package-metadata reader.
+ARG HEX_VERSION=2.5.1
+RUN mix local.hex "${HEX_VERSION}" --force && \
   mix local.rebar --force
 
 # set build ENV

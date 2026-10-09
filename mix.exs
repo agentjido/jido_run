@@ -15,7 +15,7 @@ defmodule AgentJido.MixProject do
       # Cowlib 2.20.0 is the latest Hex release; keep ignoring the remaining
       # upstream advisories until Nine Nines publishes a patched version.
       hex: [
-        ignore_advisories: ["CVE-2026-43971", "CVE-2026-43969", "CVE-2026-43966"]
+        ignore_advisories: ["CVE-2026-43966"]
       ],
       dialyzer: dialyzer()
     ]
@@ -141,7 +141,11 @@ defmodule AgentJido.MixProject do
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
-      "assets.setup": ["cmd --cd assets npm ci", "tailwind.install --if-missing", "esbuild.install --if-missing"],
+      "assets.setup": [
+        "cmd --cd assets npm ci",
+        "tailwind.install --if-missing",
+        "esbuild.install --if-missing"
+      ],
       "assets.build": [
         "tailwind default",
         "tailwind home_critical --minify",
