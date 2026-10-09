@@ -6,10 +6,7 @@ allowed-tools: read_file summarize_changes format_release_notes
 metadata:
   author: agent-jido-demo
   version: "1.0.0"
-tags:
-  - demo
-  - release
-  - docs
+  jido_ai.tags: "demo release docs"
 ---
 
 # Demo Release Notes

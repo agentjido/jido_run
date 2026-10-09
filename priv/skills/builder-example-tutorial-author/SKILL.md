@@ -10,11 +10,7 @@ metadata:
   host_repo: jido.run
   intended_runtimes: Jido.AI, jido_skill, Codex
   boundary: package repo provides source truth; workbench owns example/tutorial presentation
-tags:
-  - builder
-  - example
-  - tutorial
-  - docs
+  jido_ai.tags: "builder example tutorial docs"
 ---
 
 # Builder Example or Tutorial Author

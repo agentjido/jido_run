@@ -10,11 +10,7 @@ metadata:
   host_repo: jido.run
   intended_runtimes: Jido.AI, jido_skill, Codex
   boundary: package repo signal/runtime implementation with workbench usage docs
-tags:
-  - builder
-  - scaffold
-  - plugin
-  - signals
+  jido_ai.tags: "builder scaffold plugin signals"
 ---
 
 # Builder Plugin Scaffold

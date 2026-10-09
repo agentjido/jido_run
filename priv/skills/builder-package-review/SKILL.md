@@ -10,11 +10,7 @@ metadata:
   host_repo: jido.run
   intended_runtimes: Jido.AI, jido_skill, Codex
   boundary: review can span package repo and workbench, but findings should separate the two clearly
-tags:
-  - builder
-  - review
-  - boundaries
-  - dependencies
+  jido_ai.tags: "builder review boundaries dependencies"
 ---
 
 # Builder Package Review

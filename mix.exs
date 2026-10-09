@@ -93,14 +93,11 @@ defmodule AgentJido.MixProject do
       # so override to satisfy extractous_ex (via jido_browser) needing ~> 0.37
       {:rustler, "~> 0.37", override: true},
 
-      # Nx backend (Apple Silicon)
-      {:emlx, "~> 0.4", only: [:dev, :test]},
-
       # AI / Jido
-      {:jido, "~> 2.3", override: true},
+      {:jido, "~> 2.4", override: true},
       {:jido_action, "~> 2.3", override: true},
-      {:jido_signal, "~> 2.3", override: true},
-      {:jido_ai, "~> 2.3", override: true},
+      {:jido_signal, "~> 2.3 and >= 2.3.1", override: true},
+      {:jido_ai, "~> 2.4", override: true},
       {:jido_browser, "~> 2.4"},
       {:jido_runic, github: "agentjido/jido_runic", branch: "main"},
       {:jido_live_dashboard, github: "agentjido/jido_live_dashboard", branch: "main"},
@@ -117,7 +114,7 @@ defmodule AgentJido.MixProject do
       {:image, "~> 0.54"},
 
       # Schema validation
-      {:zoi, "~> 0.18"},
+      {:zoi, "~> 0.18.11"},
 
       # Config / Env
       {:dotenvy, "~> 1.2"},

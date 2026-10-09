@@ -10,11 +10,7 @@ metadata:
   host_repo: jido.run
   intended_runtimes: Jido.AI, jido_skill, Codex
   boundary: package repo owns adapter logic; workbench owns narrative, examples, and ecosystem inventory
-tags:
-  - builder
-  - adapter
-  - integration
-  - package
+  jido_ai.tags: "builder adapter integration package"
 ---
 
 # Builder Adapter Package
