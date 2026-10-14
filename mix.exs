@@ -77,7 +77,7 @@ defmodule AgentJido.MixProject do
       {:nimble_publisher, "~> 2.0"},
       {:makeup_elixir, "~> 1.0"},
       {:makeup_js, "~> 0.1.0"},
-      {:makeup_html, "~> 0.2.0"},
+      {:makeup_html, "~> 1.0.0"},
 
       # DB / Ecto (required by Arcana)
       {:decimal, "~> 3.0", override: true},
