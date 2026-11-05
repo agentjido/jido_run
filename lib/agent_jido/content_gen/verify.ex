@@ -145,9 +145,8 @@ defmodule AgentJido.ContentGen.Verify do
   end
 
   defp code_cell_count(path) do
-    path
-    |> File.read!()
-    |> Regex.scan(~r/```elixir[^\n]*\n(.*?)```/s, capture: :all_but_first)
+    ~r/```elixir[^\n]*\n(.*?)```/s
+    |> Regex.scan(File.read!(path), capture: :all_but_first)
     |> length()
   rescue
     _ -> 0
