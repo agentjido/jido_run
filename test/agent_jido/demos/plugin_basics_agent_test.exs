@@ -42,7 +42,7 @@ defmodule AgentJido.Demos.PluginBasicsAgentTest do
       )
 
     on_exit(fn ->
-      if Process.alive?(pid), do: GenServer.stop(pid, :normal)
+      AgentJido.TestProcess.stop(pid)
     end)
 
     {:ok, pid}
