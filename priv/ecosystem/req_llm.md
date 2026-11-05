@@ -3,6 +3,10 @@
   title: "ReqLLM",
   version: "1.11.0",
   tagline: "Composable Elixir library for LLM interactions built on Req",
+  seo: %{
+    title: "ReqLLM: Elixir LLM Client with Streaming and Tools",
+    description: "Use ReqLLM to call LLM providers from Elixir through one API. Explore streaming, tool calling, structured output, and links to docs and examples."
+  },
   graph_label: "ReqLLM",
   license: "Apache-2.0",
   visibility: :public,

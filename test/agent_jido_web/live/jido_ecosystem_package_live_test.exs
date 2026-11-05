@@ -96,4 +96,42 @@ defmodule AgentJidoWeb.JidoEcosystemPackageLiveTest do
     assert html =~ ~s("BreadcrumbList")
     assert html =~ ~s("FAQPage")
   end
+
+  test "renders ReqLLM metadata in the initial response without a duplicate brand suffix", %{conn: conn} do
+    conn = get(conn, "/ecosystem/req_llm")
+    document = conn |> html_response(200) |> Floki.parse_document!()
+    title = "ReqLLM: Elixir LLM Client with Streaming and Tools"
+
+    description =
+      "Use ReqLLM to call LLM providers from Elixir through one API. Explore streaming, tool calling, structured output, and links to docs and examples."
+
+    assert [title_node] = Floki.find(document, "head title")
+    assert Floki.text(title_node) == title <> " · Agent Jido"
+
+    for selector <- [
+          ~s(meta[name="description"]),
+          ~s(meta[property="og:description"]),
+          ~s(meta[name="twitter:description"])
+        ] do
+      assert [node] = Floki.find(document, selector)
+      assert Floki.attribute(node, "content") == [description]
+    end
+
+    for selector <- [~s(meta[property="og:title"]), ~s(meta[name="twitter:title"])] do
+      assert [node] = Floki.find(document, selector)
+      assert Floki.attribute(node, "content") == [title]
+    end
+
+    assert [canonical] = Floki.find(document, ~s(link[rel="canonical"]))
+    assert Floki.attribute(canonical, "href") == [AgentJidoWeb.Endpoint.url() <> "/ecosystem/req_llm"]
+
+    for node <- Floki.find(document, ~s(meta[name="robots"], meta[name="googlebot"])),
+        value <- Floki.attribute(node, "content") do
+      refute String.contains?(String.downcase(value), ["noindex", "none"])
+    end
+
+    for value <- get_resp_header(conn, "x-robots-tag") do
+      refute String.contains?(String.downcase(value), ["noindex", "none"])
+    end
+  end
 end
