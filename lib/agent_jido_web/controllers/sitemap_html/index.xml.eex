@@ -45,6 +45,16 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc><%= AgentJidoWeb.Endpoint.url() %>/build</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc><%= AgentJidoWeb.Endpoint.url() %>/compare</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc><%= AgentJidoWeb.Endpoint.url() %>/community</loc>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>

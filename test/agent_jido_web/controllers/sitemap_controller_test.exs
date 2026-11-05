@@ -76,4 +76,26 @@ defmodule AgentJidoWeb.SitemapControllerTest do
     assert body =~ "/blog/jido-assembly-slack-clone"
     refute body =~ "/blog/jido-assembly<"
   end
+
+  test "includes indexable build and compare hubs once and excludes aliases", %{conn: conn} do
+    body = conn |> get("/sitemap.xml") |> response(200)
+    urls = Regex.scan(~r/<loc>([^<]+)<\/loc>/, body, capture: :all_but_first) |> List.flatten()
+    assert length(urls) == length(Enum.uniq(urls))
+
+    for path <- ["/build", "/compare"] do
+      url = AgentJidoWeb.Endpoint.url() <> path
+      assert Enum.count(urls, &(&1 == url)) == 1
+      response = build_conn() |> get(path) |> html_response(200) |> Floki.parse_document!()
+      assert Floki.find(response, ~s(link[rel="canonical"])) |> Floki.attribute("href") == [url]
+      refute response |> Floki.find(~s(meta[name="robots"])) |> Floki.attribute("content") |> Enum.any?(&String.contains?(&1, "noindex"))
+    end
+
+    for source <- Map.keys(AgentJidoWeb.LegacyRedirects.all()) do
+      refute (AgentJidoWeb.Endpoint.url() <> source) in urls
+    end
+
+    for package <- Ecosystem.all_packages(), package.visibility == :private do
+      refute (AgentJidoWeb.Endpoint.url() <> "/ecosystem/" <> package.id) in urls
+    end
+  end
 end
