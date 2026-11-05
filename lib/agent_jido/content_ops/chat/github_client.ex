@@ -18,8 +18,8 @@ defmodule AgentJido.ContentOps.Chat.GithubClient do
     with {:ok, client} <- resolve_client(context),
          {:ok, owner, repo} <- resolve_repo(context),
          payload <- issue_payload(request),
-         {status, body, _headers} <- api(context).issues_create(client, owner, repo, payload),
-         true <- status in 200..299 do
+         {status, body, _headers} when status in 200..299 <-
+           api(context).issues_create(client, owner, repo, payload) do
       {:ok,
        %{
          owner: owner,
@@ -30,9 +30,6 @@ defmodule AgentJido.ContentOps.Chat.GithubClient do
          raw: body
        }}
     else
-      false ->
-        {:error, :unexpected_status}
-
       {status, body, _headers} ->
         {:error, {:github_error, status, body}}
 
@@ -51,9 +48,8 @@ defmodule AgentJido.ContentOps.Chat.GithubClient do
     with {:ok, client} <- resolve_client(context),
          {:ok, owner, repo} <- resolve_repo(context),
          payload <- %{"body" => body},
-         {status, result, _headers} <-
-           api(context).issue_comments_create(client, owner, repo, number, payload),
-         true <- status in 200..299 do
+         {status, result, _headers} when status in 200..299 <-
+           api(context).issue_comments_create(client, owner, repo, number, payload) do
       {:ok,
        %{
          owner: owner,
@@ -63,9 +59,6 @@ defmodule AgentJido.ContentOps.Chat.GithubClient do
          raw: result
        }}
     else
-      false ->
-        {:error, :unexpected_status}
-
       {status, result, _headers} ->
         {:error, {:github_error, status, result}}
 
