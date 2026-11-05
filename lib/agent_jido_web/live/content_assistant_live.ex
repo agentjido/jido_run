@@ -886,8 +886,6 @@ defmodule AgentJidoWeb.ContentAssistantLive do
     end
   end
 
-  defp maybe_start_progressive_enhancement(socket, _response, _turnstile_token), do: clear_enhancement_state(socket, :idle)
-
   defp apply_enhancement_response(socket, %Response{answer_mode: :llm} = response) do
     socket
     |> assign(
@@ -1249,8 +1247,6 @@ defmodule AgentJidoWeb.ContentAssistantLive do
     [item | List.wrap(thread)]
     |> Enum.take(@default_thread_limit)
   end
-
-  defp append_thread(thread, _response), do: List.wrap(thread)
 
   defp fallback_banner(%Response{answer_mode: :quota_fallback}, _turnstile_available) do
     "LLM limits are active right now. Showing grounded mode with citations only."

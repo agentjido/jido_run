@@ -54,8 +54,6 @@ defmodule AgentJido.ContentAssistant.URL do
     end
   end
 
-  defp normalize_path(_path), do: nil
-
   defp normalize_path_with_parts(path, query, fragment) when is_binary(path) do
     normalized_path =
       path

@@ -688,8 +688,6 @@ defmodule AgentJido.ContentAssistant.Retrieval do
     end
   end
 
-  defp normalize_path(_path), do: nil
-
   defp normalize_path_with_parts(path, query, fragment) when is_binary(path) do
     normalized_path =
       path
@@ -706,15 +704,11 @@ defmodule AgentJido.ContentAssistant.Retrieval do
     normalized_path <> query_part <> fragment_part
   end
 
-  defp normalize_path_with_parts(_path, _query, _fragment), do: nil
-
   defp internal_host?(host) when is_binary(host) do
     host_down = String.downcase(host)
 
     host_down in AgentJido.Site.internal_hosts()
   end
-
-  defp internal_host?(_host), do: false
 
   defp source_id_suffix(source_id, prefix) when is_binary(source_id) and is_binary(prefix) do
     if String.starts_with?(source_id, prefix) do
@@ -819,8 +813,6 @@ defmodule AgentJido.ContentAssistant.Retrieval do
     Enum.any?(@broad_package_phrases, &String.contains?(query_downcase, &1))
   end
 
-  defp broad_package_query?(_query), do: false
-
   defp api_style_query?(query) when is_binary(query) do
     query_downcase = String.downcase(String.trim(query))
 
@@ -829,8 +821,6 @@ defmodule AgentJido.ContentAssistant.Retrieval do
       String.match?(query_downcase, ~r/\b[a-z_!?]+\/\d+\b/u) or
       String.contains?(query, "(")
   end
-
-  defp api_style_query?(_query), do: false
 
   defp trim_snippet(text, max_len) when is_binary(text) do
     if String.length(text) <= max_len do

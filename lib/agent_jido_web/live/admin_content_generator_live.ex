@@ -1228,8 +1228,6 @@ defmodule AgentJidoWeb.AdminContentGeneratorLive do
     end
   end
 
-  defp file_mtime(_path), do: nil
-
   defp filter_plan_rows(rows, filters) do
     q = filters["q"] |> to_string() |> String.trim() |> String.downcase()
     section = filters["section"] || "all"

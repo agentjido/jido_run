@@ -352,8 +352,5 @@ defmodule AgentJido.ContentGen.RunicEntryRunner do
     end
   end
 
-  defp format_error(%{__exception__: true} = error), do: Exception.message(error)
   defp format_error(error) when is_binary(error), do: error
-  defp format_error(error) when is_atom(error), do: Atom.to_string(error)
-  defp format_error(error), do: inspect(error)
 end

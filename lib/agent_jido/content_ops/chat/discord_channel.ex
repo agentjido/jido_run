@@ -124,7 +124,6 @@ defmodule AgentJido.ContentOps.Chat.DiscordChannel do
 
   defp parse_chat_type(%{guild_id: nil}), do: :dm
   defp parse_chat_type(%{guild_id: _}), do: :guild
-  defp parse_chat_type(_), do: :unknown
 
   defp parse_map_chat_type(msg) when is_map(msg) do
     if get_map_value(msg, [:guild_id, "guild_id"]), do: :guild, else: :dm

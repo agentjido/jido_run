@@ -308,8 +308,6 @@ defmodule AgentJidoWeb.Jido.DocsComponents do
     end
   end
 
-  defp livebook_notice(nil), do: nil
-
   defp livebook_notice(doc) do
     livebook_meta = Map.get(doc, :livebook, %{}) || %{}
 

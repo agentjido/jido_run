@@ -308,5 +308,4 @@ defmodule AgentJido.ContentGen.SimpleOrchestrator do
 
   defp normalize_error(error) when is_binary(error), do: error
   defp normalize_error(error) when is_atom(error), do: Atom.to_string(error)
-  defp normalize_error(error), do: inspect(error)
 end

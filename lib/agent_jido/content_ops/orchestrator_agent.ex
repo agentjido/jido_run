@@ -209,7 +209,7 @@ defmodule AgentJido.ContentOps.OrchestratorAgent do
          run_id when is_binary(run_id) <- report[:run_id] || report["run_id"] do
       mode = normalize_mode(report[:mode] || report["mode"], nil)
       completed_at = report[:completed_at] || report["completed_at"] || DateTime.utc_now()
-      state = agent.state || %{}
+      state = agent.state
 
       total_runs =
         if state[:last_run_id] == run_id do

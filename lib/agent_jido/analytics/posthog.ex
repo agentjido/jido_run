@@ -300,8 +300,6 @@ defmodule AgentJido.Analytics.PostHog do
     end)
   end
 
-  defp normalize_value(%_struct{} = value), do: value |> Map.from_struct() |> normalize_value()
-  defp normalize_value(value) when is_nil(value), do: nil
   defp normalize_value(value), do: to_string(value)
 
   defp read(map, key) when is_map(map) do

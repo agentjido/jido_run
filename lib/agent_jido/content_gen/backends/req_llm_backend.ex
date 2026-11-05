@@ -173,10 +173,6 @@ defmodule AgentJido.ContentGen.Backends.ReqLLMBackend do
     }
   end
 
-  defp normalize_object_envelope(_other) do
-    %{frontmatter: %{}, body_markdown: "", citations: [], audit_notes: []}
-  end
-
   defp normalize_list(items) when is_list(items), do: Enum.map(items, &to_string/1)
   defp normalize_list(_other), do: []
 

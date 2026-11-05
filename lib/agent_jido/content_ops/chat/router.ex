@@ -236,27 +236,17 @@ defmodule AgentJido.ContentOps.Chat.Router do
 
       {:ok, %{result: result}} ->
         result
-
-      _other ->
-        "status unavailable"
     end
   end
 
   defp recent_runs_text do
-    case Actions.GetRecentRuns.run(%{limit: 5}, %{}) do
-      {:ok, %{result: result}} ->
-        result
-
-      _other ->
-        "recent-runs unavailable"
-    end
+    {:ok, %{result: result}} = Actions.GetRecentRuns.run(%{limit: 5}, %{})
+    result
   end
 
   defp coverage_text do
-    case Actions.GetCoverage.run(%{}, %{}) do
-      {:ok, %{result: result}} -> result
-      _other -> "coverage unavailable"
-    end
+    {:ok, %{result: result}} = Actions.GetCoverage.run(%{}, %{})
+    result
   end
 
   defp help_text(prefix) do

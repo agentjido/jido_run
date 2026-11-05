@@ -1278,8 +1278,6 @@ defmodule AgentJido.ContentOntology.Exporter do
     end
   end
 
-  defp github_url_for(_), do: nil
-
   defp extract_internal_routes(nil), do: []
 
   defp extract_internal_routes(html) when is_binary(html) do

@@ -175,7 +175,7 @@ defmodule AgentJido.ReleaseCatalog do
   defp replace_placeholder("pkg_requirement", id), do: requirement(id)
   defp replace_placeholder("pkg_hex_url", id), do: package!(id).hex_url || raise_missing_url!(id, :hex_url)
   defp replace_placeholder("pkg_hexdocs_url", id), do: package!(id).hexdocs_url || raise_missing_url!(id, :hexdocs_url)
-  defp replace_placeholder("pkg_github_url", id), do: package!(id).github_url || raise_missing_url!(id, :github_url)
+  defp replace_placeholder("pkg_github_url", id), do: package!(id).github_url
   defp replace_placeholder("mix_dep", id), do: mix_dep(id)
 
   defp replace_placeholder(key, id) do

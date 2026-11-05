@@ -659,8 +659,6 @@ defmodule AgentJidoWeb.ChatOpsLive do
     }
   end
 
-  defp normalize_guardrails(_guardrails), do: default_guardrail_state()
-
   defp invoke_provider(provider, [{fun, opts} | rest], invalid_reason) do
     cond do
       function_exported?(provider, fun, 1) -> apply(provider, fun, [opts])
@@ -754,7 +752,6 @@ defmodule AgentJidoWeb.ChatOpsLive do
 
   defp channel_to_string(channel) when is_atom(channel), do: Atom.to_string(channel)
   defp channel_to_string(channel) when is_binary(channel), do: channel
-  defp channel_to_string(nil), do: nil
   defp channel_to_string(channel), do: to_string(channel)
 
   defp normalize_string(nil, default), do: default

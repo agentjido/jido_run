@@ -29,9 +29,6 @@ defmodule AgentJido.ContentOps.Chat.DiscordHandler do
     :ok
   end
 
-  @impl Nostrum.Consumer
-  def handle_event(_event), do: :ok
-
   @doc false
   def process_update(msg) do
     case DiscordChannel.transform_incoming(msg) do

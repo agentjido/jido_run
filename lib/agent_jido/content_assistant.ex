@@ -161,8 +161,6 @@ defmodule AgentJido.ContentAssistant do
     |> Enum.take(limit)
   end
 
-  defp normalize_results(_results, _limit), do: []
-
   defp normalize_result(%Result{} = result) do
     case URL.normalize_href(result.url) do
       url when is_binary(url) ->
@@ -408,8 +406,6 @@ defmodule AgentJido.ContentAssistant do
       _ -> @default_query_max_length
     end
   end
-
-  defp query_max_length(_opts), do: @default_query_max_length
 
   defp normalize_query(query, max_length) when is_binary(query) and is_integer(max_length) and max_length > 0 do
     query

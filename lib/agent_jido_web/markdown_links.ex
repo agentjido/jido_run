@@ -204,8 +204,6 @@ defmodule AgentJidoWeb.MarkdownLinks do
     String.starts_with?(url, @repo_raw_prefix) and markdown_file_url?(url)
   end
 
-  defp valid_raw_markdown_url?(_url), do: false
-
   defp markdown_file_url?(url) when is_binary(url) do
     String.match?(url, ~r/\.(md|livemd)(?:$|[?#])/i)
   end

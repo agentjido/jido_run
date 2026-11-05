@@ -520,8 +520,6 @@ defmodule AgentJido.Pages do
     end
   end
 
-  defp docs_section_for_page(_page), do: nil
-
   defp normalize_docs_section(section) do
     section
     |> String.trim()

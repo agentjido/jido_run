@@ -333,9 +333,6 @@ defmodule AgentJido.OGImage.Resolver do
 
     normalized_path =
       case parsed_path do
-        nil ->
-          "/"
-
         "" ->
           "/"
 

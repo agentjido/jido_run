@@ -297,8 +297,6 @@ defmodule AgentJidoWeb.JidoExampleLive do
 
   # ── Helpers ─────────────────────────────────────────────────
 
-  defp resolve_active_source([], _source_param), do: {nil, nil}
-
   defp resolve_active_source(sources, source_param) do
     default = {List.first(sources), 1}
 

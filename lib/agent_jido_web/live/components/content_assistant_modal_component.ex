@@ -679,8 +679,6 @@ defmodule AgentJidoWeb.ContentAssistantModalComponent do
     end
   end
 
-  defp maybe_start_progressive_enhancement(socket, _query, _response), do: assign(socket, enhancement_ref: nil, enhancement_status: :idle)
-
   defp apply_enhancement_response(socket, %Response{answer_mode: :llm} = response) do
     assign(socket,
       response: response,
@@ -748,8 +746,6 @@ defmodule AgentJidoWeb.ContentAssistantModalComponent do
     end
     |> Enum.take(@default_thread_limit)
   end
-
-  defp append_thread(thread, _response), do: List.wrap(thread)
 
   defp maybe_hydrate_recent_thread(%{assigns: %{thread: thread}} = socket) when is_list(thread) and thread != [],
     do: socket

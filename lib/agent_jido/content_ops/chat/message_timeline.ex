@@ -214,7 +214,6 @@ defmodule AgentJido.ContentOps.Chat.MessageTimeline do
 
   defp channel_to_string(channel) when is_atom(channel), do: Atom.to_string(channel)
   defp channel_to_string(channel) when is_binary(channel), do: channel
-  defp channel_to_string(nil), do: nil
   defp channel_to_string(channel), do: to_string(channel)
 
   defp normalize_string(nil, default), do: default

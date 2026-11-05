@@ -169,8 +169,6 @@ defmodule AgentJido.ContentGen.Writer do
   defp to_elixir_literal(value) when is_atom(value), do: inspect(value)
   defp to_elixir_literal(value) when is_integer(value), do: Integer.to_string(value)
   defp to_elixir_literal(value) when is_float(value), do: Float.to_string(value)
-  defp to_elixir_literal(value) when is_boolean(value), do: inspect(value)
-  defp to_elixir_literal(value) when is_nil(value), do: "nil"
 
   defp to_elixir_literal(value) when is_list(value) do
     "[" <> Enum.map_join(value, ", ", &to_elixir_literal/1) <> "]"
