@@ -3,6 +3,10 @@
   title: "Jido AI",
   version: "2.1.0",
   tagline: "LLM orchestration, reasoning strategies, and accuracy improvement for Jido agents",
+  seo: %{
+    title: "Jido AI: LLM Reasoning and Tools for Elixir Agents",
+    description: "Build Elixir agents with Jido AI. Explore reasoning strategies, tool calling, async ask/await workflows, and verification of model outputs."
+  },
   graph_label: "Jido AI",
   license: "Apache-2.0",
   visibility: :public,
