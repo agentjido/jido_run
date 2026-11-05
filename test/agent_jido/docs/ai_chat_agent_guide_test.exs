@@ -123,7 +123,7 @@ defmodule AgentJido.Docs.AIChatAgentGuideTest do
         id: "guide-chat-agent-#{System.unique_integer([:positive])}"
       )
 
-    on_exit(fn -> if Process.alive?(pid), do: GenServer.stop(pid, :normal, 5_000) end)
+    on_exit(fn -> AgentJido.TestProcess.stop(pid) end)
 
     assert {:ok, status} = AgentServer.status(pid)
     assert status.pid == pid
