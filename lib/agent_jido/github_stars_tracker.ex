@@ -557,6 +557,7 @@ defmodule AgentJido.GithubStarsTracker do
   defp rate_limited_reason?(_reason), do: false
 
   defp bad_credentials_reason?({:http_error, 401, _body}), do: true
+  defp bad_credentials_reason?(_reason), do: false
 
   defp normalize_token(token) when is_binary(token) do
     trimmed = String.trim(token)
