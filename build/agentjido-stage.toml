@@ -10,6 +10,7 @@ swap_size_mb = 256
 
 [vm]
 size = 'shared-cpu-2x'
+memory = '1gb'
 
 [deploy]
 strategy = "immediate"
