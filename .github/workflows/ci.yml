@@ -84,6 +84,9 @@ jobs:
         if: steps.deps-cache.outputs.cache-hit != 'true'
         run: mix deps.compile
 
+      - name: Test stage health checks
+        run: bash .github/scripts/test-verify-stage-health.sh
+
       - name: Run lint checks
         run: mix format --check-formatted && mix compile --warnings-as-errors && mix credo --strict
 

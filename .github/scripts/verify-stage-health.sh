@@ -10,8 +10,22 @@ if [[ -z "$stage_machine" ]]; then
   exit 1
 fi
 
-flyctl machine start "$stage_machine" --app "$stage_app"
 stage_deadline=$((SECONDS + stage_timeout))
+
+while (( SECONDS < stage_deadline )); do
+  if stage_start_output="$(flyctl machine start "$stage_machine" --app "$stage_app" 2>&1)"; then
+    printf '%s\n' "$stage_start_output"
+    break
+  fi
+
+  if [[ "$stage_start_output" != *"machine getting replaced, refusing to start"* ]]; then
+    printf '%s\n' "$stage_start_output" >&2
+    exit 1
+  fi
+
+  echo "Stage machine replacement is in progress; waiting before retry."
+  sleep 10
+done
 
 while (( SECONDS < stage_deadline )); do
   stage_checks="$(flyctl checks list --app "$stage_app" --json)"
