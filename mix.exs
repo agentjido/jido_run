@@ -107,7 +107,7 @@ defmodule AgentJido.MixProject do
       {:telegex, github: "mikehostetler/telegex", ref: "a07f4e1", override: true},
       {:nostrum, "~> 0.10", runtime: false},
       {:req_llm, "~> 1.22", override: true},
-      {:timex, "~> 3.7", override: true},
+      {:timex, "~> 4.0", override: true},
       {:gettext, "~> 1.0", override: true},
 
       # Image generation (OG images)
