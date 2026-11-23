@@ -48,15 +48,13 @@ jobs:
           mix local.hex --force
           mix local.rebar --force
 
-      - name: Restore Hex/Mix cache
+      - name: Restore Hex package cache
         uses: actions/cache@v6
         with:
-          path: |
-            ~/.hex
-            ~/.mix
-          key: ${{ runner.os }}-beamtools-${{ hashFiles('mix.lock') }}
+          path: ~/.hex/packages
+          key: ${{ runner.os }}-hex-packages-v1-${{ hashFiles('mix.lock') }}
           restore-keys: |
-            ${{ runner.os }}-beamtools-
+            ${{ runner.os }}-hex-packages-v1-
 
       - name: Restore dependencies cache
         uses: actions/cache@v6
@@ -168,15 +166,13 @@ jobs:
           mix local.hex --force
           mix local.rebar --force
 
-      - name: Restore Hex/Mix cache
+      - name: Restore Hex package cache
         uses: actions/cache@v6
         with:
-          path: |
-            ~/.hex
-            ~/.mix
-          key: ${{ runner.os }}-beamtools-${{ hashFiles('mix.lock') }}
+          path: ~/.hex/packages
+          key: ${{ runner.os }}-hex-packages-v1-${{ hashFiles('mix.lock') }}
           restore-keys: |
-            ${{ runner.os }}-beamtools-
+            ${{ runner.os }}-hex-packages-v1-
 
       - name: Restore dependencies cache
         uses: actions/cache@v6
