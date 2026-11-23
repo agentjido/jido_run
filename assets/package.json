@@ -2,6 +2,6 @@
   "name": "agent-jido-assets",
   "private": true,
   "dependencies": {
-    "posthog-js": "1.448.0"
+    "posthog-js": "1.453.1"
   }
 }
